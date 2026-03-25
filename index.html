@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SENTINEL — LatAm Military & Security Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --bg:        #f7f4ee;
+  --bg2:       #f0ece3;
+  --surface:   #fffff8;
+  --surface2:  #f5f1e8;
+  --border:    #e0dbd0;
+  --border2:   #cdc8bb;
+  --border3:   #b8b2a4;
+
+  --coup:      #b83232;
+  --purge:     #c46e12;
+  --aid:       #1a538f;
+  --protest:   #6e389a;
+  --reform:    #1a6e52;
+  --conflict:  #a84000;
+  --exercise:  #2e6b8a;
+  --procurement:#7a5c1f;
+  --peace:     #2d8659;
+  --oc:        #6a4a6e;
+  --other:     #6a6560;
+
+  --text:      #1c1a17;
+  --text-dim:  #54504a;
+  --text-muted:#96928c;
+  --text-faint:#c0bbb4;
+
+  --mono: 'DM Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+  --serif: 'Playfair Display', serif;
+
+  --shadow:    0 1px 4px rgba(60,50,30,0.08);
+  --shadow-md: 0 4px 18px rgba(60,50,30,0.10);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:var(--sans); font-weight:300; min-height:100vh; overflow-x:hidden; }
+
+/* ── HEADER ───────────────────────────────────────────── */
+header {
+  background:var(--surface); border-bottom:1px solid var(--border);
+  padding:0 28px; display:flex; align-items:center; height:56px;
+  position:sticky; top:0; z-index:1000; gap:18px; box-shadow:var(--shadow);
+}
+.logo { font-family:var(--serif); font-size:21px; font-weight:600; color:var(--text); letter-spacing:0.3px; padding-right:18px; border-right:1px solid var(--border); }
+.logo em { font-style:normal; color:var(--coup); }
+.header-sub { font-family:var(--mono); font-size:9.5px; color:var(--text-muted); letter-spacing:2px; text-transform:uppercase; }
+.header-right { margin-left:auto; display:flex; align-items:center; gap:18px; }
+.status-pill { display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:9.5px; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; }
+.sdot { width:6px; height:6px; border-radius:50%; background:var(--reform); animation:blink 1.8s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+#last-updated { font-family:var(--mono); font-size:10px; color:var(--text-muted); }
+
+/* ── TAB BAR ──────────────────────────────────────────── */
+.tab-bar {
+  background:var(--surface); border-bottom:1px solid var(--border);
+  padding:0 28px; display:flex; gap:0; overflow-x:auto;
+}
+.tab-btn {
+  font-family:var(--mono); font-size:9px; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--text-muted); background:none; border:none;
+  padding:11px 18px; cursor:pointer; border-bottom:2px solid transparent;
+  transition:all 0.12s; white-space:nowrap;
+}
+.tab-btn:hover { color:var(--text-dim); }
+.tab-btn.active { color:var(--text); border-bottom-color:var(--coup); }
+
+/* ── TAB CONTENT ──────────────────────────────────────── */
+.tab-panel { display:none; }
+.tab-panel.active { display:flex; flex-direction:column; }
+
+/* ── EVENTS TAB — ORIGINAL SENTINEL LAYOUT ────────────── */
+.events-layout {
+  display:grid; grid-template-columns:300px 1fr;
+  grid-template-rows:360px 1fr;
+  height:calc(100vh - 56px - 40px); min-height:540px;
+}
+
+/* Sidebar */
+.sidebar {
+  grid-row:1/3; border-right:1px solid var(--border);
+  display:flex; flex-direction:column; overflow:hidden; background:var(--surface);
+}
+.sidebar-top { padding:14px 16px; border-bottom:1px solid var(--border); display:flex; align-items:baseline; justify-content:space-between; }
+.sidebar-top-label { font-family:var(--mono); font-size:8.5px; letter-spacing:1.5px; color:var(--text-muted); text-transform:uppercase; }
+.big-count { font-family:var(--serif); font-size:28px; color:var(--text); font-weight:400; }
+
+.filter-block { padding:10px 16px; border-bottom:1px solid var(--border); }
+.filter-label { font-family:var(--mono); font-size:8.5px; letter-spacing:1.5px; color:var(--text-muted); text-transform:uppercase; margin-bottom:7px; }
+.tag-row { display:flex; flex-wrap:wrap; gap:4px; }
+
+.tag {
+  font-family:var(--mono); font-size:8.5px; letter-spacing:0.5px;
+  padding:2px 8px; border:1px solid var(--border); color:var(--text-dim);
+  cursor:pointer; transition:all 0.12s; text-transform:uppercase; border-radius:2px;
+  user-select:none; background:var(--bg);
+}
+.tag:hover { border-color:var(--border2); color:var(--text); }
+.tag.active { background:var(--text); color:var(--surface); border-color:var(--text); }
+
+/* Event list */
+.event-list { flex:1; overflow-y:auto; }
+.event-list::-webkit-scrollbar { width:3px; }
+.event-list::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+.ev-item { padding:12px 15px; border-bottom:1px solid var(--border); cursor:pointer; transition:background 0.1s; }
+.ev-item:hover { background:var(--bg2); }
+.ev-item.selected { background:var(--surface2); border-left:2.5px solid var(--text); padding-left:12px; }
+.ev-row1 { display:flex; align-items:center; gap:6px; margin-bottom:4px; }
+.ev-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.ev-type { font-family:var(--mono); font-size:8.5px; letter-spacing:1px; text-transform:uppercase; }
+.ev-country { font-family:var(--mono); font-size:8.5px; color:var(--text-muted); margin-left:auto; }
+.ev-title { font-size:12px; font-weight:400; line-height:1.5; color:var(--text); margin-bottom:4px; }
+.ev-meta { font-family:var(--mono); font-size:8.5px; color:var(--text-muted); display:flex; gap:8px; align-items:center; }
+.sal-pip { display:inline-flex; gap:2px; align-items:center; }
+.pip { width:4px; height:4px; border-radius:50%; background:var(--border2); }
+.pip.on { background:var(--coup); }
+.conf-badge { font-family:var(--mono); font-size:7px; letter-spacing:0.5px; padding:1px 5px; border-radius:2px; text-transform:uppercase; }
+.conf-green { background:#e8f5e9; color:#2e7d4f; }
+.conf-yellow { background:#fff3e0; color:#c46e12; }
+.conf-red { background:#ffebee; color:#b83232; }
+
+/* Map */
+.map-panel { position:relative; border-bottom:1px solid var(--border); }
+#map { width:100%; height:100%; }
+.map-label {
+  position:absolute; top:10px; left:10px; z-index:500;
+  font-family:var(--mono); font-size:8.5px; letter-spacing:2px;
+  text-transform:uppercase; color:var(--text-dim);
+  background:rgba(255,255,248,0.92); padding:5px 10px;
+  border:1px solid var(--border); border-radius:2px; box-shadow:var(--shadow);
+}
+.legend {
+  position:absolute; bottom:10px; right:10px; z-index:500;
+  background:rgba(255,255,248,0.95); border:1px solid var(--border);
+  padding:9px 12px; border-radius:2px; box-shadow:var(--shadow);
+  display:flex; flex-direction:column; gap:5px;
+}
+.legend-item { display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:8.5px; color:var(--text-dim); letter-spacing:0.5px; text-transform:uppercase; }
+.leg-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+/* Detail panel */
+.detail { background:var(--surface); padding:22px 26px; overflow-y:auto; }
+.detail::-webkit-scrollbar { width:3px; }
+.detail::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+.detail-empty { height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-faint); gap:10px; }
+.detail-empty-glyph { font-family:var(--serif); font-size:44px; color:var(--border2); }
+.detail-empty-text { font-family:var(--mono); font-size:9.5px; letter-spacing:1.5px; text-transform:uppercase; }
+
+.type-badge { font-family:var(--mono); font-size:8.5px; letter-spacing:1.5px; text-transform:uppercase; padding:2px 8px; border-radius:2px; color:white; display:inline-block; }
+.detail-title { font-family:var(--serif); font-size:21px; font-weight:600; line-height:1.25; color:var(--text); margin:9px 0 13px; }
+.detail-meta { display:flex; gap:20px; flex-wrap:wrap; padding:10px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin-bottom:14px; }
+.dmi label { display:block; font-family:var(--mono); font-size:7.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); margin-bottom:3px; }
+.dmi span { font-family:var(--mono); font-size:10.5px; color:var(--text-dim); }
+.detail-summary { font-size:13px; line-height:1.75; color:var(--text-dim); font-weight:300; margin-bottom:16px; }
+.source-chip { font-family:var(--mono); font-size:9px; color:var(--text-dim); background:var(--bg2); border:1px solid var(--border); padding:2px 8px; border-radius:2px; text-decoration:none; display:inline-block; margin-right:4px; margin-bottom:4px; }
+.sources-label { font-family:var(--mono); font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); margin-right:4px; }
+
+/* AI box */
+.ai-box { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--aid); padding:13px 15px; border-radius:0 2px 2px 0; margin-top:14px; }
+.ai-box-hdr { font-family:var(--mono); font-size:8.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--aid); margin-bottom:7px; }
+.ai-box-text { font-size:12px; line-height:1.72; color:var(--text-dim); font-style:italic; }
+
+/* Leaflet overrides */
+.leaflet-container { background:#e8e3d8; }
+.leaflet-tile { filter:saturate(0.55) brightness(1.05); }
+.leaflet-control-zoom a { color:var(--text)!important; border-color:var(--border)!important; background:var(--surface)!important; }
+.cm { width:10px; height:10px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); box-shadow:0 1px 5px rgba(0,0,0,0.22); }
+
+/* ── GENERIC TAB LAYOUTS ──────────────────────────────── */
+.page-layout {
+  display:grid; grid-template-columns:300px 1fr;
+  height:calc(100vh - 56px - 40px); min-height:540px;
+}
+.page-sidebar { border-right:1px solid var(--border); background:var(--surface); overflow-y:auto; display:flex; flex-direction:column; }
+.page-sidebar::-webkit-scrollbar { width:3px; }
+.page-sidebar::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+.page-main { overflow-y:auto; padding:20px 28px; }
+.page-main::-webkit-scrollbar { width:3px; }
+.page-main::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+/* Section headers */
+.sec-title { font-family:var(--mono); font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); margin-bottom:12px; }
+.sec-title.mt { margin-top:24px; }
+
+/* Data rows */
+.d-row { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px; }
+.d-row:last-child { border-bottom:none; }
+.d-label { color:var(--text-dim); font-weight:300; }
+.d-val { font-family:var(--mono); font-size:11px; color:var(--text); }
+
+/* Bar chart rows */
+.bar-row { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid var(--border); }
+.bar-row:last-child { border-bottom:none; }
+.bar-name { font-size:12px; color:var(--text-dim); font-weight:300; min-width:90px; }
+.bar-track { flex:1; height:4px; background:var(--bg); border-radius:2px; overflow:hidden; }
+.bar-fill { height:100%; border-radius:2px; transition:width 0.4s ease; }
+.bar-num { font-family:var(--mono); font-size:10px; color:var(--text-dim); min-width:55px; text-align:right; }
+
+/* Cards */
+.card-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+.card {
+  background:var(--surface); border:1px solid var(--border);
+  padding:14px 16px; border-radius:2px; box-shadow:var(--shadow);
+}
+.card-label { font-family:var(--mono); font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px; }
+.card-value { font-family:var(--serif); font-size:24px; font-weight:400; color:var(--text); }
+.card-sub { font-family:var(--mono); font-size:9px; color:var(--text-muted); margin-top:2px; }
+.card-sub.up { color:var(--coup); }
+.card-sub.down { color:var(--reform); }
+
+/* Exercise cards */
+.ex-card {
+  background:var(--surface); border:1px solid var(--border);
+  padding:12px 14px; border-radius:2px; box-shadow:var(--shadow);
+}
+.ex-card.alert { border-color:var(--purge); border-left:3px solid var(--purge); }
+.ex-name { font-size:13px; font-weight:400; color:var(--text); margin-bottom:4px; }
+.ex-detail { font-family:var(--mono); font-size:9px; color:var(--text-muted); line-height:1.6; }
+.ex-count { font-family:var(--mono); font-size:9px; color:var(--reform); margin-top:4px; }
+
+/* Group tags */
+.gtag { font-family:var(--mono); font-size:7.5px; letter-spacing:0.5px; padding:2px 7px; border-radius:2px; text-transform:uppercase; display:inline-block; }
+.gt-active { background:#ffebee; color:var(--coup); }
+.gt-ceasefire { background:#fff3e0; color:var(--purge); }
+.gt-negotiating { background:#e8f5e9; color:var(--reform); }
+.gt-criminal { background:var(--bg2); color:var(--other); }
+
+/* Timeline */
+.tl-item { display:flex; gap:12px; padding:9px 0; border-bottom:1px solid var(--border); }
+.tl-item:last-child { border-bottom:none; }
+.tl-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:4px; }
+.tl-date { font-family:var(--mono); font-size:9px; color:var(--text-muted); min-width:48px; flex-shrink:0; }
+.tl-text { font-size:12px; color:var(--text-dim); line-height:1.5; font-weight:300; }
+
+/* Chart wrapper */
+.chart-box { background:var(--surface); border:1px solid var(--border); border-radius:2px; padding:16px; box-shadow:var(--shadow); margin-bottom:16px; }
+.chart-wrap { position:relative; width:100%; height:200px; }
+
+/* Country profile buttons */
+.cp-btn {
+  display:block; width:100%; text-align:left; padding:10px 16px; background:none;
+  border:none; border-bottom:1px solid var(--border); cursor:pointer;
+  font-family:var(--sans); font-size:12px; color:var(--text-dim); font-weight:300;
+  transition:background 0.1s;
+}
+.cp-btn:hover { background:var(--bg2); }
+.cp-btn strong { font-weight:400; color:var(--text); display:block; }
+.cp-btn small { font-family:var(--mono); font-size:9px; color:var(--text-muted); }
+
+/* Log bar */
+.log-bar {
+  position:fixed; bottom:0; left:0; right:0; height:28px;
+  background:var(--surface); border-top:1px solid var(--border);
+  display:flex; align-items:center; padding:0 28px; gap:10px; z-index:999;
+}
+.log-pfx { font-family:var(--mono); font-size:8.5px; color:var(--text-muted); letter-spacing:1px; }
+.log-txt { font-family:var(--mono); font-size:9.5px; color:var(--text-dim); }
+.log-txt.ok { color:var(--reform); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Sentinel<em>.</em></div>
+  <div class="header-sub">LatAm Military &amp; Security Dashboard</div>
+  <div class="header-right">
+    <div id="last-updated">Live · 14 sources active</div>
+    <div class="status-pill">
+      <div class="sdot"></div>
+      <span>Running</span>
+    </div>
+  </div>
+</header>
+
+<!-- TAB BAR -->
+<div class="tab-bar" id="tab-bar">
+  <button class="tab-btn active" data-tab="events">Events</button>
+  <button class="tab-btn" data-tab="us">US Cooperation</button>
+  <button class="tab-btn" data-tab="profiles">Country Profiles</button>
+  <button class="tab-btn" data-tab="exercises">Exercises &amp; Multilateral</button>
+  <button class="tab-btn" data-tab="procurement">Procurement &amp; Arms</button>
+  <button class="tab-btn" data-tab="colombia">Colombia</button>
+  <button class="tab-btn" data-tab="timeline">Timeline</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  EVENTS TAB                                                -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="tab-panel active" id="events">
+  <div class="events-layout">
+    <div class="sidebar">
+      <div class="sidebar-top">
+        <div><div class="sidebar-top-label">Events Loaded</div><div class="big-count" id="event-count">0</div></div>
+      </div>
+      <div class="filter-block">
+        <div class="filter-label">Type</div>
+        <div class="tag-row" id="type-filters">
+          <span class="tag active" data-f="type" data-v="all">All</span>
+          <span class="tag" data-f="type" data-v="coup">Coup</span>
+          <span class="tag" data-f="type" data-v="purge">Purge</span>
+          <span class="tag" data-f="type" data-v="conflict">Conflict</span>
+          <span class="tag" data-f="type" data-v="reform">Reform</span>
+          <span class="tag" data-f="type" data-v="oc">Org. Crime</span>
+          <span class="tag" data-f="type" data-v="aid">Mil. Aid</span>
+          <span class="tag" data-f="type" data-v="exercise">Exercise</span>
+          <span class="tag" data-f="type" data-v="other">Other</span>
+        </div>
+      </div>
+      <div class="filter-block">
+        <div class="filter-label">Country</div>
+        <div class="tag-row" id="country-filters"></div>
+      </div>
+      <div class="filter-block">
+        <div class="filter-label">Confidence</div>
+        <div class="tag-row">
+          <span class="tag active" data-f="conf" data-v="all">All</span>
+          <span class="tag" data-f="conf" data-v="green">Green</span>
+          <span class="tag" data-f="conf" data-v="yellow">Yellow</span>
+          <span class="tag" data-f="conf" data-v="red">Red / Review</span>
+        </div>
+      </div>
+      <div class="event-list" id="event-list"></div>
+    </div>
+    <div class="map-panel">
+      <div class="map-label">Latin America — Civil-Military Events</div>
+      <div id="map" style="width:100%;height:100%;"></div>
+      <div class="legend" id="map-legend">
+        <div class="legend-item"><div class="leg-dot" style="background:var(--coup)"></div>Coup / Purge</div>
+        <div class="legend-item"><div class="leg-dot" style="background:var(--conflict)"></div>Conflict</div>
+        <div class="legend-item"><div class="leg-dot" style="background:var(--aid)"></div>Aid / Coop</div>
+        <div class="legend-item"><div class="leg-dot" style="background:var(--exercise)"></div>Exercise</div>
+        <div class="legend-item"><div class="leg-dot" style="background:var(--protest)"></div>Protest</div>
+        <div class="legend-item"><div class="leg-dot" style="background:var(--reform)"></div>Reform</div>
+        <div class="legend-item"><div class="leg-dot" style="background:var(--oc)"></div>Org. Crime</div>
+        <div class="legend-item"><div class="leg-dot" style="background:var(--other)"></div>Other</div>
+      </div>
+    </div>
+    <div class="detail" id="detail">
+      <div class="detail-empty">
+        <div class="detail-empty-glyph">⊕</div>
+        <div class="detail-empty-text">Select an event</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  US COOPERATION TAB                                        -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="us">
+  <div class="page-layout">
+    <div class="page-sidebar">
+      <div class="sidebar-top"><div><div class="sidebar-top-label">Total US Aid FY2025</div><div class="big-count">$1.87B</div></div></div>
+      <div style="padding:14px 16px;">
+        <div class="sec-title">Assistance by country</div>
+        <div class="bar-row"><span class="bar-name">Colombia</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--aid);"></div></div><span class="bar-num">$461M</span></div>
+        <div class="bar-row"><span class="bar-name">Mexico</span><div class="bar-track"><div class="bar-fill" style="width:72%;background:var(--aid);"></div></div><span class="bar-num">$332M</span></div>
+        <div class="bar-row"><span class="bar-name">Peru</span><div class="bar-track"><div class="bar-fill" style="width:38%;background:var(--aid);"></div></div><span class="bar-num">$175M</span></div>
+        <div class="bar-row"><span class="bar-name">Ecuador</span><div class="bar-track"><div class="bar-fill" style="width:30%;background:var(--aid);"></div></div><span class="bar-num">$138M</span></div>
+        <div class="bar-row"><span class="bar-name">Brazil</span><div class="bar-track"><div class="bar-fill" style="width:22%;background:var(--aid);"></div></div><span class="bar-num">$102M</span></div>
+        <div class="bar-row"><span class="bar-name">Honduras</span><div class="bar-track"><div class="bar-fill" style="width:18%;background:var(--aid);"></div></div><span class="bar-num">$83M</span></div>
+        <div class="bar-row"><span class="bar-name">Guatemala</span><div class="bar-track"><div class="bar-fill" style="width:15%;background:var(--aid);"></div></div><span class="bar-num">$69M</span></div>
+        <div class="bar-row"><span class="bar-name">El Salvador</span><div class="bar-track"><div class="bar-fill" style="width:10%;background:var(--aid);"></div></div><span class="bar-num">$46M</span></div>
+
+        <div class="sec-title mt">Program breakdown</div>
+        <div class="d-row"><span class="d-label">INCLE — Narcotics &amp; law enforcement</span><span class="d-val">$724M</span></div>
+        <div class="d-row"><span class="d-label">FMF — Military financing</span><span class="d-val">$412M</span></div>
+        <div class="d-row"><span class="d-label">NADR — Anti-terrorism</span><span class="d-val">$298M</span></div>
+        <div class="d-row"><span class="d-label">IMET — Training</span><span class="d-val">$187M</span></div>
+        <div class="d-row"><span class="d-label">Section 333</span><span class="d-val">$145M</span></div>
+        <div class="d-row"><span class="d-label">EDA</span><span class="d-val">$68M</span></div>
+      </div>
+    </div>
+    <div class="page-main">
+      <div class="card-grid">
+        <div class="card"><div class="card-label">Active Programs</div><div class="card-value">142</div><div class="card-sub">across 22 countries</div></div>
+        <div class="card"><div class="card-label">US Installations</div><div class="card-value">12</div><div class="card-sub">3 FOLs, 9 CSLs</div></div>
+        <div class="card"><div class="card-label">Active Deployments</div><div class="card-value">7</div><div class="card-sub">4 counter-narcotics</div></div>
+        <div class="card"><div class="card-label">FY2025 vs FY2024</div><div class="card-value">-6%</div><div class="card-sub down">Decrease in appropriated</div></div>
+      </div>
+      <div class="chart-box">
+        <div class="sec-title">US Security Assistance to LatAm — trend ($M)</div>
+        <div class="chart-wrap"><canvas id="usChart"></canvas></div>
+      </div>
+      <div class="sec-title mt">Recent US Activity</div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--aid)"></div><span class="ev-type" style="color:var(--aid)">Deployment</span><span class="ev-country">Honduras</span></div><div class="ev-title">SOUTHCOM rotational force arrives at Soto Cano Air Base</div><div class="ev-meta"><span>2026-03-20</span><span>SOUTHCOM</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--exercise)"></div><span class="ev-type" style="color:var(--exercise)">Exercise</span><span class="ev-country">Ecuador</span></div><div class="ev-title">Joint counter-narcotics patrol with Ecuadorian navy</div><div class="ev-meta"><span>2026-03-18</span><span>SOUTHCOM</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--reform)"></div><span class="ev-type" style="color:var(--reform)">Agreement</span><span class="ev-country">Paraguay</span></div><div class="ev-title">US-Paraguay defense cooperation agreement renewed for 5 years</div><div class="ev-meta"><span>2026-03-15</span><span>State Dept</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--aid)"></div><span class="ev-type" style="color:var(--aid)">Deployment</span><span class="ev-country">Regional</span></div><div class="ev-title">Coast Guard cutter deploys to Eastern Pacific for interdiction</div><div class="ev-meta"><span>2026-03-12</span><span>USCG</span></div></div>
+
+      <div class="sec-title mt">Installations</div>
+      <div class="d-row"><span class="d-label">Soto Cano Air Base — Honduras (FOL)</span><span class="d-val" style="color:var(--reform)">ACTIVE</span></div>
+      <div class="d-row"><span class="d-label">CSL Comalapa — El Salvador</span><span class="d-val" style="color:var(--reform)">ACTIVE</span></div>
+      <div class="d-row"><span class="d-label">CSL Reina Beatrix — Aruba</span><span class="d-val" style="color:var(--reform)">ACTIVE</span></div>
+      <div class="d-row"><span class="d-label">CSL Hato — Curaçao</span><span class="d-val" style="color:var(--reform)">ACTIVE</span></div>
+      <div class="d-row"><span class="d-label">Guantánamo Bay — Cuba</span><span class="d-val" style="color:var(--reform)">ACTIVE</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  COUNTRY PROFILES TAB                                      -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="profiles">
+  <div class="page-layout">
+    <div class="page-sidebar">
+      <div class="sidebar-top"><div><div class="sidebar-top-label">Countries Tracked</div><div class="big-count">24</div></div></div>
+      <button class="cp-btn"><strong>Brazil</strong><small>366K active · $29.4B spending</small></button>
+      <button class="cp-btn"><strong>Colombia</strong><small>295K active · $14.1B spending</small></button>
+      <button class="cp-btn"><strong>Mexico</strong><small>277K active · $9.4B spending</small></button>
+      <button class="cp-btn"><strong>Venezuela</strong><small>123K active · $3.2B spending</small></button>
+      <button class="cp-btn"><strong>Chile</strong><small>80K active · $6.5B spending</small></button>
+      <button class="cp-btn"><strong>Argentina</strong><small>75K active · $4.7B spending</small></button>
+      <button class="cp-btn"><strong>Peru</strong><small>95K active · $2.9B spending</small></button>
+      <button class="cp-btn"><strong>Ecuador</strong><small>40K active · $2.4B spending</small></button>
+      <button class="cp-btn"><strong>Bolivia</strong><small>34K active · $680M spending</small></button>
+      <button class="cp-btn"><strong>Cuba</strong><small>49K active · est. $1.8B</small></button>
+      <button class="cp-btn"><strong>Honduras</strong><small>15K active · $410M spending</small></button>
+      <button class="cp-btn"><strong>Guatemala</strong><small>22K active · $340M spending</small></button>
+      <button class="cp-btn"><strong>El Salvador</strong><small>25K active · $290M spending</small></button>
+      <button class="cp-btn"><strong>Nicaragua</strong><small>12K active · $90M spending</small></button>
+      <button class="cp-btn"><strong>Paraguay</strong><small>14K active · $520M spending</small></button>
+      <button class="cp-btn"><strong>Uruguay</strong><small>22K active · $1.1B spending</small></button>
+    </div>
+    <div class="page-main">
+      <div class="card-grid">
+        <div class="card"><div class="card-label">Regional Mil. Spending</div><div class="card-value">$98.4B</div><div class="card-sub up">+4.2% YoY</div></div>
+        <div class="card"><div class="card-label">Total Active Personnel</div><div class="card-value">1.84M</div><div class="card-sub">across 24 countries</div></div>
+        <div class="card"><div class="card-label">Avg Spending / GDP</div><div class="card-value">1.3%</div><div class="card-sub">global avg: 2.3%</div></div>
+        <div class="card"><div class="card-label">Active Arms Deals</div><div class="card-value">67</div><div class="card-sub">23 delivered this year</div></div>
+      </div>
+      <div class="chart-box">
+        <div class="sec-title">Regional Military Spending — trend ($B)</div>
+        <div class="chart-wrap"><canvas id="spendChart"></canvas></div>
+      </div>
+      <div class="sec-title mt">Top Military Spenders (2025)</div>
+      <div class="bar-row"><span class="bar-name">Brazil</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--reform);"></div></div><span class="bar-num">$29.4B</span></div>
+      <div class="bar-row"><span class="bar-name">Colombia</span><div class="bar-track"><div class="bar-fill" style="width:48%;background:var(--reform);"></div></div><span class="bar-num">$14.1B</span></div>
+      <div class="bar-row"><span class="bar-name">Mexico</span><div class="bar-track"><div class="bar-fill" style="width:32%;background:var(--reform);"></div></div><span class="bar-num">$9.4B</span></div>
+      <div class="bar-row"><span class="bar-name">Chile</span><div class="bar-track"><div class="bar-fill" style="width:22%;background:var(--reform);"></div></div><span class="bar-num">$6.5B</span></div>
+      <div class="bar-row"><span class="bar-name">Argentina</span><div class="bar-track"><div class="bar-fill" style="width:16%;background:var(--reform);"></div></div><span class="bar-num">$4.7B</span></div>
+      <div class="bar-row"><span class="bar-name">Venezuela</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--reform);"></div></div><span class="bar-num">$3.2B</span></div>
+      <div class="bar-row"><span class="bar-name">Peru</span><div class="bar-track"><div class="bar-fill" style="width:10%;background:var(--reform);"></div></div><span class="bar-num">$2.9B</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  EXERCISES TAB                                             -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="exercises">
+  <div class="page-layout">
+    <div class="page-sidebar">
+      <div class="sidebar-top"><div><div class="sidebar-top-label">Exercises in 2026</div><div class="big-count">34</div></div></div>
+      <div style="padding:14px 16px;">
+        <div class="sec-title">Most Active Partners (2024–26)</div>
+        <div class="bar-row"><span class="bar-name">United States</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--aid);"></div></div><span class="bar-num">28 ex.</span></div>
+        <div class="bar-row"><span class="bar-name">Brazil</span><div class="bar-track"><div class="bar-fill" style="width:64%;background:var(--exercise);"></div></div><span class="bar-num">18 ex.</span></div>
+        <div class="bar-row"><span class="bar-name">Colombia</span><div class="bar-track"><div class="bar-fill" style="width:57%;background:var(--exercise);"></div></div><span class="bar-num">16 ex.</span></div>
+        <div class="bar-row"><span class="bar-name">Chile</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--exercise);"></div></div><span class="bar-num">14 ex.</span></div>
+        <div class="bar-row"><span class="bar-name">Peru</span><div class="bar-track"><div class="bar-fill" style="width:43%;background:var(--exercise);"></div></div><span class="bar-num">12 ex.</span></div>
+        <div class="bar-row"><span class="bar-name">France</span><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--protest);"></div></div><span class="bar-num">7 ex.</span></div>
+        <div class="bar-row"><span class="bar-name">China</span><div class="bar-track"><div class="bar-fill" style="width:14%;background:var(--coup);"></div></div><span class="bar-num">4 ex.</span></div>
+        <div class="bar-row"><span class="bar-name">Russia</span><div class="bar-track"><div class="bar-fill" style="width:7%;background:var(--purge);"></div></div><span class="bar-num">2 ex.</span></div>
+      </div>
+    </div>
+    <div class="page-main">
+      <div class="card-grid">
+        <div class="card"><div class="card-label">Participating Nations</div><div class="card-value">21</div><div class="card-sub">+3 non-regional</div></div>
+        <div class="card"><div class="card-label">US-led Exercises</div><div class="card-value">18</div><div class="card-sub">53% of total</div></div>
+        <div class="card"><div class="card-label">China/Russia Exercises</div><div class="card-value">4</div><div class="card-sub up">+2 vs 2025</div></div>
+        <div class="card"><div class="card-label">Completed / Planned</div><div class="card-value">12 / 22</div><div class="card-sub">as of Mar 2026</div></div>
+      </div>
+      <div class="sec-title">Upcoming &amp; Ongoing</div>
+      <div class="card-grid" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="ex-card"><div class="ex-name">UNITAS LXVI</div><div class="ex-detail">Naval combined · Brazil<br>Mar 15 – Apr 2, 2026</div><div class="ex-count">19 nations</div></div>
+        <div class="ex-card"><div class="ex-name">Tradewinds 2026</div><div class="ex-detail">Combined arms · Jamaica<br>Jun 1 – 15, 2026</div><div class="ex-count">22 nations</div></div>
+        <div class="ex-card"><div class="ex-name">PANAMAX 2026</div><div class="ex-detail">Maritime · Panama<br>Jul 15 – 28, 2026</div><div class="ex-count">16 nations</div></div>
+        <div class="ex-card"><div class="ex-name">Southern Partnership</div><div class="ex-detail">Naval engagement · Multiple<br>Ongoing through 2026</div><div class="ex-count">8 port visits</div></div>
+        <div class="ex-card"><div class="ex-name">Cooperación VII</div><div class="ex-detail">Humanitarian · Colombia<br>Aug 5 – 12, 2026</div><div class="ex-count">11 nations</div></div>
+        <div class="ex-card"><div class="ex-name">Resolute Sentinel</div><div class="ex-detail">Ground forces · Peru<br>Sep 10 – 24, 2026</div><div class="ex-count">6 nations</div></div>
+        <div class="ex-card"><div class="ex-name">RIMPAC 2026</div><div class="ex-detail">Pacific multinational · Hawaii<br>Jun 27 – Aug 1, 2026</div><div class="ex-count">5 LatAm invited</div></div>
+        <div class="ex-card alert"><div class="ex-name">Sino-Venezuelan Exercise</div><div class="ex-detail">Naval/port visit · Venezuela<br>Nov 2026 (tentative)</div><div class="ex-count" style="color:var(--purge);">China + Venezuela</div></div>
+        <div class="ex-card"><div class="ex-name">Fuerzas Aliadas</div><div class="ex-detail">Humanitarian · Guatemala<br>Oct 2 – 10, 2026</div><div class="ex-count">8 nations</div></div>
+      </div>
+      <div class="chart-box" style="margin-top:16px;">
+        <div class="sec-title">Exercise Type Distribution (2026)</div>
+        <div class="chart-wrap"><canvas id="exChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  PROCUREMENT TAB                                           -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="procurement">
+  <div class="page-layout">
+    <div class="page-sidebar">
+      <div class="sidebar-top"><div><div class="sidebar-top-label">Active Deals (2024–26)</div><div class="big-count">67</div></div></div>
+      <div style="padding:14px 16px;">
+        <div class="sec-title">Supplier Market Share (SIPRI TIV)</div>
+        <div class="bar-row"><span class="bar-name">United States</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--aid);"></div></div><span class="bar-num">42%</span></div>
+        <div class="bar-row"><span class="bar-name">France</span><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--protest);"></div></div><span class="bar-num">14%</span></div>
+        <div class="bar-row"><span class="bar-name">China</span><div class="bar-track"><div class="bar-fill" style="width:26%;background:var(--coup);"></div></div><span class="bar-num">11%</span></div>
+        <div class="bar-row"><span class="bar-name">Russia</span><div class="bar-track"><div class="bar-fill" style="width:19%;background:var(--purge);"></div></div><span class="bar-num">8%</span></div>
+        <div class="bar-row"><span class="bar-name">Germany</span><div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--other);"></div></div><span class="bar-num">7%</span></div>
+        <div class="bar-row"><span class="bar-name">Israel</span><div class="bar-track"><div class="bar-fill" style="width:14%;background:var(--exercise);"></div></div><span class="bar-num">6%</span></div>
+        <div class="bar-row"><span class="bar-name">South Korea</span><div class="bar-track"><div class="bar-fill" style="width:10%;background:var(--exercise);"></div></div><span class="bar-num">4%</span></div>
+      </div>
+    </div>
+    <div class="page-main">
+      <div class="card-grid">
+        <div class="card"><div class="card-label">Total Deal Value</div><div class="card-value">$8.3B</div><div class="card-sub">2024–2026</div></div>
+        <div class="card"><div class="card-label">Top Buyer</div><div class="card-value" style="font-size:20px;">Brazil</div><div class="card-sub">31% of imports</div></div>
+        <div class="card"><div class="card-label">China Share</div><div class="card-value">11%</div><div class="card-sub up">+4pp since 2020</div></div>
+        <div class="card"><div class="card-label">Delivered This Year</div><div class="card-value">23</div><div class="card-sub">of 67 active</div></div>
+      </div>
+      <div class="chart-box">
+        <div class="sec-title">Supplier Trends — SIPRI TIV ($M)</div>
+        <div class="chart-wrap"><canvas id="armsChart"></canvas></div>
+      </div>
+      <div class="sec-title mt">Major Recent Deals</div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">Sweden → Brazil</span></div><div class="ev-title">Gripen E/F fighter jets — 36 units ($5.4B)</div><div class="ev-meta"><span>2019–2027</span><span>SIPRI</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivered</span><span class="ev-country">Germany → Chile</span></div><div class="ev-title">Leopard 2A4 main battle tanks — 100 units ($220M)</div><div class="ev-meta"><span>2023</span><span>SIPRI</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--purge)"></div><span class="ev-type" style="color:var(--purge)">Negotiating</span><span class="ev-country">Pakistan/China → Argentina</span></div><div class="ev-title">JF-17 Block III multirole fighter evaluation ($1.2B est.)</div><div class="ev-meta"><span>2025–</span><span>News reports</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Ordered</span><span class="ev-country">US → Colombia</span></div><div class="ev-title">UH-60 Black Hawk helicopters — 12 units ($380M)</div><div class="ev-meta"><span>2025</span><span>DSCA</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">France → Brazil</span></div><div class="ev-title">Scorpène-class submarine — 4th of 4 ($1.8B program)</div><div class="ev-meta"><span>2024</span><span>SIPRI</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">South Korea → Peru</span></div><div class="ev-title">KAI KT-1 trainer aircraft — 20 units ($200M)</div><div class="ev-meta"><span>2024–2026</span><span>SIPRI</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  COLOMBIA TAB                                              -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="colombia">
+  <div class="page-layout">
+    <div class="page-sidebar">
+      <div class="sidebar-top"><div><div class="sidebar-top-label">Conflict Events (30d)</div><div class="big-count" style="color:var(--coup);">187</div></div></div>
+      <div style="padding:14px 16px;">
+        <div class="sec-title">Armed Groups</div>
+        <div class="d-row"><span class="d-label">ELN<br><small style="font-family:var(--mono);font-size:8.5px;color:var(--text-muted);">Est. 5,500 · 12 departments</small></span><span class="gtag gt-negotiating">Negotiating</span></div>
+        <div class="d-row"><span class="d-label">EMC (Estado Mayor Central)<br><small style="font-family:var(--mono);font-size:8.5px;color:var(--text-muted);">Est. 3,800 · FARC dissident</small></span><span class="gtag gt-active">Active</span></div>
+        <div class="d-row"><span class="d-label">Segunda Marquetalia<br><small style="font-family:var(--mono);font-size:8.5px;color:var(--text-muted);">Est. 1,800 · FARC dissident</small></span><span class="gtag gt-ceasefire">Ceasefire</span></div>
+        <div class="d-row"><span class="d-label">Clan del Golfo (AGC)<br><small style="font-family:var(--mono);font-size:8.5px;color:var(--text-muted);">Est. 4,200 · Neo-paramilitary</small></span><span class="gtag gt-criminal">Criminal</span></div>
+        <div class="d-row"><span class="d-label">Los Pelusos (EPL)<br><small style="font-family:var(--mono);font-size:8.5px;color:var(--text-muted);">Est. 400 · Catatumbo</small></span><span class="gtag gt-active">Active</span></div>
+
+        <div class="sec-title mt">DDR / Reincorporation</div>
+        <div class="d-row"><span class="d-label">Total demobilized</span><span class="d-val">13,400</span></div>
+        <div class="d-row"><span class="d-label">Active in programs</span><span class="d-val">10,450</span></div>
+        <div class="d-row"><span class="d-label">Completed</span><span class="d-val">2,180</span></div>
+        <div class="d-row"><span class="d-label">Returned to arms</span><span class="d-val" style="color:var(--coup);">~770</span></div>
+      </div>
+    </div>
+    <div class="page-main">
+      <div class="card-grid">
+        <div class="card"><div class="card-label">Active Armed Groups</div><div class="card-value">7</div><div class="card-sub">3 in negotiations</div></div>
+        <div class="card"><div class="card-label">Coca Cultivation</div><div class="card-value">230K ha</div><div class="card-sub up">+8% YoY</div></div>
+        <div class="card"><div class="card-label">DDR Participants</div><div class="card-value">13,400</div><div class="card-sub">78% active in programs</div></div>
+        <div class="card"><div class="card-label">Social Leaders Killed (2026)</div><div class="card-value" style="color:var(--coup);">34</div><div class="card-sub up">+12% vs 2025</div></div>
+      </div>
+
+      <div class="sec-title">Peace Process Timeline</div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--reform);"></div><div class="tl-date">Mar 18</div><div class="tl-text">ELN: 5th round of talks resumes in Havana, Cuba</div></div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--purge);"></div><div class="tl-date">Mar 10</div><div class="tl-text">Segunda Marquetalia bilateral ceasefire extended 90 days</div></div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--coup);"></div><div class="tl-date">Mar 5</div><div class="tl-text">EMC faction led by Iván Mordisco rejects government negotiation terms</div></div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--reform);"></div><div class="tl-date">Feb 28</div><div class="tl-text">DDR program: 400 additional ex-combatants enter reincorporation</div></div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--coup);"></div><div class="tl-date">Feb 20</div><div class="tl-text">Clan del Golfo: major army operation in Urabá, 12 captured</div></div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--purge);"></div><div class="tl-date">Feb 12</div><div class="tl-text">UNODC releases annual coca cultivation survey for Colombia</div></div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--reform);"></div><div class="tl-date">Feb 5</div><div class="tl-text">Government announces new productive projects in ETCRs</div></div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--coup);"></div><div class="tl-date">Jan 28</div><div class="tl-text">ELN accused of kidnapping in Chocó despite ceasefire talks</div></div>
+
+      <div class="chart-box" style="margin-top:20px;">
+        <div class="sec-title">Coca Cultivation — Colombia (thousands hectares)</div>
+        <div class="chart-wrap"><canvas id="cocaChart"></canvas></div>
+      </div>
+
+      <div class="sec-title mt">Recent Conflict Events</div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--conflict)"></div><span class="ev-type" style="color:var(--conflict)">Armed Clash</span><span class="ev-country">Norte de Santander</span></div><div class="ev-title">ELN vs army — 4 killed in rural engagement</div><div class="ev-meta"><span>2026-03-21</span><span>ACLED</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--oc)"></div><span class="ev-type" style="color:var(--oc)">Org. Crime</span><span class="ev-country">Nariño</span></div><div class="ev-title">Lab destruction — 2 tons cocaine base seized</div><div class="ev-meta"><span>2026-03-19</span><span>MinDefensa</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--conflict)"></div><span class="ev-type" style="color:var(--conflict)">Ambush</span><span class="ev-country">Cauca</span></div><div class="ev-title">EMC ambush on army patrol — 3 soldiers wounded</div><div class="ev-meta"><span>2026-03-17</span><span>El Tiempo</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--coup)"></div><span class="ev-type" style="color:var(--coup)">Assassination</span><span class="ev-country">Putumayo</span></div><div class="ev-title">Social leader killed — 34th this year</div><div class="ev-meta"><span>2026-03-15</span><span>ACLED</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--peace)"></div><span class="ev-type" style="color:var(--peace)">Peace</span><span class="ev-country">Chocó</span></div><div class="ev-title">ELN releases 3 hostages as goodwill gesture before talks</div><div class="ev-meta"><span>2026-03-11</span><span>Semana</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  TIMELINE TAB                                              -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="timeline">
+  <div class="page-layout">
+    <div class="page-sidebar">
+      <div class="sidebar-top">
+        <div><div class="sidebar-top-label">Events (Timeline)</div><div class="big-count" id="tl-count">0</div></div>
+      </div>
+      <div class="filter-block">
+        <div class="filter-label">Type</div>
+        <div class="tag-row" id="tl-type-filters">
+          <span class="tag active tl-tag" data-v="all">All</span>
+          <span class="tag tl-tag" data-v="coup">Coup</span>
+          <span class="tag tl-tag" data-v="purge">Purge</span>
+          <span class="tag tl-tag" data-v="conflict">Conflict</span>
+          <span class="tag tl-tag" data-v="reform">Reform</span>
+          <span class="tag tl-tag" data-v="oc">Org. Crime</span>
+          <span class="tag tl-tag" data-v="aid">Mil. Aid</span>
+          <span class="tag tl-tag" data-v="exercise">Exercise</span>
+          <span class="tag tl-tag" data-v="protest">Protest</span>
+          <span class="tag tl-tag" data-v="other">Other</span>
+        </div>
+      </div>
+      <div style="padding:10px 16px;border-bottom:1px solid var(--border);">
+        <div class="filter-label">Country</div>
+        <div class="tag-row" id="tl-country-filters"></div>
+      </div>
+    </div>
+    <div class="page-main" id="timeline-list" style="padding:0 28px;"></div>
+  </div>
+</div>
+
+<!-- LOG BAR -->
+<div class="log-bar">
+  <span class="log-pfx">Log</span>
+  <span class="log-txt ok">Pipeline running — 14 sources active · last ingestion 2m ago · 38 items in review queue</span>
+</div>
+
+<script>
+// ── TAB SWITCHING ───────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    if(btn.dataset.tab==='events'&&map) map.invalidateSize();
+    if(btn.dataset.tab==='timeline') renderTimeline();
+  });
+});
+
+// ── EVENT DATA ──────────────────────────────────────────────
+const TC = {
+  coup:'var(--coup)', purge:'var(--purge)', conflict:'var(--conflict)', reform:'var(--reform)',
+  aid:'var(--aid)', exercise:'var(--exercise)', oc:'var(--oc)', protest:'var(--protest)',
+  peace:'var(--peace)', other:'var(--other)'
+};
+const TC_HEX = {
+  coup:'#b83232', purge:'#c46e12', conflict:'#a84000', reform:'#1a6e52',
+  aid:'#1a538f', exercise:'#2e6b8a', oc:'#6a4a6e', protest:'#6e389a',
+  peace:'#2d8659', other:'#6a6560'
+};
+
+let allEvents=[], filtered=[], selected=null;
+let filters={type:'all',country:'all',conf:'all'};
+let tlFilter='all', tlCountry='all';
+let map, markers=[];
+
+// ── DATA LOADING ─────────────────────────────────────────────
+async function loadEvents(){
+  try {
+    const res = await fetch('data/events.json?t='+Date.now());
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const raw = await res.json();
+    // Support both flat array and wrapped {updated, count, events:[...]} format
+    const events = Array.isArray(raw) ? raw : (raw.events || []);
+    const updatedStr = Array.isArray(raw) ? (events[0]?.ingested_at) : raw.updated;
+    allEvents = events;
+    filtered = events;
+    buildCountries();
+    applyFilters();
+    if(updatedStr){
+      const ago = Math.round((Date.now()-new Date(updatedStr))/60000);
+      const agoStr = ago<60 ? ago+'m ago' : Math.round(ago/60)+'h ago';
+      document.getElementById('last-updated').textContent = 'Updated '+agoStr;
+      document.querySelector('.log-txt').textContent =
+        `Pipeline active · ${events.length} events loaded · last ingestion ${agoStr}`;
+      document.querySelector('.log-txt').className='log-txt ok';
+    } else {
+      document.getElementById('last-updated').textContent = events.length+' events loaded';
+      document.querySelector('.log-txt').textContent = `${events.length} events loaded`;
+      document.querySelector('.log-txt').className='log-txt ok';
+    }
+  } catch(e) {
+    document.querySelector('.log-txt').textContent = 'Failed to load events.json — '+e.message+' · Run the pipeline or serve via http-server';
+    document.querySelector('.log-txt').className='log-txt';
+  }
+}
+
+// ── MAP ─────────────────────────────────────────────────────
+function initMap(){
+  map=L.map('map',{zoomControl:true,scrollWheelZoom:true}).setView([-5,-62],3);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+    attribution:'©OpenStreetMap ©CARTO', maxZoom:18
+  }).addTo(map);
+  refreshMap(filtered);
+}
+
+function refreshMap(evs){
+  markers.forEach(m=>map.removeLayer(m));
+  markers=[];
+  evs.forEach(ev=>{
+    if(!ev.coords)return;
+    const c=TC_HEX[ev.type]||'#6a6560';
+    const m=L.circleMarker(ev.coords,{
+      radius:ev.salience==='high'?7:ev.salience==='medium'?5:4,
+      fillColor:c, fillOpacity:0.85, color:'rgba(255,255,255,0.8)', weight:2
+    }).addTo(map);
+    m.bindTooltip(`<strong>${ev.type.toUpperCase()}</strong><br>${ev.title.substring(0,60)}…`,{direction:'top',offset:[0,-8]});
+    m.on('click',()=>selectEvent(ev));
+    markers.push(m);
+  });
+}
+
+// ── FILTERS ─────────────────────────────────────────────────
+function buildCountries(){
+  const cs=[...new Set(allEvents.map(e=>e.country))].sort();
+  const el=document.getElementById('country-filters');
+  el.innerHTML='<span class="tag active" data-f="country" data-v="all">All</span>';
+  cs.forEach(c=>{
+    const s=document.createElement('span');
+    s.className='tag'; s.dataset.f='country'; s.dataset.v=c; s.textContent=c;
+    el.appendChild(s);
+  });
+  bindTags();
+}
+
+function bindTags(){
+  document.querySelectorAll('.tag').forEach(t=>{
+    t.onclick=function(){
+      const f=this.dataset.f, v=this.dataset.v;
+      filters[f]=v;
+      document.querySelectorAll(`.tag[data-f="${f}"]`).forEach(x=>x.classList.remove('active'));
+      this.classList.add('active');
+      applyFilters();
+    };
+  });
+}
+
+function applyFilters(){
+  filtered=allEvents.filter(ev=>{
+    if(filters.type!=='all'&&ev.type!==filters.type)return false;
+    if(filters.country!=='all'&&ev.country!==filters.country)return false;
+    if(filters.conf!=='all'&&ev.conf!==filters.conf)return false;
+    return true;
+  });
+  renderList(); refreshMap(filtered);
+  document.getElementById('event-count').textContent=filtered.length;
+}
+
+// ── LIST ────────────────────────────────────────────────────
+function renderList(){
+  const el=document.getElementById('event-list');
+  if(!filtered.length){ el.innerHTML='<div style="padding:20px 16px;color:var(--text-muted);font-family:var(--mono);font-size:9.5px;">No events match filters.</div>'; return; }
+  el.innerHTML='';
+  filtered.forEach((ev,i)=>{
+    const c=TC_HEX[ev.type]||'#6a6560';
+    const confClass = ev.conf==='green'?'conf-green':ev.conf==='yellow'?'conf-yellow':'conf-red';
+    const pips=[1,2,3].map(n=>`<div class="pip${((ev.salience==='high'&&n<=3)||(ev.salience==='medium'&&n<=2)||(ev.salience==='low'&&n<=1))?' on':''}"></div>`).join('');
+    const div=document.createElement('div');
+    div.className='ev-item'+(selected?.id===ev.id?' selected':'');
+    div.innerHTML=`
+      <div class="ev-row1">
+        <div class="ev-dot" style="background:${c}"></div>
+        <span class="ev-type" style="color:${c}">${ev.type}</span>
+        <span class="conf-badge ${confClass}">${ev.conf}</span>
+        <span class="ev-country">${ev.country}</span>
+      </div>
+      <div class="ev-title">${ev.title}</div>
+      <div class="ev-meta"><span>${ev.date}</span><span>${ev.source}</span><div class="sal-pip">${pips}</div></div>`;
+    div.onclick=()=>selectEvent(ev);
+    el.appendChild(div);
+  });
+}
+
+function selectEvent(ev){
+  selected=ev; renderList();
+  if(ev.coords) map.setView(ev.coords,5,{animate:true});
+  const c=TC_HEX[ev.type]||'#6a6560';
+  const confClass=ev.conf==='green'?'conf-green':ev.conf==='yellow'?'conf-yellow':'conf-red';
+  document.getElementById('detail').innerHTML=`
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px;">
+      <span class="type-badge" style="background:${c}">${ev.type}</span>
+      <span class="conf-badge ${confClass}">${ev.conf} confidence</span>
+    </div>
+    <div class="detail-title">${ev.title}</div>
+    <div class="detail-meta">
+      <div class="dmi"><label>Date</label><span>${ev.date}</span></div>
+      <div class="dmi"><label>Country</label><span>${ev.country}</span></div>
+      <div class="dmi"><label>Type</label><span>${ev.type}</span></div>
+      <div class="dmi"><label>Salience</label><span style="color:${c}">${(ev.salience||'').toUpperCase()}</span></div>
+      <div class="dmi"><label>Source</label><span>${ev.source}</span></div>
+    </div>
+    <div class="sources-row"><span class="sources-label">Sources</span>${
+      (ev.links&&ev.links.length
+        ? ev.links.map((l,i)=>`<a class="source-chip" href="${l}" target="_blank" rel="noopener">${(ev.sources&&ev.sources[i])||ev.source} ↗</a>`).join('')
+        : ev.url
+          ? `<a class="source-chip" href="${ev.url}" target="_blank" rel="noopener">${ev.source} ↗</a>`
+          : `<span class="source-chip">${ev.source}</span>`
+      )
+    }</div>
+    <div class="detail-summary">${ev.summary||'No summary available.'}</div>
+    ${ev.ai_analysis?`<div class="ai-box"><div class="ai-box-hdr">CMR Analysis</div><div class="ai-box-text">${ev.ai_analysis}</div></div>`:''}
+`;
+}
+
+// ── CHARTS ───────────────────────────────────────────────────
+const chartText='#96928c', chartGrid='rgba(0,0,0,0.04)';
+const chartOpts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:chartText,font:{size:9,family:'DM Mono'}}},y:{grid:{color:chartGrid},ticks:{color:chartText,font:{size:9,family:'DM Mono'}},border:{display:false}}}};
+
+// US Aid trend
+new Chart(document.getElementById('usChart'),{type:'line',data:{labels:['FY18','FY19','FY20','FY21','FY22','FY23','FY24','FY25'],datasets:[{data:[1620,1580,1710,1820,1950,2040,1990,1870],borderColor:'#1a538f',backgroundColor:'rgba(26,83,143,0.06)',borderWidth:2,pointRadius:3,fill:true,tension:0.3}]},options:{...chartOpts,scales:{...chartOpts.scales,y:{...chartOpts.scales.y,ticks:{...chartOpts.scales.y.ticks,callback:v=>'$'+v+'M'}}}}});
+
+// Regional spending
+new Chart(document.getElementById('spendChart'),{type:'line',data:{labels:['2018','2019','2020','2021','2022','2023','2024','2025'],datasets:[{data:[74,76,72,78,84,89,94,98],borderColor:'#1a6e52',backgroundColor:'rgba(26,110,82,0.06)',borderWidth:2,pointRadius:3,fill:true,tension:0.3}]},options:{...chartOpts,scales:{...chartOpts.scales,y:{...chartOpts.scales.y,ticks:{...chartOpts.scales.y.ticks,callback:v=>'$'+v+'B'}}}}});
+
+// Exercise types
+new Chart(document.getElementById('exChart'),{type:'doughnut',data:{labels:['Naval','Ground','Humanitarian','Combined','Air'],datasets:[{data:[12,7,6,5,4],backgroundColor:['#1a538f','#1a6e52','#6e389a','#c46e12','#b83232'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:chartText,font:{size:10,family:'DM Mono'},boxWidth:10,padding:14}}},cutout:'55%'}});
+
+// Arms supplier trends
+new Chart(document.getElementById('armsChart'),{type:'line',data:{labels:['2018','2019','2020','2021','2022','2023','2024','2025'],datasets:[{label:'US',data:[820,780,850,900,920,880,910,870],borderColor:'#1a538f',borderWidth:2,pointRadius:2,tension:0.3},{label:'China',data:[120,180,210,250,280,320,350,380],borderColor:'#b83232',borderWidth:2,pointRadius:2,tension:0.3},{label:'France',data:[200,190,280,310,290,300,280,290],borderColor:'#6e389a',borderWidth:2,pointRadius:2,tension:0.3},{label:'Russia',data:[350,300,220,180,90,60,50,40],borderColor:'#c46e12',borderWidth:2,pointRadius:2,tension:0.3,borderDash:[4,3]}]},options:{...chartOpts,plugins:{legend:{display:true,position:'top',labels:{color:chartText,font:{size:9,family:'DM Mono'},boxWidth:12,padding:12}}},scales:{...chartOpts.scales,y:{...chartOpts.scales.y,ticks:{...chartOpts.scales.y.ticks,callback:v=>'$'+v+'M'}}}}});
+
+// Coca cultivation
+new Chart(document.getElementById('cocaChart'),{type:'bar',data:{labels:['2017','2018','2019','2020','2021','2022','2023','2024'],datasets:[{data:[171,169,154,143,204,230,214,230],backgroundColor:'rgba(184,50,50,0.22)',borderColor:'#b83232',borderWidth:1,borderRadius:2}]},options:{...chartOpts,scales:{...chartOpts.scales,y:{...chartOpts.scales.y,ticks:{...chartOpts.scales.y.ticks,callback:v=>v+'K'}}}}});
+
+// ── TIMELINE ─────────────────────────────────────────────────
+function renderTimeline(){
+  const evs = allEvents
+    .filter(ev=>(tlFilter==='all'||ev.type===tlFilter)&&(tlCountry==='all'||ev.country===tlCountry));
+  const el=document.getElementById('timeline-list');
+  if(!el) return;
+  document.getElementById('tl-count').textContent=evs.length;
+  if(!evs.length){ el.innerHTML='<div style="padding:20px;color:var(--text-muted);font-family:var(--mono);font-size:9.5px;">No events match filters.</div>'; return; }
+  let lastDate='';
+  el.innerHTML='<div style="padding-bottom:28px;">'+evs.map(ev=>{
+    const c=TC_HEX[ev.type]||'#6a6560';
+    let header='';
+    if(ev.date!==lastDate){
+      header=`<div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);padding:16px 0 8px;${lastDate?'border-top:1px solid var(--border);margin-top:4px;':''}">${ev.date}</div>`;
+      lastDate=ev.date;
+    }
+    return header+`<div class="tl-item tl-ev-row" data-id="${ev.id}" style="cursor:pointer;padding:10px 0;">
+      <div class="tl-dot" style="background:${c};margin-top:5px;"></div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-family:var(--mono);font-size:8.5px;color:${c};text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${ev.type} · ${ev.country}</div>
+        <div style="font-size:13px;font-weight:400;line-height:1.4;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;">${ev.url?`<a href="${ev.url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">${ev.title} ↗</a>`:ev.title}</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">${ev.source}</div>
+      </div>
+    </div>`;
+  }).join('')+'</div>';
+  // Bind click to switch to events tab
+  el.querySelectorAll('.tl-ev-row').forEach(row=>{
+    row.addEventListener('click',e=>{
+      if(e.target.tagName==='A') return;
+      const ev=allEvents.find(x=>String(x.id)===row.dataset.id);
+      if(!ev) return;
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+      document.querySelector('[data-tab="events"]').classList.add('active');
+      document.getElementById('events').classList.add('active');
+      if(map) map.invalidateSize();
+      selectEvent(ev);
+    });
+  });
+  // Bind timeline filters
+  document.querySelectorAll('.tl-tag').forEach(t=>{
+    t.onclick=function(){
+      document.querySelectorAll('.tl-tag').forEach(x=>x.classList.remove('active'));
+      this.classList.add('active');
+      tlFilter=this.dataset.v;
+      renderTimeline();
+    };
+  });
+  const tlCs=[...new Set(allEvents.map(e=>e.country))].sort();
+  const tlCEl=document.getElementById('tl-country-filters');
+  if(tlCEl&&!tlCEl.children.length){
+    tlCEl.innerHTML='<span class="tag active tl-ctag" data-v="all">All</span>';
+    tlCs.forEach(c=>{const s=document.createElement('span');s.className='tag tl-ctag';s.dataset.v=c;s.textContent=c;tlCEl.appendChild(s);});
+    tlCEl.querySelectorAll('.tl-ctag').forEach(t=>{t.onclick=function(){tlCEl.querySelectorAll('.tl-ctag').forEach(x=>x.classList.remove('active'));this.classList.add('active');tlCountry=this.dataset.v;renderTimeline();};});
+  }
+}
+
+// ── INIT ────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded',()=>{
+  initMap();
+  loadEvents();
+  setInterval(loadEvents, 15*60*1000);
+});
+</script>
+</body>
+</html>

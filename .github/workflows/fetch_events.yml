@@ -1,0 +1,49 @@
+name: Fetch LatAm Civil-Military Events
+
+on:
+  schedule:
+    - cron: '0 4 * * *'   # 04:00 UTC daily (use '0 */4 * * *' for every-4h)
+  workflow_dispatch:        # Manual run: Actions tab → Run workflow
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # Required to commit data/events.json back to repo
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests feedparser anthropic
+
+      - name: Run pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NEWSAPI_KEY:        ${{ secrets.NEWSAPI_KEY }}
+          ACLED_API_KEY:      ${{ secrets.ACLED_API_KEY }}
+          ACLED_EMAIL:        ${{ secrets.ACLED_EMAIL }}
+          # Optional — weekly email digest
+          DIGEST_TO:          ${{ secrets.DIGEST_TO }}
+          DIGEST_FROM:        ${{ secrets.DIGEST_FROM }}
+          SMTP_HOST:          ${{ secrets.SMTP_HOST }}
+          SMTP_PORT:          ${{ secrets.SMTP_PORT }}
+          SMTP_USER:          ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD:      ${{ secrets.SMTP_PASSWORD }}
+        run: python scripts/fetch_events.py
+
+      - name: Commit updated events
+        run: |
+          git config user.name  "sentinel-bot"
+          git config user.email "sentinel-bot@users.noreply.github.com"
+          git add data/events.json
+          git diff --staged --quiet || git commit -m "chore: update events $(date -u +'%Y-%m-%d') [skip ci]"
+          git push
