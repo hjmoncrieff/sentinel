@@ -160,8 +160,8 @@ header {
 .tl-ev-row:hover { background:var(--bg2); margin:0 -14px; padding:10px 14px; }
 .tl-ev-body { flex:1; min-width:0; }
 .tl-ev-tags { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:5px; }
-.tl-ev-type { font-family:var(--mono); font-size:7.5px; text-transform:uppercase; letter-spacing:1px; }
-.tl-ev-country { font-family:var(--mono); font-size:7.5px; color:var(--text-dim); }
+.tl-ev-type { font-family:var(--mono); font-size:8px; text-transform:uppercase; letter-spacing:1px; }
+.tl-ev-country { font-family:var(--mono); font-size:8px; color:var(--text-dim); }
 .tl-ev-title { font-size:13px; font-weight:400; line-height:1.4; margin-bottom:7px; }
 .tl-ev-sources { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
 .sal-dot { font-size:8px; line-height:1; }
@@ -338,7 +338,7 @@ header {
 .cp-cmr-strained{ background:rgba(196,110,18,0.08); color:var(--purge); border-color:rgba(196,110,18,0.3); }
 .cp-cmr-crisis  { background:rgba(184,50,50,0.08); color:var(--coup); border-color:rgba(184,50,50,0.3); }
 .cp-cmr-authoritarian { background:rgba(106,74,110,0.08); color:var(--oc); border-color:rgba(106,74,110,0.3); }
-.cp-note { font-size:12.5px; color:var(--text-dim); line-height:1.8; font-weight:300; margin-bottom:18px; padding:14px 16px; background:var(--bg2); border-left:3px solid var(--border2); border-radius:0 2px 2px 0; }
+.cp-note { font-size:12.5px; color:var(--text-dim); line-height:1.85; font-weight:300; margin-bottom:18px; padding:16px 20px; background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--border2); border-radius:0 3px 3px 0; }
 .cp-meta-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:18px; }
 .cp-meta-item { background:var(--surface); border:1px solid var(--border); border-radius:2px; padding:10px 12px; }
 .cp-meta-label { font-family:var(--mono); font-size:8px; letter-spacing:1px; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px; }
@@ -506,6 +506,54 @@ header {
 .log-pfx { font-family:var(--mono); font-size:8.5px; color:var(--text-muted); letter-spacing:1px; }
 .log-txt { font-family:var(--mono); font-size:9.5px; color:var(--text-dim); }
 .log-txt.ok { color:var(--reform); }
+
+/* ── TOOLTIP ─────────────────────────────────────────────────── */
+.tt { position:fixed; z-index:3000; background:var(--surface); color:var(--text-dim); border:1px solid var(--border2); font-family:var(--sans); font-size:11.5px; font-weight:300; line-height:1.65; padding:9px 13px; border-radius:3px; max-width:260px; pointer-events:none; box-shadow:var(--shadow-md); display:none; }
+
+/* ── VISUAL TIMELINE ─────────────────────────────────────────── */
+.vtl { padding:16px 40px 56px; }
+.vtl-year-hdr { display:flex; align-items:center; gap:14px; margin:32px 0 10px; }
+.vtl-year-hdr:first-child { margin-top:8px; }
+.vtl-year-label { font-family:var(--serif); font-size:20px; font-weight:600; color:var(--text); line-height:1; }
+.vtl-year-line { flex:1; height:1px; background:var(--border); }
+.vtl-year-ct { font-family:var(--mono); font-size:8px; color:var(--text-muted); letter-spacing:0.5px; white-space:nowrap; }
+.vtl-track { position:relative; padding-left:22px; }
+.vtl-track::before { content:''; position:absolute; left:5px; top:0; bottom:0; width:1px; background:var(--border); }
+.vtl-item { display:flex; align-items:flex-start; gap:14px; margin-bottom:5px; position:relative; }
+.vtl-dot-wrap { position:absolute; left:-17px; top:10px; width:12px; display:flex; justify-content:center; z-index:1; }
+.vtl-dot { width:10px; height:10px; border-radius:50%; background:var(--surface); border:2px solid; box-sizing:border-box; }
+.vtl-dot-sq { border-radius:2px; }
+.vtl-card { flex:1; background:var(--surface); border:1px solid var(--border); border-radius:3px; padding:9px 14px; cursor:pointer; transition:background 0.1s; }
+.vtl-card:hover { background:var(--bg2); }
+.vtl-milestone .vtl-card { border-left:3px solid var(--border2); cursor:default; }
+.vtl-milestone .vtl-card:hover { background:var(--surface); }
+.vtl-card-meta { display:flex; align-items:center; gap:6px; margin-bottom:4px; flex-wrap:wrap; }
+.vtl-type-tag { font-family:var(--mono); font-size:8px; letter-spacing:1px; text-transform:uppercase; }
+.vtl-country-tag { font-family:var(--mono); font-size:8px; color:var(--text-muted); }
+.vtl-date-tag { font-family:var(--mono); font-size:8px; color:var(--text-faint); margin-left:auto; }
+.vtl-milestone-badge { font-family:var(--mono); font-size:7px; letter-spacing:1px; background:var(--bg2); border:1px solid var(--border); padding:1px 5px; border-radius:2px; color:var(--text-muted); text-transform:uppercase; }
+.vtl-title { font-size:12.5px; font-weight:400; line-height:1.45; color:var(--text); }
+.vtl-src-row { margin-top:5px; display:flex; gap:8px; flex-wrap:wrap; }
+
+/* ── HEADER RIGHT — search + lang ──────────────────────────── */
+.header-right { margin-left:auto; display:flex; align-items:center; gap:5px; flex-shrink:0; padding-left:12px; border-left:1px solid var(--border); }
+.hdr-btn { background:none; border:1px solid var(--border); border-radius:2px; padding:0 9px; cursor:pointer; font-family:var(--mono); font-size:9px; letter-spacing:1.2px; color:var(--text-muted); text-transform:uppercase; transition:all 0.15s; display:flex; align-items:center; gap:5px; height:26px; }
+.hdr-btn:hover { color:var(--text); border-color:var(--border2); background:var(--bg2); }
+.hdr-btn.lang-active { color:var(--text); border-color:var(--border2); }
+.hdr-btn svg { width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:1.6; }
+
+/* ── SEARCH OVERLAY ─────────────────────────────────────────── */
+.search-overlay { display:none; position:fixed; inset:0; z-index:2000; background:rgba(28,26,23,0.45); backdrop-filter:blur(2px); }
+.search-overlay.open { display:flex; align-items:flex-start; justify-content:center; padding-top:80px; }
+.search-box { background:var(--surface); border:1px solid var(--border2); border-radius:4px; width:580px; max-width:92vw; box-shadow:var(--shadow-md); overflow:hidden; }
+.search-input-wrap { display:flex; align-items:center; padding:12px 16px; gap:10px; }
+.search-input { flex:1; border:none; background:none; font-family:var(--sans); font-size:14px; color:var(--text); outline:none; font-weight:300; }
+.search-input::placeholder { color:var(--text-faint); }
+.search-results { border-top:1px solid var(--border); max-height:400px; overflow-y:auto; }
+.s-item { padding:10px 16px; border-bottom:1px solid var(--border); cursor:pointer; transition:background 0.1s; }
+.s-item:hover { background:var(--bg2); }
+.s-item:last-child { border-bottom:none; }
+.s-empty { padding:18px 16px; font-family:var(--mono); font-size:9.5px; color:var(--text-muted); }
 </style>
 </head>
 <body>
@@ -525,6 +573,13 @@ header {
     <button class="tab-btn" data-tab="timeline">Timeline</button>
     <button class="tab-btn" data-tab="about">About</button>
   </nav>
+  <div class="header-right">
+    <button class="hdr-btn" id="search-btn" onclick="openSearch()" title="Search (⌘K)">
+      <svg viewBox="0 0 16 16"><circle cx="6.5" cy="6.5" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/></svg>
+      <span data-i18n="ui.search">Search</span>
+    </button>
+    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">ES</button>
+  </div>
 </header>
 
 <!-- ══════════════════════════════════════════════════════════ -->
@@ -624,14 +679,14 @@ header {
   <div class="events-layout">
     <div class="sidebar">
       <div style="padding:14px 16px;background:var(--bg2);border-bottom:1px solid var(--border);border-left:3px solid var(--border2);">
-        <div class="tab-intro-title" style="font-size:13px;margin-bottom:6px;">Events Feed</div>
-        <div style="font-size:11.5px;line-height:1.72;color:var(--text-dim);font-weight:300;">Open-source reporting classified into CMR event types — coup activity, purges, deployments, reforms, OC events, and armed conflict. AI-classified, georeferenced, confidence-rated.</div>
+        <div class="tab-intro-title" style="font-size:13px;margin-bottom:6px;" data-i18n="intro.events">Events Feed</div>
+        <div style="font-size:11.5px;line-height:1.72;color:var(--text-dim);font-weight:300;" data-i18n="intro.events.body">Open-source reporting classified into CMR event types — coup activity, purges, deployments, reforms, OC events, and armed conflict. AI-classified, georeferenced, confidence-rated.</div>
       </div>
       <div class="sidebar-top">
-        <div><div class="sidebar-top-label">Events Loaded</div><div class="big-count" id="event-count">0</div></div>
+        <div><div class="sidebar-top-label" data-i18n="label.events-loaded">Events Loaded</div><div class="big-count" id="event-count">0</div></div>
       </div>
       <div class="filter-block">
-        <div class="filter-label">Subregion</div>
+        <div class="filter-label" data-i18n="filter.subregion">Subregion</div>
         <div class="tag-row" id="sr-filters">
           <span class="tag active" data-f="subregion" data-v="all">All</span>
           <span class="tag" data-f="subregion" data-v="brazil">Brazil</span>
@@ -643,7 +698,7 @@ header {
         </div>
       </div>
       <div class="filter-block">
-        <div class="filter-label">Type</div>
+        <div class="filter-label" data-i18n="filter.type">Type</div>
         <div class="tag-row" id="type-filters">
           <span class="tag active" data-f="type" data-v="all">All</span>
           <span class="tag" data-f="type" data-v="coup">Coup</span>
@@ -657,11 +712,11 @@ header {
         </div>
       </div>
       <div class="filter-block">
-        <div class="filter-label">Country</div>
+        <div class="filter-label" data-i18n="filter.country">Country</div>
         <div class="tag-row" id="country-filters"></div>
       </div>
       <div class="filter-block">
-        <div class="filter-label">Confidence</div>
+        <div class="filter-label" data-i18n="filter.confidence">Confidence</div>
         <div class="tag-row">
           <span class="tag active" data-f="conf" data-v="all">All</span>
           <span class="tag" data-f="conf" data-v="green">High</span>
@@ -700,7 +755,7 @@ header {
 <div class="tab-panel" id="us">
   <div class="page-layout">
     <div class="page-sidebar">
-      <div class="sidebar-top"><div><div class="sidebar-top-label">All-time LatAm Recipients</div><div class="big-count">$197B</div></div></div>
+      <div class="sidebar-top"><div><div class="sidebar-top-label" data-i18n="label.latam-recipients">All-time LatAm Recipients</div><div class="big-count">$197B</div></div></div>
       <div style="padding:14px 16px;">
         <div class="sec-title">Top Recipients — All-time (1946–2019, const. USD)</div>
         <div class="bar-row"><span class="bar-name">Colombia</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--aid);"></div></div><span class="bar-num">$27.0B</span></div>
@@ -724,17 +779,17 @@ header {
         <div class="d-row"><span class="d-label">Guatemala</span><span class="d-val">$0.6B <small style="color:var(--text-muted)">(7%)</small></span></div>
         <div class="d-row"><span class="d-label">Honduras</span><span class="d-val">$0.5B <small style="color:var(--text-muted)">(6%)</small></span></div>
         <div class="d-row"><span class="d-label">Ecuador</span><span class="d-val">$0.4B <small style="color:var(--text-muted)">(8%)</small></span></div>
-        <div class="cp-note" style="margin-top:14px;font-size:10px;line-height:1.6;">Source: USAID Foreign Aid Explorer (Greenbook), constant USD obligations, FY1946–2023. Military % = military / total aid.</div>
         <div class="sec-title mt">Deportation Operations (2025–26)</div>
         <div class="d-row"><span class="d-label">GITMO hub capacity (Jan 2025 EO)</span><span class="d-val" style="color:var(--purge);">30,000</span></div>
         <div class="d-row"><span class="d-label">Venezuelan detainees → CECOT</span><span class="d-val" style="color:var(--coup);">252</span></div>
         <div class="d-row"><span class="d-label">Military deportation flights</span><span class="d-val">700+</span></div>
         <div class="d-row"><span class="d-label">Receiving countries</span><span class="d-val">140+</span></div>
+        <div class="cp-note" style="margin-top:14px;font-size:10px;line-height:1.6;">Source: USAID Foreign Aid Explorer (Greenbook), constant USD obligations, FY1946–2023. Military % = military / total aid.</div>
       </div>
     </div>
     <div class="page-main">
       <div class="tab-intro-block">
-        <div class="tab-intro-title">US Security Cooperation</div>
+        <div class="tab-intro-title" data-i18n="intro.us">US Security Cooperation</div>
         US security cooperation is a central variable in Latin American CMR: it shapes military doctrine, equipment, training culture, and — in some cases — institutional loyalty. The Greenbook tracks US foreign aid obligations back to 1946 in constant dollars. Current security programs (FMF, IMET, INCLE, Section 333, NADR) represent an estimated <strong>$1.8B annually</strong> to the region in FY2025. This tab documents historical flows, active programs, US military installations, and the dramatic operational expansion since January 2025 — including the most consequential US military action in the hemisphere since Panama 1989.
       </div>
       <!-- ── CARIBBEAN OPERATIONS SPECIAL SECTION ─────────────── -->
@@ -830,21 +885,21 @@ header {
 
       <div class="sec-title mt">Military Aid by Program Channel — FY2025 Allocations</div>
       <div style="font-size:12.5px;line-height:1.8;color:var(--text-dim);font-weight:300;margin-bottom:12px;max-width:720px;">The Greenbook categorizes aid as Economic or Military assistance. Military assistance flows through six primary US government channels, each with a distinct legal authority, oversight mechanism, and CMR implication:</div>
-      <div class="d-row"><span class="d-label"><strong>INCLE</strong> — Int'l Narcotics Control &amp; Law Enforcement</span><span class="d-val">$724M <small style="color:var(--text-muted)">(Colombia $323M, Mexico $148M, Honduras $74M)</small></span></div>
-      <div class="d-row"><span class="d-label"><strong>FMF</strong> — Foreign Military Financing</span><span class="d-val">$412M <small style="color:var(--text-muted)">(Colombia $95M, Peru $42M, Guatemala $28M)</small></span></div>
-      <div class="d-row"><span class="d-label"><strong>NADR</strong> — Non-proliferation, Anti-terrorism, Demining</span><span class="d-val">$298M <small style="color:var(--text-muted)">(Colombia $118M, Peru $38M, El Salvador $22M)</small></span></div>
-      <div class="d-row"><span class="d-label"><strong>IMET</strong> — Int'l Military Education &amp; Training</span><span class="d-val">$187M <small style="color:var(--text-muted)">(Regional · 25 countries)</small></span></div>
-      <div class="d-row"><span class="d-label"><strong>Sec. 333</strong> — Security Cooperation Capacity Building</span><span class="d-val">$145M <small style="color:var(--text-muted)">(Haiti $55M, Honduras $28M)</small></span></div>
-      <div class="d-row"><span class="d-label"><strong>EDA</strong> — Excess Defence Articles</span><span class="d-val">$68M <small style="color:var(--text-muted)">(equipment transfers at no cost)</small></span></div>
+      <div class="d-row" data-tooltip="International Narcotics Control and Law Enforcement — State Dept. program funding counter-narcotics operations, law enforcement capacity, and border security. Primary channel for US-Colombia counternarcotics cooperation and Plan Colombia successor programs." style="cursor:help;"><span class="d-label"><strong>INCLE</strong> — Int'l Narcotics Control &amp; Law Enforcement</span><span class="d-val">$724M <small style="color:var(--text-muted)">(Colombia $323M, Mexico $148M, Honduras $74M)</small></span></div>
+      <div class="d-row" data-tooltip="Foreign Military Financing — DoD/State grant program providing funds to foreign governments to purchase US defense equipment, services, and training. Requires congressional notification; creates long-term equipment dependencies and logistical ties to US suppliers." style="cursor:help;"><span class="d-label"><strong>FMF</strong> — Foreign Military Financing</span><span class="d-val">$412M <small style="color:var(--text-muted)">(Colombia $95M, Peru $42M, Guatemala $28M)</small></span></div>
+      <div class="d-row" data-tooltip="Non-proliferation, Anti-terrorism, Demining and Related Programs — State Dept. account covering WMD threat reduction, counter-terrorism capacity, humanitarian demining, and export control. Broadly scoped across security and stability objectives." style="cursor:help;"><span class="d-label"><strong>NADR</strong> — Non-proliferation, Anti-terrorism, Demining</span><span class="d-val">$298M <small style="color:var(--text-muted)">(Colombia $118M, Peru $38M, El Salvador $22M)</small></span></div>
+      <div class="d-row" data-tooltip="International Military Education and Training — DoD program funding foreign officers to study at US military schools. Widely studied for its socialization effects on officer professional identity, democratic norms, and long-term CMR outcomes (Atkinson 2010; Finkel et al. 2007)." style="cursor:help;"><span class="d-label"><strong>IMET</strong> — Int'l Military Education &amp; Training</span><span class="d-val">$187M <small style="color:var(--text-muted)">(Regional · 25 countries)</small></span></div>
+      <div class="d-row" data-tooltip="Section 333 of the FY2017 NDAA (successor to Section 1206) — authorizes DoD to train and equip foreign military partners directly, without State Dept. co-lead. Gives the Pentagon an independent security cooperation channel with reduced civilian oversight." style="cursor:help;"><span class="d-label"><strong>Sec. 333</strong> — Security Cooperation Capacity Building</span><span class="d-val">$145M <small style="color:var(--text-muted)">(Haiti $55M, Honduras $28M)</small></span></div>
+      <div class="d-row" data-tooltip="Excess Defense Articles — transfers of surplus US military equipment to foreign partners at reduced or no cost. Includes vehicles, aircraft, vessels, and communications gear. Often used to rapidly build partner capacity after crises or as a reward for cooperation." style="cursor:help;"><span class="d-label"><strong>EDA</strong> — Excess Defence Articles</span><span class="d-val">$68M <small style="color:var(--text-muted)">(equipment transfers at no cost)</small></span></div>
       <div class="cp-note" style="margin-top:10px;font-size:10px;line-height:1.6;">INCLE and FMF are the dominant channels. IMET has the broadest country coverage and the strongest documented effect on officer socialization and democratic norms (Atkinson, 2010; Finkel et al., 2007). Section 333 (formerly 1206) enables the DoD to directly train and equip foreign military partners without State Dept. co-lead.</div>
 
       <div class="sec-title mt">Current Programs &amp; Channels (FY2025 est.)</div>
-      <div class="d-row"><span class="d-label">INCLE — Narcotics &amp; law enforcement</span><span class="d-val">$724M</span></div>
-      <div class="d-row"><span class="d-label">FMF — Foreign Military Financing</span><span class="d-val">$412M</span></div>
-      <div class="d-row"><span class="d-label">NADR — Anti-terrorism / demining</span><span class="d-val">$298M</span></div>
-      <div class="d-row"><span class="d-label">IMET — International Military Education &amp; Training</span><span class="d-val">$187M</span></div>
-      <div class="d-row"><span class="d-label">Section 333 — Capacity Building</span><span class="d-val">$145M</span></div>
-      <div class="d-row"><span class="d-label">EDA — Excess Defence Articles</span><span class="d-val">$68M</span></div>
+      <div class="d-row" data-tooltip="International Narcotics Control and Law Enforcement — State Dept. program funding counter-narcotics operations, law enforcement capacity, and border security." style="cursor:help;"><span class="d-label">INCLE — Narcotics &amp; law enforcement</span><span class="d-val">$724M</span></div>
+      <div class="d-row" data-tooltip="Foreign Military Financing — DoD/State grant program for purchasing US defense equipment, services, and training. Creates long-term equipment dependencies and logistical ties to US suppliers." style="cursor:help;"><span class="d-label">FMF — Foreign Military Financing</span><span class="d-val">$412M</span></div>
+      <div class="d-row" data-tooltip="Non-proliferation, Anti-terrorism, Demining and Related Programs — covers WMD threat reduction, counter-terrorism capacity, humanitarian demining, and export control." style="cursor:help;"><span class="d-label">NADR — Anti-terrorism / demining</span><span class="d-val">$298M</span></div>
+      <div class="d-row" data-tooltip="International Military Education and Training — funds foreign officers to study at US military schools. Strongest documented effect on officer socialization and democratic norms among all US security cooperation programs." style="cursor:help;"><span class="d-label">IMET — International Military Education &amp; Training</span><span class="d-val">$187M</span></div>
+      <div class="d-row" data-tooltip="Section 333 (FY2017 NDAA) — authorizes DoD to train and equip foreign military partners directly, without State Dept. co-lead. Gives the Pentagon an independent security cooperation channel." style="cursor:help;"><span class="d-label">Section 333 — Capacity Building</span><span class="d-val">$145M</span></div>
+      <div class="d-row" data-tooltip="Excess Defense Articles — transfers of surplus US military equipment at reduced or no cost. Includes vehicles, aircraft, vessels, and communications gear." style="cursor:help;"><span class="d-label">EDA — Excess Defence Articles</span><span class="d-val">$68M</span></div>
 
       <div class="sec-title mt">US Installations in the Region</div>
       <div class="d-row"><span class="d-label">Soto Cano Air Base — Honduras (FOL)</span><span class="d-val" style="color:var(--reform);">ACTIVE</span></div>
@@ -876,7 +931,7 @@ header {
 <div class="tab-panel" id="profiles">
   <div class="page-layout">
     <div class="page-sidebar">
-      <div class="sidebar-top"><div><div class="sidebar-top-label">Countries Tracked</div><div class="big-count">25</div></div></div>
+      <div class="sidebar-top"><div><div class="sidebar-top-label" data-i18n="label.countries-tracked">Countries Tracked</div><div class="big-count">25</div></div></div>
       <div style="padding:10px 14px 6px;border-bottom:1px solid var(--border);">
         <div class="filter-label" style="margin-bottom:6px;">Subregion</div>
         <div id="sr-tabs" class="vertical" style="display:flex;flex-direction:column;gap:0;">
@@ -890,7 +945,7 @@ header {
         </div>
       </div>
       <div style="padding:10px 14px 4px;border-bottom:1px solid var(--border);">
-        <div class="filter-label" style="margin-bottom:6px;">Conflict Level (ACLED)</div>
+        <div class="filter-label" style="margin-bottom:6px;" data-i18n="filter.conflict-level">Conflict Level (ACLED)</div>
         <div class="tag-row" id="acled-filters" style="gap:4px;flex-wrap:wrap;">
           <span class="tag active" data-acled="all">All</span>
           <span class="tag" data-acled="Extreme" style="color:var(--coup)">Extreme</span>
@@ -930,10 +985,9 @@ header {
     <div id="cp-regional" style="padding:24px 28px 40px;overflow-y:auto;">
 
       <div class="tab-intro-block">
-        <div class="tab-intro-title">Latin America &amp; the Caribbean</div>
-        Latin America and the Caribbean is a region of <strong>25 tracked states</strong> spanning roughly 20 million km², with a combined population of over 670 million and deeply heterogeneous civil-military relations histories. The region includes active armed conflict or formal internal security frameworks in Colombia, Ecuador, Mexico, and Haiti; two authoritarian civil-military fusion regimes in Venezuela and Cuba; and a range of cases from robust civilian control (Uruguay, Costa Rica) to democratic backsliding through institutional militarization (El Salvador, Nicaragua). Country profiles below synthesize structural indicators — regime type, military spending, personnel levels, conflict index, and CMR status — with analytical assessments grounded in CMR theory. Four deep-dive monitors (Colombia, Venezuela, El Salvador, Mexico) provide extended case analysis.
+        <div class="tab-intro-title" id="sr-title">Latin America &amp; the Caribbean</div>
+        <div id="sr-summary"></div>
       </div>
-      <div id="sr-summary" class="cp-note" style="margin-bottom:14px;font-size:11.5px;"></div>
 
       <div class="card-grid" id="sr-cards">
         <div class="card"><div class="card-label">Regional Mil. Spending</div><div class="card-value">$98.4B</div><div class="card-sub up">+4.2% YoY</div></div>
@@ -1218,7 +1272,7 @@ header {
 <div class="tab-panel" id="procurement">
   <div class="page-layout">
     <div class="page-sidebar">
-      <div class="sidebar-top"><div><div class="sidebar-top-label">Active Deals (2024–26)</div><div class="big-count">67</div></div></div>
+      <div class="sidebar-top"><div><div class="sidebar-top-label" data-i18n="label.active-deals">Active Deals (2024–26)</div><div class="big-count">67</div></div></div>
       <div style="padding:14px 16px;">
         <div class="sec-title">Supplier Market Share (SIPRI TIV)</div>
         <div class="bar-row"><span class="bar-name">United States</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--aid);"></div></div><span class="bar-num">42%</span></div>
@@ -1232,7 +1286,7 @@ header {
     </div>
     <div class="page-main">
       <div class="tab-intro-block">
-        <div class="tab-intro-title">Procurement &amp; Arms Transfers</div>
+        <div class="tab-intro-title" data-i18n="intro.procurement">Procurement &amp; Arms Transfers</div>
         Arms procurement patterns reveal strategic alignments, capability-building priorities, and the degree to which military institutions exercise autonomous procurement authority outside civilian oversight. In Latin America, the US has historically dominated as the primary supplier, but <strong>China's growing market share</strong> (+4pp since 2020) and Russia's continued partnerships with Venezuela and Nicaragua signal diversification with significant CMR implications. Procurement decisions also reflect coup-proofing strategies: leaders often select suppliers and platforms to reward loyal units and create dependencies that complicate military defection.
       </div>
       <div class="card-grid">
@@ -1265,12 +1319,12 @@ header {
   <div class="page-layout">
     <div class="page-sidebar">
       <div class="sidebar-top">
-        <div><div class="sidebar-top-label">Events (Timeline)</div><div class="big-count" id="tl-count">0</div></div>
+        <div><div class="sidebar-top-label" data-i18n="label.timeline-events">Events (Timeline)</div><div class="big-count" id="tl-count">0</div></div>
       </div>
 
       <!-- Date Range -->
       <div class="filter-block">
-        <div class="filter-label">Date Range</div>
+        <div class="filter-label" data-i18n="filter.date-range">Date Range</div>
         <div style="margin-bottom:9px;">
           <div class="filter-sub-label">Year</div>
           <div class="tag-row" id="tl-year-filters" style="gap:4px;">
@@ -1287,7 +1341,7 @@ header {
 
       <!-- Event Type filter -->
       <div class="filter-block">
-        <div class="filter-label">Event Type</div>
+        <div class="filter-label" data-i18n="filter.event-type">Event Type</div>
         <div class="tag-row" id="tl-type-filters">
           <span class="tag active tl-tag" data-v="all">All</span>
           <span class="tag tl-tag" data-v="coup" style="border-left:2px solid var(--coup)">Coup</span>
@@ -1303,7 +1357,7 @@ header {
 
       <!-- Salience -->
       <div class="filter-block">
-        <div class="filter-label">Salience</div>
+        <div class="filter-label" data-i18n="filter.salience">Salience</div>
         <div class="tag-row" id="tl-sal-filters">
           <span class="tag active tl-sal" data-v="all">All</span>
           <span class="tag tl-sal" data-v="high" style="color:var(--coup)">●● High</span>
@@ -1347,7 +1401,7 @@ header {
 <div class="tab-panel" id="transnational">
   <div class="ts-layout">
     <div class="page-sidebar">
-      <div class="sidebar-top"><div><div class="sidebar-top-label">OC-Military Events (30d)</div><div class="big-count" style="color:var(--oc);" id="ts-count">—</div></div></div>
+      <div class="sidebar-top"><div><div class="sidebar-top-label" data-i18n="label.oc-events">OC-Military Events (30d)</div><div class="big-count" style="color:var(--oc);" id="ts-count">—</div></div></div>
       <div style="padding:14px 16px;">
         <div class="sec-title">Active Threat Vectors</div>
         <div class="d-row"><span class="d-label">Cocaine trafficking &amp; interdiction</span><span class="gtag gt-active">Active</span></div>
@@ -1371,7 +1425,7 @@ header {
     </div>
     <div class="page-main">
       <div class="tab-intro-block">
-        <div class="tab-intro-title">Organized Crime, Illicit Economies &amp; Civil-Military Relations</div>
+        <div class="tab-intro-title" data-i18n="intro.transnational">Organized Crime, Illicit Economies &amp; Civil-Military Relations</div>
         In Latin America, the boundaries between organized crime, illicit economies, and civil-military relations are <strong>structurally entangled — not episodic</strong>. Cocaine remains the hemisphere's dominant illicit commodity, with production at or near record levels: Colombia produced an estimated 2,664 metric tons in 2023 (UNODC), and trafficking routes through Central America, the Caribbean, and Pacific corridors drive military deployments, corruption, and cartel–state conflict across at least 14 SENTINEL-tracked countries. Fentanyl — almost entirely manufactured in Mexico using Chinese-sourced precursor chemicals — has supplanted heroin as the principal US opioid and become the central driver of FTO designations and US-Mexico security friction. Illicit mining (gold, coltan) funds armed groups in Colombia, Venezuela, Ecuador, Peru, and Brazil, directly implicating military units in protection rackets and territorial control. Transnational gangs — particularly Tren de Aragua and MS-13 — have expanded criminal operations across borders, blurring the line between domestic gang suppression and transnational security. Military institutions across the region have been progressively deputized for domestic law enforcement, with Ecuador's internal armed conflict declaration (2024) and Mexico's SEDENA intelligence mandate (2025) as the most recent structural inflection points.
       </div>
       <div class="card-grid">
@@ -1692,6 +1746,18 @@ header {
   </div>
 </div>
 
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="search-overlay" onclick="if(event.target===this)closeSearch()">
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="var(--text-muted)" stroke-width="1.6" style="flex-shrink:0"><circle cx="6.5" cy="6.5" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/></svg>
+      <input class="search-input" id="search-input" placeholder="Search events, countries…" oninput="runSearch(this.value)" autocomplete="off">
+      <button onclick="closeSearch()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:18px;line-height:1;padding:0 2px;">✕</button>
+    </div>
+    <div class="search-results" id="search-results"></div>
+  </div>
+</div>
+
 <!-- LOG BAR -->
 <div class="log-bar">
   <span class="log-pfx">Log</span>
@@ -1709,6 +1775,7 @@ function switchTab(id){
   if(btn) btn.classList.add('active');
   if(panel) panel.classList.add('active');
   if(id==='overview') setTimeout(initOverviewMap,50);
+  if(id==='timeline') renderTimeline();
 }
 
 function handleSubscribe(e){
@@ -1984,6 +2051,34 @@ function tlSetType(v){
   renderTimeline();
 }
 
+// ── HISTORICAL MILESTONES ────────────────────────────────────
+const TL_MILESTONES=[
+  // Constitutional changes
+  {id:'m-br-1988',date:'1988-10-05',country:'Brazil',type:'reform',salience:'high',title:'Brazil adopts new democratic constitution — ends 21-year military rule, establishes civilian supremacy over armed forces',mLabel:'Constitutional'},
+  {id:'m-co-1991',date:'1991-07-04',country:'Colombia',type:'reform',salience:'high',title:'Colombia promulgates new constitution — creates Constitutional Court, Ombudsman, expands civil liberties, restructures security sector',mLabel:'Constitutional'},
+  {id:'m-ve-1999',date:'1999-12-15',country:'Venezuela',type:'reform',salience:'high',title:'Venezuela adopts Bolivarian Constitution under Chávez — expands executive power, renames armed forces, mandates active military participation in development',mLabel:'Constitutional'},
+  {id:'m-ec-2008',date:'2008-09-28',country:'Ecuador',type:'reform',salience:'high',title:'Ecuador adopts new constitution under Correa — grants rights to nature, restructures security sector, creates new civilian oversight bodies',mLabel:'Constitutional'},
+  {id:'m-bo-2009',date:'2009-01-25',country:'Bolivia',type:'reform',salience:'high',title:'Bolivia ratifies plurinational constitution — indigenous recognition, military restructuring, nationalization mandate embedded in founding law',mLabel:'Constitutional'},
+  // Coups & coup attempts
+  {id:'m-ve-1992a',date:'1992-02-04',country:'Venezuela',type:'coup',salience:'high',title:'Lt. Col. Hugo Chávez leads failed military coup against President Carlos Andrés Pérez — Chávez jailed, later pardoned',mLabel:'Coup Attempt'},
+  {id:'m-pe-1992',date:'1992-04-05',country:'Peru',type:'coup',salience:'high',title:'President Fujimori closes Congress, suspends constitution in self-coup (autogolpe) with military backing — establishes authoritarian hybrid regime',mLabel:'Coup / Autogolpe'},
+  {id:'m-ve-2002',date:'2002-04-11',country:'Venezuela',type:'coup',salience:'high',title:'Military coup briefly removes Chávez from power — reversed after 47 hours amid mass protests and military defections',mLabel:'Coup Attempt'},
+  {id:'m-hn-2009',date:'2009-06-28',country:'Honduras',type:'coup',salience:'high',title:'Military removes President Manuel Zelaya at gunpoint — first successful coup in Central America in decades; OAS suspends Honduras',mLabel:'Coup'},
+  {id:'m-ec-2010',date:'2010-09-30',country:'Ecuador',type:'coup',salience:'high',title:'Police uprising briefly detains President Correa — military restores order; contested as coup attempt vs. labor dispute',mLabel:'Coup Attempt'},
+  {id:'m-py-2012',date:'2012-06-22',country:'Paraguay',type:'coup',salience:'high',title:'President Fernando Lugo removed via impeachment in under 24 hours — MERCOSUR and UNASUR term it a parliamentary coup',mLabel:'Coup / Impeachment'},
+  {id:'m-bo-2019',date:'2019-11-10',country:'Bolivia',type:'coup',salience:'high',title:'President Evo Morales resigns under military pressure after disputed election — military chief publicly calls for resignation in contested constitutional crisis',mLabel:'Coup / Resignation'},
+  {id:'m-ht-2021',date:'2021-07-07',country:'Haiti',type:'coup',salience:'high',title:'President Jovenel Moïse assassinated in Port-au-Prince — triggers security governance collapse, gang territorial expansion, and UN mission deployment',mLabel:'Assassination'},
+  {id:'m-ve-2026',date:'2026-01-03',country:'Venezuela',type:'coup',salience:'high',title:'Operation Absolute Resolve — US-backed operation results in Maduro seizure; Rodriguez acting government; FANB cohesion uncertain',mLabel:'Op. Absolute Resolve'},
+  // Major elections with CMR significance
+  {id:'m-cl-2021',date:'2021-12-19',country:'Chile',type:'other',salience:'high',title:'Gabriel Boric elected — youngest Chilean president; campaigns on security sector reform, demilitarization of Araucanía; inauguration Mar 2022',mLabel:'Election'},
+  {id:'m-co-2022',date:'2022-06-19',country:'Colombia',type:'other',salience:'high',title:'Gustavo Petro elected — first leftist president in Colombian history; launches Total Peace doctrine with all armed groups simultaneously',mLabel:'Election'},
+  {id:'m-br-2022',date:'2022-10-30',country:'Brazil',type:'other',salience:'high',title:'Lula defeats Bolsonaro — ends four years of unprecedented military involvement in executive government and institutional politicization',mLabel:'Election'},
+  {id:'m-ar-2023',date:'2023-11-19',country:'Argentina',type:'other',salience:'high',title:'Javier Milei elected — libertarian outsider; pledges radical cuts to defense and state; CMR posture under review',mLabel:'Election'},
+  {id:'m-sv-2024',date:'2024-02-04',country:'El Salvador',type:'other',salience:'high',title:'Bukele re-elected with 85% despite constitutional prohibition — CECOT expansion and military integration into domestic security continue',mLabel:'Election'},
+  {id:'m-ec-2025',date:'2025-02-09',country:'Ecuador',type:'other',salience:'high',title:'Daniel Noboa re-elected — mandate continues for internal armed conflict framework and military deployment in prisons and urban zones',mLabel:'Election'},
+  {id:'m-uy-2025',date:'2025-03-01',country:'Uruguay',type:'other',salience:'high',title:'Yamandú Orsi inaugurated — first Frente Amplio president since Vázquez; continuation of strong civilian control model',mLabel:'Inauguration'},
+];
+
 function renderTimeline(){
   const MONTH_ABBR=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const TYPE_LABELS={all:'All',coup:'Coup',purge:'Purge',conflict:'Conflict',reform:'Reform',
@@ -2092,53 +2187,71 @@ function renderTimeline(){
     el.innerHTML='<div style="padding:24px;color:var(--text-muted);font-family:var(--mono);font-size:9.5px;text-align:center;">No events match current filters.</div>';
     return;
   }
-  let lastDate='';
-  el.innerHTML='<div style="padding-bottom:32px;">'+evs.map(ev=>{
-    const c=TC_HEX[ev.type]||'#6a6560';
-    const nSrc=(ev.sources&&ev.sources.length>1)?ev.sources.length:(ev.links&&ev.links.length>1)?ev.links.length:1;
-    const isTri=nSrc>1;
+  // ── Merge milestones ─────────────────────────────────────
+  const visMilestones=TL_MILESTONES.filter(m=>{
+    if(tlFilter!=='all'&&m.type!==tlFilter) return false;
+    if(tlCountry!=='all'&&m.country!==tlCountry) return false;
+    if(tlYear!=='all'&&!m.date.startsWith(tlYear)) return false;
+    if(tlMonth!=='all'&&m.date.substring(5,7)!==tlMonth) return false;
+    if(tlSalience==='medium'||tlSalience==='low') return false; // milestones are all high-salience
+    return true;
+  });
+  const combined=[...evs,...visMilestones.map(m=>({...m,_milestone:true}))];
+  combined.sort((a,b)=>b.date.localeCompare(a.date));
+  document.getElementById('tl-count').textContent=combined.length;
 
-    // Source chips
-    let srcHtml='';
-    if(ev.links&&ev.links.length){
-      srcHtml=ev.links.map((l,i)=>`<a class="tl-src" href="${l}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${(ev.sources&&ev.sources[i])||ev.source} ↗</a>`).join('');
-    } else if(ev.url){
-      srcHtml=`<a class="tl-src" href="${ev.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${ev.source} ↗</a>`;
-    } else {
-      srcHtml=`<span class="tl-src tl-src no-link" title="No URL available">${ev.source}</span>`;
-    }
-    const triHtml=isTri
-      ?`<span class="src-badge tri" title="${(ev.sources||[]).join(' · ')}">✓ ${nSrc} sources</span>`
-      :`<span class="src-badge single">1 source</span>`;
-    const salDot=ev.salience==='high'?`<span class="sal-dot" style="color:var(--coup);" title="High salience">●●</span>`
-      :ev.salience==='medium'?`<span class="sal-dot" style="color:var(--purge);" title="Medium salience">●</span>`
-      :`<span class="sal-dot" style="color:var(--border3);" title="Low salience">○</span>`;
+  if(!combined.length){
+    el.innerHTML='<div style="padding:24px;color:var(--text-muted);font-family:var(--mono);font-size:9.5px;text-align:center;">No events match current filters.</div>';
+    return;
+  }
 
-    let header='';
-    if(ev.date!==lastDate){
-      const dEvs=evs.filter(x=>x.date===ev.date).length;
-      header=`<div class="tl-date-hdr${lastDate?' ':' '}"><span>${ev.date}</span><span class="tl-date-count">${dEvs} event${dEvs!==1?'s':''}</span></div>`;
-      lastDate=ev.date;
-    }
-    return header+`<div class="tl-ev-row" data-id="${ev.id}">
-      <div style="padding-top:4px;"><div class="tl-dot" style="background:${c};flex-shrink:0;"></div></div>
-      <div class="tl-ev-body">
-        <div class="tl-ev-tags">
-          <span class="tl-ev-type" style="color:${c};">${ev.type}</span>
-          <span style="color:var(--border2);font-family:var(--mono);font-size:8px;">·</span>
-          <span class="tl-ev-country">${ev.country}</span>
-          ${salDot}
-          ${triHtml}
-        </div>
-        <div class="tl-ev-title">${ev.title}</div>
-        <div class="tl-ev-sources">${srcHtml}</div>
-      </div>
+  // ── Group by year ─────────────────────────────────────────
+  const byYear={};
+  combined.forEach(ev=>{const y=ev.date.substring(0,4);if(!byYear[y])byYear[y]=[];byYear[y].push(ev);});
+  const years=Object.keys(byYear).sort((a,b)=>b-a);
+
+  el.innerHTML='<div class="vtl">'+years.map(year=>{
+    const items=byYear[year];
+    const yearHdr=`<div class="vtl-year-hdr">
+      <span class="vtl-year-label">${year}</span>
+      <div class="vtl-year-line"></div>
+      <span class="vtl-year-ct">${items.length} ${items.length===1?'entry':'entries'}</span>
     </div>`;
+    const track=`<div class="vtl-track">${items.map(ev=>{
+      const isMilestone=!!ev._milestone;
+      const c=TC_HEX[ev.type]||'#6a6560';
+      const salDot=!isMilestone?(ev.salience==='high'?`<span style="color:var(--coup);font-size:9px;line-height:1;" title="High salience">●●</span>`:ev.salience==='medium'?`<span style="color:var(--purge);font-size:9px;line-height:1;" title="Medium salience">●</span>`:''):'';
+      let srcHtml='';
+      if(!isMilestone){
+        if(ev.links&&ev.links.length){
+          srcHtml=`<div class="vtl-src-row">${ev.links.map((l,i)=>`<a class="tl-src" href="${l}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${(ev.sources&&ev.sources[i])||ev.source} ↗</a>`).join('')}</div>`;
+        } else if(ev.url){
+          srcHtml=`<div class="vtl-src-row"><a class="tl-src" href="${ev.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${ev.source} ↗</a></div>`;
+        }
+      }
+      const metaBadge=isMilestone
+        ?`<span class="vtl-milestone-badge">${ev.mLabel||ev.type}</span>`
+        :`<span class="vtl-type-tag" style="color:${c}">${ev.type}</span>`;
+      return `<div class="vtl-item${isMilestone?' vtl-milestone':''}" ${!isMilestone?`data-id="${ev.id}"`:''}">
+        <div class="vtl-dot-wrap"><div class="vtl-dot${isMilestone?' vtl-dot-sq':''}" style="border-color:${isMilestone?'var(--border2)':c}"></div></div>
+        <div class="vtl-card">
+          <div class="vtl-card-meta">
+            ${metaBadge}
+            <span class="vtl-country-tag">${ev.country}</span>
+            ${salDot}
+            <span class="vtl-date-tag">${ev.date}</span>
+          </div>
+          <div class="vtl-title">${ev.title}</div>
+          ${srcHtml}
+        </div>
+      </div>`;
+    }).join('')}</div>`;
+    return yearHdr+track;
   }).join('')+'</div>';
 
   // ── Row click — deep-link to events tab ─────────────────
-  el.querySelectorAll('.tl-ev-row').forEach(row=>{
-    row.addEventListener('click',e=>{
+  el.querySelectorAll('.vtl-item[data-id]').forEach(row=>{
+    row.querySelector('.vtl-card').addEventListener('click',e=>{
       if(e.target.tagName==='A') return;
       const ev=allEvents.find(x=>String(x.id)===row.dataset.id);
       if(!ev) return;
@@ -2523,7 +2636,7 @@ function showCountryProfile(name){
   const missionsHtml=missions.length ? missions.map(m=>`
     <div class="cp-stat-row">
       <span class="cp-stat-label" style="max-width:180px;white-space:normal;line-height:1.35;">${m.role}</span>
-      <span class="cp-stat-val" style="color:${missionStatusColor[m.status]||'var(--text-muted)'};font-size:8px;text-transform:uppercase;letter-spacing:0.5px;">${m.status}</span>
+      <span class="cp-stat-val" style="color:${missionStatusColor[m.status]||'var(--text-muted)'};font-size:8px;text-transform:uppercase;letter-spacing:0.5px;cursor:help;" data-tooltip="${MISSION_STATUS_DEFS[m.status]||''}">${m.status}</span>
     </div>`).join('') : '<div class="cp-stat-row"><span class="cp-stat-label">No mission data.</span></div>';
 
   const summaryStrip=`
@@ -2545,7 +2658,7 @@ function showCountryProfile(name){
             ['Economic role', m3.milEco===1?'Yes':'No', m3.milEco===1?'var(--purge)':'var(--text-muted)'],
             m3.hwi!=null?['HWI score', m3.hwi.toFixed(1), 'var(--text)']:null
           ].filter(Boolean).map(([label,val,col])=>`
-            <div style="min-width:110px;">
+            <div style="min-width:110px;cursor:help;" data-tooltip="${CMR_DEFS[label]||''}">
               <div class="cp-pos-title">${label}</div>
               <div class="cp-stat-val" style="color:${col};font-size:12px;">${val}</div>
             </div>`).join('')}
@@ -2660,7 +2773,7 @@ const SUBREGIONS = {
     label:"Latin America & Caribbean",
     countries:["Brazil","Colombia","Mexico","Venezuela","Chile","Argentina","Peru","Ecuador","Bolivia","Cuba","Honduras","Guatemala","El Salvador","Nicaragua","Paraguay","Uruguay","Haiti","Dominican Republic","Panama","Costa Rica","Jamaica","Trinidad and Tobago","Guyana","Suriname","Belize"],
     spending:"$98.4B", personnel:"1.84M", gdpPct:"1.3%", countries_n:"25",
-    note:"Latin America and the Caribbean (World Bank: LCN) — 25 countries tracked. The region accounts for roughly 4.5% of global military spending, with Brazil and Colombia as the dominant spenders. Average defense burden (1.3% of GDP) is well below the NATO target of 2%, reflecting post-Cold War demilitarization and relatively low external threat environments for most states."
+    note:"Latin America and the Caribbean is a region of 25 tracked states spanning roughly 20 million km², with a combined population of over 670 million. The region accounts for roughly 4.5% of global military spending; Brazil ($29.4B) and Colombia ($14.1B) are the dominant spenders, while the average defense burden (1.3% of GDP) sits well below the NATO target of 2%, reflecting post-Cold War demilitarization and relatively low external threat environments for most states. Civil-military relations histories are deeply heterogeneous — ranging from active armed conflict and formal internal security frameworks in Colombia, Ecuador, Mexico, and Haiti, to authoritarian civil-military fusion regimes in Venezuela and Cuba, and robust civilian control in Uruguay and Costa Rica. Country profiles synthesize structural indicators — regime type, military spending, personnel levels, conflict index, and CMR status — with analytical assessments grounded in CMR theory. Four deep-dive monitors (Colombia, Venezuela, El Salvador, Mexico) provide extended case analysis."
   },
   "south-andean": {
     label:"Andean South America",
@@ -2704,6 +2817,7 @@ let cpActiveSr='all', cpAcledFilter='all';
 
 function applyProfileFilters(){
   const data=SUBREGIONS[cpActiveSr]||SUBREGIONS.all;
+  document.getElementById('sr-title').textContent=data.label;
   document.getElementById('sr-summary').textContent=data.note;
   document.querySelectorAll('.cp-btn[data-country]').forEach(btn=>{
     const c=btn.dataset.country;
@@ -2801,8 +2915,7 @@ async function initOverviewMap(){
   // Legend: choropleth density scale
   const ltEl=document.getElementById('ov-legend-types');
   if(ltEl){
-    ltEl.innerHTML='<div class="ov-legend-type" style="gap:6px;"><span style="font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);">Event density (30 days)</span></div>'
-      +['Low','Med','High'].map((l,i)=>{
+    ltEl.innerHTML=['Low','Med','High'].map((l,i)=>{
         const ops=['0.18','0.42','0.72'][i];
         return `<div class="ov-legend-type"><div class="ov-legend-dot" style="background:rgba(184,50,50,${ops});border-radius:2px;"></div>${l}</div>`;
       }).join('');
@@ -2926,6 +3039,173 @@ function renderUsEvents(){
       <div class="ev-title">${ev.title}</div>
       <div class="ev-meta"><span>${ev.source||''}</span></div>
     </div>`).join('');
+}
+
+// ── TOOLTIP ──────────────────────────────────────────────────
+(function(){
+  const tt=document.createElement('div');
+  tt.className='tt';
+  document.body.appendChild(tt);
+  function pos(e){
+    const x=e.clientX+14, y=e.clientY-10;
+    tt.style.left=(x+tt.offsetWidth>window.innerWidth-10?e.clientX-tt.offsetWidth-14:x)+'px';
+    tt.style.top=(y+tt.offsetHeight>window.innerHeight-10?e.clientY-tt.offsetHeight-10:y)+'px';
+  }
+  document.addEventListener('mouseover',e=>{
+    const t=e.target.closest('[data-tooltip]');
+    if(!t){tt.style.display='none';return;}
+    tt.textContent=t.dataset.tooltip;
+    tt.style.display='block';
+    pos(e);
+  });
+  document.addEventListener('mousemove',e=>{ if(tt.style.display==='block') pos(e); });
+  document.addEventListener('mouseout',e=>{
+    const t=e.target.closest('[data-tooltip]');
+    if(t&&!t.contains(e.relatedTarget)) tt.style.display='none';
+  });
+})();
+
+// CMR Indicator definitions
+const CMR_DEFS={
+  'Conscription':'Country maintains mandatory military service. Indicates a mass-mobilization model with implications for civil-military ties and the socialization of civilians into military culture. (M3 Dataset, 2020)',
+  'Military veto':'Military retains formal or informal veto over key civilian policy decisions — security appointments, defense budgets, or foreign policy. A core indicator of reserved military domains beyond civilian control. (M3 Dataset, 2020)',
+  'Military impunity':'Military personnel are exempt from civilian judicial processes for offenses committed in the course of duty. Weakens accountability and civilian oversight mechanisms. (M3 Dataset, 2020)',
+  'Crime policing':'Military is formally tasked with domestic law enforcement and crime control roles. Blurs the constitutional line between internal security and external defense. (M3 Dataset, 2020)',
+  'Economic role':'Military owns or operates significant economic enterprises — corporations, businesses, or land holdings. Creates institutional interests independent of civilian budget authority. (M3 Dataset, 2020)',
+  'HWI score':'Hybrid Warfare Index — composite score measuring institutional capacity for operations spanning conventional, cyber, information, and proxy domains. Higher values indicate greater hybrid capability. (M3 Dataset, 2020)',
+};
+
+// Mission status definitions
+const MISSION_STATUS_DEFS={
+  primary:    'Core constitutional mission — the primary justification for the military\'s existence, budget, and force structure.',
+  active:     'Currently deployed or operationally engaged.',
+  expanded:   'Mission scope has grown beyond historical or constitutional mandate, often reflecting militarization of civilian functions.',
+  controversial:'Deployment faces political, legal, or human rights scrutiny.',
+  routine:    'Recurring mission with low political salience and stable institutional role.',
+};
+
+// ── LANGUAGE ─────────────────────────────────────────────────
+let currentLang='en';
+const STRINGS={
+  en:{
+    'tab.events':'Events','tab.profiles':'Country Profiles','tab.transnational':'Transnational Security',
+    'tab.us':'US Cooperation','tab.procurement':'Procurement & Arms','tab.timeline':'Timeline','tab.about':'About',
+    'logo.sub':'LatAm Civil-Military Monitor',
+    'label.events-loaded':'Events Loaded','label.countries-tracked':'Countries Tracked',
+    'label.active-deals':'Active Deals (2024–26)','label.oc-events':'OC-Military Events (30d)',
+    'label.timeline-events':'Events (Timeline)','label.latam-recipients':'All-time LatAm Recipients',
+    'filter.subregion':'Subregion','filter.type':'Type','filter.country':'Country',
+    'filter.confidence':'Confidence','filter.date-range':'Date Range','filter.event-type':'Event Type',
+    'filter.salience':'Salience','filter.conflict-level':'Conflict Level (ACLED)',
+    'intro.events':'Events Feed','intro.us':'US Security Cooperation',
+    'intro.procurement':'Procurement & Arms Transfers',
+    'intro.transnational':'Organized Crime, Illicit Economies & Civil-Military Relations',
+    'intro.events.body':'Open-source reporting classified into CMR event types — coup activity, purges, deployments, reforms, OC events, and armed conflict. AI-classified, georeferenced, confidence-rated.',
+    'log.pfx':'Log','ui.search':'Search','ui.search.placeholder':'Search events, countries…','ui.no-results':'No results found.',
+    'lang.switch':'ES',
+  },
+  es:{
+    'tab.events':'Eventos','tab.profiles':'Perfiles por País','tab.transnational':'Seguridad Transnacional',
+    'tab.us':'Cooperación EE.UU.','tab.procurement':'Adquisiciones y Armas','tab.timeline':'Cronología','tab.about':'Acerca de',
+    'logo.sub':'Monitor Cívico-Militar de LatAm',
+    'label.events-loaded':'Eventos Cargados','label.countries-tracked':'Países Monitoreados',
+    'label.active-deals':'Acuerdos Activos (2024–26)','label.oc-events':'Eventos OC-Militares (30d)',
+    'label.timeline-events':'Eventos (Cronología)','label.latam-recipients':'Receptores Históricos LatAm',
+    'filter.subregion':'Subregión','filter.type':'Tipo','filter.country':'País',
+    'filter.confidence':'Confianza','filter.date-range':'Rango de Fechas','filter.event-type':'Tipo de Evento',
+    'filter.salience':'Relevancia','filter.conflict-level':'Nivel de Conflicto (ACLED)',
+    'intro.events':'Feed de Eventos','intro.us':'Cooperación de Seguridad EE.UU.',
+    'intro.procurement':'Adquisiciones y Transferencias de Armas',
+    'intro.transnational':'Crimen Organizado, Economías Ilícitas y RCM',
+    'intro.events.body':'Reportes de fuentes abiertas clasificados en tipos de eventos — golpes, purgas, despliegues, reformas, eventos OC y conflicto armado. Clasificados por IA, georeferenciados, con nivel de confianza.',
+    'log.pfx':'Reg.','ui.search':'Buscar','ui.search.placeholder':'Buscar eventos, países…','ui.no-results':'Sin resultados.',
+    'lang.switch':'EN',
+  }
+};
+
+function toggleLang(){ setLang(currentLang==='en'?'es':'en'); }
+
+function setLang(lang){
+  currentLang=lang;
+  const S=STRINGS[lang];
+  // Tab buttons
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    const k='tab.'+btn.dataset.tab;
+    if(S[k]) btn.textContent=S[k];
+  });
+  // Logo sub
+  document.querySelector('.logo-sub').textContent=S['logo.sub'];
+  // Lang button
+  const lb=document.getElementById('lang-btn');
+  lb.textContent=S['lang.switch'];
+  lb.classList.toggle('lang-active',lang==='es');
+  // All data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.dataset.i18n;
+    if(S[k]) el.textContent=S[k];
+  });
+  // Log prefix
+  const pfx=document.querySelector('.log-pfx');
+  if(pfx) pfx.textContent=S['log.pfx'];
+  // Search placeholder
+  const si=document.getElementById('search-input');
+  if(si) si.placeholder=S['ui.search.placeholder'];
+  document.documentElement.lang=lang;
+}
+
+// ── SEARCH ───────────────────────────────────────────────────
+function openSearch(){
+  document.getElementById('search-overlay').classList.add('open');
+  const si=document.getElementById('search-input');
+  si.value=''; document.getElementById('search-results').innerHTML='';
+  setTimeout(()=>si.focus(),40);
+}
+function closeSearch(){ document.getElementById('search-overlay').classList.remove('open'); }
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeSearch();
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){ e.preventDefault(); openSearch(); }
+});
+
+const TYPE_COLORS_S={coup:'var(--coup)',purge:'var(--purge)',conflict:'var(--conflict)',reform:'var(--reform)',aid:'var(--aid)',exercise:'var(--exercise)',oc:'var(--oc)',protest:'var(--protest)',peace:'var(--peace)',other:'var(--other)'};
+
+function runSearch(q){
+  const el=document.getElementById('search-results');
+  const S=STRINGS[currentLang];
+  q=q.trim().toLowerCase();
+  if(!q){ el.innerHTML=''; return; }
+  const results=[];
+  // Events
+  if(allEvents){
+    allEvents.filter(ev=>
+      (ev.title||'').toLowerCase().includes(q)||
+      (ev.country||'').toLowerCase().includes(q)||
+      (ev.summary||'').toLowerCase().includes(q)||
+      (ev.location||'').toLowerCase().includes(q)
+    ).slice(0,10).forEach(ev=>results.push({kind:'event',ev}));
+  }
+  // Country profiles
+  Object.keys(COUNTRY_PROFILES||{}).filter(c=>c.toLowerCase().includes(q))
+    .forEach(c=>results.push({kind:'country',name:c}));
+  if(!results.length){ el.innerHTML=`<div class="s-empty">${S['ui.no-results']}</div>`; return; }
+  el.innerHTML=results.map(r=>{
+    if(r.kind==='event'){
+      const ev=r.ev;
+      const col=TYPE_COLORS_S[ev.type]||'var(--other)';
+      return `<div class="s-item" onclick="closeSearch();switchTab('events');setTimeout(()=>selectEvent(allEvents.find(e=>e.id==='${ev.id}')),150)">
+        <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:3px;">
+          <span style="font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:${col}">${ev.type}</span>
+          <span style="font-family:var(--mono);font-size:8px;color:var(--text-muted)">${ev.country}</span>
+          <span style="font-family:var(--mono);font-size:8px;color:var(--text-faint);margin-left:auto">${ev.date}</span>
+        </div>
+        <div style="font-size:12.5px;color:var(--text);line-height:1.4">${ev.title}</div>
+      </div>`;
+    }
+    return `<div class="s-item" onclick="closeSearch();switchTab('profiles');setTimeout(()=>showCountryProfile('${r.name}'),100)">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;">Country Profile</div>
+      <div style="font-size:12.5px;color:var(--text)">${r.name}</div>
+    </div>`;
+  }).join('');
 }
 
 // ── INIT ────────────────────────────────────────────────────
