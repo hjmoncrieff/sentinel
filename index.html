@@ -98,6 +98,9 @@ header {
 .sidebar-top-label { font-family:var(--mono); font-size:8.5px; letter-spacing:1.5px; color:var(--text-muted); text-transform:uppercase; }
 .big-count { font-family:var(--serif); font-size:28px; color:var(--text); font-weight:400; }
 
+.filters-scroll { overflow-y:auto; flex-shrink:0; max-height:min(290px,42vh); }
+.filters-scroll::-webkit-scrollbar { width:3px; }
+.filters-scroll::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
 .filter-block { padding:10px 16px; border-bottom:1px solid var(--border); }
 .filter-label { font-family:var(--mono); font-size:8.5px; letter-spacing:1.5px; color:var(--text-muted); text-transform:uppercase; margin-bottom:7px; }
 .tag-row { display:flex; flex-wrap:wrap; gap:4px; }
@@ -686,6 +689,7 @@ header {
       <div class="sidebar-top">
         <div><div class="sidebar-top-label" data-i18n="label.events-loaded">Events Loaded</div><div class="big-count" id="event-count">0</div></div>
       </div>
+      <div class="filters-scroll">
       <div class="filter-block">
         <div class="filter-label" data-i18n="filter.subregion">Subregion</div>
         <div class="tag-row" id="sr-filters">
@@ -725,6 +729,7 @@ header {
           <span class="tag" data-f="conf" data-v="red">Low</span>
         </div>
       </div>
+      </div><!-- /filters-scroll -->
       <div class="event-list" id="event-list"></div>
     </div>
     <div class="map-panel">
@@ -2005,9 +2010,17 @@ function applyFilters(zoomTrigger){
   document.getElementById('event-count').textContent=filtered.length;
   // Map zoom
   if(map&&zoomTrigger){
-    if(zoomTrigger==='country'&&filters.country!=='all'){
-      const cfg=COUNTRY_MAP_CONFIG[filters.country];
-      if(cfg) map.flyTo(cfg.center,cfg.zoom,{animate:true,duration:0.8});
+    if(zoomTrigger==='country'){
+      if(countryHighlightLayer){ map.removeLayer(countryHighlightLayer); countryHighlightLayer=null; }
+      if(filters.country!=='all'){
+        const cfg=COUNTRY_MAP_CONFIG[filters.country];
+        if(cfg) map.flyTo(cfg.center,cfg.zoom,{animate:true,duration:0.8});
+        const numId=COUNTRY_NAME_TO_ID[filters.country];
+        if(numId && worldFeatures){
+          const feat=worldFeatures.find(f=>+f.id===numId);
+          if(feat) countryHighlightLayer=L.geoJSON(feat,{style:{color:'#3a6ea5',weight:2.5,fillColor:'#3a6ea5',fillOpacity:0.10,opacity:0.85}}).addTo(map);
+        }
+      }
     } else if(zoomTrigger==='subregion'){
       const v=SR_MAP_VIEW[filters.subregion]||SR_MAP_VIEW.all;
       map.flyTo(v.center,v.zoom,{animate:true,duration:0.8});
@@ -2045,6 +2058,17 @@ function selectEvent(ev){
   selected=ev; renderList();
   if(ev.coords) map.setView(ev.coords,5,{animate:true});
   const c=TC_HEX[ev.type]||'#6a6560';
+  // Country border highlight
+  if(countryHighlightLayer){ map.removeLayer(countryHighlightLayer); countryHighlightLayer=null; }
+  const numId=COUNTRY_NAME_TO_ID[ev.country];
+  if(numId && worldFeatures){
+    const feat=worldFeatures.find(f=>+f.id===numId);
+    if(feat){
+      countryHighlightLayer=L.geoJSON(feat,{style:{color:c,weight:2.5,fillColor:c,fillOpacity:0.12,opacity:0.9}}).addTo(map);
+      const bnds=countryHighlightLayer.getBounds();
+      if(bnds.isValid()) map.fitBounds(bnds,{padding:[30,30],maxZoom:7});
+    }
+  }
   const confClass=ev.conf==='green'?'conf-green':ev.conf==='yellow'?'conf-yellow':'conf-red';
   document.getElementById('detail').innerHTML=`
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:9px;">
@@ -2386,6 +2410,11 @@ function renderTimeline(){
 // ── OVERVIEW D3 MAP ──────────────────────────────────────────
 const LATAM_IDS = new Set([76,170,484,862,32,604,152,218,68,340,558,320,222,600,858,192,332,214,591,188,388,780,328,740,84]);
 const COUNTRY_NAMES_MAP = {76:"Brazil",170:"Colombia",484:"Mexico",862:"Venezuela",32:"Argentina",604:"Peru",152:"Chile",218:"Ecuador",68:"Bolivia",340:"Honduras",558:"Nicaragua",320:"Guatemala",222:"El Salvador",600:"Paraguay",858:"Uruguay",192:"Cuba",332:"Haiti",214:"Dominican Republic",591:"Panama",188:"Costa Rica",388:"Jamaica",780:"Trinidad and Tobago",328:"Guyana",740:"Suriname",84:"Belize"};
+// Reverse map: name → numeric ID (for Leaflet country highlighting)
+const COUNTRY_NAME_TO_ID = Object.fromEntries(Object.entries(COUNTRY_NAMES_MAP).map(([id,n])=>[n,+id]));
+// Cache world features once topology is loaded (shared between D3 and Leaflet)
+let worldFeatures = null;
+let countryHighlightLayer = null;
 const COUNTRY_STATS = {
   "Brazil":             {spending:"$29.4B",personnel:"366K",usAid:"$102M"},
   "Colombia":           {spending:"$14.1B",personnel:"295K",usAid:"$461M"},
@@ -2889,6 +2918,12 @@ function initCpMap(name, events){
     subdomains:'abcd', maxZoom:19
   }).addTo(cpMap);
   L.control.attribution({prefix:false}).addTo(cpMap);
+  // Country boundary highlight
+  const cpNumId=COUNTRY_NAME_TO_ID[name];
+  if(cpNumId && worldFeatures){
+    const cpFeat=worldFeatures.find(f=>+f.id===cpNumId);
+    if(cpFeat) L.geoJSON(cpFeat,{style:{color:'#3a6ea5',weight:2,fillColor:'#3a6ea5',fillOpacity:0.06,opacity:0.8}}).addTo(cpMap);
+  }
   events.forEach(ev=>{
     if(!ev.coords||!ev.coords[0]) return;
     const col=TC_HEX[ev.type]||'#6a6560';
@@ -3007,6 +3042,7 @@ async function initOverviewMap(){
   catch(e){ console.error('TopoJSON load failed',e); return; }
 
   const allFeat=topojson.feature(world,world.objects.countries).features;
+  worldFeatures=allFeat; // cache for Leaflet country highlighting
   const latamFeat=allFeat.filter(f=>LATAM_IDS.has(+f.id));
 
   ovProjection=d3.geoMercator().fitExtent([[20,20],[w-20,h-20]],{type:'FeatureCollection',features:latamFeat});
