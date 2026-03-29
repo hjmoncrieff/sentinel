@@ -13,30 +13,30 @@
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <style>
 :root {
-  --bg:        #f7f4ee;
-  --bg2:       #f0ece3;
-  --surface:   #fffff8;
-  --surface2:  #f5f1e8;
-  --border:    #e0dbd0;
-  --border2:   #cdc8bb;
-  --border3:   #b8b2a4;
+  --bg:        #f2f4f7;
+  --bg2:       #e8ecf1;
+  --surface:   #ffffff;
+  --surface2:  #f0f3f6;
+  --border:    #d4dce6;
+  --border2:   #aebece;
+  --border3:   #8ca4b8;
 
-  --coup:      #b83232;
-  --purge:     #c46e12;
-  --aid:       #1a538f;
-  --protest:   #6e389a;
-  --reform:    #1a6e52;
-  --conflict:  #a84000;
-  --exercise:  #2e6b8a;
+  --coup:      #c02828;
+  --purge:     #c86010;
+  --aid:       #1460b0;
+  --protest:   #6c28a8;
+  --reform:    #157550;
+  --conflict:  #b84200;
+  --exercise:  #1868a8;
   --procurement:#7a5c1f;
-  --peace:     #2d8659;
-  --oc:        #6a4a6e;
-  --other:     #6a6560;
+  --peace:     #1e8060;
+  --oc:        #6e2ea8;
+  --other:     #5a6878;
 
-  --text:      #1c1a17;
-  --text-dim:  #54504a;
-  --text-muted:#96928c;
-  --text-faint:#c0bbb4;
+  --text:      #181c22;
+  --text-dim:  #44505c;
+  --text-muted:#7a8ea0;
+  --text-faint:#a8bccf;
 
   --mono: 'DM Mono', monospace;
   --sans: 'DM Sans', sans-serif;
@@ -123,7 +123,7 @@ header {
 .ev-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
 .ev-type { font-family:var(--mono); font-size:8.5px; letter-spacing:1px; text-transform:uppercase; }
 .ev-country { font-family:var(--mono); font-size:8.5px; color:var(--text-muted); margin-left:auto; }
-.ev-title { font-size:12px; font-weight:400; line-height:1.5; color:var(--text); margin-bottom:4px; }
+.ev-title { font-size:13px; font-weight:400; line-height:1.5; color:var(--text); margin-bottom:4px; }
 .ev-meta { font-family:var(--mono); font-size:8.5px; color:var(--text-muted); display:flex; gap:8px; align-items:center; }
 .sal-pip { display:inline-flex; gap:2px; align-items:center; }
 .pip { width:4px; height:4px; border-radius:50%; background:var(--border2); }
@@ -162,7 +162,7 @@ header {
 .tl-ev-tags { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:5px; }
 .tl-ev-type { font-family:var(--mono); font-size:8px; text-transform:uppercase; letter-spacing:1px; }
 .tl-ev-country { font-family:var(--mono); font-size:8px; color:var(--text-dim); }
-.tl-ev-title { font-size:13px; font-weight:400; line-height:1.4; margin-bottom:7px; }
+.tl-ev-title { font-size:14px; font-weight:400; line-height:1.4; margin-bottom:7px; }
 .tl-ev-sources { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
 .sal-dot { font-size:8px; line-height:1; }
 
@@ -280,7 +280,7 @@ header {
 .tl-item:last-child { border-bottom:none; }
 .tl-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:4px; }
 .tl-date { font-family:var(--mono); font-size:9px; color:var(--text-muted); min-width:48px; flex-shrink:0; }
-.tl-text { font-size:12px; color:var(--text-dim); line-height:1.5; font-weight:300; }
+.tl-text { font-size:13px; color:var(--text-dim); line-height:1.5; font-weight:300; }
 
 /* Chart wrapper */
 .chart-box { background:var(--surface); border:1px solid var(--border); border-radius:2px; padding:16px; box-shadow:var(--shadow); margin-bottom:16px; }
@@ -304,24 +304,24 @@ header {
 .cp-sum-block:last-child { border-right:none; }
 .cp-sum-label { font-family:var(--serif); font-size:12px; font-weight:600; color:var(--text); margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid var(--border); letter-spacing:0; text-transform:none; }
 .cp-h2 { font-family:var(--serif); font-size:18px; font-weight:600; margin:20px 0 10px; color:var(--text); }
-.tab-intro-block { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--border2); border-radius:0 3px 3px 0; padding:16px 20px; margin-bottom:24px; font-size:12.5px; line-height:1.85; color:var(--text-dim); font-weight:300; }
+.tab-intro-block { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--border2); border-radius:0 3px 3px 0; padding:16px 20px; margin-bottom:24px; font-size:13.5px; line-height:1.85; color:var(--text-dim); font-weight:300; }
 .tab-intro-block strong { color:var(--text); font-weight:500; }
 .tab-intro-title { font-family:var(--serif); font-size:16px; font-weight:600; color:var(--text); margin-bottom:8px; }
 #sr-tabs.vertical .sr-tab { border-right:1px solid var(--border); border-bottom:none; border-radius:0; display:block; width:100%; text-align:left; }
 #sr-tabs.vertical .sr-tab:first-child { border-radius:2px 2px 0 0; }
 #sr-tabs.vertical .sr-tab:last-child { border-bottom:1px solid var(--border); border-radius:0 0 2px 2px; }
-.cp-stat-row { display:flex; justify-content:space-between; align-items:baseline; padding:3px 0; border-bottom:1px solid var(--border); font-size:11px; }
+.cp-stat-row { display:flex; justify-content:space-between; align-items:baseline; padding:4px 0; border-bottom:1px solid var(--border); font-size:12px; }
 .cp-stat-row:last-child { border-bottom:none; }
 .cp-stat-label { color:var(--text-muted); font-family:var(--mono); font-size:8.5px; }
 .cp-stat-val { color:var(--text); font-weight:400; }
 .cp-pos-item { margin-bottom:7px; }
 .cp-pos-item:last-child { margin-bottom:0; }
 .cp-pos-title { font-family:var(--mono); font-size:7.5px; letter-spacing:0.5px; text-transform:uppercase; color:var(--text-muted); line-height:1.3; }
-.cp-pos-name { font-size:11.5px; color:var(--text); font-weight:400; line-height:1.35; }
+.cp-pos-name { font-size:12.5px; color:var(--text); font-weight:400; line-height:1.35; }
 .cp-elect-type { font-size:12px; color:var(--text); font-weight:400; line-height:1.4; margin-bottom:4px; }
 .cp-elect-date { font-family:var(--mono); font-size:9px; color:var(--aid); }
-.cp-elect-note { font-size:10.5px; color:var(--text-dim); margin-top:5px; line-height:1.5; font-weight:300; }
-.cp-watch-text { font-size:11.5px; color:var(--text-dim); line-height:1.75; font-style:italic; font-weight:300; }
+.cp-elect-note { font-size:12px; color:var(--text-dim); margin-top:5px; line-height:1.5; font-weight:300; }
+.cp-watch-text { font-size:12.5px; color:var(--text-dim); line-height:1.75; font-style:italic; font-weight:300; }
 /* Country Leaflet map */
 .cp-map-leaf { height:320px; width:100%; border-radius:3px; border:1px solid var(--border); margin-bottom:20px; z-index:0; }
 @media(max-width:700px){ .cp-summary-strip{ grid-template-columns:1fr; } .cp-sum-block{ border-right:none; border-bottom:1px solid var(--border); } }
@@ -389,7 +389,7 @@ header {
 .ov-project-sentinel { font-family:var(--serif); font-size:22px; font-weight:600; color:var(--text); letter-spacing:0.2px; }
 .ov-project-sentinel em { font-style:normal; color:var(--coup); }
 .ov-project-tagline { font-family:var(--mono); font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); margin:5px 0 16px; }
-.ov-project-body { font-size:12.5px; line-height:1.88; color:var(--text-dim); font-weight:300; }
+.ov-project-body { font-size:14px; line-height:1.88; color:var(--text-dim); font-weight:300; }
 .ov-project-body p+p { margin-top:13px; }
 .ov-rule { border:none; border-top:1px solid var(--border); margin:18px 0; }
 .ov-badges { display:flex; flex-wrap:wrap; gap:5px; margin:14px 0 0; }
@@ -532,7 +532,7 @@ header {
 .vtl-country-tag { font-family:var(--mono); font-size:8px; color:var(--text-muted); }
 .vtl-date-tag { font-family:var(--mono); font-size:8px; color:var(--text-faint); margin-left:auto; }
 .vtl-milestone-badge { font-family:var(--mono); font-size:7px; letter-spacing:1px; background:var(--bg2); border:1px solid var(--border); padding:1px 5px; border-radius:2px; color:var(--text-muted); text-transform:uppercase; }
-.vtl-title { font-size:12.5px; font-weight:400; line-height:1.45; color:var(--text); }
+.vtl-title { font-size:13.5px; font-weight:400; line-height:1.45; color:var(--text); }
 .vtl-src-row { margin-top:5px; display:flex; gap:8px; flex-wrap:wrap; }
 
 /* ── HEADER RIGHT — search + lang ──────────────────────────── */
@@ -591,8 +591,9 @@ header {
     <!-- Left: project description -->
     <div class="ov-desc-col" style="border-left:none;border-right:1px solid var(--border);">
       <div class="ov-project-body">
-        <p>SENTINEL tracks civil-military relations across 25 Latin American and Caribbean countries in near-real time. The system ingests open-source reporting daily — from wire services, specialist outlets, and conflict databases — and uses AI to classify events into coup attempts, officer purges, military deployments, security sector reforms, US security cooperation, transnational organized crime, and armed conflict involving state security forces. Events are georeferenced, deduplicated across sources, and surfaced on interactive maps, country profiles, and timelines. The pipeline runs nightly via GitHub Actions; the entire dashboard is powered by a live JSON event store.</p>
-        <p>Four special monitors provide deep analytical coverage of the region's most consequential civil-military cases: <strong>Venezuela</strong> (post-Maduro transition), <strong>Colombia</strong> (Total Peace doctrine), <strong>El Salvador</strong> (Bukele's permanent exception and civil-military fusion), and <strong>Mexico</strong> (cartel civil wars and structural militarization). For methodology, theoretical framework, and full data source documentation, see the <a href="#" onclick="event.preventDefault();switchTab('about')" style="color:var(--aid);text-decoration:none;">About tab →</a></p>
+        <p>Latin America is in the middle of a structural contest over who controls the gun. Across the region, the boundary between civilian government and military institution — hard-won through the democratic transitions of the 1980s and 1990s — is under pressure from multiple directions at once. In El Salvador, a president has turned the armed forces into the operational core of a permanent state of exception. In Mexico, the military now commands a national police force enshrined in the constitution. In Bolivia, an armored column rammed the doors of the presidential palace in 2024. In Brazil, coup-planning documents were found in the homes of senior officers after January 8. And in Venezuela, the FANB has become the last institutional pillar holding a collapsing regime together.</p>
+        <p>These are not isolated episodes. They reflect a regional pattern: civilian control of the military, where it exists, is increasingly conditional — contingent on political alignment, economic crisis, and the willingness of individual commanders to hold the line. SENTINEL tracks this pattern in near-real time, country by country, event by event. The question driving the project is not whether coups happen, but whether the norms and institutions that make them costly are eroding — and where the erosion is fastest.</p>
+        <p>Four special monitors provide deep analytical coverage of the region's most consequential cases: <strong>Venezuela</strong> (post-Maduro transition), <strong>Colombia</strong> (Total Peace doctrine and the FARC's JEP reckoning), <strong>El Salvador</strong> (Bukele's institutionalized exception), and <strong>Mexico</strong> (structural militarization under Sheinbaum). For methodology and theoretical framework, see the <a href="#" onclick="event.preventDefault();switchTab('about')" style="color:var(--aid);text-decoration:none;">About tab →</a></p>
       </div>
 
       <!-- Special monitors 2×2 -->
@@ -1008,8 +1009,77 @@ header {
       <div class="bar-row"><span class="bar-name">Venezuela</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--reform);"></div></div><span class="bar-num">$3.2B</span></div>
       <div class="bar-row"><span class="bar-name">Peru</span><div class="bar-track"><div class="bar-fill" style="width:10%;background:var(--reform);"></div></div><span class="bar-num">$2.9B</span></div>
 
+      <!-- ── CMR STATUS DISTRIBUTION ───────────────────────── -->
+      <div class="sec-title mt">CMR Status — Regional Distribution</div>
+      <div class="card-grid" style="grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;">
+        <div class="card" style="border-top:3px solid var(--reform);"><div class="card-label">Stable</div><div class="card-value" style="color:var(--reform);">5</div><div class="card-sub">Uruguay · Costa Rica · Chile · Panama · Trinidad</div></div>
+        <div class="card" style="border-top:3px solid var(--purge);"><div class="card-label">Strained</div><div class="card-value" style="color:var(--purge);">10</div><div class="card-sub">Brazil · Mexico · Peru · Ecuador · Honduras + 5</div></div>
+        <div class="card" style="border-top:3px solid var(--coup);"><div class="card-label">Crisis</div><div class="card-value" style="color:var(--coup);">6</div><div class="card-sub">Venezuela · El Salvador · Bolivia · Haiti · Guatemala · Paraguay</div></div>
+        <div class="card" style="border-top:3px solid var(--oc);"><div class="card-label">Authoritarian</div><div class="card-value" style="color:var(--oc);">4</div><div class="card-sub">Cuba · Nicaragua · Suriname + 1</div></div>
+      </div>
+
+      <!-- ── COUP EVENTS SINCE 1990 ────────────────────────── -->
+      <div class="sec-title mt">Coup Events Since 1990 (successful + attempts)</div>
+      <div class="bar-row"><span class="bar-name">Venezuela</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--coup);"></div></div><span class="bar-num">6</span></div>
+      <div class="bar-row"><span class="bar-name">Ecuador</span><div class="bar-track"><div class="bar-fill" style="width:67%;background:var(--coup);"></div></div><span class="bar-num">4</span></div>
+      <div class="bar-row"><span class="bar-name">Bolivia</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--coup);"></div></div><span class="bar-num">3</span></div>
+      <div class="bar-row"><span class="bar-name">Haiti</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--coup);"></div></div><span class="bar-num">3</span></div>
+      <div class="bar-row"><span class="bar-name">Peru</span><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--coup);"></div></div><span class="bar-num">2</span></div>
+      <div class="bar-row"><span class="bar-name">Brazil</span><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--coup);"></div></div><span class="bar-num">2</span></div>
+      <div class="bar-row"><span class="bar-name">Honduras</span><div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--coup);"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-name">Paraguay</span><div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--coup);"></div></div><span class="bar-num">1</span></div>
+
+      <!-- ── MILITARY IN DOMESTIC SECURITY ─────────────────── -->
+      <div class="sec-title mt">Military in Domestic Security Role (2026)</div>
+      <div class="card-grid" style="grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;">
+        <div class="card" style="border-left:3px solid var(--conflict);"><div class="card-label">Active Internal Conflict Framework</div><div class="card-value" style="font-size:18px;">3</div><div class="card-sub">El Salvador · Ecuador · Haiti</div></div>
+        <div class="card" style="border-left:3px solid var(--purge);"><div class="card-label">Military in Law Enforcement</div><div class="card-value" style="font-size:18px;">7</div><div class="card-sub">Mexico · Honduras · Guatemala · Dominican Rep. · Bolivia · Trinidad · Nicaragua</div></div>
+        <div class="card" style="border-left:3px solid var(--aid);"><div class="card-label">US SOUTHCOM Active Partners</div><div class="card-value" style="font-size:18px;">18</div><div class="card-sub">All except Cuba, Venezuela, Nicaragua, Bolivia</div></div>
+      </div>
+
+      <!-- ── US SECURITY AID (ALL-TIME) ────────────────────── -->
+      <div class="sec-title mt">All-Time US Security Aid — Top Recipients (Greenbook)</div>
+      <div class="bar-row"><span class="bar-name">Colombia</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--aid);"></div></div><span class="bar-num">$26.96B</span></div>
+      <div class="bar-row"><span class="bar-name">Brazil</span><div class="bar-track"><div class="bar-fill" style="width:77%;background:var(--aid);"></div></div><span class="bar-num">$20.69B</span></div>
+      <div class="bar-row"><span class="bar-name">Peru</span><div class="bar-track"><div class="bar-fill" style="width:49%;background:var(--aid);"></div></div><span class="bar-num">$13.28B</span></div>
+      <div class="bar-row"><span class="bar-name">El Salvador</span><div class="bar-track"><div class="bar-fill" style="width:47%;background:var(--aid);"></div></div><span class="bar-num">$12.70B</span></div>
+      <div class="bar-row"><span class="bar-name">Bolivia</span><div class="bar-track"><div class="bar-fill" style="width:37%;background:var(--aid);"></div></div><span class="bar-num">$9.98B</span></div>
+      <div class="bar-row"><span class="bar-name">Honduras</span><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--aid);"></div></div><span class="bar-num">$8.87B</span></div>
+      <div class="bar-row"><span class="bar-name">Guatemala</span><div class="bar-track"><div class="bar-fill" style="width:26%;background:var(--aid);"></div></div><span class="bar-num">$7.01B</span></div>
+
+      <!-- ── SPECIAL MONITORS (redirect cards) ────────────── -->
+      <div class="sec-title mt">Special Monitors</div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-bottom:12px;">Full deep-dive profiles — click to open</div>
+      <div class="card-grid" style="grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
+        <a class="ov-monitor-card" href="#" onclick="event.preventDefault();showCountryProfile('Colombia')" style="text-decoration:none;">
+          <div class="ov-monitor-card-status" style="color:var(--purge);">★ Complex — Active Conflict</div>
+          <div class="ov-monitor-card-country">Colombia</div>
+          <div class="ov-monitor-card-desc">Total Peace doctrine · Petro vs. military · ELN &amp; FARC-dissidents · DDR in progress · JEP military accountability</div>
+          <div class="ov-monitor-card-link">View full profile →</div>
+        </a>
+        <a class="ov-monitor-card" href="#" onclick="event.preventDefault();showCountryProfile('Venezuela')" style="text-decoration:none;">
+          <div class="ov-monitor-card-status" style="color:var(--coup);">★ Crisis — Transition</div>
+          <div class="ov-monitor-card-country">Venezuela</div>
+          <div class="ov-monitor-card-desc">Post-Op. Absolute Resolve · Rodríguez acting govt · FANB cohesion fragile · elections due ~Jul 2026</div>
+          <div class="ov-monitor-card-link">View full profile →</div>
+        </a>
+        <a class="ov-monitor-card" href="#" onclick="event.preventDefault();showCountryProfile('El Salvador')" style="text-decoration:none;">
+          <div class="ov-monitor-card-status" style="color:var(--coup);">★ Crisis — Civil-Military Fusion</div>
+          <div class="ov-monitor-card-country">El Salvador</div>
+          <div class="ov-monitor-card-desc">Régimen de Excepción month 49 · 88,000+ detained · CECOT · military as domestic security pillar · Bukele model</div>
+          <div class="ov-monitor-card-link">View full profile →</div>
+        </a>
+        <a class="ov-monitor-card" href="#" onclick="event.preventDefault();showCountryProfile('Mexico')" style="text-decoration:none;">
+          <div class="ov-monitor-card-status" style="color:var(--purge);">★ Strained — Structural Militarization</div>
+          <div class="ov-monitor-card-country">Mexico</div>
+          <div class="ov-monitor-card-desc">Sinaloa civil war · El Mencho killed · FTO designations · SEDENA intelligence mandate · NG permanently military</div>
+          <div class="ov-monitor-card-link">View full profile →</div>
+        </a>
+      </div>
+
+      <!-- ── SPECIAL PROFILE BLOCKS (hidden — cloned by JS) ── -->
       <!-- ── COLOMBIA SPECIAL PROFILE ───────────────────────── -->
-      <div id="cp-colombia-block">
+      <div id="cp-colombia-block" style="display:none;">
       <div class="cp-section-divider" id="cp-colombia">
         <div class="cp-section-title">Colombia</div>
         <span class="cp-section-badge colombia">Special Monitor</span>
@@ -1056,7 +1126,7 @@ header {
       </div><!-- /cp-colombia-block -->
 
       <!-- ── VENEZUELA SPECIAL PROFILE ──────────────────────── -->
-      <div id="cp-venezuela-block">
+      <div id="cp-venezuela-block" style="display:none;">
       <div class="cp-section-divider" id="cp-venezuela">
         <div class="cp-section-title">Venezuela</div>
         <span class="cp-section-badge venezuela">Special Monitor</span>
@@ -1117,7 +1187,7 @@ header {
       </div><!-- /cp-venezuela-block -->
 
       <!-- ── EL SALVADOR SPECIAL PROFILE ─────────────────────── -->
-      <div id="cp-elsalvador-block">
+      <div id="cp-elsalvador-block" style="display:none;">
       <div class="cp-section-divider" id="cp-elsalvador">
         <div class="cp-section-title">El Salvador</div>
         <span class="cp-section-badge" style="background:rgba(196,110,18,0.1);color:var(--purge);border:1px solid rgba(196,110,18,0.3);">Special Monitor</span>
@@ -1188,7 +1258,7 @@ header {
       </div><!-- /cp-elsalvador-block -->
 
       <!-- ── MEXICO SPECIAL PROFILE ──────────────────────────── -->
-      <div id="cp-mexico-block">
+      <div id="cp-mexico-block" style="display:none;">
       <div class="cp-section-divider" id="cp-mexico">
         <div class="cp-section-title">Mexico</div>
         <span class="cp-section-badge" style="background:rgba(26,110,82,0.1);color:var(--reform);border:1px solid rgba(26,110,82,0.3);">Special Monitor</span>
@@ -1391,7 +1461,13 @@ header {
         <div id="tl-country-bars"></div>
       </div>
     </div>
-    <div class="page-main" id="timeline-list" style="padding:0 28px;overflow-y:auto;"></div>
+    <div class="page-main" style="overflow-y:auto;">
+      <div class="tab-intro-block" style="margin:24px 28px 0;">
+        <div class="tab-intro-title" data-i18n="label.timeline-title">Historical &amp; Live Timeline</div>
+        <div data-i18n="label.timeline-body">This timeline merges two layers: <strong>live events</strong> ingested nightly from open-source reporting and classified by AI, and <strong>historical milestones</strong> — coups, constitutions, peace accords, elections, and episodes of repression curated by the SENTINEL research team from 1988 to the present. Unlike the Events feed, which shows only recent pipeline output, the timeline is the longitudinal record. Milestones are marked with a square indicator and a category badge; live events with a colored dot by type. All filters apply to both layers.</div>
+      </div>
+      <div id="timeline-list" style="padding:0 28px;"></div>
+    </div>
   </div>
 </div>
 
@@ -2053,30 +2129,76 @@ function tlSetType(v){
 
 // ── HISTORICAL MILESTONES ────────────────────────────────────
 const TL_MILESTONES=[
-  // Constitutional changes
+  // ── Constitutional milestones ─────────────────────────────
   {id:'m-br-1988',date:'1988-10-05',country:'Brazil',type:'reform',salience:'high',title:'Brazil adopts new democratic constitution — ends 21-year military rule, establishes civilian supremacy over armed forces',mLabel:'Constitutional'},
   {id:'m-co-1991',date:'1991-07-04',country:'Colombia',type:'reform',salience:'high',title:'Colombia promulgates new constitution — creates Constitutional Court, Ombudsman, expands civil liberties, restructures security sector',mLabel:'Constitutional'},
-  {id:'m-ve-1999',date:'1999-12-15',country:'Venezuela',type:'reform',salience:'high',title:'Venezuela adopts Bolivarian Constitution under Chávez — expands executive power, renames armed forces, mandates active military participation in development',mLabel:'Constitutional'},
-  {id:'m-ec-2008',date:'2008-09-28',country:'Ecuador',type:'reform',salience:'high',title:'Ecuador adopts new constitution under Correa — grants rights to nature, restructures security sector, creates new civilian oversight bodies',mLabel:'Constitutional'},
+  {id:'m-ve-1999',date:'1999-12-15',country:'Venezuela',type:'reform',salience:'high',title:'Venezuela adopts Bolivarian Constitution under Chávez — expands executive power, renames armed forces, mandates active military participation in national development',mLabel:'Constitutional'},
+  {id:'m-ec-2008',date:'2008-09-28',country:'Ecuador',type:'reform',salience:'high',title:'Ecuador adopts new constitution under Correa — restructures security sector, creates civilian oversight bodies',mLabel:'Constitutional'},
   {id:'m-bo-2009',date:'2009-01-25',country:'Bolivia',type:'reform',salience:'high',title:'Bolivia ratifies plurinational constitution — indigenous recognition, military restructuring, nationalization mandate embedded in founding law',mLabel:'Constitutional'},
-  // Coups & coup attempts
-  {id:'m-ve-1992a',date:'1992-02-04',country:'Venezuela',type:'coup',salience:'high',title:'Lt. Col. Hugo Chávez leads failed military coup against President Carlos Andrés Pérez — Chávez jailed, later pardoned',mLabel:'Coup Attempt'},
-  {id:'m-pe-1992',date:'1992-04-05',country:'Peru',type:'coup',salience:'high',title:'President Fujimori closes Congress, suspends constitution in self-coup (autogolpe) with military backing — establishes authoritarian hybrid regime',mLabel:'Coup / Autogolpe'},
-  {id:'m-ve-2002',date:'2002-04-11',country:'Venezuela',type:'coup',salience:'high',title:'Military coup briefly removes Chávez from power — reversed after 47 hours amid mass protests and military defections',mLabel:'Coup Attempt'},
-  {id:'m-hn-2009',date:'2009-06-28',country:'Honduras',type:'coup',salience:'high',title:'Military removes President Manuel Zelaya at gunpoint — first successful coup in Central America in decades; OAS suspends Honduras',mLabel:'Coup'},
-  {id:'m-ec-2010',date:'2010-09-30',country:'Ecuador',type:'coup',salience:'high',title:'Police uprising briefly detains President Correa — military restores order; contested as coup attempt vs. labor dispute',mLabel:'Coup Attempt'},
-  {id:'m-py-2012',date:'2012-06-22',country:'Paraguay',type:'coup',salience:'high',title:'President Fernando Lugo removed via impeachment in under 24 hours — MERCOSUR and UNASUR term it a parliamentary coup',mLabel:'Coup / Impeachment'},
-  {id:'m-bo-2019',date:'2019-11-10',country:'Bolivia',type:'coup',salience:'high',title:'President Evo Morales resigns under military pressure after disputed election — military chief publicly calls for resignation in contested constitutional crisis',mLabel:'Coup / Resignation'},
-  {id:'m-ht-2021',date:'2021-07-07',country:'Haiti',type:'coup',salience:'high',title:'President Jovenel Moïse assassinated in Port-au-Prince — triggers security governance collapse, gang territorial expansion, and UN mission deployment',mLabel:'Assassination'},
-  {id:'m-ve-2026',date:'2026-01-03',country:'Venezuela',type:'coup',salience:'high',title:'Operation Absolute Resolve — US-backed operation results in Maduro seizure; Rodriguez acting government; FANB cohesion uncertain',mLabel:'Op. Absolute Resolve'},
-  // Major elections with CMR significance
-  {id:'m-cl-2021',date:'2021-12-19',country:'Chile',type:'other',salience:'high',title:'Gabriel Boric elected — youngest Chilean president; campaigns on security sector reform, demilitarization of Araucanía; inauguration Mar 2022',mLabel:'Election'},
-  {id:'m-co-2022',date:'2022-06-19',country:'Colombia',type:'other',salience:'high',title:'Gustavo Petro elected — first leftist president in Colombian history; launches Total Peace doctrine with all armed groups simultaneously',mLabel:'Election'},
-  {id:'m-br-2022',date:'2022-10-30',country:'Brazil',type:'other',salience:'high',title:'Lula defeats Bolsonaro — ends four years of unprecedented military involvement in executive government and institutional politicization',mLabel:'Election'},
-  {id:'m-ar-2023',date:'2023-11-19',country:'Argentina',type:'other',salience:'high',title:'Javier Milei elected — libertarian outsider; pledges radical cuts to defense and state; CMR posture under review',mLabel:'Election'},
-  {id:'m-sv-2024',date:'2024-02-04',country:'El Salvador',type:'other',salience:'high',title:'Bukele re-elected with 85% despite constitutional prohibition — CECOT expansion and military integration into domestic security continue',mLabel:'Election'},
-  {id:'m-ec-2025',date:'2025-02-09',country:'Ecuador',type:'other',salience:'high',title:'Daniel Noboa re-elected — mandate continues for internal armed conflict framework and military deployment in prisons and urban zones',mLabel:'Election'},
-  {id:'m-uy-2025',date:'2025-03-01',country:'Uruguay',type:'other',salience:'high',title:'Yamandú Orsi inaugurated — first Frente Amplio president since Vázquez; continuation of strong civilian control model',mLabel:'Inauguration'},
+  // ── Transitions & SSR milestones ──────────────────────────
+  {id:'m-ni-1990',date:'1990-02-25',country:'Nicaragua',type:'reform',salience:'high',title:'Chamorro defeats Ortega — first peaceful transfer from revolutionary civil-military state; Sandinista army begins formal subordination to civilian control',mLabel:'Transition'},
+  {id:'m-cl-1990',date:'1990-03-11',country:'Chile',type:'reform',salience:'high',title:'Aylwin inaugurated as first democratic president since 1973 — Pinochet remains Army commander-in-chief until 1998; "authoritarian enclaves" model',mLabel:'Transition'},
+  {id:'m-ni-1995',date:'1995-03-01',country:'Nicaragua',type:'reform',salience:'medium',title:'Gen. Humberto Ortega steps down as army chief — Sandinista-army formally subordinated to civilian control; institution renamed Ejército de Nicaragua',mLabel:'SSR Milestone'},
+  {id:'m-gt-1996',date:'1996-12-29',country:'Guatemala',type:'peace',salience:'high',title:'Guatemalan Peace Accords end 36-year civil war — mandate military reduction, civilian police creation, PAC dissolution, intelligence reform',mLabel:'Peace Accords / SSR'},
+  {id:'m-sv-1992',date:'1992-01-16',country:'El Salvador',type:'peace',salience:'high',title:'Chapultepec Peace Accords end 12-year civil war — National Civil Police created; military barred from domestic law enforcement; model Central American SSR',mLabel:'Peace Accords / SSR'},
+  {id:'m-ht-1994',date:'1994-10-15',country:'Haiti',type:'reform',salience:'high',title:'Operation Uphold Democracy restores Aristide — Haitian Armed Forces formally disbanded; HNP created; most complete military abolition in hemisphere history',mLabel:'Military Disbanded'},
+  {id:'m-cl-1998',date:'1998-10-16',country:'Chile',type:'reform',salience:'high',title:'Pinochet arrested in London on crimes against humanity warrant — shatters military immunity framework; transitional justice precedent permanently altered',mLabel:'Transitional Justice'},
+  {id:'m-co-2000',date:'2000-07-13',country:'Colombia',type:'aid',salience:'high',title:'Plan Colombia signed — $1.3B US security package begins; largest US military aid program in Western Hemisphere history; transforms Colombian Armed Forces capability',mLabel:'Plan Colombia'},
+  {id:'m-co-2016',date:'2016-11-24',country:'Colombia',type:'peace',salience:'high',title:'Final Peace Agreement with FARC-EP signed — most significant DDR process in Western Hemisphere since 1990s; JEP created with jurisdiction over military officers',mLabel:'FARC Peace Accord'},
+  {id:'m-mx-2019',date:'2019-06-27',country:'Mexico',type:'reform',salience:'high',title:'National Guard created under AMLO — militarized force replaces Federal Police; begins institutionalized militarization of domestic security',mLabel:'Nat\'l Guard Created'},
+  {id:'m-mx-2024',date:'2024-11-04',country:'Mexico',type:'other',salience:'high',title:'Sheinbaum passes constitutional reform placing National Guard permanently under military command — deepest change to Mexican civil-military relations since 1917',mLabel:'Security Militarized'},
+  // ── Coups, autogolpes & coup attempts ─────────────────────
+  {id:'m-sr-1990',date:'1990-12-24',country:'Suriname',type:'coup',salience:'medium',title:'"Telephone coup" — Bouterse\'s forces overthrow civilian government by phone; new elections restore civilian rule May 1991; Bouterse\'s recurring intervention cycle continues',mLabel:'Coup'},
+  {id:'m-ht-1991',date:'1991-09-30',country:'Haiti',type:'coup',salience:'high',title:'Gen. Cédras ousts President Aristide in military coup — OAS/UN embargo follows; reversed by US Operation Uphold Democracy 1994; FAd\'H subsequently disbanded',mLabel:'Coup'},
+  {id:'m-ve-1992a',date:'1992-02-04',country:'Venezuela',type:'coup',salience:'high',title:'Lt. Col. Chávez leads failed coup against President Pérez — "por ahora" speech launches his political career; demonstrates deep military fractures in Punto Fijo system',mLabel:'Coup Attempt'},
+  {id:'m-ve-1992b',date:'1992-11-27',country:'Venezuela',type:'coup',salience:'high',title:'Second Venezuelan coup attempt — larger navy/air force operation; also fails; confirms anti-system civil-military insurgency is structural, not aberrational',mLabel:'Coup Attempt'},
+  {id:'m-pe-1992',date:'1992-04-05',country:'Peru',type:'coup',salience:'high',title:'Fujimori autogolpe — closes Congress, suspends constitution with military backing; Montesinos runs state 1992–2000; benchmark Latin American civil-military authoritarian fusion',mLabel:'Autogolpe'},
+  {id:'m-gt-1993',date:'1993-05-25',country:'Guatemala',type:'coup',salience:'high',title:'Serrano autogolpe attempt fails — unlike Peru, military refuses to back him; Constitutional Court rules illegal; military removes Serrano; US/OAS pressure decisive',mLabel:'Failed Autogolpe'},
+  {id:'m-ec-1997',date:'1997-02-06',country:'Ecuador',type:'coup',salience:'medium',title:'Congress removes President Bucaram ("mental incapacity") amid mass protests — armed forces refuse to defend him; military-as-institutional-arbiter model established',mLabel:'Soft Removal'},
+  {id:'m-ec-2000',date:'2000-01-21',country:'Ecuador',type:'coup',salience:'high',title:'President Mahuad overthrown by indigenous-military coalition — Col. Gutiérrez co-leads; VP Noboa assumes power; only successful coup in Latin America 1994–2009',mLabel:'Coup'},
+  {id:'m-ve-2002',date:'2002-04-11',country:'Venezuela',type:'coup',salience:'high',title:'Military coup briefly removes Chávez — Carmona installed; reversed in 47 hours by loyalist units and mass protests; hardened purge of opposition officers',mLabel:'Coup Attempt'},
+  {id:'m-bo-2003',date:'2003-10-12',country:'Bolivia',type:'conflict',salience:'high',title:'"Gas War" — army fires on El Alto protesters, killing 60+; President Sánchez de Lozada resigns and flees US; military violence directly causes regime change',mLabel:'Gas War'},
+  {id:'m-ec-2005',date:'2005-04-20',country:'Ecuador',type:'coup',salience:'medium',title:'President Gutiérrez ousted by mass protests — armed forces refuse to defend him; third consecutive Ecuadorian presidential removal via military acquiescence since 1997',mLabel:'Soft Removal'},
+  {id:'m-hn-2009',date:'2009-06-28',country:'Honduras',type:'coup',salience:'high',title:'Military arrests President Zelaya at gunpoint and exiles him — first unambiguous coup in Central America in decades; OAS suspends Honduras',mLabel:'Coup'},
+  {id:'m-ec-2010',date:'2010-09-30',country:'Ecuador',type:'coup',salience:'high',title:'Police rebellion detains President Correa — military rescues him; contested as coup attempt vs. labor dispute; consolidates Correa\'s political position',mLabel:'Coup Attempt'},
+  {id:'m-py-2012',date:'2012-06-22',country:'Paraguay',type:'coup',salience:'high',title:'President Lugo removed in 24-hour "express impeachment" — MERCOSUR/UNASUR term it a parliamentary coup; military accepts outcome; Paraguay suspended from MERCOSUR',mLabel:'Parliamentary Coup'},
+  {id:'m-bo-2019',date:'2019-11-10',country:'Bolivia',type:'coup',salience:'high',title:'Military chief publicly suggests Morales resign after disputed election — police mutiny; Morales flees; Áñez assumes power; contested classification (coup vs. restoration)',mLabel:'Coup / Resignation'},
+  {id:'m-ht-2021',date:'2021-07-07',country:'Haiti',type:'coup',salience:'high',title:'President Moïse assassinated by Colombian mercenaries — security apparatus collapses; gang territorial expansion accelerates; MSS intervention process begins',mLabel:'Assassination'},
+  {id:'m-bo-2024',date:'2024-06-26',country:'Bolivia',type:'coup',salience:'high',title:'Gen. Zúñiga leads armored column that rams Presidential Palace in failed coup attempt — other commanders refuse support; collapses within hours; linked to Arce-Morales MAS split',mLabel:'Coup Attempt'},
+  {id:'m-ve-2026',date:'2026-01-03',country:'Venezuela',type:'coup',salience:'high',title:'Operation Absolute Resolve — US-backed operation captures Maduro in Caracas; Rodríguez acting government; FANB cohesion crisis; election timeline contested',mLabel:'Op. Absolute Resolve'},
+  // ── Democratic backsliding via military ───────────────────
+  {id:'m-mx-2007',date:'2007-01-11',country:'Mexico',type:'conflict',salience:'high',title:'Calderón deploys army to Michoacán — formal start of military takeover of domestic security; 36,000 soldiers deployed by mid-2007; militarization of public security begins',mLabel:'Drug War Begins'},
+  {id:'m-ve-2008',date:'2008-09-01',country:'Venezuela',type:'purge',salience:'high',title:'Chávez retires 26 generals, replaces with loyalty-vetted officers — ideological alignment institutionalized as FANB promotion criterion; FANB conversion to Bolivarian institution',mLabel:'FANB Purge'},
+  {id:'m-ve-2013',date:'2013-04-14',country:'Venezuela',type:'other',salience:'high',title:'Maduro wins post-Chávez election — FANB endorses disputed result; military shifts from Chávez\'s personal instrument to systemic guarantor of chavismo as a system',mLabel:'FANB Endorsement'},
+  {id:'m-br-2018',date:'2018-10-28',country:'Brazil',type:'other',salience:'high',title:'Bolsonaro elected — retired captain appoints ~6,000 military officers to government; Gen. Mourão as VP; most significant remilitarization of Brazilian politics since 1985',mLabel:'Military in Politics'},
+  {id:'m-sv-2021a',date:'2021-02-09',country:'El Salvador',type:'other',salience:'high',title:'Bukele deploys soldiers to Legislative Assembly to coerce security loan vote — most explicit autogolpe-adjacent act in hemisphere since Fujimori 1992; OAS condemns',mLabel:'Military in Congress'},
+  {id:'m-sv-2021b',date:'2021-05-01',country:'El Salvador',type:'other',salience:'high',title:'NUEVAS IDEAS supermajority fires Supreme Court magistrates and AG on day one — judicial oversight of military eliminated; constitutional framework for Régimen de Excepción installed',mLabel:'Institutional Capture'},
+  {id:'m-sv-2022',date:'2022-03-27',country:'El Salvador',type:'conflict',salience:'high',title:'Régimen de Excepción declared — military/police joint operations suspend due process; 88,000+ detained by 2026, 235+ custody deaths; Bukele model institutionalized',mLabel:'Régimen de Excepción'},
+  {id:'m-ve-2017',date:'2017-07-30',country:'Venezuela',type:'other',salience:'high',title:'Maduro convenes Constituent Assembly (ANC) — FANB provides security for disputed election; opposition boycotts; military protection of ANC completes FANB conversion to regime pillar',mLabel:'ANC / FANB as Regime'},
+  {id:'m-ec-2024',date:'2024-01-09',country:'Ecuador',type:'conflict',salience:'high',title:'Noboa declares "internal armed conflict" against OC groups — military deploys under IHL framework; armed group seizes TV live; Bukele model adopted in Ecuador',mLabel:'Internal Armed Conflict'},
+  {id:'m-gt-2024',date:'2024-01-14',country:'Guatemala',type:'other',salience:'high',title:'Military and police used to block vote counts and obstruct Arévalo\'s inauguration — armed forces maintain ambiguous "neutrality" while available to anti-democratic actors',mLabel:'Electoral Obstruction'},
+  {id:'m-ve-2024',date:'2024-07-28',country:'Venezuela',type:'other',salience:'high',title:'FANB endorses Maduro\'s fraudulent election claim — Padrino López and commanders publicly reaffirm loyalty; FANB\'s organic role as electoral pillar of regime confirmed',mLabel:'FANB Electoral Fraud'},
+  // ── Protests & repression ─────────────────────────────────
+  {id:'m-ve-2014',date:'2014-02-12',country:'Venezuela',type:'protest',salience:'high',title:'"La Salida" — FANB, police, and colectivos kill 43, injure hundreds; Leopoldo López imprisoned; first major test of FANB loyalty under Maduro',mLabel:'Repression'},
+  {id:'m-ni-2018',date:'2018-04-18',country:'Nicaragua',type:'protest',salience:'high',title:'Mass protests against Ortega — 325+ killed by police, Sandinista youth, and armed turbas; army formally neutral but acquiescent; Nicaragua completes authoritarian turn',mLabel:'Repression'},
+  {id:'m-ve-2019b',date:'2019-04-30',country:'Venezuela',type:'other',salience:'high',title:'Guaidó\'s "Operación Libertad" — calls for military uprising at La Carlota; small group briefly joins, collapses within hours; top FANB including Padrino López remain loyal to Maduro',mLabel:'Failed Defection'},
+  {id:'m-ec-2019',date:'2019-10-02',country:'Ecuador',type:'protest',salience:'medium',title:'Protests against Moreno\'s IMF austerity measures — state of emergency; military deployed; 8 killed, hundreds injured; Moreno evacuates government to Guayaquil',mLabel:'Protest / Deployment'},
+  {id:'m-cl-2019',date:'2019-10-18',country:'Chile',type:'protest',salience:'high',title:'Estallido Social — military deployed for first time since 1987; 8,827 injured, 460 with eye injuries from rubber bullets; triggers 2020 constitutional plebiscite',mLabel:'Estallido Social'},
+  {id:'m-cu-2021',date:'2021-07-11',country:'Cuba',type:'protest',salience:'high',title:'11J protests — largest in Cuba since 1959; military and Brigadas de Respuesta Rápida deployed; 1,400+ detained; dozens sentenced to long prison terms',mLabel:'11J Repression'},
+  {id:'m-br-2022b',date:'2022-11-01',country:'Brazil',type:'other',salience:'high',title:'Bolsonaro refuses to concede after Lula victory — military encampments at barracks; Army commander General Freitas ambiguous; coup planning documents later found in military homes',mLabel:'Election Crisis'},
+  {id:'m-br-2023',date:'2023-01-08',country:'Brazil',type:'coup',salience:'high',title:'Bolsonaro supporters storm Congress, Planalto, and Supreme Court — military police accused of passivity; coup planning documents found; worst breach of constitutional order since 1964',mLabel:'Jan. 8 Coup Attempt'},
+  // ── COVID militarization ──────────────────────────────────
+  {id:'m-sv-2020',date:'2020-03-21',country:'El Salvador',type:'conflict',salience:'medium',title:'Bukele deploys military for COVID enforcement — detention centers for quarantine violators; extrajudicial detentions documented; precursor to 2022 Régimen de Excepción',mLabel:'COVID Militarization'},
+  {id:'m-br-2020',date:'2020-05-15',country:'Brazil',type:'other',salience:'medium',title:'General Pazuello appointed Health Minister — first general to run Health Ministry in peacetime Brazil; peak of military penetration across Bolsonaro executive branch',mLabel:'Military Runs Health Ministry'},
+  {id:'m-ve-2020',date:'2020-03-17',country:'Venezuela',type:'conflict',salience:'medium',title:'FANB, SEBIN, and colectivos deployed for COVID quarantine enforcement — military as primary enforcement mechanism with no civilian oversight; civil-military fusion deepens',mLabel:'COVID Militarization'},
+  // ── Major elections with CMR significance ─────────────────
+  {id:'m-cl-2021',date:'2021-12-19',country:'Chile',type:'other',salience:'high',title:'Gabriel Boric elected — campaigns on demilitarization of Araucanía and security sector reform; inauguration Mar 2022',mLabel:'Election'},
+  {id:'m-co-2022',date:'2022-06-19',country:'Colombia',type:'other',salience:'high',title:'Gustavo Petro elected — first leftist president in Colombian history; launches Total Peace doctrine; restructures military command, reduces offensive operations',mLabel:'Election'},
+  {id:'m-br-2022',date:'2022-10-30',country:'Brazil',type:'other',salience:'high',title:'Lula defeats Bolsonaro — ends four years of unprecedented military involvement in executive government; civilian purge of military-aligned positions begins',mLabel:'Election'},
+  {id:'m-ar-2023',date:'2023-11-19',country:'Argentina',type:'other',salience:'high',title:'Javier Milei elected — libertarian outsider; pledges radical defense cuts; transitional justice processes continue; civil-military posture in transition',mLabel:'Election'},
+  {id:'m-sv-2024',date:'2024-02-04',country:'El Salvador',type:'other',salience:'high',title:'Bukele re-elected with 85% despite constitutional prohibition — Régimen de Excepción and military integration into domestic security continue as permanent governance',mLabel:'Election'},
+  {id:'m-ec-2025',date:'2025-02-09',country:'Ecuador',type:'other',salience:'high',title:'Daniel Noboa re-elected — mandate continues internal armed conflict framework and military deployment in prisons and urban zones',mLabel:'Election'},
+  {id:'m-uy-2025',date:'2025-03-01',country:'Uruguay',type:'other',salience:'high',title:'Yamandú Orsi inaugurated — Frente Amplio returns to power; continuation of Uruguay\'s strong civilian control model, strongest in Southern Cone',mLabel:'Inauguration'},
 ];
 
 function renderTimeline(){
@@ -2639,17 +2761,21 @@ function showCountryProfile(name){
       <span class="cp-stat-val" style="color:${missionStatusColor[m.status]||'var(--text-muted)'};font-size:8px;text-transform:uppercase;letter-spacing:0.5px;cursor:help;" data-tooltip="${MISSION_STATUS_DEFS[m.status]||''}">${m.status}</span>
     </div>`).join('') : '<div class="cp-stat-row"><span class="cp-stat-label">No mission data.</span></div>';
 
-  const summaryStrip=`
+  const statsStrip=`
     <div class="cp-summary-strip">
       <div class="cp-sum-block"><div class="cp-sum-label">Key Stats</div>${statsHtml}</div>
       <div class="cp-sum-block"><div class="cp-sum-label">Key Positions</div>${posHtml}</div>
       <div class="cp-sum-block"><div class="cp-sum-label">Next Election</div>${electHtml}</div>
       <div class="cp-sum-block"><div class="cp-sum-label">What to Watch</div><div class="cp-watch-text">${watch}</div></div>
-    </div>
-    ${m3?`<div class="cp-summary-strip" style="margin-top:0;border-top:none;">
+    </div>`;
+
+  const S=STRINGS[currentLang]||STRINGS.en;
+  const cmrBlock=m3?`
+    <div class="cp-h2">${S['label.cmr-indicators']||'CMR Indicators'}</div>
+    <div class="cp-summary-strip" style="margin-bottom:18px;">
       <div class="cp-sum-block" style="grid-column:1/-1;">
-        <div class="cp-sum-label" style="font-size:13px;">CMR Indicators <span style="font-family:var(--mono);font-size:8px;font-weight:400;color:var(--text-muted);letter-spacing:0.5px;">M3 Dataset · 2020</span></div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px 14px;">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--text-muted);letter-spacing:0.5px;margin-bottom:10px;">M3 Dataset · 2020</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px 18px;">
           ${[
             ['Conscription', m3.conscription===1?'Yes':'No', m3.conscription===1?'var(--aid)':'var(--text-muted)'],
             ['Military veto', m3.milVeto===1?'Yes':'No', m3.milVeto===1?'var(--coup)':'var(--text-muted)'],
@@ -2658,15 +2784,18 @@ function showCountryProfile(name){
             ['Economic role', m3.milEco===1?'Yes':'No', m3.milEco===1?'var(--purge)':'var(--text-muted)'],
             m3.hwi!=null?['HWI score', m3.hwi.toFixed(1), 'var(--text)']:null
           ].filter(Boolean).map(([label,val,col])=>`
-            <div style="min-width:110px;cursor:help;" data-tooltip="${CMR_DEFS[label]||''}">
+            <div style="min-width:120px;cursor:help;" data-tooltip="${CMR_DEFS[label]||''}">
               <div class="cp-pos-title">${label}</div>
-              <div class="cp-stat-val" style="color:${col};font-size:12px;">${val}</div>
+              <div class="cp-stat-val" style="color:${col};font-size:13px;">${val}</div>
             </div>`).join('')}
         </div>
       </div>
-    </div>`:''}
-    <div class="cp-summary-strip" style="margin-top:0;border-top:none;">
-      <div class="cp-sum-block" style="grid-column:1/-1;"><div class="cp-sum-label" style="font-size:13px;">Military Missions &amp; Roles</div>${missionsHtml}</div>
+    </div>`:''
+
+  const missionsBlock=`
+    <div class="cp-h2">${S['label.mil-missions']||'Military Missions & Roles'}</div>
+    <div class="cp-summary-strip" style="margin-bottom:18px;">
+      <div class="cp-sum-block" style="grid-column:1/-1;">${missionsHtml}</div>
     </div>`;
 
   // ── Map placeholder ──────────────────────────────────────
@@ -2694,29 +2823,43 @@ function showCountryProfile(name){
   </div>${evRows}`;
 
   // ── Render ───────────────────────────────────────────────
+  const hdr=`${backBtn}
+    <div class="cp-country-hdr">
+      <div><div class="cp-country-name">${name}</div><div class="cp-country-sub">${prof.capital} · ${prof.regime}</div></div>
+      <span class="cp-cmr-pill ${prof.cmrClass}">${prof.cmrStatus} CMR</span>
+    </div>`;
+
   if(prof.special){
     const srcEl=document.getElementById(prof.specialId+'-block');
-    let clonedHtml=srcEl ? srcEl.innerHTML : '';
-    clonedHtml=clonedHtml.replace(/<canvas id="cocaChart"[^>]*><\/canvas>/,
-      '<div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);padding:6px 0;">Chart available in Regional Overview</div>');
-    countryDiv.innerHTML=`${backBtn}
-      <div class="cp-country-hdr">
-        <div><div class="cp-country-name">${name}</div><div class="cp-country-sub">${prof.capital} · ${prof.regime}</div></div>
-        <span class="cp-cmr-pill ${prof.cmrClass}">${prof.cmrStatus} CMR</span>
-      </div>
-      ${summaryStrip}${mapDiv}${clonedHtml}<div class="cp-h2">Recent Events</div>${evSection}`;
-    const divider=countryDiv.querySelector('.cp-section-divider');
-    if(divider) divider.style.display='none';
+    if(!srcEl){ countryDiv.innerHTML=`${hdr}${mapDiv}${statsStrip}${cmrBlock}${missionsBlock}<div class="cp-h2">${S['label.recent-events']||'Recent Events'}</div>${evSection}`; }
+    else {
+      // Use DOM to split cloned content cleanly
+      const tmp=document.createElement('div');
+      tmp.innerHTML=srcEl.innerHTML;
+      tmp.querySelector('.cp-section-divider')?.remove();
+      const bodyEl=tmp.querySelector('.cp-section-body');
+      const contextHtml=bodyEl ? bodyEl.outerHTML : '';
+      bodyEl?.remove();
+      // Replace coca chart canvas placeholder
+      const cc=tmp.querySelector('#cocaChart');
+      if(cc) cc.insertAdjacentHTML('afterend','<div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);padding:6px 0;">Chart available in Regional Overview</div>');
+      cc?.remove();
+      const specialContent=tmp.innerHTML;
+      countryDiv.innerHTML=`${hdr}
+        <div class="cp-h2">${S['label.context']||'Context'}</div>
+        ${contextHtml}
+        ${mapDiv}
+        ${statsStrip}${cmrBlock}${missionsBlock}
+        ${specialContent}
+        <div class="cp-h2">${S['label.recent-events']||'Recent Events'}</div>${evSection}`;
+    }
   } else {
-    countryDiv.innerHTML=`${backBtn}
-      <div class="cp-country-hdr">
-        <div><div class="cp-country-name">${name}</div><div class="cp-country-sub">${prof.capital} · ${prof.regime}</div></div>
-        <span class="cp-cmr-pill ${prof.cmrClass}">${prof.cmrStatus} CMR</span>
-      </div>
-      ${summaryStrip}${mapDiv}
-      <div class="cp-h2">Context</div>
+    countryDiv.innerHTML=`${hdr}
+      <div class="cp-h2">${S['label.context']||'Context'}</div>
       <div class="cp-note" style="margin-bottom:20px;">${prof.note}</div>
-      <div class="cp-h2">Recent Events</div>
+      ${mapDiv}
+      ${statsStrip}${cmrBlock}${missionsBlock}
+      <div class="cp-h2">${S['label.recent-events']||'Recent Events'}</div>
       ${evSection}`;
   }
 
@@ -3103,6 +3246,22 @@ const STRINGS={
     'intro.events.body':'Open-source reporting classified into CMR event types — coup activity, purges, deployments, reforms, OC events, and armed conflict. AI-classified, georeferenced, confidence-rated.',
     'log.pfx':'Log','ui.search':'Search','ui.search.placeholder':'Search events, countries…','ui.no-results':'No results found.',
     'lang.switch':'ES',
+    'label.cmr-status':'CMR Status','label.key-stats':'Key Stats','label.key-positions':'Key Positions',
+    'label.next-election':'Next Election','label.what-to-watch':'What to Watch',
+    'label.cmr-indicators':'CMR Indicators','label.mil-missions':'Military Missions & Roles',
+    'label.recent-events':'Recent Events','label.context':'Context',
+    'label.all-countries':'All Countries','label.special-monitors':'Special Monitors',
+    'label.regional-spending':'Regional Military Spending','label.top-spenders':'Top Military Spenders',
+    'label.cmr-distribution':'CMR Status Distribution','label.coup-events':'Coup Events Since 1990',
+    'label.mil-domestic':'Military in Domestic Security','label.us-aid-alltime':'All-Time US Security Aid',
+    'label.stable':'Stable','label.strained':'Strained','label.crisis':'Crisis','label.authoritarian':'Authoritarian',
+    'label.type-activity':'Type Activity','label.country-activity':'Country Activity',
+    'filter.salience.high':'High','filter.salience.medium':'Medium','filter.salience.low':'Low',
+    'filter.conf.green':'Verified','filter.conf.yellow':'Probable','filter.conf.red':'Unconfirmed',
+    'label.events-feed':'Events Feed','label.map':'Map',
+    'label.about-title':'About Sentinel.','label.about-sub':'A Latin American Civil-Military Events Monitor',
+    'label.timeline-title':'Historical & Live Timeline',
+    'label.timeline-body':'This timeline merges two layers: live events ingested nightly from open-source reporting and classified by AI, and historical milestones — coups, constitutions, peace accords, elections, and episodes of repression curated by the SENTINEL research team from 1988 to the present. Unlike the Events feed, which shows only recent pipeline output, the timeline is the longitudinal record. Milestones are marked with a square indicator and a category badge; live events with a colored dot by type. All filters apply to both layers.',
   },
   es:{
     'tab.events':'Eventos','tab.profiles':'Perfiles por País','tab.transnational':'Seguridad Transnacional',
@@ -3114,12 +3273,28 @@ const STRINGS={
     'filter.subregion':'Subregión','filter.type':'Tipo','filter.country':'País',
     'filter.confidence':'Confianza','filter.date-range':'Rango de Fechas','filter.event-type':'Tipo de Evento',
     'filter.salience':'Relevancia','filter.conflict-level':'Nivel de Conflicto (ACLED)',
-    'intro.events':'Feed de Eventos','intro.us':'Cooperación de Seguridad EE.UU.',
+    'intro.events':'Boletín de Eventos','intro.us':'Cooperación de Seguridad EE.UU.',
     'intro.procurement':'Adquisiciones y Transferencias de Armas',
-    'intro.transnational':'Crimen Organizado, Economías Ilícitas y RCM',
-    'intro.events.body':'Reportes de fuentes abiertas clasificados en tipos de eventos — golpes, purgas, despliegues, reformas, eventos OC y conflicto armado. Clasificados por IA, georeferenciados, con nivel de confianza.',
+    'intro.transnational':'Crimen Organizado, Economías Ilícitas y Relaciones Cívico-Militares',
+    'intro.events.body':'Reportes de fuentes abiertas clasificados en tipos de eventos — golpes, purgas, despliegues, reformas, eventos de crimen organizado y conflicto armado. Clasificados por IA, georreferenciados, con nivel de confianza.',
     'log.pfx':'Reg.','ui.search':'Buscar','ui.search.placeholder':'Buscar eventos, países…','ui.no-results':'Sin resultados.',
     'lang.switch':'EN',
+    'label.cmr-status':'Estado RCM','label.key-stats':'Indicadores Clave','label.key-positions':'Cargos Clave',
+    'label.next-election':'Próxima Elección','label.what-to-watch':'A Seguir',
+    'label.cmr-indicators':'Indicadores RCM','label.mil-missions':'Misiones y Roles Militares',
+    'label.recent-events':'Eventos Recientes','label.context':'Contexto',
+    'label.all-countries':'Todos los Países','label.special-monitors':'Monitores Especiales',
+    'label.regional-spending':'Gasto Militar Regional','label.top-spenders':'Mayores Gastos Militares (2025)',
+    'label.cmr-distribution':'Distribución de Estado RCM','label.coup-events':'Golpes de Estado desde 1990',
+    'label.mil-domestic':'Ejército en Seguridad Interna','label.us-aid-alltime':'Ayuda Militar EE.UU. (Histórica)',
+    'label.stable':'Estable','label.strained':'Tensión','label.crisis':'Crisis','label.authoritarian':'Autoritario',
+    'label.type-activity':'Actividad por Tipo','label.country-activity':'Actividad por País',
+    'filter.salience.high':'Alta','filter.salience.medium':'Media','filter.salience.low':'Baja',
+    'filter.conf.green':'Verificado','filter.conf.yellow':'Probable','filter.conf.red':'Sin confirmar',
+    'label.events-feed':'Boletín de Eventos','label.map':'Mapa',
+    'label.about-title':'Acerca de Sentinel.','label.about-sub':'Un Monitor Cívico-Militar de América Latina',
+    'label.timeline-title':'Cronología Histórica y en Vivo',
+    'label.timeline-body':'Esta cronología combina dos capas: eventos en vivo ingestados noche a noche a partir de fuentes abiertas y clasificados por IA, e hitos históricos — golpes, constituciones, acuerdos de paz, elecciones y episodios de represión — curados por el equipo de investigación de SENTINEL desde 1988. A diferencia del boletín de eventos, que muestra solo los resultados recientes del pipeline, la cronología es el registro longitudinal. Los hitos se marcan con un indicador cuadrado y una etiqueta de categoría; los eventos en vivo con un punto de color según el tipo. Todos los filtros aplican a ambas capas.',
   }
 };
 
