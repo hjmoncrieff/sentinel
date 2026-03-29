@@ -1,177 +1,846 @@
 {
-  "updated": "2026-03-25T00:00:00Z",
-  "count": 12,
+  "updated": "2026-03-29T00:04:15.386423+00:00",
+  "count": 36,
   "events": [
-  {
-    "id": "a1b2c3d4e5f6",
-    "type": "conflict",
-    "title": "ELN clashes with army in Norte de Santander, 4 killed",
-    "country": "Colombia",
-    "date": "2026-03-21",
-    "source": "ACLED",
-    "conf": "green",
-    "salience": "high",
-    "coords": [7.9, -72.5],
-    "summary": "Armed confrontation between ELN guerrillas and Colombian army forces in rural Norte de Santander. Four combatants reported killed. Military deployed additional units to the area.",
-    "url": "",
-    "ingested_at": "2026-03-21T06:00:00Z"
-  },
-  {
-    "id": "b2c3d4e5f6a1",
-    "type": "purge",
-    "title": "Reports of detained officers in Caracas military barracks",
-    "country": "Venezuela",
-    "date": "2026-03-20",
-    "source": "Twitter/X",
-    "conf": "red",
-    "salience": "high",
-    "coords": [10.5, -66.9],
-    "summary": "Unverified social media reports claim several senior officers were detained at Fort Tiuna. No official confirmation from Venezuelan Ministry of Defense.",
-    "url": "",
-    "ingested_at": "2026-03-21T06:00:00Z"
-  },
-  {
-    "id": "c3d4e5f6a1b2",
-    "type": "reform",
-    "title": "Mexico completes national guard transfer to army command",
-    "country": "Mexico",
-    "date": "2026-03-19",
-    "source": "Reuters",
-    "conf": "yellow",
-    "salience": "high",
-    "coords": [19.4, -99.1],
-    "summary": "The Mexican government formally completed the transfer of the National Guard to the Ministry of National Defense, consolidating military control over domestic security.",
-    "url": "",
-    "ingested_at": "2026-03-21T06:00:00Z"
-  },
-  {
-    "id": "d4e5f6a1b2c3",
-    "type": "oc",
-    "title": "Navy seizes 2.4 tons of cocaine off Ecuadorian coast",
-    "country": "Ecuador",
-    "date": "2026-03-18",
-    "source": "InSight Crime",
-    "conf": "green",
-    "salience": "medium",
-    "coords": [-1.2, -80.9],
-    "summary": "Ecuadorian navy intercepted a semi-submersible vessel carrying 2.4 tons of cocaine hydrochloride. Joint operation with US Coast Guard support.",
-    "url": "",
-    "ingested_at": "2026-03-21T06:00:00Z"
-  },
-  {
-    "id": "e5f6a1b2c3d4",
-    "type": "exercise",
-    "title": "UNITAS LXVI multinational naval exercise begins",
-    "country": "Brazil",
-    "date": "2026-03-15",
-    "source": "SOUTHCOM",
-    "conf": "green",
-    "salience": "medium",
-    "coords": [-22.9, -43.2],
-    "summary": "The 66th iteration of UNITAS, the longest-running multinational maritime exercise in the Western Hemisphere, commenced in Brazilian waters with 19 participating nations.",
-    "url": "",
-    "ingested_at": "2026-03-21T06:00:00Z"
-  },
-  {
-    "id": "f6a1b2c3d4e5",
-    "type": "coup",
-    "title": "Unverified: military vehicle movements near Tegucigalpa",
-    "country": "Honduras",
-    "date": "2026-03-14",
-    "source": "Twitter/X",
-    "conf": "red",
-    "salience": "high",
-    "coords": [14.1, -87.2],
-    "summary": "Multiple social media accounts report unusual military vehicle movements near the Honduran capital. Honduran Armed Forces have not issued a statement.",
-    "url": "",
-    "ingested_at": "2026-03-21T06:00:00Z"
-  },
-  {
-    "id": "a2b3c4d5e6f7",
-    "type": "protest",
-    "title": "Protest repression in Managua, 12 detained",
-    "country": "Nicaragua",
-    "date": "2026-03-13",
-    "source": "ACLED",
-    "conf": "green",
-    "salience": "medium",
-    "coords": [12.1, -86.3],
-    "summary": "Nicaraguan police and army units dispersed protests in central Managua. At least 12 people detained. International community has condemned the crackdown.",
-    "url": "",
-    "ingested_at": "2026-03-21T06:00:00Z"
-  },
-  {
-    "id": "b3c4d5e6f7a2",
-    "type": "aid",
-    "title": "Chinese naval vessel conducts port visit to Callao",
-    "country": "Peru",
-    "date": "2026-03-12",
-    "source": "El Comercio",
-    "conf": "yellow",
-    "salience": "medium",
-    "coords": [-12.1, -77.0],
-    "summary": "PLA Navy Type 054A frigate conducted a four-day port visit to Callao, Peru. Chinese ambassador attended welcoming ceremony with Peruvian naval officials.",
-    "url": "",
-    "ingested_at": "2026-03-21T06:00:00Z"
-  },
-  {
-    "id": "c4d5e6f7a2b3",
-    "type": "purge",
-    "title": "Nicaragua: Ortega promotes Sandinista loyalists to military high command",
-    "country": "Nicaragua",
-    "date": "2026-03-10",
-    "source": "NACLA",
-    "conf": "green",
-    "salience": "high",
-    "coords": [12.1, -86.3],
-    "summary": "President Ortega appointed three new generals closely associated with the Sandinista apparatus, replacing officers from the democratic transition era.",
-    "url": "",
-    "ingested_at": "2026-03-21T06:00:00Z"
-  },
-  {
-    "id": "d5e6f7a2b3c4",
-    "type": "conflict",
-    "title": "Alleged FARC dissident ambush kills 3 soldiers in Cauca",
-    "country": "Colombia",
-    "date": "2026-03-08",
-    "source": "El Tiempo",
-    "conf": "yellow",
-    "salience": "high",
-    "coords": [2.4, -76.6],
-    "summary": "EMC faction reportedly ambushed an army patrol in rural Cauca department. Three soldiers killed, two wounded. Military launched pursuit operations.",
-    "url": "",
-    "ingested_at": "2026-03-21T06:00:00Z"
-  },
-  {
-    "id": "e6f7a2b3c4d5",
-    "type": "reform",
-    "title": "Chile announces defense white paper update for 2026",
-    "country": "Chile",
-    "date": "2026-03-05",
-    "source": "MinDef Chile",
-    "conf": "green",
-    "salience": "low",
-    "coords": [-33.4, -70.6],
-    "summary": "Chilean Ministry of Defense announced a comprehensive update to the national defense white paper, the first revision since 2017.",
-    "url": "",
-    "ingested_at": "2026-03-21T06:00:00Z"
-  },
-  {
-    "id": "f7a2b3c4d5e6",
-    "type": "aid",
-    "title": "US-Paraguay defense cooperation agreement renewed",
-    "country": "Paraguay",
-    "date": "2026-03-03",
-    "source": "State Dept",
-    "conf": "green",
-    "salience": "medium",
-    "coords": [-25.3, -57.6],
-    "summary": "The United States and Paraguay renewed their bilateral defense cooperation agreement for another five years, expanding training and equipment provisions.",
-    "url": "",
-    "links": [],
-    "sources": ["State Dept"],
-    "ai_analysis": null,
-    "ingested_at": "2026-03-21T06:00:00Z"
-  }
+    {
+      "id": "a3f7c91d2e84",
+      "type": "oc",
+      "title": "CJNG leader 'El Mencho' killed in Jalisco military operation",
+      "summary": "Mexican Army, with US intelligence support, killed Nemesio Oseguera Cervantes ('El Mencho'), head of the Jalisco New Generation Cartel, in a special operations strike in Tapalpa, Jalisco. Widespread CJNG retaliatory violence followed across Jalisco state.",
+      "country": "Mexico",
+      "location": "Tapalpa, Jalisco",
+      "date": "2026-02-22",
+      "source": "Small Wars Journal \u00b7 Jerusalem Post",
+      "sources": [
+        "Small Wars Journal",
+        "Jerusalem Post"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        20.0,
+        -103.75
+      ],
+      "url": "https://smallwarsjournal.com/2026/02/23/mexican-cartel-strategic-note-no-39-cjng-leader-el-mencho-killed-in-shootout-in-jalisco/",
+      "links": [
+        "https://smallwarsjournal.com/2026/02/23/mexican-cartel-strategic-note-no-39-cjng-leader-el-mencho-killed-in-shootout-in-jalisco/",
+        "https://www.jpost.com/international/article-887555"
+      ],
+      "ai_analysis": "El Mencho's killing marks the most significant tactical success of Mexico's military-led security strategy since the Chapo capture. The operation, executed with direct US intelligence under newly expanded FTO counter-terrorism authorities, signals a structural shift in civil-military relations: SEDENA is now operating in a hybrid counterterrorism/law-enforcement role with embedded US advisory support, blurring traditional posse comitatus-style boundaries that Mexico previously insisted upon. The immediate wave of CJNG retaliation \u2014 roadblocks, vehicle torchings, sicario mobilization across Jalisco \u2014 illustrates the central tension in military-led counter-cartel strategy: decapitation strikes generate acute instability before organizational succession settles. For CMR, the operation validates President Sheinbaum's continuation of military primacy in security but at the cost of escalatory cycles that require yet more military deployment, deepening institutional entrenchment.",
+      "ingested_at": "2026-03-29T00:04:15.386260+00:00"
+    },
+    {
+      "id": "b8d2e06f3a17",
+      "type": "aid",
+      "title": "Mexico authorizes US Special Forces for joint training at military installations",
+      "summary": "President Sheinbaum authorized the temporary entry of 12 US Army Special Forces (7th SFG Green Berets) for joint defense training at Mexican military bases, running Feb 27\u2013Jul 15, 2026. A significant departure from AMLO-era restrictions on US military presence on Mexican soil.",
+      "country": "Mexico",
+      "location": "Mexico City",
+      "date": "2026-02-27",
+      "source": "Cartel Watch",
+      "sources": [
+        "Cartel Watch"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        19.43,
+        -99.13
+      ],
+      "url": "https://cartelwatch.net/2026/02/27/mexico-authorizes-entry-of-u-s-special-forces-for-joint-defense-training/",
+      "links": [
+        "https://cartelwatch.net/2026/02/27/mexico-authorizes-entry-of-u-s-special-forces-for-joint-defense-training/"
+      ],
+      "ai_analysis": "This authorization represents a notable CMR and sovereignty inflection: Mexico under Sheinbaum has accepted a level of US military presence on its territory that AMLO explicitly refused throughout 2018\u20132024. The 7th SFG's mandate \u2014 advising on counter-cartel tactics \u2014 extends the logic of the El Mencho operation and Operation Southern Spear into institutionalized bilateral military cooperation. From a civil-military relations standpoint, civilian leadership is actively drawing the military deeper into a US-supervised security architecture, which may accelerate SEDENA's operational dependence on US intelligence and advisory structures.",
+      "ingested_at": "2026-03-29T00:04:15.386378+00:00"
+    },
+    {
+      "id": "c1e9a74f5b32",
+      "type": "conflict",
+      "title": "US-Ecuador launch joint military operation against narco-terrorist groups",
+      "summary": "US and Ecuadorian forces launched Operation Southern Spear's first land phase on March 3, with US military advisors embedded with Ecuadorian forces targeting Designated Terrorist Organizations. The operation drew controversy after reports of civilian harm including allegations of torture, arbitrary detentions, and burning of homes by human rights groups.",
+      "country": "Ecuador",
+      "location": "Esmeraldas / Manab\u00ed",
+      "date": "2026-03-03",
+      "source": "Al Jazeera \u00b7 The Intercept \u00b7 Military Times",
+      "sources": [
+        "Al Jazeera",
+        "The Intercept",
+        "Military Times"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        0.97,
+        -79.65
+      ],
+      "url": "https://www.aljazeera.com/news/2026/3/4/trump-administration-launches-us-military-operation-in-ecuador",
+      "links": [
+        "https://www.aljazeera.com/news/2026/3/4/trump-administration-launches-us-military-operation-in-ecuador",
+        "https://theintercept.com/2026/03/04/us-military-ecuador-trump/",
+        "https://www.militarytimes.com/news/your-military/2026/03/04/us-and-ecuador-launch-military-operation-against-organized-crime-groups/"
+      ],
+      "ai_analysis": "Ecuador's decision to accept embedded US military advisors in domestic counter-narcotics operations represents the most significant civilian-to-military authority delegation in Andean security cooperation since Plan Colombia. President Noboa's 'internal armed conflict' framework (declared Jan 2024) has progressively militarized security governance; the March 3 operation marks its internationalization. The IHL allegations \u2014 bombings of civilian homes, arbitrary detention, torture \u2014 signal a pattern common to US-partnered counterinsurgency operations in which military operational tempo outpaces civilian oversight mechanisms. For CMR, the key concern is institutional accountability: if Ecuadorian armed forces become habituated to operating under US advisory command with reduced civilian judicial oversight, the long-term effect on civil-military institutional norms may outlast the immediate security gains.",
+      "ingested_at": "2026-03-29T00:04:15.386390+00:00"
+    },
+    {
+      "id": "d4b3f82a1c96",
+      "type": "reform",
+      "title": "Haiti: MSS transitions to UN Gang Suppression Force as Kenyan contingent withdraws",
+      "summary": "215 Kenyan police officers withdrew from Haiti on March 17 as the Kenya-led Multinational Security Support Mission (MSS) began transitioning to the UN-mandated Gang Suppression Force (GSF). The GSF, authorized by UNSC Resolution 2793 (Oct 2025), will eventually field 5,500 personnel from Chad and other troop-contributing countries arriving summer 2026.",
+      "country": "Haiti",
+      "location": "Port-au-Prince",
+      "date": "2026-03-17",
+      "source": "CNN \u00b7 Haitian Times \u00b7 UN Press",
+      "sources": [
+        "CNN",
+        "Haitian Times",
+        "UN Press"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        18.54,
+        -72.34
+      ],
+      "url": "https://haitiantimes.com/2026/03/20/215-kenyan-police-withdraw-haiti-end-mission/",
+      "links": [
+        "https://haitiantimes.com/2026/03/20/215-kenyan-police-withdraw-haiti-end-mission/",
+        "https://www.cnn.com/2026/03/24/americas/haiti-gang-violence-gsf-un-mission-intl-latam",
+        "https://press.un.org/en/2025/sc16185.doc.htm"
+      ],
+      "ai_analysis": "Haiti's security governance transition from MSS to GSF represents the third attempted internationalized security architecture since the 2021 Mo\u00efse assassination \u2014 and each transition has exposed the same structural gap: without a functioning Haitian National Police and civilian judicial system, external security forces cannot generate durable order. The GSF's expanded mandate to 'directly target armed groups' (compared to MSS's advisory posture) moves international forces into a combat role Haiti's state cannot fill itself. This is a critical CMR failure case: civilian institutions have so thoroughly collapsed that there is no legitimate domestic principal to oversee security forces \u2014 whether Haitian or international \u2014 making institutional accountability effectively impossible in the near term.",
+      "ingested_at": "2026-03-29T00:04:15.386398+00:00"
+    },
+    {
+      "id": "e7c5d19b4f08",
+      "type": "reform",
+      "title": "El Salvador's estado de excepci\u00f3n marks 4 years \u2014 49th extension approved",
+      "summary": "El Salvador's state of exception reached its 4-year anniversary (March 27, 2022\u20132026) with its 49th consecutive legislative extension. More than 91,650 people have been detained; human rights groups document at least 504 deaths in custody, 6,889 human rights complaints, and 98% of cases involving arbitrary detention. FAES military support for police extended through December 31, 2026.",
+      "country": "El Salvador",
+      "location": "San Salvador",
+      "date": "2026-03-27",
+      "source": "Infobae \u00b7 Infodefensa \u00b7 Emol",
+      "sources": [
+        "Infobae",
+        "Infodefensa",
+        "Emol"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        13.69,
+        -89.19
+      ],
+      "url": "https://www.infobae.com/el-salvador/2026/03/27/regimen-de-excepcion-en-el-salvador-cumple-4-anos-de-vigencia-entre-denuncias-y-aprobacion/",
+      "links": [
+        "https://www.infobae.com/el-salvador/2026/03/27/regimen-de-excepcion-en-el-salvador-cumple-4-anos-de-vigencia-entre-denuncias-y-aprobacion/",
+        "https://www.infodefensa.com/texto-diario/mostrar/5716901/salvador-prorroga-ano-militares-seguridad-publica"
+      ],
+      "ai_analysis": "Four years of uninterrupted emergency rule mark El Salvador as the region's clearest contemporary case of democratic backsliding via security-sector fusion. Bukele's r\u00e9gimen permanently integrated the military into police functions (FAES extended through Dec 2026) and suspended due process for 91,650+ detainees \u2014 33,000+ of whom had no prior police record. The 504 documented in-custody deaths and 6,889 human rights complaints represent institutional impunity at scale, insulated by 85% popular approval. This is the 'Bukele model': civilian executive uses security crisis to dismantle institutional checks, fuse military and police functions under presidential authority, and generate legitimacy through visible crime reduction \u2014 at the cost of rule of law, civilian oversight, and any meaningful separation between military and police institutional identities.",
+      "ingested_at": "2026-03-29T00:04:15.386406+00:00"
+    },
+    {
+      "id": "f2a8e63d7c41",
+      "type": "aid",
+      "title": "US approves $1.5B in FMS to Peru for Callao naval base modernization",
+      "summary": "The State Department approved a $1.5 billion Foreign Military Sale to Peru to upgrade and relocate the Callao naval base \u2014 the largest US-Peru security cooperation package in recent history. The sale reflects SOUTHCOM's priority on deepening Pacific-facing naval partnerships amid Chinese port investment in the region.",
+      "country": "Peru",
+      "location": "Callao",
+      "date": "2026-01-15",
+      "source": "SOUTHCOM / Rio Times",
+      "sources": [
+        "SOUTHCOM",
+        "Rio Times"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        -12.05,
+        -77.14
+      ],
+      "url": "https://www.riotimesonline.com/latin-america-defense-monitor-feb-21-27-2026/",
+      "links": [
+        "https://www.riotimesonline.com/latin-america-defense-monitor-feb-21-27-2026/"
+      ],
+      "ai_analysis": null,
+      "ingested_at": "2026-03-29T00:04:15.386413+00:00"
+    },
+    {
+      "id": "5ef8a7162955",
+      "type": "peace",
+      "title": "Colombia\u2019s Polls Mark a Forking Path in Peace Talks",
+      "summary": "Colombian presidential election approaching with implications for continuation of peace talks.",
+      "country": "Colombia",
+      "location": "Colombia",
+      "date": "2026-03-28",
+      "source": "Crisis Group",
+      "sources": [
+        "Crisis Group"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        4.6,
+        -74.1
+      ],
+      "url": "https://www.crisisgroup.org/cmt/latin-america-caribbean/colombia/colombias-polls-mark-forking-path-peace-talks",
+      "links": [
+        "https://www.crisisgroup.org/cmt/latin-america-caribbean/colombia/colombias-polls-mark-forking-path-peace-talks"
+      ],
+      "ai_analysis": "# Civil-Military Significance Analysis\n\nThis electoral juncture represents a critical test of **institutional autonomy within constrained parameters**\u2014the military's capacity to implement peace agreements depends on civilian leadership continuity, yet the election outcome could fundamentally alter the security sector's operational mandate and coup-proofing arrangements established post-2016. A shift toward hardline candidates threatens the security sector reform embedded in the peace accord (transitional justice mechanisms, military downsizing, counterinsurgency doctrine revision), potentially triggering civil-military friction if elected leaders demand renewed military primacy over negotiated settlements, thereby destabilizing the fragile balance between civilian control and military institutional interests that the peace process has attempted to establish.",
+      "ingested_at": "2026-03-28T16:30:00.893327+00:00"
+    },
+    {
+      "id": "23c4032f4723",
+      "type": "other",
+      "title": "The Venezuela Paradigm: Is Trump\u2019s Model Intervention a Mirage?",
+      "summary": "Analysis of US military seizure of Venezuelan President Nicol\u00e1s Maduro and implications for Trump administration interventionism.",
+      "country": "Venezuela",
+      "location": "Venezuela",
+      "date": "2026-03-28",
+      "source": "Crisis Group",
+      "sources": [
+        "Crisis Group"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        -3.5,
+        -52.0
+      ],
+      "url": "https://www.crisisgroup.org/cmt/latin-america-caribbean/venezuela/venezuela-paradigm-trumps-model-intervention-mirage",
+      "links": [
+        "https://www.crisisgroup.org/cmt/latin-america-caribbean/venezuela/venezuela-paradigm-trumps-model-intervention-mirage"
+      ],
+      "ai_analysis": "# Civil-Military Analysis: US Military Intervention in Venezuela\n\nThis hypothetical scenario represents a **catastrophic breakdown of civilian control mechanisms** in Venezuela, as external military seizure of the head of state eliminates domestic institutional constraints on executive power and replaces them with foreign occupation\u2014inverting traditional CMR frameworks where civilian institutions maintain autonomy from both military and external actors. The event would simultaneously expose Venezuela's coup-proofing failures (military loyalty structures collapsed) while creating perverse incentives for future interventionism, as successful external seizure of leadership undermines the principle of institutional autonomy that underpins legitimate security sector reform and democratic civil-military relations. From a CMR theory perspective, this represents not security sector reform but rather the substitution of one form of authoritarianism (Maduro's) with foreign military control, leaving Venezuela's underlying institutional weaknesses\u2014fragmented command structures, politicized officer corps, and absent civilian oversight capacity\u2014unaddressed and potentially more entrenched.",
+      "ingested_at": "2026-03-28T16:30:00.893327+00:00"
+    },
+    {
+      "id": "de8cba31657d",
+      "type": "conflict",
+      "title": "M\u00e1s de 33.000 detenidos por Bukele no figuraban como pandilleros en los registros policiales",
+      "summary": "Over 33,000 detained under Bukele's state of exception regime were not previously registered as gang members, raising concerns about mass detention practices.",
+      "country": "El Salvador",
+      "location": "El Salvador",
+      "date": "2026-03-28",
+      "source": "El Pa\u00eds Am\u00e9rica",
+      "sources": [
+        "El Pa\u00eds Am\u00e9rica"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        -12.97,
+        -38.5
+      ],
+      "url": "https://elpais.com/america/2026-03-28/mas-de-33000-detenidos-por-bukele-no-figuraban-como-pandilleros-en-los-registros-policiales.html",
+      "links": [
+        "https://elpais.com/america/2026-03-28/mas-de-33000-detenidos-por-bukele-no-figuraban-como-pandilleros-en-los-registros-policiales.html"
+      ],
+      "ai_analysis": "# Civil-Military Significance Analysis\n\nThis mass detention of unregistered individuals represents a **critical breakdown in civilian control mechanisms** and institutional accountability. Bukele's security apparatus operated outside established police records and legal frameworks, effectively creating an autonomous security state where the military-police nexus could detain citizens without transparent vetting procedures\u2014a classic coup-proofing strategy that paradoxically undermines democratic institutions by concentrating coercive power in the executive while bypassing institutional checks. The 33,000 figure suggests **security sector reform has failed**, as the state of exception normalized extrajudicial detention practices, transforming what should be professional, accountable law enforcement into a tool of executive prerogative that erodes the very civilian institutions theoretically controlling it.",
+      "ingested_at": "2026-03-28T16:30:00.893327+00:00"
+    },
+    {
+      "id": "cf2728e3c6ac",
+      "type": "other",
+      "title": "Moraes manda PM abater drones que sobrevoarem a casa de Bolsonaro",
+      "summary": "Supreme Court Justice Moraes orders Federal District Military Police to shoot down drones over Bolsonaro's residence; civil-military security measure.",
+      "country": "Brazil",
+      "location": "Bras\u00edlia, Distrito Federal",
+      "date": "2026-03-28",
+      "source": "Folha de S.Paulo",
+      "sources": [
+        "Folha de S.Paulo"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        -15.78,
+        -47.93
+      ],
+      "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/blogs/brasilia-hoje/2026/03/moraes-manda-pm-abater-drones-que-sobrevoarem-a-casa-de-bolsonaro.shtml",
+      "links": [
+        "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/blogs/brasilia-hoje/2026/03/moraes-manda-pm-abater-drones-que-sobrevoarem-a-casa-de-bolsonaro.shtml"
+      ],
+      "ai_analysis": null,
+      "ingested_at": "2026-03-28T16:30:00.893327+00:00"
+    },
+    {
+      "id": "1e4ef62dc3f6",
+      "type": "purge",
+      "title": "M\u00e1s de 33.000 detenidos por Bukele no figuraban como pandilleros en los registros policiales",
+      "summary": "Over 33,000 detained under Bukele's state of exception regime were not previously registered as gang members, revealing mass arbitrary detention.",
+      "country": "El Salvador",
+      "location": "El Salvador",
+      "date": "2026-03-28",
+      "source": "El Pa\u00eds Am\u00e9rica",
+      "sources": [
+        "El Pa\u00eds Am\u00e9rica"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        -12.97,
+        -38.5
+      ],
+      "url": "https://elpais.com/america/2026-03-28/mas-de-33000-detenidos-por-bukele-no-figuraban-como-pandilleros-en-los-registros-policiales.html",
+      "links": [
+        "https://elpais.com/america/2026-03-28/mas-de-33000-detenidos-por-bukele-no-figuraban-como-pandilleros-en-los-registros-policiales.html"
+      ],
+      "ai_analysis": "# Civil-Military Analysis: Bukele's Mass Detention Campaign\n\nThis mass detention of unregistered civilians represents a **severe breakdown in civilian control mechanisms** and institutional accountability. Rather than targeting documented security threats through established police records, Bukele's security apparatus operated with unchecked discretion, violating the foundational CMR principle that military/security forces must be subordinate to civilian legal frameworks and due process. The regime effectively **coup-proofed itself by consolidating security power** outside traditional institutional constraints\u2014bypassing police vetting procedures and legislative oversight\u2014which paradoxically weakens institutional autonomy by making security forces instruments of executive will rather than professional institutions bound by law. This represents not security sector reform but its militarization and politicization, where 33,000+ arbitrary detentions demonstrate that El Salvador's security apparatus now operates as an extension of personalist executive power rather than as a professional institution accountable to civilian rule.",
+      "ingested_at": "2026-03-28T16:41:07.076419+00:00"
+    },
+    {
+      "id": "aa3d03c1a9d0",
+      "type": "other",
+      "title": "Two humanitarian aid boats heading to Cuba have gone missing, Mexico says",
+      "summary": "Mexican Navy conducts search-and-rescue operation for two humanitarian aid boats missing en route to Cuba.",
+      "country": "Mexico",
+      "location": "Caribbean, Isla Mujeres",
+      "date": "2026-03-27",
+      "source": "The Guardian LatAm \u00b7 Digital Journal",
+      "sources": [
+        "The Guardian LatAm",
+        "Digital Journal"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        23.14,
+        -82.36
+      ],
+      "url": "https://www.theguardian.com/world/2026/mar/27/cuba-humanitarian-aid-boats-missing",
+      "links": [
+        "https://www.theguardian.com/world/2026/mar/27/cuba-humanitarian-aid-boats-missing",
+        "https://www.digitaljournal.com/world/mexico-searches-for-missing-boats-ferrying-aid-to-cuba/article"
+      ],
+      "ai_analysis": null,
+      "ingested_at": "2026-03-28T16:30:00.893327+00:00"
+    },
+    {
+      "id": "03582d0dacf5",
+      "type": "conflict",
+      "title": "Mexico's Guadalajara hosts World Cup playoff\u00a0match under specter\u00a0of violence",
+      "summary": "Guadalajara hosts World Cup match amid cartel violence following capture of El Mencho.",
+      "country": "Mexico",
+      "location": "Guadalajara, Jalisco",
+      "date": "2026-03-27",
+      "source": "CNA \u00b7 Digital Journal",
+      "sources": [
+        "CNA",
+        "Digital Journal"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        20.66,
+        -103.35
+      ],
+      "url": "https://www.channelnewsasia.com/sport/mexicos-guadalajara-hosts-world-cup-playoff-match-under-specter-violence-6021461",
+      "links": [
+        "https://www.channelnewsasia.com/sport/mexicos-guadalajara-hosts-world-cup-playoff-match-under-specter-violence-6021461",
+        "https://www.digitaljournal.com/world/mexico-searches-for-missing-boats-ferrying-aid-to-cuba/article"
+      ],
+      "ai_analysis": "# Civil-Military Analysis: Guadalajara World Cup Match During Cartel Violence\n\nThis event illustrates Mexico's **institutional autonomy paradox**: while the state demonstrated civilian control by proceeding with the match despite security threats, the underlying cartel violence\u2014partly resulting from military operations against El Mencho\u2014reveals the limits of Mexico's security sector reform and coup-proofing mechanisms. The military's inability to establish monopoly control over violence in major urban centers suggests that institutional autonomy has been captured by criminal actors rather than the armed forces themselves, creating a security vacuum where civilian authorities must negotiate with both military and cartel actors to maintain basic state functions like hosting international events.",
+      "ingested_at": "2026-03-28T16:41:07.076419+00:00"
+    },
+    {
+      "id": "b02e306e2bfd",
+      "type": "coup",
+      "title": "Brazil's Bolsonaro leaves hospital and heads home to serve his 27-year sentence",
+      "summary": "Former Brazilian President Bolsonaro discharged from hospital to serve 27-year sentence for coup attempt conviction.",
+      "country": "Brazil",
+      "location": "Brazil",
+      "date": "2026-03-27",
+      "source": "Abcnews.com",
+      "sources": [
+        "Abcnews.com"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        -14.2,
+        -51.9
+      ],
+      "url": "https://abcnews.com/International/wireStory/brazils-bolsonaro-leaves-hospital-heads-home-serve-27-131468498",
+      "links": [
+        "https://abcnews.com/International/wireStory/brazils-bolsonaro-leaves-hospital-heads-home-serve-27-131468498"
+      ],
+      "ai_analysis": "# Civil-Military Significance Analysis\n\nBolsonaro's imprisonment represents a critical assertion of civilian judicial authority over the executive and military establishment, demonstrating that Brazil's democratic institutions can enforce accountability even against a former commander-in-chief\u2014a key indicator of institutionalized civilian control. However, the event also exposes underlying fragility in CMR: the military's initial tolerance for Bolsonaro's coup plotting and the delayed prosecution suggest weak institutional autonomy and inadequate coup-proofing mechanisms that allowed anti-democratic mobilization to reach critical mass before judicial intervention. This outcome, while vindicating rule of law, reveals that Brazil's security sector reform remains incomplete, as the military has not undergone the professionalization and depoliticization necessary to prevent future officers from enabling extraconstitutional challenges to civilian authority.",
+      "ingested_at": "2026-03-28T16:41:07.076419+00:00"
+    },
+    {
+      "id": "f74a421082a8",
+      "type": "conflict",
+      "title": "Trump, Hegseth Helped Bomb An Ecuador Dairy Farm, Not A Drug Compound",
+      "summary": "Trump administration and Ecuador military conducted joint operation that struck dairy farm instead of drug compound.",
+      "country": "Ecuador",
+      "location": "Ecuador",
+      "date": "2026-03-27",
+      "source": "Crooksandliars.com",
+      "sources": [
+        "Crooksandliars.com"
+      ],
+      "conf": "yellow",
+      "salience": "medium",
+      "coords": [
+        -1.8,
+        -78.2
+      ],
+      "url": "https://crooksandliars.com/2026/03/trump-hegseth-helped-bomb-ecuador-dairy",
+      "links": [
+        "https://crooksandliars.com/2026/03/trump-hegseth-helped-bomb-ecuador-dairy"
+      ],
+      "ai_analysis": null,
+      "ingested_at": "2026-03-28T16:41:07.076419+00:00"
+    },
+    {
+      "id": "3eb22bdf3ab4",
+      "type": "conflict",
+      "title": "Sin guardias de honor ni insignias patrias: el d\u00eda que vi a Nicol\u00e1s Maduro y Cilia Flores vestidos de caqui en un tribunal de Nueva York",
+      "summary": "Deposed Venezuelan president Maduro appears in US court on narco-terrorism charges after alleged US military capture.",
+      "country": "Venezuela",
+      "location": "New York, United States",
+      "date": "2026-03-26",
+      "source": "The Guardian LatAm \u00b7 Crisis Group \u00b7 BBC Mundo",
+      "sources": [
+        "The Guardian LatAm",
+        "Crisis Group",
+        "BBC Mundo"
+      ],
+      "conf": "yellow",
+      "salience": "high",
+      "coords": [
+        6.4,
+        -66.6
+      ],
+      "url": "https://www.theguardian.com/world/2026/mar/26/nicolas-maduro-federal-court-narco-terrorism-case",
+      "links": [
+        "https://www.theguardian.com/world/2026/mar/26/nicolas-maduro-federal-court-narco-terrorism-case",
+        "https://www.crisisgroup.org/cmt/latin-america-caribbean/venezuela/venezuela-paradigm-trumps-model-intervention-mirage",
+        "https://www.bbc.com/mundo/articles/c78l69328wdo?at_medium=RSS&at_campaign=rss"
+      ],
+      "ai_analysis": "# Civil-Military Significance Analysis\n\nThis event represents a **catastrophic collapse of civilian control mechanisms** in Venezuela, as the military's failure to prevent Maduro's capture (or alleged rendition) demonstrates the erosion of the institutional autonomy that had previously insulated the armed forces from external intervention. The appearance of the civilian president in a foreign military/judicial context\u2014stripped of state symbols and formal authority\u2014signals that the coup-proofing structures Maduro constructed (loyalty networks, parallel military hierarchies) proved insufficient against coordinated international pressure, potentially emboldening factions within the Venezuelan military to realign with alternative power centers. This outcome suggests that without legitimate civilian institutions and rule of law, personalistic civil-military arrangements become brittle; the security sector's institutional autonomy paradoxically enabled its capture by external actors rather than protecting national sovereignty.",
+      "ingested_at": "2026-03-28T16:41:07.076419+00:00"
+    },
+    {
+      "id": "7313c9a23d18",
+      "type": "oc",
+      "title": "Argentina Designates Cartel Jalisco Nueva Generaci\u00f3n As a Terrorist Organization",
+      "summary": "Argentine government designates Mexican drug cartel CJNG as terrorist organization, affecting security force operations.",
+      "country": "Argentina",
+      "location": "Argentina",
+      "date": "2026-03-26",
+      "source": "Borderlandbeat.com",
+      "sources": [
+        "Borderlandbeat.com"
+      ],
+      "conf": "yellow",
+      "salience": "medium",
+      "coords": [
+        20.6,
+        -103.3
+      ],
+      "url": "https://www.borderlandbeat.com/2026/03/argentina-designates-cartel-jalisco.html",
+      "links": [
+        "https://www.borderlandbeat.com/2026/03/argentina-designates-cartel-jalisco.html"
+      ],
+      "ai_analysis": null,
+      "ingested_at": "2026-03-28T16:41:07.076419+00:00"
+    },
+    {
+      "id": "46aff049b431",
+      "type": "protest",
+      "title": "Police fire water cannons at Chile student protest",
+      "summary": "Chilean police deploy water cannons against student protesters in Santiago over education policy.",
+      "country": "Chile",
+      "location": "Santiago, Chile",
+      "date": "2026-03-26",
+      "source": "Al Jazeera English",
+      "sources": [
+        "Al Jazeera English"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        -33.46,
+        -70.65
+      ],
+      "url": "https://www.aljazeera.com/video/newsfeed/2026/3/26/police-fire-water-cannons-at-chile-student-protest",
+      "links": [
+        "https://www.aljazeera.com/video/newsfeed/2026/3/26/police-fire-water-cannons-at-chile-student-protest"
+      ],
+      "ai_analysis": null,
+      "ingested_at": "2026-03-28T16:41:07.076419+00:00"
+    },
+    {
+      "id": "b53bfea7add0",
+      "type": "conflict",
+      "title": "Map: Military Strikes Target Complex Criminal Landscape on Colombia-Ecuador Border",
+      "summary": "Colombian military conducts strikes against criminal organizations operating in the Colombia-Ecuador border region.",
+      "country": "Colombia",
+      "location": "Colombia-Ecuador border",
+      "date": "2026-03-25",
+      "source": "InSight Crime",
+      "sources": [
+        "InSight Crime"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        4.6,
+        -74.1
+      ],
+      "url": "https://insightcrime.org/news/military-strikes-criminal-landscape-colombia-ecuador-border/",
+      "links": [
+        "https://insightcrime.org/news/military-strikes-criminal-landscape-colombia-ecuador-border/"
+      ],
+      "ai_analysis": "# Civil-Military Analysis: Colombian Border Military Operations\n\nThese strikes represent a **reassertion of state monopoly on force** in a region where non-state armed groups had achieved de facto territorial control, which is essential for civilian supremacy\u2014a foundational CMR principle. However, the operation's success depends critically on whether civilian leadership maintains **institutional oversight mechanisms** (operational authorization, rules of engagement review, post-action accountability) to prevent the military from using counter-insurgency operations as justification for autonomous decision-making or expanded budgets that could erode civilian control. The strikes also reveal potential **coup-proofing vulnerabilities**: if border insecurity persists despite military action, civilian leaders may face pressure to grant the armed forces greater operational autonomy or reduced budgetary constraints, paradoxically weakening the institutional constraints that prevent military politicization.",
+      "ingested_at": "2026-03-28T16:30:00.893327+00:00"
+    },
+    {
+      "id": "4366f4ef3141",
+      "type": "coup",
+      "title": "\"Jam\u00e1s se nos cruz\u00f3 por la cabeza que iba a ser tan siniestro\": los recuerdos del d\u00eda del golpe de Estado que hace 50 a\u00f1os cambi\u00f3 Argentina",
+      "summary": "Historical retrospective on the 1976 Argentine military coup that overthrew Isabel Per\u00f3n and established a repressive regime.",
+      "country": "Argentina",
+      "location": "Argentina",
+      "date": "2026-03-24",
+      "source": "BBC Mundo",
+      "sources": [
+        "BBC Mundo"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        -38.4,
+        -63.6
+      ],
+      "url": "https://www.bbc.com/mundo/articles/clye8pr23ywo?at_medium=RSS&at_campaign=rss",
+      "links": [
+        "https://www.bbc.com/mundo/articles/clye8pr23ywo?at_medium=RSS&at_campaign=rss"
+      ],
+      "ai_analysis": "# Civil-Military Analysis: The 1976 Argentine Coup\n\nThe 1976 coup represented a catastrophic breakdown of civilian control mechanisms, as Argentina's military unilaterally seized power from an elected civilian government, demonstrating the absence of institutional constraints or coup-proofing mechanisms that might have prevented such intervention. This event exemplifies how weak civilian institutions and economic crisis created space for military institutional autonomy to transform into outright political dominance, establishing a precedent that would plague Argentine civil-military relations for decades. The subsequent security sector's autonomy from civilian oversight during the \"Dirty War\" (1976-1983) illustrates how unchecked military power, absent meaningful civilian control or security sector reform, enabled systematic human rights abuses\u2014a pattern that would require extensive institutional rebuilding and transitional justice mechanisms after democratization to reestablish civilian supremacy.",
+      "ingested_at": "2026-03-28T16:30:00.893327+00:00"
+    },
+    {
+      "id": "a1b2c3d4e5f6",
+      "type": "conflict",
+      "title": "ELN clashes with army in Norte de Santander, 4 killed",
+      "country": "Colombia",
+      "date": "2026-03-21",
+      "source": "ACLED",
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        7.9,
+        -72.5
+      ],
+      "summary": "Armed confrontation between ELN guerrillas and Colombian army forces in rural Norte de Santander. Four combatants reported killed. Military deployed additional units to the area.",
+      "url": "",
+      "ingested_at": "2026-03-21T06:00:00Z"
+    },
+    {
+      "id": "b2c3d4e5f6a1",
+      "type": "purge",
+      "title": "Reports of detained officers in Caracas military barracks",
+      "country": "Venezuela",
+      "date": "2026-03-20",
+      "source": "Twitter/X",
+      "conf": "red",
+      "salience": "high",
+      "coords": [
+        10.5,
+        -66.9
+      ],
+      "summary": "Unverified social media reports claim several senior officers were detained at Fort Tiuna. No official confirmation from Venezuelan Ministry of Defense.",
+      "url": "",
+      "ingested_at": "2026-03-21T06:00:00Z"
+    },
+    {
+      "id": "90ce2e3f8b6a",
+      "type": "other",
+      "title": "On the Radar: Latin America Keeps Attacking Crime \u2014 But Is It Working?",
+      "summary": "Regional assessment of Latin American military and security force operations against organized crime and their effectiveness.",
+      "country": "Regional",
+      "location": null,
+      "date": "2026-03-20",
+      "source": "InSight Crime",
+      "sources": [
+        "InSight Crime"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        -5.0,
+        -60.0
+      ],
+      "url": "https://insightcrime.org/news/on-the-radar-latin-america-keeps-attacking-crime-but-is-it-working/",
+      "links": [
+        "https://insightcrime.org/news/on-the-radar-latin-america-keeps-attacking-crime-but-is-it-working/"
+      ],
+      "ai_analysis": null,
+      "ingested_at": "2026-03-28T16:30:00.893327+00:00"
+    },
+    {
+      "id": "c3d4e5f6a1b2",
+      "type": "reform",
+      "title": "Mexico completes national guard transfer to army command",
+      "country": "Mexico",
+      "date": "2026-03-19",
+      "source": "Reuters",
+      "conf": "yellow",
+      "salience": "high",
+      "coords": [
+        19.4,
+        -99.1
+      ],
+      "summary": "The Mexican government formally completed the transfer of the National Guard to the Ministry of National Defense, consolidating military control over domestic security.",
+      "url": "",
+      "ingested_at": "2026-03-21T06:00:00Z"
+    },
+    {
+      "id": "d4e5f6a1b2c3",
+      "type": "oc",
+      "title": "Navy seizes 2.4 tons of cocaine off Ecuadorian coast",
+      "country": "Ecuador",
+      "date": "2026-03-18",
+      "source": "InSight Crime",
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        -1.2,
+        -80.9
+      ],
+      "summary": "Ecuadorian navy intercepted a semi-submersible vessel carrying 2.4 tons of cocaine hydrochloride. Joint operation with US Coast Guard support.",
+      "url": "",
+      "ingested_at": "2026-03-21T06:00:00Z"
+    },
+    {
+      "id": "e5f6a1b2c3d4",
+      "type": "exercise",
+      "title": "UNITAS LXVI multinational naval exercise begins",
+      "country": "Brazil",
+      "date": "2026-03-15",
+      "source": "SOUTHCOM",
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        -22.9,
+        -43.2
+      ],
+      "summary": "The 66th iteration of UNITAS, the longest-running multinational maritime exercise in the Western Hemisphere, commenced in Brazilian waters with 19 participating nations.",
+      "url": "",
+      "ingested_at": "2026-03-21T06:00:00Z"
+    },
+    {
+      "id": "f6a1b2c3d4e5",
+      "type": "coup",
+      "title": "Unverified: military vehicle movements near Tegucigalpa",
+      "country": "Honduras",
+      "date": "2026-03-14",
+      "source": "Twitter/X",
+      "conf": "red",
+      "salience": "high",
+      "coords": [
+        14.1,
+        -87.2
+      ],
+      "summary": "Multiple social media accounts report unusual military vehicle movements near the Honduran capital. Honduran Armed Forces have not issued a statement.",
+      "url": "",
+      "ingested_at": "2026-03-21T06:00:00Z"
+    },
+    {
+      "id": "a2b3c4d5e6f7",
+      "type": "protest",
+      "title": "Protest repression in Managua, 12 detained",
+      "country": "Nicaragua",
+      "date": "2026-03-13",
+      "source": "ACLED",
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        12.1,
+        -86.3
+      ],
+      "summary": "Nicaraguan police and army units dispersed protests in central Managua. At least 12 people detained. International community has condemned the crackdown.",
+      "url": "",
+      "ingested_at": "2026-03-21T06:00:00Z"
+    },
+    {
+      "id": "b3c4d5e6f7a2",
+      "type": "aid",
+      "title": "Chinese naval vessel conducts port visit to Callao",
+      "country": "Peru",
+      "date": "2026-03-12",
+      "source": "El Comercio",
+      "conf": "yellow",
+      "salience": "medium",
+      "coords": [
+        -12.1,
+        -77.0
+      ],
+      "summary": "PLA Navy Type 054A frigate conducted a four-day port visit to Callao, Peru. Chinese ambassador attended welcoming ceremony with Peruvian naval officials.",
+      "url": "",
+      "ingested_at": "2026-03-21T06:00:00Z"
+    },
+    {
+      "id": "c4d5e6f7a2b3",
+      "type": "purge",
+      "title": "Nicaragua: Ortega promotes Sandinista loyalists to military high command",
+      "country": "Nicaragua",
+      "date": "2026-03-10",
+      "source": "NACLA",
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        12.1,
+        -86.3
+      ],
+      "summary": "President Ortega appointed three new generals closely associated with the Sandinista apparatus, replacing officers from the democratic transition era.",
+      "url": "",
+      "ingested_at": "2026-03-21T06:00:00Z"
+    },
+    {
+      "id": "d5e6f7a2b3c4",
+      "type": "conflict",
+      "title": "Alleged FARC dissident ambush kills 3 soldiers in Cauca",
+      "country": "Colombia",
+      "date": "2026-03-08",
+      "source": "El Tiempo",
+      "conf": "yellow",
+      "salience": "high",
+      "coords": [
+        2.4,
+        -76.6
+      ],
+      "summary": "EMC faction reportedly ambushed an army patrol in rural Cauca department. Three soldiers killed, two wounded. Military launched pursuit operations.",
+      "url": "",
+      "ingested_at": "2026-03-21T06:00:00Z"
+    },
+    {
+      "id": "e6f7a2b3c4d5",
+      "type": "reform",
+      "title": "Chile announces defense white paper update for 2026",
+      "country": "Chile",
+      "date": "2026-03-05",
+      "source": "MinDef Chile",
+      "conf": "green",
+      "salience": "low",
+      "coords": [
+        -33.4,
+        -70.6
+      ],
+      "summary": "Chilean Ministry of Defense announced a comprehensive update to the national defense white paper, the first revision since 2017.",
+      "url": "",
+      "ingested_at": "2026-03-21T06:00:00Z"
+    },
+    {
+      "id": "f7a2b3c4d5e6",
+      "type": "aid",
+      "title": "US-Paraguay defense cooperation agreement renewed",
+      "country": "Paraguay",
+      "date": "2026-03-03",
+      "source": "State Dept",
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        -25.3,
+        -57.6
+      ],
+      "summary": "The United States and Paraguay renewed their bilateral defense cooperation agreement for another five years, expanding training and equipment provisions.",
+      "url": "",
+      "links": [],
+      "sources": [
+        "State Dept"
+      ],
+      "ai_analysis": null,
+      "ingested_at": "2026-03-21T06:00:00Z"
+    },
+    {
+      "id": "120a85f03242",
+      "type": "purge",
+      "title": "FANB issues loyalty statement backing Rodr\u00edguez; DGCIM detains at least 12 officers suspected of cooperation with US",
+      "summary": "Defense Minister Vladimir Padrino L\u00f3pez issued a statement pledging FANB loyalty to constitutional continuity under Rodr\u00edguez. DGCIM simultaneously detained at least 12 mid- to senior-level officers on suspicion of having facilitated or failed to prevent the January 3 operation. The scale of detentions suggests deep uncertainty about institutional loyalty within the armed forces. Unconfirmed reports indicate CEOFANB General Hern\u00e1ndez L\u00e1rez tendered his resignation but was not accepted.",
+      "country": "Venezuela",
+      "location": "Caracas",
+      "date": "2026-01-06",
+      "source": "InSight Crime \u00b7 El Pa\u00eds \u00b7 Unconfirmed",
+      "sources": [
+        "InSight Crime",
+        "El Pa\u00eds Am\u00e9rica"
+      ],
+      "conf": "yellow",
+      "salience": "high",
+      "coords": [
+        10.48,
+        -66.88
+      ],
+      "url": "https://www.crisisgroup.org/cmt/latin-america-caribbean/venezuela/venezuela-paradigm-trumps-model-intervention-mirage",
+      "links": [
+        "https://www.crisisgroup.org/cmt/latin-america-caribbean/venezuela/venezuela-paradigm-trumps-model-intervention-mirage"
+      ],
+      "ai_analysis": "# CMR Significance: Post-Operation FANB Stabilization\n\nPadrino L\u00f3pez's loyalty statement is consistent with survival-maximising behaviour by an officer corps facing institutional uncertainty: pledge loyalty to the surviving constitutional structure while purging potential rivals or collaborators. The DGCIM detentions demonstrate the parallel intelligence apparatus remains functional and is being used for internal coup-proofing \u2014 now directed inward against the military itself, not external opponents. This internal purge following an external shock is a textbook response pattern identified in authoritarian coup-proofing literature.",
+      "ingested_at": "2026-01-06T10:00:00+00:00"
+    },
+    {
+      "id": "1687d1b36be4",
+      "type": "coup",
+      "title": "Maduro arraigned in New York on narco-terrorism charges; Delcy Rodr\u00edguez sworn in as acting president",
+      "summary": "Nicol\u00e1s Maduro and Cilia Flores were transported to New York and arraigned on January 5, 2026, on charges of narco-terrorism conspiracy, cocaine importation, and possession of machine guns. A federal judge ordered Maduro detained. Simultaneously, Venezuela's Supreme Tribunal of Justice ordered Vice President Delcy Rodr\u00edguez to assume the interim presidency. Under the Venezuelan Constitution, she may hold the position for up to six months before elections must be called.",
+      "country": "Venezuela",
+      "location": "New York / Caracas",
+      "date": "2026-01-05",
+      "source": "Reuters \u00b7 NYT \u00b7 BBC Mundo",
+      "sources": [
+        "Reuters",
+        "NYT",
+        "BBC Mundo"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        10.48,
+        -66.88
+      ],
+      "url": "https://en.wikipedia.org/wiki/2026_United_States_intervention_in_Venezuela",
+      "links": [
+        "https://en.wikipedia.org/wiki/2026_United_States_intervention_in_Venezuela",
+        "https://www.brookings.edu/articles/making-sense-of-the-us-military-operation-in-venezuela/"
+      ],
+      "ai_analysis": "# CMR Significance: Maduro Arraignment and Rodr\u00edguez Transition\n\nThe transfer of executive authority to Delcy Rodr\u00edguez \u2014 herself deeply enmeshed in the FANB patronage network \u2014 tests whether the Bolivarian system's institutional logic can survive without its founding personalist anchor. Rodr\u00edguez's legitimacy before the officer corps depends on her ability to maintain the coup-proofing arrangements (promotions, economic privileges, CEOFANB command structure) that Maduro sustained. The six-month constitutional window creates a transitional CMR vacuum: the FANB must decide whether to support Rodr\u00edguez, fragment, or use the transition as cover for internal consolidation.",
+      "ingested_at": "2026-01-05T14:00:00+00:00"
+    },
+    {
+      "id": "4a0a1e1559ed",
+      "type": "coup",
+      "title": "Operation Absolute Resolve: US forces conduct strike on Caracas, capture President Maduro",
+      "summary": "Beginning at approximately 2:00 AM local time, US special operations forces and airstrikes targeted Maduro's compound and air defence infrastructure in Caracas, La Guaira, and Higuerote. Delta Force units apprehended Nicol\u00e1s Maduro and Cilia Flores. At least 23 killed during the operation. The action \u2014 formally unilateral \u2014 was justified by the Trump administration under the 2020 narco-terrorism indictment. The UN Security Council emergency session condemned the operation; Russia and China vetoed a binding resolution.",
+      "country": "Venezuela",
+      "location": "Caracas",
+      "date": "2026-01-03",
+      "source": "CNN \u00b7 BBC \u00b7 Reuters \u00b7 CSIS",
+      "sources": [
+        "CNN",
+        "BBC",
+        "Reuters",
+        "CSIS"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        10.48,
+        -66.88
+      ],
+      "url": "https://www.cnn.com/world/live-news/venezuela-explosions-caracas-intl-hnk-01-03-26",
+      "links": [
+        "https://www.cnn.com/world/live-news/venezuela-explosions-caracas-intl-hnk-01-03-26",
+        "https://en.wikipedia.org/wiki/2026_United_States_intervention_in_Venezuela",
+        "https://www.csis.org/analysis/imagery-venezuela-shows-surgical-strike-not-shock-and-awe"
+      ],
+      "ai_analysis": "# CMR Significance: Operation Absolute Resolve\n\nThis event represents a **categorical rupture in civil-military relations theory** as applied to Latin America. The forcible removal of a sitting head of state by a foreign military power \u2014 even one facing narco-terrorism charges \u2014 eliminates the domestic civilian authority variable entirely. From a CMR standpoint, the critical questions are: (1) How does the FANB respond to the sudden removal of the executive to whom institutional loyalty was constructed? (2) Does the coup-proofing architecture \u2014 parallel structures, militia, SEBIN/DGCIM loyalty networks \u2014 survive without Maduro at the apex? (3) What is the status of the approximately 2,000 generals commissioned under Maduro, whose institutional positions were predicated on personal loyalty? The operation effectively tests every theory of authoritarian civil-military survival simultaneously.",
+      "ingested_at": "2026-01-03T06:00:00+00:00"
+    }
   ]
 }

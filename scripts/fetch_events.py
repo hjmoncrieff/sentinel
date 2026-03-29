@@ -38,6 +38,17 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
 
+# ── Load .env file if present (local development) ─────────────
+_env_path = Path(__file__).resolve().parent.parent / ".env"
+if _env_path.exists():
+    for _line in _env_path.read_text().splitlines():
+        _line = _line.strip()
+        if _line and not _line.startswith("#") and "=" in _line:
+            _k, _v = _line.split("=", 1)
+            _k, _v = _k.strip(), _v.strip()
+            if _v:  # only write non-empty values so blank optionals don't clobber
+                os.environ[_k] = _v
+
 try:
     import anthropic
     import feedparser
@@ -61,10 +72,34 @@ GDELT_URL   = "https://api.gdeltproject.org/api/v2/doc/doc"
 NEWSAPI_URL = "https://newsapi.org/v2/everything"
 
 RSS_FEEDS = [
-    {"name": "InSight Crime",  "url": "https://insightcrime.org/feed/"},
-    {"name": "Reuters LatAm",  "url": "https://feeds.reuters.com/reuters/LATopNews"},
-    {"name": "NACLA",          "url": "https://nacla.org/rss.xml"},
-    {"name": "SOUTHCOM",       "url": "https://www.southcom.mil/RSS/?CH=1"},
+    # English specialist
+    {"name": "InSight Crime",         "url": "https://insightcrime.org/feed/"},
+    {"name": "Americas Quarterly",    "url": "https://americasquarterly.org/feed/"},
+    {"name": "The Guardian LatAm",    "url": "https://www.theguardian.com/world/americas/rss"},
+    {"name": "Crisis Group",          "url": "https://www.crisisgroup.org/rss"},
+    # English wire/broadcast
+    {"name": "Reuters LatAm",         "url": "https://feeds.reuters.com/reuters/LATopNews"},
+    {"name": "AP Latin America",      "url": "https://rsshub.app/apnews/topics/latin-america"},
+    {"name": "BBC Americas",          "url": "https://feeds.bbci.co.uk/news/world/latin_america/rss.xml"},
+    {"name": "CNN en Español",        "url": "https://cnnespanol.cnn.com/feed/"},
+    {"name": "NYT World",             "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"},
+    {"name": "Miami Herald Americas", "url": "https://www.miamiherald.com/news/nation-world/world/americas/?widgetName=rssfeed&widgetContentId=712015&getXmlFeed=true"},
+    {"name": "SOUTHCOM",              "url": "https://www.southcom.mil/RSS/?CH=1"},
+    # Academic/policy
+    {"name": "NACLA",                 "url": "https://nacla.org/rss.xml"},
+    {"name": "Wilson Center LatAm",   "url": "https://www.wilsoncenter.org/rss/publication/68"},
+    # Spanish-language regional
+    {"name": "BBC Mundo",             "url": "https://feeds.bbci.co.uk/mundo/rss.xml"},
+    {"name": "El País América",       "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/america/portada"},
+    {"name": "La Nación Argentina",   "url": "https://www.lanacion.com.ar/rss/politica-y-pais"},
+    {"name": "El Tiempo Colombia",    "url": "https://www.eltiempo.com/rss/politica.xml"},
+    {"name": "Semana Colombia",       "url": "https://www.semana.com/rss/feed.xml"},
+    {"name": "Folha de S.Paulo",      "url": "https://feeds.folha.uol.com.br/poder/rss091.xml"},
+    # Country-specific specialist
+    {"name": "Zeta Tijuana",          "url": "https://www.zetatijuana.com/feed/"},
+    {"name": "El Nacional Venezuela", "url": "https://www.elnacional.com/feed/"},
+    # Pan-regional Spanish (via Google News — Infobae has no native RSS)
+    {"name": "Infobae",               "url": "https://news.google.com/rss/search?q=site:infobae.com+(militar+OR+seguridad+OR+crimen+OR+golpe+OR+narcotráfico)&hl=es-419&gl=US&ceid=US:es-419"},
 ]
 
 LATAM_COUNTRIES = [
@@ -103,6 +138,132 @@ COUNTRY_CENTROIDS: dict[str, list[float]] = {
     "Regional":             [ -5.0, -60.0],
 }
 
+PLACE_COORDS: dict[str, list[float]] = {
+    # Colombia
+    "bogotá": [4.71, -74.07], "bogota": [4.71, -74.07], "medellín": [6.25, -75.56],
+    "medellin": [6.25, -75.56], "cali": [3.44, -76.52], "cartagena": [10.39, -75.51],
+    "barranquilla": [10.97, -74.80], "cúcuta": [7.89, -72.51], "cucuta": [7.89, -72.51],
+    "bucaramanga": [7.13, -73.13], "catatumbo": [8.8, -73.0], "urabá": [8.0, -76.5],
+    "uraba": [8.0, -76.5], "cauca": [2.7, -76.8], "nariño": [1.28, -77.28],
+    "narino": [1.28, -77.28], "putumayo": [0.43, -76.64], "chocó": [5.7, -76.7],
+    "choco": [5.7, -76.7], "norte de santander": [7.9, -72.5], "arauca": [7.09, -70.76],
+    # Mexico
+    "ciudad de méxico": [19.43, -99.13], "ciudad de mexico": [19.43, -99.13],
+    "mexico city": [19.43, -99.13], "guadalajara": [20.66, -103.35],
+    "monterrey": [25.67, -100.31], "culiacán": [24.80, -107.39],
+    "culiacan": [24.80, -107.39], "tijuana": [32.51, -117.03],
+    "juárez": [31.74, -106.49], "juarez": [31.74, -106.49],
+    "sinaloa": [25.8, -108.4], "jalisco": [20.6, -103.3],
+    "michoacán": [19.2, -101.9], "michoacan": [19.2, -101.9],
+    "guerrero": [17.4, -99.5], "tamaulipas": [24.3, -98.8],
+    "chiapas": [16.8, -92.6], "oaxaca": [17.07, -96.72],
+    "veracruz": [19.2, -96.1],
+    # Venezuela
+    "caracas": [10.48, -66.88], "maracaibo": [10.63, -71.64],
+    "valencia": [10.16, -67.99], "barquisimeto": [10.07, -69.32],
+    "maracay": [10.25, -67.60], "fort tiuna": [10.47, -66.92],
+    "guayana": [8.36, -62.64], "apure": [7.07, -68.54],
+    "zulia": [10.6, -71.7], "táchira": [7.9, -72.3], "tachira": [7.9, -72.3],
+    # Brazil
+    "brasília": [-15.78, -47.93], "brasilia": [-15.78, -47.93],
+    "são paulo": [-23.55, -46.63], "sao paulo": [-23.55, -46.63],
+    "rio de janeiro": [-22.91, -43.17], "rio": [-22.91, -43.17],
+    "manaus": [-3.10, -60.02], "belém": [-1.46, -48.50], "belem": [-1.46, -48.50],
+    "salvador": [-12.97, -38.50], "recife": [-8.06, -34.88],
+    "fortaleza": [-3.72, -38.54], "porto alegre": [-30.03, -51.23],
+    "amazonas": [-3.1, -60.0], "pará": [-3.5, -52.0], "para": [-3.5, -52.0],
+    # El Salvador
+    "san salvador": [13.69, -89.19], "soyapango": [13.71, -89.15],
+    "santa ana": [13.99, -89.56], "san miguel": [13.48, -88.18],
+    "CECOT": [13.78, -89.02], "cecot": [13.78, -89.02],
+    "chalatenango": [14.04, -88.93], "cabañas": [13.87, -88.75],
+    # Argentina
+    "buenos aires": [-34.61, -58.38], "córdoba": [-31.42, -64.18],
+    "cordoba": [-31.42, -64.18], "rosario": [-32.95, -60.64],
+    "mendoza": [-32.89, -68.85], "tucumán": [-26.82, -65.22],
+    "tucuman": [-26.82, -65.22],
+    # Peru
+    "lima": [-12.05, -77.04], "cusco": [-13.53, -71.97],
+    "arequipa": [-16.41, -71.54], "trujillo": [-8.11, -79.03],
+    "ayacucho": [-13.16, -74.22], "la pampa": [-13.8, -70.5],
+    "vraem": [-12.5, -73.8], "apurímac": [-14.0, -73.1], "apurimac": [-14.0, -73.1],
+    # Ecuador
+    "quito": [-0.22, -78.51], "guayaquil": [-2.19, -79.89],
+    "cuenca": [-2.90, -79.00], "esmeraldas": [0.97, -79.65],
+    "sucumbíos": [0.09, -76.89], "sucumbios": [0.09, -76.89],
+    # Bolivia
+    "la paz": [-16.50, -68.15], "cochabamba": [-17.39, -66.16],
+    "santa cruz": [-17.79, -63.18], "el alto": [-16.50, -68.19],
+    "chapare": [-16.8, -65.7],
+    # Honduras
+    "tegucigalpa": [14.07, -87.21], "san pedro sula": [15.47, -88.03],
+    # Guatemala
+    "guatemala city": [14.63, -90.51], "quetzaltenango": [14.84, -91.52],
+    # Nicaragua
+    "managua": [12.13, -86.31],
+    # Haiti
+    "port-au-prince": [18.54, -72.34], "port au prince": [18.54, -72.34],
+    "cite soleil": [18.57, -72.33],
+    # Cuba
+    "havana": [23.14, -82.36], "la habana": [23.14, -82.36],
+    # Panama
+    "panama city": [8.99, -79.52], "colón": [9.36, -79.90], "colon": [9.36, -79.90],
+    # Dominican Republic
+    "santo domingo": [18.48, -69.96],
+    # Paraguay
+    "asunción": [-25.29, -57.64], "asuncion": [-25.29, -57.64],
+    # Uruguay
+    "montevideo": [-34.90, -56.17],
+    # Costa Rica
+    "san josé": [9.93, -84.08], "san jose": [9.93, -84.08],
+    # Chile
+    "santiago": [-33.46, -70.65], "valparaíso": [-33.05, -71.62],
+    "valparaiso": [-33.05, -71.62], "antofagasta": [-23.65, -70.40],
+}
+
+
+# Places that belong to a specific country — prevents cross-country false matches.
+# Key: lowercase place name as it appears in PLACE_COORDS
+# Value: the country that place belongs to (must match LATAM_COUNTRIES strings)
+PLACE_COUNTRY: dict[str, str] = {
+    # "salvador" is a city in Brazil (Bahia), NOT "El Salvador" the country
+    "salvador":         "Brazil",
+    # Other ambiguous names
+    "cartagena":        "Colombia",   # also exists in Spain
+    "valencia":         "Venezuela",  # also exists in Spain
+    "san jose":         "Costa Rica",
+    "san josé":         "Costa Rica",
+    "guayana":          "Venezuela",
+    "fort tiuna":       "Venezuela",
+    "santa ana":        "El Salvador",
+    "san miguel":       "El Salvador",
+    "cecot":            "El Salvador",
+    "trujillo":         "Peru",       # also a city in Venezuela/Honduras
+    "santa cruz":       "Bolivia",
+    "colón":            "Panama",
+    "colon":            "Panama",
+}
+
+
+def geolocate(text: str, country: str) -> list[float]:
+    """Try to find specific coords from text, fall back to country centroid.
+
+    Country-aware: if a place name is registered in PLACE_COUNTRY and that
+    country does NOT match the event's country, skip it so we don't assign
+    e.g. the Brazilian city of Salvador to an El Salvador event.
+    """
+    text_lower = text.lower()
+    # Longest match first to avoid sub-string shadowing (e.g. "lima" in "lima beans")
+    for place, coords in sorted(PLACE_COORDS.items(), key=lambda x: -len(x[0])):
+        if place.lower() in text_lower:
+            place_ctry = PLACE_COUNTRY.get(place.lower())
+            # Skip if this place is explicitly assigned to a DIFFERENT country
+            if place_ctry is not None and place_ctry != country:
+                continue
+            return coords
+    return COUNTRY_CENTROIDS.get(country, [0.0, 0.0])
+
+
 ACLED_TYPE_MAP = {
     "Riots":                     "protest",
     "Protests":                  "protest",
@@ -135,6 +296,16 @@ RELEVANCE_KEYWORDS = [
     "armed group", "cartel", "narco", "operation", "battalion",
     "brigade", "regiment", "deployment", "exercise", "procurement",
     "weapon", "arms", "missile", "drone", "intelligence",
+    # Expanded keywords
+    "ceasefire", "peace talks", "negotiations", "disarmament", "reintegration",
+    "state of emergency", "martial law", "curfew", "detention", "extradition",
+    "trafficking", "smuggling", "seizure", "arrest", "assassination", "kidnapping",
+    "hostage", "bombing", "airstrike", "massacre", "displacement", "refugee",
+    "sanction", "indictment", "conviction", "corruption", "bribery", "impunity",
+    "ELN", "FARC", "Sendero", "Hezbollah", "MS-13", "Mara",
+    "maduro", "petro", "bukele", "lula", "milei", "boric",
+    "southcom", "USAID", "pentagon", "DEA", "CIA",
+    "tren de aragua", "jalisco", "sinaloa", "gulf cartel",
 ]
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -301,33 +472,65 @@ def normalize_gdelt(articles: list[dict]) -> list[dict]:
 
 # ── NewsAPI ────────────────────────────────────────────────────────────────────
 
-def fetch_newsapi(api_key: str) -> list[dict]:
-    since = (datetime.now(timezone.utc) - timedelta(hours=4)).strftime("%Y-%m-%dT%H:%M:%SZ")
-    country_terms = " OR ".join(LATAM_COUNTRIES[:14])
-    params = {
-        "q": (
-            f"(military OR army OR coup OR protest OR \"security forces\" OR guerrilla) "
-            f"AND ({country_terms})"
+def fetch_newsapi(api_key: str, since: str | None = None) -> list[dict]:
+    if since is None:
+        since = (datetime.now(timezone.utc) - timedelta(hours=48)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    queries = [
+        # Query 1: military/security
+        (
+            '(military OR army OR "armed forces" OR coup OR "defense minister" OR "fuerzas armadas"'
+            ' OR ejército OR naval OR "air force") AND (Colombia OR Mexico OR Venezuela OR Brazil'
+            ' OR Ecuador OR Peru OR Bolivia OR Honduras OR Guatemala OR "El Salvador" OR Nicaragua'
+            ' OR Haiti OR Argentina OR Chile OR Uruguay OR Paraguay OR Cuba OR Panama)'
         ),
-        "language": "en",
-        "sortBy":   "publishedAt",
-        "pageSize": "50",
-        "from":     since,
-        "apiKey":   api_key,
-    }
-    try:
-        resp = requests.get(NEWSAPI_URL, params=params, timeout=30)
-        resp.raise_for_status()
-        data = resp.json()
-        if data.get("status") != "ok":
-            log.error(f"NewsAPI: {data.get('message', data.get('status'))}")
-            return []
-        articles = data.get("articles") or []
-        log.info(f"NewsAPI: {len(articles)} raw articles")
-        return articles
-    except Exception as e:
-        log.error(f"NewsAPI fetch failed: {e}")
-        return []
+        # Query 2: conflict/crime
+        (
+            '(guerrilla OR cartel OR narco OR ELN OR FARC OR "Clan del Golfo" OR "organized crime"'
+            ' OR "drug trafficking" OR ceasefire OR "peace process" OR insurgent OR paramilitary)'
+            ' AND (Latin America OR Colombia OR Mexico OR Venezuela OR Central America OR "South America")'
+        ),
+        # Query 3: political/reform
+        (
+            '(protest OR "security sector" OR "security reform" OR "police reform" OR coup'
+            ' OR "democratic backsliding" OR "civil-military" OR "state of emergency"'
+            ' OR "estado de excepción") AND (Colombia OR Mexico OR Venezuela OR Brazil OR Ecuador'
+            ' OR Peru OR Bolivia OR Honduras OR Guatemala OR Argentina OR Chile)'
+        ),
+    ]
+    seen_urls: set[str] = set()
+    all_articles: list[dict] = []
+    for i, q in enumerate(queries, 1):
+        params = {
+            "q":        q,
+            "language": "en",
+            "sortBy":   "publishedAt",
+            "pageSize": "50",
+            "from":     since,
+            "apiKey":   api_key,
+        }
+        try:
+            resp = requests.get(NEWSAPI_URL, params=params, timeout=30)
+            resp.raise_for_status()
+            data = resp.json()
+            if data.get("status") != "ok":
+                msg_text = data.get("message", data.get("status", ""))
+                if "too old" in msg_text.lower() or "upgrade" in msg_text.lower() or "maximumAge" in msg_text:
+                    log.warning(f"NewsAPI query {i}: date too old for plan — {msg_text}")
+                else:
+                    log.error(f"NewsAPI query {i}: {msg_text}")
+                continue
+            batch = data.get("articles") or []
+            log.info(f"NewsAPI query {i}: {len(batch)} raw articles")
+            for a in batch:
+                url = a.get("url", "")
+                if url and url not in seen_urls:
+                    seen_urls.add(url)
+                    all_articles.append(a)
+        except Exception as e:
+            log.error(f"NewsAPI query {i} failed: {e}")
+        time.sleep(0.5)
+    log.info(f"NewsAPI total unique articles: {len(all_articles)}")
+    return all_articles
 
 
 def normalize_newsapi(articles: list[dict]) -> list[dict]:
@@ -348,6 +551,77 @@ def normalize_newsapi(articles: list[dict]) -> list[dict]:
             "coords":      None,
         })
     return out
+
+
+# ── DSCA ───────────────────────────────────────────────────────────────────────
+
+def fetch_dsca() -> list[dict]:
+    """Scrape DSCA Major Arms Sales press releases for LatAm countries."""
+    url = "https://www.dsca.mil/press-media/major-arms-sales"
+    try:
+        resp = requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
+        resp.raise_for_status()
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(resp.text, "html.parser")
+        items = []
+        # DSCA lists articles in .views-row divs or similar
+        for link in soup.select("a[href*='/major-arms-sales']"):
+            title = link.get_text(strip=True)
+            href = link.get("href", "")
+            if not title or len(title) < 20:
+                continue
+            full_url = f"https://www.dsca.mil{href}" if href.startswith("/") else href
+            # Check if any LatAm country mentioned
+            if any(c.lower() in title.lower() for c in LATAM_COUNTRIES):
+                items.append({
+                    "title": title,
+                    "description": title,
+                    "url": full_url,
+                    "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                    "source": "DSCA",
+                    "coords": None,
+                })
+        log.info(f"DSCA: {len(items)} LatAm arms sale items")
+        return items
+    except Exception as e:
+        log.error(f"DSCA scrape failed: {e}")
+        return []
+
+
+# ── DEA ────────────────────────────────────────────────────────────────────────
+
+def fetch_dea() -> list[dict]:
+    """Scrape DEA press releases mentioning LatAm countries."""
+    url = "https://www.dea.gov/press-releases"
+    try:
+        resp = requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
+        resp.raise_for_status()
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(resp.text, "html.parser")
+        items = []
+        for article in soup.select("article, .views-row, .press-release-teaser")[:30]:
+            link = article.find("a")
+            if not link:
+                continue
+            title = link.get_text(strip=True)
+            href = link.get("href", "")
+            if not title or len(title) < 15:
+                continue
+            full_url = f"https://www.dea.gov{href}" if href.startswith("/") else href
+            if any(c.lower() in title.lower() for c in LATAM_COUNTRIES):
+                items.append({
+                    "title": title,
+                    "description": title,
+                    "url": full_url,
+                    "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                    "source": "DEA",
+                    "coords": None,
+                })
+        log.info(f"DEA: {len(items)} LatAm items")
+        return items
+    except Exception as e:
+        log.error(f"DEA scrape failed: {e}")
+        return []
 
 
 # ── ACLED ──────────────────────────────────────────────────────────────────────
@@ -422,7 +696,7 @@ CLASSIFY_PROMPT = """\
 You are an expert on Latin American civil-military relations. Classify each news item.
 
 For each item [N], respond with ONE JSON line:
-{{"idx":N,"relevant":true/false,"type":"coup|purge|aid|protest|reform|conflict|exercise|procurement|oc|peace|other","country":"CountryName or null","salience":"high|medium|low","conf":"green|yellow|red","brief":"One sentence summary."}}
+{{"idx":N,"relevant":true/false,"type":"coup|purge|aid|protest|reform|conflict|exercise|procurement|oc|peace|other","country":"CountryName or null","salience":"high|medium|low","conf":"green|yellow|red","brief":"One sentence summary.","location":"Catatumbo region, Norte de Santander"}}
 
 TYPES:
 - coup: coup attempt, autogolpe, military takeover, putsch
@@ -440,6 +714,7 @@ TYPES:
 conf: green=verified/credible outlet, yellow=single or soft-credibility source, red=unverified/social media only
 relevant=true ONLY if there is clear civil-military or defense-institutional relevance.
 country must be a recognized Latin American country name, or null if unclear.
+location: the most specific place name mentioned (city, department, or region). Use the country name if no more specific place is identifiable.
 Respond ONLY with JSON lines — no preamble, no markdown.
 
 ITEMS:
@@ -501,7 +776,19 @@ def _cluster_events(client: anthropic.Anthropic, candidates: list[dict]) -> list
         )
         raw = msg.content[0].text.strip()
         start = raw.find("[")
-        clusters = json.loads(raw[start:])
+        if start == -1:
+            raise ValueError("No array in clustering response")
+        # Walk brackets to find exact end of the outermost array
+        depth, end = 0, start
+        for i, ch in enumerate(raw[start:], start):
+            if ch == "[":
+                depth += 1
+            elif ch == "]":
+                depth -= 1
+                if depth == 0:
+                    end = i + 1
+                    break
+        clusters = json.loads(raw[start:end])
         log.info(f"  Clustering: {len(candidates)} items → {len(clusters)} clusters")
         return clusters
     except Exception as e:
@@ -567,16 +854,24 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
                 continue
             article  = batch[idx]
             country  = r.get("country") or "Regional"
-            coords   = article.get("coords") or COUNTRY_CENTROIDS.get(country)
+            location = r.get("location", "")
             date     = article["date"]
             ev_type  = r.get("type", "other")
             link     = article.get("url", "")
+            # Use article coords if already geolocated (e.g. GDELT), otherwise
+            # attempt city/region lookup from Claude's location field + title + snippet
+            if article.get("coords"):
+                coords = article["coords"]
+            else:
+                location_text = f"{location} {article['title']} {article.get('description', '')}".strip()
+                coords = geolocate(location_text, country)
             candidates.append({
                 "id":          stable_id(country, ev_type, date),
                 "type":        ev_type,
                 "title":       article["title"],
                 "summary":     r.get("brief", "") or article.get("description", ""),
                 "country":     country,
+                "location":    location,
                 "date":        date,
                 "source":      article["source"],
                 "sources":     [article["source"]],
@@ -755,14 +1050,22 @@ def send_digest(events: list[dict]) -> None:
 # ── Main ───────────────────────────────────────────────────────────────────────
 
 def main() -> None:
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--backfill", action="store_true", help="Fetch from 2026-01-01 instead of last 48h")
+    args = parser.parse_args()
+    backfill = args.backfill
+
     log.info("=== SENTINEL pipeline starting ===")
+    if backfill:
+        log.info("Backfill mode: fetching from 2026-01-01")
 
     anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
     if not anthropic_key:
         raise EnvironmentError("ANTHROPIC_API_KEY is not set.")
 
     client   = anthropic.Anthropic(api_key=anthropic_key)
-    cutoff   = datetime.now(timezone.utc) - timedelta(days=DAYS_BACK)
+    cutoff   = datetime(2026, 1, 1, tzinfo=timezone.utc) if backfill else datetime.now(timezone.utc) - timedelta(days=DAYS_BACK)
     existing = load_existing()
     existing_ids = set(existing.keys())
     log.info(f"Existing events in store: {len(existing)}")
@@ -781,9 +1084,15 @@ def main() -> None:
     # NewsAPI
     newsapi_key = os.environ.get("NEWSAPI_KEY", "")
     if newsapi_key:
-        all_articles.extend(normalize_newsapi(fetch_newsapi(newsapi_key)))
+        newsapi_since = "2026-01-01T00:00:00Z" if backfill else None
+        all_articles.extend(normalize_newsapi(fetch_newsapi(newsapi_key, since=newsapi_since)))
     else:
         log.info("No NEWSAPI_KEY — skipping NewsAPI")
+
+    # DSCA arms sales
+    all_articles.extend(fetch_dsca())
+    # DEA press releases
+    all_articles.extend(fetch_dea())
 
     log.info(f"Total raw articles: {len(all_articles)}")
 
