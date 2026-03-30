@@ -21,17 +21,19 @@
   --border2:   #aebece;
   --border3:   #8ca4b8;
 
-  --coup:      #c02828;
-  --purge:     #c86010;
-  --aid:       #1460b0;
-  --protest:   #6c28a8;
-  --reform:    #157550;
-  --conflict:  #b84200;
-  --exercise:  #1868a8;
-  --procurement:#7a5c1f;
-  --peace:     #1e8060;
-  --oc:        #6e2ea8;
-  --other:     #5a6878;
+  --coup:           #c02828;
+  --purge:          #c86010;
+  --coup-proofing:  #7a2e6e;
+  --aid:            #1460b0;
+  --coop:           #1e7a9e;
+  --protest:        #6c28a8;
+  --reform:         #157550;
+  --conflict:       #b84200;
+  --exercise:       #1868a8;
+  --procurement:    #7a5c1f;
+  --peace:          #1e8060;
+  --oc:             #6e2ea8;
+  --other:          #5a6878;
 
   --text:      #181c22;
   --text-dim:  #44505c;
@@ -209,6 +211,17 @@ header {
 .ai-box { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--aid); padding:13px 15px; border-radius:0 2px 2px 0; margin-top:14px; }
 .ai-box-hdr { font-family:var(--mono); font-size:8.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--aid); margin-bottom:7px; }
 .ai-box-text { font-size:12px; line-height:1.72; color:var(--text-dim); font-style:italic; }
+/* DEED analytical classification block */
+.deed-block { margin-top:12px; padding:10px 13px; background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--coup-proofing); border-radius:0 2px 2px 0; }
+.deed-block-hdr { font-family:var(--mono); font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:var(--coup-proofing); margin-bottom:8px; }
+.deed-grid { display:flex; flex-wrap:wrap; gap:8px 18px; }
+.deed-item label { display:block; font-family:var(--mono); font-size:8px; letter-spacing:0.5px; text-transform:uppercase; color:var(--text-muted); margin-bottom:3px; }
+.deed-item span { font-size:11.5px; color:var(--text); font-weight:500; }
+.deed-tag { display:inline-block; font-family:var(--mono); font-size:8px; letter-spacing:0.5px; text-transform:uppercase; padding:2px 6px; border-radius:2px; font-weight:600; }
+.deed-tag.deed-precursor    { background:rgba(26,96,176,0.1);  color:var(--aid); }
+.deed-tag.deed-symptom      { background:rgba(200,96,16,0.1);  color:var(--purge); }
+.deed-tag.deed-destabilizing{ background:rgba(192,40,40,0.12); color:var(--coup); }
+.deed-tag.deed-resistance   { background:rgba(21,117,80,0.1);  color:var(--reform); }
 
 /* Leaflet overrides */
 .leaflet-container { background:#e8e3d8; }
@@ -329,6 +342,15 @@ header {
 .cp-map-leaf { height:320px; width:100%; border-radius:3px; border:1px solid var(--border); margin-bottom:20px; z-index:0; }
 @media(max-width:700px){ .cp-summary-strip{ grid-template-columns:1fr; } .cp-sum-block{ border-right:none; border-bottom:1px solid var(--border); } }
 
+/* Sparkline trends section */
+.cp-trends-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:10px; margin-bottom:20px; }
+.cp-trend-item { background:var(--surface); border:1px solid var(--border); border-radius:3px; padding:11px 13px; }
+.cp-trend-label { font-family:var(--mono); font-size:8px; letter-spacing:0.5px; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px; }
+.cp-trend-unit { color:var(--text-faint); }
+.cp-trend-spark { line-height:0; }
+.cp-trend-latest { font-family:var(--mono); font-size:9px; color:var(--text-muted); margin-top:4px; }
+.cp-trends-loading { font-family:var(--mono); font-size:9px; color:var(--text-muted); padding:8px 0; }
+
 /* Country detail view */
 .cp-back { display:flex; align-items:center; gap:8px; background:none; border:none; cursor:pointer; font-family:var(--mono); font-size:8.5px; letter-spacing:1px; text-transform:uppercase; color:var(--text-muted); padding:0 0 18px; transition:color 0.1s; }
 .cp-back:hover { color:var(--text); }
@@ -364,6 +386,12 @@ header {
 .ov-legend-types { margin-top:10px; display:flex; flex-direction:column; gap:4px; }
 .ov-legend-type { display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:7.5px; color:var(--text-dim); letter-spacing:0.3px; text-transform:uppercase; }
 .ov-legend-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+/* US Cooperation intensity map */
+.us-coop-map-wrap { position:relative; width:100%; height:440px; background:var(--bg); border:1px solid var(--border); border-radius:3px; overflow:hidden; margin-bottom:20px; }
+.us-coop-map-label { position:absolute; top:10px; left:10px; z-index:10; font-family:var(--mono); font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); background:rgba(255,255,248,0.92); padding:5px 10px; border:1px solid var(--border); border-radius:2px; box-shadow:var(--shadow); }
+.us-coop-map-legend { position:absolute; bottom:10px; left:10px; z-index:10; background:rgba(255,255,248,0.94); border:1px solid var(--border); padding:9px 13px; border-radius:2px; box-shadow:var(--shadow); }
+.us-coop-tooltip { position:absolute; z-index:100; background:var(--surface); border:1px solid var(--border2); box-shadow:var(--shadow-md); border-radius:2px; padding:8px 11px; font-size:11.5px; pointer-events:none; display:none; max-width:190px; line-height:1.5; }
 
 .ov-popup { position:absolute; z-index:600; background:var(--surface); border:1px solid var(--border2); box-shadow:var(--shadow-md); border-radius:2px; width:252px; pointer-events:all; animation:ov-fade 0.12s ease; }
 @keyframes ov-fade { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
@@ -708,10 +736,12 @@ header {
           <span class="tag active" data-f="type" data-v="all">All</span>
           <span class="tag" data-f="type" data-v="coup">Coup</span>
           <span class="tag" data-f="type" data-v="purge">Purge</span>
+          <span class="tag" data-f="type" data-v="coup_proofing" style="border-left:2px solid var(--coup-proofing)">Coup-Proof</span>
           <span class="tag" data-f="type" data-v="conflict">Conflict</span>
           <span class="tag" data-f="type" data-v="reform">Reform</span>
           <span class="tag" data-f="type" data-v="oc">Org. Crime</span>
           <span class="tag" data-f="type" data-v="aid">Mil. Aid</span>
+          <span class="tag" data-f="type" data-v="coop" style="border-left:2px solid var(--coop)">US Coop</span>
           <span class="tag" data-f="type" data-v="exercise">Exercise</span>
           <span class="tag" data-f="type" data-v="other">Other</span>
         </div>
@@ -737,8 +767,10 @@ header {
       <div id="map" style="width:100%;height:100%;"></div>
       <div class="legend" id="map-legend">
         <div class="legend-item"><div class="leg-dot" style="background:var(--coup)"></div>Coup / Purge</div>
+        <div class="legend-item"><div class="leg-dot" style="background:var(--coup-proofing)"></div>Coup-Proofing</div>
         <div class="legend-item"><div class="leg-dot" style="background:var(--conflict)"></div>Conflict</div>
-        <div class="legend-item"><div class="leg-dot" style="background:var(--aid)"></div>Aid / Coop</div>
+        <div class="legend-item"><div class="leg-dot" style="background:var(--aid)"></div>Mil. Aid</div>
+        <div class="legend-item"><div class="leg-dot" style="background:var(--coop)"></div>US Coop</div>
         <div class="legend-item"><div class="leg-dot" style="background:var(--exercise)"></div>Exercise</div>
         <div class="legend-item"><div class="leg-dot" style="background:var(--protest)"></div>Protest</div>
         <div class="legend-item"><div class="leg-dot" style="background:var(--reform)"></div>Reform</div>
@@ -797,6 +829,21 @@ header {
       <div class="tab-intro-block">
         <div class="tab-intro-title" data-i18n="intro.us">US Security Cooperation</div>
         US security cooperation is a central variable in Latin American CMR: it shapes military doctrine, equipment, training culture, and — in some cases — institutional loyalty. The Greenbook tracks US foreign aid obligations back to 1946 in constant dollars. Current security programs (FMF, IMET, INCLE, Section 333, NADR) represent an estimated <strong>$1.8B annually</strong> to the region in FY2025. This tab documents historical flows, active programs, US military installations, and the dramatic operational expansion since January 2025 — including the most consequential US military action in the hemisphere since Panama 1989.
+      </div>
+      <!-- ── US COOPERATION INTENSITY MAP ──────────────────────── -->
+      <div class="us-coop-map-wrap" id="us-coop-map-wrap">
+        <div class="us-coop-map-label">US Security Cooperation Intensity — FY2025</div>
+        <svg id="us-coop-svg" style="width:100%;height:100%;display:block;"></svg>
+        <div class="us-coop-tooltip" id="us-coop-tooltip"></div>
+        <div class="us-coop-map-legend">
+          <div style="font-family:var(--mono);font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Aid Intensity (FY2025)</div>
+          <div style="height:8px;width:130px;border-radius:1px;background:linear-gradient(to right,#d4e4f5,#1a538f);"></div>
+          <div style="display:flex;justify-content:space-between;width:130px;margin-top:3px;font-family:var(--mono);font-size:7.5px;color:var(--text-muted);"><span>Low</span><span>High ($461M)</span></div>
+          <div style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
+            <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div style="width:8px;height:8px;border-radius:2px;background:#e8e4dc;border:1px solid #ccc;flex-shrink:0;"></div>No active coop</div>
+            <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div style="width:8px;height:8px;border-radius:2px;background:#c9b8a4;border:1px solid #bbb;flex-shrink:0;"></div>Sanctioned</div>
+          </div>
+        </div>
       </div>
       <!-- ── CARIBBEAN OPERATIONS SPECIAL SECTION ─────────────── -->
       <div style="margin-bottom:24px;border:1px solid rgba(184,50,50,0.35);border-radius:3px;overflow:hidden;">
@@ -1421,10 +1468,12 @@ header {
           <span class="tag active tl-tag" data-v="all">All</span>
           <span class="tag tl-tag" data-v="coup" style="border-left:2px solid var(--coup)">Coup</span>
           <span class="tag tl-tag" data-v="purge" style="border-left:2px solid var(--purge)">Purge</span>
+          <span class="tag tl-tag" data-v="coup_proofing" style="border-left:2px solid var(--coup-proofing)">Coup-Proof</span>
           <span class="tag tl-tag" data-v="conflict" style="border-left:2px solid var(--conflict)">Conflict</span>
           <span class="tag tl-tag" data-v="reform" style="border-left:2px solid var(--reform)">Reform</span>
           <span class="tag tl-tag" data-v="oc" style="border-left:2px solid var(--oc)">Org. Crime</span>
-          <span class="tag tl-tag" data-v="aid" style="border-left:2px solid var(--aid)">Aid / Coop</span>
+          <span class="tag tl-tag" data-v="aid" style="border-left:2px solid var(--aid)">Mil. Aid</span>
+          <span class="tag tl-tag" data-v="coop" style="border-left:2px solid var(--coop)">US Coop</span>
           <span class="tag tl-tag" data-v="protest" style="border-left:2px solid var(--protest)">Protest</span>
           <span class="tag tl-tag" data-v="other" style="border-left:2px solid var(--other)">Other</span>
         </div>
@@ -1857,6 +1906,8 @@ function switchTab(id){
   if(panel) panel.classList.add('active');
   if(id==='overview') setTimeout(initOverviewMap,50);
   if(id==='timeline') renderTimeline();
+  if(id==='us') { renderUsEvents(); initUsCoopMap(); }
+  if(id==='profiles') loadIndicatorData();
 }
 
 function handleSubscribe(e){
@@ -1880,20 +1931,29 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     if(btn.dataset.tab==='timeline') renderTimeline();
     if(btn.dataset.tab==='overview') ovRefreshMarkers();
     if(btn.dataset.tab==='transnational') renderTsEvents();
-    if(btn.dataset.tab==='us') renderUsEvents();
+    if(btn.dataset.tab==='us') { renderUsEvents(); initUsCoopMap(); }
+    if(btn.dataset.tab==='profiles') loadIndicatorData();
   });
 });
 
 // ── EVENT DATA ──────────────────────────────────────────────
 const TC = {
-  coup:'var(--coup)', purge:'var(--purge)', conflict:'var(--conflict)', reform:'var(--reform)',
-  aid:'var(--aid)', exercise:'var(--exercise)', oc:'var(--oc)', protest:'var(--protest)',
-  peace:'var(--peace)', other:'var(--other)'
+  coup:'var(--coup)', purge:'var(--purge)', coup_proofing:'var(--coup-proofing)',
+  conflict:'var(--conflict)', reform:'var(--reform)',
+  aid:'var(--aid)', coop:'var(--coop)', exercise:'var(--exercise)',
+  oc:'var(--oc)', protest:'var(--protest)', peace:'var(--peace)', other:'var(--other)'
 };
 const TC_HEX = {
-  coup:'#b83232', purge:'#c46e12', conflict:'#a84000', reform:'#1a6e52',
-  aid:'#1a538f', exercise:'#2e6b8a', oc:'#6a4a6e', protest:'#6e389a',
-  peace:'#2d8659', other:'#6a6560'
+  coup:'#c02828', purge:'#c86010', coup_proofing:'#7a2e6e',
+  conflict:'#b84200', reform:'#157550',
+  aid:'#1460b0', coop:'#1e7a9e', exercise:'#1868a8',
+  oc:'#6e2ea8', protest:'#6c28a8', peace:'#1e8060', other:'#5a6878'
+};
+const TYPE_LABEL = {
+  coup:'Coup', purge:'Purge', coup_proofing:'Coup-Proofing',
+  conflict:'Conflict', reform:'Reform', oc:'Org. Crime',
+  aid:'Mil. Aid', coop:'US Coop', exercise:'Exercise',
+  protest:'Protest', peace:'Peace', other:'Other'
 };
 
 let allEvents=[], filtered=[], selected=null;
@@ -1924,6 +1984,7 @@ async function loadEvents(){
     filtered = events;
     buildCountries();
     applyFilters();
+    computeCmrScores();
     ovRefreshMarkers();
     if(updatedStr){
       const ago = Math.round((Date.now()-new Date(updatedStr))/60000);
@@ -1960,7 +2021,7 @@ function refreshMap(evs){
       radius:ev.salience==='high'?7:ev.salience==='medium'?5:4,
       fillColor:c, fillOpacity:0.85, color:'rgba(255,255,255,0.8)', weight:2
     }).addTo(map);
-    m.bindTooltip(`<strong>${ev.type.toUpperCase()}</strong><br>${ev.title.substring(0,60)}…`,{direction:'top',offset:[0,-8]});
+    m.bindTooltip(`<strong>${(TYPE_LABEL[ev.type]||ev.type).toUpperCase()}</strong><br>${ev.title.substring(0,60)}…`,{direction:'top',offset:[0,-8]});
     m.on('click',()=>selectEvent(ev));
     markers.push(m);
   });
@@ -2042,8 +2103,8 @@ function renderList(){
     div.innerHTML=`
       <div class="ev-row1">
         <div class="ev-dot" style="background:${c}"></div>
-        <span class="ev-type" style="color:${c}">${ev.type}</span>
-        <span class="conf-badge ${confClass}">${ev.conf==='green'?'high':ev.conf==='yellow'?'medium':'low'}</span>
+        <span class="ev-type" style="color:${c}">${TYPE_LABEL[ev.type]||ev.type}</span>
+        <span class="conf-badge ${confClass}">${ev.conf==='green'?'high':ev.conf==='yellow'?'med':'low'}</span>
         <span class="ev-country">${ev.country}</span>
       </div>
       <div class="ev-title">${ev.title}</div>
@@ -2072,7 +2133,7 @@ function selectEvent(ev){
   const confClass=ev.conf==='green'?'conf-green':ev.conf==='yellow'?'conf-yellow':'conf-red';
   document.getElementById('detail').innerHTML=`
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:9px;">
-      <span class="type-badge" style="background:${c}">${ev.type}</span>
+      <span class="type-badge" style="background:${c}">${TYPE_LABEL[ev.type]||ev.type}</span>
       <span class="conf-badge ${confClass}">${ev.conf==='green'?'High':ev.conf==='yellow'?'Medium':'Low'} confidence</span>
       ${(ev.sources&&ev.sources.length>1)
         ?`<span class="src-badge tri" title="Corroborated by: ${ev.sources.join(' · ')}">✓ Corroborated — ${ev.sources.length} independent sources</span>`
@@ -2082,7 +2143,7 @@ function selectEvent(ev){
     <div class="detail-meta">
       <div class="dmi"><label>Date</label><span>${ev.date}</span></div>
       <div class="dmi"><label>Country</label><span>${ev.country}</span></div>
-      <div class="dmi"><label>Type</label><span>${ev.type}</span></div>
+      <div class="dmi"><label>Type</label><span>${TYPE_LABEL[ev.type]||ev.type}</span></div>
       <div class="dmi"><label>Salience</label><span style="color:${c}">${(ev.salience||'').toUpperCase()}</span></div>
       <div class="dmi"><label>Source</label><span>${ev.url?`<a href="${ev.url}" target="_blank" rel="noopener" style="color:inherit;">${ev.source} ↗</a>`:ev.source}</span></div>
     </div>
@@ -2094,6 +2155,16 @@ function selectEvent(ev){
           : `<span class="source-chip">${ev.source}</span>`
       )
     }</div>
+    ${(ev.deed_type||ev.axis||ev.actor||ev.target)?`
+    <div class="deed-block">
+      <div class="deed-block-hdr">Analytical Classification</div>
+      <div class="deed-grid">
+        ${ev.deed_type?`<div class="deed-item"><label>DEED Type</label><span class="deed-tag deed-${ev.deed_type}">${ev.deed_type}</span></div>`:''}
+        ${ev.axis?`<div class="deed-item"><label>Accountability Axis</label><span>${ev.axis}</span></div>`:''}
+        ${ev.actor?`<div class="deed-item"><label>Actor</label><span>${ev.actor}</span></div>`:''}
+        ${ev.target?`<div class="deed-item"><label>Target</label><span>${ev.target}</span></div>`:''}
+      </div>
+    </div>`:''}
     <div class="detail-summary">${ev.summary||'No summary available.'}</div>
     ${ev.ai_analysis?`<div class="ai-box"><div class="ai-box-hdr">Analysis <span class="analysis-badge cmr" style="vertical-align:middle;margin-left:5px;">CMR</span></div><div class="ai-box-text">${ev.ai_analysis}</div></div>`:''}
 `;
@@ -2227,8 +2298,9 @@ const TL_MILESTONES=[
 
 function renderTimeline(){
   const MONTH_ABBR=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const TYPE_LABELS={all:'All',coup:'Coup',purge:'Purge',conflict:'Conflict',reform:'Reform',
-    oc:'Org. Crime',aid:'Aid / Coop',protest:'Protest',exercise:'Exercise',peace:'Peace',other:'Other'};
+  const TYPE_LABELS={all:'All',coup:'Coup',purge:'Purge',coup_proofing:'Coup-Proofing',
+    conflict:'Conflict',reform:'Reform',oc:'Org. Crime',aid:'Mil. Aid',coop:'US Coop',
+    protest:'Protest',exercise:'Exercise',peace:'Peace',other:'Other'};
 
   // ── Base filter predicate (for all derived counts) ───────
   function baseMatch(ev){
@@ -2377,7 +2449,7 @@ function renderTimeline(){
       }
       const metaBadge=isMilestone
         ?`<span class="vtl-milestone-badge">${ev.mLabel||ev.type}</span>`
-        :`<span class="vtl-type-tag" style="color:${c}">${ev.type}</span>`;
+        :`<span class="vtl-type-tag" style="color:${c}">${TYPE_LABEL[ev.type]||ev.type}</span>`;
       return `<div class="vtl-item${isMilestone?' vtl-milestone':''}" ${!isMilestone?`data-id="${ev.id}"`:''}">
         <div class="vtl-dot-wrap"><div class="vtl-dot${isMilestone?' vtl-dot-sq':''}" style="border-color:${isMilestone?'var(--border2)':c}"></div></div>
         <div class="vtl-card">
@@ -2744,6 +2816,125 @@ const COUNTRY_PROFILES = {
   "Belize":             { capital:"Belmopan", regime:"Constitutional Monarchy", hog:"John Briceño (PM)", cmrStatus:"Stable", cmrClass:"cp-cmr-stable", gdpPct:"1.5%", branches:"Belize Defence Force (BDF) · Belize Police Department", note:"Belize has stable civil-military relations under a parliamentary system. The BDF is small (~1,500 personnel) and focuses on the Guatemala border — Belize's territorial dispute with Guatemala, which historically did not recognize Belize's full sovereignty, drove a 2019 ICJ referral. The case is before the ICJ; no active armed friction. US SOUTHCOM and UK garrison support (historically) supplement BDF capacity. Narco-trafficking through Belize's coastline and cays is the primary security challenge." }
 };
 
+// ── CMR RISK SCORE ────────────────────────────────────────────
+// Event-pressure component: weighted sum of all events in store per country
+// Structural component (added when V-Dem loads): mil_exec + (1-mil_constrain_norm) + coup_attempts
+const CMR_TYPE_W = {coup:10,coup_proofing:7,purge:6,conflict:5,oc:4,protest:3,
+                   coop:2,aid:1,exercise:1,peace:-2,reform:-3,other:0};
+const CMR_SAL_M  = {high:1.5,medium:1.0,med:1.0,low:0.5};
+
+let _cmrScores = {};   // {country: {pressure, structural, composite, label}}
+
+function computeCmrScores() {
+  const pressure = {};
+  (allEvents||[]).forEach(ev => {
+    const w = (CMR_TYPE_W[ev.type]||0) * (CMR_SAL_M[ev.salience]||1.0);
+    pressure[ev.country] = (pressure[ev.country]||0) + w;
+  });
+  // Normalize pressure to 0-50 range
+  const maxP = Math.max(1, ...Object.values(pressure));
+  const scores = {};
+  Object.entries(pressure).forEach(([c,p]) => {
+    const pNorm = Math.max(0, Math.min(50, (p / maxP) * 50));
+    let structural = 0;
+    if (_vdemData) {
+      const v = _vdemData.countries.find(x => x.country === c);
+      if (v) {
+        // mil_exec (0-1, higher = military in exec = worse)
+        structural += (v.mil_exec || 0) * 20;
+        // mil_constrain (ordinal, roughly -2 to 2, higher = more civilian control = better)
+        const mcNorm = Math.max(0, Math.min(1, (v.mil_constrain + 2) / 4));
+        structural += (1 - mcNorm) * 15;
+        // coup_attempts (0-n, recent)
+        structural += Math.min(10, (v.coup_attempts || 0) * 5);
+        // polity2 (-10 to +10, lower = more autocratic = worse)
+        if (v.polity2 != null) structural += Math.max(0, (10 - v.polity2) / 20 * 15);
+      }
+    }
+    const composite = Math.round(pNorm + structural);
+    const label = composite >= 60 ? 'Critical' : composite >= 40 ? 'High' : composite >= 20 ? 'Moderate' : 'Low';
+    scores[c] = { pressure: Math.round(pNorm), structural: Math.round(structural), composite, label };
+  });
+  _cmrScores = scores;
+}
+
+function cmrScoreColor(label) {
+  return label==='Critical'?'var(--coup)':label==='High'?'var(--purge)':label==='Moderate'?'var(--conflict)':'var(--reform)';
+}
+
+// ── INDICATOR DATA (V-Dem + World Bank) — lazy-loaded ─────────
+let _vdemData = null, _wbData = null, _indicatorLoadStarted = false;
+let _currentCpName = null;
+
+async function loadIndicatorData() {
+  if (_indicatorLoadStarted) return;
+  _indicatorLoadStarted = true;
+  try {
+    const [vd, wb] = await Promise.all([
+      fetch('data/cleaned/vdem.json').then(r => r.json()),
+      fetch('data/cleaned/worldbank.json').then(r => r.json())
+    ]);
+    _vdemData = vd;
+    _wbData = wb;
+    computeCmrScores();
+    // Re-render trends if a profile is currently open
+    if (_currentCpName) {
+      const el = document.getElementById('cp-trends-' + _currentCpName.replace(/ /g,'_'));
+      if (el) el.innerHTML = renderTrends(_currentCpName);
+    }
+  } catch(e) { console.error('Indicator data load failed', e); }
+}
+
+function makeSvgSparkline(series, color, w, h) {
+  const pts = series.filter(p => p.value != null).map(p => ({y: +p.value, x: +p.year}));
+  if (pts.length < 2) return `<svg width="${w}" height="${h}"><text x="4" y="${h/2+3}" font-size="8" fill="#bbb">no data</text></svg>`;
+  const xs = pts.map(p => p.x), ys = pts.map(p => p.y);
+  const minX=Math.min(...xs), maxX=Math.max(...xs);
+  const minY=Math.min(...ys), maxY=Math.max(...ys);
+  const rangeY = maxY - minY || 1;
+  const px = x => ((x - minX) / (maxX - minX)) * w;
+  const py = y => (h - 3) - ((y - minY) / rangeY) * (h - 6);
+  const d = pts.map((p,i) => `${i===0?'M':'L'}${px(p.x).toFixed(1)},${py(p.y).toFixed(1)}`).join(' ');
+  const areaD = d + ` L${px(pts[pts.length-1].x).toFixed(1)},${h} L${px(pts[0].x).toFixed(1)},${h} Z`;
+  const lx = px(pts[pts.length-1].x), ly = py(pts[pts.length-1].y);
+  return `<svg width="${w}" height="${h}" style="overflow:visible;display:block;">
+    <path d="${areaD}" fill="${color}" fill-opacity="0.10" stroke="none"/>
+    <path d="${d}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linejoin="round"/>
+    <circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="2.5" fill="${color}"/>
+  </svg>`;
+}
+
+function renderTrends(name) {
+  if (!_vdemData && !_wbData) return '<div class="cp-trends-loading">Loading…</div>';
+  const W = 180, H = 46;
+  const rows = [];
+  if (_vdemData) {
+    const v = _vdemData.countries.find(c => c.country === name);
+    if (v && v.series) {
+      if (v.series.polyarchy)    rows.push(['Electoral Democracy', v.series.polyarchy,    '#1460b0', '0–1']);
+      if (v.series.mil_constrain)rows.push(['Mil. Constraints on Exec.', v.series.mil_constrain, '#7a2e6e', 'ordinal']);
+    }
+  }
+  if (_wbData) {
+    const w = _wbData.countries.find(c => c.country === name);
+    if (w) {
+      if (w.military_expenditure_pct_gdp_series) rows.push(['Defence / GDP', w.military_expenditure_pct_gdp_series, '#c86010', '% GDP']);
+      if (w.wgi_rule_of_law_series)              rows.push(['Rule of Law (WGI)', w.wgi_rule_of_law_series,              '#157550', 'score']);
+    }
+  }
+  if (!rows.length) return '<div class="cp-trends-loading">No trend data available.</div>';
+  return rows.map(([label, series, color, unit]) => {
+    const spark = makeSvgSparkline(series.map(p=>({year:+p.year,value:p.value})), color, W, H);
+    const latest = [...series].reverse().find(p => p.value != null);
+    const latestStr = latest ? `${(+latest.value).toFixed(2)} (${latest.year})` : '—';
+    return `<div class="cp-trend-item">
+      <div class="cp-trend-label">${label} <span class="cp-trend-unit">${unit}</span></div>
+      <div class="cp-trend-spark">${spark}</div>
+      <div class="cp-trend-latest">${latestStr}</div>
+    </div>`;
+  }).join('');
+}
+
 // ── COUNTRY PROFILE RENDERER ──────────────────────────────────
 function showCountryProfile(name){
   document.querySelectorAll('.cp-btn').forEach(b=>{
@@ -2765,7 +2956,10 @@ function showCountryProfile(name){
 
   // ── Summary strip ────────────────────────────────────────
   const acledHtml=acled?`<div class="cp-stat-row"><span class="cp-stat-label">ACLED Conflict Index</span><span class="cp-stat-val" style="color:${ACLED_LEVEL_COLOR[acled.level]||'var(--text)'}">${acled.level} <span style="color:var(--text-muted);font-size:9px;">#${acled.ranking}</span></span></div>`:'';
+  const cmrRisk = _cmrScores[name];
+  const cmrRiskHtml = cmrRisk ? `<div class="cp-stat-row"><span class="cp-stat-label">CMR Risk Score</span><span class="cp-stat-val" style="color:${cmrScoreColor(cmrRisk.label)};" title="Event pressure: ${cmrRisk.pressure} · Structural: ${cmrRisk.structural}">${cmrRisk.composite} — ${cmrRisk.label}</span></div>` : '';
   const statsHtml=`
+    ${cmrRiskHtml}
     <div class="cp-stat-row"><span class="cp-stat-label">Spending</span><span class="cp-stat-val">${stats.spending}</span></div>
     <div class="cp-stat-row"><span class="cp-stat-label">Personnel</span><span class="cp-stat-val">${stats.personnel}</span></div>
     <div class="cp-stat-row"><span class="cp-stat-label">Defence / GDP</span><span class="cp-stat-val">${prof.gdpPct}</span></div>
@@ -2827,6 +3021,11 @@ function showCountryProfile(name){
       <div class="cp-sum-block" style="grid-column:1/-1;">${missionsHtml}</div>
     </div>`;
 
+  const safeId = name.replace(/ /g,'_');
+  const trendsBlock=`
+    <div class="cp-h2">Trends (1990–2023)</div>
+    <div class="cp-trends-grid" id="cp-trends-${safeId}">${renderTrends(name)}</div>`;
+
   // ── Map placeholder ──────────────────────────────────────
   const mapDiv=`<div id="cp-map-leaf" class="cp-map-leaf"></div>`;
 
@@ -2834,11 +3033,11 @@ function showCountryProfile(name){
   const evRows=cEvs.length ? cEvs.map(ev=>`
     <div class="ev-item" style="cursor:pointer;" onclick="switchTab('events');setTimeout(()=>selectEvent(allEvents.find(e=>String(e.id)==='${ev.id}')),100)">
       <div class="ev-row1"><div class="ev-dot" style="background:${TC_HEX[ev.type]||'#6a6560'}"></div>
-        <span class="ev-type" style="color:${TC_HEX[ev.type]||'#6a6560'};text-transform:capitalize;">${ev.type}</span>
+        <span class="ev-type" style="color:${TC_HEX[ev.type]||'#6a6560'}">${TYPE_LABEL[ev.type]||ev.type}</span>
         <span class="ev-country">${ev.date}</span>
       </div>
       <div class="ev-title">${ev.title}</div>
-      <div class="ev-meta"><span>${ev.source||''}</span><span class="conf-${ev.conf||'green'}">${ev.conf||'green'}</span></div>
+      <div class="ev-meta"><span>${ev.source||''}</span><span class="conf-badge conf-${ev.conf==='green'?'green':ev.conf==='yellow'?'yellow':'red'}">${ev.conf==='green'?'high':ev.conf==='yellow'?'med':'low'}</span></div>
     </div>`).join('') : '<div class="cp-no-events">No events in data store for this country yet.</div>';
 
   const backBtn=`<button class="cp-back" onclick="showRegionalOverview()">
@@ -2860,7 +3059,7 @@ function showCountryProfile(name){
 
   if(prof.special){
     const srcEl=document.getElementById(prof.specialId+'-block');
-    if(!srcEl){ countryDiv.innerHTML=`${hdr}${mapDiv}${statsStrip}${cmrBlock}${missionsBlock}<div class="cp-h2">${S['label.recent-events']||'Recent Events'}</div>${evSection}`; }
+    if(!srcEl){ countryDiv.innerHTML=`${hdr}${mapDiv}${statsStrip}${cmrBlock}${missionsBlock}${trendsBlock}<div class="cp-h2">${S['label.recent-events']||'Recent Events'}</div>${evSection}`; }
     else {
       // Use DOM to split cloned content cleanly
       const tmp=document.createElement('div');
@@ -2878,7 +3077,7 @@ function showCountryProfile(name){
         <div class="cp-h2">${S['label.context']||'Context'}</div>
         ${contextHtml}
         ${mapDiv}
-        ${statsStrip}${cmrBlock}${missionsBlock}
+        ${statsStrip}${cmrBlock}${missionsBlock}${trendsBlock}
         ${specialContent}
         <div class="cp-h2">${S['label.recent-events']||'Recent Events'}</div>${evSection}`;
     }
@@ -2887,11 +3086,12 @@ function showCountryProfile(name){
       <div class="cp-h2">${S['label.context']||'Context'}</div>
       <div class="cp-note" style="margin-bottom:20px;">${prof.note}</div>
       ${mapDiv}
-      ${statsStrip}${cmrBlock}${missionsBlock}
+      ${statsStrip}${cmrBlock}${missionsBlock}${trendsBlock}
       <div class="cp-h2">${S['label.recent-events']||'Recent Events'}</div>
       ${evSection}`;
   }
 
+  _currentCpName = name;
   regional.style.display='none';
   countryDiv.style.display='block';
   countryDiv.scrollTop=0;
@@ -3207,17 +3407,127 @@ function renderTsEvents(){
 function renderUsEvents(){
   const container=document.getElementById('us-live-evs');
   if(!container||!allEvents) return;
-  const usEvs=allEvents.filter(ev=>ev.type==='aid'||ev.type==='exercise').sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8);
+  const usEvs=allEvents.filter(ev=>ev.type==='aid'||ev.type==='coop'||ev.type==='exercise').sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8);
   if(!usEvs.length) return;
   container.innerHTML=usEvs.map(ev=>`
     <div class="ev-item" style="cursor:pointer;" onclick="switchTab('events');setTimeout(()=>selectEvent(allEvents.find(e=>String(e.id)==='${ev.id}')),100)">
       <div class="ev-row1"><div class="ev-dot" style="background:${TC_HEX[ev.type]||'#6a6560'}"></div>
-        <span class="ev-type" style="color:${TC_HEX[ev.type]||'#6a6560'};text-transform:capitalize;">${ev.type}</span>
+        <span class="ev-type" style="color:${TC_HEX[ev.type]||'#6a6560'}">${TYPE_LABEL[ev.type]||ev.type}</span>
         <span class="ev-country">${ev.country} · ${ev.date}</span>
       </div>
       <div class="ev-title">${ev.title}</div>
       <div class="ev-meta"><span>${ev.source||''}</span></div>
     </div>`).join('');
+}
+
+// ── US COOPERATION INTENSITY MAP ─────────────────────────────
+let _usCoopMapLoaded = false;
+
+async function initUsCoopMap() {
+  if (_usCoopMapLoaded) return;
+  _usCoopMapLoaded = true;
+  const wrap = document.getElementById('us-coop-map-wrap');
+  if (!wrap) { _usCoopMapLoaded = false; return; }
+
+  // Reuse cached topology; lazy-load if Overview hasn't run yet
+  if (!worldFeatures) {
+    try {
+      const world = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+      worldFeatures = topojson.feature(world, world.objects.countries).features;
+    } catch(e) {
+      console.error('US coop map: TopoJSON load failed', e);
+      _usCoopMapLoaded = false; return;
+    }
+  }
+
+  const US_AID_M = {
+    "Colombia":461, "Mexico":332, "Haiti":187, "Peru":175,
+    "Ecuador":138, "Honduras":83, "Guatemala":69, "Brazil":102,
+    "El Salvador":46, "Costa Rica":20, "Dominican Republic":15,
+    "Panama":15, "Guyana":4, "Jamaica":3, "Belize":2
+  };
+  const SANCTIONED = new Set(["Cuba","Venezuela","Nicaragua"]);
+
+  const w = wrap.clientWidth || 700;
+  const h = wrap.clientHeight || 440;
+
+  const svg = d3.select('#us-coop-svg')
+    .attr('viewBox', `0 0 ${w} ${h}`)
+    .attr('width', '100%').attr('height', '100%');
+
+  const latamFeat = worldFeatures.filter(f => LATAM_IDS.has(+f.id));
+  const proj = d3.geoMercator().fitExtent([[20,20],[w-20,h-20]], {
+    type:'FeatureCollection', features:latamFeat
+  });
+  const path = d3.geoPath().projection(proj);
+
+  // Non-LatAm background
+  svg.append('g').selectAll('path')
+    .data(worldFeatures.filter(f => !LATAM_IDS.has(+f.id)))
+    .enter().append('path').attr('d', path)
+    .attr('fill','#ddd9d0').attr('stroke','#ccc').attr('stroke-width',0.3);
+
+  const maxAid = Math.max(...Object.values(US_AID_M));
+  const colorScale = d3.scaleSequential()
+    .domain([0, maxAid])
+    .interpolator(d3.interpolate('#d4e4f5','#1a538f'));
+
+  function fillColor(d) {
+    const name = COUNTRY_NAMES_MAP[+d.id];
+    if (!name) return '#e8e4dc';
+    if (SANCTIONED.has(name)) return '#c9b8a4';
+    const aid = US_AID_M[name];
+    if (!aid) return '#e8e4dc';
+    return colorScale(aid);
+  }
+
+  const tooltip = d3.select('#us-coop-tooltip');
+
+  svg.append('g').selectAll('path')
+    .data(latamFeat).enter().append('path')
+    .attr('d', path)
+    .attr('fill', fillColor)
+    .attr('stroke','#b8b2a4').attr('stroke-width',0.8)
+    .style('cursor','pointer')
+    .on('mouseover', function(evt, d) {
+      d3.select(this).attr('stroke','#54504a').attr('stroke-width',2);
+      const name = COUNTRY_NAMES_MAP[+d.id];
+      if (!name) return;
+      const aid = US_AID_M[name];
+      let html = `<strong style="font-size:12px;color:var(--text);">${name}</strong>`;
+      if (SANCTIONED.has(name)) {
+        html += `<br><span style="color:#c46e12;font-size:10.5px;">Sanctioned — no active coop</span>`;
+      } else if (aid) {
+        html += `<br><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">FY2025 est.</span> <strong style="color:var(--aid);">$${aid}M</strong>`;
+      } else {
+        html += `<br><span style="color:var(--text-muted);font-size:10.5px;">No direct cooperation on record</span>`;
+      }
+      const rect = wrap.getBoundingClientRect();
+      tooltip.html(html)
+        .style('display','block')
+        .style('left', (evt.clientX - rect.left + 14) + 'px')
+        .style('top',  (evt.clientY - rect.top  - 12) + 'px');
+    })
+    .on('mousemove', function(evt) {
+      const rect = wrap.getBoundingClientRect();
+      tooltip.style('left', (evt.clientX - rect.left + 14) + 'px')
+             .style('top',  (evt.clientY - rect.top  - 12) + 'px');
+    })
+    .on('mouseout', function() {
+      d3.select(this).attr('stroke','#b8b2a4').attr('stroke-width',0.8);
+      tooltip.style('display','none');
+    });
+
+  // Country labels (major countries only, same as Overview)
+  svg.append('g').attr('pointer-events','none').selectAll('text')
+    .data(Object.entries(COUNTRY_LABELS))
+    .enter().append('text')
+    .attr('x', d => proj(d[1][1])[0])
+    .attr('y', d => proj(d[1][1])[1])
+    .text(d => d[1][0])
+    .attr('font-family','DM Mono,monospace').attr('font-size','8.5px')
+    .attr('fill','rgba(28,26,23,0.55)').attr('text-anchor','middle')
+    .attr('pointer-events','none');
 }
 
 // ── TOOLTIP ──────────────────────────────────────────────────

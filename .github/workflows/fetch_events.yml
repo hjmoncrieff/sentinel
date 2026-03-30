@@ -40,10 +40,13 @@ jobs:
           SMTP_PASSWORD:      ${{ secrets.SMTP_PASSWORD }}
         run: python scripts/fetch_events.py
 
+      - name: Generate clean events dataset
+        run: python scripts/generate_clean_events.py
+
       - name: Commit updated events
         run: |
           git config user.name  "sentinel-bot"
           git config user.email "sentinel-bot@users.noreply.github.com"
-          git add data/events.json
+          git add data/events.json data/cleaned/events_clean.json data/cleaned/events.csv
           git diff --staged --quiet || git commit -m "chore: update events $(date -u +'%Y-%m-%d') [skip ci]"
           git push
