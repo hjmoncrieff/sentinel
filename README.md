@@ -89,8 +89,10 @@ Public-facing and public-safe docs:
 
 - `docs/architecture.md`
 - `docs/ai-analyst-knowledge.md`
+- `docs/historical-ingestion.md`
 - `docs/next-steps.md`
 - `docs/pipeline-operations.md`
+- `docs/stage-runners.md`
 - `docs/system-workflow.md`
 - `docs/security-privacy.md`
 - `data/CODEBOOK.md`

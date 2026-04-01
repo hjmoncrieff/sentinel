@@ -2,7 +2,7 @@
 """
 GDELT ingestion utilities for SENTINEL.
 
-This module is intentionally separate from the main `fetch_events.py` pipeline so
+This module is intentionally separate from the main fast monitoring pipeline so
 GDELT can be run as an explicit, slower enrichment path rather than part of the
 default fast pipeline.
 """

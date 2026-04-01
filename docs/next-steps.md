@@ -81,14 +81,23 @@ registry milestones.
 - improve recovery/undo coverage for all high-consequence actions
 - consider a small local database once concurrent analyst activity grows
 
-## 9. Security And Deployment
+## 9. Historical Ingestion
+
+- turn `scripts/historical_ingest.py` from planner into a real archive-ingest
+  runner
+- add source-specific connectors for archive-rich publishers
+- add resumable state and batch checkpoints
+- write historical article-level staging outputs
+- define archive-quality QA checks for gaps, duplicates, and source imbalance
+
+## 10. Security And Deployment
 
 - keep the public/private split strict as the site moves toward deployment
 - audit which data products are safe to publish by default
 - review GitHub deployment assumptions before the public launch
 - consider a deployment checklist for dashboard publish steps
 
-## 10. Documentation Cleanup
+## 11. Documentation Cleanup
 
 - keep `README.md` public-facing and concise
 - keep `docs/user-guide.md` as the operator playbook

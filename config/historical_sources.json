@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "description": "Historical-ingestion manifest for SENTINEL. This is a planning and connector registry layer for deep backfill, especially 2000+ coverage.",
+  "defaults": {
+    "batch_granularity": "month",
+    "start_date_floor": "2000-01-01",
+    "requires_manual_review": true
+  },
+  "source_groups": [
+    {
+      "group_id": "structured_historical",
+      "label": "Structured Historical Sources",
+      "priority": 1,
+      "sources": [
+        {
+          "source_id": "gdelt_api",
+          "label": "GDELT API",
+          "connector_type": "gdelt",
+          "historical_ready": true,
+          "coverage_start": "2015-02-19",
+          "notes": "Best used as one historical layer, not a complete substitute for outlet archives."
+        },
+        {
+          "source_id": "acled_structured",
+          "label": "ACLED Structured Feed",
+          "connector_type": "structured_dataset",
+          "historical_ready": true,
+          "coverage_start": "1997-01-01",
+          "notes": "Structured conflict/event layer, not a news archive."
+        }
+      ]
+    },
+    {
+      "group_id": "wordpress_archives",
+      "label": "WordPress Archive Sources",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "insight_crime_archive",
+          "label": "InSight Crime",
+          "connector_type": "wordpress_archive",
+          "historical_ready": true,
+          "coverage_start": null,
+          "notes": "Good candidate for deeper archive scraping where the REST API exposes older posts."
+        },
+        {
+          "source_id": "elfaro_archive",
+          "label": "El Faro",
+          "connector_type": "wordpress_archive",
+          "historical_ready": "partial",
+          "coverage_start": null,
+          "notes": "Requires validation of archive depth and stable endpoints."
+        }
+      ]
+    },
+    {
+      "group_id": "publisher_archives",
+      "label": "Publisher Archive Connectors",
+      "priority": 3,
+      "sources": [
+        {
+          "source_id": "elpais_archive",
+          "label": "El País América",
+          "connector_type": "custom_archive",
+          "historical_ready": false,
+          "coverage_start": null,
+          "notes": "Needs a dedicated connector with article-date pagination and access constraints handled explicitly."
+        },
+        {
+          "source_id": "folha_archive",
+          "label": "Folha de S.Paulo",
+          "connector_type": "custom_archive",
+          "historical_ready": false,
+          "coverage_start": null,
+          "notes": "Potentially valuable, but requires a source-specific archive strategy."
+        }
+      ]
+    },
+    {
+      "group_id": "search_api_backfill",
+      "label": "Search API Backfill",
+      "priority": 4,
+      "sources": [
+        {
+          "source_id": "newsapi_everything",
+          "label": "NewsAPI Everything",
+          "connector_type": "search_api",
+          "historical_ready": "limited",
+          "coverage_start": null,
+          "notes": "Useful only for limited recent backfill, not deep historical coverage."
+        }
+      ]
+    }
+  ]
+}

@@ -4,6 +4,10 @@
 
 This document describes the staged operating system that SENTINEL is becoming. It complements `docs/architecture.md` and `docs/pipeline-operations.md` by focusing on workflow boundaries and file contracts.
 
+For exact runner commands by stage, use:
+
+- `docs/stage-runners.md`
+
 The project is designed as an AI-first system. Most routine work should be done
 by automated ingestion, coding, QA, and analysis layers. Human users should
 mainly intervene for correction, corroboration, duplicate resolution, manual
@@ -16,10 +20,13 @@ control.
 
 Primary files:
 
-- `scripts/fetch_events.py`
+- `scripts/run_pipeline.py`
+- `scripts/ingest_rss.py`
+- `scripts/ingest_newsapi.py`
 - `scripts/rss_sources.py`
 - `scripts/normalize_articles.py`
 - `scripts/ingest_gdelt.py`
+- `scripts/historical_ingest.py`
 
 Outputs:
 
@@ -50,6 +57,7 @@ Outputs:
 
 Primary files:
 
+- `scripts/pipeline/classify_events.py`
 - `scripts/pipeline/build_canonical_events.py`
 - `scripts/pipeline/code_actors.py`
 - `scripts/pipeline/update_actor_registry.py`

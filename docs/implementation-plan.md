@@ -48,7 +48,7 @@ Phase 1 is designed to be low-risk and immediately useful.
 
 ### Keep As-Is For Now
 
-- `scripts/fetch_events.py`
+- `scripts/run_pipeline.py`
 - `scripts/generate_clean_events.py`
 - `index.html`
 - `.github/workflows/fetch_events.yml`

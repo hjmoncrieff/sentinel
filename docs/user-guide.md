@@ -7,6 +7,10 @@ The operating assumption is AI-first. Humans should spend most of their time on
 review, corroboration, correction, and publication judgment rather than routine
 manual coding.
 
+For a command-by-command reference for every executable stage runner, use:
+
+- `docs/stage-runners.md`
+
 ## 1. Ground Rules
 
 - treat analyst credentials, live review edits, and private reasoning as local
@@ -74,7 +78,7 @@ Open:
 Run the default non-GDELT pipeline:
 
 ```bash
-python3 scripts/fetch_events.py
+python3 scripts/run_pipeline.py
 ```
 
 This updates:
@@ -87,13 +91,21 @@ This updates:
 Use GDELT only when needed:
 
 ```bash
-python3 scripts/fetch_events.py --gdelt
+python3 scripts/run_pipeline.py --gdelt
 ```
 
 Or run the separate GDELT path directly:
 
 ```bash
 python3 scripts/ingest_gdelt.py
+```
+
+### Deep historical planning
+
+For historical archive planning rather than the fast monitoring pipeline:
+
+```bash
+python3 scripts/historical_ingest.py --since 2000-01-01 --json
 ```
 
 ## 5. Build Internal Review Artifacts
@@ -120,6 +132,17 @@ This refreshes:
 - `data/canonical/events_actor_coded.json`
 - `data/canonical/actor_mentions.json`
 - `config/actors/actor_registry.json`
+
+If you need the exact runner list for each stage, see:
+
+- `docs/stage-runners.md`
+
+If you want classification as its own explicit stage over filtered article
+records, you can also run:
+
+```bash
+python3 scripts/pipeline/classify_events.py
+```
 
 ## 6. Generate Council Analysis
 
@@ -279,7 +302,7 @@ Current publication policy:
 
 ## 10. Recommended Daily Operating Sequence
 
-1. run `scripts/fetch_events.py`
+1. run `scripts/run_pipeline.py`
 2. inspect `data/review/source_audit.json`
 3. run QA, duplicates, canonical build, actor coding, review queue, and council scripts
 4. open the analyst console

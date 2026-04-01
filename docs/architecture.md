@@ -13,7 +13,8 @@ The near-term architecture preserves the current GitHub Pages workflow while int
 
 The repository currently centers on:
 
-- `scripts/fetch_events.py`: ingestion and AI classification
+- `scripts/run_pipeline.py`: primary fast-path runner
+- `scripts/pipeline_core.py`: pipeline implementation
 - `scripts/generate_clean_events.py`: cleaned export generation
 - `data/events.json`: live event store
 - `index.html`: single-file public dashboard
@@ -38,6 +39,9 @@ This baseline remains intact for now. Phase 1 adds new layers around it without 
    Multiple analytic agents produce distinct interpretations over reviewed events.
 8. Publication
    Public-safe outputs are written for the dashboard.
+9. Historical ingestion
+   Deep archive recovery runs through a separate historical pipeline rather than
+   the fast monitoring workflow.
 
 ## Repository Shape
 
@@ -90,6 +94,19 @@ The canonical schema lives in `config/schemas/canonical_event.schema.json`.
 - `data/published/`: dashboard-facing files only
 
 The public dashboard should ultimately read from `data/published/`, not directly from internal workflow artifacts.
+
+## Historical Ingestion Boundary
+
+Historical archive recovery should be treated as a separate system boundary.
+
+- `scripts/run_pipeline.py` remains the fast monitoring entry point
+- `scripts/historical_ingest.py` is the dedicated planning/orchestration entry
+  point for deep backfill
+- `config/historical_sources.json` defines the source groups and connector
+  priorities for 2000+ coverage work
+
+This separation matters because long-run archive recovery has different source
+constraints, completeness risks, and QA requirements than routine monitoring.
 
 ## Analyst Console
 
