@@ -60,6 +60,24 @@ Operational rule:
 - GDELT runs only if `--gdelt` is passed
 - GDELT can also be run on its own through `scripts/ingest_gdelt.py`
 
+The standalone GDELT path now includes retry/backoff handling for `429 Too Many
+Requests` responses. Historical monthly batches also run with gentler defaults
+than before, so longer backfills are less likely to fail immediately on the
+first rate-limit response.
+
+Additional GDELT hardening now includes:
+
+- `--conservative`
+  smaller requests, narrower query, and longer pauses
+- `--resume`
+  resume historical monthly batches from `data/staging/gdelt_checkpoint.json`
+- `--clear-checkpoint`
+  remove the saved historical checkpoint
+- `--off-hours`
+  for historical runs, wait for the local off-hours window before each batch
+- `--max-backoff-seconds`
+  stop retrying once a single rate-limit wait would exceed the configured cutoff
+
 ### Historical ingestion planning
 
 - `scripts/historical_ingest.py`

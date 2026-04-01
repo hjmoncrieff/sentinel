@@ -81,10 +81,49 @@ python3 scripts/run_pipeline.py
 python3 scripts/ingest_gdelt.py
 ```
 
+Conservative mode:
+
+```bash
+python3 scripts/ingest_gdelt.py --conservative
+```
+
 ### Historical GDELT
 
 ```bash
 python3 scripts/ingest_gdelt.py --historical --since 2025-01-01
+```
+
+This path now retries with backoff when GDELT returns `429 Too Many Requests`,
+but it should still be treated as a slower, rate-limit-sensitive workflow.
+
+Conservative historical mode:
+
+```bash
+python3 scripts/ingest_gdelt.py --historical --since 2025-01-01 --conservative
+```
+
+Resume a historical run from checkpoint:
+
+```bash
+python3 scripts/ingest_gdelt.py --historical --since 2025-01-01 --resume
+```
+
+Resume in conservative off-hours mode:
+
+```bash
+python3 scripts/ingest_gdelt.py --historical --since 2025-01-01 --resume --conservative --off-hours
+```
+
+Set a stricter rate-limit cutoff:
+
+```bash
+python3 scripts/ingest_gdelt.py --conservative --max-backoff-seconds 45
+```
+
+Clear the saved checkpoint:
+
+```bash
+python3 scripts/ingest_gdelt.py --clear-checkpoint
 ```
 
 ### Historical ingestion planner

@@ -100,6 +100,33 @@ Or run the separate GDELT path directly:
 python3 scripts/ingest_gdelt.py
 ```
 
+If GDELT rate-limits a run, the standalone client now retries with backoff
+instead of failing immediately on the first `429` response.
+
+For a gentler fallback, use:
+
+```bash
+python3 scripts/ingest_gdelt.py --conservative
+```
+
+For historical runs that may need to resume after throttling or interruption:
+
+```bash
+python3 scripts/ingest_gdelt.py --historical --since 2025-01-01 --resume --conservative
+```
+
+For the gentlest historical path, restrict execution to local off-hours:
+
+```bash
+python3 scripts/ingest_gdelt.py --historical --since 2025-01-01 --resume --conservative --off-hours
+```
+
+If you want the client to give up sooner when rate-limited, lower the cutoff:
+
+```bash
+python3 scripts/ingest_gdelt.py --conservative --max-backoff-seconds 45
+```
+
 ### Deep historical planning
 
 For historical archive planning rather than the fast monitoring pipeline:
