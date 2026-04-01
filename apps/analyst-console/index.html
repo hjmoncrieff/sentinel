@@ -214,6 +214,54 @@
       background:rgba(154,93,32,.08);
       color:var(--warn);
     }
+    .access-wall{
+      display:none;
+      margin-bottom:18px;
+      border:1px solid rgba(15,76,129,.14);
+      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,249,252,.94));
+      border-radius:var(--radius-xl);
+      box-shadow:var(--shadow);
+      padding:32px;
+    }
+    .access-wall.active{
+      display:block;
+    }
+    .access-wall h2{
+      margin:0 0 10px;
+      font-size:32px;
+      line-height:1.1;
+      letter-spacing:-0.03em;
+    }
+    .access-wall p{
+      margin:0 0 14px;
+      max-width:760px;
+      color:var(--muted);
+      font-size:17px;
+      line-height:1.7;
+    }
+    .access-wall .access-list{
+      display:grid;
+      gap:8px;
+      margin-top:14px;
+      color:var(--ink);
+    }
+    .access-wall .access-list div{
+      padding-left:16px;
+      position:relative;
+    }
+    .access-wall .access-list div::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:11px;
+      width:6px;
+      height:6px;
+      border-radius:999px;
+      background:var(--accent);
+    }
+    #workspace-shell.locked{
+      display:none;
+    }
     .toolbar{
       display:grid;
       grid-template-columns:1.2fr 0.95fr 1.15fr;
@@ -843,6 +891,18 @@
       </div>
     </div>
 
+    <div class="access-wall" id="access-wall">
+      <div class="kicker" style="color:var(--accent); margin-bottom:12px;">Credentialed Access</div>
+      <h2>Private Analyst Workspace</h2>
+      <p id="access-wall-copy">Log in with a local analyst account to load the internal queue, review artifacts, and registry workflow. The public dashboard links here for trusted users, but this workspace should not expose its internal data before authentication.</p>
+      <div class="access-list">
+        <div>Internal review queues, QA diagnostics, and duplicate work only load after authentication.</div>
+        <div>Actor registry edits, private analyst reasoning, and publication actions stay behind the analyst server.</div>
+        <div>Use the session card in the header to log in and unlock the workspace.</div>
+      </div>
+    </div>
+
+    <div id="workspace-shell" class="locked">
     <div class="stats" id="stats"></div>
     <div class="notice" id="notice"></div>
 
@@ -945,6 +1005,7 @@
 
     <div class="foot">
       AI handles most production work upstream. This workspace reads from <code>../../data/review/*.json</code>, <code>../../data/canonical/events_actor_coded.json</code>, and <code>../../data/published/events_public.json</code> so analysts can review exceptions, correct sensitive cases, and supervise publication. Through the analyst server, authenticated saves can write directly into the local-only <code>data/review/edits.local.json</code>.
+    </div>
     </div>
   </div>
 
@@ -1128,6 +1189,7 @@
         authenticated: false,
         user: null
       },
+      workspaceLoaded: false,
       queryPresets: [
         { label: "High Salience Colombia", query: "country:colombia salience:high" },
         { label: "QA Heavy", query: "qa:true" },
@@ -1194,7 +1256,27 @@
       return payload;
     }
 
+    function isTrustedAnalystHost() {
+      const host = String(globalThis.location?.hostname || "").toLowerCase();
+      if (!host || host === "localhost" || host === "127.0.0.1" || host === "::1") return true;
+      if (host.endsWith(".local")) return true;
+      if (/^10\./.test(host)) return true;
+      if (/^192\.168\./.test(host)) return true;
+      const match = host.match(/^172\.(\d+)\./);
+      if (match) {
+        const second = Number(match[1]);
+        if (second >= 16 && second <= 31) return true;
+      }
+      return false;
+    }
+
     async function detectBackendSession() {
+      if (!isTrustedAnalystHost()) {
+        state.backend.available = false;
+        state.backend.authenticated = false;
+        state.backend.user = null;
+        return;
+      }
       try {
         const payload = await apiFetch("/api/session", { method: "GET" });
         state.backend.available = true;
@@ -2402,9 +2484,9 @@
       document.getElementById("session-role").value = state.session.role;
       document.getElementById("session-name").disabled = state.backend.authenticated;
       document.getElementById("session-role").disabled = state.backend.authenticated;
-      document.getElementById("login-username").disabled = state.backend.authenticated;
-      document.getElementById("login-password").disabled = state.backend.authenticated;
-      document.getElementById("login-btn").disabled = state.backend.authenticated || !state.backend.available;
+      document.getElementById("login-username").disabled = state.backend.authenticated || !isTrustedAnalystHost();
+      document.getElementById("login-password").disabled = state.backend.authenticated || !isTrustedAnalystHost();
+      document.getElementById("login-btn").disabled = state.backend.authenticated || !state.backend.available || !isTrustedAnalystHost();
       document.getElementById("logout-btn").disabled = !state.backend.authenticated;
       renderSessionNote();
     }
@@ -2412,7 +2494,9 @@
     function renderSessionNote() {
       const rules = getRoleRules();
       const statuses = getAllowedStatuses();
-      const mode = state.backend.available
+      const mode = !isTrustedAnalystHost()
+        ? "Public host detected. This console is intentionally disabled outside a trusted local or private environment."
+        : state.backend.available
         ? (state.backend.authenticated
           ? `Authenticated as ${state.backend.user?.username || "unknown"}`
           : "Analyst server detected. Log in to save edits directly.")
@@ -2424,7 +2508,68 @@
       `;
     }
 
+    function clearWorkspace() {
+      state.data = null;
+      state.queueItems = [];
+      state.selectedId = null;
+      state.workspaceLoaded = false;
+      state.actorBulkSelection.clear();
+      const stats = document.getElementById("stats");
+      const queue = document.getElementById("queue");
+      const detailTop = document.getElementById("detail-top");
+      if (stats) stats.innerHTML = "";
+      if (queue) queue.innerHTML = '<div class="empty empty-state">Log in to load the analyst queue.</div>';
+      if (detailTop) detailTop.innerHTML = '<div class="empty empty-state">Authenticate to open the private review workspace.</div>';
+      for (const tabId of ["overview", "review", "actors", "registry", "qa", "duplicates", "publication", "council", "history", "provenance"]) {
+        const panel = document.getElementById(`tab-${tabId}`);
+        if (panel) panel.innerHTML = "";
+      }
+    }
+
+    function updateAccessWall() {
+      const wall = document.getElementById("access-wall");
+      const shell = document.getElementById("workspace-shell");
+      const copy = document.getElementById("access-wall-copy");
+      const locked = !isTrustedAnalystHost() || !state.backend.authenticated;
+      wall.classList.toggle("active", locked);
+      shell.classList.toggle("locked", locked);
+      if (copy) {
+        copy.textContent = !isTrustedAnalystHost()
+          ? "This analyst console is disabled on public hosts. Keep the console on localhost or another private, access-controlled environment and expose only the public dashboard on the web."
+          : state.backend.available
+          ? "Log in with a local analyst account to load the internal queue, review artifacts, and registry workflow. The public dashboard links here for trusted users, but this workspace should not expose its internal data before authentication."
+          : "This console needs the local analyst server to be running before anyone can authenticate. Start the server, then log in from the session card in the header to unlock the workspace.";
+      }
+    }
+
+    async function loadWorkspaceData(force = false) {
+      if (state.workspaceLoaded && !force) return;
+      const [reviewQueue, qa, registryQa, duplicates, council, canonical, published, eventTypes, actorTypes, actorRegistry, councilRoles, aiWorkers, countries] = await Promise.all([
+        loadJson(DATA_PATHS.reviewQueue),
+        loadJson(DATA_PATHS.qa),
+        loadOptionalJson(DATA_PATHS.registryQa, { generated_at: null, issue_count: 0, issues: [] }),
+        loadJson(DATA_PATHS.duplicates),
+        loadOptionalJson(DATA_PATHS.council, { generated_at: null, count: 0, events: [] }),
+        loadJson(DATA_PATHS.canonical),
+        loadJson(DATA_PATHS.published),
+        loadJson(DATA_PATHS.eventTypes),
+        loadJson(DATA_PATHS.actorTypes),
+        loadOptionalJson(DATA_PATHS.actorRegistry, { actors: [] }),
+        loadOptionalJson(DATA_PATHS.councilRoles, { roles: [] }),
+        loadOptionalJson(DATA_PATHS.aiWorkers, { workers: [] }),
+        loadOptionalJson(DATA_PATHS.countries, { countries: [] })
+      ]);
+      state.data = { reviewQueue, qa, registryQa, duplicates, council, canonical, published, eventTypes, actorTypes, actorRegistry, councilRoles, aiWorkers, countries, edits: clone(DEFAULT_EDITS_PAYLOAD) };
+      buildIndices(state.data);
+      await loadEditsForCurrentMode();
+      state.workspaceLoaded = true;
+      buildStats();
+      renderQueue();
+      renderDetail();
+    }
+
     function getFilteredQueue() {
+      if (!state.data) return [];
       const parsed = parseAnalystQuery(state.search);
       renderQuerySummary(parsed);
       let rows = [...(state.data.reviewQueue.items || [])].map(getEffectiveQueueItem);
@@ -4548,12 +4693,10 @@
           });
           document.getElementById("login-password").value = "";
           await detectBackendSession();
-          await loadEditsForCurrentMode();
+          await loadWorkspaceData(true);
           setNotice(`Logged in as ${state.backend.user?.display_name || state.backend.user?.username || "analyst"}.`);
           buildSessionControls();
-          buildStats();
-          renderQueue();
-          renderDetail();
+          updateAccessWall();
         } catch (error) {
           alert("Login failed: " + error.message);
         }
@@ -4562,12 +4705,10 @@
         try {
           await apiFetch("/api/logout", { method: "POST" });
           await detectBackendSession();
-          await loadEditsForCurrentMode();
+          clearWorkspace();
           setNotice("Logged out of the analyst backend.");
           buildSessionControls();
-          buildStats();
-          renderQueue();
-          renderDetail();
+          updateAccessWall();
         } catch (error) {
           alert("Logout failed: " + error.message);
         }
@@ -4589,32 +4730,20 @@
     async function init() {
       try {
         await detectBackendSession();
-        const [reviewQueue, qa, registryQa, duplicates, council, canonical, published, eventTypes, actorTypes, actorRegistry, councilRoles, aiWorkers] = await Promise.all([
-          loadJson(DATA_PATHS.reviewQueue),
-          loadJson(DATA_PATHS.qa),
-          loadOptionalJson(DATA_PATHS.registryQa, { generated_at: null, issue_count: 0, issues: [] }),
-          loadJson(DATA_PATHS.duplicates),
-          loadOptionalJson(DATA_PATHS.council, { generated_at: null, count: 0, events: [] }),
-          loadJson(DATA_PATHS.canonical),
-          loadJson(DATA_PATHS.published),
-          loadJson(DATA_PATHS.eventTypes),
-          loadJson(DATA_PATHS.actorTypes),
-          loadOptionalJson(DATA_PATHS.actorRegistry, { actors: [] }),
-          loadOptionalJson(DATA_PATHS.councilRoles, { roles: [] }),
-          loadOptionalJson(DATA_PATHS.aiWorkers, { workers: [] })
-        ]);
-        state.data = { reviewQueue, qa, registryQa, duplicates, council, canonical, published, eventTypes, actorTypes, actorRegistry, councilRoles, aiWorkers, edits: clone(DEFAULT_EDITS_PAYLOAD) };
-        buildIndices(state.data);
-        await loadEditsForCurrentMode();
         buildSessionControls();
-        buildStats();
         renderNotice();
         renderQueryPresets();
         wireTooltips();
         wireToolbar();
         wireTabs();
-        renderQueue();
-        renderDetail();
+        if (!isTrustedAnalystHost()) {
+          clearWorkspace();
+        } else if (state.backend.authenticated) {
+          await loadWorkspaceData(true);
+        } else {
+          clearWorkspace();
+        }
+        updateAccessWall();
       } catch (error) {
         document.getElementById("queue").innerHTML = `<div class="empty empty-state" style="padding:16px;">Failed to load analyst console data: ${esc(error.message)}</div>`;
         document.getElementById("detail-top").innerHTML = `<div class="empty empty-state">Open the console from a local server rooted at the repository so it can fetch the JSON files.</div>`;

@@ -45,6 +45,14 @@ It should:
 - run only on localhost
 - read only local credential/edit files
 - refuse to start if local credential files are missing
+- remain outside the public website deployment surface
+
+The analyst console now also enforces a client-side host boundary:
+
+- the public dashboard disables the analyst-access link on public hosts
+- the analyst console refuses to unlock or load internal workspace data unless
+  it is served from a trusted local/private host such as `localhost`,
+  `127.0.0.1`, `.local`, or a private RFC1918 address
 
 It is not intended for GitHub Pages or direct public deployment.
 

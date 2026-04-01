@@ -694,6 +694,14 @@ header {
 .hdr-btn svg { width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:1.6; }
 .hdr-btn.login-btn { color:var(--aid); border-color:rgba(20,96,176,.28); background:rgba(20,96,176,.04); }
 .hdr-btn.login-btn:hover { color:var(--aid); border-color:rgba(20,96,176,.42); background:rgba(20,96,176,.10); }
+.hdr-btn.login-btn.disabled,
+.hdr-btn.login-btn[aria-disabled="true"]{
+  color:var(--text-muted);
+  border-color:var(--border);
+  background:var(--surface2);
+  cursor:default;
+  pointer-events:none;
+}
 
 /* ── SEARCH OVERLAY ─────────────────────────────────────────── */
 .search-overlay { display:none; position:fixed; inset:0; z-index:2000; background:rgba(28,26,23,0.45); backdrop-filter:blur(2px); }
@@ -726,7 +734,7 @@ header {
     <button class="tab-btn" data-tab="about">About</button>
   </nav>
   <div class="header-right">
-    <a class="hdr-btn login-btn" href="./apps/analyst-console/" title="Analyst login">
+    <a class="hdr-btn login-btn" id="analyst-login-link" href="./apps/analyst-console/" title="Analyst login">
       <svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5.5A2.5 2.5 0 0 1 8 3a2.5 2.5 0 0 1 2.5 2.5V7"/></svg>
       <span>Analyst Login</span>
     </a>
@@ -4612,8 +4620,35 @@ function runSearch(q){
   }).join('');
 }
 
+function isTrustedAnalystHost(){
+  const host = String(window.location.hostname || '').toLowerCase();
+  if(!host || host==='localhost' || host==='127.0.0.1' || host==='::1') return true;
+  if(host.endsWith('.local')) return true;
+  if(/^10\./.test(host)) return true;
+  if(/^192\.168\./.test(host)) return true;
+  const match = host.match(/^172\.(\d+)\./);
+  if(match){
+    const second = Number(match[1]);
+    if(second >= 16 && second <= 31) return true;
+  }
+  return false;
+}
+
+function configureAnalystLoginLink(){
+  const link = document.getElementById('analyst-login-link');
+  if(!link) return;
+  if(isTrustedAnalystHost()) return;
+  link.classList.add('disabled');
+  link.setAttribute('aria-disabled','true');
+  link.removeAttribute('href');
+  link.setAttribute('title','Private analyst access is available only from a trusted local or private host.');
+  const label = link.querySelector('span');
+  if(label) label.textContent = 'Private Analyst Access';
+}
+
 // ── INIT ────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',()=>{
+  configureAnalystLoginLink();
   initEventFilterControls();
   loadEvents();
   setInterval(loadEvents, 15*60*1000);

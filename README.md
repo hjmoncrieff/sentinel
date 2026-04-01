@@ -54,6 +54,10 @@ The public dashboard reads only from published outputs. Analyst credentials,
 local review edits, private reasoning, and other sensitive workflow artifacts
 are intentionally kept out of the public data layer.
 
+The public dashboard may expose a private analyst-access entry point for local
+operators, but that route is intended only for trusted local/private hosts. The
+analyst console is not part of the public web surface.
+
 Each event now carries a structured provenance timeline so both internal and
 public-facing views can show how the record moved from ingestion through
 classification, review, and publication. Canonical events also retain linked
