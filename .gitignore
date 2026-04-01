@@ -17,3 +17,14 @@ Thumbs.db
 # ── Editor ────────────────────────────────────────────────────
 .vscode/
 *.swp
+
+# ── Rendered Docs / Local Artifacts ───────────────────────────
+README.html
+README_files/
+data/CODEBOOK.html
+data/CODEBOOK_files/
+
+# ── SENTINEL Local Analyst Ops ────────────────────────────────
+data/review/*.local.json
+data/review/events_with_edits.json
+data/review/review_queue_with_edits.json

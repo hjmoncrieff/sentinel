@@ -1,0 +1,140 @@
+{
+  "version": "0.1",
+  "updated": "2026-04-01",
+  "status": "seed",
+  "source_note": "Initial seed derived from the internal PDF 'Mapping Non-State Violent Actors in Latin America for Geolocated Event Data' plus existing SENTINEL actor-coding needs. This is not yet a complete registry.",
+  "actors": [
+    {
+      "actor_id": "nsva_mex_sinaloa",
+      "canonical_name": "Sinaloa Cartel",
+      "country": "Mexico",
+      "actor_type": "organized_crime",
+      "subtype": "cartel",
+      "aliases": ["Cártel de Sinaloa", "Cartel de Sinaloa"],
+      "primary_activities": ["drug_trafficking", "extortion", "human_smuggling"],
+      "source_confidence": "high",
+      "registry_status": "active"
+    },
+    {
+      "actor_id": "nsva_mex_cjng",
+      "canonical_name": "CJNG",
+      "country": "Mexico",
+      "actor_type": "organized_crime",
+      "subtype": "cartel",
+      "aliases": ["Cártel de Jalisco Nueva Generación", "Cartel de Jalisco Nueva Generacion", "Jalisco Nueva Generación"],
+      "primary_activities": ["drug_trafficking", "extortion", "violence_against_state"],
+      "source_confidence": "high",
+      "registry_status": "active"
+    },
+    {
+      "actor_id": "nsva_mex_golfo",
+      "canonical_name": "Gulf Cartel",
+      "country": "Mexico",
+      "actor_type": "organized_crime",
+      "subtype": "cartel",
+      "aliases": ["Cártel del Golfo", "Cartel del Golfo"],
+      "primary_activities": ["drug_trafficking", "migrant_smuggling"],
+      "source_confidence": "high",
+      "registry_status": "active"
+    },
+    {
+      "actor_id": "nsva_mex_cdn",
+      "canonical_name": "Cartel del Noreste",
+      "country": "Mexico",
+      "actor_type": "organized_crime",
+      "subtype": "cartel_successor",
+      "aliases": ["Cártel del Noreste", "Cartel del Noreste", "CDN"],
+      "primary_activities": ["drug_trafficking", "kidnapping", "intimidation"],
+      "source_confidence": "high",
+      "registry_status": "active"
+    },
+    {
+      "actor_id": "nsva_mex_lnfm",
+      "canonical_name": "La Nueva Familia Michoacana",
+      "country": "Mexico",
+      "actor_type": "organized_crime",
+      "subtype": "cartel",
+      "aliases": ["Nueva Familia Michoacana", "LNFM"],
+      "primary_activities": ["drug_trafficking", "kidnapping", "extortion"],
+      "source_confidence": "high",
+      "registry_status": "active"
+    },
+    {
+      "actor_id": "nsva_mex_carteles_unidos",
+      "canonical_name": "Carteles Unidos",
+      "country": "Mexico",
+      "actor_type": "organized_crime",
+      "subtype": "alliance",
+      "aliases": ["Cárteles Unidos", "Carteles Unidos"],
+      "primary_activities": ["armed_rivalry", "territorial_contestation", "extortion"],
+      "source_confidence": "medium",
+      "registry_status": "active"
+    },
+    {
+      "actor_id": "nsva_mex_srdl",
+      "canonical_name": "Santa Rosa de Lima Cartel",
+      "country": "Mexico",
+      "actor_type": "organized_crime",
+      "subtype": "cartel",
+      "aliases": ["Cártel de Santa Rosa de Lima", "Cartel de Santa Rosa de Lima", "CSRL"],
+      "primary_activities": ["fuel_theft", "extortion", "organized_crime_diversification"],
+      "source_confidence": "medium",
+      "registry_status": "active"
+    },
+    {
+      "actor_id": "nsva_col_clan_golfo",
+      "canonical_name": "Clan del Golfo",
+      "country": "Colombia",
+      "actor_type": "organized_crime",
+      "subtype": "mafia_style_group",
+      "aliases": ["AGC", "Autodefensas Gaitanistas de Colombia", "Gulf Clan"],
+      "primary_activities": ["drug_trafficking", "illegal_mining", "human_smuggling", "extortion"],
+      "source_confidence": "high",
+      "registry_status": "active"
+    },
+    {
+      "actor_id": "nsva_col_eln",
+      "canonical_name": "ELN",
+      "country": "Colombia",
+      "actor_type": "armed_group",
+      "subtype": "insurgent",
+      "aliases": ["Ejército de Liberación Nacional", "National Liberation Army"],
+      "primary_activities": ["territorial_control", "extortion", "trafficking_linked_revenue"],
+      "source_confidence": "high",
+      "registry_status": "active"
+    },
+    {
+      "actor_id": "nsva_col_farc_emc",
+      "canonical_name": "FARC Estado Mayor Central",
+      "country": "Colombia",
+      "actor_type": "armed_group",
+      "subtype": "dissident_faction",
+      "aliases": ["Estado Mayor Central", "EMC", "FARC-EMC", "FARC Dissidents"],
+      "primary_activities": ["drug_linked_governance", "extortion", "armed_clashes"],
+      "source_confidence": "high",
+      "registry_status": "active"
+    },
+    {
+      "actor_id": "nsva_reg_tren_aragua",
+      "canonical_name": "Tren de Aragua",
+      "country": "Regional",
+      "actor_type": "organized_crime",
+      "subtype": "transnational_network",
+      "aliases": ["TdA"],
+      "primary_activities": ["extortion", "trafficking", "violent_coercion"],
+      "source_confidence": "medium",
+      "registry_status": "active"
+    },
+    {
+      "actor_id": "nsva_reg_ms13",
+      "canonical_name": "MS-13",
+      "country": "Regional",
+      "actor_type": "organized_crime",
+      "subtype": "gang",
+      "aliases": ["Mara Salvatrucha", "MS13"],
+      "primary_activities": ["extortion", "violent_coercion", "territorial_control"],
+      "source_confidence": "medium",
+      "registry_status": "active"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "version": "1.0",
+  "updated": "2026-04-01",
+  "analysis_tag": "AI-generated analysis",
+  "scope": "all_events",
+  "roles": [
+    {
+      "code": "cmr",
+      "label": "CMR Analyst",
+      "focus": "civilian control, military autonomy, command politics, politicization, coup risk"
+    },
+    {
+      "code": "political_risk",
+      "label": "Political Risk Analyst",
+      "focus": "regime stability, unrest, elite fragmentation, coercive stress"
+    },
+    {
+      "code": "regional_security",
+      "label": "Regional Security Analyst",
+      "focus": "organized crime, conflict spillover, external actors, cooperation, security architecture"
+    },
+    {
+      "code": "synthesis",
+      "label": "Synthesis Analyst",
+      "focus": "cross-lens integration and overall concern level"
+    }
+  ]
+}

@@ -1,0 +1,241 @@
+{
+  "version": "1.0",
+  "updated": "2026-04-01",
+  "status": "active",
+  "source_note": "Primary internal actor registry for SENTINEL. Seeded from the NSVA registry seed and intended to absorb analyst-reviewed actor promotions from the review workflow.",
+  "actors": [
+    {
+      "registry_id": "actor_col_armed_group_eln",
+      "canonical_name": "ELN",
+      "canonical_type": "armed_group",
+      "canonical_subtype": "insurgent",
+      "primary_country": "Colombia",
+      "aliases": [
+        "Ejército de Liberación Nacional",
+        "National Liberation Army"
+      ],
+      "relationship_tags": [],
+      "registry_status": "registry_confirmed",
+      "source_confidence": "high",
+      "seed_source": "nsva_registry_seed",
+      "evidence": {
+        "seeded_from": "config/actors/nsva_registry_seed.json",
+        "reviewed_event_ids": []
+      }
+    },
+    {
+      "registry_id": "actor_col_armed_group_farc_estado_mayor_central",
+      "canonical_name": "FARC Estado Mayor Central",
+      "canonical_type": "armed_group",
+      "canonical_subtype": "dissident_faction",
+      "primary_country": "Colombia",
+      "aliases": [
+        "Estado Mayor Central",
+        "EMC",
+        "FARC-EMC",
+        "FARC Dissidents"
+      ],
+      "relationship_tags": [],
+      "registry_status": "registry_confirmed",
+      "source_confidence": "high",
+      "seed_source": "nsva_registry_seed",
+      "evidence": {
+        "seeded_from": "config/actors/nsva_registry_seed.json",
+        "reviewed_event_ids": []
+      }
+    },
+    {
+      "registry_id": "actor_col_organized_crime_clan_del_golfo",
+      "canonical_name": "Clan del Golfo",
+      "canonical_type": "organized_crime",
+      "canonical_subtype": "mafia_style_group",
+      "primary_country": "Colombia",
+      "aliases": [
+        "AGC",
+        "Autodefensas Gaitanistas de Colombia",
+        "Gulf Clan"
+      ],
+      "relationship_tags": [],
+      "registry_status": "registry_confirmed",
+      "source_confidence": "high",
+      "seed_source": "nsva_registry_seed",
+      "evidence": {
+        "seeded_from": "config/actors/nsva_registry_seed.json",
+        "reviewed_event_ids": []
+      }
+    },
+    {
+      "registry_id": "actor_mex_organized_crime_cjng",
+      "canonical_name": "CJNG",
+      "canonical_type": "organized_crime",
+      "canonical_subtype": "cartel",
+      "primary_country": "Mexico",
+      "aliases": [
+        "Cártel de Jalisco Nueva Generación",
+        "Cartel de Jalisco Nueva Generacion",
+        "Jalisco Nueva Generación"
+      ],
+      "relationship_tags": [],
+      "registry_status": "registry_confirmed",
+      "source_confidence": "high",
+      "seed_source": "nsva_registry_seed",
+      "evidence": {
+        "seeded_from": "config/actors/nsva_registry_seed.json",
+        "reviewed_event_ids": []
+      }
+    },
+    {
+      "registry_id": "actor_mex_organized_crime_cartel_del_noreste",
+      "canonical_name": "Cartel del Noreste",
+      "canonical_type": "organized_crime",
+      "canonical_subtype": "cartel_successor",
+      "primary_country": "Mexico",
+      "aliases": [
+        "Cártel del Noreste",
+        "Cartel del Noreste",
+        "CDN"
+      ],
+      "relationship_tags": [],
+      "registry_status": "registry_confirmed",
+      "source_confidence": "high",
+      "seed_source": "nsva_registry_seed",
+      "evidence": {
+        "seeded_from": "config/actors/nsva_registry_seed.json",
+        "reviewed_event_ids": []
+      }
+    },
+    {
+      "registry_id": "actor_mex_organized_crime_carteles_unidos",
+      "canonical_name": "Carteles Unidos",
+      "canonical_type": "organized_crime",
+      "canonical_subtype": "alliance",
+      "primary_country": "Mexico",
+      "aliases": [
+        "Cárteles Unidos",
+        "Carteles Unidos"
+      ],
+      "relationship_tags": [],
+      "registry_status": "registry_seeded",
+      "source_confidence": "medium",
+      "seed_source": "nsva_registry_seed",
+      "evidence": {
+        "seeded_from": "config/actors/nsva_registry_seed.json",
+        "reviewed_event_ids": []
+      }
+    },
+    {
+      "registry_id": "actor_mex_organized_crime_gulf_cartel",
+      "canonical_name": "Gulf Cartel",
+      "canonical_type": "organized_crime",
+      "canonical_subtype": "cartel",
+      "primary_country": "Mexico",
+      "aliases": [
+        "Cártel del Golfo",
+        "Cartel del Golfo"
+      ],
+      "relationship_tags": [],
+      "registry_status": "registry_confirmed",
+      "source_confidence": "high",
+      "seed_source": "nsva_registry_seed",
+      "evidence": {
+        "seeded_from": "config/actors/nsva_registry_seed.json",
+        "reviewed_event_ids": []
+      }
+    },
+    {
+      "registry_id": "actor_mex_organized_crime_la_nueva_familia_michoacana",
+      "canonical_name": "La Nueva Familia Michoacana",
+      "canonical_type": "organized_crime",
+      "canonical_subtype": "cartel",
+      "primary_country": "Mexico",
+      "aliases": [
+        "Nueva Familia Michoacana",
+        "LNFM"
+      ],
+      "relationship_tags": [],
+      "registry_status": "registry_confirmed",
+      "source_confidence": "high",
+      "seed_source": "nsva_registry_seed",
+      "evidence": {
+        "seeded_from": "config/actors/nsva_registry_seed.json",
+        "reviewed_event_ids": []
+      }
+    },
+    {
+      "registry_id": "actor_mex_organized_crime_santa_rosa_de_lima_cartel",
+      "canonical_name": "Santa Rosa de Lima Cartel",
+      "canonical_type": "organized_crime",
+      "canonical_subtype": "cartel",
+      "primary_country": "Mexico",
+      "aliases": [
+        "Cártel de Santa Rosa de Lima",
+        "Cartel de Santa Rosa de Lima",
+        "CSRL"
+      ],
+      "relationship_tags": [],
+      "registry_status": "registry_seeded",
+      "source_confidence": "medium",
+      "seed_source": "nsva_registry_seed",
+      "evidence": {
+        "seeded_from": "config/actors/nsva_registry_seed.json",
+        "reviewed_event_ids": []
+      }
+    },
+    {
+      "registry_id": "actor_mex_organized_crime_sinaloa_cartel",
+      "canonical_name": "Sinaloa Cartel",
+      "canonical_type": "organized_crime",
+      "canonical_subtype": "cartel",
+      "primary_country": "Mexico",
+      "aliases": [
+        "Cártel de Sinaloa",
+        "Cartel de Sinaloa"
+      ],
+      "relationship_tags": [],
+      "registry_status": "registry_confirmed",
+      "source_confidence": "high",
+      "seed_source": "nsva_registry_seed",
+      "evidence": {
+        "seeded_from": "config/actors/nsva_registry_seed.json",
+        "reviewed_event_ids": []
+      }
+    },
+    {
+      "registry_id": "actor_reg_organized_crime_ms_13",
+      "canonical_name": "MS-13",
+      "canonical_type": "organized_crime",
+      "canonical_subtype": "gang",
+      "primary_country": "Regional",
+      "aliases": [
+        "Mara Salvatrucha",
+        "MS13"
+      ],
+      "relationship_tags": [],
+      "registry_status": "registry_seeded",
+      "source_confidence": "medium",
+      "seed_source": "nsva_registry_seed",
+      "evidence": {
+        "seeded_from": "config/actors/nsva_registry_seed.json",
+        "reviewed_event_ids": []
+      }
+    },
+    {
+      "registry_id": "actor_reg_organized_crime_tren_de_aragua",
+      "canonical_name": "Tren de Aragua",
+      "canonical_type": "organized_crime",
+      "canonical_subtype": "transnational_network",
+      "primary_country": "Regional",
+      "aliases": [
+        "TdA"
+      ],
+      "relationship_tags": [],
+      "registry_status": "registry_seeded",
+      "source_confidence": "medium",
+      "seed_source": "nsva_registry_seed",
+      "evidence": {
+        "seeded_from": "config/actors/nsva_registry_seed.json",
+        "reviewed_event_ids": []
+      }
+    }
+  ]
+}

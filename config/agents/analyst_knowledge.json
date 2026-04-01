@@ -1,0 +1,110 @@
+{
+  "version": "1.0",
+  "updated": "2026-04-01",
+  "purpose": "Structured knowledge base for the SENTINEL AI analyst layer.",
+  "analysis_tag": "AI-generated analysis",
+  "evidence_tiers": [
+    {
+      "code": "documented",
+      "definition": "Official legal action, court ruling, sanction, indictment, authoritative audit, or direct state document."
+    },
+    {
+      "code": "credible",
+      "definition": "Multiple independent reputable outlets or high-quality NGO/academic reporting with sourcing."
+    },
+    {
+      "code": "alleged",
+      "definition": "Single-source claim, partisan statement, or insufficiently corroborated report."
+    }
+  ],
+  "cmr_role_domains": [
+    {
+      "code": "external_defense",
+      "definition": "Military activity aimed at external threats, interstate deterrence, or sovereign defense posture."
+    },
+    {
+      "code": "public_security",
+      "definition": "Military or militarized force used for internal coercion, policing support, raids, checkpoints, or domestic enforcement."
+    },
+    {
+      "code": "governance_tasks",
+      "definition": "Military assigned to administrative, economic, social, prison, border, or state-capacity functions beyond narrow defense."
+    },
+    {
+      "code": "political_influence",
+      "definition": "Military behavior shaping executive survival, leadership outcomes, regime direction, or institutional contestation."
+    }
+  ],
+  "relationship_types": [
+    {
+      "code": "REL_SUBORDINATE",
+      "definition": "Military complies with civilian direction without visible bargaining or veto."
+    },
+    {
+      "code": "REL_BARGAINING",
+      "definition": "Civilian leaders and military negotiate informal boundaries and prerogatives."
+    },
+    {
+      "code": "REL_TUTELARY_VETO",
+      "definition": "Military acts as guardian or veto player without openly seizing power."
+    },
+    {
+      "code": "REL_PARTISAN_PILLAR",
+      "definition": "Military aligns with a leader, regime, or faction as a political pillar."
+    },
+    {
+      "code": "REL_FRACTURED",
+      "definition": "Military is internally divided through mutiny, rival commands, or factional conflict."
+    },
+    {
+      "code": "REL_PRAETORIAN",
+      "definition": "Military directly threatens, attempts, or carries out leader removal or seizure of power."
+    },
+    {
+      "code": "REL_CORRUPTION_CAPTURE",
+      "definition": "Military or security actors are embedded in illicit economies or collusive networks."
+    }
+  ],
+  "cmr_oc_interaction_types": [
+    {
+      "code": "INT_CONFRONTATION",
+      "definition": "State or military confrontation with criminal or hybrid armed actors."
+    },
+    {
+      "code": "INT_DEPLOYMENT",
+      "definition": "Domestic deployment of military or security actors for crime control, emergency policing, or border control."
+    },
+    {
+      "code": "INT_JOINT_OPERATION",
+      "definition": "Coordinated operation involving multiple state agencies such as military, police, and prosecutors."
+    },
+    {
+      "code": "INT_GOVERNANCE_ROLE",
+      "definition": "Military or security actors performing governance or administrative functions."
+    },
+    {
+      "code": "INT_NEGOTIATION_OR_TRUCE",
+      "definition": "Negotiation, tacit pact, truce, or mediated accommodation between state actors and criminal actors."
+    },
+    {
+      "code": "INT_COLLUSION",
+      "definition": "Protection, facilitation, shared rents, or operational coordination between state actors and criminal actors."
+    },
+    {
+      "code": "INT_CORRUPTION_CASE",
+      "definition": "Arrest, indictment, sanction, or documented corruption case involving military or security actors linked to crime."
+    },
+    {
+      "code": "INT_REFUSAL_OR_DEFECTION",
+      "definition": "Refusal, neutrality, mutiny, or defection by military actors in a crisis or confrontation."
+    }
+  ],
+  "interpretive_rules": [
+    "Do not treat AI-generated analysis as human validation.",
+    "Separate role coding from relationship coding: roles describe what the military does; relationships describe how it relates to civilian authority.",
+    "Keep public-security roles distinct from governance roles.",
+    "Use collusion and corruption-capture labels cautiously and prefer documented evidence.",
+    "Treat hybrid actors and state-linked auxiliaries as analytically distinct from regular armed forces.",
+    "Preserve uncertainty rather than flattening weak claims into definitive coding."
+  ]
+}

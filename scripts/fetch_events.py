@@ -38,6 +38,10 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
 
+from ingest_gdelt import fetch_gdelt, fetch_gdelt_historical, normalize_gdelt
+from normalize_articles import make_article_record, should_keep_newsapi_source
+from rss_sources import RSS_FEEDS
+
 # ── Load .env file if present (local development) ─────────────
 _env_path = Path(__file__).resolve().parent.parent / ".env"
 if _env_path.exists():
@@ -60,47 +64,17 @@ except ImportError:
 # ── Config ─────────────────────────────────────────────────────────────────────
 
 DAYS_BACK      = 2          # RSS / ACLED lookback window
-GDELT_TIMESPAN = "4H"       # GDELT API timespan per run
 MAX_ACLED_ROWS = 100
 CLASSIFY_BATCH = 8          # articles per Claude classification call
 CLUSTER_BATCH  = 20         # max candidates per clustering call
-MAX_EVENTS     = 500
+MAX_EVENTS     = 2500       # increased to support 5-year history
+RSS_TIMEOUT = 15            # seconds per RSS fetch
 
 DATA_FILE = Path(__file__).parent.parent / "data" / "events.json"
+REVIEW_DIR = Path(__file__).parent.parent / "data" / "review"
+STAGING_DIR = Path(__file__).parent.parent / "data" / "staging"
 
-GDELT_URL   = "https://api.gdeltproject.org/api/v2/doc/doc"
 NEWSAPI_URL = "https://newsapi.org/v2/everything"
-
-RSS_FEEDS = [
-    # English specialist
-    {"name": "InSight Crime",         "url": "https://insightcrime.org/feed/"},
-    {"name": "Americas Quarterly",    "url": "https://americasquarterly.org/feed/"},
-    {"name": "The Guardian LatAm",    "url": "https://www.theguardian.com/world/americas/rss"},
-    {"name": "Crisis Group",          "url": "https://www.crisisgroup.org/rss"},
-    # English wire/broadcast
-    {"name": "Reuters LatAm",         "url": "https://feeds.reuters.com/reuters/LATopNews"},
-    {"name": "AP Latin America",      "url": "https://rsshub.app/apnews/topics/latin-america"},
-    {"name": "BBC Americas",          "url": "https://feeds.bbci.co.uk/news/world/latin_america/rss.xml"},
-    {"name": "CNN en Español",        "url": "https://cnnespanol.cnn.com/feed/"},
-    {"name": "NYT World",             "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"},
-    {"name": "Miami Herald Americas", "url": "https://www.miamiherald.com/news/nation-world/world/americas/?widgetName=rssfeed&widgetContentId=712015&getXmlFeed=true"},
-    {"name": "SOUTHCOM",              "url": "https://www.southcom.mil/RSS/?CH=1"},
-    # Academic/policy
-    {"name": "NACLA",                 "url": "https://nacla.org/rss.xml"},
-    {"name": "Wilson Center LatAm",   "url": "https://www.wilsoncenter.org/rss/publication/68"},
-    # Spanish-language regional
-    {"name": "BBC Mundo",             "url": "https://feeds.bbci.co.uk/mundo/rss.xml"},
-    {"name": "El País América",       "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/america/portada"},
-    {"name": "La Nación Argentina",   "url": "https://www.lanacion.com.ar/rss/politica-y-pais"},
-    {"name": "El Tiempo Colombia",    "url": "https://www.eltiempo.com/rss/politica.xml"},
-    {"name": "Semana Colombia",       "url": "https://www.semana.com/rss/feed.xml"},
-    {"name": "Folha de S.Paulo",      "url": "https://feeds.folha.uol.com.br/poder/rss091.xml"},
-    # Country-specific specialist
-    {"name": "Zeta Tijuana",          "url": "https://www.zetatijuana.com/feed/"},
-    {"name": "El Nacional Venezuela", "url": "https://www.elnacional.com/feed/"},
-    # Pan-regional Spanish (via Google News — Infobae has no native RSS)
-    {"name": "Infobae",               "url": "https://news.google.com/rss/search?q=site:infobae.com+(militar+OR+seguridad+OR+crimen+OR+golpe+OR+narcotráfico)&hl=es-419&gl=US&ceid=US:es-419"},
-]
 
 LATAM_COUNTRIES = [
     "Brazil", "Colombia", "Mexico", "Venezuela", "Argentina", "Peru",
@@ -136,6 +110,40 @@ COUNTRY_CENTROIDS: dict[str, list[float]] = {
     "Guyana":               [  4.9, -59.0],
     "Suriname":             [  3.9, -56.0],
     "Regional":             [ -5.0, -60.0],
+}
+
+# ── Country code lookups ──────────────────────────────────────────────────────
+# ISO 3166-1 alpha-3
+COUNTRY_ISO3: dict[str, str] = {
+    "Brazil": "BRA", "Colombia": "COL", "Mexico": "MEX", "Venezuela": "VEN",
+    "Argentina": "ARG", "Peru": "PER", "Chile": "CHL", "Ecuador": "ECU",
+    "Bolivia": "BOL", "Honduras": "HND", "Nicaragua": "NIC", "Guatemala": "GTM",
+    "El Salvador": "SLV", "Paraguay": "PRY", "Uruguay": "URY", "Cuba": "CUB",
+    "Haiti": "HTI", "Dominican Republic": "DOM", "Panama": "PAN",
+    "Costa Rica": "CRI", "Jamaica": "JAM", "Trinidad and Tobago": "TTO",
+    "Guyana": "GUY", "Suriname": "SUR", "Belize": "BLZ", "Regional": "REG",
+}
+
+# Correlates of War numeric codes
+COUNTRY_COW_N: dict[str, int] = {
+    "Brazil": 140, "Colombia": 100, "Mexico": 70, "Venezuela": 101,
+    "Argentina": 160, "Peru": 135, "Chile": 155, "Ecuador": 130,
+    "Bolivia": 145, "Honduras": 91, "Nicaragua": 93, "Guatemala": 90,
+    "El Salvador": 92, "Paraguay": 150, "Uruguay": 165, "Cuba": 40,
+    "Haiti": 41, "Dominican Republic": 42, "Panama": 95, "Costa Rica": 94,
+    "Jamaica": 51, "Trinidad and Tobago": 52, "Guyana": 110, "Suriname": 115,
+    "Belize": 80,
+}
+
+# Correlates of War character codes
+COUNTRY_COW_C: dict[str, str] = {
+    "Brazil": "BRA", "Colombia": "COL", "Mexico": "MEX", "Venezuela": "VEN",
+    "Argentina": "ARG", "Peru": "PER", "Chile": "CHL", "Ecuador": "ECU",
+    "Bolivia": "BOL", "Honduras": "HON", "Nicaragua": "NIC", "Guatemala": "GUA",
+    "El Salvador": "SAL", "Paraguay": "PAR", "Uruguay": "URU", "Cuba": "CUB",
+    "Haiti": "HAI", "Dominican Republic": "DOM", "Panama": "PAN",
+    "Costa Rica": "COS", "Jamaica": "JAM", "Trinidad and Tobago": "TRI",
+    "Guyana": "GUY", "Suriname": "SUR", "Belize": "BLZ",
 }
 
 PLACE_COORDS: dict[str, list[float]] = {
@@ -325,6 +333,14 @@ def stable_id(country: str, event_type: str, date: str) -> str:
     return hashlib.sha1(key.encode()).hexdigest()[:12]
 
 
+def make_sentinel_id(country: str, date: str, internal_id: str) -> str:
+    """Human-readable citable ID: ISO3_YYYY_MM_SHA6  (e.g. COL_2026_03_a3f7c9)."""
+    iso3 = COUNTRY_ISO3.get(country, "REG")
+    year  = date[:4]  if len(date) >= 4  else "0000"
+    month = date[5:7] if len(date) >= 7  else "00"
+    return f"{iso3}_{year}_{month}_{internal_id[:6]}"
+
+
 # ── Load / save ────────────────────────────────────────────────────────────────
 
 def load_existing() -> dict:
@@ -370,6 +386,21 @@ def save_events(existing: dict, new_events: list[dict]) -> int:
                 l for l in prev_links + new_links if l and l != "#"
             ))
             existing[eid]["url"] = existing[eid]["links"][0] if existing[eid]["links"] else ""
+            prev_article_ids = prev.get("source_article_ids") or []
+            new_article_ids = ev.get("source_article_ids") or []
+            existing[eid]["source_article_ids"] = list(dict.fromkeys(
+                article_id for article_id in prev_article_ids + new_article_ids if article_id
+            ))
+            prev_reports = prev.get("linked_reports") or []
+            new_reports = ev.get("linked_reports") or []
+            report_map: dict[str, dict] = {}
+            ordered_keys: list[str] = []
+            for report in prev_reports + new_reports:
+                key = report.get("article_id") or report.get("url") or report.get("source_name") or str(len(report_map))
+                if key not in report_map:
+                    ordered_keys.append(key)
+                    report_map[key] = report
+            existing[eid]["linked_reports"] = [report_map[key] for key in ordered_keys]
 
     all_events = sorted(existing.values(), key=lambda e: e.get("date", ""), reverse=True)[:MAX_EVENTS]
 
@@ -391,7 +422,13 @@ def save_events(existing: dict, new_events: list[dict]) -> int:
 def fetch_rss(feed: dict, cutoff: datetime) -> list[dict]:
     log.info(f"RSS: {feed['name']}")
     try:
-        parsed = feedparser.parse(feed["url"])
+        resp = requests.get(
+            feed["url"],
+            timeout=RSS_TIMEOUT,
+            headers={"User-Agent": "SENTINEL-research-bot/1.0"},
+        )
+        resp.raise_for_status()
+        parsed = feedparser.parse(resp.content)
         items = []
         for entry in parsed.entries[:20]:
             pub = entry.get("published_parsed") or entry.get("updated_parsed")
@@ -404,70 +441,119 @@ def fetch_rss(feed: dict, cutoff: datetime) -> list[dict]:
             title = (entry.get("title") or "").strip()
             if not title:
                 continue
-            items.append({
-                "title":       title,
-                "description": (entry.get("summary") or "")[:500].strip(),
-                "url":         entry.get("link", ""),
-                "date":        pub_dt.strftime("%Y-%m-%d"),
-                "source":      feed["name"],
-                "coords":      None,
-            })
+            items.append(make_article_record(
+                title=title,
+                description=entry.get("summary") or "",
+                url=entry.get("link", ""),
+                date=pub_dt.strftime("%Y-%m-%d"),
+                source=feed["name"],
+                source_type=feed.get("category", "rss"),
+                source_method="rss",
+                coords=None,
+            ))
         log.info(f"  → {len(items)} items")
         return items
+    except requests.Timeout:
+        log.warning(f"  RSS timeout {feed['name']} after {RSS_TIMEOUT}s")
+        return []
     except Exception as e:
         log.error(f"  RSS error {feed['name']}: {e}")
         return []
 
+# ── WordPress archive scrapers ─────────────────────────────────────────────────
+#
+# InSight Crime and Americas Quarterly both run WordPress with the public REST
+# API enabled. We paginate /wp-json/wp/v2/posts with date filtering.
 
-# ── GDELT ──────────────────────────────────────────────────────────────────────
+_WP_SOURCES = [
+    {
+        "name": "InSight Crime",
+        "base": "https://insightcrime.org/wp-json/wp/v2/posts",
+    },
+    {
+        "name": "Americas Quarterly",
+        "base": "https://americasquarterly.org/wp-json/wp/v2/posts",
+    },
+    {
+        "name": "NACLA",
+        "base": "https://nacla.org/wp-json/wp/v2/posts",
+    },
+]
 
-def fetch_gdelt() -> list[dict]:
-    country_codes = "BR OR CO OR MX OR VE OR AR OR PE OR CL OR EC OR BO OR HN OR NI OR GT OR SV OR PY OR UY OR CU OR HT OR DO OR PA OR CR"
-    params = {
-        "query": (
-            "(military OR army OR coup OR protest OR guerrilla OR narco OR naval "
-            'OR "armed forces" OR ejército OR fuerzas OR policía OR "security forces") '
-            f"sourcecountry:({country_codes})"
-        ),
-        "mode":       "artlist",
-        "maxrecords": "100",
-        "timespan":   GDELT_TIMESPAN,
-        "format":     "json",
-    }
-    try:
-        resp = requests.get(GDELT_URL, params=params, timeout=30)
-        resp.raise_for_status()
-        articles = resp.json().get("articles") or []
-        log.info(f"GDELT: {len(articles)} raw articles")
-        return articles
-    except Exception as e:
-        log.error(f"GDELT fetch failed: {e}")
-        return []
-
-
-def normalize_gdelt(articles: list[dict]) -> list[dict]:
-    out = []
-    for a in articles:
-        title = (a.get("title") or "").strip()
-        if not title:
-            continue
-        raw_date = (a.get("seendate") or "")[:8]
+def fetch_wordpress_archive(source: dict, since_dt: datetime,
+                             until_dt: datetime | None = None,
+                             max_pages: int = 50) -> list[dict]:
+    """
+    Paginate a WordPress REST API to collect posts since since_dt.
+    Returns normalized article dicts ready for pre_filter / classify.
+    """
+    if until_dt is None:
+        until_dt = datetime.now(timezone.utc)
+    base   = source["base"]
+    name   = source["name"]
+    since_str = since_dt.strftime("%Y-%m-%dT%H:%M:%S")
+    until_str = until_dt.strftime("%Y-%m-%dT%H:%M:%S")
+    articles: list[dict] = []
+    for page in range(1, max_pages + 1):
+        params = {
+            "per_page": 100,
+            "page":     page,
+            "after":    since_str,
+            "before":   until_str,
+            "orderby":  "date",
+            "order":    "desc",
+            "_fields":  "id,date,title,link,excerpt,categories",
+        }
         try:
-            date = datetime.strptime(raw_date, "%Y%m%d").strftime("%Y-%m-%d")
-        except Exception:
-            date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        lat, lon = a.get("latitude"), a.get("longitude")
-        coords = [float(lat), float(lon)] if lat and lon else None
-        domain = (a.get("domain") or "GDELT").split(".")[0].title()
-        out.append({
-            "title":       title,
-            "description": title,
-            "url":         a.get("url", ""),
-            "date":        date,
-            "source":      domain,
-            "coords":      coords,
-        })
-    return out
+            resp = requests.get(base, params=params, timeout=30,
+                                headers={"User-Agent": "SENTINEL-research-bot/1.0"})
+            if resp.status_code == 400:
+                break  # No more pages
+            resp.raise_for_status()
+            posts = resp.json()
+            if not posts:
+                break
+            for post in posts:
+                title = post.get("title", {}).get("rendered", "").strip()
+                excerpt = post.get("excerpt", {}).get("rendered", "")
+                # Strip HTML tags from excerpt
+                excerpt = re.sub(r"<[^>]+>", " ", excerpt).strip()[:300]
+                date_str = (post.get("date") or "")[:10]
+                url = post.get("link", "")
+                if not title or not url:
+                    continue
+                articles.append(make_article_record(
+                    title=title,
+                    description=excerpt or title,
+                    url=url,
+                    date=date_str,
+                    source=name,
+                    source_type="archive",
+                    source_method="wordpress_archive",
+                    coords=None,
+                ))
+            log.info(f"{name} page {page}: {len(posts)} posts")
+            if len(posts) < 100:
+                break  # Last page
+            time.sleep(0.5)
+        except Exception as e:
+            log.error(f"{name} archive page {page} failed: {e}")
+            break
+    log.info(f"{name} archive total: {len(articles)} articles")
+    return articles
+
+
+def fetch_all_archives(since_dt: datetime,
+                       until_dt: datetime | None = None) -> list[dict]:
+    """Scrape all configured WordPress archives."""
+    all_articles: list[dict] = []
+    for source in _WP_SOURCES:
+        try:
+            all_articles.extend(fetch_wordpress_archive(source, since_dt, until_dt))
+            time.sleep(1.0)
+        except Exception as e:
+            log.error(f"Archive fetch failed for {source['name']}: {e}")
+    return all_articles
 
 
 # ── NewsAPI ────────────────────────────────────────────────────────────────────
@@ -542,14 +628,18 @@ def normalize_newsapi(articles: list[dict]) -> list[dict]:
         published = a.get("publishedAt") or ""
         date = published[:10] if published else datetime.now(timezone.utc).strftime("%Y-%m-%d")
         source_name = (a.get("source") or {}).get("name") or "NewsAPI"
-        out.append({
-            "title":       title,
-            "description": (a.get("description") or title)[:500].strip(),
-            "url":         a.get("url", ""),
-            "date":        date,
-            "source":      source_name,
-            "coords":      None,
-        })
+        if not should_keep_newsapi_source(source_name):
+            continue
+        out.append(make_article_record(
+            title=title,
+            description=a.get("description") or title,
+            url=a.get("url", ""),
+            date=date,
+            source=source_name,
+            source_type="news_api",
+            source_method="newsapi",
+            coords=None,
+        ))
     return out
 
 
@@ -573,14 +663,16 @@ def fetch_dsca() -> list[dict]:
             full_url = f"https://www.dsca.mil{href}" if href.startswith("/") else href
             # Check if any LatAm country mentioned
             if any(c.lower() in title.lower() for c in LATAM_COUNTRIES):
-                items.append({
-                    "title": title,
-                    "description": title,
-                    "url": full_url,
-                    "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-                    "source": "DSCA",
-                    "coords": None,
-                })
+                items.append(make_article_record(
+                    title=title,
+                    description=title,
+                    url=full_url,
+                    date=datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                    source="DSCA",
+                    source_type="official",
+                    source_method="scrape",
+                    coords=None,
+                ))
         log.info(f"DSCA: {len(items)} LatAm arms sale items")
         return items
     except Exception as e:
@@ -609,14 +701,16 @@ def fetch_dea() -> list[dict]:
                 continue
             full_url = f"https://www.dea.gov{href}" if href.startswith("/") else href
             if any(c.lower() in title.lower() for c in LATAM_COUNTRIES):
-                items.append({
-                    "title": title,
-                    "description": title,
-                    "url": full_url,
-                    "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-                    "source": "DEA",
-                    "coords": None,
-                })
+                items.append(make_article_record(
+                    title=title,
+                    description=title,
+                    url=full_url,
+                    date=datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                    source="DEA",
+                    source_type="official",
+                    source_method="scrape",
+                    coords=None,
+                ))
         log.info(f"DEA: {len(items)} LatAm items")
         return items
     except Exception as e:
@@ -659,9 +753,16 @@ def acled_to_event(row: dict) -> dict:
     title      = f"{row.get('event_type', 'Event')}: {actor1}" + (f" vs {actor2}" if actor2 else "")
     date       = row.get("event_date", datetime.now(timezone.utc).strftime("%Y-%m-%d"))
     src        = f"ACLED / {row.get('source', '')}".strip(" /")
+    iid = stable_id(country, event_type, date)
     return {
-        "id":          stable_id(country, event_type, date),
+        "id":          iid,
+        "sentinel_id": make_sentinel_id(country, date, iid),
         "type":        event_type,
+        "subtype":     None,
+        "deed_type":   None,
+        "axis":        None,
+        "actor":       "military",
+        "target":      None,
         "title":       title,
         "summary":     row.get("notes", ""),
         "country":     country,
@@ -690,31 +791,184 @@ def pre_filter(articles: list[dict]) -> list[dict]:
     return kept
 
 
+def _summarize_articles_by_source(articles: list[dict]) -> dict[str, dict]:
+    summary: dict[str, dict] = {}
+    for article in articles:
+        source = article.get("source", "Unknown")
+        row = summary.setdefault(source, {
+            "source": source,
+            "source_type": article.get("source_type"),
+            "source_method": article.get("source_method"),
+            "count": 0,
+            "urls": set(),
+        })
+        row["count"] += 1
+        if article.get("url"):
+            row["urls"].add(article["url"])
+    for row in summary.values():
+        row["unique_urls"] = len(row.pop("urls"))
+    return dict(sorted(summary.items(), key=lambda item: (-item[1]["count"], item[0])))
+
+
+def _summarize_events_by_source(events: list[dict]) -> dict[str, dict]:
+    summary: dict[str, dict] = {}
+    for event in events:
+        sources = event.get("sources") or [event.get("source", "Unknown")]
+        for source in sources:
+            row = summary.setdefault(source, {
+                "source": source,
+                "event_count": 0,
+                "high_salience": 0,
+                "event_types": defaultdict(int),
+            })
+            row["event_count"] += 1
+            if event.get("salience") == "high":
+                row["high_salience"] += 1
+            row["event_types"][event.get("type", "other")] += 1
+    out: dict[str, dict] = {}
+    for source, row in summary.items():
+        out[source] = {
+            "source": source,
+            "event_count": row["event_count"],
+            "high_salience": row["high_salience"],
+            "event_types": dict(sorted(row["event_types"].items())),
+        }
+    return dict(sorted(out.items(), key=lambda item: (-item[1]["event_count"], item[0])))
+
+
+def write_source_audit(raw_articles: list[dict], filtered_articles: list[dict], events: list[dict]) -> None:
+    raw_summary = _summarize_articles_by_source(raw_articles)
+    filtered_summary = _summarize_articles_by_source(filtered_articles)
+    event_summary = _summarize_events_by_source(events)
+
+    sources = sorted(set(raw_summary) | set(filtered_summary) | set(event_summary))
+    rows = []
+    for source in sources:
+        raw = raw_summary.get(source, {})
+        filtered = filtered_summary.get(source, {})
+        ev = event_summary.get(source, {})
+        raw_count = raw.get("count", 0)
+        filtered_count = filtered.get("count", 0)
+        event_count = ev.get("event_count", 0)
+        rows.append({
+            "source": source,
+            "source_type": raw.get("source_type") or filtered.get("source_type"),
+            "source_method": raw.get("source_method") or filtered.get("source_method"),
+            "raw_articles": raw_count,
+            "filtered_articles": filtered_count,
+            "filtered_rate": round(filtered_count / raw_count, 3) if raw_count else 0.0,
+            "events_generated": event_count,
+            "event_yield": round(event_count / filtered_count, 3) if filtered_count else 0.0,
+            "high_salience_events": ev.get("high_salience", 0),
+            "event_types": ev.get("event_types", {}),
+        })
+
+    payload = {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "raw_article_count": len(raw_articles),
+        "filtered_article_count": len(filtered_articles),
+        "event_count": len(events),
+        "sources": rows,
+    }
+    REVIEW_DIR.mkdir(parents=True, exist_ok=True)
+    out_path = REVIEW_DIR / "source_audit.json"
+    out_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    log.info(f"Source audit written to {out_path}")
+
+
+def _staging_payload(label: str, articles: list[dict]) -> dict:
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "stage": label,
+        "count": len(articles),
+        "articles": articles,
+    }
+
+
+def _event_article_links(events: list[dict]) -> list[dict]:
+    rows: list[dict] = []
+    for event in events:
+        for report in event.get("linked_reports", []):
+            rows.append({
+                "event_id": event.get("id"),
+                "sentinel_id": event.get("sentinel_id"),
+                "article_id": report.get("article_id"),
+                "article_rank": report.get("article_rank"),
+                "report_role": report.get("report_role"),
+                "source_name": report.get("source_name"),
+                "url": report.get("url"),
+                "link_domain": report.get("link_domain"),
+                "source_type": report.get("source_type"),
+                "source_method": report.get("source_method"),
+                "headline": report.get("headline"),
+                "linked_at": report.get("linked_at"),
+            })
+    return rows
+
+
+def write_staging_articles(raw_articles: list[dict], filtered_articles: list[dict], events: list[dict]) -> None:
+    STAGING_DIR.mkdir(parents=True, exist_ok=True)
+    raw_path = STAGING_DIR / "raw_articles.json"
+    filtered_path = STAGING_DIR / "filtered_articles.json"
+    links_path = STAGING_DIR / "event_article_links.json"
+
+    raw_path.write_text(
+        json.dumps(_staging_payload("raw_ingestion", raw_articles), ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    filtered_path.write_text(
+        json.dumps(_staging_payload("keyword_filtered", filtered_articles), ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    link_rows = _event_article_links(events)
+    links_path.write_text(
+        json.dumps(
+            {
+                "generated_at": datetime.now(timezone.utc).isoformat(),
+                "stage": "event_cluster_links",
+                "count": len(link_rows),
+                "links": link_rows,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    log.info(f"Staging articles written to {raw_path} and {filtered_path}")
+    log.info(f"Staging event/article links written to {links_path}")
+
+
 # ── Claude classification ──────────────────────────────────────────────────────
 
 CLASSIFY_PROMPT = """\
 You are an expert on Latin American civil-military relations. Classify each news item.
 
-For each item [N], respond with ONE JSON line:
-{{"idx":N,"relevant":true/false,"type":"coup|purge|aid|protest|reform|conflict|exercise|procurement|oc|peace|other","country":"CountryName or null","salience":"high|medium|low","conf":"green|yellow|red","brief":"One sentence summary.","location":"Catatumbo region, Norte de Santander"}}
+For each item [N], respond with ONE JSON line — no preamble, no markdown:
+{{"idx":N,"relevant":true/false,"type":"coup|purge|coup_proofing|aid|coop|protest|reform|conflict|exercise|oc|peace|other","subtype":null,"country":"CountryName or null","salience":"high|med|low","conf":"high|med|low","deed_type":"precursor|symptom|resistance|destabilizing|null","axis":"horizontal|vertical|both|null","actor":"executive|military|judiciary|legislature|civil_society|external|oc_group|null","target":"executive|military|judiciary|legislature|civil_society|external|oc_group|population|null","brief":"One sentence summary.","location":"City or region"}}
 
 TYPES:
-- coup: coup attempt, autogolpe, military takeover, putsch
-- purge: officer dismissals, reshuffles, forced retirements, loyalty purges
-- aid: foreign military assistance, arms sales, IMET, FMF, security cooperation
-- protest: military-adjacent unrest, soldier protests, civil-military street tensions
-- reform: SSR, defense reform, civil-military institutional change, oversight legislation
-- conflict: armed conflict, guerrilla operations, criminal violence involving security forces
-- exercise: joint military exercises, multinational drills, port visits
-- procurement: arms purchases, equipment acquisitions, defense contracts
-- oc: organized crime involving or targeting security forces
-- peace: peace talks, ceasefires, DDR, demobilization
-- other: military/security topic with civil-military relevance but no other type fits
+- coup: coup attempt, military takeover, autogolpe; subtype: attempt|successful|autogolpe|plot
+- purge: OFFICER dismissals/forced retirements for political/loyalty reasons (NOT civilian mass detentions)
+- coup_proofing: deliberate strategy — parallel forces, political commissars, loyalty promotions as pattern
+- aid: US/foreign military assistance, arms sales, IMET, FMF grants
+- coop: US military presence, joint ops, FTO/DEA operations, Green Berets, SOUTHCOM activities
+- protest: civil-military street tensions, soldier protests, anti-military demonstrations
+- reform: SSR, defense reform, institutional change; subtype: SSR|structural|legal|budget
+- conflict: armed conflict, guerrilla ops, criminal violence involving security forces
+- exercise: joint military exercises, multinational drills, port visits (non-US-led = exercise; US-led = coop)
+- oc: organized crime involving or targeting security forces (cartels, gangs, trafficking networks)
+- peace: peace talks, ceasefires, DDR, demobilization, negotiated settlements
+- other: civil-military relevance, no other type fits
 
-conf: green=verified/credible outlet, yellow=single or soft-credibility source, red=unverified/social media only
-relevant=true ONLY if there is clear civil-military or defense-institutional relevance.
-country must be a recognized Latin American country name, or null if unclear.
-location: the most specific place name mentioned (city, department, or region). Use the country name if no more specific place is identifiable.
+conf: high=verified/multi-source credible outlet, med=single credible source, low=unverified/social media only
+salience: high=acute CMR significance OR major political stability impact; med=notable country-level development; low=background/routine
+deed_type (DEED democratic erosion framework):
+  precursor=warning sign, no institutional change yet; symptom=erosion institutionalized;
+  resistance=pushback against military overreach or authoritarianism; destabilizing=threatens regime stability from below; null=not applicable
+axis: horizontal=between institutions (executive/military/courts/legislature); vertical=government vs citizens; both; null
+actor: who initiated/drove the event; target: who was affected/acted upon
+relevant=true ONLY if clear civil-military or defense-institutional relevance for a Latin American country.
+country: recognized Latin American country name or null. location: most specific place (city/department/region).
 Respond ONLY with JSON lines — no preamble, no markdown.
 
 ITEMS:
@@ -802,6 +1056,8 @@ def _merge_cluster(events: list[dict]) -> dict:
         ev = events[0]
         ev.setdefault("sources", [ev.get("source", "")])
         ev.setdefault("links", [l for l in [ev.get("url")] if l and l != "#"])
+        ev.setdefault("source_article_ids", [r.get("article_id") for r in ev.get("linked_reports", []) if r.get("article_id")])
+        ev.setdefault("linked_reports", [])
         return ev
     sal_rank = {"high": 0, "medium": 1, "low": 2}
     best     = min(events, key=lambda e: sal_rank.get(e.get("salience", "low"), 2))
@@ -821,6 +1077,18 @@ def _merge_cluster(events: list[dict]) -> dict:
     merged["source"]  = " · ".join(sources)
     merged["links"]   = links
     merged["url"]     = links[0] if links else ""
+    seen_article_ids: set[str] = set()
+    linked_reports: list[dict] = []
+    for ev in events:
+        for report in ev.get("linked_reports", []):
+            article_id = report.get("article_id")
+            if article_id and article_id in seen_article_ids:
+                continue
+            if article_id:
+                seen_article_ids.add(article_id)
+            linked_reports.append(report)
+    merged["linked_reports"] = linked_reports
+    merged["source_article_ids"] = [report.get("article_id") for report in linked_reports if report.get("article_id")]
     return merged
 
 
@@ -865,9 +1133,18 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
             else:
                 location_text = f"{location} {article['title']} {article.get('description', '')}".strip()
                 coords = geolocate(location_text, country)
+            _conf_map = {"high": "green", "med": "yellow", "low": "red"}
+            _sal_map  = {"high": "high", "med": "medium", "low": "low"}
+            iid = stable_id(country, ev_type, date)
             candidates.append({
-                "id":          stable_id(country, ev_type, date),
+                "id":          iid,
+                "sentinel_id": make_sentinel_id(country, date, iid),
                 "type":        ev_type,
+                "subtype":     r.get("subtype") or None,
+                "deed_type":   r.get("deed_type") or None,
+                "axis":        r.get("axis") or None,
+                "actor":       r.get("actor") or None,
+                "target":      r.get("target") or None,
                 "title":       article["title"],
                 "summary":     r.get("brief", "") or article.get("description", ""),
                 "country":     country,
@@ -875,11 +1152,26 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
                 "date":        date,
                 "source":      article["source"],
                 "sources":     [article["source"]],
-                "conf":        r.get("conf", "yellow"),
-                "salience":    r.get("salience", "medium"),
+                "conf":        _conf_map.get(r.get("conf", "med"), "yellow"),
+                "salience":    _sal_map.get(r.get("salience", "med"), "medium"),
                 "coords":      coords,
                 "url":         link,
                 "links":       [link] if link and link != "#" else [],
+                "source_article_ids": [article.get("article_id")] if article.get("article_id") else [],
+                "linked_reports": [
+                    {
+                        "article_id": article.get("article_id"),
+                        "article_rank": 1,
+                        "report_role": "primary",
+                        "source_name": article.get("source"),
+                        "url": link,
+                        "link_domain": article.get("source_domain"),
+                        "headline": article.get("title"),
+                        "source_type": article.get("source_type"),
+                        "source_method": article.get("source_method"),
+                        "linked_at": article.get("normalized_at") or now,
+                    }
+                ],
                 "ai_analysis": None,
                 "ingested_at": now,
             })
@@ -1051,21 +1343,38 @@ def send_digest(events: list[dict]) -> None:
 
 def main() -> None:
     import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--backfill", action="store_true", help="Fetch from 2026-01-01 instead of last 48h")
+    parser = argparse.ArgumentParser(description="SENTINEL event pipeline")
+    parser.add_argument("--backfill",    action="store_true",
+                        help="Historical mode — fetch all sources back to --since date")
+    parser.add_argument("--since",       type=str, default=None,
+                        help="Start date for historical fetch (YYYY-MM-DD). Implies --backfill.")
+    parser.add_argument("--years",       type=int, default=5,
+                        help="Years back when using --backfill without --since (default: 5)")
+    parser.add_argument("--gdelt",       action="store_true",
+                        help="Opt in to GDELT. Disabled by default for both normal and historical runs.")
     args = parser.parse_args()
-    backfill = args.backfill
+
+    backfill = args.backfill or (args.since is not None)
+
+    if args.since:
+        try:
+            cutoff = datetime.strptime(args.since, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+        except ValueError:
+            raise ValueError(f"--since must be YYYY-MM-DD, got: {args.since!r}")
+    elif backfill:
+        cutoff = datetime.now(timezone.utc) - timedelta(days=365 * args.years)
+    else:
+        cutoff = datetime.now(timezone.utc) - timedelta(days=DAYS_BACK)
 
     log.info("=== SENTINEL pipeline starting ===")
     if backfill:
-        log.info("Backfill mode: fetching from 2026-01-01")
+        log.info(f"Historical mode: fetching from {cutoff.date()} ({args.years}-year window)")
 
     anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
     if not anthropic_key:
         raise EnvironmentError("ANTHROPIC_API_KEY is not set.")
 
     client   = anthropic.Anthropic(api_key=anthropic_key)
-    cutoff   = datetime(2026, 1, 1, tzinfo=timezone.utc) if backfill else datetime.now(timezone.utc) - timedelta(days=DAYS_BACK)
     existing = load_existing()
     existing_ids = set(existing.keys())
     log.info(f"Existing events in store: {len(existing)}")
@@ -1073,18 +1382,31 @@ def main() -> None:
     # ── 1. Fetch all sources ───────────────────────────────────────────────────
     all_articles: list[dict] = []
 
-    # RSS (curated civil-military sources)
-    for feed in RSS_FEEDS:
-        all_articles.extend(fetch_rss(feed, cutoff))
-        time.sleep(0.3)
+    if backfill:
+        # Historical mode: archive scrapers, with optional GDELT.
+        if args.gdelt:
+            log.info("Fetching GDELT in monthly batches...")
+            all_articles.extend(fetch_gdelt_historical(cutoff))
 
-    # GDELT (real-time, geolocated)
-    all_articles.extend(normalize_gdelt(fetch_gdelt()))
+        log.info("Fetching WordPress archive sources...")
+        all_articles.extend(fetch_all_archives(cutoff))
 
-    # NewsAPI
+        # RSS still useful for article text/URLs (recent portion)
+        for feed in RSS_FEEDS:
+            all_articles.extend(fetch_rss(feed, cutoff))
+            time.sleep(0.3)
+    else:
+        # Normal nightly mode: RSS, with optional current GDELT window
+        for feed in RSS_FEEDS:
+            all_articles.extend(fetch_rss(feed, cutoff))
+            time.sleep(0.3)
+        if args.gdelt:
+            all_articles.extend(normalize_gdelt(fetch_gdelt()))
+
+    # NewsAPI (works in both modes — dev plan limited to 30 days)
     newsapi_key = os.environ.get("NEWSAPI_KEY", "")
     if newsapi_key:
-        newsapi_since = "2026-01-01T00:00:00Z" if backfill else None
+        newsapi_since = cutoff.strftime("%Y-%m-%dT%H:%M:%SZ") if backfill else None
         all_articles.extend(normalize_newsapi(fetch_newsapi(newsapi_key, since=newsapi_since)))
     else:
         log.info("No NEWSAPI_KEY — skipping NewsAPI")
@@ -1120,11 +1442,16 @@ def main() -> None:
         ev["ai_analysis"] = generate_analysis(client, ev)
         time.sleep(0.5)
 
-    # ── 6. Save ───────────────────────────────────────────────────────────────
-    added = save_events(existing, new_events)
-    log.info(f"Done. {added} new events added. Total: {len(existing) + added}")
+    # ── 6. Source audit ──────────────────────────────────────────────────────
+    write_source_audit(all_articles, relevant, new_events)
+    write_staging_articles(all_articles, relevant, new_events)
 
-    # ── 7. Weekly digest ──────────────────────────────────────────────────────
+    # ── 7. Save ───────────────────────────────────────────────────────────────
+    added = save_events(existing, new_events)
+    current_total = len(json.loads(DATA_FILE.read_text(encoding="utf-8")).get("events", []))
+    log.info(f"Done. {added} new events added. Total stored: {current_total}")
+
+    # ── 8. Weekly digest ──────────────────────────────────────────────────────
     all_saved = list(existing.values())
     send_digest(all_saved)
 

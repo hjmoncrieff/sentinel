@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "updated": "2026-03-31",
+  "actor_types": [
+    { "code": "military", "label": "Military" },
+    { "code": "police", "label": "Police" },
+    { "code": "executive", "label": "Executive" },
+    { "code": "legislature", "label": "Legislature" },
+    { "code": "judiciary", "label": "Judiciary" },
+    { "code": "armed_group", "label": "Armed Group" },
+    { "code": "organized_crime", "label": "Organized Crime" },
+    { "code": "foreign_government", "label": "Foreign Government" },
+    { "code": "international_org", "label": "International Organization" },
+    { "code": "civil_society", "label": "Civil Society" },
+    { "code": "protesters", "label": "Protesters" },
+    { "code": "private_sector", "label": "Private Sector" },
+    { "code": "media", "label": "Media" },
+    { "code": "other", "label": "Other" }
+  ],
+  "actor_roles": [
+    "initiator",
+    "target",
+    "supporter",
+    "opponent",
+    "mediator",
+    "funder",
+    "security_partner",
+    "victim",
+    "other"
+  ]
+}

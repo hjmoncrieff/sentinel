@@ -43,24 +43,37 @@
   --mono: 'DM Mono', monospace;
   --sans: 'DM Sans', sans-serif;
   --serif: 'Playfair Display', serif;
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:20px;
+  --space-6:24px;
+  --text-xs:11px;
+  --text-sm:12px;
+  --text-md:14px;
+  --text-base:16px;
+  --text-lg:18px;
+  --text-xl:20px;
+  --text-2xl:28px;
 
   --shadow:    0 1px 4px rgba(60,50,30,0.08);
   --shadow-md: 0 4px 18px rgba(60,50,30,0.10);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
-body { background:var(--bg); color:var(--text); font-family:var(--sans); font-weight:300; min-height:100vh; overflow-x:hidden; }
+body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.6; font-weight:400; min-height:100vh; overflow-x:hidden; }
 
 /* ── HEADER — unified with tabs ─────────────────────────────── */
 header {
   background:var(--surface); border-bottom:1px solid var(--border);
-  padding:0 24px; display:flex; align-items:stretch; height:52px;
+  padding:0 28px; display:flex; align-items:stretch; height:58px;
   position:sticky; top:0; z-index:1000; gap:0; box-shadow:var(--shadow);
 }
-.logo-wordmark { display:flex; flex-direction:column; justify-content:center; gap:3px; padding-right:18px; border-right:1px solid var(--border); margin-right:0; flex-shrink:0; }
-.logo-name { font-family:var(--serif); font-size:17px; font-weight:600; color:var(--text); letter-spacing:0.2px; line-height:1; }
+.logo-wordmark { display:flex; flex-direction:column; justify-content:center; gap:4px; padding-right:20px; border-right:1px solid var(--border); margin-right:0; flex-shrink:0; }
+.logo-name { font-family:var(--serif); font-size:19px; font-weight:600; color:var(--text); letter-spacing:0.2px; line-height:1; }
 .logo-name em { font-style:normal; color:var(--coup); }
-.logo-sub { font-family:var(--mono); font-size:7px; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); }
+.logo-sub { font-family:var(--mono); font-size:8px; letter-spacing:1.8px; text-transform:uppercase; color:var(--text-muted); }
 .header-right { margin-left:auto; display:flex; align-items:center; gap:14px; flex-shrink:0; padding-left:14px; border-left:1px solid var(--border); }
 .status-pill { display:flex; align-items:center; gap:5px; font-family:var(--mono); font-size:9px; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; }
 .sdot { width:5px; height:5px; border-radius:50%; background:var(--reform); animation:blink 1.8s ease-in-out infinite; }
@@ -71,9 +84,9 @@ header {
 .tab-bar { display:flex; align-items:stretch; overflow-x:auto; flex:1; }
 .tab-bar::-webkit-scrollbar { display:none; }
 .tab-btn {
-  font-family:var(--mono); font-size:8.5px; letter-spacing:1.5px;
+  font-family:var(--mono); font-size:9.5px; letter-spacing:1.3px;
   text-transform:uppercase; color:var(--text-muted); background:none; border:none;
-  padding:0 14px; cursor:pointer; height:100%;
+  padding:0 16px; cursor:pointer; height:100%;
   border-bottom:2px solid transparent; border-top:2px solid transparent;
   transition:all 0.15s; white-space:nowrap;
 }
@@ -86,8 +99,8 @@ header {
 
 /* ── EVENTS TAB — ORIGINAL SENTINEL LAYOUT ────────────── */
 .events-layout {
-  display:grid; grid-template-columns:300px 1fr;
-  grid-template-rows:360px 1fr;
+  display:grid; grid-template-columns:340px 1fr;
+  grid-template-rows:320px 1fr;
   height:calc(100vh - 52px - 28px); min-height:540px;
 }
 
@@ -96,15 +109,64 @@ header {
   grid-row:1/3; border-right:1px solid var(--border);
   display:flex; flex-direction:column; overflow:hidden; background:var(--surface);
 }
+.events-sidebar-head {
+  padding:16px 18px 14px;
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg, rgba(20,96,176,0.05), rgba(20,96,176,0.01));
+}
+.events-sidebar-title-row { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin-bottom:8px; }
+.events-sidebar-title { font-family:var(--serif); font-size:22px; font-weight:600; color:var(--text); line-height:1.1; }
+.events-sidebar-count { text-align:right; flex-shrink:0; }
+.events-sidebar-count .big-count { font-size:30px; line-height:1; }
+.events-sidebar-copy { font-size:12.5px; line-height:1.7; color:var(--text-dim); font-weight:300; }
+.events-toolbar {
+  padding:12px 16px 14px;
+  border-bottom:1px solid var(--border);
+  background:var(--surface2);
+}
+.events-toolbar-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px 10px;
+}
+.events-control { display:flex; flex-direction:column; gap:5px; min-width:0; }
+.events-control-label {
+  font-family:var(--mono);
+  font-size:8px;
+  letter-spacing:1px;
+  color:var(--text-muted);
+  text-transform:uppercase;
+}
+.events-select {
+  width:100%;
+  appearance:none;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:3px;
+  padding:9px 11px;
+  font-family:var(--sans);
+  font-size:13px;
+  color:var(--text);
+  line-height:1.35;
+}
+.events-select:focus { outline:none; border-color:var(--border3); box-shadow:0 0 0 3px rgba(20,96,176,0.08); }
+.events-toolbar-note {
+  margin-top:10px;
+  font-family:var(--mono);
+  font-size:8px;
+  color:var(--text-muted);
+  letter-spacing:0.4px;
+  text-transform:uppercase;
+}
 .sidebar-top { padding:14px 16px; border-bottom:1px solid var(--border); display:flex; align-items:baseline; justify-content:space-between; }
-.sidebar-top-label { font-family:var(--mono); font-size:8.5px; letter-spacing:1.5px; color:var(--text-muted); text-transform:uppercase; }
-.big-count { font-family:var(--serif); font-size:28px; color:var(--text); font-weight:400; }
+.sidebar-top-label { font-family:var(--mono); font-size:9px; letter-spacing:1.4px; color:var(--text-muted); text-transform:uppercase; }
+.big-count { font-family:var(--serif); font-size:32px; color:var(--text); font-weight:400; }
 
 .filters-scroll { overflow-y:auto; flex-shrink:0; max-height:min(290px,42vh); }
 .filters-scroll::-webkit-scrollbar { width:3px; }
 .filters-scroll::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
 .filter-block { padding:10px 16px; border-bottom:1px solid var(--border); }
-.filter-label { font-family:var(--mono); font-size:8.5px; letter-spacing:1.5px; color:var(--text-muted); text-transform:uppercase; margin-bottom:7px; }
+.filter-label { font-family:var(--mono); font-size:9px; letter-spacing:1.4px; color:var(--text-muted); text-transform:uppercase; margin-bottom:7px; }
 .tag-row { display:flex; flex-wrap:wrap; gap:4px; }
 
 .tag {
@@ -128,8 +190,8 @@ header {
 .ev-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
 .ev-type { font-family:var(--mono); font-size:8.5px; letter-spacing:1px; text-transform:uppercase; }
 .ev-country { font-family:var(--mono); font-size:8.5px; color:var(--text-muted); margin-left:auto; }
-.ev-title { font-size:13px; font-weight:400; line-height:1.5; color:var(--text); margin-bottom:4px; }
-.ev-meta { font-family:var(--mono); font-size:8.5px; color:var(--text-muted); display:flex; gap:8px; align-items:center; }
+.ev-title { font-size:14.5px; font-weight:500; line-height:1.55; color:var(--text); margin-bottom:5px; }
+.ev-meta { font-family:var(--mono); font-size:9px; color:var(--text-muted); display:flex; gap:8px; align-items:center; }
 .sal-pip { display:inline-flex; gap:2px; align-items:center; }
 .pip { width:4px; height:4px; border-radius:50%; background:var(--border2); }
 .pip.on { background:var(--coup); }
@@ -142,6 +204,7 @@ header {
 .src-badge { display:inline-flex; align-items:center; gap:3px; font-family:var(--mono); font-size:7px; letter-spacing:0.5px; padding:1px 6px; border-radius:2px; text-transform:uppercase; flex-shrink:0; }
 .src-badge.tri { background:rgba(26,110,82,0.10); color:var(--reform); border:1px solid rgba(26,110,82,0.3); }
 .src-badge.single { background:var(--bg2); color:var(--text-muted); border:1px solid var(--border); }
+.src-badge.knowledge { background:rgba(20,96,176,0.08); color:var(--aid); border:1px solid rgba(20,96,176,0.2); }
 .tl-src { font-family:var(--mono); font-size:8px; color:var(--text-dim); background:var(--bg2); border:1px solid var(--border); padding:1px 6px; border-radius:2px; text-decoration:none; display:inline-block; transition:background 0.1s,color 0.1s; }
 .tl-src:hover { background:var(--border2); color:var(--text); }
 .tl-src.no-link { cursor:default; pointer-events:none; }
@@ -167,7 +230,7 @@ header {
 .tl-ev-tags { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:5px; }
 .tl-ev-type { font-family:var(--mono); font-size:8px; text-transform:uppercase; letter-spacing:1px; }
 .tl-ev-country { font-family:var(--mono); font-size:8px; color:var(--text-dim); }
-.tl-ev-title { font-size:14px; font-weight:400; line-height:1.4; margin-bottom:7px; }
+.tl-ev-title { font-size:15px; font-weight:500; line-height:1.48; margin-bottom:7px; }
 .tl-ev-sources { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
 .sal-dot { font-size:8px; line-height:1; }
 
@@ -199,11 +262,39 @@ header {
 .detail-empty-text { font-family:var(--mono); font-size:9.5px; letter-spacing:1.5px; text-transform:uppercase; }
 
 .type-badge { font-family:var(--mono); font-size:8.5px; letter-spacing:1.5px; text-transform:uppercase; padding:2px 8px; border-radius:2px; color:white; display:inline-block; }
-.detail-title { font-family:var(--serif); font-size:21px; font-weight:600; line-height:1.25; color:var(--text); margin:9px 0 13px; }
+.detail-title { font-family:var(--serif); font-size:26px; font-weight:600; line-height:1.2; color:var(--text); margin:10px 0 14px; }
 .detail-meta { display:flex; gap:20px; flex-wrap:wrap; padding:10px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin-bottom:14px; }
 .dmi label { display:block; font-family:var(--mono); font-size:7.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); margin-bottom:3px; }
-.dmi span { font-family:var(--mono); font-size:10.5px; color:var(--text-dim); }
-.detail-summary { font-size:13px; line-height:1.75; color:var(--text-dim); font-weight:300; margin-bottom:16px; }
+.dmi span { font-family:var(--mono); font-size:11px; color:var(--text-dim); }
+.detail-summary { font-size:15px; line-height:1.82; color:var(--text-dim); font-weight:400; margin-bottom:18px; }
+.detail-section { margin-top:18px; padding-top:18px; border-top:1px solid var(--border); }
+.detail-section:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+.detail-section-title { font-family:var(--mono); font-size:9px; letter-spacing:1.4px; text-transform:uppercase; color:var(--text-muted); margin-bottom:10px; }
+.detail-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 14px; }
+.detail-kv { background:var(--bg2); border:1px solid var(--border); border-radius:3px; padding:10px 12px; }
+.detail-kv label { display:block; font-family:var(--mono); font-size:7.5px; letter-spacing:1px; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px; }
+.detail-kv span { font-size:13px; color:var(--text); line-height:1.45; }
+.detail-chip-row { display:flex; flex-wrap:wrap; gap:6px; }
+.detail-chip { display:inline-flex; align-items:center; gap:4px; font-family:var(--mono); font-size:8px; letter-spacing:0.5px; text-transform:uppercase; padding:4px 8px; border-radius:999px; border:1px solid var(--border); background:var(--bg2); color:var(--text-dim); }
+.detail-text { font-size:15px; line-height:1.82; color:var(--text-dim); }
+.detail-analysis { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--aid); border-radius:0 3px 3px 0; padding:13px 15px; }
+.detail-analysis-meta { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; }
+.detail-lens-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:10px; }
+.detail-lens-card { background:var(--surface); border:1px solid var(--border); border-radius:3px; padding:9px 10px; }
+.detail-lens-title { font-family:var(--mono); font-size:8px; letter-spacing:0.8px; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px; }
+.detail-lens-text { font-size:12px; line-height:1.55; color:var(--text-dim); }
+.detail-source-list { display:flex; flex-direction:column; gap:8px; }
+.detail-source-item { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); }
+.detail-source-item:last-child { border-bottom:none; padding-bottom:0; }
+.detail-source-main { min-width:0; }
+.detail-source-name { font-size:13px; font-weight:500; color:var(--text); }
+.detail-source-sub { font-family:var(--mono); font-size:8px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.6px; margin-top:3px; }
+.detail-source-link { font-family:var(--mono); font-size:8px; text-transform:uppercase; letter-spacing:0.5px; color:var(--aid); text-decoration:none; white-space:nowrap; }
+.detail-source-link:hover { text-decoration:underline; }
+.detail-timeline { display:flex; flex-direction:column; gap:8px; }
+.detail-timeline-item { display:grid; grid-template-columns:112px 1fr; gap:10px; align-items:start; }
+.detail-timeline-stage { font-family:var(--mono); font-size:8px; text-transform:uppercase; letter-spacing:0.7px; color:var(--text-muted); }
+.detail-timeline-text { font-size:13px; color:var(--text-dim); line-height:1.55; }
 .source-chip { font-family:var(--mono); font-size:9px; color:var(--text-dim); background:var(--bg2); border:1px solid var(--border); padding:2px 8px; border-radius:2px; text-decoration:none; display:inline-block; margin-right:4px; margin-bottom:4px; }
 .sources-label { font-family:var(--mono); font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); margin-right:4px; }
 
@@ -237,7 +328,7 @@ header {
 .page-sidebar { border-right:1px solid var(--border); background:var(--surface); overflow-y:auto; display:flex; flex-direction:column; padding-bottom:8px; }
 .page-sidebar::-webkit-scrollbar { width:3px; }
 .page-sidebar::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
-.page-main { overflow-y:auto; padding:20px 28px; }
+.page-main { overflow-y:auto; padding:24px 32px; }
 #cp-main { padding:0; overflow:hidden; display:flex; flex-direction:column; }
 #cp-regional { flex:1; overflow-y:auto; }
 #cp-country  { flex:1; overflow-y:auto; }
@@ -245,7 +336,7 @@ header {
 .page-main::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
 
 /* Section headers */
-.sec-title { font-family:var(--serif); font-size:16px; font-weight:600; color:var(--text); margin-bottom:10px; }
+.sec-title { font-family:var(--serif); font-size:19px; font-weight:600; color:var(--text); margin-bottom:12px; }
 .sec-title.mt { margin-top:24px; }
 
 /* Data rows */
@@ -301,6 +392,12 @@ header {
 /* Chart wrapper */
 .chart-box { background:var(--surface); border:1px solid var(--border); border-radius:2px; padding:16px; box-shadow:var(--shadow); margin-bottom:16px; }
 .chart-wrap { position:relative; width:100%; height:200px; }
+.section-kicker { font-family:var(--mono); font-size:9px; color:var(--text-muted); line-height:1.6; margin:-4px 0 12px; }
+.mini-legend { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:-2px 0 12px; }
+.mini-legend-item { display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:8px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; }
+.mini-legend-swatch { display:inline-block; flex-shrink:0; }
+.mini-legend-size { border-radius:50%; background:#1a538f; opacity:0.72; border:1.5px solid #fff; box-shadow:0 1px 3px rgba(0,0,0,0.12); }
+.mini-legend-bar { width:64px; height:8px; border-radius:999px; border:1px solid var(--border); background:linear-gradient(to right,#8da9ca,#c46e12,#c02828); }
 
 /* Country profile buttons */
 .cp-btn {
@@ -340,7 +437,25 @@ header {
 .cp-watch-text { font-size:12.5px; color:var(--text-dim); line-height:1.75; font-style:italic; font-weight:300; }
 /* Country Leaflet map */
 .cp-map-leaf { height:320px; width:100%; border-radius:3px; border:1px solid var(--border); margin-bottom:20px; z-index:0; }
+.cp-regional-map-wrap { position:relative; width:100%; height:100%; min-height:440px; }
+.cp-regional-tooltip { position:absolute; z-index:100; background:var(--surface); border:1px solid var(--border2); box-shadow:var(--shadow-md); border-radius:2px; padding:8px 11px; font-size:11.5px; pointer-events:none; display:none; max-width:230px; line-height:1.5; }
+.context-map-grid { display:grid; grid-template-columns:minmax(280px,0.95fr) minmax(360px,1.05fr); gap:18px; align-items:stretch; margin-bottom:22px; }
+.context-panel { background:var(--surface); border:1px solid var(--border); border-radius:3px; box-shadow:var(--shadow); padding:18px 20px; }
+.context-panel .tab-intro-block { margin:0; background:transparent; border:none; border-radius:0; padding:0; }
+.context-panel-note { font-size:12px; line-height:1.7; color:var(--text-dim); margin-top:14px; }
+.context-map-card { position:relative; min-height:440px; background:var(--bg); border:1px solid var(--border); border-radius:3px; overflow:hidden; box-shadow:var(--shadow); }
+.context-map-card .cp-map-leaf,
+.context-map-card .us-coop-map-wrap,
+.context-map-card .security-map-wrap { height:100%; min-height:440px; width:100%; border:none; border-radius:0; margin-bottom:0; }
+.context-map-label { position:absolute; top:10px; left:10px; z-index:10; font-family:var(--mono); font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); background:rgba(255,255,248,0.92); padding:5px 10px; border:1px solid var(--border); border-radius:2px; box-shadow:var(--shadow); }
+.context-map-legend { position:absolute; bottom:10px; left:10px; z-index:10; background:rgba(255,255,248,0.94); border:1px solid var(--border); padding:9px 13px; border-radius:2px; box-shadow:var(--shadow); }
 @media(max-width:700px){ .cp-summary-strip{ grid-template-columns:1fr; } .cp-sum-block{ border-right:none; border-bottom:1px solid var(--border); } }
+@media(max-width:980px){
+  .events-layout { grid-template-columns:1fr; grid-template-rows:auto 280px auto; height:auto; }
+  .sidebar { grid-row:auto; border-right:none; border-bottom:1px solid var(--border); min-height:0; }
+  .map-panel { min-height:280px; }
+  .detail-lens-grid, .detail-grid, .events-toolbar-grid, .context-map-grid, .ov-layout { grid-template-columns:1fr; }
+}
 
 /* Sparkline trends section */
 .cp-trends-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:10px; margin-bottom:20px; }
@@ -379,19 +494,23 @@ header {
 .ov-map-label { position:absolute; top:10px; left:10px; z-index:10; font-family:var(--mono); font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); background:rgba(255,255,248,0.92); padding:5px 10px; border:1px solid var(--border); border-radius:2px; box-shadow:var(--shadow); }
 .ov-map-wrap { position:absolute; inset:0; }
 .ov-map-wrap svg { width:100%; height:100%; }
-.ov-legend { position:absolute; bottom:10px; left:10px; z-index:10; background:rgba(255,255,248,0.94); border:1px solid var(--border); padding:9px 13px; border-radius:2px; box-shadow:var(--shadow); }
+.ov-legend { position:absolute; bottom:10px; left:10px; z-index:10; background:rgba(255,255,248,0.94); border:1px solid var(--border); padding:9px 13px; border-radius:2px; box-shadow:var(--shadow); min-width:176px; }
 .ov-legend-title { font-family:var(--mono); font-size:7.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px; }
-.ov-legend-bar { height:8px; width:130px; border-radius:1px; background:linear-gradient(to right, #f5f0e8, #b8720a); }
+.ov-legend-bar { height:8px; width:130px; border-radius:1px; background:linear-gradient(to right, #f5f0e8, #b87010); }
 .ov-legend-labs { display:flex; justify-content:space-between; width:130px; margin-top:3px; font-family:var(--mono); font-size:7.5px; color:var(--text-muted); }
-.ov-legend-types { margin-top:10px; display:flex; flex-direction:column; gap:4px; }
+.ov-legend-types { margin-top:8px; display:flex; flex-direction:column; gap:4px; }
 .ov-legend-type { display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:7.5px; color:var(--text-dim); letter-spacing:0.3px; text-transform:uppercase; }
-.ov-legend-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.ov-legend-dot { width:8px; height:8px; border-radius:2px; flex-shrink:0; border:1px solid rgba(84,80,74,0.12); }
 
 /* US Cooperation intensity map */
 .us-coop-map-wrap { position:relative; width:100%; height:440px; background:var(--bg); border:1px solid var(--border); border-radius:3px; overflow:hidden; margin-bottom:20px; }
 .us-coop-map-label { position:absolute; top:10px; left:10px; z-index:10; font-family:var(--mono); font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); background:rgba(255,255,248,0.92); padding:5px 10px; border:1px solid var(--border); border-radius:2px; box-shadow:var(--shadow); }
 .us-coop-map-legend { position:absolute; bottom:10px; left:10px; z-index:10; background:rgba(255,255,248,0.94); border:1px solid var(--border); padding:9px 13px; border-radius:2px; box-shadow:var(--shadow); }
 .us-coop-tooltip { position:absolute; z-index:100; background:var(--surface); border:1px solid var(--border2); box-shadow:var(--shadow-md); border-radius:2px; padding:8px 11px; font-size:11.5px; pointer-events:none; display:none; max-width:190px; line-height:1.5; }
+.security-map-wrap { position:relative; width:100%; height:440px; background:var(--bg); border:1px solid var(--border); border-radius:3px; overflow:hidden; margin-bottom:20px; }
+.security-map-label { position:absolute; top:10px; left:10px; z-index:10; font-family:var(--mono); font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); background:rgba(255,255,248,0.92); padding:5px 10px; border:1px solid var(--border); border-radius:2px; box-shadow:var(--shadow); }
+.security-map-legend { position:absolute; bottom:10px; left:10px; z-index:10; background:rgba(255,255,248,0.94); border:1px solid var(--border); padding:9px 13px; border-radius:2px; box-shadow:var(--shadow); }
+.security-map-tooltip { position:absolute; z-index:100; background:var(--surface); border:1px solid var(--border2); box-shadow:var(--shadow-md); border-radius:2px; padding:8px 11px; font-size:11.5px; pointer-events:none; display:none; max-width:220px; line-height:1.5; }
 
 .ov-popup { position:absolute; z-index:600; background:var(--surface); border:1px solid var(--border2); box-shadow:var(--shadow-md); border-radius:2px; width:252px; pointer-events:all; animation:ov-fade 0.12s ease; }
 @keyframes ov-fade { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
@@ -414,13 +533,14 @@ header {
 .ov-view-profile { font-family:var(--mono); font-size:8.5px; letter-spacing:0.5px; text-transform:uppercase; color:var(--aid); text-decoration:none; cursor:pointer; background:none; border:none; padding:0; }
 .ov-view-profile:hover { text-decoration:underline; }
 
-.ov-desc-col { border-left:1px solid var(--border); background:var(--surface); overflow-y:auto; padding:28px 26px 40px; display:flex; flex-direction:column; }
+.ov-desc-col { border-left:1px solid var(--border); background:var(--surface); overflow-y:auto; padding:34px 32px 44px; display:flex; flex-direction:column; }
 .ov-desc-col::-webkit-scrollbar { width:3px; }
 .ov-desc-col::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
-.ov-project-sentinel { font-family:var(--serif); font-size:22px; font-weight:600; color:var(--text); letter-spacing:0.2px; }
+.ov-project-kicker { font-family:var(--mono); font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; }
+.ov-project-sentinel { font-family:var(--serif); font-size:30px; font-weight:600; color:var(--text); letter-spacing:0.2px; }
 .ov-project-sentinel em { font-style:normal; color:var(--coup); }
-.ov-project-tagline { font-family:var(--mono); font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); margin:5px 0 16px; }
-.ov-project-body { font-size:14px; line-height:1.88; color:var(--text-dim); font-weight:300; }
+.ov-project-tagline { font-family:var(--mono); font-size:9px; letter-spacing:1.9px; text-transform:uppercase; color:var(--text-muted); margin:6px 0 18px; }
+.ov-project-body { font-size:16px; line-height:1.86; color:var(--text-dim); font-weight:400; }
 .ov-project-body p+p { margin-top:13px; }
 .ov-rule { border:none; border-top:1px solid var(--border); margin:18px 0; }
 .ov-badges { display:flex; flex-wrap:wrap; gap:5px; margin:14px 0 0; }
@@ -431,7 +551,7 @@ header {
 
 /* Quick-links */
 .ov-quicklinks { margin:16px 0 4px; }
-.ov-ql-label { font-family:var(--mono); font-size:7.5px; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; }
+.ov-ql-label { font-family:var(--mono); font-size:8px; letter-spacing:1.8px; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; }
 .ov-ql-row { display:flex; flex-wrap:wrap; gap:6px; }
 .ov-ql-btn { display:inline-block; font-family:var(--mono); font-size:8.5px; letter-spacing:0.5px; padding:5px 13px; border:1px solid var(--border2); border-radius:2px; color:var(--text-dim); background:var(--bg2); cursor:pointer; text-decoration:none; transition:all 0.12s; }
 .ov-ql-btn:hover { background:var(--surface2); border-color:var(--border3); color:var(--text); }
@@ -450,9 +570,9 @@ header {
 .ov-monitor-card { display:block; text-decoration:none; padding:13px 15px; background:var(--bg2); border:1px solid var(--border); border-radius:3px; cursor:pointer; transition:background 0.1s, border-color 0.1s; }
 .ov-monitor-card:hover { background:var(--surface2); border-color:var(--border2); }
 .ov-monitor-card-status { font-family:var(--mono); font-size:7.5px; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
-.ov-monitor-card-country { font-size:16px; font-weight:700; color:var(--text); margin-bottom:5px; line-height:1.1; }
-.ov-monitor-card-desc { font-size:11px; color:var(--text-dim); line-height:1.5; }
-.ov-monitor-card-link { font-family:var(--mono); font-size:8.5px; color:var(--aid); margin-top:9px; }
+.ov-monitor-card-country { font-size:18px; font-weight:700; color:var(--text); margin-bottom:6px; line-height:1.15; }
+.ov-monitor-card-desc { font-size:12.5px; color:var(--text-dim); line-height:1.55; }
+.ov-monitor-card-link { font-family:var(--mono); font-size:9px; color:var(--aid); margin-top:10px; }
 /* Overview tab guide */
 .ov-tg-item { cursor:pointer; padding:8px 10px; background:var(--bg2); border:1px solid var(--border); border-radius:2px; transition:background 0.1s; }
 .ov-tg-item:hover { background:var(--surface2); border-color:var(--border2); }
@@ -462,7 +582,7 @@ header {
 /* Email subscribe widget */
 .ov-subscribe { margin:18px 0 0; padding:14px 16px; background:var(--bg2); border:1px solid var(--border); border-radius:3px; }
 .ov-subscribe-label { font-family:var(--mono); font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; }
-.ov-subscribe-sub { font-size:11px; color:var(--text-dim); margin-bottom:10px; line-height:1.5; }
+.ov-subscribe-sub { font-size:12.5px; color:var(--text-dim); margin-bottom:10px; line-height:1.6; }
 .ov-subscribe-row { display:flex; gap:6px; }
 .ov-subscribe-input { flex:1; font-family:var(--mono); font-size:11px; padding:6px 10px; border:1px solid var(--border2); border-radius:2px; background:var(--surface); color:var(--text); outline:none; }
 .ov-subscribe-input:focus { border-color:var(--border3); }
@@ -489,11 +609,11 @@ header {
 /* About SENTINEL tab */
 .about-layout { max-width:860px; margin:0 auto; padding:36px 28px 60px; }
 .about-section { margin-bottom:36px; }
-.about-h1 { font-family:var(--serif); font-size:26px; font-weight:600; margin-bottom:6px; }
+.about-h1 { font-family:var(--serif); font-size:30px; font-weight:600; margin-bottom:8px; }
 .about-h1 em { font-style:normal; color:var(--coup); }
-.about-h2 { font-family:var(--serif); font-size:16px; font-weight:600; margin:0 0 10px; color:var(--text); }
+.about-h2 { font-family:var(--serif); font-size:19px; font-weight:600; margin:0 0 12px; color:var(--text); }
 .about-tagline { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); margin-bottom:24px; }
-.about-body { font-size:13px; color:var(--text-dim); line-height:1.85; font-weight:300; }
+.about-body { font-size:15px; color:var(--text-dim); line-height:1.82; font-weight:400; }
 .about-body p+p { margin-top:12px; }
 .about-rule { border:none; border-top:1px solid var(--border); margin:0 0 28px; }
 .about-team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px; }
@@ -567,11 +687,13 @@ header {
 .vtl-src-row { margin-top:5px; display:flex; gap:8px; flex-wrap:wrap; }
 
 /* ── HEADER RIGHT — search + lang ──────────────────────────── */
-.header-right { margin-left:auto; display:flex; align-items:center; gap:5px; flex-shrink:0; padding-left:12px; border-left:1px solid var(--border); }
-.hdr-btn { background:none; border:1px solid var(--border); border-radius:2px; padding:0 9px; cursor:pointer; font-family:var(--mono); font-size:9px; letter-spacing:1.2px; color:var(--text-muted); text-transform:uppercase; transition:all 0.15s; display:flex; align-items:center; gap:5px; height:26px; }
+.header-right { margin-left:auto; display:flex; align-items:center; gap:6px; flex-shrink:0; padding-left:12px; border-left:1px solid var(--border); }
+.hdr-btn { background:none; border:1px solid var(--border); border-radius:2px; padding:0 9px; cursor:pointer; font-family:var(--mono); font-size:9px; letter-spacing:1.2px; color:var(--text-muted); text-transform:uppercase; transition:all 0.15s; display:flex; align-items:center; gap:5px; height:26px; text-decoration:none; }
 .hdr-btn:hover { color:var(--text); border-color:var(--border2); background:var(--bg2); }
 .hdr-btn.lang-active { color:var(--text); border-color:var(--border2); }
 .hdr-btn svg { width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:1.6; }
+.hdr-btn.login-btn { color:var(--aid); border-color:rgba(20,96,176,.28); background:rgba(20,96,176,.04); }
+.hdr-btn.login-btn:hover { color:var(--aid); border-color:rgba(20,96,176,.42); background:rgba(20,96,176,.10); }
 
 /* ── SEARCH OVERLAY ─────────────────────────────────────────── */
 .search-overlay { display:none; position:fixed; inset:0; z-index:2000; background:rgba(28,26,23,0.45); backdrop-filter:blur(2px); }
@@ -597,14 +719,17 @@ header {
   </div>
   <nav class="tab-bar" id="tab-bar">
     <button class="tab-btn" data-tab="events">Events</button>
-    <button class="tab-btn" data-tab="profiles">Country Profiles</button>
-    <button class="tab-btn" data-tab="transnational">Transnational Security</button>
+    <button class="tab-btn" data-tab="profiles">Countries</button>
+    <button class="tab-btn" data-tab="transnational">Security</button>
     <button class="tab-btn" data-tab="us">US Cooperation</button>
-    <button class="tab-btn" data-tab="procurement">Procurement &amp; Arms</button>
     <button class="tab-btn" data-tab="timeline">Timeline</button>
     <button class="tab-btn" data-tab="about">About</button>
   </nav>
   <div class="header-right">
+    <a class="hdr-btn login-btn" href="./apps/analyst-console/" title="Analyst login">
+      <svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5.5A2.5 2.5 0 0 1 8 3a2.5 2.5 0 0 1 2.5 2.5V7"/></svg>
+      <span>Analyst Login</span>
+    </a>
     <button class="hdr-btn" id="search-btn" onclick="openSearch()" title="Search (⌘K)">
       <svg viewBox="0 0 16 16"><circle cx="6.5" cy="6.5" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/></svg>
       <span data-i18n="ui.search">Search</span>
@@ -621,6 +746,9 @@ header {
 
     <!-- Left: project description -->
     <div class="ov-desc-col" style="border-left:none;border-right:1px solid var(--border);">
+      <div class="ov-project-kicker">Regional Monitor</div>
+      <div class="ov-project-sentinel">SENTINEL<em>.</em></div>
+      <div class="ov-project-tagline">Civil-Military Monitor for Latin America and the Caribbean</div>
       <div class="ov-project-body">
         <p>Latin America is in the middle of a structural contest over who controls the gun. Across the region, the boundary between civilian government and military institution — hard-won through the democratic transitions of the 1980s and 1990s — is under pressure from multiple directions at once. In El Salvador, a president has turned the armed forces into the operational core of a permanent state of exception. In Mexico, the military now commands a national police force enshrined in the constitution. In Bolivia, an armored column rammed the doors of the presidential palace in 2024. In Brazil, coup-planning documents were found in the homes of senior officers after January 8. And in Venezuela, the FANB has become the last institutional pillar holding a collapsing regime together.</p>
         <p>These are not isolated episodes. They reflect a regional pattern: civilian control of the military, where it exists, is increasingly conditional — contingent on political alignment, economic crisis, and the willingness of individual commanders to hold the line. SENTINEL tracks this pattern in near-real time, country by country, event by event. The question driving the project is not whether coups happen, but whether the norms and institutions that make them costly are eroding — and where the erosion is fastest.</p>
@@ -629,7 +757,7 @@ header {
 
       <!-- Special monitors 2×2 -->
       <div style="margin-top:20px;">
-        <div class="ov-ql-label" style="margin-bottom:10px;">Special monitors</div>
+        <div class="ov-ql-label" style="margin-bottom:10px;">Priority monitors</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <a class="ov-monitor-card" href="#" onclick="event.preventDefault();switchTab('profiles');setTimeout(()=>showCountryProfile('Venezuela'),80)">
             <div class="ov-monitor-card-status" style="color:var(--coup);">★ Crisis — Transition</div>
@@ -659,7 +787,7 @@ header {
       </div>
 
       <div class="ov-subscribe" style="margin-top:20px;">
-        <div class="ov-subscribe-label">Weekly digest</div>
+        <div class="ov-subscribe-label">Weekly brief</div>
         <div class="ov-subscribe-sub">Receive a curated summary of high-salience civil-military events every Monday morning.</div>
         <form class="ov-subscribe-row" onsubmit="return handleSubscribe(event)">
           <input class="ov-subscribe-input" type="email" id="sub-email" placeholder="your@email.edu" required autocomplete="email">
@@ -693,9 +821,9 @@ header {
         <svg id="ov-svg"></svg>
       </div>
       <div class="ov-legend">
-        <div class="ov-legend-title">Event Density (30 d)</div>
+        <div class="ov-legend-title">Current Event Density</div>
         <div class="ov-legend-bar"></div>
-        <div class="ov-legend-labs"><span>0</span><span>High</span></div>
+        <div class="ov-legend-labs"><span>Lower</span><span>Higher</span></div>
         <div class="ov-legend-types" id="ov-legend-types"></div>
       </div>
       <div id="ov-popup" class="ov-popup" style="display:none;"></div>
@@ -710,56 +838,56 @@ header {
 <div class="tab-panel" id="events">
   <div class="events-layout">
     <div class="sidebar">
-      <div style="padding:14px 16px;background:var(--bg2);border-bottom:1px solid var(--border);border-left:3px solid var(--border2);">
-        <div class="tab-intro-title" style="font-size:13px;margin-bottom:6px;" data-i18n="intro.events">Events Feed</div>
-        <div style="font-size:11.5px;line-height:1.72;color:var(--text-dim);font-weight:300;" data-i18n="intro.events.body">Open-source reporting classified into CMR event types — coup activity, purges, deployments, reforms, OC events, and armed conflict. AI-classified, georeferenced, confidence-rated.</div>
+      <div class="events-sidebar-head">
+        <div class="events-sidebar-title-row">
+          <div>
+            <div class="sidebar-top-label" data-i18n="intro.events">Events Feed</div>
+            <div class="events-sidebar-title">Live Monitor</div>
+          </div>
+          <div class="events-sidebar-count">
+            <div class="sidebar-top-label" data-i18n="label.events-loaded">Events Loaded</div>
+            <div class="big-count" id="event-count">0</div>
+          </div>
+        </div>
+        <div class="events-sidebar-copy" data-i18n="intro.events.body">Open-source reporting classified into CMR event types — coup activity, purges, deployments, reforms, OC events, and armed conflict. AI-classified, georeferenced, confidence-rated.</div>
       </div>
-      <div class="sidebar-top">
-        <div><div class="sidebar-top-label" data-i18n="label.events-loaded">Events Loaded</div><div class="big-count" id="event-count">0</div></div>
-      </div>
-      <div class="filters-scroll">
-      <div class="filter-block">
-        <div class="filter-label" data-i18n="filter.subregion">Subregion</div>
-        <div class="tag-row" id="sr-filters">
-          <span class="tag active" data-f="subregion" data-v="all">All</span>
-          <span class="tag" data-f="subregion" data-v="brazil">Brazil</span>
-          <span class="tag" data-f="subregion" data-v="south-andean">Andean</span>
-          <span class="tag" data-f="subregion" data-v="south-cone">S. Cone</span>
-          <span class="tag" data-f="subregion" data-v="central">C. America</span>
-          <span class="tag" data-f="subregion" data-v="caribbean">Caribbean</span>
-          <span class="tag" data-f="subregion" data-v="mexico">Mexico</span>
+      <div class="events-toolbar">
+        <div class="events-toolbar-grid">
+          <label class="events-control">
+            <span class="events-control-label" data-i18n="filter.subregion">Subregion</span>
+            <select class="events-select" id="subregion-filter-select">
+              <option value="all">All subregions</option>
+              <option value="brazil">Brazil</option>
+              <option value="south-andean">Andean</option>
+              <option value="south-cone">Southern Cone</option>
+              <option value="central">Central America</option>
+              <option value="caribbean">Caribbean</option>
+              <option value="mexico">Mexico</option>
+            </select>
+          </label>
+          <label class="events-control">
+            <span class="events-control-label" data-i18n="filter.type">Category</span>
+            <select class="events-select" id="type-filter-select">
+              <option value="all">All categories</option>
+            </select>
+          </label>
+          <label class="events-control">
+            <span class="events-control-label" data-i18n="filter.country">Country</span>
+            <select class="events-select" id="country-filter-select">
+              <option value="all">All tracked countries</option>
+            </select>
+          </label>
+          <label class="events-control">
+            <span class="events-control-label" data-i18n="filter.confidence">Confidence</span>
+            <select class="events-select" id="confidence-filter-select">
+              <option value="all">All confidence levels</option>
+              <option value="green">High</option>
+              <option value="yellow">Medium</option>
+              <option value="red">Low</option>
+            </select>
+          </label>
         </div>
       </div>
-      <div class="filter-block">
-        <div class="filter-label" data-i18n="filter.type">Type</div>
-        <div class="tag-row" id="type-filters">
-          <span class="tag active" data-f="type" data-v="all">All</span>
-          <span class="tag" data-f="type" data-v="coup">Coup</span>
-          <span class="tag" data-f="type" data-v="purge">Purge</span>
-          <span class="tag" data-f="type" data-v="coup_proofing" style="border-left:2px solid var(--coup-proofing)">Coup-Proof</span>
-          <span class="tag" data-f="type" data-v="conflict">Conflict</span>
-          <span class="tag" data-f="type" data-v="reform">Reform</span>
-          <span class="tag" data-f="type" data-v="oc">Org. Crime</span>
-          <span class="tag" data-f="type" data-v="aid">Mil. Aid</span>
-          <span class="tag" data-f="type" data-v="coop" style="border-left:2px solid var(--coop)">US Coop</span>
-          <span class="tag" data-f="type" data-v="exercise">Exercise</span>
-          <span class="tag" data-f="type" data-v="other">Other</span>
-        </div>
-      </div>
-      <div class="filter-block">
-        <div class="filter-label" data-i18n="filter.country">Country</div>
-        <div class="tag-row" id="country-filters"></div>
-      </div>
-      <div class="filter-block">
-        <div class="filter-label" data-i18n="filter.confidence">Confidence</div>
-        <div class="tag-row">
-          <span class="tag active" data-f="conf" data-v="all">All</span>
-          <span class="tag" data-f="conf" data-v="green">High</span>
-          <span class="tag" data-f="conf" data-v="yellow">Medium</span>
-          <span class="tag" data-f="conf" data-v="red">Low</span>
-        </div>
-      </div>
-      </div><!-- /filters-scroll -->
       <div class="event-list" id="event-list"></div>
     </div>
     <div class="map-panel">
@@ -826,22 +954,28 @@ header {
       </div>
     </div>
     <div class="page-main">
-      <div class="tab-intro-block">
-        <div class="tab-intro-title" data-i18n="intro.us">US Security Cooperation</div>
-        US security cooperation is a central variable in Latin American CMR: it shapes military doctrine, equipment, training culture, and — in some cases — institutional loyalty. The Greenbook tracks US foreign aid obligations back to 1946 in constant dollars. Current security programs (FMF, IMET, INCLE, Section 333, NADR) represent an estimated <strong>$1.8B annually</strong> to the region in FY2025. This tab documents historical flows, active programs, US military installations, and the dramatic operational expansion since January 2025 — including the most consequential US military action in the hemisphere since Panama 1989.
-      </div>
-      <!-- ── US COOPERATION INTENSITY MAP ──────────────────────── -->
-      <div class="us-coop-map-wrap" id="us-coop-map-wrap">
-        <div class="us-coop-map-label">US Security Cooperation Intensity — FY2025</div>
-        <svg id="us-coop-svg" style="width:100%;height:100%;display:block;"></svg>
-        <div class="us-coop-tooltip" id="us-coop-tooltip"></div>
-        <div class="us-coop-map-legend">
-          <div style="font-family:var(--mono);font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Aid Intensity (FY2025)</div>
-          <div style="height:8px;width:130px;border-radius:1px;background:linear-gradient(to right,#d4e4f5,#1a538f);"></div>
-          <div style="display:flex;justify-content:space-between;width:130px;margin-top:3px;font-family:var(--mono);font-size:7.5px;color:var(--text-muted);"><span>Low</span><span>High ($461M)</span></div>
-          <div style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
-            <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div style="width:8px;height:8px;border-radius:2px;background:#e8e4dc;border:1px solid #ccc;flex-shrink:0;"></div>No active coop</div>
-            <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div style="width:8px;height:8px;border-radius:2px;background:#c9b8a4;border:1px solid #bbb;flex-shrink:0;"></div>Sanctioned</div>
+      <div class="context-map-grid">
+        <div class="context-panel">
+          <div class="tab-intro-block">
+            <div class="tab-intro-title" data-i18n="intro.us">US Security Cooperation</div>
+            US security cooperation is a central variable in Latin American CMR: it shapes military doctrine, equipment, training culture, and — in some cases — institutional loyalty. The Greenbook tracks US foreign aid obligations back to 1946 in constant dollars. Current security programs (FMF, IMET, INCLE, Section 333, NADR) represent an estimated <strong>$1.8B annually</strong> to the region in FY2025. This tab documents historical flows, active programs, US military installations, and the dramatic operational expansion since January 2025 — including the most consequential US military action in the hemisphere since Panama 1989.
+          </div>
+          <div class="context-panel-note">Map key: darker blue indicates higher FY2025 cooperation intensity. Sanctioned or inactive partners are shown separately to keep the regional picture readable.</div>
+        </div>
+        <div class="context-map-card">
+          <div class="us-coop-map-wrap" id="us-coop-map-wrap">
+            <div class="context-map-label">US Security Cooperation Intensity — FY2025</div>
+            <svg id="us-coop-svg" style="width:100%;height:100%;display:block;"></svg>
+            <div class="us-coop-tooltip" id="us-coop-tooltip"></div>
+            <div class="context-map-legend">
+              <div style="font-family:var(--mono);font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Aid Intensity (FY2025)</div>
+              <div style="height:8px;width:130px;border-radius:1px;background:linear-gradient(to right,#d4e4f5,#1a538f);"></div>
+              <div style="display:flex;justify-content:space-between;width:130px;margin-top:3px;font-family:var(--mono);font-size:7.5px;color:var(--text-muted);"><span>Low</span><span>High ($461M)</span></div>
+              <div style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
+                <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div style="width:8px;height:8px;border-radius:2px;background:#e8e4dc;border:1px solid #ccc;flex-shrink:0;"></div>No active coop</div>
+                <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div style="width:8px;height:8px;border-radius:2px;background:#c9b8a4;border:1px solid #bbb;flex-shrink:0;"></div>Sanctioned</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1037,9 +1171,34 @@ header {
     <div id="cp-country" style="display:none;padding:24px 28px 40px;"></div>
     <div id="cp-regional" style="padding:24px 28px 40px;overflow-y:auto;">
 
-      <div class="tab-intro-block">
-        <div class="tab-intro-title" id="sr-title">Latin America &amp; the Caribbean</div>
-        <div id="sr-summary"></div>
+      <div class="context-map-grid">
+        <div class="context-panel">
+          <div class="tab-intro-block">
+            <div class="tab-intro-title" id="sr-title">Latin America &amp; the Caribbean</div>
+            <div id="sr-summary"></div>
+          </div>
+          <div class="context-panel-note">Regional militarization monitor. Country shading combines a structural baseline from the M3 dataset with weighted live-event pressure from the SENTINEL feed, so the map captures both embedded military roles and current stress.</div>
+          <div class="mini-legend" aria-hidden="true">
+            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#f1f0e1;"></span><span>lower militarization</span></div>
+            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#a8ae72;"></span><span>mixed structural and live pressure</span></div>
+            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#556b2f;"></span><span>higher militarization</span></div>
+          </div>
+        </div>
+        <div class="context-map-card">
+          <div class="cp-regional-map-wrap" id="cp-regional-map-wrap">
+            <div class="context-map-label">Regional Militarization Index</div>
+            <svg id="cp-regional-map-svg" style="width:100%;height:100%;display:block;"></svg>
+            <div class="cp-regional-tooltip" id="cp-regional-tooltip"></div>
+          <div class="context-map-legend">
+            <div style="font-family:var(--mono);font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Militarization Index</div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div class="mini-legend-swatch" style="background:#f1f0e1;"></div>Lower</div>
+              <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div class="mini-legend-swatch" style="background:#a8ae72;"></div>Intermediate</div>
+              <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div class="mini-legend-swatch" style="background:#556b2f;"></div>Higher</div>
+            </div>
+          </div>
+          </div>
+        </div>
       </div>
 
       <div class="card-grid" id="sr-cards">
@@ -1060,6 +1219,28 @@ header {
       <div class="bar-row"><span class="bar-name">Argentina</span><div class="bar-track"><div class="bar-fill" style="width:16%;background:var(--reform);"></div></div><span class="bar-num">$4.7B</span></div>
       <div class="bar-row"><span class="bar-name">Venezuela</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--reform);"></div></div><span class="bar-num">$3.2B</span></div>
       <div class="bar-row"><span class="bar-name">Peru</span><div class="bar-track"><div class="bar-fill" style="width:10%;background:var(--reform);"></div></div><span class="bar-num">$2.9B</span></div>
+
+      <div class="tab-intro-block" style="margin-top:24px;">
+        <div class="tab-intro-title">Arms &amp; Procurement</div>
+        Procurement patterns reveal strategic alignments, capability-building priorities, and the degree to which military institutions exercise autonomous procurement authority outside civilian oversight. In Latin America, the US remains the leading supplier, but <strong>China's growing market share</strong> and Russia's continued ties with Venezuela and Nicaragua show a more diversified procurement environment with clear civil-military implications.
+      </div>
+      <div class="card-grid">
+        <div class="card"><div class="card-label">Total Deal Value</div><div class="card-value">$8.3B</div><div class="card-sub">2024–2026</div></div>
+        <div class="card"><div class="card-label">Top Buyer</div><div class="card-value" style="font-size:20px;">Brazil</div><div class="card-sub">31% of imports</div></div>
+        <div class="card"><div class="card-label">China Share</div><div class="card-value">11%</div><div class="card-sub up">+4pp since 2020</div></div>
+        <div class="card"><div class="card-label">Delivered This Year</div><div class="card-value">23</div><div class="card-sub">of 67 active</div></div>
+      </div>
+      <div class="chart-box">
+        <div class="sec-title">Supplier Trends — SIPRI TIV ($M)</div>
+        <div class="chart-wrap"><canvas id="armsChart"></canvas></div>
+      </div>
+      <div class="sec-title mt">Major Recent Deals</div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">Sweden → Brazil</span></div><div class="ev-title">Gripen E/F fighter jets — 36 units ($5.4B)</div><div class="ev-meta"><span>2019–2027</span><span>SIPRI</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivered</span><span class="ev-country">Germany → Chile</span></div><div class="ev-title">Leopard 2A4 main battle tanks — 100 units ($220M)</div><div class="ev-meta"><span>2023</span><span>SIPRI</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--purge)"></div><span class="ev-type" style="color:var(--purge)">Negotiating</span><span class="ev-country">Pakistan/China → Argentina</span></div><div class="ev-title">JF-17 Block III multirole fighter evaluation ($1.2B est.)</div><div class="ev-meta"><span>2025–</span><span>News reports</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Ordered</span><span class="ev-country">US → Colombia</span></div><div class="ev-title">UH-60 Black Hawk helicopters — 12 units ($380M)</div><div class="ev-meta"><span>2025</span><span>DSCA</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">France → Brazil</span></div><div class="ev-title">Scorpène-class submarine — 4th of 4 ($1.8B program)</div><div class="ev-meta"><span>2024</span><span>SIPRI</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">South Korea → Peru</span></div><div class="ev-title">KAI KT-1 trainer aircraft — 20 units ($200M)</div><div class="ev-meta"><span>2024–2026</span><span>SIPRI</span></div></div>
 
       <!-- ── CMR STATUS DISTRIBUTION ───────────────────────── -->
       <div class="sec-title mt">CMR Status — Regional Distribution</div>
@@ -1392,42 +1573,10 @@ header {
 <!--  PROCUREMENT TAB                                           -->
 <!-- ══════════════════════════════════════════════════════════ -->
 <div class="tab-panel" id="procurement">
-  <div class="page-layout">
-    <div class="page-sidebar">
-      <div class="sidebar-top"><div><div class="sidebar-top-label" data-i18n="label.active-deals">Active Deals (2024–26)</div><div class="big-count">67</div></div></div>
-      <div style="padding:14px 16px;">
-        <div class="sec-title">Supplier Market Share (SIPRI TIV)</div>
-        <div class="bar-row"><span class="bar-name">United States</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--aid);"></div></div><span class="bar-num">42%</span></div>
-        <div class="bar-row"><span class="bar-name">France</span><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--protest);"></div></div><span class="bar-num">14%</span></div>
-        <div class="bar-row"><span class="bar-name">China</span><div class="bar-track"><div class="bar-fill" style="width:26%;background:var(--coup);"></div></div><span class="bar-num">11%</span></div>
-        <div class="bar-row"><span class="bar-name">Russia</span><div class="bar-track"><div class="bar-fill" style="width:19%;background:var(--purge);"></div></div><span class="bar-num">8%</span></div>
-        <div class="bar-row"><span class="bar-name">Germany</span><div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--other);"></div></div><span class="bar-num">7%</span></div>
-        <div class="bar-row"><span class="bar-name">Israel</span><div class="bar-track"><div class="bar-fill" style="width:14%;background:var(--exercise);"></div></div><span class="bar-num">6%</span></div>
-        <div class="bar-row"><span class="bar-name">South Korea</span><div class="bar-track"><div class="bar-fill" style="width:10%;background:var(--exercise);"></div></div><span class="bar-num">4%</span></div>
-      </div>
-    </div>
-    <div class="page-main">
-      <div class="tab-intro-block">
-        <div class="tab-intro-title" data-i18n="intro.procurement">Procurement &amp; Arms Transfers</div>
-        Arms procurement patterns reveal strategic alignments, capability-building priorities, and the degree to which military institutions exercise autonomous procurement authority outside civilian oversight. In Latin America, the US has historically dominated as the primary supplier, but <strong>China's growing market share</strong> (+4pp since 2020) and Russia's continued partnerships with Venezuela and Nicaragua signal diversification with significant CMR implications. Procurement decisions also reflect coup-proofing strategies: leaders often select suppliers and platforms to reward loyal units and create dependencies that complicate military defection.
-      </div>
-      <div class="card-grid">
-        <div class="card"><div class="card-label">Total Deal Value</div><div class="card-value">$8.3B</div><div class="card-sub">2024–2026</div></div>
-        <div class="card"><div class="card-label">Top Buyer</div><div class="card-value" style="font-size:20px;">Brazil</div><div class="card-sub">31% of imports</div></div>
-        <div class="card"><div class="card-label">China Share</div><div class="card-value">11%</div><div class="card-sub up">+4pp since 2020</div></div>
-        <div class="card"><div class="card-label">Delivered This Year</div><div class="card-value">23</div><div class="card-sub">of 67 active</div></div>
-      </div>
-      <div class="chart-box">
-        <div class="sec-title">Supplier Trends — SIPRI TIV ($M)</div>
-        <div class="chart-wrap"><canvas id="armsChart"></canvas></div>
-      </div>
-      <div class="sec-title mt">Major Recent Deals</div>
-      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">Sweden → Brazil</span></div><div class="ev-title">Gripen E/F fighter jets — 36 units ($5.4B)</div><div class="ev-meta"><span>2019–2027</span><span>SIPRI</span></div></div>
-      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivered</span><span class="ev-country">Germany → Chile</span></div><div class="ev-title">Leopard 2A4 main battle tanks — 100 units ($220M)</div><div class="ev-meta"><span>2023</span><span>SIPRI</span></div></div>
-      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--purge)"></div><span class="ev-type" style="color:var(--purge)">Negotiating</span><span class="ev-country">Pakistan/China → Argentina</span></div><div class="ev-title">JF-17 Block III multirole fighter evaluation ($1.2B est.)</div><div class="ev-meta"><span>2025–</span><span>News reports</span></div></div>
-      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Ordered</span><span class="ev-country">US → Colombia</span></div><div class="ev-title">UH-60 Black Hawk helicopters — 12 units ($380M)</div><div class="ev-meta"><span>2025</span><span>DSCA</span></div></div>
-      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">France → Brazil</span></div><div class="ev-title">Scorpène-class submarine — 4th of 4 ($1.8B program)</div><div class="ev-meta"><span>2024</span><span>SIPRI</span></div></div>
-      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">South Korea → Peru</span></div><div class="ev-title">KAI KT-1 trainer aircraft — 20 units ($200M)</div><div class="ev-meta"><span>2024–2026</span><span>SIPRI</span></div></div>
+  <div class="page-main">
+    <div class="tab-intro-block">
+      <div class="tab-intro-title">Arms &amp; Procurement has moved</div>
+      Procurement information is now part of the <strong>Countries</strong> section so regional force structure, military spending, and arms acquisition can be reviewed in one place.
     </div>
   </div>
 </div>
@@ -1554,9 +1703,26 @@ header {
       </div>
     </div>
     <div class="page-main">
-      <div class="tab-intro-block">
-        <div class="tab-intro-title" data-i18n="intro.transnational">Organized Crime, Illicit Economies &amp; Civil-Military Relations</div>
-        In Latin America, the boundaries between organized crime, illicit economies, and civil-military relations are <strong>structurally entangled — not episodic</strong>. Cocaine remains the hemisphere's dominant illicit commodity, with production at or near record levels: Colombia produced an estimated 2,664 metric tons in 2023 (UNODC), and trafficking routes through Central America, the Caribbean, and Pacific corridors drive military deployments, corruption, and cartel–state conflict across at least 14 SENTINEL-tracked countries. Fentanyl — almost entirely manufactured in Mexico using Chinese-sourced precursor chemicals — has supplanted heroin as the principal US opioid and become the central driver of FTO designations and US-Mexico security friction. Illicit mining (gold, coltan) funds armed groups in Colombia, Venezuela, Ecuador, Peru, and Brazil, directly implicating military units in protection rackets and territorial control. Transnational gangs — particularly Tren de Aragua and MS-13 — have expanded criminal operations across borders, blurring the line between domestic gang suppression and transnational security. Military institutions across the region have been progressively deputized for domestic law enforcement, with Ecuador's internal armed conflict declaration (2024) and Mexico's SEDENA intelligence mandate (2025) as the most recent structural inflection points.
+      <div class="context-map-grid">
+        <div class="context-panel">
+          <div class="tab-intro-block">
+            <div class="tab-intro-title" data-i18n="intro.transnational">Organized Crime, Illicit Economies &amp; Civil-Military Relations</div>
+            In Latin America, the boundaries between organized crime, illicit economies, and civil-military relations are <strong>structurally entangled — not episodic</strong>. Cocaine remains the hemisphere's dominant illicit commodity, with production at or near record levels: Colombia produced an estimated 2,664 metric tons in 2023 (UNODC), and trafficking routes through Central America, the Caribbean, and Pacific corridors drive military deployments, corruption, and cartel–state conflict across at least 14 SENTINEL-tracked countries. Fentanyl — almost entirely manufactured in Mexico using Chinese-sourced precursor chemicals — has supplanted heroin as the principal US opioid and become the central driver of FTO designations and US-Mexico security friction. Illicit mining (gold, coltan) funds armed groups in Colombia, Venezuela, Ecuador, Peru, and Brazil, directly implicating military units in protection rackets and territorial control. Transnational gangs — particularly Tren de Aragua and MS-13 — have expanded criminal operations across borders, blurring the line between domestic gang suppression and transnational security. Military institutions across the region have been progressively deputized for domestic law enforcement, with Ecuador's internal armed conflict declaration (2024) and Mexico's SEDENA intelligence mandate (2025) as the most recent structural inflection points.
+          </div>
+          <div class="context-panel-note">Criminality Pressure Monitor. This map is a heuristic regional layer combining organized-crime event pressure with conflict intensity to highlight where coercive criminal ecosystems and state-security stress are most concentrated.</div>
+        </div>
+        <div class="context-map-card">
+          <div class="security-map-wrap" id="security-map-wrap">
+            <div class="context-map-label">Criminality Pressure Monitor</div>
+            <svg id="security-map-svg" style="width:100%;height:100%;display:block;"></svg>
+            <div class="security-map-tooltip" id="security-map-tooltip"></div>
+            <div class="context-map-legend">
+              <div style="font-family:var(--mono);font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Heuristic Pressure Index</div>
+              <div style="height:8px;width:130px;border-radius:1px;background:linear-gradient(to right,#efe6f7,#6e2ea8);"></div>
+              <div style="display:flex;justify-content:space-between;width:130px;margin-top:3px;font-family:var(--mono);font-size:7.5px;color:var(--text-muted);"><span>Lower</span><span>Higher</span></div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="card-grid">
         <div class="card"><div class="card-label">OC-Related Events (30d)</div><div class="card-value" id="ts-card-count">—</div><div class="card-sub">from SENTINEL feed</div></div>
@@ -1623,17 +1789,18 @@ header {
     <div class="about-section">
       <div class="about-h2">Project Goals</div>
       <div class="about-body">
-        <p>SENTINEL is an open-source, quasi-automated monitoring platform designed to support academic research on civil-military relations across 25 Latin American and Caribbean countries. The project addresses a persistent gap in the research landscape: the absence of systematically organized, near-real-time event data for scholars working across multiple country cases or tracking regional trends in democratic civil-military relations, transnational organized crime, and US security cooperation.</p>
-        <p>The platform ingests and classifies open-source reporting on a continuous basis, tracking coup attempts and plots, officer purges and command reshuffles, military deployments in domestic security, security sector reforms, US security cooperation, organized crime–military intersections, illicit economies, and armed conflict involving state security forces. High-salience events receive AI-generated analysis grounded in CMR theory, designed to prompt scholarly interpretation rather than replace it.</p>
-        <p>The dashboard comprises eight functional tabs: <strong>Overview</strong> (choropleth map + dashboard summary), <strong>Events</strong> (live event feed with Leaflet map), <strong>Country Profiles</strong> (25 countries, positions, CMR status, elections — including four special deep-dive monitors), <strong>Transnational Security</strong> (organized crime, drug trafficking, illicit economies, cartel–state dynamics), <strong>US Cooperation</strong> (USAID Greenbook historical aid, current programs, live events), <strong>Procurement &amp; Arms</strong> (deals, supplier trends, SIPRI TIV), <strong>Timeline</strong> (chronological event feed with country activity), and <strong>About</strong> (this page).</p>
-        <p>SENTINEL is intended as a first-pass monitoring and alerting system, not a substitute for primary source verification. It is fully open-source, runs on GitHub Pages and the Anthropic API, and has no dedicated servers or databases.</p>
+        <p>SENTINEL is an AI-first research platform for tracking civil-military relations, political stability, and regional security across Latin America and the Caribbean. It is designed to help researchers, journalists, and policy users monitor how military institutions, security forces, executives, and non-state armed actors interact across the region.</p>
+        <p>The platform combines automated event collection, normalization, duplicate detection, actor coding, QA, and AI-generated analysis with a lighter human oversight layer. The public dashboard surfaces public-safe event records and regional monitors; the analyst console is a separate private workflow for corroboration, correction, duplicate resolution, and publication control.</p>
+        <p>SENTINEL tracks coups and coup attempts, officer purges, military deployments in domestic security, organized crime–security interactions, protest repression, reforms, peace processes, and U.S. security cooperation. It also maintains structured provenance so users can see how an event moved from ingestion to publication.</p>
+        <p>The platform is intended as a monitoring and research tool, not as a substitute for direct source verification. AI assists with the heavy lifting, but human review remains important for low-confidence, high-stakes, or analytically sensitive cases.</p>
       </div>
     </div>
 
     <div class="about-section">
-      <div class="about-h2">Theoretical Framework</div>
+      <div class="about-h2">Research Lens</div>
       <div class="about-body">
-        <p>SENTINEL's classification system is grounded in comparative civil-military relations (CMR) theory. The event taxonomy reflects key concepts in the literature on democratic civilian control, military institutional autonomy, and authoritarian backsliding. Events are coded according to their theoretical significance for the following research questions:</p>
+        <p>SENTINEL's event logic is grounded in comparative civil-military relations, democratic erosion, and regional security research. The system no longer relies on a single legacy event ontology alone; instead, it uses a project-specific knowledge base, event taxonomy, actor hierarchy, and AI analyst guidance designed around the region's contemporary security landscape.</p>
+        <p>That knowledge base organizes events around questions such as who is exercising coercive power, what role military institutions are playing, how state and non-state actors interact, and whether the event expands or constrains civilian control.</p>
       </div>
       <ul class="about-fw-list" style="margin-top:12px;">
         <li><strong>Civilian control:</strong> Events that signal shifts in the balance of authority between elected civilians and military institutions — including officer dismissals, budget authority disputes, and doctrinal changes.</li>
@@ -1649,9 +1816,9 @@ header {
     <div class="about-section">
       <div class="about-h2">Data Pipeline &amp; Methodology</div>
       <div class="about-body">
-        <p>Events are ingested nightly via GitHub Actions from four source types: curated RSS feeds (InSight Crime, Reuters Latin America, NACLA, SOUTHCOM), the GDELT v2 Document API, NewsAPI, and the ACLED API (Central America, South America, Caribbean). Raw articles are filtered by a keyword list before classification, reducing API cost and irrelevant noise.</p>
-        <p>Classification is performed by Claude Haiku (Anthropic) in batches of eight articles. Each article is assigned an event type, country, salience rating (high / medium / low), and source confidence level (green / yellow / red). A second AI pass performs semantic deduplication: articles from different outlets covering the same incident are merged into a single canonical record with all sources attributed.</p>
-        <p>High-salience events receive a brief AI-generated CMR analysis — two to three sentences grounded in the theoretical framework above. The pipeline writes all events to a single JSON file, which the dashboard reads at page load. No database or backend server is involved.</p>
+        <p>SENTINEL runs as a staged workflow. Source material is ingested from curated feeds and structured data providers, normalized into article-level records, screened for relevance, and then assembled into canonical event records. Duplicate detection, actor coding, QA, and publication checks are handled as distinct steps rather than being collapsed into one monolithic script.</p>
+        <p>Each event carries a provenance trail that records how it entered the system, what AI layers touched it, what supporting reports were linked to it, and whether it was later reviewed by a human. Low-confidence events can be withheld pending corroboration, while higher-confidence events can still be published and monitored publicly.</p>
+        <p>AI-generated council analysis now runs across all events and is explicitly labeled as AI-generated analysis. Human analysts do not manually code the full dataset from scratch; instead, they intervene on uncertainty, duplicates, publication-sensitive cases, and corrections.</p>
       </div>
     </div>
 
@@ -1800,12 +1967,12 @@ header {
         <div class="about-src-group-label">AI Classification &amp; Infrastructure</div>
 
         <div class="about-src-row">
-          <div class="about-src-name">Claude Haiku — Anthropic
-            <a href="https://www.anthropic.com" target="_blank" rel="noopener">anthropic.com</a>
+          <div class="about-src-name">AI Worker Layer
+            <a href="README.md" target="_blank" rel="noopener">repo architecture</a>
           </div>
           <div><span class="about-src-type src-t-ai">AI</span></div>
-          <div class="about-src-desc">Large language model used for three pipeline tasks: (1) batch classification of raw articles into event types, countries, salience, and confidence ratings; (2) semantic deduplication — identifying articles from different outlets covering the same incident; (3) generating 2–3 sentence CMR-grounded analysis for high-salience events. Model: <code style="font-family:var(--mono);font-size:9px;">claude-haiku-4-5-20251001</code>.</div>
-          <div class="about-src-freq">Nightly<br>API key required</div>
+          <div class="about-src-desc">SENTINEL uses a modular AI worker layer for event classification, duplicate analysis, actor coding, QA scoring, publication checks, and council-style interpretation. These outputs are constrained by project taxonomies, codebooks, and internal knowledge assets rather than being treated as free-form model judgments. Public-facing analytical notes are explicitly tagged as AI-generated.</div>
+          <div class="about-src-freq">Continuous<br>Model-dependent</div>
         </div>
 
         <div class="about-src-row">
@@ -1813,8 +1980,8 @@ header {
             <a href="https://github.com/features/actions" target="_blank" rel="noopener">github.com</a>
           </div>
           <div><span class="about-src-type src-t-infra">Infra</span></div>
-          <div class="about-src-desc">CI/CD platform used to run the ingestion pipeline on a nightly cron schedule (04:00 UTC). Writes updated <code style="font-family:var(--mono);font-size:9px;">data/events.json</code> back to the repository with a <code style="font-family:var(--mono);font-size:9px;">[skip ci]</code> commit flag to prevent recursive triggering. Free for public repositories.</div>
-          <div class="about-src-freq">Nightly 04:00 UTC<br>Free (public repo)</div>
+          <div class="about-src-desc">CI/CD platform used for scheduled ingestion, rebuilds of public-safe artifacts, and static-site deployment support. Public outputs are separated from private analyst workflow files so that sensitive review data and credentials are not exposed through the website.</div>
+          <div class="about-src-freq">Scheduled + manual<br>Free (public repo)</div>
         </div>
 
         <div class="about-src-row">
@@ -1822,8 +1989,8 @@ header {
             <a href="https://pages.github.com" target="_blank" rel="noopener">pages.github.com</a>
           </div>
           <div><span class="about-src-type src-t-infra">Infra</span></div>
-          <div class="about-src-desc">Static site hosting directly from the repository. Serves <code style="font-family:var(--mono);font-size:9px;">index.html</code> and the <code style="font-family:var(--mono);font-size:9px;">data/</code> directory. No server, no database, no maintenance overhead. CDN-backed with global edge delivery. Free for public repositories.</div>
-          <div class="about-src-freq">Always on<br>Free (public repo)</div>
+          <div class="about-src-desc">Static hosting for the public dashboard and published data layer. The public site exposes only public-safe artifacts. The analyst console, credentials, private reasoning, and edit logs are intended to remain local or otherwise access-controlled and are not part of the public web surface.</div>
+          <div class="about-src-freq">Always on<br>Public-safe layer only</div>
         </div>
       </div>
     </div>
@@ -1852,7 +2019,7 @@ header {
     <div class="about-section">
       <div class="about-h2">Citation</div>
       <div class="about-cite">
-        SENTINEL: Latin American Civil-Military Events Monitor (2026). Open-source dashboard. Data sourced from ACLED, GDELT, InSight Crime, Reuters, NACLA, and SOUTHCOM. Classification by Claude (Anthropic). Available at: [GitHub Pages URL].
+        SENTINEL: Latin American Civil-Military Events Monitor (2026). AI-assisted regional monitoring platform and public dashboard. Public event layer compiled from open-source reporting and structured datasets. Available at: [GitHub Pages URL].
       </div>
     </div>
 
@@ -1869,7 +2036,7 @@ header {
     <div class="about-section">
       <div class="about-h2">Acknowledgments</div>
       <div class="about-body">
-        <p>Event data sourced from the Armed Conflict Location &amp; Event Data Project (ACLED), the GDELT Project, InSight Crime, NACLA Report on the Americas, Reuters Latin America, and U.S. SOUTHCOM public affairs. Reference datasets from the World Bank (WDI/WGI) and V-Dem Institute. AI classification and analysis by Claude (Anthropic). This project is not affiliated with or endorsed by any of these organizations.</p>
+        <p>SENTINEL draws on open-source reporting, structured conflict datasets, public institutional releases, and reference data from organizations such as ACLED, SIPRI, the World Bank, V-Dem, USAID Foreign Aid Explorer, UNODC, and specialist regional media. AI assistance is used for coding and interpretation, but those outputs remain part of a supervised research workflow. This project is not affiliated with or endorsed by any of the source organizations represented here.</p>
       </div>
     </div>
 
@@ -1904,10 +2071,15 @@ function switchTab(id){
   const panel=document.getElementById(id);
   if(btn) btn.classList.add('active');
   if(panel) panel.classList.add('active');
+  if(id==='events') ensureEventMap();
   if(id==='overview') setTimeout(initOverviewMap,50);
   if(id==='timeline') renderTimeline();
+  if(id==='transnational') { renderTsEvents(); initSecurityMap(); }
   if(id==='us') { renderUsEvents(); initUsCoopMap(); }
-  if(id==='profiles') loadIndicatorData();
+  if(id==='profiles') {
+    loadIndicatorData();
+    setTimeout(renderCpRegionalMap,80);
+  }
 }
 
 function handleSubscribe(e){
@@ -1927,12 +2099,15 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById(btn.dataset.tab).classList.add('active');
-    if(btn.dataset.tab==='events'&&map) map.invalidateSize();
+    if(btn.dataset.tab==='events') ensureEventMap();
     if(btn.dataset.tab==='timeline') renderTimeline();
     if(btn.dataset.tab==='overview') ovRefreshMarkers();
-    if(btn.dataset.tab==='transnational') renderTsEvents();
+    if(btn.dataset.tab==='transnational') { renderTsEvents(); initSecurityMap(); }
     if(btn.dataset.tab==='us') { renderUsEvents(); initUsCoopMap(); }
-    if(btn.dataset.tab==='profiles') loadIndicatorData();
+    if(btn.dataset.tab==='profiles') {
+      loadIndicatorData();
+      setTimeout(renderCpRegionalMap,80);
+    }
   });
 });
 
@@ -1955,9 +2130,28 @@ const TYPE_LABEL = {
   aid:'Mil. Aid', coop:'US Coop', exercise:'Exercise',
   protest:'Protest', peace:'Peace', other:'Other'
 };
+const PROVENANCE_STAGE_ORDER = {
+  ingestion:10,
+  normalization:20,
+  classification:30,
+  canonicalization:40,
+  actor_coding:50,
+  qa:60,
+  duplicate_review:70,
+  human_review:80,
+  council_analysis:90,
+  publication_decision:100,
+  publication:110
+};
+const LATAM_LEAFLET_BOUNDS = [[-58,-121],[35,-29]];
+const LATAM_LEAFLET_VIEW = { center:[-10,-69], zoom:3 };
+const LATAM_REGIONAL_PADDING = [24,24];
 
 let allEvents=[], filtered=[], selected=null;
 let filters={type:'all',subregion:'all',country:'all',conf:'all'};
+let councilById=new Map();
+let eventTypeMeta=new Map();
+let eventTypeOrder=[];
 
 const SR_MAP_VIEW={
   'all':         {center:[-10,-66],zoom:3},
@@ -1970,30 +2164,82 @@ const SR_MAP_VIEW={
 };
 let tlFilter='all', tlCountry='all', tlSalience='all', tlYear='all', tlMonth='all', tlConf='all';
 let map, markers=[];
+let selectedEventHalo = null;
 
 // ── DATA LOADING ─────────────────────────────────────────────
 async function loadEvents(){
   try {
-    const res = await fetch('data/events.json?t='+Date.now());
+    const [res, publishedRes, councilRes, taxonomyRes] = await Promise.all([
+      fetch('data/events.json?t='+Date.now()),
+      fetch('data/published/events_public.json?t='+Date.now()).catch(()=>null),
+      fetch('data/review/council_analyses.json?t='+Date.now()).catch(()=>null),
+      fetch('config/taxonomy/event_types.json?t='+Date.now()).catch(()=>null)
+    ]);
     if(!res.ok) throw new Error('HTTP '+res.status);
     const raw = await res.json();
+    let published = null;
+    let council = null;
+    let taxonomy = null;
+    if(publishedRes && publishedRes.ok){
+      published = await publishedRes.json();
+    }
+    if(councilRes && councilRes.ok){
+      council = await councilRes.json();
+    }
+    if(taxonomyRes && taxonomyRes.ok){
+      taxonomy = await taxonomyRes.json();
+    }
+    councilById = new Map(((council?.events)||[]).map(item=>[String(item.event_id), item]));
+    eventTypeMeta = new Map(((taxonomy?.event_types)||[]).map(item=>[String(item.code), item]));
+    eventTypeOrder = ((taxonomy?.event_types)||[]).slice().sort((a,b)=>(b.precedence_rank||0)-(a.precedence_rank||0)).map(item=>item.code);
     // Support both flat array and wrapped {updated, count, events:[...]} format
-    const events = Array.isArray(raw) ? raw : (raw.events || []);
-    const updatedStr = Array.isArray(raw) ? (events[0]?.ingested_at) : raw.updated;
+    let events = Array.isArray(raw) ? raw : (raw.events || []);
+    const publishedEvents = published?.events || [];
+    const publishedById = new Map(publishedEvents.map(ev => [String(ev.event_id), ev]));
+    if(publishedEvents.length){
+      events = events.filter(ev => publishedById.has(String(ev.id)));
+    }
+    events.forEach(ev => {
+      const pub = publishedById.get(String(ev.id));
+      if(!pub) return;
+      ev.public_review = {
+        review_status: pub.review_status || pub.provenance_summary?.review_status || null,
+        human_validated: !!(pub.human_validated || pub.provenance_summary?.human_validated),
+        reviewed_by_human: !!(pub.provenance_summary?.reviewed_by_human),
+        provenance_summary: pub.provenance_summary || {},
+        provenance_timeline: pub.provenance_timeline || [],
+        linked_reports: pub.linked_reports || [],
+        headline: pub.headline || ev.title,
+        event_subtype: pub.event_subtype || ev.subtype || null
+      };
+      ev.council = councilById.get(String(ev.id));
+      ev.standard_title = getStandardizedEventTitle(ev);
+      ev.display_country = getEventCountryLabel(ev);
+    });
+    const updatedStr = published?.generated_at || (Array.isArray(raw) ? (events[0]?.ingested_at) : raw.updated);
     allEvents = events;
     filtered = events;
     buildCountries();
+    renderTypeFilterOptions();
+    document.getElementById('subregion-filter-select') && (document.getElementById('subregion-filter-select').value = filters.subregion);
+    document.getElementById('type-filter-select') && (document.getElementById('type-filter-select').value = filters.type);
+    document.getElementById('country-filter-select') && (document.getElementById('country-filter-select').value = filters.country);
+    document.getElementById('confidence-filter-select') && (document.getElementById('confidence-filter-select').value = filters.conf);
     applyFilters();
     computeCmrScores();
     ovRefreshMarkers();
     if(updatedStr){
       const ago = Math.round((Date.now()-new Date(updatedStr))/60000);
       const agoStr = ago<60 ? ago+'m ago' : Math.round(ago/60)+'h ago';
+      const policyBits = [];
+      if((published?.withheld_count || 0) > 0){
+        policyBits.push(`${published.withheld_count} withheld by publication policy`);
+      }
       document.querySelector('.log-txt').textContent =
-        `Pipeline active · ${events.length} events loaded · last ingestion ${agoStr}`;
+        `Pipeline active · ${events.length} public events loaded${policyBits.length ? ' · ' + policyBits.join(' · ') : ''} · last ingestion ${agoStr}`;
       document.querySelector('.log-txt').className='log-txt ok';
     } else {
-      document.querySelector('.log-txt').textContent = `${events.length} events loaded`;
+      document.querySelector('.log-txt').textContent = `${events.length} public events loaded`;
       document.querySelector('.log-txt').className='log-txt ok';
     }
   } catch(e) {
@@ -2003,11 +2249,26 @@ async function loadEvents(){
 }
 
 // ── MAP ─────────────────────────────────────────────────────
+function ensureEventMap(){
+  if(!map){
+    initMap();
+    return;
+  }
+  setTimeout(()=>map.invalidateSize(),60);
+}
+
 function initMap(){
-  map=L.map('map',{zoomControl:true,scrollWheelZoom:true}).setView([-5,-62],3);
+  map=L.map('map',{
+    zoomControl:true,
+    scrollWheelZoom:true,
+    maxBounds:LATAM_LEAFLET_BOUNDS,
+    maxBoundsViscosity:1.0
+  }).setView(LATAM_LEAFLET_VIEW.center, LATAM_LEAFLET_VIEW.zoom);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
-    attribution:'©OpenStreetMap ©CARTO', maxZoom:18
+    attribution:'©OpenStreetMap ©CARTO', maxZoom:18, noWrap:true
   }).addTo(map);
+  map.fitBounds(LATAM_LEAFLET_BOUNDS,{padding:LATAM_REGIONAL_PADDING});
+  map.setMinZoom(map.getZoom());
   refreshMap(filtered);
 }
 
@@ -2021,7 +2282,8 @@ function refreshMap(evs){
       radius:ev.salience==='high'?7:ev.salience==='medium'?5:4,
       fillColor:c, fillOpacity:0.85, color:'rgba(255,255,255,0.8)', weight:2
     }).addTo(map);
-    m.bindTooltip(`<strong>${(TYPE_LABEL[ev.type]||ev.type).toUpperCase()}</strong><br>${ev.title.substring(0,60)}…`,{direction:'top',offset:[0,-8]});
+    const title=(ev.standard_title || getStandardizedEventTitle(ev));
+    m.bindTooltip(`<strong>${getEventTypeLabel(ev.type).toUpperCase()}</strong><br>${title.substring(0,72)}${title.length>72?'…':''}`,{direction:'top',offset:[0,-8]});
     m.on('click',()=>selectEvent(ev));
     markers.push(m);
   });
@@ -2029,41 +2291,266 @@ function refreshMap(evs){
 
 // ── FILTERS ─────────────────────────────────────────────────
 function buildCountries(){
-  const cs=[...new Set(allEvents.map(e=>e.country))].sort();
-  const el=document.getElementById('country-filters');
-  el.innerHTML='<span class="tag active" data-f="country" data-v="all">All</span>';
-  cs.forEach(c=>{
-    const s=document.createElement('span');
-    s.className='tag'; s.dataset.f='country'; s.dataset.v=c; s.textContent=c;
-    el.appendChild(s);
+  const sel=document.getElementById('country-filter-select');
+  if(!sel) return;
+  const tracked=[...(SUBREGIONS?.all?.countries || [])].sort();
+  sel.innerHTML='';
+  [
+    ['all','All tracked countries'],
+    ['regional','Regional']
+  ].forEach(([value,label])=>{
+    const opt=document.createElement('option');
+    opt.value=value;
+    opt.textContent=label;
+    sel.appendChild(opt);
   });
-  bindTags();
+  tracked.forEach(country=>{
+    const opt=document.createElement('option');
+    opt.value=country;
+    opt.textContent=country;
+    sel.appendChild(opt);
+  });
 }
 
-function bindTags(){
-  document.querySelectorAll('.tag').forEach(t=>{
-    t.onclick=function(){
-      const f=this.dataset.f, v=this.dataset.v;
-      filters[f]=v;
-      document.querySelectorAll(`.tag[data-f="${f}"]`).forEach(x=>x.classList.remove('active'));
-      this.classList.add('active');
-      // When subregion changes, reset country filter to all
-      if(f==='subregion'){
-        filters.country='all';
-        document.querySelectorAll('.tag[data-f="country"]').forEach(x=>x.classList.remove('active'));
-        document.querySelector('.tag[data-f="country"][data-v="all"]')?.classList.add('active');
-      }
-      applyFilters(f==='country'?'country':f==='subregion'?'subregion':null);
-    };
+function renderTypeFilterOptions(){
+  const sel=document.getElementById('type-filter-select');
+  if(!sel) return;
+  sel.innerHTML='';
+  const base=document.createElement('option');
+  base.value='all';
+  base.textContent='All categories';
+  sel.appendChild(base);
+  const types=eventTypeOrder.length ? eventTypeOrder : [...new Set(allEvents.map(ev=>ev.type).filter(Boolean))].sort();
+  types.forEach(code=>{
+    const opt=document.createElement('option');
+    opt.value=code;
+    opt.textContent=getEventTypeLabel(code);
+    sel.appendChild(opt);
   });
+}
+
+function getEventTypeLabel(code){
+  return eventTypeMeta.get(String(code))?.label || TYPE_LABEL[code] || String(code || 'Other');
+}
+
+function normalizeKnowledgeLabel(value){
+  return String(value || '')
+    .replace(/^REL_/,'')
+    .replace(/^INT_/,'')
+    .replace(/_/g,' ')
+    .replace(/\b\w/g,ch=>ch.toUpperCase());
+}
+
+function getEventCountryLabel(ev){
+  const raw=String(ev.country||'').trim();
+  if(!raw) return 'Regional';
+  const tracked = new Set(SUBREGIONS?.all?.countries || []);
+  if(tracked.has(raw)) return raw;
+  if(/regional|latin america|latin america and the caribbean|caribbean basin/i.test(raw)) return 'Regional';
+  return raw;
+}
+
+function tidyHeadline(text){
+  return String(text || '')
+    .replace(/^(reuters|associated press|ap|nyt world|bbc mundo|folha de s\.paulo|el tiempo colombia)\s*[:\-–]\s*/i,'')
+    .replace(/\s*[|·]\s*(reuters|associated press|ap|nyt world|bbc mundo|folha de s\.paulo|el tiempo colombia)$/i,'')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function summaryToCanonicalTitle(summary){
+  const cleaned=String(summary||'').replace(/\s+/g,' ').trim().replace(/[.;:]\s*$/,'');
+  if(!cleaned) return '';
+  const capped=cleaned.charAt(0).toUpperCase()+cleaned.slice(1);
+  return capped.length>140 ? `${capped.slice(0,137).replace(/\s+\S*$/,'')}…` : capped;
+}
+
+function getStandardizedEventTitle(ev){
+  const sourceCount = (ev.sources?.length || ev.public_review?.linked_reports?.length || ev.public_review?.source_all?.length || 0);
+  if(sourceCount > 1){
+    const fromSummary = summaryToCanonicalTitle(ev.summary);
+    if(fromSummary) return fromSummary;
+  }
+  return tidyHeadline(ev.public_review?.headline || ev.title || ev.headline || 'Untitled event');
+}
+
+function getEventSources(ev){
+  const linked=ev.public_review?.linked_reports || ev.linked_reports || [];
+  if(linked.length){
+    return linked.map((item, index)=>({
+      name:item.source_name || ev.sources?.[index] || ev.source || 'Source',
+      url:item.url || ev.links?.[index] || ev.url || null,
+      role:item.report_role || (index===0 ? 'primary' : 'supporting'),
+      headline:item.headline || null
+    }));
+  }
+  const urls=ev.links?.length ? ev.links : (ev.url ? [ev.url] : []);
+  const names=ev.sources?.length ? ev.sources : [ev.source || 'Source'];
+  return names.map((name,index)=>({
+    name,
+    url:urls[index] || ev.url || null,
+    role:index===0 ? 'primary' : 'supporting',
+    headline:null
+  }));
+}
+
+function getKnowledgeSignals(ev){
+  const analyses=ev.council?.analyses || {};
+  const traces=[analyses.cmr?.knowledge_trace, analyses.political_risk?.knowledge_trace, analyses.regional_security?.knowledge_trace, analyses.synthesis?.knowledge_trace].filter(Boolean);
+  const raw = [];
+  traces.forEach(trace=>{
+    Object.values(trace).forEach(value=>{
+      if(Array.isArray(value)) raw.push(...value);
+    });
+  });
+  return [...new Set(raw.map(normalizeKnowledgeLabel).filter(Boolean))].slice(0,8);
+}
+
+function getPublicEventDescription(ev){
+  const text = String(ev.summary || ev.standard_title || ev.title || '').trim();
+  if(!text) return 'No public description is available yet for this event.';
+  return text.endsWith('.') ? text : `${text}.`;
+}
+
+function cleanCouncilAssessment(text){
+  return String(text || '')
+    .replace(/^AI-generated\s+[A-Za-z-]+\s+analysis:\s*/i,'')
+    .replace(/^AI-generated synthesis:\s*/i,'')
+    .replace(/\s*Primary priorities:.*$/i,'')
+    .replace(/\s*Primary synthesis priorities:.*$/i,'')
+    .replace(/\s*Role domains in view:.*$/i,'')
+    .replace(/\s*Relationship cues:.*$/i,'')
+    .replace(/\s*Interaction cues:.*$/i,'')
+    .replace(/\s*Key project concepts in play include.*$/i,'')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function isGenericCouncilText(text){
+  const cleaned = String(text || '').trim();
+  if(!cleaned) return true;
+  return /AI-generated synthesis:|Primary synthesis priorities:|Key project concepts in play include|Role domains in view:|Relationship cues:|Interaction cues:/i.test(cleaned);
+}
+
+function humanizeConceptSignal(value){
+  const normalized = String(value || '').trim().toLowerCase();
+  const map = {
+    public_security:'military role in public security',
+    political_influence:'military influence over politics',
+    governance_tasks:'military involvement in governance tasks',
+    external_defense:'external defense posture',
+    internal_security:'internal security role',
+    organized_crime:'organized crime pressure',
+    illicit_networks:'illicit network activity',
+    cross_border_spillover:'cross-border spillover',
+    subordinate:'civilian subordination',
+    tutelary_veto:'tutelary military influence'
+  };
+  return map[normalized] || normalizeKnowledgeLabel(value).toLowerCase();
+}
+
+function joinReadableList(items){
+  const arr = items.filter(Boolean);
+  if(!arr.length) return '';
+  if(arr.length===1) return arr[0];
+  if(arr.length===2) return `${arr[0]} and ${arr[1]}`;
+  return `${arr.slice(0,-1).join(', ')}, and ${arr[arr.length-1]}`;
+}
+
+function getPublicEventAnalysis(ev){
+  const analyses = ev.council?.analyses || {};
+  const synthesisRisk = analyses.synthesis?.risk_level ? normalizeKnowledgeLabel(analyses.synthesis.risk_level).toLowerCase() : '';
+  const cleanedSynthesis = cleanCouncilAssessment(analyses.synthesis?.assessment || '');
+  const typeLabel = getEventTypeLabel(ev.type).toLowerCase();
+  const countryLabel = ev.display_country || getEventCountryLabel(ev);
+  const conceptSignals = getKnowledgeSignals(ev).slice(0,3).map(humanizeConceptSignal);
+
+  if(cleanedSynthesis && !isGenericCouncilText(analyses.synthesis?.assessment || '')){
+    return cleanedSynthesis.endsWith('.') ? cleanedSynthesis : `${cleanedSynthesis}.`;
+  }
+
+  const lensTexts = [
+    cleanCouncilAssessment(analyses.cmr?.assessment || ''),
+    cleanCouncilAssessment(analyses.political_risk?.assessment || ''),
+    cleanCouncilAssessment(analyses.regional_security?.assessment || '')
+  ].filter(Boolean);
+
+  const uniqueLensTexts = [...new Set(lensTexts)];
+  const readableLens = uniqueLensTexts.slice(0,2).map(text=>{
+    const sentence = text.charAt(0).toUpperCase() + text.slice(1);
+    return sentence.endsWith('.') ? sentence : `${sentence}.`;
+  });
+
+  const introBits = [];
+  if(countryLabel) introBits.push(countryLabel);
+  if(typeLabel) introBits.push(typeLabel);
+  let intro = '';
+  if(introBits.length){
+    intro = `This ${typeLabel} event is most significant in ${countryLabel}`;
+    if(synthesisRisk) intro += ` and currently reads as a ${synthesisRisk}-concern development`;
+    intro += '.';
+  }
+
+  let conceptSentence = '';
+  if(conceptSignals.length){
+    conceptSentence = `The main analytical themes are ${joinReadableList(conceptSignals)}.`;
+  }
+
+  const assembled = [intro, ...readableLens, conceptSentence].filter(Boolean).join(' ');
+  return assembled.trim();
+}
+
+function getPublicClassificationChips(ev){
+  const chips = [];
+  const subtype = ev.public_review?.event_subtype || ev.subtype;
+  if(subtype) chips.push(subtype);
+  getKnowledgeSignals(ev).slice(0,4).forEach(signal=>chips.push(signal));
+  return [...new Set(chips)];
+}
+
+function getPublicProvenanceSummary(ev, linkedReports, timeline){
+  const summary = ev.public_review?.provenance_summary || {};
+  const items = [];
+  if(typeof summary.article_link_count === 'number'){
+    items.push({ label:'Linked reports', value:String(summary.article_link_count) });
+  } else if(linkedReports.length){
+    items.push({ label:'Linked reports', value:String(linkedReports.length) });
+  }
+  if(summary.source_type){
+    items.push({ label:'Source base', value:normalizeKnowledgeLabel(summary.source_type) });
+  }
+  if(summary.latest_stage){
+    items.push({ label:'Current stage', value:normalizeKnowledgeLabel(summary.latest_stage) });
+  }
+  return items;
+}
+
+function getPublicTransparencyText(ev, linkedReports){
+  const parts = [];
+  if(linkedReports.length){
+    parts.push(`Compiled from ${linkedReports.length} report${linkedReports.length===1?'':'s'}`);
+  }
+  if(ev.public_review?.reviewed_by_human || ev.public_review?.human_validated){
+    parts.push(ev.public_review?.human_validated ? 'Human validated' : 'Human reviewed');
+  }
+  if(ev.council?.analyses?.synthesis?.ai_generated){
+    parts.push('AI-assisted interpretation');
+  }
+  const sourceType = ev.public_review?.provenance_summary?.source_type;
+  if(sourceType){
+    parts.push(`Source base: ${normalizeKnowledgeLabel(sourceType)}`);
+  }
+  return parts.join(' · ');
 }
 
 function applyFilters(zoomTrigger){
   const srCountries=filters.subregion!=='all'?(SUBREGIONS[filters.subregion]?.countries||[]):null;
   filtered=allEvents.filter(ev=>{
     if(filters.type!=='all'&&ev.type!==filters.type)return false;
+    const eventCountry=getEventCountryLabel(ev);
     if(srCountries&&!srCountries.includes(ev.country))return false;
-    if(filters.country!=='all'&&ev.country!==filters.country)return false;
+    if(filters.country==='regional'&&eventCountry!=='Regional')return false;
+    if(filters.country!=='all'&&filters.country!=='regional'&&eventCountry!==filters.country)return false;
     if(filters.conf!=='all'&&ev.conf!==filters.conf)return false;
     return true;
   }).sort((a,b)=>b.date.localeCompare(a.date));
@@ -2073,7 +2560,9 @@ function applyFilters(zoomTrigger){
   if(map&&zoomTrigger){
     if(zoomTrigger==='country'){
       if(countryHighlightLayer){ map.removeLayer(countryHighlightLayer); countryHighlightLayer=null; }
-      if(filters.country!=='all'){
+      if(filters.country==='regional'){
+        map.fitBounds(LATAM_LEAFLET_BOUNDS,{padding:LATAM_REGIONAL_PADDING});
+      } else if(filters.country!=='all'){
         const cfg=COUNTRY_MAP_CONFIG[filters.country];
         if(cfg) map.flyTo(cfg.center,cfg.zoom,{animate:true,duration:0.8});
         const numId=COUNTRY_NAME_TO_ID[filters.country];
@@ -2081,12 +2570,41 @@ function applyFilters(zoomTrigger){
           const feat=worldFeatures.find(f=>+f.id===numId);
           if(feat) countryHighlightLayer=L.geoJSON(feat,{style:{color:'#3a6ea5',weight:2.5,fillColor:'#3a6ea5',fillOpacity:0.10,opacity:0.85}}).addTo(map);
         }
+      } else {
+        map.fitBounds(LATAM_LEAFLET_BOUNDS,{padding:LATAM_REGIONAL_PADDING});
       }
     } else if(zoomTrigger==='subregion'){
       const v=SR_MAP_VIEW[filters.subregion]||SR_MAP_VIEW.all;
       map.flyTo(v.center,v.zoom,{animate:true,duration:0.8});
     }
   }
+}
+
+function initEventFilterControls(){
+  const subregionSel=document.getElementById('subregion-filter-select');
+  const typeSel=document.getElementById('type-filter-select');
+  const countrySel=document.getElementById('country-filter-select');
+  const confidenceSel=document.getElementById('confidence-filter-select');
+  if(!subregionSel || !typeSel || !countrySel || !confidenceSel) return;
+
+  subregionSel.addEventListener('change',()=>{
+    filters.subregion=subregionSel.value;
+    filters.country='all';
+    countrySel.value='all';
+    applyFilters('subregion');
+  });
+  typeSel.addEventListener('change',()=>{
+    filters.type=typeSel.value;
+    applyFilters();
+  });
+  countrySel.addEventListener('change',()=>{
+    filters.country=countrySel.value;
+    applyFilters('country');
+  });
+  confidenceSel.addEventListener('change',()=>{
+    filters.conf=confidenceSel.value;
+    applyFilters();
+  });
 }
 
 // ── LIST ────────────────────────────────────────────────────
@@ -2098,75 +2616,145 @@ function renderList(){
     const c=TC_HEX[ev.type]||'#6a6560';
     const confClass = ev.conf==='green'?'conf-green':ev.conf==='yellow'?'conf-yellow':'conf-red';
     const pips=[1,2,3].map(n=>`<div class="pip${((ev.salience==='high'&&n<=3)||(ev.salience==='medium'&&n<=2)||(ev.salience==='low'&&n<=1))?' on':''}"></div>`).join('');
+    const humanValidated = !!ev.public_review?.human_validated;
+    const reviewedByHuman = !!ev.public_review?.reviewed_by_human;
+    const sourceCount=getEventSources(ev).length;
     const div=document.createElement('div');
     div.className='ev-item'+(selected?.id===ev.id?' selected':'');
     div.innerHTML=`
       <div class="ev-row1">
         <div class="ev-dot" style="background:${c}"></div>
-        <span class="ev-type" style="color:${c}">${TYPE_LABEL[ev.type]||ev.type}</span>
+        <span class="ev-type" style="color:${c}">${getEventTypeLabel(ev.type)}</span>
         <span class="conf-badge ${confClass}">${ev.conf==='green'?'high':ev.conf==='yellow'?'med':'low'}</span>
-        <span class="ev-country">${ev.country}</span>
+        ${humanValidated?`<span class="src-badge tri" title="Validated by a human analyst">Human Validated</span>`:reviewedByHuman?`<span class="src-badge single" title="Reviewed by a human analyst">Human Reviewed</span>`:''}
+        <span class="ev-country">${ev.display_country || getEventCountryLabel(ev)}</span>
       </div>
-      <div class="ev-title">${ev.title}</div>
-      <div class="ev-meta"><span>${ev.date}</span>${ev.url?`<a class="ev-src-link" href="${ev.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Open source">${ev.source} ↗</a>`:`<span>${ev.source}</span>`}${(ev.sources&&ev.sources.length>1)?`<span class="src-badge tri" title="${ev.sources.join(', ')}">✓ ${ev.sources.length} src</span>`:''}
+      <div class="ev-title">${ev.standard_title || getStandardizedEventTitle(ev)}</div>
+      <div class="ev-meta"><span>${ev.date}</span><span>${sourceCount} source${sourceCount===1?'':'s'}</span>
       <div class="sal-pip">${pips}</div></div>`;
     div.onclick=()=>selectEvent(ev);
     el.appendChild(div);
   });
 }
 
+function sortProvenanceTimeline(timeline){
+  return [...(timeline||[])].sort((a,b)=>{
+    const aStage = PROVENANCE_STAGE_ORDER[String(a?.stage||'')] ?? 999;
+    const bStage = PROVENANCE_STAGE_ORDER[String(b?.stage||'')] ?? 999;
+    if(aStage !== bStage) return aStage - bStage;
+    return String(a?.at||'').localeCompare(String(b?.at||''));
+  });
+}
+
 function selectEvent(ev){
   selected=ev; renderList();
-  if(ev.coords) map.setView(ev.coords,5,{animate:true});
+  if(selectedEventHalo){ map.removeLayer(selectedEventHalo); selectedEventHalo=null; }
   const c=TC_HEX[ev.type]||'#6a6560';
   // Country border highlight
   if(countryHighlightLayer){ map.removeLayer(countryHighlightLayer); countryHighlightLayer=null; }
   const numId=COUNTRY_NAME_TO_ID[ev.country];
+  let highlightedCountryBounds = null;
   if(numId && worldFeatures){
     const feat=worldFeatures.find(f=>+f.id===numId);
     if(feat){
       countryHighlightLayer=L.geoJSON(feat,{style:{color:c,weight:2.5,fillColor:c,fillOpacity:0.12,opacity:0.9}}).addTo(map);
       const bnds=countryHighlightLayer.getBounds();
-      if(bnds.isValid()) map.fitBounds(bnds,{padding:[30,30],maxZoom:7});
+      if(bnds.isValid()) highlightedCountryBounds = bnds;
     }
   }
+  if(ev.coords){
+    const targetZoom = Math.max(map.getZoom ? map.getZoom() : 0, 5);
+    map.flyTo(ev.coords, targetZoom, {animate:true,duration:0.7});
+    selectedEventHalo = L.circleMarker(ev.coords,{
+      radius: ev.salience==='high' ? 12 : 10,
+      fillColor:c,
+      fillOpacity:0.12,
+      color:c,
+      weight:2.5,
+      opacity:0.95
+    }).addTo(map);
+  } else if(highlightedCountryBounds){
+    map.fitBounds(highlightedCountryBounds,{padding:[30,30],maxZoom:6});
+  }
   const confClass=ev.conf==='green'?'conf-green':ev.conf==='yellow'?'conf-yellow':'conf-red';
+  const humanValidated = !!ev.public_review?.human_validated;
+  const reviewedByHuman = !!ev.public_review?.reviewed_by_human;
+  const provenanceTimeline = sortProvenanceTimeline(ev.public_review?.provenance_timeline || []);
+  const linkedReports = getEventSources(ev);
+  const councilAnalyses = ev.council?.analyses || {};
+  const synthesis = councilAnalyses.synthesis;
+  const knowledgeSignals = getPublicClassificationChips(ev);
+  const publicAnalysis = getPublicEventAnalysis(ev);
+  const publicDescription = getPublicEventDescription(ev);
+  const provenanceSummaryItems = getPublicProvenanceSummary(ev, linkedReports, provenanceTimeline);
+  const transparencyText = getPublicTransparencyText(ev, linkedReports);
+  const actors = (ev.public_review?.actors || ev.actors || []).map(actor=>actor.actor_canonical_name || actor.actor_name).filter(Boolean);
+  const typeLabel = getEventTypeLabel(ev.type);
+  const eventSubtype = ev.public_review?.event_subtype || ev.subtype || 'Not specified';
   document.getElementById('detail').innerHTML=`
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:9px;">
-      <span class="type-badge" style="background:${c}">${TYPE_LABEL[ev.type]||ev.type}</span>
+      <span class="type-badge" style="background:${c}">${typeLabel}</span>
       <span class="conf-badge ${confClass}">${ev.conf==='green'?'High':ev.conf==='yellow'?'Medium':'Low'} confidence</span>
-      ${(ev.sources&&ev.sources.length>1)
-        ?`<span class="src-badge tri" title="Corroborated by: ${ev.sources.join(' · ')}">✓ Corroborated — ${ev.sources.length} independent sources</span>`
-        :`<span class="src-badge single">Single source — verify independently</span>`}
+      ${humanValidated?`<span class="src-badge tri" title="Validated by a human analyst">Human Validated</span>`:reviewedByHuman?`<span class="src-badge single" title="Reviewed by a human analyst">Human Reviewed</span>`:''}
+      ${linkedReports.length>1
+        ?`<span class="src-badge tri" title="Corroborated by ${linkedReports.length} reports">Corroborated · ${linkedReports.length} reports</span>`
+        :`<span class="src-badge single">Single-report event</span>`}
     </div>
-    <div class="detail-title">${ev.title}</div>
+    <div class="detail-title">${ev.standard_title || getStandardizedEventTitle(ev)}</div>
     <div class="detail-meta">
-      <div class="dmi"><label>Date</label><span>${ev.date}</span></div>
-      <div class="dmi"><label>Country</label><span>${ev.country}</span></div>
-      <div class="dmi"><label>Type</label><span>${TYPE_LABEL[ev.type]||ev.type}</span></div>
+      <div class="dmi"><label>ID</label><span>${ev.sentinel_id || ev.id}</span></div>
+      <div class="dmi"><label>Location</label><span>${ev.location || ev.country}</span></div>
+      <div class="dmi"><label>Time</label><span>${ev.date}</span></div>
+      <div class="dmi"><label>Category</label><span>${typeLabel}</span></div>
       <div class="dmi"><label>Salience</label><span style="color:${c}">${(ev.salience||'').toUpperCase()}</span></div>
-      <div class="dmi"><label>Source</label><span>${ev.url?`<a href="${ev.url}" target="_blank" rel="noopener" style="color:inherit;">${ev.source} ↗</a>`:ev.source}</span></div>
+      <div class="dmi"><label>Coverage</label><span>${linkedReports.length} report${linkedReports.length===1?'':'s'}</span></div>
     </div>
-    <div class="sources-row"><span class="sources-label">All Sources</span>${
-      (ev.links&&ev.links.length
-        ? ev.links.map((l,i)=>`<a class="source-chip" href="${l}" target="_blank" rel="noopener">${(ev.sources&&ev.sources[i])||ev.source} ↗</a>`).join('')
-        : ev.url
-          ? `<a class="source-chip" href="${ev.url}" target="_blank" rel="noopener">${ev.source} ↗</a>`
-          : `<span class="source-chip">${ev.source}</span>`
-      )
-    }</div>
-    ${(ev.deed_type||ev.axis||ev.actor||ev.target)?`
-    <div class="deed-block">
-      <div class="deed-block-hdr">Analytical Classification</div>
-      <div class="deed-grid">
-        ${ev.deed_type?`<div class="deed-item"><label>DEED Type</label><span class="deed-tag deed-${ev.deed_type}">${ev.deed_type}</span></div>`:''}
-        ${ev.axis?`<div class="deed-item"><label>Accountability Axis</label><span>${ev.axis}</span></div>`:''}
-        ${ev.actor?`<div class="deed-item"><label>Actor</label><span>${ev.actor}</span></div>`:''}
-        ${ev.target?`<div class="deed-item"><label>Target</label><span>${ev.target}</span></div>`:''}
+    <div class="detail-section">
+      <div class="detail-section-title">Analytical Classification</div>
+      <div class="detail-grid">
+        <div class="detail-kv"><label>Event Category</label><span>${typeLabel}</span></div>
+        <div class="detail-kv"><label>Subcategory</label><span>${eventSubtype}</span></div>
+        <div class="detail-kv"><label>Actors</label><span>${actors.length ? actors.join(' · ') : 'No named actors identified yet'}</span></div>
+        <div class="detail-kv"><label>Confidence</label><span>${ev.conf==='green'?'High-confidence reporting':ev.conf==='yellow'?'Medium-confidence reporting':'Low-confidence reporting'}</span></div>
+      </div>
+      ${knowledgeSignals.length ? `<div class="detail-chip-row" style="margin-top:10px;">${knowledgeSignals.map(item=>`<span class="detail-chip">${item}</span>`).join('')}</div>` : ''}
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">What Happened</div>
+      <div class="detail-text">${publicDescription}</div>
+    </div>
+    ${publicAnalysis?`
+    <div class="detail-section">
+      <div class="detail-section-title">Why It Matters</div>
+      <div class="detail-analysis">
+        <div class="detail-analysis-meta">
+          ${synthesis?.risk_level?`<span class="detail-chip">${normalizeKnowledgeLabel(synthesis.risk_level)} concern</span>`:''}
+          ${synthesis?.ai_generated?`<span class="detail-chip">AI-assisted interpretation</span>`:''}
+        </div>
+        <div class="detail-text">${publicAnalysis}</div>
       </div>
     </div>`:''}
-    <div class="detail-summary">${ev.summary||'No summary available.'}</div>
-    ${ev.ai_analysis?`<div class="ai-box"><div class="ai-box-hdr">Analysis <span class="analysis-badge cmr" style="vertical-align:middle;margin-left:5px;">CMR</span></div><div class="ai-box-text">${ev.ai_analysis}</div></div>`:''}
+    ${linkedReports.length?`
+    <div class="detail-section">
+      <div class="detail-section-title">Sources</div>
+      <div class="detail-source-list">
+        ${linkedReports.map(item=>`
+          <div class="detail-source-item">
+            <div class="detail-source-main">
+              <div class="detail-source-name">${item.name}</div>
+              <div class="detail-source-sub">${item.role}${item.headline?` · ${item.headline}`:''}</div>
+            </div>
+            ${item.url?`<a class="detail-source-link" href="${item.url}" target="_blank" rel="noopener">Open source ↗</a>`:''}
+          </div>
+        `).join('')}
+      </div>
+    </div>`:''}
+    ${(transparencyText || provenanceSummaryItems.length)?`
+    <div class="detail-section">
+      <div class="detail-section-title">Transparency</div>
+      ${transparencyText?`<div class="detail-text">${transparencyText}</div>`:''}
+      ${provenanceSummaryItems.length?`<div class="detail-grid" style="margin-top:12px;">${provenanceSummaryItems.map(item=>`<div class="detail-kv"><label>${item.label}</label><span>${item.value}</span></div>`).join('')}</div>`:''}
+    </div>`:''}
 `;
 }
 
@@ -2569,6 +3157,22 @@ const COUNTRY_M3 = {
   "Jamaica":            {conscription:0, milVeto:0, milImpunity:0, milCrimePolice:1, milEco:0, hwi:0.4},
   "Trinidad and Tobago":{conscription:0, milVeto:0, milImpunity:1, milCrimePolice:0, milEco:0, hwi:null},
 };
+
+const LIVE_MIL_WEIGHT = {
+  coup:1.2,
+  purge:0.95,
+  coup_proofing:0.75,
+  conflict:1.0,
+  oc:1.0,
+  protest:0.78,
+  reform:0.45,
+  coop:0.28,
+  aid:0.24,
+  exercise:0.18,
+  peace:0.12,
+  other:0.35
+};
+const LIVE_SALIENCE_WEIGHT = { high:1.0, medium:0.68, low:0.38 };
 
 const ACLED_LEVEL_COLOR={'Extreme':'var(--coup)','Very High':'var(--purge)','High':'var(--conflict)','Turbulent':'var(--purge)','Low':'var(--text-muted)'};
 
@@ -3103,19 +3707,27 @@ function showRegionalOverview(){
   document.getElementById('cp-regional').style.display='block';
   document.getElementById('cp-country').style.display='none';
   if(cpMap){ cpMap.remove(); cpMap=null; }
+  setTimeout(renderCpRegionalMap,60);
 }
 
 // ── COUNTRY LEAFLET MAP ───────────────────────────────────────
 let cpMap=null;
+let cpRegionalMap=null;
 function initCpMap(name, events){
   if(cpMap){ cpMap.remove(); cpMap=null; }
   const el=document.getElementById('cp-map-leaf');
   if(!el) return;
   const cfg=COUNTRY_MAP_CONFIG[name]||{center:[0,-65],zoom:5};
-  cpMap=L.map('cp-map-leaf',{zoomControl:true,scrollWheelZoom:false,attributionControl:false})
+  cpMap=L.map('cp-map-leaf',{
+         zoomControl:true,
+         scrollWheelZoom:false,
+         attributionControl:false,
+         maxBounds:LATAM_LEAFLET_BOUNDS,
+         maxBoundsViscosity:1.0
+       })
          .setView(cfg.center, cfg.zoom);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
-    subdomains:'abcd', maxZoom:19
+    subdomains:'abcd', maxZoom:19, noWrap:true
   }).addTo(cpMap);
   L.control.attribution({prefix:false}).addTo(cpMap);
   // Country boundary highlight
@@ -3137,6 +3749,175 @@ function initCpMap(name, events){
     {maxWidth:260,className:'cp-map-popup'});
   });
   setTimeout(()=>cpMap.invalidateSize(),100);
+}
+
+function getVisibleProfileCountries(){
+  const data=SUBREGIONS[cpActiveSr]||SUBREGIONS.all;
+  return data.countries.filter(country=>{
+    if(cpAcledFilter==='all') return true;
+    return !!(COUNTRY_ACLED[country] && COUNTRY_ACLED[country].level===cpAcledFilter);
+  });
+}
+
+function clamp01(n){
+  if(!Number.isFinite(n)) return 0;
+  return Math.max(0, Math.min(1, n));
+}
+
+function getMilitarizationStructuralScore(country){
+  const row = COUNTRY_M3[country];
+  if(!row) return { score:0, coverage:0 };
+  const components = [
+    { value: row.conscription, weight:0.12 },
+    { value: row.milVeto, weight:0.24 },
+    { value: row.milImpunity, weight:0.20 },
+    { value: row.milCrimePolice, weight:0.18 },
+    { value: row.milEco, weight:0.16 },
+    { value: row.hwi == null ? null : clamp01(Math.log1p(row.hwi) / Math.log1p(20)), weight:0.10 }
+  ].filter(item=>item.value !== null && item.value !== undefined);
+  const totalWeight = components.reduce((sum,item)=>sum + item.weight, 0);
+  if(!totalWeight) return { score:0, coverage:0 };
+  return {
+    score: clamp01(components.reduce((sum,item)=>sum + (Number(item.value) || 0) * item.weight, 0) / totalWeight),
+    coverage: totalWeight
+  };
+}
+
+function getMilitarizationMetrics(visibleCountries){
+  const liveRawByCountry = new Map();
+  let maxLiveRaw = 0;
+
+  visibleCountries.forEach(country=>{
+    const raw = allEvents
+      .filter(ev=>ev.country===country)
+      .reduce((sum,ev)=>{
+        const typeWeight = LIVE_MIL_WEIGHT[ev.type] ?? LIVE_MIL_WEIGHT.other;
+        const salienceWeight = LIVE_SALIENCE_WEIGHT[ev.salience] ?? LIVE_SALIENCE_WEIGHT.low;
+        return sum + (typeWeight * salienceWeight);
+      }, 0);
+    liveRawByCountry.set(country, raw);
+    maxLiveRaw = Math.max(maxLiveRaw, raw);
+  });
+
+  const metrics = new Map();
+  visibleCountries.forEach(country=>{
+    const structural = getMilitarizationStructuralScore(country);
+    const liveRaw = liveRawByCountry.get(country) || 0;
+    const liveNorm = maxLiveRaw > 0 ? clamp01(liveRaw / maxLiveRaw) : 0;
+    const combined = clamp01((structural.score * 0.7) + (liveNorm * 0.3));
+    const countryEvents = allEvents.filter(ev=>ev.country===country);
+    const topTypeEntry = Object.entries(countryEvents.reduce((acc,ev)=>{
+      acc[ev.type] = (acc[ev.type] || 0) + 1;
+      return acc;
+    }, {})).sort((a,b)=>b[1]-a[1])[0];
+
+    metrics.set(country, {
+      score: Math.round(combined * 100),
+      structuralScore: Math.round(structural.score * 100),
+      liveScore: Math.round(liveNorm * 100),
+      eventCount: countryEvents.length,
+      high: countryEvents.filter(ev=>ev.salience==='high').length,
+      medium: countryEvents.filter(ev=>ev.salience==='medium').length,
+      topType: topTypeEntry ? topTypeEntry[0] : null,
+      coverageLabel: structural.coverage > 0 ? 'M3 + SENTINEL live events' : 'SENTINEL live events only'
+    });
+  });
+  return metrics;
+}
+
+function getMilitarizationColor(score){
+  if(score >= 80) return '#556b2f';
+  if(score >= 65) return '#6f7f3d';
+  if(score >= 50) return '#8e9a58';
+  if(score >= 35) return '#a8ae72';
+  if(score >= 20) return '#c9cc9b';
+  return '#f1f0e1';
+}
+
+function renderCpRegionalMap(){
+  const wrap=document.getElementById('cp-regional-map-wrap');
+  const svgEl=document.getElementById('cp-regional-map-svg');
+  if(!wrap || !svgEl) return;
+  const visibleCountries=getVisibleProfileCountries();
+  const visibleIds=new Set(visibleCountries.map(c=>COUNTRY_NAME_TO_ID[c]).filter(Boolean));
+  const metrics=getMilitarizationMetrics(visibleCountries);
+
+  if(!worldFeatures){
+    initOverviewMap();
+    return;
+  }
+
+  const w = wrap.clientWidth || 700;
+  const h = wrap.clientHeight || 440;
+  const svg = d3.select('#cp-regional-map-svg')
+    .attr('viewBox', `0 0 ${w} ${h}`)
+    .attr('width','100%')
+    .attr('height','100%');
+  svg.selectAll('*').remove();
+
+  const latamFeat = worldFeatures.filter(f => LATAM_IDS.has(+f.id));
+  const proj = d3.geoMercator().fitExtent([[20,20],[w-20,h-20]], {
+    type:'FeatureCollection', features:latamFeat
+  });
+  const path = d3.geoPath().projection(proj);
+  const tooltip = d3.select('#cp-regional-tooltip');
+
+  svg.append('g').selectAll('path')
+    .data(latamFeat).enter().append('path')
+    .attr('d', path)
+    .attr('fill', d => {
+      const name = COUNTRY_NAMES_MAP[+d.id];
+      const metric = name ? metrics.get(name) : null;
+      return visibleIds.has(+d.id) ? getMilitarizationColor(metric?.score || 0) : '#e8e4dc';
+    })
+    .attr('stroke','#b8b2a4')
+    .attr('stroke-width',0.8)
+    .style('cursor', d => visibleIds.has(+d.id) ? 'pointer' : 'default')
+    .on('mouseover', function(evt, d) {
+      if(!visibleIds.has(+d.id)) return;
+      d3.select(this).attr('stroke','#54504a').attr('stroke-width',2);
+      const countryName = COUNTRY_NAMES_MAP[+d.id];
+      const metric = metrics.get(countryName);
+      const level = (COUNTRY_ACLED[countryName] && COUNTRY_ACLED[countryName].level) || 'Low';
+      const topTypeLabel = metric?.topType ? (TYPE_LABEL[metric.topType] || metric.topType) : 'No dominant live signal';
+      const rect = wrap.getBoundingClientRect();
+      tooltip.html(
+        `<strong style="font-size:12px;color:var(--text);">${countryName}</strong>` +
+        `<br><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">Militarization index</span> <strong style="color:var(--coup);">${metric?.score || 0}/100</strong>` +
+        `<br><span style="font-size:10.5px;color:var(--text-muted);">Structural M3: ${metric?.structuralScore || 0} · Live pressure: ${metric?.liveScore || 0}</span>` +
+        `<br><span style="font-size:10.5px;color:var(--text-muted);">${metric?.eventCount || 0} current events · ${metric?.high || 0} high / ${metric?.medium || 0} medium</span>` +
+        `<br><span style="font-size:10.5px;color:var(--text-muted);">Dominant live signal: ${topTypeLabel}</span>` +
+        `<br><span style="font-size:10.5px;color:var(--text-muted);">ACLED ${level}</span>`
+      )
+      .style('display','block')
+      .style('left', (evt.clientX - rect.left + 14) + 'px')
+      .style('top',  (evt.clientY - rect.top  - 12) + 'px');
+    })
+    .on('mousemove', function(evt) {
+      const rect = wrap.getBoundingClientRect();
+      tooltip.style('left', (evt.clientX - rect.left + 14) + 'px')
+             .style('top',  (evt.clientY - rect.top  - 12) + 'px');
+    })
+    .on('mouseout', function() {
+      d3.select(this).attr('stroke','#b8b2a4').attr('stroke-width',0.8);
+      tooltip.style('display','none');
+    })
+    .on('click', function(evt, d) {
+      const countryName = COUNTRY_NAMES_MAP[+d.id];
+      if(!countryName || !visibleIds.has(+d.id)) return;
+      showCountryProfile(countryName);
+    });
+
+  svg.append('g').attr('pointer-events','none').selectAll('text')
+    .data(Object.entries(COUNTRY_LABELS))
+    .enter().append('text')
+    .attr('x', d => proj(d[1][1])[0])
+    .attr('y', d => proj(d[1][1])[1])
+    .text(d => d[1][0])
+    .attr('font-family','DM Mono,monospace')
+    .attr('font-size','8.5px')
+    .attr('fill','rgba(28,26,23,0.55)')
+    .attr('text-anchor','middle');
 }
 
 // Wire up country profile buttons
@@ -3203,6 +3984,7 @@ function applyProfileFilters(){
     const acledOk=cpAcledFilter==='all'||(COUNTRY_ACLED[c]&&COUNTRY_ACLED[c].level===cpAcledFilter);
     btn.style.display=inSr&&acledOk?'':'none';
   });
+  if(document.getElementById('cp-regional')?.style.display!=='none') setTimeout(renderCpRegionalMap,40);
 }
 
 document.querySelectorAll('.sr-tab').forEach(btn=>{
@@ -3228,6 +4010,10 @@ applyProfileFilters();
 
 let ovProjection=null, ovSvg=null, ovTopoLoaded=false, _drawChoropleth=null;
 
+function getEventCountryKey(ev){
+  return ev?.display_country || ev?.country || null;
+}
+
 async function initOverviewMap(){
   const wrap=document.getElementById('ov-map-wrap');
   if(!wrap||ovTopoLoaded) return;
@@ -3244,6 +4030,7 @@ async function initOverviewMap(){
   const allFeat=topojson.feature(world,world.objects.countries).features;
   worldFeatures=allFeat; // cache for Leaflet country highlighting
   const latamFeat=allFeat.filter(f=>LATAM_IDS.has(+f.id));
+  if(document.getElementById('cp-regional')) setTimeout(renderCpRegionalMap,40);
 
   ovProjection=d3.geoMercator().fitExtent([[20,20],[w-20,h-20]],{type:'FeatureCollection',features:latamFeat});
   const path=d3.geoPath().projection(ovProjection);
@@ -3260,7 +4047,10 @@ async function initOverviewMap(){
   // Count events per country
   function eventCounts(){
     const c={};
-    allEvents.forEach(ev=>{ if(ev.country) c[ev.country]=(c[ev.country]||0)+1; });
+    allEvents.forEach(ev=>{
+      const country = getEventCountryKey(ev);
+      if(country) c[country]=(c[country]||0)+1;
+    });
     return c;
   }
 
@@ -3294,9 +4084,9 @@ async function initOverviewMap(){
   // Legend: choropleth density scale
   const ltEl=document.getElementById('ov-legend-types');
   if(ltEl){
-    ltEl.innerHTML=['Low','Med','High'].map((l,i)=>{
+    ltEl.innerHTML=['Low activity','Mixed activity','High activity'].map((l,i)=>{
         const ops=['0.18','0.42','0.72'][i];
-        return `<div class="ov-legend-type"><div class="ov-legend-dot" style="background:rgba(184,50,50,${ops});border-radius:2px;"></div>${l}</div>`;
+        return `<div class="ov-legend-type"><div class="ov-legend-dot" style="background:rgba(184,112,16,${ops});"></div>${l}</div>`;
       }).join('');
   }
 
@@ -3324,8 +4114,8 @@ function showOvPopup(evt,d){
 
   const stats=COUNTRY_STATS[name]||{spending:'—',personnel:'—',usAid:'—'};
   const thirtyAgo=new Date(Date.now()-30*864e5).toISOString().slice(0,10);
-  const cEvs=allEvents.filter(ev=>ev.country===name);
-  const recentEvs=cEvs.slice(0,3);
+  const cEvs=allEvents.filter(ev=>getEventCountryKey(ev)===name);
+  const recentEvs=cEvs.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).slice(0,3);
   const count30=cEvs.filter(ev=>ev.date>=thirtyAgo).length;
 
   const typeCts={};
@@ -3335,7 +4125,7 @@ function showOvPopup(evt,d){
   const evHtml=recentEvs.map(ev=>`
     <div class="ov-popup-ev" data-id="${ev.id}">
       <div class="ov-popup-ev-dot" style="background:${TC_HEX[ev.type]||'#6a6560'}"></div>
-      <div><span style="font-family:var(--mono);font-size:7.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">${ev.type} · ${ev.date}</span><br>${ev.title.substring(0,70)}${ev.title.length>70?'…':''}</div>
+      <div><span style="font-family:var(--mono);font-size:7.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">${ev.type} · ${ev.date}</span><br>${(ev.standard_title||ev.title||'Untitled event').substring(0,70)}${(ev.standard_title||ev.title||'').length>70?'…':''}</div>
     </div>`).join('');
 
   const popup=document.getElementById('ov-popup');
@@ -3403,6 +4193,105 @@ function renderTsEvents(){
   }).join('');
 }
 
+let _securityMapLoaded = false;
+
+async function initSecurityMap() {
+  if (_securityMapLoaded) return;
+  _securityMapLoaded = true;
+  const wrap = document.getElementById('security-map-wrap');
+  if (!wrap) { _securityMapLoaded = false; return; }
+
+  if (!worldFeatures) {
+    try {
+      const world = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+      worldFeatures = topojson.feature(world, world.objects.countries).features;
+    } catch(e) {
+      console.error('Security map: TopoJSON load failed', e);
+      _securityMapLoaded = false; return;
+    }
+  }
+
+  const acledWeights = { Extreme: 24, High: 16, Turbulent: 10, Low: 4 };
+  const ocEvents = allEvents.filter(ev => ev.type === 'oc' || ev.type === 'conflict');
+  const w = wrap.clientWidth || 700;
+  const h = wrap.clientHeight || 440;
+  const svg = d3.select('#security-map-svg')
+    .attr('viewBox', `0 0 ${w} ${h}`)
+    .attr('width','100%').attr('height','100%');
+  const latamFeat = worldFeatures.filter(f => LATAM_IDS.has(+f.id));
+  const proj = d3.geoMercator().fitExtent([[20,20],[w-20,h-20]], {
+    type:'FeatureCollection', features:latamFeat
+  });
+  const path = d3.geoPath().projection(proj);
+  const tooltip = d3.select('#security-map-tooltip');
+
+  const pressureByCountry = {};
+  (SUBREGIONS.all?.countries || []).forEach(country => {
+    const evs = ocEvents.filter(ev => ev.country === country);
+    const scoreFromEvents = evs.reduce((sum, ev) => {
+      const base = ev.type === 'oc' ? 4 : 3;
+      const salienceWeight = ev.salience === 'high' ? 3 : ev.salience === 'medium' ? 2 : 1;
+      return sum + (base * salienceWeight);
+    }, 0);
+    const acledLevel = COUNTRY_ACLED[country]?.level;
+    const acledScore = acledWeights[acledLevel] || 0;
+    const total = scoreFromEvents + acledScore;
+    pressureByCountry[country] = {
+      score: total,
+      ocEvents: evs.length,
+      acledLevel: acledLevel || 'n/a'
+    };
+  });
+
+  const maxScore = Math.max(1, ...Object.values(pressureByCountry).map(item => item.score));
+  const colorScale = d3.scaleSequential()
+    .domain([0, maxScore])
+    .interpolator(d3.interpolate('#efe6f7','#6e2ea8'));
+
+  svg.append('g').selectAll('path')
+    .data(latamFeat).enter().append('path')
+    .attr('d', path)
+    .attr('fill', d => {
+      const name = COUNTRY_NAMES_MAP[+d.id];
+      const score = pressureByCountry[name]?.score || 0;
+      return score ? colorScale(score) : '#ece7df';
+    })
+    .attr('stroke','#b8b2a4').attr('stroke-width',0.8)
+    .style('cursor','pointer')
+    .on('mouseover', function(evt, d) {
+      d3.select(this).attr('stroke','#54504a').attr('stroke-width',2);
+      const name = COUNTRY_NAMES_MAP[+d.id];
+      if (!name) return;
+      const item = pressureByCountry[name] || { score:0, ocEvents:0, acledLevel:'n/a' };
+      const html = `<strong style="font-size:12px;color:var(--text);">${name}</strong>
+        <br><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">Pressure index</span> <strong style="color:var(--oc);">${item.score}</strong>
+        <br><span style="font-size:10.5px;color:var(--text-muted);">${item.ocEvents} OC/conflict events · ACLED ${item.acledLevel}</span>`;
+      const rect = wrap.getBoundingClientRect();
+      tooltip.html(html)
+        .style('display','block')
+        .style('left', (evt.clientX - rect.left + 14) + 'px')
+        .style('top',  (evt.clientY - rect.top  - 12) + 'px');
+    })
+    .on('mousemove', function(evt) {
+      const rect = wrap.getBoundingClientRect();
+      tooltip.style('left', (evt.clientX - rect.left + 14) + 'px')
+             .style('top',  (evt.clientY - rect.top  - 12) + 'px');
+    })
+    .on('mouseout', function() {
+      d3.select(this).attr('stroke','#b8b2a4').attr('stroke-width',0.8);
+      tooltip.style('display','none');
+    });
+
+  svg.append('g').attr('pointer-events','none').selectAll('text')
+    .data(Object.entries(COUNTRY_LABELS))
+    .enter().append('text')
+    .attr('x', d => proj(d[1][1])[0])
+    .attr('y', d => proj(d[1][1])[1])
+    .text(d => d[1][0])
+    .attr('font-family','DM Mono,monospace').attr('font-size','8.5px')
+    .attr('fill','rgba(28,26,23,0.55)').attr('text-anchor','middle');
+}
+
 // ── US COOPERATION LIVE EVENTS ────────────────────────────
 function renderUsEvents(){
   const container=document.getElementById('us-live-evs');
@@ -3460,12 +4349,6 @@ async function initUsCoopMap() {
     type:'FeatureCollection', features:latamFeat
   });
   const path = d3.geoPath().projection(proj);
-
-  // Non-LatAm background
-  svg.append('g').selectAll('path')
-    .data(worldFeatures.filter(f => !LATAM_IDS.has(+f.id)))
-    .enter().append('path').attr('d', path)
-    .attr('fill','#ddd9d0').attr('stroke','#ccc').attr('stroke-width',0.3);
 
   const maxAid = Math.max(...Object.values(US_AID_M));
   const colorScale = d3.scaleSequential()
@@ -3577,8 +4460,8 @@ const MISSION_STATUS_DEFS={
 let currentLang='en';
 const STRINGS={
   en:{
-    'tab.events':'Events','tab.profiles':'Country Profiles','tab.transnational':'Transnational Security',
-    'tab.us':'US Cooperation','tab.procurement':'Procurement & Arms','tab.timeline':'Timeline','tab.about':'About',
+    'tab.events':'Events','tab.profiles':'Countries','tab.transnational':'Security',
+    'tab.us':'US Cooperation','tab.procurement':'Arms & Procurement','tab.timeline':'Timeline','tab.about':'About',
     'logo.sub':'LatAm Civil-Military Monitor',
     'label.events-loaded':'Events Loaded','label.countries-tracked':'Countries Tracked',
     'label.active-deals':'Active Deals (2024–26)','label.oc-events':'OC-Military Events (30d)',
@@ -3610,8 +4493,8 @@ const STRINGS={
     'label.timeline-body':'This timeline merges two layers: live events ingested nightly from open-source reporting and classified by AI, and historical milestones — coups, constitutions, peace accords, elections, and episodes of repression curated by the SENTINEL research team from 1988 to the present. Unlike the Events feed, which shows only recent pipeline output, the timeline is the longitudinal record. Milestones are marked with a square indicator and a category badge; live events with a colored dot by type. All filters apply to both layers.',
   },
   es:{
-    'tab.events':'Eventos','tab.profiles':'Perfiles por País','tab.transnational':'Seguridad Transnacional',
-    'tab.us':'Cooperación EE.UU.','tab.procurement':'Adquisiciones y Armas','tab.timeline':'Cronología','tab.about':'Acerca de',
+    'tab.events':'Eventos','tab.profiles':'Países','tab.transnational':'Seguridad',
+    'tab.us':'Cooperación EE.UU.','tab.procurement':'Armas y Adquisiciones','tab.timeline':'Cronología','tab.about':'Acerca de',
     'logo.sub':'Monitor Cívico-Militar de LatAm',
     'label.events-loaded':'Eventos Cargados','label.countries-tracked':'Países Monitoreados',
     'label.active-deals':'Acuerdos Activos (2024–26)','label.oc-events':'Eventos OC-Militares (30d)',
@@ -3731,10 +4614,12 @@ function runSearch(q){
 
 // ── INIT ────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',()=>{
-  initMap();
+  initEventFilterControls();
   loadEvents();
   setInterval(loadEvents, 15*60*1000);
   initOverviewMap();
+  setTimeout(renderCpRegionalMap,120);
+  if(document.getElementById('events')?.classList.contains('active')) ensureEventMap();
 });
 </script>
 </body>

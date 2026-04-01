@@ -1,0 +1,16 @@
+{
+  "policy_name": "confidence_gate_v2",
+  "description": "Low-confidence or dubious events require human corroboration before publication. Credible events can publish while remaining under analyst attention. Duplicate merges and blocked review states are withheld from the public layer.",
+  "low_confidence_requires_review": true,
+  "withhold_confidence_values": [
+    "low"
+  ],
+  "withhold_review_statuses": [
+    "flagged",
+    "needs_revision",
+    "rejected"
+  ],
+  "withhold_duplicate_statuses": [
+    "definite_duplicate"
+  ]
+}

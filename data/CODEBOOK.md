@@ -52,6 +52,16 @@ This codebook documents every dataset used by SENTINEL: its source, coverage, in
 | `links` | array[string] | All source URLs |
 | `ingested_at` | string (ISO 8601) | Pipeline ingestion timestamp |
 
+### Actor Hierarchy Note
+
+SENTINEL is moving toward a hierarchical actor model in the canonical event layer. The intended logic is:
+
+- `actor_type` = broad category such as `organized_crime`, `armed_group`, `military`, `executive`
+- `actor_subtype` = subcategory such as `cartel`, `gang`, `dissident_faction`, `state_security_force`, `state_institution`
+- `actor_canonical_name` = specific named actor such as `Tren de Aragua`, `ELN`, `CJNG`
+
+This hierarchy is currently implemented in the actor-coded canonical layer under `data/canonical/` and will eventually be documented as a full standalone actor codebook.
+
 ### Event Type Codes
 
 | Code | Label | Description |

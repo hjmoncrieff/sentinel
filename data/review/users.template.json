@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-04-01T00:00:00Z",
+  "password_policy": "Copy this file to users.local.json, replace the example hashes, and do not commit the local file.",
+  "users": [
+    {
+      "username": "ra_local",
+      "display_name": "Local RA",
+      "role": "ra",
+      "password_sha256": "replace_me"
+    },
+    {
+      "username": "analyst_local",
+      "display_name": "Local Analyst",
+      "role": "analyst",
+      "password_sha256": "replace_me"
+    },
+    {
+      "username": "coord_local",
+      "display_name": "Local Coordinator",
+      "role": "coordinator",
+      "password_sha256": "replace_me"
+    }
+  ]
+}

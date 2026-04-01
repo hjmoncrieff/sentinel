@@ -1,0 +1,70 @@
+{
+  "version": "1.0",
+  "updated": "2026-04-01",
+  "description": "AI-first worker registry for SENTINEL. Humans supervise exceptions; AI workers perform most routine production and analysis.",
+  "workers": [
+    {
+      "code": "event_classifier",
+      "label": "Event Classifier",
+      "stage": "classification",
+      "primary_outputs": ["event_type", "event_subtype", "classification_reason", "confidence"],
+      "supervision_triggers": ["low_confidence", "taxonomy_edge_case", "human_codebook_conflict"]
+    },
+    {
+      "code": "actor_coder",
+      "label": "Actor Coder",
+      "stage": "actor_coding",
+      "primary_outputs": ["actors", "actor_mentions", "actor_hierarchy"],
+      "supervision_triggers": ["missing_actor", "named_actor_ambiguity", "actor_role_uncertainty"]
+    },
+    {
+      "code": "duplicate_analyst",
+      "label": "Duplicate Analyst",
+      "stage": "deduplication",
+      "primary_outputs": ["duplicate_candidates", "duplicate_status", "merged_into_event_id"],
+      "supervision_triggers": ["possible_duplicate", "keeper_choice_needed", "cross_source_conflict"]
+    },
+    {
+      "code": "qa_scorer",
+      "label": "QA Scorer",
+      "stage": "quality_assurance",
+      "primary_outputs": ["qa_flags", "severity_scores", "review_queue_signals"],
+      "supervision_triggers": ["high_severity_flag", "field_missing", "schema_conflict"]
+    },
+    {
+      "code": "publication_policy_agent",
+      "label": "Publication Policy Agent",
+      "stage": "publication",
+      "primary_outputs": ["publication_status", "publication_reason", "withheld_reason"],
+      "supervision_triggers": ["low_confidence_requires_human_review", "blocked_review_status", "manual_release_check"]
+    },
+    {
+      "code": "cmr_analyst",
+      "label": "CMR Analyst",
+      "stage": "analysis",
+      "primary_outputs": ["cmr_assessment", "cmr_signals", "cmr_risk_level"],
+      "supervision_triggers": ["ai_disagreement", "high_risk_assessment", "concept_mismatch"]
+    },
+    {
+      "code": "political_risk_analyst",
+      "label": "Political Risk Analyst",
+      "stage": "analysis",
+      "primary_outputs": ["political_risk_assessment", "political_risk_signals", "political_risk_level"],
+      "supervision_triggers": ["ai_disagreement", "instability_signal_cluster", "confidence_gap"]
+    },
+    {
+      "code": "regional_security_analyst",
+      "label": "Regional Security Analyst",
+      "stage": "analysis",
+      "primary_outputs": ["regional_security_assessment", "regional_security_signals", "regional_security_level"],
+      "supervision_triggers": ["ai_disagreement", "spillover_risk", "external_actor_ambiguity"]
+    },
+    {
+      "code": "synthesis_analyst",
+      "label": "Synthesis Analyst",
+      "stage": "analysis",
+      "primary_outputs": ["integrated_assessment", "overall_risk", "knowledge_trace_summary"],
+      "supervision_triggers": ["cross_lens_disagreement", "high_attention_event", "publication_significance"]
+    }
+  ]
+}

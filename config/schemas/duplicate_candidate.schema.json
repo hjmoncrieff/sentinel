@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sentinel.local/schemas/duplicate_candidate.schema.json",
+  "title": "SENTINEL Duplicate Candidate",
+  "type": "object",
+  "required": ["candidate_id", "event_ids", "status", "reason"],
+  "properties": {
+    "candidate_id": { "type": "string" },
+    "event_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 2
+    },
+    "status": {
+      "type": "string",
+      "enum": ["definite_duplicate", "possible_duplicate", "distinct"]
+    },
+    "reason": { "type": "string" },
+    "score": { "type": "number" },
+    "details": { "type": ["object", "null"] }
+  },
+  "additionalProperties": false
+}

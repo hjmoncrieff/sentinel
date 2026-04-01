@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "updated_at": null,
+  "clearance_model": {
+    "roles": {
+      "ra": {
+        "label": "RA",
+        "description": "Research assistants can annotate summaries, review notes, and actor coding.",
+        "editable_fields": [
+          "country",
+          "subnational_location",
+          "location_text",
+          "summary",
+          "review_notes",
+          "actors.actor_canonical_name",
+          "actors.actor_name",
+          "actors.actor_canonical_type",
+          "actors.actor_canonical_subtype",
+          "actors.actor_role_in_event",
+          "actors.actor_country",
+          "actors.coding_confidence",
+          "actors.actor_registry_status",
+          "actors.actor_uncertain",
+          "actors.actor_aliases",
+          "actors.actor_relationship_tags",
+          "actors.create"
+        ],
+        "allowed_review_statuses": [
+          "auto",
+          "needs_revision",
+          "ra_reviewed"
+        ]
+      },
+      "analyst": {
+        "label": "Analyst",
+        "description": "Analysts can correct core event coding, actor coding, and intermediate review status.",
+        "editable_fields": [
+          "event_date",
+          "country",
+          "subnational_location",
+          "location_text",
+          "latitude",
+          "longitude",
+          "headline",
+          "source_primary",
+          "url_primary",
+          "language",
+          "summary",
+          "event_type",
+          "event_subtype",
+          "salience",
+          "confidence",
+          "classification_reason",
+          "analyst_reasoning",
+          "review_status",
+          "review_priority",
+          "duplicate_status",
+          "human_validated",
+          "review_notes",
+          "actors.actor_canonical_name",
+          "actors.actor_name",
+          "actors.actor_canonical_type",
+          "actors.actor_canonical_subtype",
+          "actors.actor_role_in_event",
+          "actors.actor_country",
+          "actors.coding_confidence",
+          "actors.actor_registry_status",
+          "actors.actor_uncertain",
+          "actors.actor_aliases",
+          "actors.actor_relationship_tags",
+          "actors.create",
+          "actors.remove"
+        ],
+        "allowed_review_statuses": [
+          "auto",
+          "needs_revision",
+          "ra_reviewed",
+          "analyst_reviewed",
+          "flagged",
+          "rejected"
+        ]
+      },
+      "coordinator": {
+        "label": "Coordinator",
+        "description": "Coordinators can finalize event coding and approve records for downstream publication.",
+        "editable_fields": [
+          "*"
+        ],
+        "allowed_review_statuses": [
+          "auto",
+          "needs_revision",
+          "ra_reviewed",
+          "analyst_reviewed",
+          "coordinator_approved",
+          "flagged",
+          "rejected"
+        ]
+      }
+    }
+  },
+  "edits": [],
+  "qa_resolutions": [],
+  "duplicate_resolutions": []
+}

@@ -1,0 +1,90 @@
+{
+  "version": "1.0",
+  "updated": "2026-03-31",
+  "event_types": [
+    {
+      "code": "coup",
+      "label": "Coup / Coup Plot",
+      "description": "Attempted, threatened, or actual seizure of political power involving military or security actors.",
+      "exclusions": ["routine cabinet reshuffles", "ordinary partisan conflict"],
+      "precedence_rank": 100
+    },
+    {
+      "code": "purge",
+      "label": "Purge / Command Reshuffle",
+      "description": "Forced removals, retirements, command restructuring, or politically salient officer turnover.",
+      "exclusions": ["routine retirement without political significance"],
+      "precedence_rank": 90
+    },
+    {
+      "code": "aid",
+      "label": "Military Aid",
+      "description": "Foreign military assistance, financing, training, or equipment transfers.",
+      "exclusions": ["domestic budget decisions without external assistance"],
+      "precedence_rank": 60
+    },
+    {
+      "code": "coop",
+      "label": "Security Cooperation",
+      "description": "Joint security cooperation, operational partnerships, bilateral support, or coordination that does not fit exercise or aid cleanly.",
+      "exclusions": ["purely symbolic diplomatic statements"],
+      "precedence_rank": 55
+    },
+    {
+      "code": "protest",
+      "label": "Civil-Military Protest",
+      "description": "Civil unrest or protest episodes that directly involve security forces, military institutions, or militarized policing.",
+      "exclusions": ["protests with no security-sector relevance"],
+      "precedence_rank": 50
+    },
+    {
+      "code": "reform",
+      "label": "Security Sector Reform",
+      "description": "Legal, doctrinal, administrative, or institutional reforms affecting civil-military relations or security governance.",
+      "exclusions": ["minor administrative updates without institutional consequence"],
+      "precedence_rank": 40
+    },
+    {
+      "code": "conflict",
+      "label": "Armed Conflict",
+      "description": "Combat or violent confrontation involving state security forces and organized armed actors.",
+      "exclusions": ["nonviolent military signaling"],
+      "precedence_rank": 80
+    },
+    {
+      "code": "exercise",
+      "label": "Military Exercise",
+      "description": "Bilateral or multilateral military training exercises or drills.",
+      "exclusions": ["operational deployments without exercise structure"],
+      "precedence_rank": 35
+    },
+    {
+      "code": "procurement",
+      "label": "Procurement / Arms",
+      "description": "Weapons acquisitions, defense contracts, or arms transfer decisions.",
+      "exclusions": ["aid announcements without acquisition details"],
+      "precedence_rank": 65
+    },
+    {
+      "code": "peace",
+      "label": "Peace Process",
+      "description": "Ceasefires, negotiations, DDR milestones, and peace implementation events.",
+      "exclusions": ["routine public statements with no negotiation content"],
+      "precedence_rank": 30
+    },
+    {
+      "code": "oc",
+      "label": "Organized Crime / Transnational Security",
+      "description": "Events involving organized crime, trafficking networks, illicit economies, or related military and security responses.",
+      "exclusions": ["ordinary criminal incidents without strategic significance"],
+      "precedence_rank": 70
+    },
+    {
+      "code": "other",
+      "label": "Other",
+      "description": "Institutionally relevant events not captured by the controlled categories above.",
+      "exclusions": [],
+      "precedence_rank": 0
+    }
+  ]
+}
