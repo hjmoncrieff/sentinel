@@ -47,7 +47,30 @@ registry milestones.
 - expose worker disagreement more clearly in the analyst console
 - use analyst corrections as feedback inputs for future scoring logic
 
-## 5. Analyst Console
+## 5. Continuous Learning And Gold Data
+
+- create a `gold` layer for high-quality human-reviewed outputs:
+  - corrected events
+  - validated actor codings
+  - duplicate decisions
+  - publication decisions
+  - optional analyst reasoning notes
+- use analyst and coder edits first as retrieval and rule-improvement inputs,
+  not only as one-off corrections
+- design a feedback pipeline so human validation can improve:
+  - event classification
+  - actor identification
+  - duplicate detection
+  - publication recommendations
+- prefer a staged learning path:
+  - gold data
+  - retrieval-guided improvement
+  - evaluation
+  - task-specific training or fine-tuning later
+- define data-quality thresholds before any model-training step so the system
+  learns from reliable human-reviewed examples rather than noisy edits
+
+## 6. Analyst Console
 
 - add merge previews and merge-target suggestions
 - add more direct editing for registry entries with registry-level audit views
@@ -57,7 +80,7 @@ registry milestones.
   signals
 - keep simplifying labels and section copy so the interface stays concise
 
-## 6. Public Dashboard
+## 7. Public Dashboard
 
 - continue tightening wording consistency across tabs
 - keep reducing internal/backend language in public views
@@ -66,14 +89,14 @@ registry milestones.
   or move toward a more templated editorial style
 - consider a lightweight public methodology panel for event interpretation
 
-## 7. Provenance And Transparency
+## 8. Provenance And Transparency
 
 - deepen event/article linkage earlier in the ingestion stack
 - preserve more article metadata at normalization time
 - standardize provenance stage semantics across every pipeline step
 - decide what level of provenance belongs in public views versus internal views
 
-## 8. Operations And Governance
+## 9. Operations And Governance
 
 - define a stable run order script or task runner for the full pipeline
 - document analyst versus coordinator approval authority more explicitly
@@ -81,7 +104,7 @@ registry milestones.
 - improve recovery/undo coverage for all high-consequence actions
 - consider a small local database once concurrent analyst activity grows
 
-## 9. Historical Ingestion
+## 10. Historical Ingestion
 
 - turn `scripts/historical_ingest.py` from planner into a real archive-ingest
   runner
@@ -90,14 +113,14 @@ registry milestones.
 - write historical article-level staging outputs
 - define archive-quality QA checks for gaps, duplicates, and source imbalance
 
-## 10. Security And Deployment
+## 11. Security And Deployment
 
 - keep the public/private split strict as the site moves toward deployment
 - audit which data products are safe to publish by default
 - review GitHub deployment assumptions before the public launch
 - consider a deployment checklist for dashboard publish steps
 
-## 11. Documentation Cleanup
+## 12. Documentation Cleanup
 
 - keep `README.md` public-facing and concise
 - keep `docs/user-guide.md` as the operator playbook

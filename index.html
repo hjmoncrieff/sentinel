@@ -279,6 +279,12 @@ header {
 .detail-text { font-size:15px; line-height:1.82; color:var(--text-dim); }
 .detail-analysis { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--aid); border-radius:0 3px 3px 0; padding:13px 15px; }
 .detail-analysis-meta { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; }
+.detail-analysis-block + .detail-analysis-block { margin-top:12px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.08); }
+.detail-analysis-label { display:block; font-family:var(--mono); font-size:7.5px; letter-spacing:1px; text-transform:uppercase; color:var(--text-muted); margin-bottom:5px; }
+.detail-analysis-copy { font-size:15px; line-height:1.8; color:var(--text-dim); }
+.detail-context { margin-top:12px; background:rgba(20,96,176,0.04); border:1px solid rgba(20,96,176,0.12); border-radius:3px; padding:12px 14px; }
+.detail-context-label { display:block; font-family:var(--mono); font-size:7.5px; letter-spacing:1px; text-transform:uppercase; color:var(--text-muted); margin-bottom:5px; }
+.detail-context-copy { font-size:14px; line-height:1.75; color:var(--text-dim); }
 .detail-lens-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:10px; }
 .detail-lens-card { background:var(--surface); border:1px solid var(--border); border-radius:3px; padding:9px 10px; }
 .detail-lens-title { font-family:var(--mono); font-size:8px; letter-spacing:0.8px; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px; }
@@ -857,7 +863,7 @@ header {
             <div class="big-count" id="event-count">0</div>
           </div>
         </div>
-        <div class="events-sidebar-copy" data-i18n="intro.events.body">Open-source reporting classified into CMR event types — coup activity, purges, deployments, reforms, OC events, and armed conflict. AI-classified, georeferenced, confidence-rated.</div>
+        <div class="events-sidebar-copy" data-i18n="intro.events.body">Recent civil-military and security developments drawn from open-source reporting, organized into a public event monitor with confidence, sources, and country-level interpretation.</div>
       </div>
       <div class="events-toolbar">
         <div class="events-toolbar-grid">
@@ -2342,9 +2348,10 @@ function getEventTypeLabel(code){
 }
 
 function normalizeKnowledgeLabel(value){
-  return String(value || '')
-    .replace(/^REL_/,'')
-    .replace(/^INT_/,'')
+  let text = String(value || '');
+  if(text.startsWith('REL_')) text = text.slice(4);
+  if(text.startsWith('INT_')) text = text.slice(4);
+  return text
     .replace(/_/g,' ')
     .replace(/\b\w/g,ch=>ch.toUpperCase());
 }
@@ -2373,11 +2380,30 @@ function summaryToCanonicalTitle(summary){
   return capped.length>140 ? `${capped.slice(0,137).replace(/\s+\S*$/,'')}…` : capped;
 }
 
+function getEventActorNames(ev){
+  const actors = ev.public_review?.actors || ev.actors || [];
+  return actors.map(actor=>{
+    if(typeof actor === 'string') return actor;
+    return actor?.actor_canonical_name || actor?.actor_name || '';
+  }).filter(Boolean);
+}
+
+function buildCanonicalEventTitle(ev){
+  const location = ev.location || ev.subnational_location || ev.display_country || getEventCountryLabel(ev);
+  const actorNames = getEventActorNames(ev);
+  const typeLabel = getEventTypeLabel(ev.type);
+  if(actorNames.length){
+    return `${typeLabel} involving ${actorNames[0]} in ${location}`;
+  }
+  return `${typeLabel} reported in ${location}`;
+}
+
 function getStandardizedEventTitle(ev){
   const sourceCount = (ev.sources?.length || ev.public_review?.linked_reports?.length || ev.public_review?.source_all?.length || 0);
   if(sourceCount > 1){
     const fromSummary = summaryToCanonicalTitle(ev.summary);
-    if(fromSummary) return fromSummary;
+    if(fromSummary && fromSummary.length >= 48) return fromSummary;
+    return buildCanonicalEventTitle(ev);
   }
   return tidyHeadline(ev.public_review?.headline || ev.title || ev.headline || 'Untitled event');
 }
@@ -2414,10 +2440,64 @@ function getKnowledgeSignals(ev){
   return [...new Set(raw.map(normalizeKnowledgeLabel).filter(Boolean))].slice(0,8);
 }
 
+function cleanSummaryText(text){
+  const cleaned = String(text || '')
+    .replace(/\s+/g,' ')
+    .replace(/\s*;\s*/g,'. ')
+    .trim();
+  if(!cleaned) return '';
+  return cleaned.endsWith('.') ? cleaned : `${cleaned}.`;
+}
+
 function getPublicEventDescription(ev){
-  const text = String(ev.summary || ev.standard_title || ev.title || '').trim();
-  if(!text) return 'No public description is available yet for this event.';
-  return text.endsWith('.') ? text : `${text}.`;
+  const summary = cleanSummaryText(ev.summary);
+  if(summary) return summary;
+  const title = tidyHeadline(ev.public_review?.headline || ev.title || ev.headline || '');
+  if(title) return `${title}.`;
+  return 'No public description is available yet for this event.';
+}
+
+function getPublicEventContext(ev){
+  const salience = String(ev.salience || '').toLowerCase();
+  const sources = getEventSources(ev);
+  const sourceNames = [...new Set(sources.map(item=>item.name).filter(Boolean))];
+  const actors = getEventActorNames(ev);
+  const classification = ev.council?.analyses?.synthesis?.classification || {};
+  const country = ev.display_country || getEventCountryLabel(ev);
+  const location = ev.location || ev.subnational_location || country;
+  const frame = normalizeKnowledgeLabel(classification.primary_frame || '');
+  const effect = normalizeKnowledgeLabel(classification.effect_domain || '');
+
+  if(salience === 'high'){
+    const sourceText = sourceNames.length
+      ? (sourceNames.length === 1
+          ? `Current reporting is anchored in ${sourceNames[0]}.`
+          : `Current reporting draws on ${joinReadableList(sourceNames)}.`)
+      : '';
+    const actorText = actors.length
+      ? `The event currently centers on ${joinReadableList(actors.slice(0,2))}${actors.length>2 ? ', among other actors' : ''}.`
+      : '';
+    const frameText = frame || effect
+      ? `In analytical terms, it sits in the frame of ${frame || 'security politics'}${effect ? ` and points most directly to ${effect.toLowerCase()}` : ''}.`
+      : '';
+    return [sourceText, actorText, frameText].filter(Boolean).join(' ');
+  }
+
+  if(salience === 'medium'){
+    const bits = [];
+    if(sourceNames.length > 1){
+      bits.push(`The event is corroborated across ${sourceNames.length} sources.`);
+    }
+    if(actors.length){
+      bits.push(`The main actors currently visible in the reporting are ${joinReadableList(actors.slice(0,2))}.`);
+    }
+    if(location && location !== country){
+      bits.push(`The reporting is centered on ${location}.`);
+    }
+    return bits.join(' ');
+  }
+
+  return '';
 }
 
 function cleanCouncilAssessment(text){
@@ -2465,55 +2545,63 @@ function joinReadableList(items){
   return `${arr.slice(0,-1).join(', ')}, and ${arr[arr.length-1]}`;
 }
 
-function getPublicEventAnalysis(ev){
+function getPublicEventAnalysisParts(ev){
   const analyses = ev.council?.analyses || {};
-  const synthesisRisk = analyses.synthesis?.risk_level ? normalizeKnowledgeLabel(analyses.synthesis.risk_level).toLowerCase() : '';
-  const cleanedSynthesis = cleanCouncilAssessment(analyses.synthesis?.assessment || '');
-  const typeLabel = getEventTypeLabel(ev.type).toLowerCase();
-  const countryLabel = ev.display_country || getEventCountryLabel(ev);
+  const synthesis = analyses.synthesis || {};
+  const takeaways = synthesis.public_takeaways || {};
+  const significance = cleanCouncilAssessment(takeaways.significance || '');
+  const countryEffect = cleanCouncilAssessment(takeaways.country_effect || '');
+  const confidenceNote = cleanCouncilAssessment(takeaways.confidence_note || '');
+  const watchpoint = cleanCouncilAssessment(takeaways.watchpoint || '');
+  if(significance || countryEffect || watchpoint){
+    return { significance, countryEffect, confidenceNote, watchpoint };
+  }
+
+  const cleanedSynthesis = cleanCouncilAssessment(synthesis.assessment || '');
+  if(cleanedSynthesis && !isGenericCouncilText(synthesis.assessment || '')){
+    const bits = cleanedSynthesis.split(/(?<=\.)\s+/).filter(Boolean);
+    return {
+      significance: bits[0] || '',
+      countryEffect: bits[1] || '',
+      confidenceNote: '',
+      watchpoint: bits.slice(2).join(' ')
+    };
+  }
+
   const conceptSignals = getKnowledgeSignals(ev).slice(0,3).map(humanizeConceptSignal);
-
-  if(cleanedSynthesis && !isGenericCouncilText(analyses.synthesis?.assessment || '')){
-    return cleanedSynthesis.endsWith('.') ? cleanedSynthesis : `${cleanedSynthesis}.`;
-  }
-
-  const lensTexts = [
-    cleanCouncilAssessment(analyses.cmr?.assessment || ''),
-    cleanCouncilAssessment(analyses.political_risk?.assessment || ''),
-    cleanCouncilAssessment(analyses.regional_security?.assessment || '')
-  ].filter(Boolean);
-
-  const uniqueLensTexts = [...new Set(lensTexts)];
-  const readableLens = uniqueLensTexts.slice(0,2).map(text=>{
-    const sentence = text.charAt(0).toUpperCase() + text.slice(1);
-    return sentence.endsWith('.') ? sentence : `${sentence}.`;
-  });
-
-  const introBits = [];
-  if(countryLabel) introBits.push(countryLabel);
-  if(typeLabel) introBits.push(typeLabel);
-  let intro = '';
-  if(introBits.length){
-    intro = `This ${typeLabel} event is most significant in ${countryLabel}`;
-    if(synthesisRisk) intro += ` and currently reads as a ${synthesisRisk}-concern development`;
-    intro += '.';
-  }
-
-  let conceptSentence = '';
-  if(conceptSignals.length){
-    conceptSentence = `The main analytical themes are ${joinReadableList(conceptSignals)}.`;
-  }
-
-  const assembled = [intro, ...readableLens, conceptSentence].filter(Boolean).join(' ');
-  return assembled.trim();
+  const countryLabel = ev.display_country || getEventCountryLabel(ev);
+  const typeLabel = getEventTypeLabel(ev.type).toLowerCase();
+  return {
+    significance: `This ${typeLabel} event is relevant for ${countryLabel} because it touches the broader balance between political authority, security institutions, and public order.`,
+    countryEffect: conceptSignals.length ? `The main analytical themes are ${joinReadableList(conceptSignals)}.` : '',
+    confidenceNote: '',
+    watchpoint: 'The key question is whether follow-on reporting shows this to be isolated or part of a broader pattern.'
+  };
 }
 
 function getPublicClassificationChips(ev){
   const chips = [];
   const subtype = ev.public_review?.event_subtype || ev.subtype;
+  const classification = ev.council?.analyses?.synthesis?.classification || {};
+  if(classification.primary_frame) chips.push(classification.primary_frame);
+  if(classification.effect_domain) chips.push(classification.effect_domain);
   if(subtype) chips.push(subtype);
-  getKnowledgeSignals(ev).slice(0,4).forEach(signal=>chips.push(signal));
+  getKnowledgeSignals(ev).slice(0,3).forEach(signal=>chips.push(signal));
   return [...new Set(chips)];
+}
+
+function getPublicClassificationRows(ev){
+  const actors = getEventActorNames(ev);
+  const classification = ev.council?.analyses?.synthesis?.classification || {};
+  const eventMeta = eventTypeMeta.get(String(ev.type)) || {};
+  return [
+    { label:'Category', value:getEventTypeLabel(ev.type) },
+    { label:'Subcategory', value:ev.public_review?.event_subtype || ev.subtype || 'Not specified' },
+    { label:'Analytical frame', value:normalizeKnowledgeLabel(classification.primary_frame || eventMeta.description || 'General security monitoring') },
+    { label:'Likely effect', value:normalizeKnowledgeLabel(classification.effect_domain || 'Security-sector positioning') },
+    { label:'Main actors', value:actors.length ? actors.join(' · ') : 'No named actors identified yet' },
+    { label:'Confidence', value:ev.conf==='green'?'High-confidence reporting':ev.conf==='yellow'?'Medium-confidence reporting':'Low-confidence reporting' },
+  ];
 }
 
 function getPublicProvenanceSummary(ev, linkedReports, timeline){
@@ -2692,13 +2780,13 @@ function selectEvent(ev){
   const councilAnalyses = ev.council?.analyses || {};
   const synthesis = councilAnalyses.synthesis;
   const knowledgeSignals = getPublicClassificationChips(ev);
-  const publicAnalysis = getPublicEventAnalysis(ev);
+  const publicAnalysis = getPublicEventAnalysisParts(ev);
   const publicDescription = getPublicEventDescription(ev);
+  const publicContext = getPublicEventContext(ev);
   const provenanceSummaryItems = getPublicProvenanceSummary(ev, linkedReports, provenanceTimeline);
   const transparencyText = getPublicTransparencyText(ev, linkedReports);
-  const actors = (ev.public_review?.actors || ev.actors || []).map(actor=>actor.actor_canonical_name || actor.actor_name).filter(Boolean);
+  const classificationRows = getPublicClassificationRows(ev);
   const typeLabel = getEventTypeLabel(ev.type);
-  const eventSubtype = ev.public_review?.event_subtype || ev.subtype || 'Not specified';
   document.getElementById('detail').innerHTML=`
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:9px;">
       <span class="type-badge" style="background:${c}">${typeLabel}</span>
@@ -2718,28 +2806,28 @@ function selectEvent(ev){
       <div class="dmi"><label>Coverage</label><span>${linkedReports.length} report${linkedReports.length===1?'':'s'}</span></div>
     </div>
     <div class="detail-section">
-      <div class="detail-section-title">Analytical Classification</div>
+      <div class="detail-section-title">Classification</div>
       <div class="detail-grid">
-        <div class="detail-kv"><label>Event Category</label><span>${typeLabel}</span></div>
-        <div class="detail-kv"><label>Subcategory</label><span>${eventSubtype}</span></div>
-        <div class="detail-kv"><label>Actors</label><span>${actors.length ? actors.join(' · ') : 'No named actors identified yet'}</span></div>
-        <div class="detail-kv"><label>Confidence</label><span>${ev.conf==='green'?'High-confidence reporting':ev.conf==='yellow'?'Medium-confidence reporting':'Low-confidence reporting'}</span></div>
+        ${classificationRows.map(item=>`<div class="detail-kv"><label>${item.label}</label><span>${item.value}</span></div>`).join('')}
       </div>
       ${knowledgeSignals.length ? `<div class="detail-chip-row" style="margin-top:10px;">${knowledgeSignals.map(item=>`<span class="detail-chip">${item}</span>`).join('')}</div>` : ''}
     </div>
     <div class="detail-section">
-      <div class="detail-section-title">What Happened</div>
+      <div class="detail-section-title">Event</div>
       <div class="detail-text">${publicDescription}</div>
+      ${publicContext ? `<div class="detail-context"><span class="detail-context-label">Context</span><div class="detail-context-copy">${publicContext}</div></div>` : ''}
     </div>
-    ${publicAnalysis?`
+    ${(publicAnalysis?.significance || publicAnalysis?.countryEffect || publicAnalysis?.watchpoint)?`
     <div class="detail-section">
       <div class="detail-section-title">Why It Matters</div>
       <div class="detail-analysis">
         <div class="detail-analysis-meta">
           ${synthesis?.risk_level?`<span class="detail-chip">${normalizeKnowledgeLabel(synthesis.risk_level)} concern</span>`:''}
-          ${synthesis?.ai_generated?`<span class="detail-chip">AI-assisted interpretation</span>`:''}
         </div>
-        <div class="detail-text">${publicAnalysis}</div>
+        ${publicAnalysis?.significance?`<div class="detail-analysis-block"><span class="detail-analysis-label">Immediate significance</span><div class="detail-analysis-copy">${publicAnalysis.significance}</div></div>`:''}
+        ${publicAnalysis?.countryEffect?`<div class="detail-analysis-block"><span class="detail-analysis-label">Country-level effect</span><div class="detail-analysis-copy">${publicAnalysis.countryEffect}</div></div>`:''}
+        ${publicAnalysis?.confidenceNote?`<div class="detail-analysis-block"><span class="detail-analysis-label">Interpretive note</span><div class="detail-analysis-copy">${publicAnalysis.confidenceNote}</div></div>`:''}
+        ${publicAnalysis?.watchpoint?`<div class="detail-analysis-block"><span class="detail-analysis-label">What to watch</span><div class="detail-analysis-copy">${publicAnalysis.watchpoint}</div></div>`:''}
       </div>
     </div>`:''}
     ${linkedReports.length?`
@@ -4480,7 +4568,7 @@ const STRINGS={
     'intro.events':'Events Feed','intro.us':'US Security Cooperation',
     'intro.procurement':'Procurement & Arms Transfers',
     'intro.transnational':'Organized Crime, Illicit Economies & Civil-Military Relations',
-    'intro.events.body':'Open-source reporting classified into CMR event types — coup activity, purges, deployments, reforms, OC events, and armed conflict. AI-classified, georeferenced, confidence-rated.',
+    'intro.events.body':'Recent civil-military and security developments drawn from open-source reporting, organized into a public event monitor with confidence, sources, and country-level interpretation.',
     'log.pfx':'Log','ui.search':'Search','ui.search.placeholder':'Search events, countries…','ui.no-results':'No results found.',
     'lang.switch':'ES',
     'label.cmr-status':'CMR Status','label.key-stats':'Key Stats','label.key-positions':'Key Positions',
@@ -4513,7 +4601,7 @@ const STRINGS={
     'intro.events':'Boletín de Eventos','intro.us':'Cooperación de Seguridad EE.UU.',
     'intro.procurement':'Adquisiciones y Transferencias de Armas',
     'intro.transnational':'Crimen Organizado, Economías Ilícitas y Relaciones Cívico-Militares',
-    'intro.events.body':'Reportes de fuentes abiertas clasificados en tipos de eventos — golpes, purgas, despliegues, reformas, eventos de crimen organizado y conflicto armado. Clasificados por IA, georreferenciados, con nivel de confianza.',
+    'intro.events.body':'Desarrollos recientes de seguridad y relaciones cívico-militares a partir de fuentes abiertas, organizados en un monitor público con niveles de confianza, fuentes e interpretación por país.',
     'log.pfx':'Reg.','ui.search':'Buscar','ui.search.placeholder':'Buscar eventos, países…','ui.no-results':'Sin resultados.',
     'lang.switch':'EN',
     'label.cmr-status':'Estado RCM','label.key-stats':'Indicadores Clave','label.key-positions':'Cargos Clave',

@@ -164,7 +164,112 @@ def readable_join(items: list[str]) -> str:
 
 
 def readable_label(code: str) -> str:
-    return str(code or "").replace("REL_", "").replace("INT_", "").replace("_", " ").lower()
+    text = str(code or "")
+    if text.startswith("REL_"):
+        text = text[4:]
+    if text.startswith("INT_"):
+        text = text[4:]
+    return text.replace("_", " ").lower()
+
+
+def classify_event_frame(event: dict, role_domains: list[str], interaction_types: list[str]) -> str:
+    event_type = str(event.get("event_type") or "other")
+    if event_type in {"coup", "purge"}:
+        return "civil-military balance"
+    if event_type in {"protest", "reform"}:
+        return "security governance"
+    if event_type in {"coop", "aid", "exercise", "procurement"}:
+        return "external security alignment"
+    if event_type in {"conflict", "oc"}:
+        return "territorial security and organized violence"
+    if "public_security" in role_domains:
+        return "public-security role of the state"
+    if "INT_JOINT_OPERATION" in interaction_types:
+        return "security cooperation"
+    return "civil-military and security politics"
+
+
+def actor_focus_text(event: dict) -> str:
+    actors = actor_names(event)
+    if not actors:
+        return ""
+    named = actors[:2]
+    if len(named) == 1:
+        return f"The reporting centers on {named[0]}."
+    return f"The reporting centers on {named[0]} and {named[1]}."
+
+
+def confidence_context(event: dict) -> str:
+    confidence = str(event.get("confidence") or "").lower()
+    if confidence == "low":
+        return "Reporting remains thin, so this should be treated as an early signal rather than a settled development."
+    if confidence == "medium":
+        return "The reporting is credible enough to flag a live development, but some details may still shift as coverage expands."
+    return "The reporting base is comparatively strong, which makes this a more reliable indicator of a real shift or episode."
+
+
+def salience_level(event: dict) -> str:
+    return str(event.get("salience") or "low").lower()
+
+
+def salience_interpretive_note(event: dict) -> str:
+    salience = salience_level(event)
+    country = event.get("country") or "the country"
+    event_type = str(event.get("event_type") or "other")
+    if salience == "high":
+        if event_type in {"coup", "purge", "protest"}:
+            return f"Because this is a high-salience event, it should be read not only as an incident but as a possible indicator of a wider shift in elite control, command relations, or coercive authority in {country}."
+        if event_type in {"conflict", "oc"}:
+            return f"Because this is a high-salience event, it may reveal more than localized violence: it can signal a broader change in how force, territorial control, or criminal pressure are being negotiated in {country}."
+        if event_type in {"coop", "aid", "exercise", "procurement", "reform"}:
+            return f"Because this is a high-salience event, it deserves interpretation at the strategic level, since it may shape the future direction of security policy and institutional alignment in {country}, not just the immediate news cycle."
+        return f"Because this is a high-salience event, it should be interpreted as a potentially meaningful signal about the wider trajectory of security politics in {country}."
+    if salience == "medium":
+        return "This matters enough to monitor closely, but it should still be interpreted alongside follow-on reporting before drawing larger conclusions."
+    return "At this salience level, the aim is to keep the event on the monitor rather than to treat it as strong evidence of a broader turn."
+
+
+def salience_watchpoint(event: dict, disagreement: bool) -> str:
+    salience = salience_level(event)
+    country = event.get("country") or "the country"
+    event_type = str(event.get("event_type") or "other")
+    if disagreement:
+        return "The main point to monitor next is whether subsequent reporting confirms this as an isolated incident or the start of a wider shift."
+    if salience == "high":
+        if event_type in {"coup", "purge"}:
+            return f"The key next indicator is whether political leaders or security commanders in {country} make additional moves that confirm a broader struggle over control of the chain of command."
+        if event_type in {"protest", "conflict", "oc"}:
+            return f"The key next indicator is whether state security actors in {country} escalate, widen their role, or trigger countermoves by armed challengers or organized groups."
+        return f"The key next indicator is whether officials in {country} follow this event with concrete institutional, operational, or diplomatic moves that reveal a deeper strategic shift."
+    if salience == "medium":
+        return "The main question is whether this episode remains contained or begins to shape broader security and political behavior."
+    return "For now, the main question is simply whether the event recurs or connects to a larger developing pattern."
+
+
+def subtype_text(event: dict) -> str:
+    subtype = str(event.get("event_subtype") or "").strip()
+    if not subtype:
+        return ""
+    return subtype.replace("_", " ").lower()
+
+
+def public_classification(event: dict, role_domains: list[str], relationship_types: list[str], interaction_types: list[str]) -> dict:
+    event_type = str(event.get("event_type") or "other")
+    frame = classify_event_frame(event, role_domains, interaction_types)
+    if event_type in {"coup", "purge", "protest"}:
+        effect = "civil-military tension"
+    elif event_type in {"conflict", "oc"}:
+        effect = "coercive control and territorial order"
+    elif event_type in {"coop", "aid", "exercise", "procurement"}:
+        effect = "security posture and alignment"
+    else:
+        effect = "security-sector positioning"
+    return {
+        "primary_frame": frame,
+        "effect_domain": effect,
+        "relationship_cues": [readable_label(item) for item in relationship_types[:2]],
+        "interaction_cues": [readable_label(item) for item in interaction_types[:2]],
+    }
 
 
 def synthesis_opening(event: dict, overall: str, role_domains: list[str]) -> str:
@@ -172,18 +277,31 @@ def synthesis_opening(event: dict, overall: str, role_domains: list[str]) -> str
     event_type = str(event.get("event_type") or "other")
     subtype = str(event.get("event_subtype") or "").strip()
     domain_text = readable_join([domain.replace("_", " ") for domain in role_domains[:2]])
+    salience = salience_level(event)
     if event_type == "coup":
+        if salience == "low":
+            return f"In {country}, this is a notable signal of stress between civilian authority and the armed forces."
         return f"In {country}, this event matters because it points to direct stress on the constitutional balance between civilian authorities and the armed forces."
     if event_type == "purge":
+        if salience == "low":
+            return f"In {country}, this is a meaningful sign of change inside the security hierarchy."
         return f"In {country}, this event matters because changes inside the security hierarchy can reshape command cohesion, loyalty, and the balance between political leadership and the officer corps."
     if event_type == "protest":
+        if salience == "low":
+            return f"In {country}, this event is worth watching because it links public contention to the behavior of security forces."
         return f"In {country}, this event matters because it links public contention to the behavior of security forces and therefore to the legitimacy of coercive state power."
     if event_type in {"conflict", "oc"}:
+        if salience == "low":
+            return f"In {country}, this event is relevant because it touches the balance of coercive control and security pressure."
         return f"In {country}, this event matters because it bears on who controls coercive force in practice and whether security institutions are containing or deepening instability."
     if event_type in {"reform", "coop", "aid", "exercise", "procurement"}:
+        if salience == "low":
+            return f"In {country}, this event is relevant because it may influence the direction of security institutions over time."
         return f"In {country}, this event matters because it may alter how security institutions are organized, equipped, or externally aligned over time."
     detail = f" under the subtype {subtype}" if subtype else ""
     domain_phrase = f" in the domain of {domain_text}" if domain_text else ""
+    if salience == "low":
+        return f"In {country}, this {event_type} event{detail} is a monitoring signal about how coercive institutions are positioned within the political order{domain_phrase}."
     return f"In {country}, this {event_type} event{detail} matters because it can affect how coercive institutions are positioned within the political order{domain_phrase}."
 
 
@@ -192,38 +310,55 @@ def synthesis_country_effect(event: dict, overall: str, relationship_types: list
     event_type = str(event.get("event_type") or "other")
     rels = {readable_label(item) for item in relationship_types}
     ints = {readable_label(item) for item in interaction_types}
+    salience = salience_level(event)
 
     if event_type in {"protest", "conflict", "oc"}:
         if "tutelary veto" in rels or "praetorian" in rels:
+            if salience == "low":
+                return f"If similar episodes accumulate, security actors in {country} may start to look more politically consequential."
             return f"If this pattern persists, it would suggest that security actors in {country} are becoming more politically consequential, not merely operational."
         if "confrontation" in ints:
+            if salience == "low":
+                return f"The immediate implication for {country} is more pressure on how the state manages coercion and public order."
             return f"The broader implication for {country} is a higher risk that coercive governance becomes normalized as a response to social or territorial stress."
+        if salience == "low":
+            return f"The immediate implication for {country} is added pressure on state capacity and on the credibility of civilian control."
         return f"The broader implication for {country} is pressure on state capacity and on the credibility of civilian control over the security apparatus."
 
     if event_type == "purge":
         if "partisan pillar" in rels or "bargaining" in rels:
+            if salience == "low":
+                return f"The practical effect may be to make the security hierarchy in {country} more politically dependent on the executive."
             return f"The broader effect could be to make the security hierarchy in {country} more politically dependent on the executive, even if short-run control appears stronger."
+        if salience == "low":
+            return f"The practical effect may be greater uncertainty inside command relationships in {country}."
         return f"The broader effect could be to unsettle command relationships in {country} and increase uncertainty about internal military cohesion."
 
     if event_type == "coup":
+        if salience == "low":
+            return f"The immediate implication for {country} is fresh doubt about whether political disputes will stay within constitutional channels."
         return f"The broader effect for {country} is to raise doubts about whether political disputes will continue to be resolved within constitutional channels."
 
     if event_type in {"reform", "coop", "aid", "exercise", "procurement"}:
         if "joint operation" in ints:
+            if salience == "low":
+                return f"The practical effect may be a gradual shift in the partners or operating assumptions shaping security policy in {country}."
             return f"Over time, this could shift the security posture of {country} by reinforcing particular doctrines, partners, or operational priorities."
+        if salience == "low":
+            return f"The practical effect may be a modest change in the institutional direction of the security sector in {country}."
         return f"Over time, this could change the institutional direction of the security sector in {country}, even if immediate effects remain limited."
 
+    if salience == "low":
+        return f"For now, the event is best treated as a limited signal about the current direction of civil-military and security politics in {country}."
     return f"Taken together, the event is best read as a signal about the current trajectory of civil-military and security politics in {country}."
 
 
-def synthesis_monitor_line(overall: str, reviewed: bool, disagreement: bool) -> str:
-    if disagreement:
-        return "The main point to monitor next is whether subsequent reporting confirms this as an isolated incident or the start of a wider shift."
-    if overall == "high":
-        return "Users should watch for follow-on moves by state security actors, political elites, or armed challengers that confirm a broader change in trajectory."
-    if not reviewed:
+def synthesis_monitor_line(event: dict, overall: str, reviewed: bool, disagreement: bool) -> str:
+    if not reviewed and salience_level(event) == "medium":
         return "This interpretation should be treated as provisional until more reporting clarifies whether the event is isolated or part of a developing pattern."
-    return "The main question is whether this episode remains contained or begins to shape broader security and political behavior."
+    if not reviewed and salience_level(event) == "low":
+        return "For now, the main question is simply whether later reporting confirms this as part of a larger pattern."
+    return salience_watchpoint(event, disagreement)
 
 
 def build_upstream_worker_outputs(event: dict, workers: dict[str, dict], reviewed: bool) -> dict[str, dict]:
@@ -375,18 +510,24 @@ def cmr_analysis(event: dict, knowledge: dict, guidance: dict) -> dict:
     signals.extend(role_domains)
     signals.extend(rel.lower() for rel in relationship_types[:2])
     signals = list(dict.fromkeys(signals))
+    subtype = subtype_text(event)
+    subtype_clause = f" through a {subtype} episode" if subtype else ""
     assessment = {
-        "coup": f"AI-generated CMR analysis: the event may signal a direct challenge to civilian authority or an attempted power intervention in {country}.",
-        "purge": f"AI-generated CMR analysis: the event suggests politically salient change inside the security hierarchy in {country}.",
-        "protest": f"AI-generated CMR analysis: the event links public contention to state security actors in {country}, which may affect civil-military legitimacy.",
-        "reform": f"AI-generated CMR analysis: the event may reshape institutional rules governing security actors in {country}.",
-        "coop": f"AI-generated CMR analysis: the event may affect external influence over security institutions in {country}.",
-    }.get(event_type, f"AI-generated CMR analysis: the event is relevant to how security institutions are positioned within the political order in {country}.")
-    assessment += (
-        f" Role domains in view: {', '.join(role_domains)}. "
-        f"Relationship cues: {', '.join(relationship_types)}. "
-        f"Primary priorities: {', '.join(role_info.get('priorities', [])[:3])}."
-    )
+        "coup": f"From a civil-military perspective, this event points to acute strain in the constitutional chain of command in {country}.",
+        "purge": f"From a civil-military perspective, this event suggests politically meaningful movement inside the security hierarchy in {country}.",
+        "protest": f"From a civil-military perspective, this event matters because public contention is being mediated by security actors in {country}.",
+        "reform": f"From a civil-military perspective, this event bears on who defines the rules, remit, or autonomy of security institutions in {country}.",
+        "coop": f"From a civil-military perspective, this event matters because outside cooperation can reinforce particular doctrines, partners, and missions inside the security apparatus of {country}.",
+    }.get(event_type, f"From a civil-military perspective, this event matters because it touches the political position of coercive institutions in {country}{subtype_clause}.")
+    if relationship_types:
+        assessment += f" The strongest relationship cue is {readable_label(relationship_types[0])}, which helps frame how security actors relate to civilian authority."
+    if role_domains:
+        assessment += f" The most relevant institutional domain here is {readable_join([item.replace('_', ' ') for item in role_domains[:2]])}."
+    actor_text = actor_focus_text(event)
+    if actor_text:
+        assessment += f" {actor_text}"
+    if salience_level(event) == "high":
+        assessment += f" At high salience, the civil-military question is whether this episode will affect who commands, constrains, or politically relies on the security apparatus in {country}."
     return {
         "lens": "cmr",
         "assessment": assessment,
@@ -420,16 +561,20 @@ def political_risk_analysis(event: dict, knowledge: dict, guidance: dict) -> dic
         signals.append("institutional_power_shift")
     signals = list(dict.fromkeys(signals))
     assessment = {
-        "coup": f"AI-generated political-risk analysis: the event points to severe regime stress or attempted institutional rupture in {country}.",
-        "purge": f"AI-generated political-risk analysis: the event may reflect elite conflict or preemptive consolidation in {country}.",
-        "protest": f"AI-generated political-risk analysis: the event may increase short-run instability through confrontation between society and the security apparatus in {country}.",
-        "conflict": f"AI-generated political-risk analysis: the event may worsen territorial insecurity and state-capacity strain in {country}.",
-        "oc": f"AI-generated political-risk analysis: the event may intensify criminal-state competition and undermine local order in {country}.",
-    }.get(event_type, f"AI-generated political-risk analysis: the event may alter the short-run stability outlook in {country}.")
-    assessment += (
-        f" Relationship cues: {', '.join(relationship_types)}. "
-        f"Primary priorities: {', '.join(role_info.get('priorities', [])[:3])}."
-    )
+        "coup": f"From a political-risk perspective, this event raises the possibility that major disputes in {country} are no longer being managed securely through ordinary institutional channels.",
+        "purge": f"From a political-risk perspective, this event may reflect elite struggle, anticipatory consolidation, or distrust inside the security chain in {country}.",
+        "protest": f"From a political-risk perspective, this event increases the chance that unrest in {country} will be interpreted through a coercive rather than political lens.",
+        "conflict": f"From a political-risk perspective, this event suggests deeper stress on territorial order and state reach in {country}.",
+        "oc": f"From a political-risk perspective, this event points to ongoing competition between criminal actors and the state in ways that can erode public authority in {country}.",
+    }.get(event_type, f"From a political-risk perspective, this event is a signal about short-run stability and institutional confidence in {country}.")
+    if relationship_types:
+        assessment += f" The strongest cue is {readable_label(relationship_types[0])}, which suggests the event is not only operational but also politically structured."
+    if event.get("salience") == "high":
+        assessment += " Because the event is already high-salience, follow-on reactions from political elites or security actors would matter quickly."
+    else:
+        assessment += " The key issue is whether it remains isolated or becomes part of a broader accumulation of stress."
+    if salience_level(event) == "high":
+        assessment += f" In that sense, this is a higher-value signal about whether authority in {country} is becoming more contested, brittle, or dependent on coercive management."
     return {
         "lens": "political_risk",
         "assessment": assessment,
@@ -462,17 +607,19 @@ def regional_security_analysis(event: dict, knowledge: dict, guidance: dict) -> 
     signals.extend(interaction.lower() for interaction in interaction_types[:2])
     signals = list(dict.fromkeys(signals))
     assessment = {
-        "coop": f"AI-generated regional-security analysis: the event may deepen cross-border or bilateral security alignment affecting {country}.",
-        "aid": f"AI-generated regional-security analysis: the event may expand external support channels shaping the security environment around {country}.",
-        "exercise": f"AI-generated regional-security analysis: the event may signal interoperability and readiness priorities with regional implications for {country}.",
-        "procurement": f"AI-generated regional-security analysis: the event may change force capabilities or deterrence signaling relevant to {country}.",
-        "oc": f"AI-generated regional-security analysis: the event may reflect evolving organized-crime pressure with transnational spillover risk around {country}.",
-        "conflict": f"AI-generated regional-security analysis: the event may affect broader regional threat dynamics around {country}.",
-    }.get(event_type, f"AI-generated regional-security analysis: the event should be monitored for spillover or alignment effects beyond {country}.")
-    assessment += (
-        f" Interaction cues: {', '.join(interaction_types)}. "
-        f"Primary priorities: {', '.join(role_info.get('priorities', [])[:3])}."
-    )
+        "coop": f"From a regional-security perspective, this event may tighten bilateral or cross-border security alignment around {country}.",
+        "aid": f"From a regional-security perspective, this event may expand the external resources, partners, or operating assumptions shaping the security environment of {country}.",
+        "exercise": f"From a regional-security perspective, this event is relevant because exercises often reveal future interoperability and mission priorities around {country}.",
+        "procurement": f"From a regional-security perspective, this event could matter if new equipment or doctrine changes how {country} projects force or responds to threats.",
+        "oc": f"From a regional-security perspective, this event speaks to organized-crime pressure that may spill across borders or reshape state deployment patterns around {country}.",
+        "conflict": f"From a regional-security perspective, this event matters because local conflict can alter wider threat perceptions and force-posture decisions around {country}.",
+    }.get(event_type, f"From a regional-security perspective, this event should be watched for spillover, alignment, or force-posture effects beyond {country}.")
+    if interaction_types:
+        assessment += f" The leading interaction cue is {readable_label(interaction_types[0])}, which helps explain the wider security significance."
+    if any(name in {"United States", "External actors"} or "United States" in name for name in actors):
+        assessment += " External involvement makes the event more relevant for regional alignment and security cooperation patterns."
+    if salience_level(event) == "high":
+        assessment += f" At high salience, the regional question is whether this event begins to alter how neighboring states, external partners, or armed challengers read the security trajectory of {country}."
     return {
         "lens": "regional_security",
         "assessment": assessment,
@@ -500,18 +647,31 @@ def synthesis(event: dict, cmr: dict, political: dict, regional: dict, guidance:
     role_domains = infer_role_domains(event, knowledge)
     relationship_types = infer_relationship_types(event, knowledge)
     interaction_types = infer_interaction_types(event, knowledge)
+    classification = public_classification(event, role_domains, relationship_types, interaction_types)
     disagreement = len({cmr["risk_level"], political["risk_level"], regional["risk_level"]}) > 1
     reviewed = reviewed_by_human(event)
-    assessment = " ".join(
-        [
-            synthesis_opening(event, overall, role_domains),
-            synthesis_country_effect(event, overall, relationship_types, interaction_types),
-            synthesis_monitor_line(overall, reviewed, disagreement),
-        ]
-    ).strip()
+    significance = synthesis_opening(event, overall, role_domains)
+    country_effect = synthesis_country_effect(event, overall, relationship_types, interaction_types)
+    interpretive_note = salience_interpretive_note(event)
+    monitor_line = synthesis_monitor_line(event, overall, reviewed, disagreement)
+    assessment_parts = [significance, country_effect]
+    if salience_level(event) == "high":
+        assessment_parts.extend([interpretive_note, confidence_context(event), monitor_line])
+    elif salience_level(event) == "medium":
+        assessment_parts.extend([interpretive_note, monitor_line])
+    else:
+        assessment_parts.extend([confidence_context(event), monitor_line])
+    assessment = " ".join([part for part in assessment_parts if part]).strip()
     return {
         "lens": "synthesis",
         "assessment": assessment,
+        "public_takeaways": {
+            "significance": significance,
+            "country_effect": country_effect,
+            "confidence_note": interpretive_note if salience_level(event) != "low" else confidence_context(event),
+            "watchpoint": monitor_line,
+        },
+        "classification": classification,
         "risk_level": overall,
         "signals": unique_signals[:8],
         "confidence": round((cmr["confidence"] + political["confidence"] + regional["confidence"]) / 3, 2),
@@ -552,7 +712,7 @@ def build_entry(event: dict, knowledge: dict, guidance: dict, workers: dict[str,
         "reviewed_by_human": reviewed,
         "analysis_scope": "all_events",
         "analysis_tag": "AI-generated analysis",
-        "generation_method": "heuristic_council_v2",
+        "generation_method": "heuristic_council_v3",
         "generated_at": datetime.now(UTC).isoformat(),
         "upstream_worker_outputs": upstream_worker_outputs,
         "recommended_review_actions": recommended_review_actions,
@@ -587,7 +747,7 @@ def main() -> None:
     out = {
         "generated_at": datetime.now(UTC).isoformat(),
         "source_file": str(source_path.relative_to(ROOT)),
-        "generation_method": "heuristic_council_v2",
+        "generation_method": "heuristic_council_v3",
         "analysis_scope": "all_events",
         "analysis_tag": "AI-generated analysis",
         "knowledge_refs": [
