@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SENTINEL — LatAm Military & Security Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -13,52 +13,36 @@
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <style>
 :root {
-  --eggshell: #F5F2ED;
-  --eggshell-warm: #EDE8DF;
-  --slate: #1C2B3A;
-  --slate-mid: #2E4057;
-  --gold: #B8963E;
-  --gold-pale: #F0E4C4;
-  --nearblack: #1A1A18;
-  --text-secondary: #5A6470;
-  --rule: #D8D0C4;
-  --card-bg: #EEEBE4;
+  --bg:        #f2f4f7;
+  --bg2:       #e8ecf1;
+  --surface:   #ffffff;
+  --surface2:  #f0f3f6;
+  --border:    #d4dce6;
+  --border2:   #aebece;
+  --border3:   #8ca4b8;
 
-  --bg:        var(--eggshell);
-  --bg2:       var(--eggshell-warm);
-  --surface:   var(--eggshell);
-  --surface2:  var(--card-bg);
-  --surface3:  #e6dfd4;
-  --border:    var(--rule);
-  --border2:   #c4b7a2;
-  --border3:   #8b7f6d;
+  --coup:           #c02828;
+  --purge:          #c86010;
+  --coup-proofing:  #7a2e6e;
+  --aid:            #1460b0;
+  --coop:           #1e7a9e;
+  --protest:        #6c28a8;
+  --reform:         #157550;
+  --conflict:       #b84200;
+  --exercise:       #1868a8;
+  --procurement:    #7a5c1f;
+  --peace:          #1e8060;
+  --oc:             #6e2ea8;
+  --other:          #5a6878;
 
-  --coup:           #a3372f;
-  --purge:          #bb6d2f;
-  --coup-proofing:  #6b4d7a;
-  --aid:            #235a8b;
-  --coop:           #326f7d;
-  --protest:        #7b5b3f;
-  --reform:         #456d59;
-  --conflict:       #8c4630;
-  --exercise:       #4a718f;
-  --procurement:    #7a6034;
-  --peace:          #4d7661;
-  --oc:             #73514b;
-  --other:          #5f645c;
-
-  --navy:      var(--slate);
-  --navy-2:    var(--slate-mid);
-  --gold-soft: var(--gold-pale);
-
-  --text:      var(--nearblack);
-  --text-dim:  var(--text-secondary);
-  --text-muted:#7a746c;
-  --text-faint:#b5ab9d;
+  --text:      #181c22;
+  --text-dim:  #44505c;
+  --text-muted:#7a8ea0;
+  --text-faint:#a8bccf;
 
   --mono: 'DM Mono', monospace;
-  --sans: 'DM Sans', system-ui, sans-serif;
-  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'DM Sans', sans-serif;
+  --serif: 'Playfair Display', serif;
   --space-1:4px;
   --space-2:8px;
   --space-3:12px;
@@ -73,67 +57,41 @@
   --text-xl:20px;
   --text-2xl:28px;
 
-  --shadow:    0 10px 28px rgba(45,34,18,0.08);
-  --shadow-md: 0 22px 48px rgba(30,22,12,0.14);
+  --shadow:    0 1px 4px rgba(60,50,30,0.08);
+  --shadow-md: 0 4px 18px rgba(60,50,30,0.10);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
-body {
-  background:
-    radial-gradient(circle at top left, rgba(184,150,62,0.08), transparent 24%),
-    linear-gradient(180deg, var(--eggshell) 0%, #efe9df 100%);
-  color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.6; font-weight:400; min-height:100vh; overflow-x:hidden;
-}
+body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.6; font-weight:400; min-height:100vh; overflow-x:hidden; }
 
 /* ── HEADER — unified with tabs ─────────────────────────────── */
 header {
-  background:var(--eggshell); border-bottom:1px solid var(--rule);
-  padding:0 28px; display:flex; align-items:stretch; height:64px;
+  background:var(--surface); border-bottom:1px solid var(--border);
+  padding:0 28px; display:flex; align-items:stretch; height:58px;
   position:sticky; top:0; z-index:1000; gap:0; box-shadow:var(--shadow);
 }
-.logo-wordmark { display:flex; flex-direction:column; justify-content:center; gap:2px; padding-right:24px; border-right:1px solid var(--rule); flex-shrink:0; }
-.logo-name { font-family:var(--serif); font-size:22px; font-weight:600; color:var(--slate); letter-spacing:0.16em; line-height:1; font-variant:small-caps; text-transform:uppercase; }
-.logo-name em { font-style:normal; color:var(--gold); }
-.logo-sub { font-family:var(--sans); font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-secondary); }
-.header-right { margin-left:auto; display:flex; align-items:center; gap:10px; flex-shrink:0; padding-left:16px; border-left:1px solid var(--rule); }
-.status-pill { display:flex; align-items:center; gap:5px; font-family:var(--mono); font-size:9px; color:var(--text-secondary); letter-spacing:1px; text-transform:uppercase; }
-.sdot { width:6px; height:6px; border-radius:50%; background:#61c26b; animation:blink 1.8s ease-in-out infinite; }
+.logo-wordmark { display:flex; flex-direction:column; justify-content:center; gap:4px; padding-right:20px; border-right:1px solid var(--border); margin-right:0; flex-shrink:0; }
+.logo-name { font-family:var(--serif); font-size:19px; font-weight:600; color:var(--text); letter-spacing:0.2px; line-height:1; }
+.logo-name em { font-style:normal; color:var(--coup); }
+.logo-sub { font-family:var(--mono); font-size:8px; letter-spacing:1.8px; text-transform:uppercase; color:var(--text-muted); }
+.header-right { margin-left:auto; display:flex; align-items:center; gap:14px; flex-shrink:0; padding-left:14px; border-left:1px solid var(--border); }
+.status-pill { display:flex; align-items:center; gap:5px; font-family:var(--mono); font-size:9px; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; }
+.sdot { width:5px; height:5px; border-radius:50%; background:var(--reform); animation:blink 1.8s ease-in-out infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-#last-updated { font-family:var(--mono); font-size:9px; color:var(--text-secondary); }
+#last-updated { font-family:var(--mono); font-size:9px; color:var(--text-muted); }
 
 /* ── TABS — inline in header ─────────────────────────────────── */
 .tab-bar { display:flex; align-items:stretch; overflow-x:auto; flex:1; }
 .tab-bar::-webkit-scrollbar { display:none; }
 .tab-btn {
-  font-family:var(--sans); font-size:12px; letter-spacing:0.08em; font-weight:400;
-  text-transform:uppercase; color:var(--text-secondary); background:none; border:none;
+  font-family:var(--mono); font-size:9.5px; letter-spacing:1.3px;
+  text-transform:uppercase; color:var(--text-muted); background:none; border:none;
   padding:0 16px; cursor:pointer; height:100%;
   border-bottom:2px solid transparent; border-top:2px solid transparent;
   transition:all 0.15s; white-space:nowrap;
 }
-.tab-btn:hover { color:var(--slate); }
-.tab-btn.active { color:var(--slate); border-bottom-color:var(--gold); }
-
-.mobile-menu-btn{
-  display:none; align-items:center; justify-content:center;
-  width:40px; height:40px; background:none; border:1px solid var(--gold);
-  color:var(--slate); cursor:pointer; border-radius:0;
-}
-.mobile-menu-btn svg{ width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:1.8; }
-.mobile-nav-overlay{
-  display:none; position:fixed; inset:0; z-index:1600;
-  background:rgba(28,43,58,0.98); padding:28px;
-}
-.mobile-nav-overlay.open{ display:flex; flex-direction:column; }
-.mobile-nav-close{
-  align-self:flex-end; background:none; border:1px solid rgba(240,228,196,0.45); color:var(--eggshell);
-  width:42px; height:42px; cursor:pointer; border-radius:0; font-size:26px; line-height:1;
-}
-.mobile-nav-links{ display:flex; flex-direction:column; gap:18px; margin-top:32px; }
-.mobile-nav-link{
-  font-family:var(--serif); font-size:34px; font-weight:400; color:var(--eggshell);
-  background:none; border:none; text-align:left; cursor:pointer;
-}
+.tab-btn:hover { color:var(--text-dim); }
+.tab-btn.active { color:var(--text); border-bottom-color:var(--coup); }
 
 /* ── TAB CONTENT ──────────────────────────────────────── */
 .tab-panel { display:none; }
@@ -141,74 +99,30 @@ header {
 
 /* ── EVENTS TAB — ORIGINAL SENTINEL LAYOUT ────────────── */
 .events-layout {
-  display:grid; grid-template-columns:360px minmax(0, 0.92fr) minmax(0, 1.08fr);
-  grid-template-rows:minmax(360px, 42vh) minmax(360px, 1fr);
-  gap:16px;
-  min-height:540px;
+  display:grid; grid-template-columns:340px 1fr;
+  grid-template-rows:320px 1fr;
+  height:calc(100vh - 52px - 28px); min-height:540px;
 }
-.events-shell { padding:18px; display:flex; flex-direction:column; gap:16px; }
-.events-briefing {
-  display:grid;
-  grid-template-columns:minmax(0, 1.25fr) minmax(0, 0.95fr);
-  gap:16px;
-}
-.events-brief-lead,
-.events-brief-side {
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:18px;
-  box-shadow:var(--shadow);
-}
-.events-brief-lead {
-  padding:22px 24px;
-  background:
-    linear-gradient(135deg, rgba(16,36,63,0.98), rgba(31,54,82,0.97)),
-    linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0));
-  color:#f7f3eb;
-}
-.events-brief-side { padding:18px; display:flex; flex-direction:column; justify-content:space-between; background:linear-gradient(180deg, #fffdf8, #f6f0e6); }
-.brief-kicker { font-family:var(--mono); font-size:8px; letter-spacing:1.8px; text-transform:uppercase; color:rgba(247,243,235,0.68); margin-bottom:10px; }
-.brief-title { font-family:var(--serif); font-size:34px; line-height:1.05; margin-bottom:12px; }
-.brief-copy { max-width:840px; font-size:15px; line-height:1.8; color:rgba(247,243,235,0.85); }
-.brief-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-top:18px; }
-.brief-card {
-  padding:12px 14px;
-  border:1px solid rgba(232,219,199,0.15);
-  border-radius:14px;
-  background:rgba(255,255,255,0.07);
-  backdrop-filter:blur(8px);
-}
-.brief-card-label { font-family:var(--mono); font-size:7.5px; letter-spacing:1.2px; text-transform:uppercase; color:rgba(247,243,235,0.60); margin-bottom:6px; }
-.brief-card-value { font-family:var(--serif); font-size:24px; line-height:1.05; color:#fff8ee; }
-.brief-card-note { margin-top:4px; font-size:11px; color:rgba(247,243,235,0.72); }
-.brief-side-label { font-family:var(--mono); font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; }
-.brief-side-title { font-family:var(--serif); font-size:24px; line-height:1.12; margin-bottom:8px; color:var(--text); }
-.brief-side-copy { font-size:13.5px; line-height:1.72; color:var(--text-dim); }
-.brief-watchlist { display:flex; flex-wrap:wrap; gap:7px; margin-top:14px; }
-.brief-pill { border:1px solid var(--border); background:var(--surface2); color:var(--text-dim); border-radius:999px; padding:5px 10px; font-family:var(--mono); font-size:8px; letter-spacing:0.7px; text-transform:uppercase; }
 
 /* Sidebar */
 .sidebar {
-  grid-row:1/3;
-  display:flex; flex-direction:column; overflow:hidden; background:var(--eggshell);
-  border:1px solid var(--rule);
-  border-radius:0;
-  box-shadow:none;
+  grid-row:1/3; border-right:1px solid var(--border);
+  display:flex; flex-direction:column; overflow:hidden; background:var(--surface);
 }
 .events-sidebar-head {
   padding:16px 18px 14px;
-  border-bottom:1px solid var(--rule);
-  background:linear-gradient(180deg, rgba(184,150,62,0.08), rgba(184,150,62,0.02));
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg, rgba(20,96,176,0.05), rgba(20,96,176,0.01));
 }
 .events-sidebar-title-row { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin-bottom:8px; }
-.events-sidebar-title { font-family:var(--serif); font-size:26px; font-weight:300; color:var(--slate); line-height:1.05; }
+.events-sidebar-title { font-family:var(--serif); font-size:22px; font-weight:600; color:var(--text); line-height:1.1; }
 .events-sidebar-count { text-align:right; flex-shrink:0; }
 .events-sidebar-count .big-count { font-size:30px; line-height:1; }
 .events-sidebar-copy { font-size:12.5px; line-height:1.7; color:var(--text-dim); font-weight:300; }
 .events-toolbar {
   padding:12px 16px 14px;
-  border-bottom:1px solid var(--rule);
-  background:linear-gradient(180deg, var(--card-bg), rgba(238,235,228,0.4));
+  border-bottom:1px solid var(--border);
+  background:var(--surface2);
 }
 .events-toolbar-grid {
   display:grid;
@@ -217,18 +131,18 @@ header {
 }
 .events-control { display:flex; flex-direction:column; gap:5px; min-width:0; }
 .events-control-label {
-  font-family:var(--sans);
-  font-size:10px;
-  letter-spacing:0.14em;
-  color:var(--text-secondary);
+  font-family:var(--mono);
+  font-size:8px;
+  letter-spacing:1px;
+  color:var(--text-muted);
   text-transform:uppercase;
 }
 .events-select {
   width:100%;
   appearance:none;
-  background:var(--eggshell);
-  border:1px solid var(--rule);
-  border-radius:0;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:3px;
   padding:9px 11px;
   font-family:var(--sans);
   font-size:13px;
@@ -269,25 +183,22 @@ header {
 .event-list::-webkit-scrollbar { width:3px; }
 .event-list::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
 
-.ev-item { padding:14px 16px 14px 18px; border-bottom:1px solid rgba(216,208,196,0.8); cursor:pointer; transition:background 0.14s, border-left-color 0.14s; position:relative; background:var(--eggshell); border-left:1.5px solid transparent; }
-.ev-item::before { display:none; }
-.ev-item:hover { background:var(--card-bg); border-left-color:var(--gold); }
-.ev-item.selected { background:#f1ede6; border-left-color:var(--gold); }
+.ev-item { padding:12px 15px; border-bottom:1px solid var(--border); cursor:pointer; transition:background 0.1s; }
+.ev-item:hover { background:var(--bg2); }
+.ev-item.selected { background:var(--surface2); border-left:2.5px solid var(--text); padding-left:12px; }
 .ev-row1 { display:flex; align-items:center; gap:6px; margin-bottom:4px; }
 .ev-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
-.ev-type { font-family:var(--sans); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; padding:0.16rem 0.45rem; border:1px solid currentColor; border-radius:999px; }
-.ev-country { font-family:var(--serif); font-size:16px; color:var(--slate); margin-left:auto; }
-.ev-title { font-family:var(--sans); font-size:15px; font-weight:400; line-height:1.6; color:var(--nearblack); margin-bottom:6px; }
-.ev-kicker { font-family:var(--sans); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-secondary); margin-bottom:6px; }
-.ev-summary { font-size:12.75px; line-height:1.68; color:var(--text-dim); margin-bottom:7px; }
-.ev-meta { font-family:var(--sans); font-size:0.68rem; color:var(--text-secondary); display:flex; gap:8px; align-items:center; flex-wrap:wrap; text-transform:uppercase; letter-spacing:0.08em; }
+.ev-type { font-family:var(--mono); font-size:8.5px; letter-spacing:1px; text-transform:uppercase; }
+.ev-country { font-family:var(--mono); font-size:8.5px; color:var(--text-muted); margin-left:auto; }
+.ev-title { font-size:14.5px; font-weight:500; line-height:1.55; color:var(--text); margin-bottom:5px; }
+.ev-meta { font-family:var(--mono); font-size:9px; color:var(--text-muted); display:flex; gap:8px; align-items:center; }
 .sal-pip { display:inline-flex; gap:2px; align-items:center; }
 .pip { width:4px; height:4px; border-radius:50%; background:var(--border2); }
 .pip.on { background:var(--coup); }
-.conf-badge { font-family:var(--sans); font-size:0.68rem; letter-spacing:0.08em; padding:0; border-radius:0; text-transform:uppercase; background:none; }
-.conf-green { color:var(--slate); }
-.conf-yellow { color:var(--gold); }
-.conf-red { color:#8d8d88; }
+.conf-badge { font-family:var(--mono); font-size:7px; letter-spacing:0.5px; padding:1px 5px; border-radius:2px; text-transform:uppercase; }
+.conf-green { background:#e8f5e9; color:#2e7d4f; }
+.conf-yellow { background:#fff3e0; color:#c46e12; }
+.conf-red { background:#ffebee; color:#b83232; }
 
 /* ── SOURCE TRANSPARENCY ──────────────────────────── */
 .src-badge { display:inline-flex; align-items:center; gap:3px; font-family:var(--mono); font-size:7px; letter-spacing:0.5px; padding:1px 6px; border-radius:2px; text-transform:uppercase; flex-shrink:0; }
@@ -324,7 +235,7 @@ header {
 .sal-dot { font-size:8px; line-height:1; }
 
 /* Map */
-.map-panel { position:relative; border:1px solid var(--rule); border-radius:0; overflow:hidden; box-shadow:none; background:var(--card-bg); }
+.map-panel { position:relative; border-bottom:1px solid var(--border); }
 #map { width:100%; height:100%; }
 .map-label {
   position:absolute; top:10px; left:10px; z-index:500;
@@ -343,7 +254,7 @@ header {
 .leg-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 
 /* Detail panel */
-.detail { background:var(--eggshell); padding:24px 28px; overflow-y:auto; border:1px solid var(--rule); border-radius:0; box-shadow:none; }
+.detail { background:var(--surface); padding:22px 26px; overflow-y:auto; }
 .detail::-webkit-scrollbar { width:3px; }
 .detail::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
 .detail-empty { height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-faint); gap:10px; }
@@ -351,7 +262,7 @@ header {
 .detail-empty-text { font-family:var(--mono); font-size:9.5px; letter-spacing:1.5px; text-transform:uppercase; }
 
 .type-badge { font-family:var(--mono); font-size:8.5px; letter-spacing:1.5px; text-transform:uppercase; padding:2px 8px; border-radius:2px; color:white; display:inline-block; }
-.detail-title { font-family:var(--serif); font-size:30px; font-weight:600; line-height:1.16; color:var(--text); margin:12px 0 16px; }
+.detail-title { font-family:var(--serif); font-size:26px; font-weight:600; line-height:1.2; color:var(--text); margin:10px 0 14px; }
 .detail-meta { display:flex; gap:20px; flex-wrap:wrap; padding:10px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin-bottom:14px; }
 .dmi label { display:block; font-family:var(--mono); font-size:7.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); margin-bottom:3px; }
 .dmi span { font-family:var(--mono); font-size:11px; color:var(--text-dim); }
@@ -366,7 +277,7 @@ header {
 .detail-chip-row { display:flex; flex-wrap:wrap; gap:6px; }
 .detail-chip { display:inline-flex; align-items:center; gap:4px; font-family:var(--mono); font-size:8px; letter-spacing:0.5px; text-transform:uppercase; padding:4px 8px; border-radius:999px; border:1px solid var(--border); background:var(--bg2); color:var(--text-dim); }
 .detail-text { font-size:15px; line-height:1.82; color:var(--text-dim); }
-.detail-analysis { background:linear-gradient(180deg, rgba(35,90,139,0.05), rgba(35,90,139,0.02)); border:1px solid rgba(35,90,139,0.18); border-left:4px solid var(--navy); border-radius:0 10px 10px 0; padding:15px 17px; }
+.detail-analysis { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--aid); border-radius:0 3px 3px 0; padding:13px 15px; }
 .detail-analysis-meta { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; }
 .detail-analysis-block + .detail-analysis-block { margin-top:12px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.08); }
 .detail-analysis-label { display:block; font-family:var(--mono); font-size:7.5px; letter-spacing:1px; text-transform:uppercase; color:var(--text-muted); margin-bottom:5px; }
@@ -418,12 +329,12 @@ header {
 /* ── GENERIC TAB LAYOUTS ──────────────────────────────── */
 .page-layout {
   display:grid; grid-template-columns:300px 1fr;
-  height:calc(100vh - 64px - 28px); min-height:540px;
+  height:calc(100vh - 52px - 28px); min-height:540px;
 }
-.page-sidebar { border-right:1px solid var(--rule); background:var(--eggshell); overflow-y:auto; display:flex; flex-direction:column; padding-bottom:8px; }
+.page-sidebar { border-right:1px solid var(--border); background:var(--surface); overflow-y:auto; display:flex; flex-direction:column; padding-bottom:8px; }
 .page-sidebar::-webkit-scrollbar { width:3px; }
 .page-sidebar::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
-.page-main { overflow-y:auto; padding:24px 32px; background:linear-gradient(180deg, var(--eggshell) 0%, #f0ebe3 100%); }
+.page-main { overflow-y:auto; padding:24px 32px; }
 #cp-main { padding:0; overflow:hidden; display:flex; flex-direction:column; }
 #cp-regional { flex:1; overflow-y:auto; }
 #cp-country  { flex:1; overflow-y:auto; }
@@ -431,7 +342,7 @@ header {
 .page-main::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
 
 /* Section headers */
-.sec-title { font-family:var(--serif); font-size:28px; font-weight:300; color:var(--slate); margin-bottom:12px; }
+.sec-title { font-family:var(--serif); font-size:19px; font-weight:600; color:var(--text); margin-bottom:12px; }
 .sec-title.mt { margin-top:24px; }
 
 /* Data rows */
@@ -451,11 +362,11 @@ header {
 /* Cards */
 .card-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
 .card {
-  background:var(--card-bg); border:1px solid var(--rule);
-  padding:14px 16px; border-radius:0; box-shadow:none;
+  background:var(--surface); border:1px solid var(--border);
+  padding:14px 16px; border-radius:2px; box-shadow:var(--shadow);
 }
-.card-label { font-family:var(--sans); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-secondary); margin-bottom:4px; }
-.card-value { font-family:var(--serif); font-size:28px; font-weight:400; color:var(--slate); }
+.card-label { font-family:var(--mono); font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px; }
+.card-value { font-family:var(--serif); font-size:24px; font-weight:400; color:var(--text); }
 .card-sub { font-family:var(--mono); font-size:9px; color:var(--text-muted); margin-top:2px; }
 .card-sub.up { color:var(--coup); }
 .card-sub.down { color:var(--reform); }
@@ -496,13 +407,13 @@ header {
 
 /* Country profile buttons */
 .cp-btn {
-  display:block; width:100%; text-align:left; padding:12px 16px; background:var(--eggshell);
-  border:none; border-bottom:1px solid var(--rule); cursor:pointer;
+  display:block; width:100%; text-align:left; padding:10px 16px; background:none;
+  border:none; border-bottom:1px solid var(--border); cursor:pointer;
   font-family:var(--sans); font-size:12px; color:var(--text-dim); font-weight:300;
-  transition:background 0.1s, border-left-color 0.1s;
+  transition:background 0.1s;
 }
-.cp-btn:hover { background:var(--card-bg); }
-.cp-btn.active { background:var(--card-bg); border-left:2px solid var(--gold); padding-left:14px; }
+.cp-btn:hover { background:var(--bg2); }
+.cp-btn.active { background:var(--bg2); border-left:2px solid var(--coup); padding-left:14px; }
 .cp-btn strong { font-weight:400; color:var(--text); display:block; }
 .cp-btn small { font-family:var(--mono); font-size:9px; color:var(--text-muted); }
 
@@ -546,26 +457,10 @@ header {
 .context-map-legend { position:absolute; bottom:10px; left:10px; z-index:10; background:rgba(255,255,248,0.94); border:1px solid var(--border); padding:9px 13px; border-radius:2px; box-shadow:var(--shadow); }
 @media(max-width:700px){ .cp-summary-strip{ grid-template-columns:1fr; } .cp-sum-block{ border-right:none; border-bottom:1px solid var(--border); } }
 @media(max-width:980px){
-  .events-briefing,
-  .brief-grid,
-  .ov-brief-grid { grid-template-columns:1fr 1fr; }
   .events-layout { grid-template-columns:1fr; grid-template-rows:auto 280px auto; height:auto; }
-  .sidebar { grid-row:auto; border-right:none; min-height:0; }
+  .sidebar { grid-row:auto; border-right:none; border-bottom:1px solid var(--border); min-height:0; }
   .map-panel { min-height:280px; }
   .detail-lens-grid, .detail-grid, .events-toolbar-grid, .context-map-grid, .ov-layout { grid-template-columns:1fr; }
-  .tab-bar, .header-right .hdr-btn:not(.login-btn) { display:none; }
-  .mobile-menu-btn { display:inline-flex; }
-}
-@media(max-width:700px){
-  .events-shell,
-  .ov-layout { padding:12px; }
-  .events-briefing,
-  .brief-grid,
-  .ov-brief-grid { grid-template-columns:1fr; }
-  .brief-title { font-size:28px; }
-  .logo-wordmark { border-right:none; padding-right:0; }
-  .header-right { border-left:none; padding-left:0; }
-  .site-footer-grid { grid-template-columns:1fr; }
 }
 
 /* Sparkline trends section */
@@ -600,8 +495,8 @@ header {
 .cp-no-events { font-family:var(--mono); font-size:10px; color:var(--text-faint); padding:16px 0; }
 
 /* ── OVERVIEW TAB ─────────────────────────────────────────── */
-.ov-layout { display:grid; grid-template-columns:minmax(0, 1.05fr) minmax(0, 0.95fr); gap:24px; min-height:calc(100vh - 64px - 28px); padding:28px; background:var(--eggshell); }
-.ov-map-col { position:relative; background:var(--card-bg); overflow:hidden; border:1px solid var(--rule); border-radius:0; box-shadow:none; }
+.ov-layout { display:grid; grid-template-columns:1fr 1fr; height:calc(100vh - 52px - 28px); overflow:hidden; }
+.ov-map-col { position:relative; background:var(--bg); overflow:hidden; }
 .ov-map-label { position:absolute; top:10px; left:10px; z-index:10; font-family:var(--mono); font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); background:rgba(255,255,248,0.92); padding:5px 10px; border:1px solid var(--border); border-radius:2px; box-shadow:var(--shadow); }
 .ov-map-wrap { position:absolute; inset:0; }
 .ov-map-wrap svg { width:100%; height:100%; }
@@ -644,27 +539,18 @@ header {
 .ov-view-profile { font-family:var(--mono); font-size:8.5px; letter-spacing:0.5px; text-transform:uppercase; color:var(--aid); text-decoration:none; cursor:pointer; background:none; border:none; padding:0; }
 .ov-view-profile:hover { text-decoration:underline; }
 
-.ov-desc-col { border:1px solid var(--rule); background:var(--eggshell); overflow-y:auto; padding:34px 34px 40px; display:flex; flex-direction:column; border-radius:0; box-shadow:none; }
+.ov-desc-col { border-left:1px solid var(--border); background:var(--surface); overflow-y:auto; padding:34px 32px 44px; display:flex; flex-direction:column; }
 .ov-desc-col::-webkit-scrollbar { width:3px; }
 .ov-desc-col::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
-.ov-project-kicker { font-family:var(--sans); font-size:0.68rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; display:flex; align-items:center; gap:10px; }
-.ov-project-kicker::before { content:''; width:40px; height:1px; background:var(--gold); display:inline-block; }
-.ov-project-sentinel { font-family:var(--serif); font-size:18px; font-weight:600; color:var(--slate); letter-spacing:0.16em; text-transform:uppercase; font-variant:small-caps; }
-.ov-project-sentinel em { font-style:normal; color:var(--gold); }
-.ov-project-tagline { font-family:var(--serif); font-size:2.6rem; font-weight:300; color:var(--slate); line-height:1.02; margin:10px 0 20px; letter-spacing:0; text-transform:none; }
-.ov-project-body { font-size:0.9rem; line-height:1.85; color:var(--text-secondary); font-weight:300; max-width:680px; }
-.ov-brief-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin:18px 0 20px; }
-.ov-brief-card { padding:12px 14px; border:1px solid var(--border); border-radius:14px; background:linear-gradient(180deg, #fffdf8, #f7f1e7); }
-.ov-brief-label { font-family:var(--mono); font-size:7.5px; letter-spacing:1.2px; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px; }
-.ov-brief-value { font-family:var(--serif); font-size:24px; line-height:1.05; color:var(--navy); }
-.ov-brief-note { font-size:11px; color:var(--text-dim); margin-top:4px; line-height:1.5; }
-.ov-lead-note { margin-top:12px; padding:14px 16px; border-left:4px solid var(--gold); background:linear-gradient(180deg, rgba(181,145,95,0.10), rgba(181,145,95,0.04)); border-radius:0 10px 10px 0; font-size:13px; line-height:1.75; color:var(--text-dim); }
+.ov-project-kicker { font-family:var(--mono); font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; }
+.ov-project-sentinel { font-family:var(--serif); font-size:30px; font-weight:600; color:var(--text); letter-spacing:0.2px; }
+.ov-project-sentinel em { font-style:normal; color:var(--coup); }
+.ov-project-tagline { font-family:var(--mono); font-size:9px; letter-spacing:1.9px; text-transform:uppercase; color:var(--text-muted); margin:6px 0 18px; }
+.ov-project-body { font-size:16px; line-height:1.86; color:var(--text-dim); font-weight:400; }
 .ov-project-body p+p { margin-top:13px; }
-.ov-rule { border:none; border-top:1px solid var(--rule); margin:18px 0; }
-.ov-badges-wrap { margin:14px 0 0; padding:14px 0 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); padding-bottom:14px; background:var(--eggshell-warm); }
-.ov-badges-label { font-family:var(--sans); font-size:0.68rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
-.ov-badges { display:flex; flex-wrap:wrap; gap:8px; }
-.ov-badge { font-family:var(--sans); font-size:0.7rem; letter-spacing:0.1em; padding:0.35rem 0.85rem; border:1px solid var(--rule); border-radius:999px; color:var(--text-secondary); background:var(--eggshell-warm); text-transform:uppercase; }
+.ov-rule { border:none; border-top:1px solid var(--border); margin:18px 0; }
+.ov-badges { display:flex; flex-wrap:wrap; gap:5px; margin:14px 0 0; }
+.ov-badge { font-family:var(--mono); font-size:7.5px; letter-spacing:0.5px; padding:3px 9px; border:1px solid var(--border); border-radius:2px; color:var(--text-dim); background:var(--bg2); text-transform:uppercase; }
 .ov-github-link { margin-top:auto; padding-top:20px; font-family:var(--mono); font-size:8.5px; color:var(--text-muted); letter-spacing:0.5px; }
 .ov-github-link a { color:var(--aid); text-decoration:none; }
 .ov-github-link a:hover { text-decoration:underline; }
@@ -682,19 +568,17 @@ header {
 .filter-sub-label { font-family:var(--mono); font-size:7px; letter-spacing:1px; text-transform:uppercase; color:var(--text-faint); margin-bottom:3px; }
 /* Analysis type badges */
 .analysis-badge { font-family:var(--mono); font-size:7px; letter-spacing:0.8px; text-transform:uppercase; padding:2px 7px; border-radius:2px; font-weight:500; display:inline-block; }
-.analysis-badge.military { color:#1a538f; background:rgba(26,83,143,0.12); border:1px solid rgba(26,83,143,0.28); }
-.analysis-badge.political { color:#1a6e52; background:rgba(26,110,82,0.1); border:1px solid rgba(26,110,82,0.25); }
+.analysis-badge.cmr { color:#1a538f; background:rgba(26,83,143,0.12); border:1px solid rgba(26,83,143,0.28); }
+.analysis-badge.stability { color:#1a6e52; background:rgba(26,110,82,0.1); border:1px solid rgba(26,110,82,0.25); }
 .analysis-badge.security { color:#a84000; background:rgba(168,64,0,0.1); border:1px solid rgba(168,64,0,0.28); }
-.analysis-badge.international { color:#7c5b12; background:rgba(184,150,62,0.12); border:1px solid rgba(184,150,62,0.32); }
-.analysis-badge.economist { color:#6b4d7a; background:rgba(107,77,122,0.10); border:1px solid rgba(107,77,122,0.24); }
 
 /* Overview monitor cards (2×2 grid) */
-.ov-monitor-card { display:block; text-decoration:none; padding:18px 18px 16px; background:var(--card-bg); border:1px solid var(--rule); border-left:3px solid transparent; border-radius:0; cursor:pointer; transition:border-color 0.12s, background 0.12s; }
-.ov-monitor-card:hover { background:#f3efe8; border-left-color:var(--gold); }
-.ov-monitor-card-status { font-family:var(--sans); font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:8px; display:inline-flex; align-items:center; padding:0.2rem 0.55rem; border-radius:999px; border:1px solid currentColor; background:rgba(184,150,62,0.10); }
-.ov-monitor-card-country { font-family:var(--serif); font-size:1.3rem; font-weight:500; color:var(--slate); margin-bottom:8px; line-height:1.05; }
-.ov-monitor-card-desc { font-family:var(--sans); font-size:0.82rem; color:var(--text-secondary); line-height:1.7; }
-.ov-monitor-card-link { font-family:var(--sans); font-size:0.72rem; color:var(--gold); margin-top:12px; text-transform:uppercase; letter-spacing:0.08em; }
+.ov-monitor-card { display:block; text-decoration:none; padding:13px 15px; background:var(--bg2); border:1px solid var(--border); border-radius:3px; cursor:pointer; transition:background 0.1s, border-color 0.1s; }
+.ov-monitor-card:hover { background:var(--surface2); border-color:var(--border2); }
+.ov-monitor-card-status { font-family:var(--mono); font-size:7.5px; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
+.ov-monitor-card-country { font-size:18px; font-weight:700; color:var(--text); margin-bottom:6px; line-height:1.15; }
+.ov-monitor-card-desc { font-size:12.5px; color:var(--text-dim); line-height:1.55; }
+.ov-monitor-card-link { font-family:var(--mono); font-size:9px; color:var(--aid); margin-top:10px; }
 /* Overview tab guide */
 .ov-tg-item { cursor:pointer; padding:8px 10px; background:var(--bg2); border:1px solid var(--border); border-radius:2px; transition:background 0.1s; }
 .ov-tg-item:hover { background:var(--surface2); border-color:var(--border2); }
@@ -702,7 +586,7 @@ header {
 .ov-tg-desc { font-size:11px; color:var(--text-dim); line-height:1.4; }
 
 /* Email subscribe widget */
-.ov-subscribe { margin:18px 0 0; padding:16px; background:linear-gradient(180deg, #fffdf8, #f4eee4); border:1px solid var(--border); border-radius:14px; }
+.ov-subscribe { margin:18px 0 0; padding:14px 16px; background:var(--bg2); border:1px solid var(--border); border-radius:3px; }
 .ov-subscribe-label { font-family:var(--mono); font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; }
 .ov-subscribe-sub { font-size:12.5px; color:var(--text-dim); margin-bottom:10px; line-height:1.6; }
 .ov-subscribe-row { display:flex; gap:6px; }
@@ -729,7 +613,7 @@ header {
 @media (max-width:820px) { .cp-two-col { grid-template-columns:1fr; } }
 
 /* About SENTINEL tab */
-.about-layout { max-width:860px; margin:0 auto; padding:44px 28px 72px; }
+.about-layout { max-width:860px; margin:0 auto; padding:36px 28px 60px; }
 .about-section { margin-bottom:36px; }
 .about-h1 { font-family:var(--serif); font-size:30px; font-weight:600; margin-bottom:8px; }
 .about-h1 em { font-style:normal; color:var(--coup); }
@@ -768,68 +652,20 @@ header {
 @media (max-width:780px){ .about-src-row{ grid-template-columns:1fr; gap:4px; } }
 
 /* ── TRANSNATIONAL SECURITY TAB ───────────────────────────── */
-.ts-layout { display:grid; grid-template-columns:300px 1fr; height:calc(100vh - 64px - 28px); min-height:540px; }
+.ts-layout { display:grid; grid-template-columns:300px 1fr; height:calc(100vh - 52px - 28px); min-height:540px; }
 
 /* Log bar */
 .log-bar {
   position:fixed; bottom:0; left:0; right:0; height:28px;
-  background:var(--slate); border-top:none;
+  background:var(--surface); border-top:1px solid var(--border);
   display:flex; align-items:center; padding:0 28px; gap:10px; z-index:999;
 }
-.log-pfx, .log-txt, .log-status-inline { font-family:var(--mono); font-size:0.65rem; color:rgba(245,242,237,0.55); letter-spacing:0.04em; }
-.log-txt.ok { color:rgba(245,242,237,0.82); }
-.log-live-dot { color:#61c26b; animation:blink 1.8s ease-in-out infinite; margin-right:6px; }
+.log-pfx { font-family:var(--mono); font-size:8.5px; color:var(--text-muted); letter-spacing:1px; }
+.log-txt { font-family:var(--mono); font-size:9.5px; color:var(--text-dim); }
+.log-txt.ok { color:var(--reform); }
 
 /* ── TOOLTIP ─────────────────────────────────────────────────── */
 .tt { position:fixed; z-index:3000; background:var(--surface); color:var(--text-dim); border:1px solid var(--border2); font-family:var(--sans); font-size:11.5px; font-weight:300; line-height:1.65; padding:9px 13px; border-radius:3px; max-width:260px; pointer-events:none; box-shadow:var(--shadow-md); display:none; }
-
-.site-footer{
-  background:var(--eggshell);
-  border-top:2px solid var(--gold);
-  padding:34px 28px 56px;
-}
-.site-footer-grid{
-  display:grid;
-  grid-template-columns:1.3fr 0.8fr 0.9fr;
-  gap:28px;
-  max-width:1400px;
-  margin:0 auto;
-}
-.site-footer-logo{
-  font-family:var(--serif);
-  font-size:26px;
-  font-weight:600;
-  color:var(--slate);
-  letter-spacing:0.16em;
-  text-transform:uppercase;
-  font-variant:small-caps;
-}
-.site-footer-logo em{ font-style:normal; color:var(--gold); }
-.site-footer-copy,
-.site-footer-legal,
-.site-footer-sources{
-  font-size:0.86rem;
-  line-height:1.8;
-  color:var(--text-secondary);
-  margin-top:10px;
-}
-.site-footer-label{
-  font-family:var(--sans);
-  font-size:0.68rem;
-  letter-spacing:0.18em;
-  text-transform:uppercase;
-  color:var(--gold);
-  margin-bottom:12px;
-}
-.site-footer-nav{ display:flex; flex-direction:column; gap:8px; }
-.site-footer-nav button{
-  background:none; border:none; padding:0; text-align:left; cursor:pointer;
-  font-family:var(--sans); font-size:0.82rem; color:var(--slate);
-}
-.site-footer-github{
-  margin-top:14px; display:inline-flex; align-items:center; justify-content:center;
-  width:34px; height:34px; border:1px solid var(--gold); color:var(--gold); text-decoration:none;
-}
 
 /* ── VISUAL TIMELINE ─────────────────────────────────────────── */
 .vtl { padding:16px 40px 56px; }
@@ -857,13 +693,13 @@ header {
 .vtl-src-row { margin-top:5px; display:flex; gap:8px; flex-wrap:wrap; }
 
 /* ── HEADER RIGHT — search + lang ──────────────────────────── */
-.header-right { margin-left:auto; display:flex; align-items:center; gap:8px; flex-shrink:0; padding-left:14px; border-left:1px solid var(--rule); }
-.hdr-btn { background:none; border:1px solid var(--rule); border-radius:0; padding:0 11px; cursor:pointer; font-family:var(--sans); font-size:10px; letter-spacing:0.08em; color:var(--text-secondary); text-transform:uppercase; transition:all 0.15s; display:flex; align-items:center; gap:5px; height:32px; text-decoration:none; }
-.hdr-btn:hover { color:var(--slate); border-color:var(--gold); background:rgba(184,150,62,0.04); }
-.hdr-btn.lang-active { color:var(--slate); border-color:var(--gold); }
+.header-right { margin-left:auto; display:flex; align-items:center; gap:6px; flex-shrink:0; padding-left:12px; border-left:1px solid var(--border); }
+.hdr-btn { background:none; border:1px solid var(--border); border-radius:2px; padding:0 9px; cursor:pointer; font-family:var(--mono); font-size:9px; letter-spacing:1.2px; color:var(--text-muted); text-transform:uppercase; transition:all 0.15s; display:flex; align-items:center; gap:5px; height:26px; text-decoration:none; }
+.hdr-btn:hover { color:var(--text); border-color:var(--border2); background:var(--bg2); }
+.hdr-btn.lang-active { color:var(--text); border-color:var(--border2); }
 .hdr-btn svg { width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:1.6; }
-.hdr-btn.login-btn { color:var(--gold); border-color:var(--gold); background:transparent; }
-.hdr-btn.login-btn:hover { color:var(--slate); border-color:var(--gold); background:rgba(184,150,62,0.06); }
+.hdr-btn.login-btn { color:var(--aid); border-color:rgba(20,96,176,.28); background:rgba(20,96,176,.04); }
+.hdr-btn.login-btn:hover { color:var(--aid); border-color:rgba(20,96,176,.42); background:rgba(20,96,176,.10); }
 .hdr-btn.login-btn.disabled,
 .hdr-btn.login-btn[aria-disabled="true"]{
   color:var(--text-muted);
@@ -892,7 +728,7 @@ header {
 <!-- HEADER — tabs inline, sticky -->
 <header>
   <div class="logo-wordmark" onclick="switchTab('overview')" style="cursor:pointer;">
-    <div class="logo-name">SENTINEL<em>·</em></div>
+    <div class="logo-name">Sentinel<em>.</em></div>
     <div class="logo-sub">LatAm Civil-Military Monitor</div>
   </div>
   <nav class="tab-bar" id="tab-bar">
@@ -904,9 +740,6 @@ header {
     <button class="tab-btn" data-tab="about">About</button>
   </nav>
   <div class="header-right">
-    <button class="mobile-menu-btn" onclick="openMobileNav()" aria-label="Open navigation">
-      <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-    </button>
     <a class="hdr-btn login-btn" id="analyst-login-link" href="./apps/analyst-console/" title="Analyst login">
       <svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5.5A2.5 2.5 0 0 1 8 3a2.5 2.5 0 0 1 2.5 2.5V7"/></svg>
       <span>Analyst Login</span>
@@ -918,18 +751,6 @@ header {
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">ES</button>
   </div>
 </header>
-
-<div class="mobile-nav-overlay" id="mobile-nav-overlay">
-  <button class="mobile-nav-close" onclick="closeMobileNav()" aria-label="Close navigation">×</button>
-  <div class="mobile-nav-links">
-    <button class="mobile-nav-link" onclick="switchTab('events');closeMobileNav()">Events</button>
-    <button class="mobile-nav-link" onclick="switchTab('profiles');closeMobileNav()">Countries</button>
-    <button class="mobile-nav-link" onclick="switchTab('transnational');closeMobileNav()">Security</button>
-    <button class="mobile-nav-link" onclick="switchTab('us');closeMobileNav()">US Cooperation</button>
-    <button class="mobile-nav-link" onclick="switchTab('timeline');closeMobileNav()">Timeline</button>
-    <button class="mobile-nav-link" onclick="switchTab('about');closeMobileNav()">About</button>
-  </div>
-</div>
 
 <!-- ══════════════════════════════════════════════════════════ -->
 <!--  OVERVIEW TAB                                              -->
@@ -947,6 +768,7 @@ header {
         <p>These are not isolated episodes. They reflect a regional pattern: civilian control of the military, where it exists, is increasingly conditional — contingent on political alignment, economic crisis, and the willingness of individual commanders to hold the line. SENTINEL tracks this pattern in near-real time, country by country, event by event. The question driving the project is not whether coups happen, but whether the norms and institutions that make them costly are eroding — and where the erosion is fastest.</p>
         <p>Four special monitors provide deep analytical coverage of the region's most consequential cases: <strong>Venezuela</strong> (post-Maduro transition), <strong>Colombia</strong> (Total Peace doctrine and the FARC's JEP reckoning), <strong>El Salvador</strong> (Bukele's institutionalized exception), and <strong>Mexico</strong> (structural militarization under Sheinbaum). For methodology and theoretical framework, see the <a href="#" onclick="event.preventDefault();switchTab('about')" style="color:var(--aid);text-decoration:none;">About tab →</a></p>
       </div>
+
       <!-- Special monitors 2×2 -->
       <div style="margin-top:20px;">
         <div class="ov-ql-label" style="margin-bottom:10px;">Priority monitors</div>
@@ -988,22 +810,20 @@ header {
         <div id="sub-msg" style="font-family:var(--mono);font-size:9px;color:var(--reform);margin-top:6px;display:none;"></div>
       </div>
 
-      <div class="ov-badges-wrap">
-        <div class="ov-badges-label">Powered By</div>
-        <div class="ov-badges">
-          <span class="ov-badge">GDELT</span>
-          <span class="ov-badge">ACLED</span>
-          <span class="ov-badge">InSight Crime RSS</span>
-          <span class="ov-badge">Reuters LatAm RSS</span>
-          <span class="ov-badge">BBC Mundo RSS</span>
-          <span class="ov-badge">El País América RSS</span>
-          <span class="ov-badge">NewsAPI</span>
-          <span class="ov-badge">World Bank WDI/WGI</span>
-          <span class="ov-badge">V-Dem v16</span>
-          <span class="ov-badge">USAID Greenbook</span>
-          <span class="ov-badge">Claude (Anthropic)</span>
-          <span class="ov-badge">GitHub Actions</span>
-        </div>
+      <hr class="ov-rule">
+      <div class="ov-badges">
+        <span class="ov-badge">GDELT</span>
+        <span class="ov-badge">ACLED</span>
+        <span class="ov-badge">InSight Crime RSS</span>
+        <span class="ov-badge">Reuters LatAm RSS</span>
+        <span class="ov-badge">BBC Mundo RSS</span>
+        <span class="ov-badge">El País América RSS</span>
+        <span class="ov-badge">NewsAPI</span>
+        <span class="ov-badge">World Bank WDI/WGI</span>
+        <span class="ov-badge">V-Dem v16</span>
+        <span class="ov-badge">USAID Greenbook</span>
+        <span class="ov-badge">Claude (Anthropic)</span>
+        <span class="ov-badge">GitHub Actions</span>
       </div>
       <div class="ov-github-link">Open-source · <a href="https://github.com" target="_blank" rel="noopener">View on GitHub</a></div>
     </div>
@@ -1030,8 +850,7 @@ header {
 <!--  EVENTS TAB                                                -->
 <!-- ══════════════════════════════════════════════════════════ -->
 <div class="tab-panel" id="events">
-  <div class="events-shell">
-    <div class="events-layout">
+  <div class="events-layout">
     <div class="sidebar">
       <div class="events-sidebar-head">
         <div class="events-sidebar-title-row">
@@ -1107,7 +926,6 @@ header {
         <div class="detail-empty-text">Select an event</div>
       </div>
     </div>
-  </div>
   </div>
 </div>
 
@@ -1217,8 +1035,8 @@ header {
           <div style="margin-top:18px;font-size:12px;line-height:1.82;color:var(--text-dim);font-weight:300;padding:14px 16px;background:var(--bg2);border-left:3px solid var(--coup);border-radius:0 2px 2px 0;">
             <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
               <span class="analysis-badge security">Security</span>
-              <span class="analysis-badge military">Military</span>
-              <span class="analysis-badge political">Political</span>
+              <span class="analysis-badge cmr">Civil-Military Relations</span>
+              <span class="analysis-badge stability">Political Stability</span>
             </div>
             The 2025–26 Caribbean operations represent a structural shift in US hemispheric posture — from the post-Cold War model of institution-building, aid conditionality, and multilateral frameworks toward direct coercive action and transactional bilateral deals. Operation Absolute Resolve sets a precedent with no post-1989 equivalent: a US head-of-state capture operation against a sovereign government in the hemisphere. The CMR implications are significant: (1) the FANB now understands that military loyalty to a sanctioned leader does not guarantee sovereignty protection; (2) smaller Caribbean militaries are recalibrating threat assessments to include the possibility of US direct action; (3) the CECOT deportation architecture shows US willingness to co-finance detention systems that bypass OAS and Inter-American human rights frameworks. SENTINEL assesses the long-term effect on regional civil-military norms as destabilizing — the intervention may reduce authoritarian durability in the short run while normalizing extralegal executive action.
           </div>
@@ -1373,20 +1191,20 @@ header {
             <div class="tab-intro-title" id="sr-title">Latin America &amp; the Caribbean</div>
             <div id="sr-summary"></div>
           </div>
-          <div class="context-panel-note">Regional risk monitor. The map highlights regime vulnerability, while the cards and charts below break that outlook into militarization and security-fragmentation layers built from structural factors and live events.</div>
+          <div class="context-panel-note">Regional militarization monitor. Country shading combines a structural baseline from the M3 dataset with weighted live-event pressure from the SENTINEL feed, so the map captures both embedded military roles and current stress.</div>
           <div class="mini-legend" aria-hidden="true">
-            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#f1f0e1;"></span><span>lower vulnerability</span></div>
-            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#a8ae72;"></span><span>mixed structural and live stress</span></div>
-            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#556b2f;"></span><span>higher vulnerability</span></div>
+            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#f1f0e1;"></span><span>lower militarization</span></div>
+            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#a8ae72;"></span><span>mixed structural and live pressure</span></div>
+            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#556b2f;"></span><span>higher militarization</span></div>
           </div>
         </div>
         <div class="context-map-card">
           <div class="cp-regional-map-wrap" id="cp-regional-map-wrap">
-            <div class="context-map-label">Regional Regime Vulnerability</div>
+            <div class="context-map-label">Regional Militarization Index</div>
             <svg id="cp-regional-map-svg" style="width:100%;height:100%;display:block;"></svg>
             <div class="cp-regional-tooltip" id="cp-regional-tooltip"></div>
           <div class="context-map-legend">
-            <div style="font-family:var(--mono);font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Regime Vulnerability</div>
+            <div style="font-family:var(--mono);font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Militarization Index</div>
             <div style="display:flex;flex-direction:column;gap:4px;">
               <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div class="mini-legend-swatch" style="background:#f1f0e1;"></div>Lower</div>
               <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div class="mini-legend-swatch" style="background:#a8ae72;"></div>Intermediate</div>
@@ -1398,23 +1216,83 @@ header {
       </div>
 
       <div class="card-grid" id="sr-cards">
-        <div class="card"><div class="card-label">Regime Vulnerability</div><div class="card-value">—</div><div class="card-sub">loading monitor</div></div>
-        <div class="card"><div class="card-label">Militarization</div><div class="card-value">—</div><div class="card-sub">loading monitor</div></div>
-        <div class="card"><div class="card-label">Security Fragmentation</div><div class="card-value">—</div><div class="card-sub">loading monitor</div></div>
-        <div class="card"><div class="card-label">Rising Outlooks</div><div class="card-value">—</div><div class="card-sub">loading monitor</div></div>
+        <div class="card"><div class="card-label">Regional Mil. Spending</div><div class="card-value">$98.4B</div><div class="card-sub up">+4.2% YoY</div></div>
+        <div class="card"><div class="card-label">Total Active Personnel</div><div class="card-value">1.84M</div><div class="card-sub">across 24 countries</div></div>
+        <div class="card"><div class="card-label">Avg Spending / GDP</div><div class="card-value">1.3%</div><div class="card-sub">global avg: 2.3%</div></div>
+        <div class="card"><div class="card-label">Active Arms Deals</div><div class="card-value">67</div><div class="card-sub">23 delivered this year</div></div>
       </div>
       <div class="chart-box">
-        <div class="sec-title">Regional Monitor Mix</div>
+        <div class="sec-title">Regional Military Spending — trend ($B)</div>
         <div class="chart-wrap"><canvas id="spendChart"></canvas></div>
       </div>
+      <div class="sec-title mt">Top Military Spenders (2025)</div>
+      <div class="bar-row"><span class="bar-name">Brazil</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--reform);"></div></div><span class="bar-num">$29.4B</span></div>
+      <div class="bar-row"><span class="bar-name">Colombia</span><div class="bar-track"><div class="bar-fill" style="width:48%;background:var(--reform);"></div></div><span class="bar-num">$14.1B</span></div>
+      <div class="bar-row"><span class="bar-name">Mexico</span><div class="bar-track"><div class="bar-fill" style="width:32%;background:var(--reform);"></div></div><span class="bar-num">$9.4B</span></div>
+      <div class="bar-row"><span class="bar-name">Chile</span><div class="bar-track"><div class="bar-fill" style="width:22%;background:var(--reform);"></div></div><span class="bar-num">$6.5B</span></div>
+      <div class="bar-row"><span class="bar-name">Argentina</span><div class="bar-track"><div class="bar-fill" style="width:16%;background:var(--reform);"></div></div><span class="bar-num">$4.7B</span></div>
+      <div class="bar-row"><span class="bar-name">Venezuela</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--reform);"></div></div><span class="bar-num">$3.2B</span></div>
+      <div class="bar-row"><span class="bar-name">Peru</span><div class="bar-track"><div class="bar-fill" style="width:10%;background:var(--reform);"></div></div><span class="bar-num">$2.9B</span></div>
+
+      <div class="tab-intro-block" style="margin-top:24px;">
+        <div class="tab-intro-title">Arms &amp; Procurement</div>
+        Procurement patterns reveal strategic alignments, capability-building priorities, and the degree to which military institutions exercise autonomous procurement authority outside civilian oversight. In Latin America, the US remains the leading supplier, but <strong>China's growing market share</strong> and Russia's continued ties with Venezuela and Nicaragua show a more diversified procurement environment with clear civil-military implications.
+      </div>
+      <div class="card-grid">
+        <div class="card"><div class="card-label">Total Deal Value</div><div class="card-value">$8.3B</div><div class="card-sub">2024–2026</div></div>
+        <div class="card"><div class="card-label">Top Buyer</div><div class="card-value" style="font-size:20px;">Brazil</div><div class="card-sub">31% of imports</div></div>
+        <div class="card"><div class="card-label">China Share</div><div class="card-value">11%</div><div class="card-sub up">+4pp since 2020</div></div>
+        <div class="card"><div class="card-label">Delivered This Year</div><div class="card-value">23</div><div class="card-sub">of 67 active</div></div>
+      </div>
       <div class="chart-box">
-        <div class="sec-title">Highest Current Risk Layers</div>
+        <div class="sec-title">Supplier Trends — SIPRI TIV ($M)</div>
         <div class="chart-wrap"><canvas id="armsChart"></canvas></div>
       </div>
-      <div class="sec-title mt">Current Regional Readouts</div>
-      <div id="sr-monitor-readouts">
-        <div class="ev-item"><div class="ev-title">Monitor summaries loading.</div></div>
+      <div class="sec-title mt">Major Recent Deals</div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">Sweden → Brazil</span></div><div class="ev-title">Gripen E/F fighter jets — 36 units ($5.4B)</div><div class="ev-meta"><span>2019–2027</span><span>SIPRI</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivered</span><span class="ev-country">Germany → Chile</span></div><div class="ev-title">Leopard 2A4 main battle tanks — 100 units ($220M)</div><div class="ev-meta"><span>2023</span><span>SIPRI</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--purge)"></div><span class="ev-type" style="color:var(--purge)">Negotiating</span><span class="ev-country">Pakistan/China → Argentina</span></div><div class="ev-title">JF-17 Block III multirole fighter evaluation ($1.2B est.)</div><div class="ev-meta"><span>2025–</span><span>News reports</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Ordered</span><span class="ev-country">US → Colombia</span></div><div class="ev-title">UH-60 Black Hawk helicopters — 12 units ($380M)</div><div class="ev-meta"><span>2025</span><span>DSCA</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">France → Brazil</span></div><div class="ev-title">Scorpène-class submarine — 4th of 4 ($1.8B program)</div><div class="ev-meta"><span>2024</span><span>SIPRI</span></div></div>
+      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">South Korea → Peru</span></div><div class="ev-title">KAI KT-1 trainer aircraft — 20 units ($200M)</div><div class="ev-meta"><span>2024–2026</span><span>SIPRI</span></div></div>
+
+      <!-- ── CMR STATUS DISTRIBUTION ───────────────────────── -->
+      <div class="sec-title mt">CMR Status — Regional Distribution</div>
+      <div class="card-grid" style="grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;">
+        <div class="card" style="border-top:3px solid var(--reform);"><div class="card-label">Stable</div><div class="card-value" style="color:var(--reform);">5</div><div class="card-sub">Uruguay · Costa Rica · Chile · Panama · Trinidad</div></div>
+        <div class="card" style="border-top:3px solid var(--purge);"><div class="card-label">Strained</div><div class="card-value" style="color:var(--purge);">10</div><div class="card-sub">Brazil · Mexico · Peru · Ecuador · Honduras + 5</div></div>
+        <div class="card" style="border-top:3px solid var(--coup);"><div class="card-label">Crisis</div><div class="card-value" style="color:var(--coup);">6</div><div class="card-sub">Venezuela · El Salvador · Bolivia · Haiti · Guatemala · Paraguay</div></div>
+        <div class="card" style="border-top:3px solid var(--oc);"><div class="card-label">Authoritarian</div><div class="card-value" style="color:var(--oc);">4</div><div class="card-sub">Cuba · Nicaragua · Suriname + 1</div></div>
       </div>
+
+      <!-- ── COUP EVENTS SINCE 1990 ────────────────────────── -->
+      <div class="sec-title mt">Coup Events Since 1990 (successful + attempts)</div>
+      <div class="bar-row"><span class="bar-name">Venezuela</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--coup);"></div></div><span class="bar-num">6</span></div>
+      <div class="bar-row"><span class="bar-name">Ecuador</span><div class="bar-track"><div class="bar-fill" style="width:67%;background:var(--coup);"></div></div><span class="bar-num">4</span></div>
+      <div class="bar-row"><span class="bar-name">Bolivia</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--coup);"></div></div><span class="bar-num">3</span></div>
+      <div class="bar-row"><span class="bar-name">Haiti</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--coup);"></div></div><span class="bar-num">3</span></div>
+      <div class="bar-row"><span class="bar-name">Peru</span><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--coup);"></div></div><span class="bar-num">2</span></div>
+      <div class="bar-row"><span class="bar-name">Brazil</span><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--coup);"></div></div><span class="bar-num">2</span></div>
+      <div class="bar-row"><span class="bar-name">Honduras</span><div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--coup);"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-name">Paraguay</span><div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--coup);"></div></div><span class="bar-num">1</span></div>
+
+      <!-- ── MILITARY IN DOMESTIC SECURITY ─────────────────── -->
+      <div class="sec-title mt">Military in Domestic Security Role (2026)</div>
+      <div class="card-grid" style="grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;">
+        <div class="card" style="border-left:3px solid var(--conflict);"><div class="card-label">Active Internal Conflict Framework</div><div class="card-value" style="font-size:18px;">3</div><div class="card-sub">El Salvador · Ecuador · Haiti</div></div>
+        <div class="card" style="border-left:3px solid var(--purge);"><div class="card-label">Military in Law Enforcement</div><div class="card-value" style="font-size:18px;">7</div><div class="card-sub">Mexico · Honduras · Guatemala · Dominican Rep. · Bolivia · Trinidad · Nicaragua</div></div>
+        <div class="card" style="border-left:3px solid var(--aid);"><div class="card-label">US SOUTHCOM Active Partners</div><div class="card-value" style="font-size:18px;">18</div><div class="card-sub">All except Cuba, Venezuela, Nicaragua, Bolivia</div></div>
+      </div>
+
+      <!-- ── US SECURITY AID (ALL-TIME) ────────────────────── -->
+      <div class="sec-title mt">All-Time US Security Aid — Top Recipients (Greenbook)</div>
+      <div class="bar-row"><span class="bar-name">Colombia</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--aid);"></div></div><span class="bar-num">$26.96B</span></div>
+      <div class="bar-row"><span class="bar-name">Brazil</span><div class="bar-track"><div class="bar-fill" style="width:77%;background:var(--aid);"></div></div><span class="bar-num">$20.69B</span></div>
+      <div class="bar-row"><span class="bar-name">Peru</span><div class="bar-track"><div class="bar-fill" style="width:49%;background:var(--aid);"></div></div><span class="bar-num">$13.28B</span></div>
+      <div class="bar-row"><span class="bar-name">El Salvador</span><div class="bar-track"><div class="bar-fill" style="width:47%;background:var(--aid);"></div></div><span class="bar-num">$12.70B</span></div>
+      <div class="bar-row"><span class="bar-name">Bolivia</span><div class="bar-track"><div class="bar-fill" style="width:37%;background:var(--aid);"></div></div><span class="bar-num">$9.98B</span></div>
+      <div class="bar-row"><span class="bar-name">Honduras</span><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--aid);"></div></div><span class="bar-num">$8.87B</span></div>
+      <div class="bar-row"><span class="bar-name">Guatemala</span><div class="bar-track"><div class="bar-fill" style="width:26%;background:var(--aid);"></div></div><span class="bar-num">$7.01B</span></div>
 
       <!-- ── SPECIAL MONITORS (redirect cards) ────────────── -->
       <div class="sec-title mt">Special Monitors</div>
@@ -1549,7 +1427,7 @@ header {
 
       <div class="sec-title mt">Analysis</div>
       <div style="font-size:12.5px;color:var(--text-dim);line-height:1.8;font-weight:300;padding:14px 16px;background:var(--bg2);border-left:3px solid var(--border2);border-radius:0 2px 2px 0;margin-bottom:20px;">
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;"><span class="analysis-badge military">Military</span><span class="analysis-badge political">Political</span></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;"><span class="analysis-badge cmr">Civil-Military Relations</span><span class="analysis-badge stability">Political Stability</span></div>
         Operation Absolute Resolve represents a <strong>category-breaking event</strong> for CMR theory in Latin America. The entire Bolivarian civil-military architecture — 2,000+ coup-proofed generals, parallel intelligence structures (SEBIN/DGCIM), militia integration, military economic enterprises — was constructed around Maduro's personal authority. The survival of that architecture under Rodríguez, who lacks Maduro's revolutionary legitimacy and military patronage credibility, is uncertain. Key indicators SENTINEL is tracking: (1) Whether Padrino López retains Defence Ministry post; (2) Fragmentation signals among regional military commanders; (3) Fate of military economic enterprises (CAMIMPEG, etc.); (4) Whether Rodríguez calls elections within constitutional window; (5) Tren de Aragua and colectivos — do they maintain alignment or become independent actors?
       </div>
 
@@ -1615,7 +1493,7 @@ header {
 
       <div class="sec-title mt">Analysis</div>
       <div style="font-size:12.5px;line-height:1.82;color:var(--text-dim);font-weight:300;margin-bottom:18px;max-width:720px;border-left:3px solid var(--purge);padding-left:14px;">
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;"><span class="analysis-badge military">Military</span><span class="analysis-badge political">Political</span></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;"><span class="analysis-badge cmr">Civil-Military Relations</span><span class="analysis-badge stability">Political Stability</span></div>
         El Salvador represents a textbook case of what scholars term <em>democratic backsliding through civil-military fusion</em>. Unlike classical coups, Bukele's consolidation proceeds via managed elections — enabled by judicial packing that reversed constitutional term limits — while using the military as a visible loyalty instrument and domestic enforcement mechanism. The February 2020 Legislative Assembly occupation was the defining inflection point: the officer corps' decision not to enforce constitutional limits on the executive signaled its institutional capture. Subsequent expansions — régimen enforcement, prison operations, protest suppression, and the July 2025 constitutional overhaul — follow this logic. The Trump alignment has effectively closed the last external accountability lever: the US not only declines to condition aid on democratic governance but actively co-finances the detention apparatus. SENTINEL classifies El Salvador as a <strong>Crisis / Civil-Military Fusion</strong> case, distinct from classical authoritarianism in maintaining electoral performance while comprehensively dismantling substantive civilian oversight of the armed forces.
       </div>
 
@@ -1686,7 +1564,7 @@ header {
 
       <div class="sec-title mt">Analysis</div>
       <div style="font-size:12.5px;line-height:1.82;color:var(--text-dim);font-weight:300;margin-bottom:18px;max-width:720px;border-left:3px solid var(--reform);padding-left:14px;">
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;"><span class="analysis-badge military">Military</span><span class="analysis-badge security">Security</span></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;"><span class="analysis-badge cmr">Civil-Military Relations</span><span class="analysis-badge security">Security</span></div>
         Mexico presents the region's most complex civil-military case: deep structural militarization under a formally democratic civilian government that has not experienced a coup or military veto. The officer corps has not asserted political preferences but has been the consistent beneficiary of institutional expansion — from the Calderón drug war to Sheinbaum's intelligence mandate. CMR theorists distinguish between <em>military prerogatives</em> (institutional autonomy, mission expansion) and <em>civilian control</em> (who holds formal authority). Mexico scores poorly on the former while maintaining formal civilian authority: Sheinbaum gives orders, but the military's economic empire, intelligence authority, and domestic security mandate are now structurally beyond reversal by any single government. The FTO designations have introduced a new variable: US sovereign pressure to allow unilateral operations on Mexican territory. Sheinbaum's consistent refusal is a civilian control success in one dimension, even as domestic militarization deepens. SENTINEL classifies Mexico as <strong>Strained</strong> — civilian control formally intact but institutional military autonomy expanding at a structurally irreversible pace.
       </div>
 
@@ -1925,7 +1803,7 @@ header {
     <div class="about-section">
       <div class="about-h2">Project Goals</div>
       <div class="about-body">
-        <p>SENTINEL is an AI-first research platform for tracking military, political, security, international, and economic risk across Latin America and the Caribbean. It is designed to help researchers, journalists, and policy users monitor how state institutions, non-state actors, executives, and external partners interact across the region.</p>
+        <p>SENTINEL is an AI-first research platform for tracking civil-military relations, political stability, and regional security across Latin America and the Caribbean. It is designed to help researchers, journalists, and policy users monitor how military institutions, security forces, executives, and non-state armed actors interact across the region.</p>
         <p>The platform combines automated event collection, normalization, duplicate detection, actor coding, QA, and AI-generated analysis with a lighter human oversight layer. The public dashboard surfaces public-safe event records and regional monitors; the analyst console is a separate private workflow for corroboration, correction, duplicate resolution, and publication control.</p>
         <p>SENTINEL tracks coups and coup attempts, officer purges, military deployments in domestic security, organized crime–security interactions, protest repression, reforms, peace processes, and U.S. security cooperation. It also maintains structured provenance so users can see how an event moved from ingestion to publication.</p>
         <p>The platform is intended as a monitoring and research tool, not as a substitute for direct source verification. AI assists with the heavy lifting, but human review remains important for low-confidence, high-stakes, or analytically sensitive cases.</p>
@@ -2179,34 +2057,6 @@ header {
   </div>
 </div>
 
-<footer class="site-footer">
-  <div class="site-footer-grid">
-    <div>
-      <div class="site-footer-logo">SENTINEL<em>·</em></div>
-      <div class="site-footer-copy">Open-source monitoring of civil-military and political risk dynamics across Latin America and the Caribbean.</div>
-      <div class="site-footer-legal">SENTINEL is an open-source research platform. Analysis is AI-assisted and explicitly labeled. Not affiliated with source organizations.</div>
-    </div>
-    <div>
-      <div class="site-footer-label">Navigation</div>
-      <div class="site-footer-nav">
-        <button onclick="switchTab('events')">Events</button>
-        <button onclick="switchTab('profiles')">Countries</button>
-        <button onclick="switchTab('transnational')">Security</button>
-        <button onclick="switchTab('us')">US Cooperation</button>
-        <button onclick="switchTab('timeline')">Timeline</button>
-        <button onclick="switchTab('about')">About</button>
-      </div>
-    </div>
-    <div>
-      <div class="site-footer-label">Data Sources</div>
-      <div class="site-footer-sources">GDELT · ACLED · InSight Crime · Reuters · BBC Mundo · El País América · World Bank · V-Dem</div>
-      <a class="site-footer-github" href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 .5C5.65.5.5 5.66.5 12.02c0 5.08 3.29 9.38 7.86 10.9.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.15.08 1.75 1.19 1.75 1.19 1.02 1.76 2.68 1.25 3.34.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.14-1.18 3.14-1.18.63 1.58.24 2.75.12 3.04.73.8 1.18 1.83 1.18 3.08 0 4.41-2.68 5.38-5.24 5.66.41.35.77 1.03.77 2.09 0 1.51-.01 2.72-.01 3.09 0 .31.21.68.8.56a11.53 11.53 0 0 0 7.85-10.9C23.5 5.66 18.35.5 12 .5Z"/></svg>
-      </a>
-    </div>
-  </div>
-</footer>
-
 <!-- SEARCH OVERLAY -->
 <div class="search-overlay" id="search-overlay" onclick="if(event.target===this)closeSearch()">
   <div class="search-box">
@@ -2222,8 +2072,8 @@ header {
 <!-- LOG BAR -->
 <div class="log-bar">
   <span class="log-pfx">Log</span>
-  <span class="log-txt ok"><span class="log-live-dot">●</span><span id="pipeline-status-text">Pipeline running — 14 sources active · last ingestion <span id="live-ingestion-age">120s ago</span> · 38 items in review queue</span></span>
-  <div class="status-pill" style="margin-left:auto;"><div class="sdot"></div><span class="log-status-inline">Running</span></div>
+  <span class="log-txt ok">Pipeline running — 14 sources active · last ingestion 2m ago · 38 items in review queue</span>
+  <div class="status-pill" style="margin-left:auto;"><div class="sdot"></div><span>Running</span></div>
 </div>
 
 <script>
@@ -2283,33 +2133,16 @@ const TC = {
   oc:'var(--oc)', protest:'var(--protest)', peace:'var(--peace)', other:'var(--other)'
 };
 const TC_HEX = {
-  coup:'#a3372f', purge:'#bb6d2f', coup_proofing:'#6b4d7a',
-  conflict:'#8c4630', reform:'#456d59',
-  aid:'#235a8b', coop:'#326f7d', exercise:'#4a718f',
-  oc:'#73514b', protest:'#7b5b3f', peace:'#4d7661', other:'#5f645c'
+  coup:'#c02828', purge:'#c86010', coup_proofing:'#7a2e6e',
+  conflict:'#b84200', reform:'#157550',
+  aid:'#1460b0', coop:'#1e7a9e', exercise:'#1868a8',
+  oc:'#6e2ea8', protest:'#6c28a8', peace:'#1e8060', other:'#5a6878'
 };
 const TYPE_LABEL = {
   coup:'Coup', purge:'Purge', coup_proofing:'Coup-Proofing',
   conflict:'Conflict', reform:'Reform', oc:'Org. Crime',
   aid:'Mil. Aid', coop:'US Coop', exercise:'Exercise',
   protest:'Protest', peace:'Peace', other:'Other'
-};
-const EVENT_CATEGORY_LABEL = {
-  political:'Political',
-  military:'Military',
-  security:'Security',
-  international:'International',
-  economic:'Economic'
-};
-const ANALYST_LENS_META = {
-  military:{ label:'Military', className:'military' },
-  political:{ label:'Political', className:'political' },
-  security:{ label:'Security', className:'security' },
-  international:{ label:'International', className:'international' },
-  economist:{ label:'Economist', className:'economist' },
-  cmr:{ label:'Military', className:'military' },
-  political_risk:{ label:'Political', className:'political' },
-  regional_security:{ label:'Security', className:'security' }
 };
 const PROVENANCE_STAGE_ORDER = {
   ingestion:10,
@@ -2346,42 +2179,21 @@ const SR_MAP_VIEW={
 let tlFilter='all', tlCountry='all', tlSalience='all', tlYear='all', tlMonth='all', tlConf='all';
 let map, markers=[];
 let selectedEventHalo = null;
-let countryMonitorsByCountry = new Map();
-let regionalMixChart = null;
-let regionalLeadersChart = null;
-let lastIngestionTimestamp = null;
-
-function openMobileNav(){
-  document.getElementById('mobile-nav-overlay')?.classList.add('open');
-}
-
-function closeMobileNav(){
-  document.getElementById('mobile-nav-overlay')?.classList.remove('open');
-}
-
-function updatePipelineAge(){
-  const ageEl = document.getElementById('live-ingestion-age');
-  if(!ageEl || !lastIngestionTimestamp) return;
-  const diff = Math.max(0, Math.floor((Date.now() - lastIngestionTimestamp) / 1000));
-  ageEl.textContent = diff < 60 ? `${diff}s ago` : `${Math.floor(diff / 60)}m ago`;
-}
 
 // ── DATA LOADING ─────────────────────────────────────────────
 async function loadEvents(){
   try {
-    const [res, publishedRes, councilRes, taxonomyRes, monitorsRes] = await Promise.all([
+    const [res, publishedRes, councilRes, taxonomyRes] = await Promise.all([
       fetch('data/events.json?t='+Date.now()),
       fetch('data/published/events_public.json?t='+Date.now()).catch(()=>null),
       fetch('data/review/council_analyses.json?t='+Date.now()).catch(()=>null),
-      fetch('config/taxonomy/event_types.json?t='+Date.now()).catch(()=>null),
-      fetch('data/published/country_monitors.json?t='+Date.now()).catch(()=>null)
+      fetch('config/taxonomy/event_types.json?t='+Date.now()).catch(()=>null)
     ]);
     if(!res.ok) throw new Error('HTTP '+res.status);
     const raw = await res.json();
     let published = null;
     let council = null;
     let taxonomy = null;
-    let monitors = null;
     if(publishedRes && publishedRes.ok){
       published = await publishedRes.json();
     }
@@ -2391,13 +2203,9 @@ async function loadEvents(){
     if(taxonomyRes && taxonomyRes.ok){
       taxonomy = await taxonomyRes.json();
     }
-    if(monitorsRes && monitorsRes.ok){
-      monitors = await monitorsRes.json();
-    }
     councilById = new Map(((council?.events)||[]).map(item=>[String(item.event_id), item]));
     eventTypeMeta = new Map(((taxonomy?.event_types)||[]).map(item=>[String(item.code), item]));
     eventTypeOrder = ((taxonomy?.event_types)||[]).slice().sort((a,b)=>(b.precedence_rank||0)-(a.precedence_rank||0)).map(item=>item.code);
-    countryMonitorsByCountry = new Map(((monitors?.countries)||[]).map(item=>[String(item.country), item]));
     // Support both flat array and wrapped {updated, count, events:[...]} format
     let events = Array.isArray(raw) ? raw : (raw.events || []);
     const publishedEvents = published?.events || [];
@@ -2433,224 +2241,25 @@ async function loadEvents(){
     document.getElementById('confidence-filter-select') && (document.getElementById('confidence-filter-select').value = filters.conf);
     applyFilters();
     computeCmrScores();
-    renderRegionalMonitorSummary();
     ovRefreshMarkers();
     if(updatedStr){
-      lastIngestionTimestamp = new Date(updatedStr).getTime();
-      updatePipelineAge();
       const ago = Math.round((Date.now()-new Date(updatedStr))/60000);
       const agoStr = ago<60 ? ago+'m ago' : Math.round(ago/60)+'h ago';
       const policyBits = [];
       if((published?.withheld_count || 0) > 0){
         policyBits.push(`${published.withheld_count} withheld by publication policy`);
       }
-      const pipelineText = document.getElementById('pipeline-status-text');
-      if(pipelineText){
-        pipelineText.innerHTML = `Pipeline running — ${events.length} public events loaded${policyBits.length ? ' · ' + policyBits.join(' · ') : ''} · last ingestion <span id="live-ingestion-age">${agoStr}</span>`;
-      }
-      document.querySelector('.log-txt')?.classList.add('ok');
+      document.querySelector('.log-txt').textContent =
+        `Pipeline active · ${events.length} public events loaded${policyBits.length ? ' · ' + policyBits.join(' · ') : ''} · last ingestion ${agoStr}`;
+      document.querySelector('.log-txt').className='log-txt ok';
     } else {
-      const pipelineText = document.getElementById('pipeline-status-text');
-      if(pipelineText) pipelineText.textContent = `Pipeline running — ${events.length} public events loaded`;
-      document.querySelector('.log-txt')?.classList.add('ok');
+      document.querySelector('.log-txt').textContent = `${events.length} public events loaded`;
+      document.querySelector('.log-txt').className='log-txt ok';
     }
   } catch(e) {
-    const pipelineText = document.getElementById('pipeline-status-text');
-    if(pipelineText) pipelineText.textContent = 'Failed to load events.json — '+e.message+' · Run the pipeline or serve via http-server';
-    document.querySelector('.log-txt')?.classList.remove('ok');
+    document.querySelector('.log-txt').textContent = 'Failed to load events.json — '+e.message+' · Run the pipeline or serve via http-server';
+    document.querySelector('.log-txt').className='log-txt';
   }
-}
-
-function getCountryMonitorEntry(country){
-  return countryMonitorsByCountry.get(String(country)) || null;
-}
-
-function getCountryMonitor(country, code){
-  const entry = getCountryMonitorEntry(country);
-  if(!entry) return null;
-  return (entry.monitors || []).find(item => String(item.code) === String(code)) || null;
-}
-
-function getCountryRiskConstruct(country, code){
-  const entry = getCountryMonitorEntry(country);
-  if(!entry) return null;
-  return (entry.risk_constructs || []).find(item => String(item.code) === String(code)) || null;
-}
-
-function getCountryPredictiveSummary(country){
-  return getCountryMonitorEntry(country)?.predictive_summary || null;
-}
-
-function getMonitorTrendColor(label){
-  const trend = String(label || '').toLowerCase();
-  if(trend === 'rising') return 'var(--purge)';
-  if(trend === 'easing') return 'var(--reform)';
-  return 'var(--text-muted)';
-}
-
-function getMonitorScoreColor(score){
-  const value = Number(score) || 0;
-  if(value >= 75) return 'var(--coup)';
-  if(value >= 55) return 'var(--purge)';
-  if(value >= 35) return 'var(--aid)';
-  return 'var(--reform)';
-}
-
-function formatMonitorValue(score){
-  return Number.isFinite(Number(score)) ? Math.round(Number(score)) : null;
-}
-
-function buildRegionalMonitorNarrative(countries, data){
-  if(!countries.length || !countryMonitorsByCountry.size) return data.note;
-  const summaries = ['regime_vulnerability','militarization','security_fragmentation'].map(code => {
-    const constructs = countries.map(country => getCountryRiskConstruct(country, code)).filter(Boolean);
-    if(!constructs.length) return null;
-    const avg = Math.round(constructs.reduce((sum, item) => sum + (Number(item.score) || 0), 0) / constructs.length);
-    const rising = constructs.filter(item => String(item.trend_label || '').toLowerCase() === 'rising').length;
-    return { code, avg, rising };
-  }).filter(Boolean);
-  if(!summaries.length) return data.note;
-  const regime = summaries.find(item => item.code === 'regime_vulnerability');
-  const militarization = summaries.find(item => item.code === 'militarization');
-  const fragmentation = summaries.find(item => item.code === 'security_fragmentation');
-  const bits = [];
-  if(regime) bits.push(`regime vulnerability averages ${regime.avg}/100 across the visible set`);
-  if(militarization) bits.push(`militarization averages ${militarization.avg}/100`);
-  if(fragmentation) bits.push(`${fragmentation.rising} ${fragmentation.rising === 1 ? 'country is' : 'countries are'} on a rising fragmentation trend`);
-  return `${data.note} ${bits.join(' · ')}.`;
-}
-
-function renderRegionalMonitorCards(){
-  const cardsEl = document.getElementById('sr-cards');
-  if(!cardsEl) return;
-  const visibleCountries = getVisibleProfileCountries();
-  const constructCodes = ['regime_vulnerability','militarization','security_fragmentation'];
-  const cardData = constructCodes.map(code => {
-    const constructs = visibleCountries.map(country => getCountryRiskConstruct(country, code)).filter(Boolean);
-    if(!constructs.length) return null;
-    const avgComposite = Math.round(constructs.reduce((sum, item) => sum + (Number(item.score) || 0), 0) / constructs.length);
-    const rising = constructs.filter(item => String(item.trend_label || '').toLowerCase() === 'rising').length;
-    return {
-      label: constructs[0].label,
-      value: `${avgComposite}/100`,
-      sub: `${rising} rising · ${constructs[0].horizon_days || 90}-day horizon`,
-      subClass: rising ? 'up' : ''
-    };
-  }).filter(Boolean);
-  const risingTotal = visibleCountries.filter(country => {
-    return ['regime_vulnerability','militarization','security_fragmentation']
-      .some(code => String(getCountryRiskConstruct(country, code)?.trend_label || '').toLowerCase() === 'rising');
-  }).length;
-  const strongestCountry = visibleCountries
-    .map(country => ({ country, score: Number(getCountryPredictiveSummary(country)?.overall_risk_score) || 0 }))
-    .sort((a,b) => b.score - a.score)[0];
-  const fallback = [
-    { label:'Regime Vulnerability', value:'—', sub:'monitor not loaded', subClass:'' },
-    { label:'Militarization', value:'—', sub:'monitor not loaded', subClass:'' },
-    { label:'Security Fragmentation', value:'—', sub:'monitor not loaded', subClass:'' }
-  ];
-  const rows = (cardData.length ? cardData : fallback).concat([{
-    label:'Rising Outlooks',
-    value: `${risingTotal}`,
-    sub: strongestCountry?.country ? `${strongestCountry.country} currently shows the highest overall risk score` : 'no current reading',
-    subClass: risingTotal ? 'up' : ''
-  }]);
-  cardsEl.innerHTML = rows.slice(0,4).map(item => `
-    <div class="card">
-      <div class="card-label">${item.label}</div>
-      <div class="card-value">${item.value}</div>
-      <div class="card-sub ${item.subClass || ''}">${item.sub}</div>
-    </div>`).join('');
-}
-
-function renderRegionalMonitorVisuals(){
-  const visibleCountries = getVisibleProfileCountries();
-  const mixes = ['cmr_balance','security_pressure','external_security_alignment'].map(code => {
-    const monitors = visibleCountries.map(country => getCountryMonitor(country, code)).filter(Boolean);
-    return {
-      code,
-      label: monitors[0]?.label || code,
-      avgComposite: monitors.length ? Math.round(monitors.reduce((sum, item) => sum + (Number(item.composite_score) || 0), 0) / monitors.length) : 0,
-      avgPulse: monitors.length ? Math.round(monitors.reduce((sum, item) => sum + (Number(item.pulse_score) || 0), 0) / monitors.length) : 0
-    };
-  });
-
-  const leaders = visibleCountries.map(country => ({
-    country,
-    regime: formatMonitorValue(getCountryRiskConstruct(country, 'regime_vulnerability')?.score) || 0,
-    militarization: formatMonitorValue(getCountryRiskConstruct(country, 'militarization')?.score) || 0,
-    fragmentation: formatMonitorValue(getCountryRiskConstruct(country, 'security_fragmentation')?.score) || 0
-  })).sort((a,b) => (b.regime + b.fragmentation) - (a.regime + a.fragmentation)).slice(0,6);
-
-  const readoutsEl = document.getElementById('sr-monitor-readouts');
-  if(readoutsEl){
-    const dominant = visibleCountries.map(country => {
-      const row = {
-        country,
-        regime: getCountryRiskConstruct(country, 'regime_vulnerability'),
-        militarization: getCountryRiskConstruct(country, 'militarization'),
-        fragmentation: getCountryRiskConstruct(country, 'security_fragmentation'),
-        summary: getCountryPredictiveSummary(country)
-      };
-      const score = Number(row.summary?.overall_risk_score) || 0;
-      return { ...row, score };
-    }).sort((a,b) => b.score - a.score).slice(0,4);
-    readoutsEl.innerHTML = dominant.length ? dominant.map(item => `
-      <div class="ev-item">
-        <div class="ev-row1">
-          <div class="ev-dot" style="background:${getMonitorScoreColor(item.summary?.overall_risk_score || item.regime?.score || 0)}"></div>
-          <span class="ev-type" style="color:${getMonitorScoreColor(item.summary?.overall_risk_score || item.regime?.score || 0)}">${item.country}</span>
-          <span class="ev-country">Regime ${formatMonitorValue(item.regime?.score) || 0} · Militarization ${formatMonitorValue(item.militarization?.score) || 0} · Fragmentation ${formatMonitorValue(item.fragmentation?.score) || 0}</span>
-        </div>
-        <div class="ev-title">${item.summary?.summary_text || 'No predictive summary is available yet.'}</div>
-        <div class="ev-meta"><span>${item.summary?.overall_risk_level || 'guarded'} overall risk</span><span>${item.summary?.leading_trend || 'stable'} leading trend</span></div>
-      </div>`).join('') : '<div class="ev-item"><div class="ev-title">No regional monitor readouts are available yet.</div></div>';
-  }
-
-  if(typeof Chart === 'undefined') return;
-
-  const spendCanvas = document.getElementById('spendChart');
-  if(spendCanvas){
-    regionalMixChart?.destroy();
-    regionalMixChart = new Chart(spendCanvas,{
-      type:'bar',
-      data:{
-        labels: mixes.map(item => item.label),
-        datasets:[
-          {label:'Baseline', data: mixes.map(item => Math.max(0, item.avgComposite - item.avgPulse)), backgroundColor:'rgba(85,107,47,0.35)', borderColor:'#556b2f', borderWidth:1, borderRadius:2},
-          {label:'Pulse', data: mixes.map(item => item.avgPulse), backgroundColor:'rgba(200,110,18,0.45)', borderColor:'#c46e12', borderWidth:1, borderRadius:2}
-        ]
-      },
-      options:{...chartOpts, plugins:{legend:{display:true,position:'top',labels:{color:chartText,font:{size:9,family:'DM Mono'},boxWidth:10,padding:10}}}, scales:{...chartOpts.scales,x:{...chartOpts.scales.x,stacked:true},y:{...chartOpts.scales.y,stacked:true,suggestedMax:100}}}
-    });
-  }
-
-  const leadersCanvas = document.getElementById('armsChart');
-  if(leadersCanvas){
-    regionalLeadersChart?.destroy();
-    regionalLeadersChart = new Chart(leadersCanvas,{
-      type:'bar',
-      data:{
-        labels: leaders.map(item => item.country),
-        datasets:[
-          {label:'Regime vulnerability', data: leaders.map(item => item.regime), backgroundColor:'rgba(184,50,50,0.6)', borderColor:'#b83232', borderWidth:0, borderRadius:2},
-          {label:'Militarization', data: leaders.map(item => item.militarization), backgroundColor:'rgba(85,107,47,0.58)', borderColor:'#556b2f', borderWidth:0, borderRadius:2},
-          {label:'Security fragmentation', data: leaders.map(item => item.fragmentation), backgroundColor:'rgba(26,83,143,0.52)', borderColor:'#1a538f', borderWidth:0, borderRadius:2}
-        ]
-      },
-      options:{...chartOpts, indexAxis:'y', plugins:{legend:{display:true,position:'top',labels:{color:chartText,font:{size:9,family:'DM Mono'},boxWidth:10,padding:10}}}, scales:{x:{grid:{color:chartGrid},ticks:{color:chartText,font:{size:9,family:'DM Mono'}},suggestedMax:100,border:{display:false}},y:{grid:{display:false},ticks:{color:chartText,font:{size:9,family:'DM Mono'}}}}}
-    });
-  }
-}
-
-function renderRegionalMonitorSummary(){
-  const data = SUBREGIONS[cpActiveSr] || SUBREGIONS.all;
-  const summaryEl = document.getElementById('sr-summary');
-  if(summaryEl){
-    summaryEl.textContent = buildRegionalMonitorNarrative(getVisibleProfileCountries(), data);
-  }
-  renderRegionalMonitorCards();
-  renderRegionalMonitorVisuals();
 }
 
 // ── MAP ─────────────────────────────────────────────────────
@@ -2678,7 +2287,6 @@ function initMap(){
 }
 
 function refreshMap(evs){
-  if(!map || typeof map.removeLayer !== 'function') return;
   markers.forEach(m=>map.removeLayer(m));
   markers=[];
   evs.forEach(ev=>{
@@ -2746,23 +2354,6 @@ function normalizeKnowledgeLabel(value){
   return text
     .replace(/_/g,' ')
     .replace(/\b\w/g,ch=>ch.toUpperCase());
-}
-
-function getEventCategoryLabel(value){
-  const key = String(value || '').trim().toLowerCase();
-  return EVENT_CATEGORY_LABEL[key] || normalizeKnowledgeLabel(value || 'Not specified');
-}
-
-function getEventSubcategoryLabel(value){
-  if(!value) return 'Not specified';
-  return normalizeKnowledgeLabel(value);
-}
-
-function getEventAnalystLenses(ev){
-  const lenses = Array.isArray(ev.event_analyst_lenses) ? ev.event_analyst_lenses : [];
-  return lenses
-    .map(item => ANALYST_LENS_META[String(item || '').trim().toLowerCase()] || null)
-    .filter(Boolean);
 }
 
 function getEventCountryLabel(ev){
@@ -2872,14 +2463,10 @@ function getPublicEventContext(ev){
   const sourceNames = [...new Set(sources.map(item=>item.name).filter(Boolean))];
   const actors = getEventActorNames(ev);
   const classification = ev.council?.analyses?.synthesis?.classification || {};
-  const deedType = String(classification.deed_type || ev.public_review?.deed_type || ev.deed_type || '').trim().toLowerCase();
   const country = ev.display_country || getEventCountryLabel(ev);
   const location = ev.location || ev.subnational_location || country;
   const frame = normalizeKnowledgeLabel(classification.primary_frame || '');
   const effect = normalizeKnowledgeLabel(classification.effect_domain || '');
-  const deedLine = deedType
-    ? `This event is also classified as ${normalizeKnowledgeLabel(deedType)} within the project's institutional-erosion framework.`
-    : '';
 
   if(salience === 'high'){
     const sourceText = sourceNames.length
@@ -2893,7 +2480,7 @@ function getPublicEventContext(ev){
     const frameText = frame || effect
       ? `In analytical terms, it sits in the frame of ${frame || 'security politics'}${effect ? ` and points most directly to ${effect.toLowerCase()}` : ''}.`
       : '';
-    return [sourceText, actorText, frameText, deedLine].filter(Boolean).join(' ');
+    return [sourceText, actorText, frameText].filter(Boolean).join(' ');
   }
 
   if(salience === 'medium'){
@@ -2907,13 +2494,10 @@ function getPublicEventContext(ev){
     if(location && location !== country){
       bits.push(`The reporting is centered on ${location}.`);
     }
-    if(deedLine){
-      bits.push(deedLine);
-    }
     return bits.join(' ');
   }
 
-  return deedLine;
+  return '';
 }
 
 function cleanCouncilAssessment(text){
@@ -2967,14 +2551,10 @@ function getPublicEventAnalysisParts(ev){
   const takeaways = synthesis.public_takeaways || {};
   const significance = cleanCouncilAssessment(takeaways.significance || '');
   const countryEffect = cleanCouncilAssessment(takeaways.country_effect || '');
-  const patternFit = cleanCouncilAssessment(takeaways.pattern_fit || '');
-  const mechanism = cleanCouncilAssessment(takeaways.mechanism || '');
-  const institutionalImplication = cleanCouncilAssessment(takeaways.institutional_implication || '');
-  const forwardRisk = cleanCouncilAssessment(takeaways.forward_risk || '');
   const confidenceNote = cleanCouncilAssessment(takeaways.confidence_note || '');
   const watchpoint = cleanCouncilAssessment(takeaways.watchpoint || '');
-  if(significance || countryEffect || patternFit || mechanism || institutionalImplication || forwardRisk || watchpoint){
-    return { significance, countryEffect, patternFit, mechanism, institutionalImplication, forwardRisk, confidenceNote, watchpoint };
+  if(significance || countryEffect || watchpoint){
+    return { significance, countryEffect, confidenceNote, watchpoint };
   }
 
   const cleanedSynthesis = cleanCouncilAssessment(synthesis.assessment || '');
@@ -2983,10 +2563,6 @@ function getPublicEventAnalysisParts(ev){
     return {
       significance: bits[0] || '',
       countryEffect: bits[1] || '',
-      patternFit: '',
-      mechanism: '',
-      institutionalImplication: '',
-      forwardRisk: '',
       confidenceNote: '',
       watchpoint: bits.slice(2).join(' ')
     };
@@ -2998,66 +2574,17 @@ function getPublicEventAnalysisParts(ev){
   return {
     significance: `This ${typeLabel} event is relevant for ${countryLabel} because it touches the broader balance between political authority, security institutions, and public order.`,
     countryEffect: conceptSignals.length ? `The main analytical themes are ${joinReadableList(conceptSignals)}.` : '',
-    patternFit: '',
-    mechanism: '',
-    institutionalImplication: '',
-    forwardRisk: '',
     confidenceNote: '',
     watchpoint: 'The key question is whether follow-on reporting shows this to be isolated or part of a broader pattern.'
   };
-}
-
-function getRenderablePublicAnalysis(ev){
-  const salience = String(ev.salience || '').toLowerCase();
-  const raw = getPublicEventAnalysisParts(ev);
-  const ordered = [
-    ['significance', 'Immediate significance'],
-    ['countryEffect', 'Country-level effect'],
-    ['patternFit', 'Pattern fit'],
-    ['mechanism', 'Mechanism'],
-    ['institutionalImplication', 'Institutional implication'],
-    ['forwardRisk', 'Forward risk'],
-    ['confidenceNote', 'Interpretive note'],
-    ['watchpoint', 'What to watch'],
-  ];
-
-  let allowed;
-  if(salience === 'high'){
-    allowed = new Set(ordered.map(([key]) => key));
-  } else if(salience === 'medium'){
-    allowed = new Set(['significance','countryEffect','patternFit','mechanism','forwardRisk','confidenceNote','watchpoint']);
-  } else {
-    allowed = new Set(['significance','countryEffect','confidenceNote','watchpoint']);
-  }
-
-  const blocks = ordered
-    .filter(([key]) => allowed.has(key))
-    .map(([key, label]) => ({ key, label, value: String(raw[key] || '').trim() }))
-    .filter(item => item.value);
-
-  const deduped = [];
-  const seen = new Set();
-  for(const block of blocks){
-    const normalized = block.value.toLowerCase();
-    if(seen.has(normalized)) continue;
-    seen.add(normalized);
-    deduped.push(block);
-  }
-
-  if(salience !== 'high' && deduped.length > 5){
-    return deduped.slice(0, 5);
-  }
-  return deduped;
 }
 
 function getPublicClassificationChips(ev){
   const chips = [];
   const subtype = ev.public_review?.event_subtype || ev.subtype;
   const classification = ev.council?.analyses?.synthesis?.classification || {};
-  const deedType = classification.deed_type || ev.public_review?.deed_type || ev.deed_type;
   if(classification.primary_frame) chips.push(classification.primary_frame);
   if(classification.effect_domain) chips.push(classification.effect_domain);
-  if(deedType) chips.push(deedType);
   if(subtype) chips.push(subtype);
   getKnowledgeSignals(ev).slice(0,3).forEach(signal=>chips.push(signal));
   return [...new Set(chips)];
@@ -3066,15 +2593,10 @@ function getPublicClassificationChips(ev){
 function getPublicClassificationRows(ev){
   const actors = getEventActorNames(ev);
   const classification = ev.council?.analyses?.synthesis?.classification || {};
-  const deedType = classification.deed_type || ev.public_review?.deed_type || ev.deed_type;
   const eventMeta = eventTypeMeta.get(String(ev.type)) || {};
-  const lenses = getEventAnalystLenses(ev);
   return [
-    { label:'Event type', value:getEventTypeLabel(ev.type) },
-    { label:'Category', value:getEventCategoryLabel(ev.event_category || eventMeta.event_category) },
-    { label:'Subcategory', value:getEventSubcategoryLabel(ev.event_subcategory || ev.public_review?.event_subtype || ev.subtype) },
-    { label:'Active lenses', value:lenses.length ? lenses.map(item=>item.label).join(' · ') : 'General monitoring' },
-    { label:'Institutional signal', value:deedType ? normalizeKnowledgeLabel(deedType) : 'Not identified' },
+    { label:'Category', value:getEventTypeLabel(ev.type) },
+    { label:'Subcategory', value:ev.public_review?.event_subtype || ev.subtype || 'Not specified' },
     { label:'Analytical frame', value:normalizeKnowledgeLabel(classification.primary_frame || eventMeta.description || 'General security monitoring') },
     { label:'Likely effect', value:normalizeKnowledgeLabel(classification.effect_domain || 'Security-sector positioning') },
     { label:'Main actors', value:actors.length ? actors.join(' · ') : 'No named actors identified yet' },
@@ -3181,40 +2703,6 @@ function initEventFilterControls(){
   });
 }
 
-function sentenceCaseDate(value){
-  if(!value) return '—';
-  const d = new Date(value);
-  if(Number.isNaN(d.getTime())) return value;
-  return d.toLocaleDateString('en-US',{month:'short', day:'numeric'});
-}
-
-function firstSentence(text){
-  if(!text) return '';
-  const clean = String(text).replace(/\s+/g,' ').trim();
-  const match = clean.match(/(.+?[.!?])(\s|$)/);
-  return (match ? match[1] : clean).trim();
-}
-
-function getEventListPreview(ev){
-  return firstSentence(
-    ev.summary ||
-    ev.public_analysis ||
-    ev.ai_analysis ||
-    ev.public_review?.headline ||
-    ''
-  );
-}
-
-function getEventMechanismLabel(ev){
-  const parts = [];
-  if(ev.event_category) parts.push(getEventCategoryLabel(ev.event_category));
-  if(ev.event_subcategory && ev.event_subcategory !== 'other_institutional_relevance'){
-    parts.push(getEventSubcategoryLabel(ev.event_subcategory));
-  }
-  return parts.slice(0,2).join(' · ');
-}
-
-
 // ── LIST ────────────────────────────────────────────────────
 function renderList(){
   const el=document.getElementById('event-list');
@@ -3229,19 +2717,15 @@ function renderList(){
     const sourceCount=getEventSources(ev).length;
     const div=document.createElement('div');
     div.className='ev-item'+(selected?.id===ev.id?' selected':'');
-    const preview = getEventListPreview(ev);
-    const mechanism = getEventMechanismLabel(ev);
     div.innerHTML=`
       <div class="ev-row1">
         <div class="ev-dot" style="background:${c}"></div>
         <span class="ev-type" style="color:${c}">${getEventTypeLabel(ev.type)}</span>
-        <span class="conf-badge ${confClass}">${ev.conf==='green'?'● HIGH':ev.conf==='yellow'?'● MEDIUM':'○ LOW'}</span>
+        <span class="conf-badge ${confClass}">${ev.conf==='green'?'high':ev.conf==='yellow'?'med':'low'}</span>
         ${humanValidated?`<span class="src-badge tri" title="Validated by a human analyst">Human Validated</span>`:reviewedByHuman?`<span class="src-badge single" title="Reviewed by a human analyst">Human Reviewed</span>`:''}
         <span class="ev-country">${ev.display_country || getEventCountryLabel(ev)}</span>
       </div>
       <div class="ev-title">${ev.standard_title || getStandardizedEventTitle(ev)}</div>
-      ${mechanism?`<div class="ev-kicker">${mechanism}</div>`:''}
-      ${preview?`<div class="ev-summary">${preview}</div>`:''}
       <div class="ev-meta"><span>${ev.date}</span><span>${sourceCount} source${sourceCount===1?'':'s'}</span>
       <div class="sal-pip">${pips}</div></div>`;
     div.onclick=()=>selectEvent(ev);
@@ -3297,15 +2781,12 @@ function selectEvent(ev){
   const synthesis = councilAnalyses.synthesis;
   const knowledgeSignals = getPublicClassificationChips(ev);
   const publicAnalysis = getPublicEventAnalysisParts(ev);
-  const analysisBlocks = getRenderablePublicAnalysis(ev);
   const publicDescription = getPublicEventDescription(ev);
   const publicContext = getPublicEventContext(ev);
   const provenanceSummaryItems = getPublicProvenanceSummary(ev, linkedReports, provenanceTimeline);
   const transparencyText = getPublicTransparencyText(ev, linkedReports);
   const classificationRows = getPublicClassificationRows(ev);
   const typeLabel = getEventTypeLabel(ev.type);
-  const eventCategoryLabel = getEventCategoryLabel(ev.event_category);
-  const analystLenses = getEventAnalystLenses(ev);
   document.getElementById('detail').innerHTML=`
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:9px;">
       <span class="type-badge" style="background:${c}">${typeLabel}</span>
@@ -3320,19 +2801,10 @@ function selectEvent(ev){
       <div class="dmi"><label>ID</label><span>${ev.sentinel_id || ev.id}</span></div>
       <div class="dmi"><label>Location</label><span>${ev.location || ev.country}</span></div>
       <div class="dmi"><label>Time</label><span>${ev.date}</span></div>
-      <div class="dmi"><label>Type</label><span>${typeLabel}</span></div>
-      <div class="dmi"><label>Category</label><span>${eventCategoryLabel}</span></div>
+      <div class="dmi"><label>Category</label><span>${typeLabel}</span></div>
       <div class="dmi"><label>Salience</label><span style="color:${c}">${(ev.salience||'').toUpperCase()}</span></div>
       <div class="dmi"><label>Coverage</label><span>${linkedReports.length} report${linkedReports.length===1?'':'s'}</span></div>
     </div>
-    ${analystLenses.length ? `
-    <div class="detail-section">
-      <div class="detail-section-title">Active Analysts</div>
-      <div class="detail-chip-row">
-        ${analystLenses.map(item=>`<span class="analysis-badge ${item.className}">${item.label}</span>`).join('')}
-      </div>
-      <div class="detail-text" style="margin-top:10px;">This event is currently routed through the ${analystLenses.map(item=>item.label).join(', ')} lens${analystLenses.length === 1 ? '' : 'es'} based on its category, subcategory, and actor mix.</div>
-    </div>` : ''}
     <div class="detail-section">
       <div class="detail-section-title">Classification</div>
       <div class="detail-grid">
@@ -3345,14 +2817,17 @@ function selectEvent(ev){
       <div class="detail-text">${publicDescription}</div>
       ${publicContext ? `<div class="detail-context"><span class="detail-context-label">Context</span><div class="detail-context-copy">${publicContext}</div></div>` : ''}
     </div>
-    ${analysisBlocks.length?`
+    ${(publicAnalysis?.significance || publicAnalysis?.countryEffect || publicAnalysis?.watchpoint)?`
     <div class="detail-section">
       <div class="detail-section-title">Why It Matters</div>
       <div class="detail-analysis">
         <div class="detail-analysis-meta">
           ${synthesis?.risk_level?`<span class="detail-chip">${normalizeKnowledgeLabel(synthesis.risk_level)} concern</span>`:''}
         </div>
-        ${analysisBlocks.map(block=>`<div class="detail-analysis-block"><span class="detail-analysis-label">${block.label}</span><div class="detail-analysis-copy">${block.value}</div></div>`).join('')}
+        ${publicAnalysis?.significance?`<div class="detail-analysis-block"><span class="detail-analysis-label">Immediate significance</span><div class="detail-analysis-copy">${publicAnalysis.significance}</div></div>`:''}
+        ${publicAnalysis?.countryEffect?`<div class="detail-analysis-block"><span class="detail-analysis-label">Country-level effect</span><div class="detail-analysis-copy">${publicAnalysis.countryEffect}</div></div>`:''}
+        ${publicAnalysis?.confidenceNote?`<div class="detail-analysis-block"><span class="detail-analysis-label">Interpretive note</span><div class="detail-analysis-copy">${publicAnalysis.confidenceNote}</div></div>`:''}
+        ${publicAnalysis?.watchpoint?`<div class="detail-analysis-block"><span class="detail-analysis-label">What to watch</span><div class="detail-analysis-copy">${publicAnalysis.watchpoint}</div></div>`:''}
       </div>
     </div>`:''}
     ${linkedReports.length?`
@@ -3411,7 +2886,11 @@ new Chart(document.getElementById('usMilEconChart'),{type:'bar',data:{
     {label:'Military',data:[6.04,3.92,1.96,1.48,0.10,0.77,1.37,0.48],backgroundColor:'rgba(184,50,50,0.7)',borderColor:'#b83232',borderWidth:0,borderRadius:1}
   ]},options:{...chartOpts,indexAxis:'y',plugins:{legend:{display:true,position:'top',labels:{color:chartText,font:{size:9,family:'DM Mono'},boxWidth:10,padding:12}}},scales:{x:{grid:{color:chartGrid},ticks:{color:chartText,font:{size:9,family:'DM Mono'},callback:v=>'$'+v+'B'},stacked:true,border:{display:false}},y:{grid:{display:false},ticks:{color:chartText,font:{size:9,family:'DM Mono'}},stacked:true}}}});
 
-// Regional monitor charts render after country monitor data loads.
+// Regional spending
+new Chart(document.getElementById('spendChart'),{type:'line',data:{labels:['2018','2019','2020','2021','2022','2023','2024','2025'],datasets:[{data:[74,76,72,78,84,89,94,98],borderColor:'#1a6e52',backgroundColor:'rgba(26,110,82,0.06)',borderWidth:2,pointRadius:3,fill:true,tension:0.3}]},options:{...chartOpts,scales:{...chartOpts.scales,y:{...chartOpts.scales.y,ticks:{...chartOpts.scales.y.ticks,callback:v=>'$'+v+'B'}}}}});
+
+// Arms supplier trends
+new Chart(document.getElementById('armsChart'),{type:'line',data:{labels:['2018','2019','2020','2021','2022','2023','2024','2025'],datasets:[{label:'US',data:[820,780,850,900,920,880,910,870],borderColor:'#1a538f',borderWidth:2,pointRadius:2,tension:0.3},{label:'China',data:[120,180,210,250,280,320,350,380],borderColor:'#b83232',borderWidth:2,pointRadius:2,tension:0.3},{label:'France',data:[200,190,280,310,290,300,280,290],borderColor:'#6e389a',borderWidth:2,pointRadius:2,tension:0.3},{label:'Russia',data:[350,300,220,180,90,60,50,40],borderColor:'#c46e12',borderWidth:2,pointRadius:2,tension:0.3,borderDash:[4,3]}]},options:{...chartOpts,plugins:{legend:{display:true,position:'top',labels:{color:chartText,font:{size:9,family:'DM Mono'},boxWidth:12,padding:12}}},scales:{...chartOpts.scales,y:{...chartOpts.scales.y,ticks:{...chartOpts.scales.y.ticks,callback:v=>'$'+v+'M'}}}}});
 
 // Coca cultivation
 new Chart(document.getElementById('cocaChart'),{type:'bar',data:{labels:['2017','2018','2019','2020','2021','2022','2023','2024'],datasets:[{data:[171,169,154,143,204,230,214,230],backgroundColor:'rgba(184,50,50,0.22)',borderColor:'#b83232',borderWidth:1,borderRadius:2}]},options:{...chartOpts,scales:{...chartOpts.scales,y:{...chartOpts.scales.y,ticks:{...chartOpts.scales.y.ticks,callback:v=>v+'K'}}}}});
@@ -4156,60 +3635,6 @@ function renderTrends(name) {
   }).join('');
 }
 
-function renderCountryPredictiveOutlook(name){
-  const summary = getCountryPredictiveSummary(name);
-  const constructs = ['regime_vulnerability','militarization','security_fragmentation']
-    .map(code => getCountryRiskConstruct(name, code))
-    .filter(Boolean);
-  if(!summary && !constructs.length) return '';
-  const militarization = constructs.find(item => item.code === 'militarization');
-  const militarizationDimensions = militarization
-    ? militarization.components
-        .filter(item => ['military_domestic_coercion_role','military_governance_administration_role','military_economic_control_role'].includes(item.code))
-        .sort((a,b) => (b.weighted_contribution || 0) - (a.weighted_contribution || 0))
-    : [];
-  const militarizationLabel = code => ({
-    military_domestic_coercion_role: 'Domestic coercion',
-    military_governance_administration_role: 'Governance administration',
-    military_economic_control_role: 'Economic control'
-  }[code] || code);
-  const constructRows = constructs.map(item => `
-    <div class="cp-stat-row">
-      <span class="cp-stat-label">${item.label}</span>
-      <span class="cp-stat-val" style="color:${getMonitorScoreColor(item.score)};">${formatMonitorValue(item.score) || 0}/100 <span style="color:${getMonitorTrendColor(item.trend_label)};font-size:8px;text-transform:uppercase;letter-spacing:0.5px;">${item.trend_label || 'stable'}</span></span>
-    </div>`).join('');
-  const militarizationHtml = militarizationDimensions.length
-    ? `<div style="display:flex;flex-direction:column;gap:6px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);">
-        <div class="cp-sum-label" style="margin-bottom:0;">Militarization profile</div>
-        ${militarizationDimensions.map(item => `
-          <div class="cp-stat-row">
-            <span class="cp-stat-label">${militarizationLabel(item.code)}</span>
-            <span class="cp-stat-val" style="color:${getMonitorScoreColor(item.score)};">${formatMonitorValue(item.score) || 0}/100</span>
-          </div>`).join('')}
-      </div>`
-    : '';
-  const watchHtml = (summary?.watchpoints || []).length
-    ? `<div style="display:flex;flex-direction:column;gap:6px;">${summary.watchpoints.map(item => `<div class="cp-watch-text" style="font-size:11px;">${item}</div>`).join('')}</div>`
-    : '<div class="cp-watch-text">No watchpoints available yet.</div>';
-  return `
-    <div class="cp-h2">Predictive Outlook</div>
-    <div class="cp-summary-strip" style="margin-bottom:18px;">
-      <div class="cp-sum-block" style="grid-column:1 / span 2;">
-        <div class="cp-sum-label">Country Outlook</div>
-        <div class="cp-watch-text" style="line-height:1.7;">${summary?.summary_text || 'No predictive summary is available yet.'}</div>
-      </div>
-      <div class="cp-sum-block">
-        <div class="cp-sum-label">Risk Layers</div>
-        ${constructRows}
-        ${militarizationHtml}
-      </div>
-      <div class="cp-sum-block">
-        <div class="cp-sum-label">What To Watch</div>
-        ${watchHtml}
-      </div>
-    </div>`;
-}
-
 // ── COUNTRY PROFILE RENDERER ──────────────────────────────────
 function showCountryProfile(name){
   document.querySelectorAll('.cp-btn').forEach(b=>{
@@ -4232,18 +3657,7 @@ function showCountryProfile(name){
   // ── Summary strip ────────────────────────────────────────
   const acledHtml=acled?`<div class="cp-stat-row"><span class="cp-stat-label">ACLED Conflict Index</span><span class="cp-stat-val" style="color:${ACLED_LEVEL_COLOR[acled.level]||'var(--text)'}">${acled.level} <span style="color:var(--text-muted);font-size:9px;">#${acled.ranking}</span></span></div>`:'';
   const cmrRisk = _cmrScores[name];
-  const monitorRows = ['cmr_balance','security_pressure','external_security_alignment'].map(code => {
-    const monitor = getCountryMonitor(name, code);
-    if(!monitor) return '';
-    const composite = formatMonitorValue(monitor.composite_score);
-    const baseline = formatMonitorValue(monitor.baseline_score);
-    const pulse = formatMonitorValue(monitor.pulse_score);
-    return `<div class="cp-stat-row">
-      <span class="cp-stat-label">${monitor.label}</span>
-      <span class="cp-stat-val" style="color:${getMonitorScoreColor(composite)};" title="Baseline ${baseline} · Pulse ${pulse} · Dominant signal ${monitor.dominant_recent_signal || 'none'}">${composite}/100 <span style="color:${getMonitorTrendColor(monitor.trend_label)};font-size:8px;text-transform:uppercase;letter-spacing:0.5px;">${monitor.trend_label || 'stable'}</span></span>
-    </div>`;
-  }).join('');
-  const cmrRiskHtml = monitorRows || (cmrRisk ? `<div class="cp-stat-row"><span class="cp-stat-label">CMR Risk Score</span><span class="cp-stat-val" style="color:${cmrScoreColor(cmrRisk.label)};" title="Event pressure: ${cmrRisk.pressure} · Structural: ${cmrRisk.structural}">${cmrRisk.composite} — ${cmrRisk.label}</span></div>` : '');
+  const cmrRiskHtml = cmrRisk ? `<div class="cp-stat-row"><span class="cp-stat-label">CMR Risk Score</span><span class="cp-stat-val" style="color:${cmrScoreColor(cmrRisk.label)};" title="Event pressure: ${cmrRisk.pressure} · Structural: ${cmrRisk.structural}">${cmrRisk.composite} — ${cmrRisk.label}</span></div>` : '';
   const statsHtml=`
     ${cmrRiskHtml}
     <div class="cp-stat-row"><span class="cp-stat-label">Spending</span><span class="cp-stat-val">${stats.spending}</span></div>
@@ -4311,7 +3725,6 @@ function showCountryProfile(name){
   const trendsBlock=`
     <div class="cp-h2">Trends (1990–2023)</div>
     <div class="cp-trends-grid" id="cp-trends-${safeId}">${renderTrends(name)}</div>`;
-  const outlookBlock = renderCountryPredictiveOutlook(name);
 
   // ── Map placeholder ──────────────────────────────────────
   const mapDiv=`<div id="cp-map-leaf" class="cp-map-leaf"></div>`;
@@ -4324,7 +3737,7 @@ function showCountryProfile(name){
         <span class="ev-country">${ev.date}</span>
       </div>
       <div class="ev-title">${ev.title}</div>
-      <div class="ev-meta"><span>${ev.source||''}</span><span class="conf-badge conf-${ev.conf==='green'?'green':ev.conf==='yellow'?'yellow':'red'}">${ev.conf==='green'?'● HIGH':ev.conf==='yellow'?'● MEDIUM':'○ LOW'}</span></div>
+      <div class="ev-meta"><span>${ev.source||''}</span><span class="conf-badge conf-${ev.conf==='green'?'green':ev.conf==='yellow'?'yellow':'red'}">${ev.conf==='green'?'high':ev.conf==='yellow'?'med':'low'}</span></div>
     </div>`).join('') : '<div class="cp-no-events">No events in data store for this country yet.</div>';
 
   const backBtn=`<button class="cp-back" onclick="showRegionalOverview()">
@@ -4363,7 +3776,6 @@ function showCountryProfile(name){
       countryDiv.innerHTML=`${hdr}
         <div class="cp-h2">${S['label.context']||'Context'}</div>
         ${contextHtml}
-        ${outlookBlock}
         ${mapDiv}
         ${statsStrip}${cmrBlock}${missionsBlock}${trendsBlock}
         ${specialContent}
@@ -4373,7 +3785,6 @@ function showCountryProfile(name){
     countryDiv.innerHTML=`${hdr}
       <div class="cp-h2">${S['label.context']||'Context'}</div>
       <div class="cp-note" style="margin-bottom:20px;">${prof.note}</div>
-      ${outlookBlock}
       ${mapDiv}
       ${statsStrip}${cmrBlock}${missionsBlock}${trendsBlock}
       <div class="cp-h2">${S['label.recent-events']||'Recent Events'}</div>
@@ -4392,7 +3803,6 @@ function showRegionalOverview(){
   document.getElementById('cp-regional').style.display='block';
   document.getElementById('cp-country').style.display='none';
   if(cpMap){ cpMap.remove(); cpMap=null; }
-  renderRegionalMonitorSummary();
   setTimeout(renderCpRegionalMap,60);
 }
 
@@ -4511,40 +3921,6 @@ function getMilitarizationMetrics(visibleCountries){
   return metrics;
 }
 
-function getRegionalMonitorMetrics(visibleCountries){
-  const metrics = new Map();
-  visibleCountries.forEach(country => {
-    const regime = getCountryRiskConstruct(country, 'regime_vulnerability');
-    const militarization = getCountryRiskConstruct(country, 'militarization');
-    const fragmentation = getCountryRiskConstruct(country, 'security_fragmentation');
-    if(regime){
-      metrics.set(country, {
-        score: formatMonitorValue(regime.score) || 0,
-        baseline: formatMonitorValue(getCountryMonitor(country, 'cmr_balance')?.baseline_score) || 0,
-        pulse: formatMonitorValue(getCountryMonitor(country, 'cmr_balance')?.pulse_score) || 0,
-        trend: regime.trend_label || 'stable',
-        dominantRecentSignal: getCountryMonitor(country, 'security_pressure')?.dominant_recent_signal || getCountryMonitor(country, 'cmr_balance')?.dominant_recent_signal || null,
-        militarizationScore: formatMonitorValue(militarization?.score) || 0,
-        fragmentationScore: formatMonitorValue(fragmentation?.score) || 0,
-        coverageLabel: 'Layered risk model'
-      });
-      return;
-    }
-    const legacy = getMilitarizationMetrics([country]).get(country);
-    metrics.set(country, {
-      score: legacy?.score || 0,
-      baseline: legacy?.structuralScore || 0,
-      pulse: legacy?.liveScore || 0,
-      trend: 'stable',
-      dominantRecentSignal: legacy?.topType || null,
-      securityScore: 0,
-      alignmentScore: 0,
-      coverageLabel: legacy?.coverageLabel || 'Legacy fallback'
-    });
-  });
-  return metrics;
-}
-
 function getMilitarizationColor(score){
   if(score >= 80) return '#556b2f';
   if(score >= 65) return '#6f7f3d';
@@ -4560,7 +3936,7 @@ function renderCpRegionalMap(){
   if(!wrap || !svgEl) return;
   const visibleCountries=getVisibleProfileCountries();
   const visibleIds=new Set(visibleCountries.map(c=>COUNTRY_NAME_TO_ID[c]).filter(Boolean));
-  const metrics=getRegionalMonitorMetrics(visibleCountries);
+  const metrics=getMilitarizationMetrics(visibleCountries);
 
   if(!worldFeatures){
     initOverviewMap();
@@ -4599,14 +3975,14 @@ function renderCpRegionalMap(){
       const countryName = COUNTRY_NAMES_MAP[+d.id];
       const metric = metrics.get(countryName);
       const level = (COUNTRY_ACLED[countryName] && COUNTRY_ACLED[countryName].level) || 'Low';
-      const topTypeLabel = metric?.dominantRecentSignal ? (TYPE_LABEL[metric.dominantRecentSignal] || metric.dominantRecentSignal) : 'No dominant live signal';
+      const topTypeLabel = metric?.topType ? (TYPE_LABEL[metric.topType] || metric.topType) : 'No dominant live signal';
       const rect = wrap.getBoundingClientRect();
       tooltip.html(
         `<strong style="font-size:12px;color:var(--text);">${countryName}</strong>` +
-        `<br><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">Regime vulnerability</span> <strong style="color:${getMonitorScoreColor(metric?.score || 0)};">${metric?.score || 0}/100</strong>` +
-        `<br><span style="font-size:10.5px;color:var(--text-muted);">Underlying CMR baseline ${metric?.baseline || 0} · pulse ${metric?.pulse || 0} · trend ${metric?.trend || 'stable'}</span>` +
-        `<br><span style="font-size:10.5px;color:var(--text-muted);">Militarization ${metric?.militarizationScore || 0} · Security fragmentation ${metric?.fragmentationScore || 0}</span>` +
-        `<br><span style="font-size:10.5px;color:var(--text-muted);">Dominant recent signal: ${topTypeLabel}</span>` +
+        `<br><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">Militarization index</span> <strong style="color:var(--coup);">${metric?.score || 0}/100</strong>` +
+        `<br><span style="font-size:10.5px;color:var(--text-muted);">Structural M3: ${metric?.structuralScore || 0} · Live pressure: ${metric?.liveScore || 0}</span>` +
+        `<br><span style="font-size:10.5px;color:var(--text-muted);">${metric?.eventCount || 0} current events · ${metric?.high || 0} high / ${metric?.medium || 0} medium</span>` +
+        `<br><span style="font-size:10.5px;color:var(--text-muted);">Dominant live signal: ${topTypeLabel}</span>` +
         `<br><span style="font-size:10.5px;color:var(--text-muted);">ACLED ${level}</span>`
       )
       .style('display','block')
@@ -4697,7 +4073,7 @@ let cpActiveSr='all', cpAcledFilter='all';
 function applyProfileFilters(){
   const data=SUBREGIONS[cpActiveSr]||SUBREGIONS.all;
   document.getElementById('sr-title').textContent=data.label;
-  renderRegionalMonitorSummary();
+  document.getElementById('sr-summary').textContent=data.note;
   document.querySelectorAll('.cp-btn[data-country]').forEach(btn=>{
     const c=btn.dataset.country;
     const inSr=cpActiveSr==='all'||data.countries.includes(c);
@@ -5363,8 +4739,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   configureAnalystLoginLink();
   initEventFilterControls();
   loadEvents();
-  updatePipelineAge();
-  setInterval(updatePipelineAge, 1000);
   setInterval(loadEvents, 15*60*1000);
   initOverviewMap();
   setTimeout(renderCpRegionalMap,120);

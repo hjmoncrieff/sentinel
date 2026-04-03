@@ -124,6 +124,31 @@ def enrich_with_canonical(events: list[dict]) -> list[dict]:
     return enriched
 
 
+def load_publication_source() -> tuple[list[dict], str]:
+    canonical_payload = json.loads(CANONICAL_IN.read_text(encoding="utf-8"))
+    canonical_events = canonical_payload.get("events", [])
+    canonical_by_event = {
+        str(row.get("event_id")): row
+        for row in canonical_events
+        if row.get("event_id")
+    }
+
+    if not EDITED_IN.exists():
+        return canonical_events, str(CANONICAL_IN.relative_to(ROOT))
+
+    edited_payload = json.loads(EDITED_IN.read_text(encoding="utf-8"))
+    edited_events = edited_payload.get("events", [])
+    merged_by_event = dict(canonical_by_event)
+
+    for row in edited_events:
+        event_id = str(row.get("event_id"))
+        if event_id:
+          merged_by_event[event_id] = row
+
+    merged_events = list(merged_by_event.values())
+    return merged_events, f"{EDITED_IN.relative_to(ROOT)} + missing rows from {CANONICAL_IN.relative_to(ROOT)}"
+
+
 def should_publish(event: dict, policy: dict) -> tuple[bool, str | None]:
     if event.get("merged_into_event_id"):
         return False, "merged_into_other_event"
@@ -264,12 +289,11 @@ def public_linked_reports(event: dict) -> list[dict]:
 
 
 def main() -> None:
-    source_path = EDITED_IN if EDITED_IN.exists() else CANONICAL_IN
-    canonical = json.loads(source_path.read_text(encoding="utf-8"))
+    source_events, source_label = load_publication_source()
     policy = json.loads(POLICY_IN.read_text(encoding="utf-8"))
     council = json.loads(COUNCIL_IN.read_text(encoding="utf-8")) if COUNCIL_IN.exists() else {"events": []}
     qa = json.loads(QA_IN.read_text(encoding="utf-8")) if QA_IN.exists() else {"flags": []}
-    events = enrich_with_canonical(canonical.get("events", []))
+    events = enrich_with_canonical(source_events)
     council_by_event = {row.get("event_id"): row for row in council.get("events", [])}
     qa_flags_by_event: dict[str, list[dict]] = {}
     for flag in qa.get("flags", []):
@@ -324,7 +348,7 @@ def main() -> None:
 
     payload = {
         "generated_at": datetime.now(UTC).isoformat(),
-        "source_file": str(source_path.relative_to(ROOT)),
+        "source_file": source_label,
         "policy": policy,
         "input_count": len(events),
         "count": len(public_events),
