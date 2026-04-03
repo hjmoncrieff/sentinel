@@ -7,6 +7,10 @@ The operating assumption is AI-first. Humans should spend most of their time on
 review, corroboration, correction, and publication judgment rather than routine
 manual coding.
 
+That said, the production classification path is still deterministic first.
+Future API-supported classification should be treated as a copilot layer for
+ambiguous cases, not as an autonomous replacement for current event coding.
+
 For a command-by-command reference for every executable stage runner, use:
 
 - `docs/stage-runners.md`
@@ -25,6 +29,9 @@ For a command-by-command reference for every executable stage runner, use:
   - what commands or workflow order are now expected
 - when a new variable, field, construct, or dataset column is introduced,
   update `data/CODEBOOK.md` in the same pass
+- when `config/taxonomy/event_types.json` changes, regenerate
+  `docs/event-taxonomy-reference.md` in the same pass:
+  - `python3 scripts/analysis/update_event_taxonomy_reference.py`
 - keep `docs/private-roadmap.md` current when a major leap changes short-term,
   medium-term, or long-term priorities
 - keep the private diagrams current when architecture or construct logic

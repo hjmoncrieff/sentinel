@@ -117,6 +117,68 @@ logic, cross-border threat dynamics, and deployment/cooperation patterns.
 Should integrate the active lenses while preserving uncertainty and clearly
 labeling the result as AI-generated analysis.
 
+## Public Prose Layer
+
+The public-facing analysis should not simply mirror the internal synthesis
+string.
+
+Instead, the system should use two layers:
+
+- `structured council reasoning`
+  - lens-specific analysis
+  - structured takeaways
+  - risk level and mechanism tracing
+- `public prose rendering`
+  - short, natural language
+  - simple syntax
+  - minimal jargon
+  - country-specific causal explanation
+
+The near-term implementation can be deterministic and rule-based, as long as it
+is fed by the structured council output rather than raw event text alone.
+
+Current operating rule:
+
+- near-term public prose should remain inside the repo as a deterministic render
+  layer
+- the prose should prefer:
+  - the clean event summary
+  - one clear causal implication
+  - one concrete watchpoint
+- it should not rely on raw article blurbs when those read like newsletters,
+  feed items, or stacked headlines
+
+Public prose should aim to read like strong graduate-level political science
+writing:
+
+- clear
+- concrete
+- causal
+- restrained
+
+It should avoid:
+
+- repetitive “this event matters because” phrasing
+- stacked institutional jargon
+- abstract language not anchored in the specific event
+- overly mechanical transitions
+
+## Long-Term API Goal
+
+In the longer term, the project can add a final API rewrite layer using a model
+such as Claude or GPT. That stage should sit after structured council
+generation, not replace it.
+
+The purpose of the API layer would be:
+
+- polish prose
+- improve naturalness
+- reduce repetition
+- preserve a consistent editorial tone
+
+It should not be allowed to invent new facts or override structured event
+coding.
+
 ## Construct Map
 
 The public-facing analyst labels should map cleanly onto the project’s core

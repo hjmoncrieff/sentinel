@@ -189,6 +189,22 @@ Use this to refresh the reusable state, civil-society, economic, media,
 protest, and international actor seed module before rebuilding the durable
 actor registry.
 
+## Future AI Copilot Stage
+
+This stage is documented but not yet part of the production pipeline.
+
+Planned runner:
+
+```bash
+python3 scripts/analysis/run_ai_classification_copilot.py
+```
+
+Intended purpose:
+
+- second-pass AI review of ambiguous event classifications
+- structured proposals for taxonomy refinement
+- disagreement routing into human review
+
 ## Private Modeling Layer
 
 ### Build country-month modeling panel

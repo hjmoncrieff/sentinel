@@ -44,6 +44,10 @@
     },
     "language": { "type": ["string", "null"] },
     "event_type": { "type": "string" },
+    "legacy_event_family": { "type": ["string", "null"] },
+    "event_type_domain": { "type": ["string", "null"] },
+    "event_category_family": { "type": ["string", "null"] },
+    "event_category_label": { "type": ["string", "null"] },
     "event_category": { "type": ["string", "null"] },
     "event_subcategory": { "type": ["string", "null"] },
     "event_construct_destinations": {

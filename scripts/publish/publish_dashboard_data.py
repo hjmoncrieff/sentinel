@@ -20,6 +20,9 @@ POLICY_IN = ROOT / "config" / "publish_policy.json"
 COUNCIL_IN = ROOT / "data" / "review" / "council_analyses.json"
 QA_IN = ROOT / "data" / "review" / "qa_report.json"
 TAXONOMY_FALLBACK_FIELDS = [
+    "event_type_domain",
+    "event_category_family",
+    "event_category_label",
     "event_category",
     "event_subcategory",
     "event_construct_destinations",
@@ -53,6 +56,10 @@ PUBLIC_EVENT_FIELDS = [
     "url_primary",
     "url_all",
     "event_type",
+    "legacy_event_family",
+    "event_type_domain",
+    "event_category_family",
+    "event_category_label",
     "event_category",
     "event_subcategory",
     "event_construct_destinations",
@@ -331,7 +338,7 @@ def main() -> None:
             "timeline_stage_count": len(timeline),
             "latest_stage": latest_semantic_stage(timeline),
         }
-        row["public_analysis"] = synthesis.get("assessment")
+        row["public_analysis"] = synthesis.get("public_analysis") or synthesis.get("assessment")
         row["public_takeaways"] = synthesis.get("public_takeaways")
         row["public_risk_level"] = synthesis.get("risk_level")
         row["linked_reports"] = public_linked_reports(event)

@@ -83,6 +83,11 @@ def load_source() -> tuple[Path, dict]:
             for row in canonical.get("events", [])
             if row.get("event_id")
         }
+        merged_by_event = {
+            str(row.get("event_id")): row
+            for row in payload.get("events", [])
+            if row.get("event_id")
+        }
         for row in payload.get("events", []):
             canonical_row = canonical_by_event.get(str(row.get("event_id")))
             if not canonical_row:
@@ -92,6 +97,9 @@ def load_source() -> tuple[Path, dict]:
                 canonical_value = canonical_row.get(field)
                 if should_replace_taxonomy_value(field, value, canonical_value):
                     row[field] = canonical_value
+        for event_id, canonical_row in canonical_by_event.items():
+            if event_id not in merged_by_event:
+                payload.setdefault("events", []).append(canonical_row)
     return source, payload
 
 
@@ -838,6 +846,193 @@ def synthesis_forward_risk(event: dict, overall: str) -> str:
     return f"If this pattern continues, the main risk is a deeper entrenchment of current security and political dynamics in {country}."
 
 
+def ensure_sentence(text: str) -> str:
+    cleaned = clean_text(text)
+    if not cleaned:
+        return ""
+    if cleaned[-1] not in ".!?":
+        cleaned += "."
+    return cleaned
+
+
+def sentence_case(text: str) -> str:
+    cleaned = clean_text(text)
+    if not cleaned:
+        return ""
+    return cleaned[0].upper() + cleaned[1:]
+
+
+def trim_to_sentence(text: str, limit: int = 220) -> str:
+    cleaned = ensure_sentence(text)
+    if len(cleaned) <= limit:
+        return cleaned
+    clipped = cleaned[:limit].rsplit(" ", 1)[0].rstrip(" ,;:")
+    if clipped[-1] not in ".!?":
+        clipped += "."
+    return clipped
+
+
+def simplify_public_line(text: str, country: str) -> str:
+    cleaned = ensure_sentence(text)
+    if not cleaned:
+        return ""
+    patterns = [
+        (rf"^In {re.escape(country)}, this event matters because\s*", ""),
+        (rf"^In {re.escape(country)}, this event matters\s*", ""),
+        (rf"^In {re.escape(country)},\s*", ""),
+        (r"^The event reporting suggests\s*", ""),
+        (r"^The event itself appears to center on\s*", ""),
+        (r"^The broader effect is to\s*", ""),
+        (r"^The broader effect could be to\s*", ""),
+        (r"^The practical effect is to\s*", ""),
+        (r"^The practical effect may be to\s*", ""),
+        (r"^The institutional implication is that\s*", ""),
+        (r"^The main institutional implication is that\s*", ""),
+        (r"^The mechanism here is\s*", ""),
+        (r"^The key question is whether\s*", "The question now is whether "),
+        (r"^If this pattern continues, the main risk is\s*", "If this continues, the risk is "),
+        (r"^If similar events accumulate, the main risk is\s*", "If similar events accumulate, the risk is "),
+        (r"^If similar signals recur, the main risk is\s*", "If similar signals recur, the risk is "),
+    ]
+    for pattern, replacement in patterns:
+        cleaned = re.sub(pattern, replacement, cleaned, flags=re.IGNORECASE)
+    replacements = {
+        "institutional erosion": "institutional weakening",
+        "coercive governance": "rule through coercion",
+        "coercive management": "a coercive response",
+        "executive-security overreach": "executive overreach backed by security forces",
+        "coercive apparatus": "security apparatus",
+        "territorial control": "control on the ground",
+        "regime vulnerability": "political vulnerability",
+        "civilian control": "civilian control",
+        "security-sector": "security",
+        "institutional safeguards": "political safeguards",
+        "coercive actors": "security actors",
+    }
+    for src, dst in replacements.items():
+        cleaned = re.sub(src, dst, cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    return sentence_case(cleaned)
+
+
+def public_opening(event: dict, context: dict) -> str:
+    country = event.get("country") or "the country"
+    summary = clean_text(event.get("summary"))
+    if summary and not looks_like_feed_blurb(summary):
+        return trim_to_sentence(summary, 180)
+    primary = clean_text(context.get("primary_context"))
+    if primary and not looks_like_feed_blurb(primary):
+        return trim_to_sentence(primary, 180)
+    headline = clean_text(context.get("primary_headline"))
+    if headline and not looks_like_feed_blurb(headline):
+        return trim_to_sentence(headline, 140)
+    return ensure_sentence(f"Recent reporting points to a politically relevant security development in {country}.")
+
+
+def public_lens_priority(plan: dict[str, dict]) -> list[str]:
+    order = sorted(
+        [(code, row.get("weight", 0)) for code, row in plan.items() if row.get("active")],
+        key=lambda item: (-item[1], item[0]),
+    )
+    mapping = {
+        "cmr": "military",
+        "political_risk": "political",
+        "regional_security": "security",
+        "international": "international",
+        "economist": "economic",
+    }
+    return [mapping.get(code, code) for code, _ in order]
+
+
+def looks_like_feed_blurb(text: str) -> bool:
+    lowered = str(text or "").strip().lower()
+    if not lowered:
+        return False
+    bad_starts = {
+        "on the radar:",
+        "watch:",
+        "newsletter:",
+        "weekly:",
+        "analysis:",
+        "news roundup",
+        "roundup:",
+    }
+    if any(lowered.startswith(prefix) for prefix in bad_starts):
+        return True
+    if "news roundup" in lowered[:40]:
+        return True
+    if lowered.count(";") >= 2:
+        return True
+    if lowered.count(",") >= 4 and len(lowered.split()) < 40:
+        return True
+    return False
+
+
+def simple_causal_line(text: str, country: str) -> str:
+    cleaned = simplify_public_line(text, country)
+    cleaned = re.sub(r"^in\s+" + re.escape(country) + r",?\s*", "", cleaned, flags=re.IGNORECASE)
+    cleaned = cleaned.strip()
+    if cleaned:
+        cleaned = cleaned[0].upper() + cleaned[1:]
+    cleaned = re.sub(r"^the broader implication for .*? is ", "", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"^the broader effect could be to ", "", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"^this fits a broader pattern of ", "", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"^the mechanism here is ", "", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"^if similar events accumulate, the main risk is that ", "", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(
+        r"^A coercive response of stress, where security responses in .*? begin to substitute for more ordinary political or institutional resolution\.?$",
+        "Security responses are beginning to substitute for more ordinary political or institutional resolution.",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    cleaned = re.sub(rf"\b{re.escape(country.lower())}\b", country, cleaned, flags=re.IGNORECASE)
+    return ensure_sentence(cleaned)
+
+
+def public_watch_line(text: str, country: str) -> str:
+    cleaned = simplify_public_line(text, country)
+    cleaned = re.sub(r"^the key question is whether ", "Watch whether ", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"^the main question is whether ", "Watch whether ", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"^the key next indicator is whether ", "Watch whether ", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"^for now, the main question is simply whether ", "Watch whether ", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"^this interpretation should be treated as provisional until ", "Watch for confirmation as ", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(rf"\b{re.escape(country.lower())}\b", country, cleaned, flags=re.IGNORECASE)
+    return ensure_sentence(cleaned)
+
+
+def render_public_analysis(event: dict, analyses: dict[str, dict], combined: dict, context: dict, plan: dict[str, dict]) -> str:
+    country = event.get("country") or "the country"
+    takeaways = combined.get("public_takeaways") or {}
+    opening = public_opening(event, context)
+    significance = simple_causal_line(takeaways.get("significance", ""), country)
+    country_effect = simple_causal_line(takeaways.get("country_effect", ""), country)
+    mechanism = simple_causal_line(takeaways.get("mechanism", ""), country)
+    pattern_fit = simple_causal_line(takeaways.get("pattern_fit", ""), country)
+    forward = simple_causal_line(takeaways.get("forward_risk", ""), country)
+    watch = public_watch_line(takeaways.get("watchpoint", ""), country)
+    active = public_lens_priority(plan)
+    sentences = [opening]
+    for candidate in (significance, mechanism, country_effect, pattern_fit):
+        if candidate and candidate.lower() not in " ".join(sentences).lower():
+            sentences.append(candidate)
+            break
+    for candidate in (forward, watch):
+        if candidate and candidate.lower() not in " ".join(sentences).lower():
+            sentences.append(candidate)
+            break
+    if len(sentences) == 1 and active:
+        sentences.append(
+            ensure_sentence(
+                f"The clearest implication is for {country}'s {active[0]} risk."
+            )
+        )
+    if salience_level(event) == "low":
+        return " ".join(sentences[:2]).strip()
+    if len(sentences) >= 3:
+        return f"{' '.join(sentences[:2]).strip()}\n\n{sentences[2].strip()}".strip()
+    return " ".join(sentences).strip()
+
+
 def build_upstream_worker_outputs(event: dict, workers: dict[str, dict], reviewed: bool) -> dict[str, dict]:
     confidence = str(event.get("confidence") or "").lower()
     duplicate_status = str(event.get("duplicate_status") or "")
@@ -1317,6 +1512,8 @@ def build_entry(event: dict, knowledge: dict, guidance: dict, workers: dict[str,
     if plan["economist"]["active"]:
         analyses["economist"] = economist_analysis(event, guidance, context, plan)
     combined = synthesis(event, analyses, guidance, knowledge, plan, context)
+    combined["public_analysis"] = render_public_analysis(event, analyses, combined, context, plan)
+    combined["public_style"] = "graduate_polisci_plain_v1"
     reviewed = reviewed_by_human(event)
     analyses["synthesis"] = combined
     upstream_worker_outputs = build_upstream_worker_outputs(event, workers, reviewed)

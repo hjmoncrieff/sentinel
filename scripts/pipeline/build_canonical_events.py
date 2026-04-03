@@ -440,6 +440,9 @@ def classify_conflict_overlay(context_text: str) -> dict:
 
 def apply_taxonomy_overlay(event: dict, taxonomy_row: dict, actors: list[dict]) -> dict:
     overlay = {
+        "type": taxonomy_row.get("type") or taxonomy_row.get("event_category"),
+        "category": taxonomy_row.get("category") or taxonomy_row.get("code"),
+        "category_label": taxonomy_row.get("category_label") or taxonomy_row.get("label"),
         "event_category": taxonomy_row.get("event_category"),
         "event_subcategory": taxonomy_row.get("event_subcategory"),
         "construct_destinations": list(taxonomy_row.get("construct_destinations", [])),
@@ -454,30 +457,36 @@ def apply_taxonomy_overlay(event: dict, taxonomy_row: dict, actors: list[dict]) 
     context_text = " ".join(bit for bit in context_bits if bit)
     event_type = str(event.get("type") or "other")
 
+    specific = None
     if event_type == "other":
-        return classify_other_overlay(event, actors, context_text)
-    if event_type == "coup":
-        return classify_coup_overlay(context_text)
-    if event_type == "purge":
-        return classify_purge_overlay(context_text)
-    if event_type == "aid":
-        return classify_aid_overlay(context_text)
-    if event_type == "oc":
-        return classify_oc_overlay(context_text)
-    if event_type == "protest":
-        return classify_protest_overlay(context_text)
-    if event_type == "reform":
-        return classify_reform_overlay(context_text)
-    if event_type == "peace":
-        return classify_peace_overlay(context_text)
-    if event_type == "coop":
-        return classify_coop_overlay(context_text)
-    if event_type == "exercise":
-        return classify_exercise_overlay(context_text)
-    if event_type == "procurement":
-        return classify_procurement_overlay(context_text)
-    if event_type == "conflict":
-        return classify_conflict_overlay(context_text)
+        specific = classify_other_overlay(event, actors, context_text)
+    elif event_type == "coup":
+        specific = classify_coup_overlay(context_text)
+    elif event_type == "purge":
+        specific = classify_purge_overlay(context_text)
+    elif event_type == "aid":
+        specific = classify_aid_overlay(context_text)
+    elif event_type == "oc":
+        specific = classify_oc_overlay(context_text)
+    elif event_type == "protest":
+        specific = classify_protest_overlay(context_text)
+    elif event_type == "reform":
+        specific = classify_reform_overlay(context_text)
+    elif event_type == "peace":
+        specific = classify_peace_overlay(context_text)
+    elif event_type == "coop":
+        specific = classify_coop_overlay(context_text)
+    elif event_type == "exercise":
+        specific = classify_exercise_overlay(context_text)
+    elif event_type == "procurement":
+        specific = classify_procurement_overlay(context_text)
+    elif event_type == "conflict":
+        specific = classify_conflict_overlay(context_text)
+    if specific:
+        specific.setdefault("type", overlay.get("type"))
+        specific.setdefault("category", overlay.get("category"))
+        specific.setdefault("category_label", overlay.get("category_label"))
+        return specific
     return overlay
 
 
@@ -824,6 +833,10 @@ def canonicalize_event(
         "url_all": url_all,
         "language": None,
         "event_type": event_type,
+        "legacy_event_family": event_type,
+        "event_type_domain": taxonomy_overlay.get("type"),
+        "event_category_family": taxonomy_overlay.get("category"),
+        "event_category_label": taxonomy_overlay.get("category_label"),
         "event_category": taxonomy_overlay.get("event_category"),
         "event_subcategory": taxonomy_overlay.get("event_subcategory"),
         "event_construct_destinations": list(taxonomy_overlay.get("construct_destinations", [])),

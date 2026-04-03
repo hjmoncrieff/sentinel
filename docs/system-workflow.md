@@ -14,6 +14,21 @@ mainly intervene for correction, corroboration, duplicate resolution, manual
 event consolidation when near-duplicates were missed upstream, and publication
 control.
 
+For public-facing event prose, the current workflow should remain:
+
+- structured council interpretation first
+- deterministic public prose rendering second
+- optional API editorial rewrite later, only as a downstream polish layer
+
+For future event classification improvement, the intended AI path should be:
+
+- deterministic classification first
+- AI copilot second
+- human resolution on disagreements
+
+The AI layer should enrich and adjudicate edge cases, not replace the
+deterministic event-coding baseline.
+
 The product should be understood in three layers:
 
 - public publication layer
@@ -642,6 +657,9 @@ The council now also supports two conditional specialist lenses:
 The event taxonomy is now also construct-aware rather than purely operational.
 Canonical and published event records carry:
 
+- `docs/event-taxonomy-reference.md`
+  - generated reference for the current `type -> category -> subcategory`
+    structure
 - `event_category`
   - broad analytical family such as `political`, `military`, `security`, or
     `international`
@@ -682,6 +700,13 @@ type label. Examples now include:
   - now also carry more mechanism-specific subcategories instead of only the
     earlier generic construct bucket
 
+Whenever `config/taxonomy/event_types.json` changes, regenerate the markdown
+reference so the public taxonomy structure stays current:
+
+```bash
+python3 scripts/analysis/update_event_taxonomy_reference.py
+```
+
 The council layer is informed by structured analyst knowledge assets:
 
 - `config/agents/analyst_knowledge.json`
@@ -696,6 +721,16 @@ than the event title alone.
 The council prose is now also tied more explicitly to `event_subcategory`, so
 the public analytical writing can explain mechanisms more concretely instead of
 repeating the same top-level event-type language across very different cases.
+
+Public analysis now also uses a second layer:
+
+- the structured council output remains the internal reasoning layer
+- a simpler public prose renderer rewrites that structure into shorter,
+  more natural language for publication
+
+That public prose stage is currently deterministic and rule-based. A future API
+rewrite stage can be added later for additional editorial polish, but it should
+remain downstream of the structured council output rather than replacing it.
 
 The worker registry makes the AI-first architecture more explicit. It separates
 routine automation into named roles such as:

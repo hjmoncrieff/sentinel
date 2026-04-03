@@ -241,6 +241,10 @@ def main() -> None:
 
     for event in events:
         enriched = dict(event)
+        enriched["legacy_event_family"] = event.get("legacy_event_family")
+        enriched["event_type_domain"] = event.get("event_type_domain")
+        enriched["event_category_family"] = event.get("event_category_family")
+        enriched["event_category_label"] = event.get("event_category_label")
         enriched["event_category"] = event.get("event_category")
         enriched["event_subcategory"] = event.get("event_subcategory")
         enriched["event_construct_destinations"] = list(event.get("event_construct_destinations") or [])
