@@ -5,29 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SENTINEL Analyst Console</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
     :root{
-      --bg:#0f172a;
-      --bg-2:#111c33;
-      --panel:#f8fafc;
-      --panel-2:#eef3f9;
-      --panel-3:#e4ebf4;
-      --ink:#0f172a;
-      --muted:#5d6b80;
-      --line:#d6dfeb;
-      --accent:#78a9d6;
-      --accent-strong:#d5e9fb;
-      --accent-soft:#dcebf8;
-      --warn:#a16207;
-      --high:#b42318;
-      --ok:#157347;
-      --shadow:0 18px 44px rgba(2, 8, 23, 0.30);
-      --shadow-soft:0 10px 28px rgba(2, 8, 23, 0.16);
-      --radius-xl:22px;
-      --radius-lg:18px;
-      --radius-md:14px;
-      --radius-sm:10px;
-      --mono:"IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
-      --sans:"Avenir Next", "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+      --bg:#F5F2ED;
+      --bg-2:#EDE8DF;
+      --panel:#FFFCF8;
+      --panel-2:#F1ECE4;
+      --panel-3:#E8E0D3;
+      --ink:#1A1A18;
+      --muted:#5A6470;
+      --line:#D8D0C4;
+      --accent:#B8963E;
+      --accent-strong:#1C2B3A;
+      --accent-soft:#F0E4C4;
+      --warn:#8E6B22;
+      --high:#A6483A;
+      --ok:#3F6A58;
+      --shadow:0 12px 28px rgba(28, 43, 58, 0.07);
+      --shadow-soft:0 6px 16px rgba(28, 43, 58, 0.05);
+      --radius-xl:0px;
+      --radius-lg:0px;
+      --radius-md:0px;
+      --radius-sm:0px;
+      --mono:"DM Mono","Courier New",monospace;
+      --sans:"DM Sans",system-ui,sans-serif;
+      --serif:"Cormorant Garamond",Georgia,serif;
       --space-1:4px;
       --space-2:8px;
       --space-3:12px;
@@ -44,124 +46,147 @@
       --text-xl:20px;
       --text-2xl:28px;
       --text-3xl:40px;
-      --info-surface:linear-gradient(180deg, rgba(255,255,255,.97), rgba(239,244,250,.92));
-      --action-surface:linear-gradient(180deg, rgba(229,238,248,.98), rgba(250,252,255,.94));
-      --action-border:rgba(74, 115, 160, .22);
-      --info-border:rgba(214,223,235,.92);
+      --info-surface:linear-gradient(180deg, rgba(255,252,248,.99), rgba(245,240,232,.97));
+      --action-surface:linear-gradient(180deg, rgba(255,252,248,.99), rgba(241,236,228,.97));
+      --action-border:rgba(184,150,62,.22);
+      --info-border:rgba(216,208,196,.92);
     }
     *{box-sizing:border-box}
+    html,
+    body{
+      height:100%;
+    }
     body{
       margin:0;
       color:var(--ink);
       background:
-        radial-gradient(circle at 0% 0%, rgba(120,169,214,.24), transparent 26%),
-        radial-gradient(circle at 100% 0%, rgba(58,87,128,.32), transparent 22%),
-        linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 22%, #152238 100%);
+        radial-gradient(circle at 0% 0%, rgba(184,150,62,.08), transparent 18%),
+        linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 18%, #f7f4ef 100%);
       font-family:var(--sans);
       font-size:16px;
       line-height:1.6;
+      overflow:hidden;
     }
     .page{
-      max-width:1680px;
-      margin:0 auto;
-      padding:22px 20px 34px;
+      position:relative;
+      width:100%;
+      max-width:none;
+      margin:0;
+      padding:12px 14px 20px;
+      isolation:isolate;
+      min-height:100vh;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+    }
+    .page::before{
+      content:"";
+      position:fixed;
+      inset:90px 4vw 48px auto;
+      width:min(52vw, 980px);
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 620 920'%3E%3Cpath fill='none' stroke='%23b8963e' stroke-width='2.2' stroke-opacity='0.2' d='M187 36l39 6 31 34 41 14 27 32-8 37 17 37 35 16 10 29 22 13 8 38 27 21 25 48 9 44-18 43-30 35-16 52-33 42-34 25-6 40 18 34-10 34-39 20-20 33 17 40-22 34-36 31-30 72-31 37-53-4-48-22-23-36-1-47 22-42 37-34 17-42 28-29-3-39-34-27-27-45-4-53-24-44-9-42-31-36-16-46 6-34 32-12 21-40-5-52 22-31 34-18 21-37 47-6 22-29-17-33z'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:center right;
+      background-size:contain;
+      opacity:.32;
+      pointer-events:none;
+      z-index:-1;
     }
     .hero{
       display:flex;
       justify-content:space-between;
-      gap:22px;
-      align-items:flex-start;
-      padding:22px 24px;
-      border:1px solid rgba(210,228,246,.15);
+      gap:18px;
+      align-items:center;
+      padding:10px 14px;
+      border:1px solid var(--line);
       border-radius:var(--radius-xl);
-      background:
-        linear-gradient(135deg, rgba(18,31,56,.98), rgba(25,45,78,.96)),
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0));
+      background:rgba(255,252,248,.94);
       box-shadow:var(--shadow);
-      margin-bottom:18px;
+      margin-bottom:12px;
     }
     .page.authenticated .hero{
-      padding:14px 18px;
-      margin-bottom:10px;
+      padding:8px 12px;
+      margin-bottom:8px;
       align-items:center;
+      flex:0 0 auto;
     }
-    .page.authenticated .hero .lede{
+    .page.authenticated .hero .lede,
+    .page.authenticated .hero .kicker,
+    .page.authenticated #generated-pill,
+    .page.authenticated #clearance-pill{
       display:none;
     }
-    .page.authenticated .hero h1{
-      font-size:34px;
-    }
-    .page.authenticated .hero .kicker{
-      margin-bottom:6px;
-    }
-    .page.authenticated .hero-meta{
-      min-width:260px;
-    }
-    .page.authenticated .desk-strip{
-      display:none;
-    }
+    .page.authenticated .hero h1{font-size:20px}
+    .page.authenticated .hero-meta{min-width:auto}
     .kicker{
       font:12px var(--mono);
       text-transform:uppercase;
       letter-spacing:1.5px;
-      color:rgba(226,237,248,.84);
+      color:var(--accent);
       margin-bottom:10px;
     }
     h1{
       margin:0;
-      font-size:48px;
+      font-family:var(--serif);
+      font-size:24px;
       line-height:1.04;
-      font-weight:700;
-      letter-spacing:-0.04em;
-      color:#f8fbff;
+      font-weight:500;
+      letter-spacing:-0.03em;
+      color:var(--accent-strong);
     }
     .lede{
-      margin-top:10px;
+      margin-top:8px;
       max-width:900px;
-      color:rgba(226,234,244,.84);
-      line-height:1.62;
-      font-size:17px;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:15px;
     }
     .hero-meta{
       display:grid;
+      gap:6px;
+      min-width:360px;
+    }
+    .page.authenticated .hero-meta{
+      display:flex;
+      align-items:center;
       gap:8px;
-      min-width:320px;
+      justify-content:flex-end;
+      flex-wrap:wrap;
     }
     .hero-auth-locked,
     .hero-auth-live{
       display:grid;
-      gap:8px;
+      gap:6px;
     }
     .hero-auth-copy{
-      color:rgba(226,234,244,.82);
-      font-size:14px;
-      line-height:1.55;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.45;
       margin:0;
     }
     .hero-auth-live{
       display:none;
     }
     .meta-pill{
-      border:1px solid rgba(215,233,250,.14);
-      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.78);
       border-radius:var(--radius-md);
-      padding:11px 13px;
+      padding:10px 12px;
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
-      color:#d8e9f7;
+      color:var(--muted);
       text-align:left;
-      backdrop-filter:blur(12px);
     }
     .session-card{
-      border:1px solid rgba(215,233,250,.14);
-      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.84);
       border-radius:var(--radius-lg);
-      padding:14px;
-      backdrop-filter:blur(12px);
+      padding:12px;
     }
     .session-card .toolbar-title{
-      color:rgba(233,242,251,.78);
+      color:var(--muted);
       margin-bottom:10px;
     }
     .session-card input,
@@ -169,33 +194,33 @@
       width:100%;
       border:1px solid rgba(255,255,255,.16);
       border-radius:var(--radius-sm);
-      background:rgba(255,255,255,.10);
+      background:rgba(255,255,255,.82);
       padding:10px 12px;
       font:14px var(--sans);
-      color:#f7fbff;
+      color:var(--ink);
     }
     .session-card input::placeholder{
-      color:rgba(233,242,251,.62);
+      color:var(--muted);
     }
     .session-card input:focus,
     .session-card select:focus{
       outline:none;
-      border-color:rgba(255,255,255,.4);
-      box-shadow:0 0 0 4px rgba(255,255,255,.10);
-      background:rgba(255,255,255,.16);
+      border-color:rgba(184,150,62,.45);
+      box-shadow:0 0 0 4px rgba(184,150,62,.10);
+      background:#fff;
     }
     .session-card .session-note{
-      color:rgba(233,242,251,.78);
+      color:var(--muted);
     }
     .session-card .action-btn{
-      background:rgba(255,255,255,.10);
-      border-color:rgba(255,255,255,.16);
-      color:#f1f6fb;
+      background:rgba(255,255,255,.82);
+      border-color:var(--line);
+      color:var(--accent-strong);
     }
     .session-card .action-btn.primary{
-      background:#f6fbff;
-      border-color:#f6fbff;
-      color:var(--accent-strong);
+      background:var(--accent-strong);
+      border-color:var(--accent-strong);
+      color:var(--bg);
     }
     .session-card .action-btn.warn{
       color:#ffe2b5;
@@ -204,43 +229,58 @@
       display:inline-flex;
       align-items:center;
       gap:8px;
-      border:1px solid rgba(204,217,231,.94);
+      border:1px solid var(--line);
       border-radius:999px;
       padding:8px 10px;
-      background:rgba(255,255,255,.84);
+      background:rgba(255,255,255,.72);
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
       color:var(--ink);
+    }
+    .nav-command-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid rgba(184,150,62,.28);
+      border-radius:999px;
+      background:rgba(255,255,255,.78);
+      padding:7px 10px;
+      cursor:pointer;
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:var(--accent-strong);
+    }
+    .nav-command-btn.active{
+      background:var(--accent-soft);
+      border-color:rgba(184,150,62,.34);
+      color:var(--accent);
     }
     .workspace-pill strong{
       font-family:var(--sans);
       font-size:13px;
       text-transform:none;
       letter-spacing:0;
-      color:#123a65;
+      color:var(--accent-strong);
     }
-    .stats{
-      display:grid;
-      gap:10px;
-      margin-bottom:14px;
-    }
+    .stats{display:none}
     .stats-primary{
       display:grid;
       grid-template-columns:repeat(6, minmax(0,1fr));
-      gap:10px;
+      gap:8px;
     }
     .stats-more{
       border:1px solid rgba(194,210,226,.92);
-      border-radius:16px;
-      background:linear-gradient(180deg, rgba(245,249,253,.98), rgba(236,242,249,.95));
+      border-radius:999px;
+      background:rgba(255,255,255,.72);
       box-shadow:var(--shadow-soft);
       overflow:hidden;
     }
     .stats-more summary{
       list-style:none;
       cursor:pointer;
-      padding:12px 14px;
+      padding:10px 14px;
       display:flex;
       justify-content:space-between;
       align-items:center;
@@ -253,15 +293,15 @@
     .stats-more-grid{
       display:grid;
       grid-template-columns:repeat(4, minmax(0,1fr));
-      gap:10px;
-      padding:0 12px 12px;
+      gap:8px;
+      padding:0 10px 10px;
     }
     .stat{
-      background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(238,243,250,.94));
-      border:1px solid rgba(203,216,231,.9);
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--line);
       border-radius:var(--radius-lg);
-      box-shadow:var(--shadow-soft);
-      padding:12px 14px;
+      box-shadow:none;
+      padding:10px 12px;
       position:relative;
       overflow:hidden;
       min-height:0;
@@ -270,8 +310,8 @@
       content:"";
       position:absolute;
       inset:0 auto 0 0;
-      width:4px;
-      background:linear-gradient(180deg, rgba(120,169,214,.95), rgba(24,60,103,.95));
+      width:3px;
+      background:linear-gradient(180deg, rgba(184,150,62,.92), rgba(28,43,58,.92));
     }
     .stat-label{
       font:11px var(--mono);
@@ -281,7 +321,7 @@
       margin-bottom:6px;
     }
     .stat-value{
-      font-size:28px;
+      font-size:22px;
       line-height:1;
       margin-bottom:4px;
       font-weight:700;
@@ -293,7 +333,7 @@
       line-height:1.45;
     }
     .stat.secondary .stat-value{
-      font-size:22px;
+      font-size:18px;
     }
     .stat.secondary .stat-note{
       font-size:11px;
@@ -301,15 +341,15 @@
     .desk-strip{
       display:grid;
       grid-template-columns:repeat(3, minmax(0,1fr));
-      gap:10px;
-      margin-bottom:14px;
+      gap:8px;
+      margin-bottom:10px;
     }
     .desk-card{
       border:1px solid rgba(213,233,251,.12);
       border-radius:var(--radius-lg);
-      background:linear-gradient(180deg, rgba(18,31,56,.92), rgba(20,35,63,.82));
+      background:linear-gradient(180deg, rgba(28,43,58,.94), rgba(46,64,87,.92));
       box-shadow:var(--shadow-soft);
-      padding:13px 15px;
+      padding:11px 13px;
     }
     .desk-card .toolbar-title{
       color:rgba(197,221,243,.72);
@@ -330,7 +370,7 @@
     }
     .notice{
       display:none;
-      margin-bottom:16px;
+      margin-bottom:12px;
       border:1px solid rgba(15,76,129,.14);
       background:linear-gradient(180deg, rgba(226,237,248,.95), rgba(255,255,255,.95));
       border-radius:var(--radius-md);
@@ -351,7 +391,7 @@
       background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,249,252,.94));
       border-radius:var(--radius-xl);
       box-shadow:var(--shadow);
-      padding:32px;
+      padding:24px;
     }
     .access-wall.active{
       display:block;
@@ -359,9 +399,9 @@
     .access-shell{
       display:grid;
       grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);
-      gap:18px;
+      gap:14px;
       align-items:start;
-      margin-top:18px;
+      margin-top:14px;
     }
     .access-shell .session-card{
       margin:0;
@@ -402,37 +442,46 @@
     #workspace-shell.locked{
       display:none;
     }
+    #workspace-shell{
+      display:flex;
+      flex-direction:column;
+      flex:1 1 auto;
+      min-height:0;
+      overflow:hidden;
+    }
     .toolbar{
       display:grid;
       grid-template-columns:1fr;
-      gap:12px;
-      margin-bottom:14px;
+      gap:10px;
+      margin-bottom:10px;
+      flex:0 0 auto;
     }
+    .toolbar.collapsed{display:none}
     .toolbar-box{
-      background:linear-gradient(180deg, rgba(255,255,255,.94), rgba(236,242,249,.92));
-      border:1px solid rgba(191,207,224,.92);
+      background:linear-gradient(180deg, rgba(255,252,248,.98), rgba(241,236,228,.96));
+      border:1px solid var(--line);
       border-radius:var(--radius-lg);
-      padding:18px;
+      padding:14px;
       box-shadow:var(--shadow-soft);
     }
     .toolbar-box.compact{
-      padding:14px 16px;
+      padding:10px 12px;
     }
     .toolbar-box.command-main{
-      background:linear-gradient(180deg, rgba(20,35,61,.96), rgba(24,42,73,.94));
-      border-color:rgba(77,104,141,.42);
-      color:#f4f8fc;
-      box-shadow:0 18px 36px rgba(15, 23, 42, 0.20);
+      background:linear-gradient(180deg, rgba(39,53,71,.98), rgba(46,64,87,.95));
+      border-color:rgba(28,43,58,.28);
+      color:#f7f3ed;
+      box-shadow:none;
     }
     .command-surface{
-      padding:10px 12px;
+      padding:8px 10px 7px;
     }
     .command-header{
       display:flex;
       justify-content:space-between;
       gap:10px;
       align-items:center;
-      margin-bottom:6px;
+      margin-bottom:4px;
     }
     .command-header .toolbar-title{
       margin:0;
@@ -447,17 +496,17 @@
       display:inline-flex;
       align-items:center;
       gap:6px;
-      border:1px solid rgba(92,118,153,.34);
+      border:1px solid rgba(240,228,196,.18);
       border-radius:999px;
       padding:6px 9px;
-      background:rgba(19,33,58,.72);
+      background:rgba(245,242,237,.06);
       font:10px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
-      color:rgba(214,225,238,.72);
+      color:rgba(245,242,237,.68);
     }
     .command-state-chip strong{
-      color:#f4f8fc;
+      color:#fffaf3;
       font-family:var(--sans);
       font-size:12px;
       text-transform:none;
@@ -465,7 +514,7 @@
     }
     .command-toprow{
       display:grid;
-      grid-template-columns:minmax(0,1.95fr) repeat(2, minmax(140px,.34fr)) auto auto;
+      grid-template-columns:minmax(0,1.8fr) repeat(2, minmax(132px,.32fr)) auto auto;
       gap:8px;
       align-items:center;
     }
@@ -473,11 +522,11 @@
       min-width:0;
     }
     .command-search input{
-      height:48px;
-      border-radius:14px;
+      height:44px;
+      border-radius:10px;
       background:rgba(245,249,253,.98);
-      border-color:rgba(128,154,188,.84);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.8), 0 8px 18px rgba(8, 15, 28, 0.08);
+      border-color:rgba(184,150,62,.34);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.8), 0 8px 18px rgba(28, 43, 58, 0.06);
       font-size:16px;
       padding-inline:14px;
     }
@@ -485,24 +534,24 @@
       display:contents;
     }
     .compact-note{
-      color:rgba(214,225,238,.68);
+      color:rgba(245,242,237,.66);
       font-size:10px;
       line-height:1.35;
-      margin-top:5px;
+      margin-top:4px;
     }
     .command-bottomrow{
       display:grid;
       grid-template-columns:1fr auto;
-      gap:10px;
-      margin-top:6px;
+      gap:8px;
+      margin-top:5px;
       align-items:center;
-      padding-top:7px;
-      border-top:1px solid rgba(87,113,147,.34);
+      padding-top:6px;
+      border-top:1px solid rgba(240,228,196,.12);
     }
     .utility-row{
       display:flex;
       flex-wrap:wrap;
-      gap:8px;
+      gap:6px;
       justify-content:flex-end;
       align-items:center;
     }
@@ -523,7 +572,7 @@
       color:#153a61;
     }
     .command-caption{
-      color:rgba(214,225,238,.74);
+      color:rgba(245,242,237,.68);
       font-size:13px;
       line-height:1.55;
       margin-top:8px;
@@ -549,7 +598,7 @@
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
-      color:var(--muted);
+      color:rgba(245,242,237,.68);
       margin-bottom:8px;
     }
     .toolbar input,
@@ -586,23 +635,23 @@
       gap:6px;
     }
     .quick-btn{
-      border:1px solid rgba(95,121,154,.38);
+      border:1px solid rgba(240,228,196,.18);
       border-radius:999px;
-      background:rgba(255,255,255,.08);
-      padding:7px 10px;
+      background:rgba(245,242,237,.06);
+      padding:6px 10px;
       text-align:left;
       cursor:pointer;
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
-      color:#edf4fb;
+      color:#f7f3ed;
       min-height:0;
       flex:0 0 auto;
     }
     .quick-btn.active{
-      background:linear-gradient(180deg, rgba(229,238,247,.96), rgba(243,248,252,.94));
-      border-color:rgba(179,199,221,.75);
-      color:#153a61;
+      background:var(--accent-soft);
+      border-color:rgba(184,150,62,.34);
+      color:var(--accent-strong);
     }
     .session-grid,
     .editor-grid{
@@ -614,7 +663,7 @@
       grid-template-columns:repeat(2, minmax(0,1fr));
     }
     .session-note{
-      color:var(--muted);
+      color:rgba(245,242,237,.68);
       font-size:13px;
       line-height:1.5;
     }
@@ -637,20 +686,20 @@
       margin-top:6px;
     }
     .preset-btn{
-      border:1px solid rgba(98,126,160,.42);
+      border:1px solid rgba(240,228,196,.18);
       border-radius:999px;
-      background:rgba(255,255,255,.10);
-      padding:7px 10px;
+      background:rgba(245,242,237,.06);
+      padding:6px 10px;
       cursor:pointer;
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
-      color:#edf4fb;
+      color:#f7f3ed;
     }
     .preset-btn:hover{
-      background:rgba(230,238,247,.92);
-      border-color:#aac4d0;
-      color:var(--accent);
+      background:var(--accent-soft);
+      border-color:rgba(184,150,62,.34);
+      color:var(--accent-strong);
     }
     .button-row{
       display:flex;
@@ -658,20 +707,20 @@
       gap:8px;
     }
     .action-btn{
-      border:1px solid rgba(95,123,157,.34);
+      border:1px solid rgba(184,150,62,.22);
       border-radius:999px;
-      background:rgba(255,255,255,.08);
-      padding:7px 10px;
+      background:rgba(245,242,237,.08);
+      padding:6px 10px;
       cursor:pointer;
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
-      color:#f4f8fc;
+      color:#fffaf3;
     }
     .action-btn.primary{
-      background:linear-gradient(180deg, rgba(226,237,248,.96), rgba(240,246,252,.94));
-      border-color:rgba(15,76,129,.22);
-      color:#18456f;
+      background:var(--accent-soft);
+      border-color:rgba(184,150,62,.34);
+      color:var(--accent-strong);
     }
     .action-btn.warn{
       color:var(--warn);
@@ -680,40 +729,119 @@
       opacity:.55;
       cursor:not-allowed;
     }
+    .quick-action-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:10px;
+    }
+    .quick-action-grid .action-btn{
+      width:100%;
+      min-height:42px;
+      padding:10px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(216,208,196,.95);
+      color:var(--accent-strong);
+      text-align:center;
+      justify-content:center;
+    }
+    .quick-action-grid .action-btn.primary{
+      background:var(--accent-strong);
+      border-color:var(--accent-strong);
+      color:#f7f3ed;
+    }
+    .quick-action-grid .action-btn.warn{
+      background:rgba(240,228,196,.32);
+      border-color:rgba(184,150,62,.42);
+      color:var(--warn);
+    }
+    .quick-action-grid .action-btn.danger{
+      background:rgba(166,72,58,.08);
+      border-color:rgba(166,72,58,.28);
+      color:var(--high);
+    }
+    .quick-action-grid .action-btn.subtle{
+      background:transparent;
+      border-style:dashed;
+      color:var(--muted);
+    }
+    .quick-action-grid .action-btn:disabled{
+      opacity:.34;
+      background:rgba(255,255,255,.36);
+      border-color:rgba(216,208,196,.7);
+      color:rgba(90,100,112,.65);
+      box-shadow:none;
+    }
     .layout{
       display:grid;
-      grid-template-columns:470px minmax(0, 1fr);
-      gap:18px;
-      min-height:780px;
+      grid-template-columns:430px minmax(0, 1.35fr) 380px;
+      gap:14px;
+      min-height:0;
+      flex:1 1 auto;
+      align-items:stretch;
+      overflow:hidden;
     }
     .panel{
-      background:rgba(251,253,255,.94);
-      border:1px solid rgba(203,216,231,.95);
+      display:flex;
+      flex-direction:column;
+      background:rgba(255,252,248,.92);
+      border:1px solid var(--line);
       border-radius:var(--radius-xl);
-      box-shadow:var(--shadow);
+      box-shadow:var(--shadow-soft);
       min-height:0;
       overflow:hidden;
-      backdrop-filter:blur(12px);
     }
     .panel-head{
       display:flex;
       justify-content:space-between;
       gap:12px;
       align-items:center;
-      padding:14px 16px;
+      padding:12px 14px;
       border-bottom:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(225,233,243,.95), rgba(251,253,255,.88));
+      background:linear-gradient(180deg, rgba(241,236,228,.95), rgba(255,252,248,.90));
     }
     .panel-title{
-      font-size:21px;
-      font-weight:700;
+      font-family:var(--serif);
+      font-size:24px;
+      font-weight:500;
       margin:0;
       letter-spacing:-0.02em;
+      color:var(--accent-strong);
     }
     .panel-sub{
       color:var(--muted);
       font-size:13px;
       line-height:1.5;
+    }
+    .feed-count{
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .left-feed-controls{
+      display:flex;
+      gap:8px;
+      padding:10px 14px 8px;
+      border-bottom:1px solid var(--line);
+      background:rgba(255,252,248,.88);
+      flex:0 0 auto;
+    }
+    .feed-filter-btn{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.78);
+      color:var(--muted);
+      padding:7px 10px;
+      cursor:pointer;
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+    .feed-filter-btn.active{
+      background:var(--accent-strong);
+      border-color:var(--accent-strong);
+      color:#f7f3ed;
     }
     .surface-read{
       background:var(--info-surface);
@@ -725,10 +853,10 @@
     }
     .bulk-toolbar{
       display:none;
-      margin:0 16px 14px;
-      padding:14px;
+      margin:0 12px 10px;
+      padding:12px;
       border:1px solid var(--action-border);
-      border-radius:16px;
+      border-radius:12px;
       background:var(--action-surface);
       box-shadow:var(--shadow-soft);
     }
@@ -741,25 +869,24 @@
       margin-top:6px;
     }
     .queue{
-      max-height:920px;
-      overflow:auto;
-      padding:8px 8px 10px;
+      flex:1 1 auto;
+      min-height:0;
+      overflow-y:auto;
+      overflow-x:hidden;
+      padding:6px 6px 8px;
+      background:rgba(245,242,237,.28);
     }
-    .watchlist{
-      padding:10px 12px 6px;
-      border-bottom:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(241,246,251,.96), rgba(252,254,255,.92));
-    }
+    .watchlist{display:none}
     .watchlist-grid{
       display:grid;
       grid-template-columns:repeat(2, minmax(0,1fr));
-      gap:8px;
+      gap:6px;
     }
     .watch-card{
-      border:1px solid rgba(191,207,224,.92);
-      border-radius:12px;
-      background:rgba(255,255,255,.82);
-      padding:10px 11px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:rgba(255,255,255,.62);
+      padding:9px 10px;
       text-align:left;
       cursor:pointer;
     }
@@ -768,7 +895,7 @@
       margin-top:3px;
       font-size:16px;
       letter-spacing:-0.02em;
-      color:#153a61;
+      color:var(--accent-strong);
     }
     .watch-card p{
       margin:5px 0 0;
@@ -802,11 +929,11 @@
       gap:12px;
     }
     .desk-country{
-      border:1px solid rgba(194,208,223,.92);
-      border-radius:18px;
-      background:linear-gradient(180deg, rgba(252,254,255,.98), rgba(242,247,252,.95));
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:linear-gradient(180deg, rgba(255,252,248,.98), rgba(241,236,228,.95));
       box-shadow:var(--shadow-soft);
-      padding:15px 15px 14px;
+      padding:12px 12px 11px;
     }
     .desk-country-head{
       display:flex;
@@ -817,7 +944,8 @@
     }
     .desk-country-title{
       margin:0;
-      font-size:22px;
+      font-family:var(--serif);
+      font-size:20px;
       line-height:1.1;
       letter-spacing:-0.03em;
     }
@@ -834,9 +962,9 @@
       margin-bottom:12px;
     }
     .desk-metric{
-      border:1px solid rgba(212,222,233,.94);
+      border:1px solid var(--line);
       border-radius:12px;
-      background:rgba(255,255,255,.82);
+      background:rgba(255,255,255,.62);
       padding:10px;
     }
     .desk-metric strong{
@@ -845,7 +973,7 @@
       line-height:1;
       letter-spacing:-0.03em;
       margin:3px 0 0;
-      color:#123a65;
+      color:var(--accent-strong);
     }
     .desk-country-actions{
       display:flex;
@@ -854,24 +982,24 @@
       margin-bottom:12px;
     }
     .desk-link-btn{
-      border:1px solid rgba(173,191,211,.92);
+      border:1px solid rgba(184,150,62,.28);
       border-radius:999px;
-      background:#fff;
+      background:rgba(255,255,255,.72);
       padding:8px 10px;
       cursor:pointer;
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
-      color:#123a65;
+      color:var(--accent);
     }
     .desk-top-events{
       display:grid;
       gap:8px;
     }
     .desk-event{
-      border:1px solid rgba(213,223,233,.94);
+      border:1px solid var(--line);
       border-radius:12px;
-      background:rgba(247,250,253,.92);
+      background:rgba(255,255,255,.64);
       padding:10px 11px;
       cursor:pointer;
       text-align:left;
@@ -890,31 +1018,15 @@
       letter-spacing:1px;
     }
     .queue-group{
-      margin-bottom:14px;
-    }
-    .queue-group-head{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:center;
-      padding:10px 10px 8px;
-      position:sticky;
-      top:0;
-      z-index:1;
-      background:linear-gradient(180deg, rgba(246,250,253,.98), rgba(246,250,253,.82));
-      border-bottom:1px solid rgba(214,223,235,.9);
-      margin-bottom:8px;
-    }
-    .queue-group-head .mono{
-      color:var(--muted);
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:1px;
+      margin-bottom:0;
+      min-width:0;
     }
     .queue-select{
       display:flex;
       align-items:flex-start;
       gap:10px;
+      min-width:0;
+      width:100%;
     }
     .queue-check{
       margin-top:2px;
@@ -927,55 +1039,161 @@
     .queue-card{
       flex:1 1 auto;
       min-width:0;
+      overflow-wrap:anywhere;
     }
     .queue-item{
       width:100%;
       display:block;
-      border:1px solid rgba(211,221,232,.72);
-      border-radius:var(--radius-md);
-      background:rgba(255,255,255,.76);
-      padding:13px 14px 12px;
-      margin-bottom:8px;
+      border:0;
+      border-bottom:1px solid rgba(216,208,196,.82);
+      border-left:2px solid transparent;
+      background:var(--eggshell);
+      padding:12px 14px 12px 16px;
+      margin-bottom:0;
       text-align:left;
       cursor:pointer;
-      transition:background .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+      transition:background .14s ease, border-left-color .14s ease, box-shadow .14s ease;
+      overflow:hidden;
+      border-radius:0;
+      box-shadow:none;
     }
     .queue-item.must-act{
-      border-color:rgba(180, 35, 24, .28);
-      background:linear-gradient(180deg, rgba(255,248,247,.96), rgba(255,255,255,.88));
-      box-shadow:inset 3px 0 0 rgba(180, 35, 24, .78);
+      border-left-color:#8e4430;
+      box-shadow:inset 0 0 0 1px rgba(142,68,48,.16);
     }
     .queue-item.review-soon{
-      border-color:rgba(161, 98, 7, .24);
-      background:linear-gradient(180deg, rgba(255,251,244,.92), rgba(255,255,255,.86));
-      box-shadow:inset 3px 0 0 rgba(161, 98, 7, .74);
+      border-left-color:var(--gold);
+      box-shadow:inset 0 0 0 1px rgba(184,150,62,.14);
     }
-    .queue-item:hover,
+    .queue-item.monitor{
+      border-left-color:#8f989f;
+      box-shadow:inset 0 0 0 1px rgba(143,152,159,.14);
+    }
+    .queue-item:hover{
+      background:var(--card-bg);
+      border-left-color:var(--gold);
+    }
     .queue-item.active{
-      background:rgba(226,237,248,.72);
-      border-color:rgba(15,76,129,.24);
-      transform:translateY(-1px);
-      box-shadow:0 8px 18px rgba(15, 23, 42, 0.06);
+      background:#f1ede6;
+      border-left-color:var(--gold);
+      box-shadow:inset 0 0 0 1px rgba(184,150,62,.18);
+    }
+    .queue-item.must-act.active{
+      box-shadow:inset 0 0 0 1px rgba(142,68,48,.28);
+    }
+    .queue-item.review-soon.active{
+      box-shadow:inset 0 0 0 1px rgba(184,150,62,.24);
+    }
+    .queue-item.monitor.active{
+      box-shadow:inset 0 0 0 1px rgba(143,152,159,.22);
+    }
+    .tape-row1{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      margin-bottom:5px;
+      flex-wrap:wrap;
+    }
+    .tape-row1-bottom{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-top:8px;
+    }
+    .tape-dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      flex-shrink:0;
+      background:var(--accent);
+    }
+    .tape-type{
+      font-family:var(--sans);
+      font-size:10px;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      padding:.16rem .45rem;
+      border:1px solid currentColor;
+      border-radius:999px;
+      color:var(--accent-strong);
+    }
+    .tape-country-tags{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      flex-wrap:wrap;
+      margin-left:auto;
+      justify-content:flex-end;
+    }
+    .tape-country-tag{
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      font-family:var(--mono);
+      font-size:7.5px;
+      letter-spacing:.75px;
+      text-transform:uppercase;
+      color:var(--muted);
+      border:1px solid rgba(216,208,196,.95);
+      padding:2px 7px;
+      border-radius:999px;
+      background:transparent;
+    }
+    .tape-country-tag.primary{
+      background:rgba(240,228,196,.55);
+      border-color:rgba(184,150,62,.5);
+    }
+    .tape-kicker{
+      font-family:var(--sans);
+      font-size:10px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--muted);
+      margin-bottom:6px;
     }
     .queue-meta{
       display:flex;
       flex-wrap:wrap;
       gap:7px;
       margin-bottom:6px;
+      min-width:0;
     }
-    .queue-actionline{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:center;
-      margin-bottom:6px;
-      font:11px var(--mono);
-      text-transform:uppercase;
-      letter-spacing:1px;
+    .tape-feed-meta{
+      font-family:var(--sans);
+      font-size:.66rem;
       color:var(--muted);
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+      text-transform:uppercase;
+      letter-spacing:.08em;
     }
-    .queue-actionline strong{
-      color:#153a61;
+    .tape-status{
+      font-family:var(--mono);
+      font-size:7.5px;
+      letter-spacing:.85px;
+      text-transform:uppercase;
+      color:var(--accent);
+      white-space:nowrap;
+    }
+    .tape-status:hover{
+      color:var(--accent-strong);
+    }
+    .tape-pips{
+      display:inline-flex;
+      gap:2px;
+      align-items:center;
+    }
+    .tape-pip{
+      width:4px;
+      height:4px;
+      border-radius:50%;
+      background:rgba(143,152,159,.45);
+    }
+    .tape-pip.on{
+      background:var(--accent);
     }
     .chip{
       display:inline-block;
@@ -985,7 +1203,7 @@
       font:10px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
-      background:var(--panel-2);
+      background:rgba(245,240,232,.88);
     }
     .chip.high{color:var(--high); border-color:rgba(141,47,45,.25); background:rgba(141,47,45,.07)}
     .chip.warn{color:var(--warn); border-color:rgba(154,93,32,.28); background:rgba(154,93,32,.07)}
@@ -1043,28 +1261,34 @@
       transform:translateX(0) translateY(0);
     }
     .queue-title{
-      font-size:16px;
-      line-height:1.38;
+      font-family:var(--sans);
+      font-size:14px;
+      font-weight:400;
+      line-height:1.5;
       margin-bottom:6px;
-      font-weight:700;
-      letter-spacing:-0.02em;
+      color:var(--ink);
+      overflow-wrap:anywhere;
+      word-break:normal;
     }
     .queue-note{
       color:var(--muted);
-      font-size:12.5px;
-      line-height:1.5;
+      font-size:12px;
+      line-height:1.6;
+      overflow-wrap:anywhere;
+      display:-webkit-box;
+      -webkit-line-clamp:2;
+      -webkit-box-orient:vertical;
+      overflow:hidden;
     }
     .queue-contextline{
-      margin-top:7px;
       color:var(--muted);
-      font-size:11.5px;
-      line-height:1.45;
+      font-size:12px;
+      line-height:1.6;
+      overflow-wrap:anywhere;
+      margin-bottom:6px;
     }
     .queue-signals{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      margin-top:8px;
+      display:none;
     }
     .queue-signal{
       display:inline-flex;
@@ -1077,12 +1301,13 @@
       font:10px var(--mono);
       letter-spacing:1px;
       text-transform:uppercase;
-      color:#153a61;
+      color:var(--accent-strong);
     }
     .queue-tape{
       display:flex;
       justify-content:space-between;
       gap:10px;
+      flex-wrap:wrap;
       align-items:center;
       margin-bottom:8px;
       font:11px var(--mono);
@@ -1091,79 +1316,177 @@
       color:var(--muted);
     }
     .queue-tape strong{
-      color:#193e66;
+      color:var(--accent-strong);
       font-weight:700;
     }
     .detail{
-      display:grid;
-      grid-template-rows:auto auto 1fr;
-      min-height:840px;
+      min-height:760px;
     }
     .detail-top{
-      padding:24px 26px 20px;
+      padding:18px 20px 16px;
       border-bottom:1px solid var(--line);
       background:
-        linear-gradient(180deg, rgba(235,241,248,.97), rgba(251,253,255,.9)),
-        radial-gradient(circle at top right, rgba(206,224,241,.82), transparent 32%);
+        linear-gradient(180deg, rgba(241,236,228,.96), rgba(255,252,248,.92)),
+        radial-gradient(circle at top right, rgba(240,228,196,.42), transparent 32%);
+    }
+    .console-column{
+      display:grid;
+      grid-template-rows:auto 1fr;
+      min-height:760px;
+    }
+    .console-column-body{
+      padding:12px;
+      overflow:auto;
+      min-height:0;
+      background:rgba(245,242,237,.22);
+    }
+    .console-column-body.tight{
+      padding:10px;
+    }
+    .column-tabs{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+      margin-top:8px;
+    }
+    .column-tab-btn{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.72);
+      color:var(--muted);
+      padding:7px 10px;
+      cursor:pointer;
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+    .column-tab-btn.active{
+      background:var(--accent-strong);
+      border-color:var(--accent-strong);
+      color:#f7f3ed;
+    }
+    .column-tab-panel{display:none}
+    .column-tab-panel.active{display:block}
+    .detail-header-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      gap:14px;
+      align-items:start;
+    }
+    .detail-country-kicker{
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    .detail-country-line{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-bottom:10px;
+    }
+    .detail-country-tag{
+      display:inline-flex;
+      align-items:center;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:4px 8px;
+      font:10px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:var(--muted);
+      background:rgba(255,255,255,.72);
+    }
+    .detail-country-tag.primary{
+      color:var(--accent-strong);
+      border-color:rgba(184,150,62,.32);
+      background:rgba(240,228,196,.55);
+    }
+    .detail-country-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      margin-top:4px;
+    }
+    .detail-profile-link{
+      color:var(--accent);
+      text-decoration:none;
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+    .detail-release-box{
+      min-width:130px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.78);
+      padding:10px 12px;
+      text-align:right;
+    }
+    .detail-release-box .value{
+      display:block;
+      margin-top:4px;
+      font-family:var(--serif);
+      font-size:28px;
+      line-height:1;
+      color:var(--accent-strong);
+    }
+    .detail-release-box .note{
+      margin-top:3px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.4;
     }
     .detail-ribbon{
       display:grid;
       grid-template-columns:repeat(4, minmax(0,1fr));
-      gap:10px;
-      margin-bottom:14px;
+      gap:8px;
+      margin-bottom:10px;
     }
     .detail-ribbon-card{
-      border:1px solid rgba(191,207,224,.92);
-      border-radius:14px;
-      background:rgba(255,255,255,.78);
-      padding:10px 12px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:rgba(255,255,255,.62);
+      padding:9px 10px;
     }
     .detail-ribbon-card .toolbar-title{
       margin-bottom:4px;
     }
     .detail-ribbon-card .desk-note{
-      color:var(--ink);
+      color:var(--accent-strong);
       font-size:15px;
       line-height:1.35;
       font-weight:700;
     }
     .detail-headline{
       margin:0 0 10px;
-      font-size:42px;
+      font-family:var(--serif);
+      font-size:32px;
       line-height:1.1;
       letter-spacing:-0.03em;
+      color:var(--accent-strong);
     }
     .detail-summary{
       color:var(--muted);
-      font-size:17px;
-      line-height:1.72;
-      margin-bottom:12px;
+      font-size:15px;
+      line-height:1.58;
+      margin-bottom:10px;
       max-width:1000px;
     }
     .detail-links a{
       color:var(--accent);
       text-decoration:none;
-      margin-right:14px;
+      margin-right:12px;
       font:12px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
     }
-    .tabs{
-      display:grid;
-      grid-template-columns:repeat(5, minmax(0,1fr));
-      gap:10px;
-      padding:14px 20px;
-      border-bottom:1px solid var(--line);
-      background:rgba(239,244,250,.96);
-      position:sticky;
-      top:0;
-      z-index:2;
-    }
+    .tabs{display:none}
     .tab-btn{
       border:1px solid var(--line);
-      border-radius:16px;
-      background:rgba(255,255,255,.78);
-      padding:12px 13px 11px;
+      border-radius:0;
+      background:rgba(255,255,255,.62);
+      padding:10px 11px 9px;
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
@@ -1171,15 +1494,15 @@
       text-align:left;
     }
     .tab-btn.active{
-      background:linear-gradient(180deg, rgba(18,31,56,.94), rgba(28,46,80,.9));
-      color:#f4f8fc;
-      border-color:rgba(32,63,106,.48);
-      box-shadow:0 12px 24px rgba(16,26,48,.14);
+      background:var(--accent-strong);
+      color:#f7f3ed;
+      border-color:var(--accent-strong);
+      box-shadow:none;
     }
     .tab-panel{
-      display:none;
-      padding:16px 18px 22px;
-      overflow:auto;
+      display:block;
+      padding:0;
+      overflow:visible;
     }
     .tab-panel.active{display:block}
     .tab-label{
@@ -1215,13 +1538,13 @@
     .detail-grid{
       display:grid;
       grid-template-columns:repeat(2, minmax(0,1fr));
-      gap:14px;
+      gap:10px;
     }
     .detail-card{
       background:var(--info-surface);
       border:1px solid var(--info-border);
       border-radius:var(--radius-lg);
-      padding:18px;
+      padding:14px;
       box-shadow:var(--shadow-soft);
     }
     .detail-card.full{
@@ -1229,25 +1552,27 @@
     }
     .detail-card h3{
       margin:0 0 10px;
-      font-size:19px;
+      font-family:var(--serif);
+      font-size:21px;
       letter-spacing:-0.02em;
+      color:var(--accent-strong);
     }
     .monitor-hero{
       display:grid;
       grid-template-columns:1.2fr .8fr;
-      gap:14px;
+      gap:10px;
     }
     .monitor-score{
       display:grid;
       grid-template-columns:repeat(3, minmax(0,1fr));
-      gap:10px;
+      gap:8px;
       margin-top:12px;
     }
     .monitor-pill{
-      border:1px solid rgba(191,207,224,.92);
-      border-radius:14px;
-      background:rgba(255,255,255,.82);
-      padding:12px 12px 10px;
+      border:1px solid var(--line);
+      border-radius:0;
+      background:rgba(255,255,255,.62);
+      padding:10px 10px 8px;
     }
     .monitor-pill .toolbar-title{
       margin-bottom:4px;
@@ -1257,7 +1582,7 @@
       line-height:1.1;
       font-weight:700;
       letter-spacing:-0.03em;
-      color:#153a61;
+      color:var(--accent-strong);
       margin-bottom:2px;
     }
     .monitor-pill-note{
@@ -1276,9 +1601,9 @@
       gap:12px;
     }
     .signal-tile{
-      border:1px solid rgba(214,223,235,.94);
-      border-radius:14px;
-      background:rgba(255,255,255,.8);
+      border:1px solid var(--line);
+      border-radius:0;
+      background:rgba(255,255,255,.6);
       padding:12px;
     }
     .signal-tile .mono{
@@ -1292,17 +1617,17 @@
       margin-top:6px;
       font-size:18px;
       letter-spacing:-0.02em;
-      color:#163a60;
+      color:var(--accent-strong);
     }
     .watch-list{
       display:grid;
       gap:10px;
     }
     .watch-item{
-      border-left:4px solid #7aa7d1;
+      border-left:3px solid var(--accent);
       padding:10px 0 10px 12px;
-      background:rgba(255,255,255,.65);
-      border-radius:0 12px 12px 0;
+      background:rgba(255,255,255,.54);
+      border-radius:0;
       color:var(--ink);
       line-height:1.6;
     }
@@ -1329,9 +1654,9 @@
       gap:10px;
     }
     .list-item{
-      border:1px solid rgba(214,223,235,.94);
+      border:1px solid var(--line);
       border-radius:var(--radius-md);
-      background:rgba(255,255,255,.78);
+      background:rgba(255,255,255,.58);
       padding:13px;
     }
     .list-item p{
@@ -1345,8 +1670,8 @@
       gap:14px;
     }
     .editor-group{
-      border:1px solid var(--action-border);
-      border-radius:var(--radius-lg);
+      border:1px solid rgba(184,150,62,.24);
+      border-radius:0;
       background:var(--action-surface);
       overflow:hidden;
       box-shadow:var(--shadow-soft);
@@ -1369,8 +1694,8 @@
       padding:18px;
     }
     .editor-section{
-      border:1px solid var(--action-border);
-      border-radius:var(--radius-lg);
+      border:1px solid rgba(184,150,62,.24);
+      border-radius:0;
       background:var(--action-surface);
       padding:18px;
       box-shadow:var(--shadow-soft);
@@ -1399,6 +1724,25 @@
       font-size:14px;
       line-height:1.6;
     }
+    .registration-panel{
+      margin:8px 0 10px;
+      padding:12px 14px;
+    }
+    .registration-panel h3{
+      margin:0 0 6px;
+      font-family:var(--serif);
+      font-size:28px;
+      color:var(--accent-strong);
+    }
+    .registration-panel .detail-grid{
+      gap:10px 12px;
+    }
+    .registration-panel label{
+      display:grid;
+      gap:5px;
+      font-size:14px;
+      color:var(--muted);
+    }
     .editor-form input,
     .editor-form select,
     .editor-form textarea{
@@ -1412,9 +1756,9 @@
       transition:border-color .18s ease, box-shadow .18s ease, background .18s ease;
     }
     .history-card{
-      border:1px solid var(--info-border);
-      border-radius:var(--radius-lg);
-      background:rgba(255,255,255,.82);
+      border:1px solid var(--line);
+      border-radius:0;
+      background:rgba(255,255,255,.62);
       padding:15px;
     }
     .history-meta{
@@ -1443,11 +1787,18 @@
       font-size:12px;
     }
     .empty-state{
-      border:1px dashed rgba(140,164,184,.55);
-      border-radius:var(--radius-md);
-      background:rgba(255,255,255,.72);
+      border:1px dashed rgba(184,150,62,.45);
+      border-radius:0;
+      background:rgba(255,255,255,.62);
       padding:20px;
       text-align:left;
+    }
+    .empty-state.compact{
+      padding:12px 14px;
+      font-size:14px;
+    }
+    .empty-state.compact::before{
+      margin-bottom:6px;
     }
     .empty-state::before{
       content:"No data";
@@ -1464,12 +1815,47 @@
       padding:14px 0;
     }
     .foot{
-      margin-top:18px;
-      color:rgba(220,231,242,.76);
+      margin-top:12px;
+      border-top:1px solid var(--line);
+      padding-top:10px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+      color:rgba(28,43,58,.62);
+      flex:0 0 auto;
+    }
+    .foot-copy{
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
-      text-align:center;
+      max-width:460px;
+    }
+    .foot-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      justify-content:flex-end;
+    }
+    .foot-link{
+      display:inline-flex;
+      align-items:center;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:6px 10px;
+      text-decoration:none;
+      background:rgba(255,255,255,.74);
+      color:var(--accent-strong);
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      transition:border-color .18s ease, background .18s ease, color .18s ease;
+    }
+    .foot-link:hover{
+      border-color:rgba(184,150,62,.34);
+      background:rgba(240,228,196,.55);
+      color:var(--accent);
     }
     @media (max-width: 1120px){
       .desk-strip{grid-template-columns:repeat(2, minmax(0,1fr))}
@@ -1484,6 +1870,8 @@
       .layout{grid-template-columns:1fr}
       .queue{max-height:none}
       .detail{min-height:0}
+      .console-column{min-height:0}
+      .console-column-body{overflow:visible}
       .tabs{position:static}
       .hero-meta{min-width:0}
       .detail-ribbon{grid-template-columns:repeat(2, minmax(0,1fr))}
@@ -1547,7 +1935,7 @@
           <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
             <div class="workspace-pill">User <strong id="workspace-user">Locked</strong></div>
             <div class="workspace-pill">Role <strong id="workspace-role">No session</strong></div>
-            <div class="workspace-pill">Status <strong id="workspace-backend">Backend offline</strong></div>
+            <button class="nav-command-btn" id="workspace-command-toggle-btn" type="button">Command</button>
           </div>
           <div class="utility-row" style="justify-content:flex-start;">
             <button class="action-btn" id="workspace-register-btn" type="button">Register User</button>
@@ -1557,7 +1945,7 @@
       </div>
     </div>
 
-    <div class="detail-card surface-action" id="registration-panel" style="margin:12px 0 14px; display:none;">
+    <div class="detail-card surface-action registration-panel" id="registration-panel" style="display:none;">
         <h3 style="margin-top:0;">Create Local User</h3>
         <div class="helper-text">Local registration creates a new analyst or research-assistant account on this machine only. Coordinator access is still managed separately.</div>
         <div class="detail-grid">
@@ -1616,6 +2004,7 @@
             </div>
           </div>
           <div class="utility-row">
+            <button class="action-btn" id="reset-filters-btn" type="button">Reset Filters</button>
             <button class="action-btn primary" id="export-edits-btn" type="button">Export</button>
             <button class="action-btn" id="reload-edits-btn" type="button">Reload</button>
             <button class="action-btn warn" id="clear-drafts-btn" type="button">Clear</button>
@@ -1651,10 +2040,12 @@
     <div class="layout">
       <div class="panel">
         <div class="panel-head">
-          <div>
-            <h2 class="panel-title">Tape</h2>
-            <div class="panel-sub" id="queue-sub">Event tape and exception queue</div>
-          </div>
+          <h2 class="panel-title">Events</h2>
+          <div class="feed-count" id="queue-count">0 events</div>
+        </div>
+        <div class="left-feed-controls">
+          <button class="feed-filter-btn active" id="feed-filter-all" type="button">All Events</button>
+          <button class="feed-filter-btn" id="feed-filter-attention" type="button">Need Attention</button>
         </div>
         <div class="watchlist" id="watchlist"></div>
         <div class="bulk-toolbar" id="actor-bulk-toolbar">
@@ -1672,27 +2063,36 @@
         <div class="queue" id="queue"></div>
       </div>
 
-      <div class="panel detail">
+      <div class="panel detail console-column">
         <div class="detail-top" id="detail-top">
           <div class="empty empty-state">Select a queue item to supervise AI outputs, inspect the canonical event, and intervene only where needed.</div>
         </div>
-        <div class="tabs">
-          <button class="tab-btn active" data-tab="briefing" data-tooltip="Country and event briefing with current monitor context and analysis."><span class="toolbar-title" style="margin:0; color:inherit; opacity:.72;">Desk</span><span class="tab-label">Briefing</span></button>
-          <button class="tab-btn" data-tab="action" data-tooltip="Editing, QA fixes, and consolidation controls for the current event."><span class="toolbar-title" style="margin:0; color:inherit; opacity:.72;">Work</span><span class="tab-label">Action</span></button>
-          <button class="tab-btn" data-tab="intelligence" data-tooltip="Actors, registry intelligence, and evidence surfaces for the current event."><span class="toolbar-title" style="margin:0; color:inherit; opacity:.72;">Intel</span><span class="tab-label">Intelligence</span></button>
-          <button class="tab-btn" data-tab="release" data-tooltip="Publication state, release checklist, and downstream public controls."><span class="toolbar-title" style="margin:0; color:inherit; opacity:.72;">Output</span><span class="tab-label">Release</span></button>
-          <button class="tab-btn" data-tab="audit" data-tooltip="Audit history and lineage for how the event moved through the system."><span class="toolbar-title" style="margin:0; color:inherit; opacity:.72;">Control</span><span class="tab-label">Audit</span></button>
+        <div class="console-column-body" id="detail-middle"></div>
+      </div>
+
+      <div class="panel detail console-column">
+        <div class="detail-top">
+          <div class="detail-country-kicker">Action Surface</div>
+          <h2 class="panel-title" style="margin:0;">Review And Release</h2>
+          <div class="panel-sub">Edit, resolve, publish, and audit the selected event.</div>
+          <div class="column-tabs" id="detail-right-tabs"></div>
         </div>
-        <div class="tab-panel active" id="tab-briefing"></div>
-        <div class="tab-panel" id="tab-action"></div>
-        <div class="tab-panel" id="tab-intelligence"></div>
-        <div class="tab-panel" id="tab-release"></div>
-        <div class="tab-panel" id="tab-audit"></div>
+        <div class="console-column-body tight" id="detail-right"></div>
       </div>
     </div>
 
     <div class="foot">
-      AI handles most production work upstream. This terminal reads from <code>../../data/review/*.json</code>, <code>../../data/canonical/events_actor_coded.json</code>, and <code>../../data/published/events_public.json</code> so analysts can supervise exceptions, correct sensitive cases, validate intelligence, and control release into the public layer. Through the analyst server, authenticated saves can write directly into the local-only <code>data/review/edits.local.json</code>.
+      <div class="foot-copy">Analyst references on GitHub for codebook, workflow, taxonomy, and knowledge context.</div>
+      <div class="foot-links">
+        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/data/CODEBOOK.md" target="_blank" rel="noopener">Codebook</a>
+        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/ai-analyst-knowledge.md" target="_blank" rel="noopener">Analyst Knowledge</a>
+        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/nsva-knowledge-notes.md" target="_blank" rel="noopener">Knowledge Bank</a>
+        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/system-workflow.md" target="_blank" rel="noopener">System Workflow</a>
+        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/event-taxonomy-reference.md" target="_blank" rel="noopener">Taxonomy</a>
+        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/user-guide.md" target="_blank" rel="noopener">User Guide</a>
+        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/local-analyst-setup.md" target="_blank" rel="noopener">Local Setup</a>
+        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/architecture.md" target="_blank" rel="noopener">Architecture</a>
+      </div>
     </div>
     </div>
   </div>
@@ -1864,8 +2264,12 @@
       selectedId: null,
       activeView: "queue",
       tapeMode: "none",
+      leftFeedMode: "all",
       deskMode: "tape",
       activeTab: "briefing",
+      middleTab: "briefing",
+      rightTab: "action",
+      commandOpen: false,
       search: "",
       priorityFilter: "all",
       localEdits: loadLocalDrafts(),
@@ -3258,6 +3662,7 @@
       const navBackend = document.getElementById("workspace-backend");
       const navLogout = document.getElementById("workspace-logout-btn");
       const navRegister = document.getElementById("workspace-register-btn");
+      const navCommand = document.getElementById("workspace-command-toggle-btn");
       if (navUser) navUser.textContent = state.backend.authenticated
         ? (state.backend.user?.display_name || state.backend.user?.username || "Analyst")
         : "Locked";
@@ -3270,8 +3675,26 @@
         ? "Awaiting login"
         : "Backend offline";
       if (navLogout) navLogout.disabled = !state.backend.authenticated;
-      if (navRegister) navRegister.disabled = !state.registration.enabled || !state.backend.available || !isTrustedAnalystHost();
+      if (navRegister) {
+        const registerEnabled = state.registration.enabled && state.backend.available && isTrustedAnalystHost();
+        navRegister.disabled = !registerEnabled;
+        navRegister.style.display = registerEnabled ? "inline-flex" : "none";
+      }
+      if (navCommand) {
+        navCommand.classList.toggle("active", state.commandOpen);
+        navCommand.textContent = state.commandOpen ? "Hide Command" : "Command";
+      }
       renderSessionNote();
+    }
+
+    function updateCommandVisibility() {
+      const toolbar = document.querySelector(".toolbar");
+      const btn = document.getElementById("workspace-command-toggle-btn");
+      if (toolbar) toolbar.classList.toggle("collapsed", !state.commandOpen);
+      if (btn) {
+        btn.classList.toggle("active", state.commandOpen);
+        btn.textContent = state.commandOpen ? "Hide Command" : "Command";
+      }
     }
 
     function renderSessionNote() {
@@ -3318,6 +3741,27 @@
       if (filterNode) filterNode.textContent = filterLabels[state.priorityFilter] || "All items";
     }
 
+    function queueItemNeedsAttention(item) {
+      return (
+        item.review_priority === "high"
+        || (item.qa_flag_count || 0) > 0
+        || (item.duplicate_candidate_count || 0) > 0
+        || !!item.actor_registry_followup
+        || !!item.uncertain_actor_present
+        || item.publication_status === "withheld"
+        || item.publication_status === "draft"
+        || item.review_status === "needs_revision"
+        || item.review_status === "flagged"
+      );
+    }
+
+    function syncLeftFeedButtons() {
+      const allBtn = document.getElementById("feed-filter-all");
+      const attentionBtn = document.getElementById("feed-filter-attention");
+      if (allBtn) allBtn.classList.toggle("active", state.leftFeedMode === "all");
+      if (attentionBtn) attentionBtn.classList.toggle("active", state.leftFeedMode === "attention");
+    }
+
     function clearWorkspace() {
       state.data = null;
       state.queueItems = [];
@@ -3327,9 +3771,13 @@
       const stats = document.getElementById("stats");
       const queue = document.getElementById("queue");
       const detailTop = document.getElementById("detail-top");
+      const detailMiddle = document.getElementById("detail-middle");
+      const detailRight = document.getElementById("detail-right");
       if (stats) stats.innerHTML = "";
       if (queue) queue.innerHTML = '<div class="empty empty-state">Log in to load the analyst queue.</div>';
       if (detailTop) detailTop.innerHTML = '<div class="empty empty-state">Authenticate to open the private review workspace.</div>';
+      if (detailMiddle) detailMiddle.innerHTML = "";
+      if (detailRight) detailRight.innerHTML = "";
       for (const tabId of ["briefing", "action", "intelligence", "release", "audit"]) {
         const panel = document.getElementById(`tab-${tabId}`);
         if (panel) panel.innerHTML = "";
@@ -3353,6 +3801,8 @@
           : "This console needs the local analyst server to be running before anyone can authenticate. Start the server, then log in from this banner to unlock the workspace.";
       }
       document.querySelector(".page")?.classList.toggle("authenticated", !locked);
+      if (locked) state.commandOpen = false;
+      updateCommandVisibility();
     }
 
     async function loadWorkspaceData(force = false) {
@@ -3519,6 +3969,10 @@
         });
       }
 
+      if (state.leftFeedMode === "attention" && state.deskMode !== "country") {
+        rows = rows.filter(queueItemNeedsAttention);
+      }
+
       return rows;
     }
 
@@ -3526,6 +3980,7 @@
       const rows = getFilteredQueue();
       state.queueItems = rows;
       updateCommandStateBar();
+      syncLeftFeedButtons();
       syncDeskModeButtons();
       updateActorBulkToolbar();
       renderWatchlist(rows);
@@ -3536,7 +3991,7 @@
         || item.restored
       ).length;
       const overrideCount = rows.filter(item => item.publication_override_active).length;
-      document.getElementById("queue-sub").textContent = `${rows.length} names on tape · ${removedCount} removed · ${undoCount} with undo activity · ${overrideCount} release overrides`;
+      document.getElementById("queue-count").textContent = `${rows.length} event${rows.length === 1 ? "" : "s"}`;
 
       if (!rows.length) {
         document.getElementById("queue").innerHTML = `<div class="empty empty-state" style="padding:16px;">No review items match the current filters.</div>`;
@@ -3548,99 +4003,78 @@
       }
 
       if (state.deskMode === "country") {
-        document.getElementById("queue-sub").textContent = `${rows.length} items across ${buildCountryDesk(rows).length} country desks · ${removedCount} removed · ${undoCount} with undo activity · ${overrideCount} release overrides`;
+        document.getElementById("queue-count").textContent = `${rows.length} event${rows.length === 1 ? "" : "s"}`;
         renderCountryDesk(rows);
         return;
       }
 
       const renderQueueCard = (item) => {
         const event = getEffectiveEvent(item.event_id);
+        const countryTags = getEventCountryTags(event || item);
         const reports = event?.provenance?.linked_reports || [];
         const selectable = shouldShowActorBulkToolbar();
         const selected = state.actorBulkSelection.has(item.event_id);
-        const actionLabel = item.review_priority === "high"
-          ? "Must act"
-          : item.review_priority === "medium"
-          ? "Review soon"
-          : "Monitor";
         const actionClass = item.review_priority === "high"
           ? "must-act"
           : item.review_priority === "medium"
           ? "review-soon"
-          : "";
-        const stateLabel = item.qa_flag_count
-          ? `${item.qa_flag_count} QA flag${item.qa_flag_count === 1 ? "" : "s"}`
-          : item.duplicate_candidate_count
-          ? `${item.duplicate_candidate_count} duplicate candidate${item.duplicate_candidate_count === 1 ? "" : "s"}`
-          : item.actor_registry_followup
-          ? "Registry follow-up"
-          : item.publication_ready
-          ? "Release ready"
+          : "monitor";
+        const typeLabel = getConsoleEventTypeLabel(event, item);
+        const mechanism = getConsoleMechanismLabel(event, item);
+        const preview = getConsoleEventPreview(event, item);
+        const sourceCount = Math.max(reports.length, event?.source_count || 0, item.source_count || 0, (item.source_primary || event?.source_primary) ? 1 : 0);
+        const priorityLabel = item.review_priority === "high"
+          ? "Must act"
+          : item.review_priority === "medium"
+          ? "Review soon"
+          : "Monitor";
+        const pips = [1, 2, 3].map(n =>
+          `<span class="tape-pip${((item.salience === "high" && n <= 3) || (item.salience === "medium" && n <= 2) || (item.salience === "low" && n <= 1)) ? " on" : ""}"></span>`
+        ).join("");
+        const publicationLabel = item.review_status === "rejected"
+          ? "Removed"
+          : item.publication_status === "published"
+          ? "Published"
           : item.publication_status === "withheld"
-          ? "Held back"
-          : "In review";
-        const contextBits = [
-          item.confidence ? `confidence ${item.confidence}` : "",
-          item.council_disagreement_summary && item.council_disagreement_summary !== "aligned"
-            ? item.council_disagreement_summary.replaceAll("_", " ")
-            : "",
-          item.publication_reason ? item.publication_reason.replaceAll("_", " ") : "",
-          item.uncertain_actor_present ? "uncertain actor coding" : "",
-          item.latest_duplicate_resolution?.status === "distinct" ? "duplicate cleared as distinct" : "",
-          item.latest_qa_resolution?.status === "undone" ? "QA reopened" : "",
-        ].filter(Boolean);
-        const quickSignals = [
-          item.qa_flag_count ? `${item.qa_flag_count} qa` : "",
-          item.duplicate_candidate_count ? `${item.duplicate_candidate_count} dup` : "",
-          item.actor_registry_followup ? "registry" : "",
-          (item.disagreement_score || 0) > 0 ? "ai split" : "",
-          item.publication_status === "withheld" ? "held" : "",
-        ].filter(Boolean).slice(0, 3);
+          ? "Withheld"
+          : item.publication_label || "";
+        const publicationBadgeClass = item.review_status === "rejected"
+          ? "warn"
+          : item.publication_status === "published"
+          ? "tri"
+          : item.publication_status === "withheld"
+          ? "single"
+          : "single";
         return `
         <div class="queue-select">
           ${selectable ? `<input class="queue-check" type="checkbox" data-queue-select="${esc(item.event_id)}"${selected ? " checked" : ""} aria-label="Select this event for actor bulk actions" />` : ""}
           <button class="queue-item queue-card ${actionClass} ${item.event_id === state.selectedId ? "active" : ""}" data-id="${esc(item.event_id)}" data-tooltip="${esc(reports.length ? `${reports.length} linked report${reports.length === 1 ? "" : "s"} available for quick evidence review.` : "No linked reports recorded for this event.")}">
-            <div class="queue-actionline">
-              <span><strong>${esc(actionLabel)}</strong> · ${esc(stateLabel)}</span>
-              <span>${esc(item.event_date || "Unknown date")}</span>
-            </div>
-            <div class="queue-meta">
-            ${tag(item.country || "Unknown", "", "Country attached to the event record.")}
-            ${tag(item.event_type || "other", "", "Current event type assigned by the coding pipeline or analyst review.")}
-            ${tag(item.salience || "low", item.salience === "high" ? "high" : item.salience === "medium" ? "warn" : "", "Estimated public and analytical importance of the event.")}
-            ${tag("score " + item.priority_score, item.priority_score >= 8 ? "high" : item.priority_score >= 5 ? "warn" : "", "AI-supervision score used to rank the review queue. Higher scores deserve faster human attention.")}
-            ${item.qa_flag_count ? tag("qa", "warn", "Number of QA flags currently attached to this event.") : ""}
-            ${item.duplicate_candidate_count ? tag("dup", "warn", "Number of duplicate candidates linked to this event.") : ""}
-            ${item.actor_registry_followup ? tag("registry", "warn", "At least one actor still needs registry review, seeding, or confirmation.") : ""}
-            ${(item.disagreement_score || 0) > 0 ? tag("ai split", "warn", "Council lenses disagree on risk level or interpretation, so this event may need closer review.") : ""}
-            ${item.publication_label ? tag(item.publication_label, item.publication_status === "published" ? "ok" : item.publication_status === "withheld" ? "warn" : "high", "Current publication state under the active publish policy.") : ""}
-            </div>
-            <div class="queue-tape">
-              <span><strong>${esc(item.country || "Unknown")}</strong> · ${esc(item.event_id || "No ID")}</span>
-              <span>${esc((item.review_priority || "—").toUpperCase())}</span>
+            <div class="tape-row1">
+              <span class="tape-dot"></span>
+              <span class="tape-type">${esc(typeLabel)}</span>
+              ${item.qa_flag_count ? `<span class="src-badge single" title="Open QA issues remain on this event.">${esc(item.qa_flag_count)} QA</span>` : ""}
+              ${item.actor_registry_followup ? `<span class="src-badge single" title="Actor registry follow-up remains open.">Registry</span>` : ""}
+              ${publicationLabel ? `<span class="src-badge ${publicationBadgeClass}" title="Current publication state for this event.">${esc(publicationLabel)}</span>` : ""}
+              <span class="tape-country-tags">${countryTags.map(country => `<span class="tape-country-tag${country.isPrimary ? " primary" : ""}">${esc(country.label)}</span>`).join("")}</span>
             </div>
             <div class="queue-title">${esc(item.headline)}</div>
-            <div class="queue-note">${esc(item.source_primary || event?.source_primary || "source unavailable")} · ${esc(item.review_status || "review pending")} · ${esc(reports.length)} linked report${reports.length === 1 ? "" : "s"}</div>
-            ${contextBits.length ? `<div class="queue-contextline">${esc(contextBits.join(" · "))}</div>` : ""}
-            ${quickSignals.length ? `<div class="queue-signals">${quickSignals.map(signal => `<span class="queue-signal">${esc(signal)}</span>`).join("")}</div>` : ""}
+            ${mechanism ? `<div class="tape-kicker">${esc(mechanism)}</div>` : ""}
+            ${preview ? `<div class="queue-note">${esc(preview)}</div>` : ""}
+            <div class="tape-row1-bottom">
+              <div class="tape-feed-meta">
+                <span>${esc(item.event_date || "Unknown date")}</span>
+                <span>${esc(sourceCount)} source${sourceCount === 1 ? "" : "s"}</span>
+                <span>${esc(priorityLabel)}</span>
+                <span class="tape-pips">${pips}</span>
+              </div>
+              ${countryTags.find(country => country.isProfile)?.label ? `<span class="tape-status">Focus desk ↗</span>` : ""}
+            </div>
           </button>
         </div>
       `;
       };
 
-      const grouped = groupQueueRows(rows);
-      document.getElementById("queue").innerHTML = grouped.map(group => `
-        <div class="queue-group">
-          <div class="queue-group-head">
-            <div>
-              <div class="mono">${esc(state.tapeMode === "construct" ? "Lead Construct" : state.tapeMode === "country" ? "Country Focus" : "Tape View")}</div>
-              <strong>${esc(group.label)}</strong>
-            </div>
-            <div class="mono">${esc(group.note)}</div>
-          </div>
-          ${group.rows.map(renderQueueCard).join("")}
-        </div>
-      `).join("");
+      document.getElementById("queue").innerHTML = rows.map(renderQueueCard).join("");
 
       for (const btn of document.querySelectorAll(".queue-item")) {
         btn.addEventListener("click", () => {
@@ -3879,9 +4313,108 @@
         });
     }
 
+    function getTrackedCountryNames() {
+      return [...(state.data?.countries?.countries || [])].map(item => item.name).filter(Boolean);
+    }
+
+    function getEventCountryTags(event) {
+      const tracked = getTrackedCountryNames();
+      const trackedSet = new Set(tracked);
+      const explicit = String(event.country || "").trim();
+      const primary = trackedSet.has(explicit) ? explicit : null;
+      const text = [
+        event.country,
+        event.display_country,
+        event.location_text,
+        event.subnational_location,
+        event.headline,
+        event.summary
+      ].filter(Boolean).join(" · ");
+      const mentioned = tracked.filter(country => {
+        const escaped = country.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        return new RegExp(`\\b${escaped}\\b`, "i").test(text);
+      });
+      const tags = [];
+      if (primary) tags.push(primary);
+      mentioned.forEach(country => {
+        if (!tags.includes(country)) tags.push(country);
+      });
+      if (!tags.length) {
+        const label = String(event.country || "").trim() || "Regional";
+        return [{ label, isPrimary: true, isProfile: trackedSet.has(label) }];
+      }
+      return tags.slice(0, 4).map((country, index) => ({
+        label: country,
+        isPrimary: index === 0,
+        isProfile: trackedSet.has(country)
+      }));
+    }
+
+    function humanizeTaxonomyLabel(value) {
+      const raw = String(value || "").trim();
+      if (!raw) return "";
+      const mapped = {
+        oc: "Organized Crime",
+        coop: "Security Cooperation",
+        aid: "Military Aid",
+        reform: "Security Reform",
+        conflict: "Armed Conflict",
+        purge: "Purge",
+        coup: "Coup",
+        protest: "Protest",
+        procurement: "Procurement",
+        peace: "Peace Process",
+        exercise: "Military Exercise",
+        other: "Other"
+      };
+      if (mapped[raw]) return mapped[raw];
+      return raw
+        .replace(/[_-]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .replace(/\b\w/g, char => char.toUpperCase());
+    }
+
+    function getConsoleEventTypeLabel(event, queueItem) {
+      return (
+        event?.event_category_label
+        || humanizeTaxonomyLabel(event?.event_category_family)
+        || humanizeTaxonomyLabel(event?.event_type)
+        || humanizeTaxonomyLabel(queueItem?.event_type)
+        || "Other"
+      );
+    }
+
+    function getConsoleMechanismLabel(event, queueItem) {
+      const parts = [];
+      if (event?.event_type_domain) parts.push(humanizeTaxonomyLabel(event.event_type_domain));
+      if (event?.event_category_family) parts.push(humanizeTaxonomyLabel(event.event_category_family));
+      if (event?.event_subcategory && event.event_subcategory !== "other_institutional_relevance") {
+        parts.push(humanizeTaxonomyLabel(event.event_subcategory));
+      }
+      if (!parts.length && queueItem?.review_priority) {
+        parts.push(`${humanizeTaxonomyLabel(queueItem.review_priority)} priority review`);
+      }
+      return parts.slice(0, 3).join(" · ");
+    }
+
+    function getConsoleEventPreview(event, queueItem) {
+      const summary = String(event?.summary || queueItem?.summary || "").trim();
+      if (summary) return summary;
+      const source = String(queueItem?.source_primary || event?.source_primary || "").trim();
+      const reason = String(queueItem?.publication_reason || "").replaceAll("_", " ").trim();
+      return [source, reason].filter(Boolean).join(" · ");
+    }
+
+    function renderConsoleCountryTag(item) {
+      return `<span class="detail-country-tag${item.isPrimary ? " primary" : ""}">${esc(item.label)}</span>`;
+    }
+
     function renderOverview(event, queueItem) {
       const latestEdit = state.editMaps.latestByEvent.get(event.event_id);
       const publication = getPublicationDecision(event);
+      const countryTags = getEventCountryTags(event);
+      const countryLabel = countryTags.map(item => item.label).join(" · ");
       const countryMonitor = getCountryMonitor(event.country);
       const predictive = countryMonitor?.predictive_summary || null;
       const regime = constructByCode(countryMonitor, "regime_vulnerability");
@@ -3920,7 +4453,7 @@
             <dl class="kv">
               <dt>Event ID</dt><dd>${esc(event.event_id)}</dd>
               <dt>Date</dt><dd>${esc(event.event_date)}</dd>
-              <dt>Country</dt><dd>${esc(event.country)}</dd>
+              <dt>Country</dt><dd>${esc(countryLabel || event.country || "Regional")}</dd>
               <dt>Type</dt><dd>${esc(event.event_type)}</dd>
               <dt>Subtype</dt><dd>${esc(event.event_subtype || "—")}</dd>
               <dt>Salience</dt><dd>${esc(event.salience)}</dd>
@@ -4034,6 +4567,17 @@
             <p>Country context and current analytical reading.</p>
           </div>
           ${renderOverview(event, queueItem)}
+        </div>
+      `;
+    }
+
+    function renderAiAnalysisWorkspace(event) {
+      return `
+        <div class="workspace-stack">
+          <div class="workspace-head">
+            <h3>AI Analysis</h3>
+            <p>Council reading, lens outputs, and recommended analyst actions.</p>
+          </div>
           <div class="detail-card full">
             <h3>Analytical Reading</h3>
             ${renderCouncil(event)}
@@ -4045,43 +4589,53 @@
     function renderActionWorkspace(event, queueItem) {
       return `
         <div class="workspace-stack">
-          <div class="workspace-head">
-            <h3>Action Surface</h3>
-            <p>Edit, resolve, consolidate.</p>
+          <div class="detail-card full">
+            <h3>Quick Actions</h3>
+            <div class="helper-text" style="margin-bottom:10px;">Use standardized actions first, then edit fields only where needed.</div>
+            <div class="quick-action-grid">
+              ${buildQuickActions().map(action => `<button class="action-btn ${action.tone || ""}" type="button" data-review-action="${esc(action.id)}">${esc(action.label)}</button>`).join("")}
+            </div>
           </div>
           <div class="detail-card full">
-            <h3>Review Editor</h3>
+            <h3>Edit Event</h3>
             ${buildReviewEditor(event)}
           </div>
-          <div class="detail-grid">
-            <div class="detail-card full">
-              <h3>Exceptions</h3>
-              ${renderQa(queueItem)}
-            </div>
-            <div class="detail-card full">
-              <h3>Consolidation</h3>
-              ${renderDuplicates(queueItem)}
-            </div>
+          <div class="detail-card full">
+            <h3>Exceptions</h3>
+            ${renderQa(queueItem)}
+          </div>
+          <div class="detail-card full">
+            <h3>Consolidation</h3>
+            ${renderDuplicates(queueItem)}
           </div>
         </div>
       `;
     }
 
     function renderIntelligenceWorkspace(event, queueItem) {
+      const actors = event.actors || [];
+      const hasActors = actors.length > 0;
       return `
         <div class="workspace-stack">
           <div class="workspace-head">
-            <h3>Intelligence Surface</h3>
-            <p>Actors, registry context, and evidence.</p>
+            <h3>Actors</h3>
+            <p>Actor records, registry context, and evidence.</p>
           </div>
-          <div class="detail-card full">
-            <h3>Actor Intelligence</h3>
-            ${renderActors(event)}
-          </div>
-          <div class="detail-card full">
-            <h3>Registry Intelligence</h3>
-            ${renderRegistryBrowser(event)}
-          </div>
+          ${hasActors ? `
+            <div class="detail-card full">
+              <h3>Actor Intelligence</h3>
+              ${renderActors(event)}
+            </div>
+            <div class="detail-card full">
+              <h3>Registry Intelligence</h3>
+              ${renderRegistryBrowser(event)}
+            </div>
+          ` : `
+            <div class="detail-card full">
+              <h3>Actor Intelligence</h3>
+              <div class="empty empty-state compact">No actor records are available for this event yet.</div>
+            </div>
+          `}
         </div>
       `;
     }
@@ -4089,10 +4643,6 @@
     function renderReleaseWorkspace(event, queueItem) {
       return `
         <div class="workspace-stack">
-          <div class="workspace-head">
-            <h3>Release Control</h3>
-            <p>Keep internal or move public.</p>
-          </div>
           <div class="detail-card full">
             <h3>Release Decision</h3>
             ${renderPublication(event, queueItem)}
@@ -4898,20 +5448,6 @@
               ? "Authenticated saves now write directly into the local-only <code>data/review/edits.local.json</code> through the analyst server and refresh the edited review artifacts automatically. The default expectation is that AI has already done the first-pass coding and analysis."
               : "This console is still in fallback mode, so review edits persist in two stages: they save locally in your browser first, then you export the combined payload into a local-only analyst file such as <code>data/review/edits.local.json</code>. After that, run <code>python3 scripts/review/apply_analyst_edits.py</code> to materialize an edited internal layer. The default expectation is still AI-first production with targeted human intervention."}
           </div>
-          <div class="editor-section">
-            <h3>Session</h3>
-            <div class="helper-text">
-              Current role: <strong>${esc(getRoleRules().label || state.session.role)}</strong>.
-              Fields disabled below are outside this role's clearance.
-            </div>
-          </div>
-          <div class="editor-section">
-            <h3>Quick Actions</h3>
-            <div class="helper-text">Use standardized actions when you want the audit trail to stay clean and comparable across reviewers.</div>
-            <div class="button-row">
-              ${quickActions.map(action => `<button class="action-btn ${action.tone || ""}" type="button" data-review-action="${esc(action.id)}">${esc(action.label)}</button>`).join("")}
-            </div>
-          </div>
           <details class="editor-group" open>
             <summary>Event Details</summary>
             <div class="editor-group-body">
@@ -5172,12 +5708,12 @@
         actions.push({ id: "needs-revision", label: "Needs Revision", tone: "warn" });
       }
       if (allowedStatuses.includes("rejected")) {
-        actions.push({ id: "eliminate-entry", label: "Eliminate Entry", tone: "warn" });
+        actions.push({ id: "eliminate-entry", label: "Eliminate Entry", tone: "danger" });
         if ((event?.review_status || "") === "rejected") {
           actions.push({ id: "restore-entry", label: "Restore Entry", tone: "" });
         }
       }
-      actions.push({ id: "comment-only", label: "Comment-Only Audit", tone: "" });
+      actions.push({ id: "comment-only", label: "Comment-Only Audit", tone: "subtle" });
       return actions;
     }
 
@@ -5392,11 +5928,8 @@
     }
 
     function focusReviewField(fieldId) {
-      state.activeTab = "action";
-      for (const b of document.querySelectorAll(".tab-btn")) b.classList.toggle("active", b.dataset.tab === "action");
-      for (const panel of document.querySelectorAll(".tab-panel")) {
-        panel.classList.toggle("active", panel.id === "tab-action");
-      }
+      state.rightTab = "action";
+      renderDetail();
       const node = document.getElementById(fieldId);
       if (node) {
         node.focus();
@@ -5679,35 +6212,36 @@
       const event = getEffectiveEvent(state.selectedId);
       if (!queueItem || !event) {
         document.getElementById("detail-top").innerHTML = '<div class="empty empty-state">No event selected.</div>';
-        document.getElementById("tab-briefing").innerHTML = "";
-        document.getElementById("tab-action").innerHTML = "";
-        document.getElementById("tab-intelligence").innerHTML = "";
-        document.getElementById("tab-release").innerHTML = "";
-        document.getElementById("tab-audit").innerHTML = "";
+        document.getElementById("detail-middle").innerHTML = "";
+        document.getElementById("detail-right").innerHTML = "";
         return;
       }
 
-        document.getElementById("detail-top").innerHTML = `
-        <div class="detail-ribbon">
-          <div class="detail-ribbon-card">
-            <div class="toolbar-title">Event</div>
-            <div class="desk-note">${esc(event.event_id || "No ID")}</div>
+      const countryTags = getEventCountryTags(event);
+      const primaryProfileCountry = countryTags.find(item => item.isProfile)?.label || "";
+      document.getElementById("detail-top").innerHTML = `
+        <div class="detail-header-grid">
+          <div>
+            <div class="detail-country-kicker">Analyst Brief</div>
+            <div class="column-tabs" id="detail-middle-tabs"></div>
+            <div class="detail-country-line">
+              ${countryTags.map(renderConsoleCountryTag).join("")}
+            </div>
+            <h2 class="detail-headline">${esc(event.headline)}</h2>
+            <div class="detail-summary">${esc(event.summary || "No summary recorded.")}</div>
+            <div class="detail-country-actions">
+              ${primaryProfileCountry ? `<a class="detail-profile-link" href="#" onclick="event.preventDefault();state.deskMode='country';document.getElementById('search-input').value='country:${esc(primaryProfileCountry.toLowerCase())}';state.search='country:${esc(primaryProfileCountry.toLowerCase())}';syncDeskModeButtons();renderQueue();renderDetail();">Focus ${esc(primaryProfileCountry)} desk ↗</a>` : ""}
+              <a class="detail-profile-link" href="${esc(event.url_primary || "#")}" target="_blank" rel="noopener">Primary source ↗</a>
+            </div>
           </div>
-          <div class="detail-ribbon-card">
-            <div class="toolbar-title">Country</div>
-            <div class="desk-note">${esc(event.country || "Unknown")}</div>
-          </div>
-          <div class="detail-ribbon-card">
-            <div class="toolbar-title">Priority</div>
-            <div class="desk-note">${esc((queueItem.review_priority || "—").toUpperCase())}</div>
-          </div>
-          <div class="detail-ribbon-card">
-            <div class="toolbar-title">Release</div>
-            <div class="desk-note">${esc(queueItem.publication_label || "Internal only")}</div>
+          <div class="detail-release-box">
+            <div class="detail-country-kicker">Priority</div>
+            <span class="value">${esc((queueItem.review_priority || "—").toUpperCase())}</span>
+            <div class="note">${esc(queueItem.publication_label || "Internal only")} · ${esc(event.event_id || "No ID")}</div>
           </div>
         </div>
         <div class="queue-meta">
-          ${tag(event.country || "Unknown")}
+          ${countryTags.map(country => tag(country.label)).join("")}
           ${tag(event.event_type || "other")}
           ${tag(event.salience || "low", event.salience === "high" ? "high" : event.salience === "medium" ? "warn" : "")}
           ${queueItem.qa_flag_count ? tag(queueItem.qa_flag_count + " QA", "warn") : ""}
@@ -5715,22 +6249,29 @@
           ${queueItem.publication_label ? tag(queueItem.publication_label, queueItem.publication_status === "published" ? "ok" : queueItem.publication_status === "withheld" ? "warn" : "high") : ""}
           ${state.editMaps.latestByEvent.get(event.event_id) ? tag("edited", "ok") : ""}
         </div>
-        <h2 class="detail-headline">${esc(event.headline)}</h2>
-        <div class="detail-summary">${esc(event.summary || "No summary recorded.")}</div>
-        <div class="detail-links">
-          <a href="${esc(event.url_primary || "#")}" target="_blank" rel="noopener">Primary Source</a>
-          <a href="${esc(DATA_PATHS.reviewQueue)}" target="_blank" rel="noopener">Review Queue JSON</a>
-          <a href="${esc(DATA_PATHS.canonical)}" target="_blank" rel="noopener">Canonical JSON</a>
-          <a href="${esc(DATA_PATHS.actorRegistry)}" target="_blank" rel="noopener">Actor Registry JSON</a>
-          <a href="${esc(state.backend.authenticated ? "/api/edits" : DATA_PATHS.edits)}" target="_blank" rel="noopener">Edits JSON</a>
-        </div>
       `;
 
-      document.getElementById("tab-briefing").innerHTML = renderBriefingWorkspace(event, queueItem);
-      document.getElementById("tab-action").innerHTML = renderActionWorkspace(event, queueItem);
-      document.getElementById("tab-intelligence").innerHTML = renderIntelligenceWorkspace(event, queueItem);
-      document.getElementById("tab-release").innerHTML = renderReleaseWorkspace(event, queueItem);
-      document.getElementById("tab-audit").innerHTML = renderAuditWorkspace(event, queueItem);
+      document.getElementById("detail-middle-tabs").innerHTML = `
+        <button class="column-tab-btn ${state.middleTab === "briefing" ? "active" : ""}" type="button" data-column="middle" data-panel="briefing">Briefing</button>
+        <button class="column-tab-btn ${state.middleTab === "ai-analysis" ? "active" : ""}" type="button" data-column="middle" data-panel="ai-analysis">AI Analysis</button>
+        <button class="column-tab-btn ${state.middleTab === "actors" ? "active" : ""}" type="button" data-column="middle" data-panel="actors">Actors</button>
+      `;
+      document.getElementById("detail-right-tabs").innerHTML = `
+        <button class="column-tab-btn ${state.rightTab === "action" ? "active" : ""}" type="button" data-column="right" data-panel="action">Action</button>
+        <button class="column-tab-btn ${state.rightTab === "release" ? "active" : ""}" type="button" data-column="right" data-panel="release">Release</button>
+        <button class="column-tab-btn ${state.rightTab === "audit" ? "active" : ""}" type="button" data-column="right" data-panel="audit">Audit</button>
+      `;
+      document.getElementById("detail-middle").innerHTML = `
+        <div class="column-tab-panel ${state.middleTab === "briefing" ? "active" : ""}" data-column-panel="middle" data-panel="briefing">${renderBriefingWorkspace(event, queueItem)}</div>
+        <div class="column-tab-panel ${state.middleTab === "ai-analysis" ? "active" : ""}" data-column-panel="middle" data-panel="ai-analysis">${renderAiAnalysisWorkspace(event)}</div>
+        <div class="column-tab-panel ${state.middleTab === "actors" ? "active" : ""}" data-column-panel="middle" data-panel="actors">${renderIntelligenceWorkspace(event, queueItem)}</div>
+      `;
+      document.getElementById("detail-right").innerHTML = `
+        <div class="column-tab-panel ${state.rightTab === "action" ? "active" : ""}" data-column-panel="right" data-panel="action">${renderActionWorkspace(event, queueItem)}</div>
+        <div class="column-tab-panel ${state.rightTab === "release" ? "active" : ""}" data-column-panel="right" data-panel="release">${renderReleaseWorkspace(event, queueItem)}</div>
+        <div class="column-tab-panel ${state.rightTab === "audit" ? "active" : ""}" data-column-panel="right" data-panel="audit">${renderAuditWorkspace(event, queueItem)}</div>
+      `;
+      wireColumnTabs();
       wireReviewEditor();
     }
 
@@ -5871,6 +6412,18 @@
       }
     }
 
+    function wireColumnTabs() {
+      for (const btn of document.querySelectorAll(".column-tab-btn")) {
+        btn.addEventListener("click", () => {
+          const column = btn.dataset.column;
+          const panel = btn.dataset.panel;
+          if (column === "middle") state.middleTab = panel;
+          if (column === "right") state.rightTab = panel;
+          renderDetail();
+        });
+      }
+    }
+
     function wireToolbar() {
       document.getElementById("search-input").addEventListener("input", (e) => {
         state.search = e.target.value;
@@ -5893,6 +6446,45 @@
         state.tapeMode = e.target.value;
         renderQueue();
       });
+      const feedAllBtn = document.getElementById("feed-filter-all");
+      const feedAttentionBtn = document.getElementById("feed-filter-attention");
+      if (feedAllBtn) {
+        feedAllBtn.addEventListener("click", () => {
+          state.leftFeedMode = "all";
+          renderQueue();
+          renderDetail();
+        });
+      }
+      if (feedAttentionBtn) {
+        feedAttentionBtn.addEventListener("click", () => {
+          state.leftFeedMode = "attention";
+          renderQueue();
+          renderDetail();
+        });
+      }
+      const resetFiltersBtn = document.getElementById("reset-filters-btn");
+      if (resetFiltersBtn) {
+        resetFiltersBtn.addEventListener("click", () => {
+          state.search = "";
+          state.priorityFilter = "all";
+          state.tapeMode = "none";
+          state.activeView = "queue";
+          state.leftFeedMode = "all";
+          state.deskMode = "tape";
+          const searchNode = document.getElementById("search-input");
+          const priorityNode = document.getElementById("priority-filter");
+          const groupNode = document.getElementById("group-filter");
+          if (searchNode) searchNode.value = "";
+          if (priorityNode) priorityNode.value = "all";
+          if (groupNode) groupNode.value = "none";
+          for (const b of document.querySelectorAll(".quick-btn")) {
+            b.classList.toggle("active", b.dataset.view === "queue");
+          }
+          syncDeskModeButtons();
+          renderQueue();
+          renderDetail();
+        });
+      }
       for (const btn of document.querySelectorAll(".quick-btn")) {
         btn.addEventListener("click", () => {
           state.activeView = btn.dataset.view;
@@ -5981,6 +6573,10 @@
       };
       document.getElementById("register-toggle-btn").addEventListener("click", openRegistration);
       document.getElementById("workspace-register-btn").addEventListener("click", openRegistration);
+      document.getElementById("workspace-command-toggle-btn").addEventListener("click", () => {
+        state.commandOpen = !state.commandOpen;
+        updateCommandVisibility();
+      });
       document.getElementById("register-cancel-btn").addEventListener("click", () => {
         toggleRegistrationPanel(false);
       });
@@ -6056,6 +6652,10 @@
       } catch (error) {
         document.getElementById("queue").innerHTML = `<div class="empty empty-state" style="padding:16px;">Failed to load analyst console data: ${esc(error.message)}</div>`;
         document.getElementById("detail-top").innerHTML = `<div class="empty empty-state">Open the console from a local server rooted at the repository so it can fetch the JSON files.</div>`;
+        const detailMiddle = document.getElementById("detail-middle");
+        const detailRight = document.getElementById("detail-right");
+        if (detailMiddle) detailMiddle.innerHTML = "";
+        if (detailRight) detailRight.innerHTML = "";
       }
     }
 
@@ -6063,3 +6663,6 @@
   </script>
 </body>
 </html>
+    .page.authenticated{
+      padding-bottom:12px;
+    }
