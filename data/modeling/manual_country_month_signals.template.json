@@ -1,0 +1,22 @@
+{
+  "status": "template",
+  "description": "Private/local country-month seeds for external pressure and economic fragility inputs. Copy to data/modeling/manual_country_month_signals.local.json and edit locally.",
+  "unit_of_analysis": "country_month",
+  "rows": [
+    {
+      "country": "Example Country",
+      "panel_date": "2025-01-01",
+      "external_pressure_sanctions_active": null,
+      "external_pressure_sanctions_delta": null,
+      "external_pressure_imf_program_active": null,
+      "external_pressure_imf_program_break": null,
+      "external_pressure_us_security_shift": null,
+      "economic_fragility_inflation_stress": null,
+      "economic_fragility_fx_stress": null,
+      "economic_fragility_debt_stress": null,
+      "economic_policy_capital_controls_flag": null,
+      "economic_policy_nationalization_signal": null,
+      "notes": "Optional local note for why the month was seeded this way."
+    }
+  ]
+}

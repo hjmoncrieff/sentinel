@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>user-guide</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="user-guide_files/libs/clipboard/clipboard.min.js"></script>
+<script src="user-guide_files/libs/quarto-html/quarto.js"></script>
+<script src="user-guide_files/libs/quarto-html/popper.min.js"></script>
+<script src="user-guide_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="user-guide_files/libs/quarto-html/anchor.min.js"></script>
+<link href="user-guide_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="user-guide_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="user-guide_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="user-guide_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="user-guide_files/libs/bootstrap/bootstrap-c0367b04c37547644fece4185067e4a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="sentinel-user-guide" class="level1">
+<h1>SENTINEL User Guide</h1>
+<p>This is the step-by-step operating guide for trusted SENTINEL users. It is written for day-to-day use, not for public project overview.</p>
+<p>The operating assumption is AI-first. Humans should spend most of their time on review, corroboration, correction, and publication judgment rather than routine manual coding.</p>
+<p>For a command-by-command reference for every executable stage runner, use:</p>
+<ul>
+<li><code>docs/stage-runners.md</code></li>
+</ul>
+<section id="ground-rules" class="level2">
+<h2 class="anchored" data-anchor-id="ground-rules">1. Ground Rules</h2>
+<ul>
+<li>treat analyst credentials, live review edits, and private reasoning as local operational data</li>
+<li>do not commit <code>*.local.json</code> review files</li>
+<li>use the public dashboard only for published outputs</li>
+<li>use the analyst console only through the local server when making real edits</li>
+<li>after any major architectural or product leap, record three things in the private docs before moving on:
+<ul>
+<li>what changed</li>
+<li>what decision was taken and why</li>
+<li>what commands or workflow order are now expected</li>
+</ul></li>
+<li>when a major leap changes the operating sequence, update this guide so the step-by-step private workflow stays current</li>
+</ul>
+</section>
+<section id="one-time-local-setup" class="level2">
+<h2 class="anchored" data-anchor-id="one-time-local-setup">2. One-Time Local Setup</h2>
+<p>Initialize the local analyst files:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/review/init_local_analyst_env.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This creates:</p>
+<ul>
+<li><code>data/review/users.local.json</code></li>
+<li><code>data/review/edits.local.json</code></li>
+<li><code>data/review/registry_edits.local.json</code></li>
+</ul>
+<p>Generate password hashes:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/review/hash_password.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Paste the generated hashes into <code>data/review/users.local.json</code> and replace every <code>replace_me</code> placeholder before starting the analyst server.</p>
+</section>
+<section id="start-the-workspace" class="level2">
+<h2 class="anchored" data-anchor-id="start-the-workspace">3. Start The Workspace</h2>
+<section id="public-dashboard" class="level3">
+<h3 class="anchored" data-anchor-id="public-dashboard">Public dashboard</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> http.server</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Open:</p>
+<ul>
+<li><code>http://127.0.0.1:8000/</code></li>
+</ul>
+</section>
+<section id="analyst-console" class="level3">
+<h3 class="anchored" data-anchor-id="analyst-console">Analyst console</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/review/run_analyst_server.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If the default port is busy, start it on another local port:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/review/run_analyst_server.py <span class="at">--port</span> 8766</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Open:</p>
+<ul>
+<li><code>http://127.0.0.1:8765/apps/analyst-console/</code></li>
+<li>or the port you selected</li>
+</ul>
+</section>
+</section>
+<section id="daily-data-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="daily-data-workflow">4. Daily Data Workflow</h2>
+<section id="structural-refresh-when-updating-the-country-model" class="level3">
+<h3 class="anchored" data-anchor-id="structural-refresh-when-updating-the-country-model">Structural refresh when updating the country model</h3>
+<p>Run these when you want to refresh slow-moving structural inputs before rebuilding country monitors:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/refresh_vdem.py</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/fetch_worldbank.py</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/build_country_year.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These update:</p>
+<ul>
+<li><code>data/cleaned/vdem.json</code></li>
+<li><code>data/cleaned/worldbank.json</code></li>
+<li><code>data/cleaned/country_year.json</code></li>
+</ul>
+</section>
+<section id="fast-ingest-run" class="level3">
+<h3 class="anchored" data-anchor-id="fast-ingest-run">Fast ingest run</h3>
+<p>Run the default non-GDELT pipeline:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/run_pipeline.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This updates:</p>
+<ul>
+<li><code>data/events.json</code></li>
+<li><code>data/review/source_audit.json</code></li>
+</ul>
+</section>
+<section id="optional-gdelt-run" class="level3">
+<h3 class="anchored" data-anchor-id="optional-gdelt-run">Optional GDELT run</h3>
+<p>Use GDELT only when needed:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/run_pipeline.py <span class="at">--gdelt</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Or run the separate GDELT path directly:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/ingest_gdelt.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If GDELT rate-limits a run, the standalone client now retries with backoff instead of failing immediately on the first <code>429</code> response.</p>
+<p>For a gentler fallback, use:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/ingest_gdelt.py <span class="at">--conservative</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For historical runs that may need to resume after throttling or interruption:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/ingest_gdelt.py <span class="at">--historical</span> <span class="at">--since</span> 2025-01-01 <span class="at">--resume</span> <span class="at">--conservative</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For the gentlest historical path, restrict execution to local off-hours:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/ingest_gdelt.py <span class="at">--historical</span> <span class="at">--since</span> 2025-01-01 <span class="at">--resume</span> <span class="at">--conservative</span> <span class="at">--off-hours</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you want the client to give up sooner when rate-limited, lower the cutoff:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/ingest_gdelt.py <span class="at">--conservative</span> <span class="at">--max-backoff-seconds</span> 45</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="deep-historical-planning" class="level3">
+<h3 class="anchored" data-anchor-id="deep-historical-planning">Deep historical planning</h3>
+<p>For historical archive planning rather than the fast monitoring pipeline:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/historical_ingest.py <span class="at">--since</span> 2000-01-01 <span class="at">--json</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="build-internal-review-artifacts" class="level2">
+<h2 class="anchored" data-anchor-id="build-internal-review-artifacts">5. Build Internal Review Artifacts</h2>
+<p>Run the review diagnostics and internal data layers:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/qa/run_qa.py</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/qa/run_registry_qa.py</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/pipeline/detect_duplicates.py</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/pipeline/build_canonical_events.py</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/pipeline/code_actors.py</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/review/build_review_queue.py</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/pipeline/update_actor_registry.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This refreshes:</p>
+<ul>
+<li><code>data/review/qa_report.json</code></li>
+<li><code>data/review/registry_qa_report.json</code></li>
+<li><code>data/review/duplicate_candidates.json</code></li>
+<li><code>data/review/review_queue.json</code></li>
+<li><code>data/canonical/events.json</code></li>
+<li><code>data/canonical/events_actor_coded.json</code></li>
+<li><code>data/canonical/actor_mentions.json</code></li>
+<li><code>config/actors/actor_registry.json</code></li>
+</ul>
+<p>If you need the exact runner list for each stage, see:</p>
+<ul>
+<li><code>docs/stage-runners.md</code></li>
+</ul>
+<p>If you want classification as its own explicit stage over filtered article records, you can also run:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/pipeline/classify_events.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="generate-council-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="generate-council-analysis">6. Generate Council Analysis</h2>
+<p>Run the internal council layer:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/analysis/run_council.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This writes:</p>
+<ul>
+<li><code>data/review/council_analyses.json</code></li>
+</ul>
+<p>Council analysis runs across every event, but every council output is explicitly tagged as AI-generated analysis. It should be treated as an analytical layer, not as human validation.</p>
+<p>The council now also records:</p>
+<ul>
+<li>compact upstream AI-worker output summaries</li>
+<li>recommended analyst actions for review follow-up</li>
+</ul>
+<p>The council is informed by:</p>
+<ul>
+<li><code>config/agents/analyst_knowledge.json</code></li>
+<li><code>config/agents/council_guidance.json</code></li>
+<li><code>config/agents/council_roles.json</code></li>
+<li><code>config/agents/ai_workers.json</code></li>
+</ul>
+<p>The Council tab now surfaces the project knowledge trace behind each lens, so analysts can inspect which concepts, priorities, and AI workers shaped the assessment.</p>
+</section>
+<section id="b.-build-country-monitors" class="level2">
+<h2 class="anchored" data-anchor-id="b.-build-country-monitors">6b. Build Country Monitors</h2>
+<p>Run the layered country-monitor and predictive-risk builder:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/analysis/build_country_monitors.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This writes:</p>
+<ul>
+<li><code>data/published/country_monitors.json</code></li>
+</ul>
+<p>Treat this as an experimental analytical layer. It is intended to improve country-level monitoring over time, not to replace event-level interpretation.</p>
+</section>
+<section id="c.-validate-country-monitors" class="level2">
+<h2 class="anchored" data-anchor-id="c.-validate-country-monitors">6c. Validate Country Monitors</h2>
+<p>Run the benchmark validation pass:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/analysis/validate_country_monitors.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This writes:</p>
+<ul>
+<li><code>data/review/country_monitor_validation.json</code></li>
+</ul>
+<p>Use this report to see which benchmark countries still sit outside the intended target ranges for overall risk, regime vulnerability, militarization, and security fragmentation.</p>
+</section>
+<section id="review-events-in-the-analyst-console" class="level2">
+<h2 class="anchored" data-anchor-id="review-events-in-the-analyst-console">7. Review Events In The Analyst Console</h2>
+<p>Log in using your local analyst account.</p>
+<p>Role expectations:</p>
+<ul>
+<li><code>RA</code> summary cleanup, notes, actor cleanup, low-risk QA fixes</li>
+<li><code>Analyst</code> event coding, actor coding, review-state updates, duplicate resolution</li>
+<li><code>Coordinator</code> final approval, publication-facing validation, higher-consequence review</li>
+</ul>
+<p>Use the console to:</p>
+<ul>
+<li>search and filter the review queue</li>
+<li>fix QA issues manually in the structured editor</li>
+<li>mark QA flags resolved</li>
+<li>review duplicate candidates and either merge them with confirmation or mark them as genuinely different events This workflow now includes a short reason picker so false-positive duplicate flags can be categorized consistently.</li>
+<li>use the manual merge controls in the <code>Duplicates</code> tab when two events should be consolidated even if they were not pre-flagged together This path also lets analysts set a canonical keeper title and summary while preserving the audit trail.</li>
+<li>undo duplicate decisions when a prior merge or distinct-event judgment needs to be reversed</li>
+<li>undo QA resolutions when a flag should return to the active review queue</li>
+<li>edit coding fields through dropdowns and collapsible sections</li>
+<li>add new actors directly in the review editor</li>
+<li>remove or restore existing actors without deleting audit history</li>
+<li>mark actor confidence and registry follow-up status during review</li>
+<li>move actors through the registry workflow:
+<ul>
+<li><code>needs_registry_entry</code></li>
+<li><code>registry_seeded</code></li>
+<li><code>registry_confirmed</code></li>
+</ul></li>
+<li>mark uncertain actors explicitly when identity, classification, or role is not secure</li>
+<li>capture actor aliases and relationship tags such as <code>state-linked</code>, <code>collusive</code>, or <code>security_partner</code> when justified by the reporting</li>
+<li>use the <code>Registry</code> tab to:
+<ul>
+<li>promote unmatched actors into the durable registry</li>
+<li>link event actors to existing registry entries</li>
+<li>update registry aliases, subtype, relationship tags, and status in a controlled way</li>
+</ul></li>
+<li>add private analyst reasoning when needed</li>
+<li>mark events as human reviewed or human validated</li>
+<li>eliminate entries safely by marking them <code>rejected</code></li>
+<li>restore rejected entries back into active workflow when needed</li>
+<li>undo publication-facing decisions without removing the audit trail</li>
+</ul>
+<p>The goal is not to recode everything by hand. The console is mainly for exception handling, supervision, and release control.</p>
+<p>Use the <code>Actor Registry</code> quick view or queries like <code>registry:true</code> and <code>actor_uncertain:true</code> to focus on actor follow-up work.</p>
+<p>Inside the <code>Actor Registry</code> view, analysts can also use bulk actions across selected events to:</p>
+<ul>
+<li>seed registry follow-up actors as <code>registry_seeded</code></li>
+<li>confirm reviewed actors as <code>registry_confirmed</code></li>
+<li>clear actor uncertainty when that review has been completed</li>
+</ul>
+<p>When registry QA flags duplicate entries or alias collisions, the same view can also:</p>
+<ul>
+<li>merge one registry entry into another while preserving aliases and evidence</li>
+<li>drop a conflicting alias from a single registry entry without forcing a merge</li>
+</ul>
+<p>After actor follow-up review, promote the latest reviewed actor records into the durable registry with:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/pipeline/update_actor_registry.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="save-and-apply-analyst-edits" class="level2">
+<h2 class="anchored" data-anchor-id="save-and-apply-analyst-edits">8. Save And Apply Analyst Edits</h2>
+<p>When using the authenticated analyst server, saves go directly into:</p>
+<ul>
+<li><code>data/review/edits.local.json</code></li>
+</ul>
+<p>The server then reruns:</p>
+<ul>
+<li><code>scripts/review/apply_analyst_edits.py</code></li>
+</ul>
+<p>This materializes edited local outputs such as:</p>
+<ul>
+<li><code>data/review/events_with_edits.json</code></li>
+<li><code>data/review/review_queue_with_edits.json</code></li>
+</ul>
+</section>
+<section id="publish-public-safe-data" class="level2">
+<h2 class="anchored" data-anchor-id="publish-public-safe-data">9. Publish Public-Safe Data</h2>
+<p>After review changes are in place, rebuild the public dataset:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/publish/publish_dashboard_data.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This writes:</p>
+<ul>
+<li><code>data/published/events_public.json</code></li>
+</ul>
+<p>The published file is safe for the public dashboard and includes:</p>
+<ul>
+<li>event fields needed for display</li>
+<li>public-safe provenance summary</li>
+<li>linked report metadata for clustered events</li>
+<li><code>review_status</code></li>
+<li><code>review_priority</code></li>
+<li><code>human_validated</code></li>
+<li>whether an event has been reviewed by a human</li>
+</ul>
+<p>Private analyst reasoning and local credentials stay out of this layer.</p>
+<p>If the live event store predates the article-linkage upgrade, run:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/pipeline/backfill_event_articles.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then rebuild the downstream layers.</p>
+<p>Current publication policy:</p>
+<ul>
+<li>low-confidence events are withheld until a human reviews or corroborates them</li>
+<li>merged duplicates are withheld from the public layer</li>
+<li>records marked <code>flagged</code>, <code>needs_revision</code>, or <code>rejected</code> are withheld</li>
+</ul>
+</section>
+<section id="recommended-daily-operating-sequence" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-daily-operating-sequence">10. Recommended Daily Operating Sequence</h2>
+<ol type="1">
+<li>run <code>scripts/run_pipeline.py</code></li>
+<li>inspect <code>data/review/source_audit.json</code></li>
+<li>run QA, duplicates, canonical build, actor coding, review queue, and council scripts</li>
+<li>open the analyst console</li>
+<li>resolve high-attention items, QA flags, and duplicate candidates</li>
+<li>use the publication queue for low-confidence corroboration and release checks</li>
+<li>mark reviewed or validated events as appropriate</li>
+<li>run <code>scripts/publish/publish_dashboard_data.py</code></li>
+<li>refresh the public dashboard</li>
+</ol>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">11. Troubleshooting</h2>
+<p>If the analyst server will not start:</p>
+<ul>
+<li>confirm <code>data/review/users.local.json</code> exists</li>
+<li>confirm all placeholder password hashes were replaced</li>
+<li>try another port with <code>--port</code></li>
+</ul>
+<p>If edits are not appearing:</p>
+<ul>
+<li>confirm you are logged in through the local analyst server</li>
+<li>check <code>data/review/edits.local.json</code></li>
+<li>rerun <code>python3 scripts/review/apply_analyst_edits.py</code></li>
+</ul>
+<p>If public review badges are missing:</p>
+<ul>
+<li>confirm review changes were saved</li>
+<li>rerun <code>python3 scripts/publish/publish_dashboard_data.py</code></li>
+<li>refresh the dashboard after the published dataset updates</li>
+</ul>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

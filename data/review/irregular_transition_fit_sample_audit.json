@@ -1,0 +1,303 @@
+{
+  "generated_at": "2026-04-02T23:54:49Z",
+  "status": "private_internal_fit_sample_audit",
+  "source_file": "data/review/irregular_transition_model_validation.json",
+  "summary": {
+    "rows": 64,
+    "positives": 25,
+    "negatives": 39,
+    "countries_with_negatives": [
+      "Argentina",
+      "Belize",
+      "Bolivia",
+      "Brazil",
+      "Chile",
+      "Colombia",
+      "Costa Rica",
+      "Cuba",
+      "Dominican Republic",
+      "Ecuador",
+      "El Salvador",
+      "Guatemala",
+      "Guyana",
+      "Haiti",
+      "Honduras",
+      "Jamaica",
+      "Mexico",
+      "Nicaragua",
+      "Panama",
+      "Paraguay",
+      "Peru",
+      "Suriname",
+      "Trinidad and Tobago",
+      "Uruguay",
+      "Venezuela"
+    ],
+    "countries_with_positives": [
+      "Bolivia",
+      "Brazil",
+      "Chile",
+      "Colombia",
+      "El Salvador",
+      "Haiti",
+      "Mexico",
+      "Venezuela"
+    ]
+  },
+  "country_balance": [
+    {
+      "country": "Argentina",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Belize",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Bolivia",
+      "rows": 5,
+      "positives": 4,
+      "negatives": 1
+    },
+    {
+      "country": "Brazil",
+      "rows": 2,
+      "positives": 1,
+      "negatives": 1
+    },
+    {
+      "country": "Chile",
+      "rows": 3,
+      "positives": 2,
+      "negatives": 1
+    },
+    {
+      "country": "Colombia",
+      "rows": 19,
+      "positives": 9,
+      "negatives": 10
+    },
+    {
+      "country": "Costa Rica",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Cuba",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Dominican Republic",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Ecuador",
+      "rows": 3,
+      "positives": 0,
+      "negatives": 3
+    },
+    {
+      "country": "El Salvador",
+      "rows": 4,
+      "positives": 3,
+      "negatives": 1
+    },
+    {
+      "country": "Guatemala",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Guyana",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Haiti",
+      "rows": 5,
+      "positives": 4,
+      "negatives": 1
+    },
+    {
+      "country": "Honduras",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Jamaica",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Mexico",
+      "rows": 4,
+      "positives": 1,
+      "negatives": 3
+    },
+    {
+      "country": "Nicaragua",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Panama",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Paraguay",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Peru",
+      "rows": 2,
+      "positives": 0,
+      "negatives": 2
+    },
+    {
+      "country": "Suriname",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Trinidad and Tobago",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Uruguay",
+      "rows": 1,
+      "positives": 0,
+      "negatives": 1
+    },
+    {
+      "country": "Venezuela",
+      "rows": 2,
+      "positives": 1,
+      "negatives": 1
+    }
+  ],
+  "feature_separation": [
+    {
+      "feature": "economic_fragility_fx_stress",
+      "positive_mean": 33.116,
+      "negative_mean": 27.476,
+      "mean_gap": 5.64,
+      "absolute_gap": 5.64
+    },
+    {
+      "feature": "external_pressure_sanctions_active",
+      "positive_mean": 1.015,
+      "negative_mean": 0.124,
+      "mean_gap": 0.891,
+      "absolute_gap": 0.891
+    },
+    {
+      "feature": "state_capacity_composite",
+      "positive_mean": 51.189,
+      "negative_mean": 51.767,
+      "mean_gap": -0.578,
+      "absolute_gap": 0.578
+    },
+    {
+      "feature": "high_salience_event_count",
+      "positive_mean": 0.64,
+      "negative_mean": 0.462,
+      "mean_gap": 0.178,
+      "absolute_gap": 0.178
+    },
+    {
+      "feature": "event_type_conflict_count",
+      "positive_mean": 0.32,
+      "negative_mean": 0.436,
+      "mean_gap": -0.116,
+      "absolute_gap": 0.116
+    },
+    {
+      "feature": "episode_start_count",
+      "positive_mean": 0.68,
+      "negative_mean": 0.795,
+      "mean_gap": -0.115,
+      "absolute_gap": 0.115
+    },
+    {
+      "feature": "high_severity_episode_count",
+      "positive_mean": 0.28,
+      "negative_mean": 0.179,
+      "mean_gap": 0.101,
+      "absolute_gap": 0.101
+    },
+    {
+      "feature": "deed_type_destabilizing_count",
+      "positive_mean": 0.36,
+      "negative_mean": 0.282,
+      "mean_gap": 0.078,
+      "absolute_gap": 0.078
+    },
+    {
+      "feature": "event_type_protest_count",
+      "positive_mean": 0.0,
+      "negative_mean": 0.077,
+      "mean_gap": -0.077,
+      "absolute_gap": 0.077
+    },
+    {
+      "feature": "episode_construct_regime_vulnerability_count",
+      "positive_mean": 0.52,
+      "negative_mean": 0.59,
+      "mean_gap": -0.07,
+      "absolute_gap": 0.07
+    },
+    {
+      "feature": "event_type_coup_count",
+      "positive_mean": 0.04,
+      "negative_mean": 0.0,
+      "mean_gap": 0.04,
+      "absolute_gap": 0.04
+    },
+    {
+      "feature": "event_shock_flag",
+      "positive_mean": 0.08,
+      "negative_mean": 0.103,
+      "mean_gap": -0.023,
+      "absolute_gap": 0.023
+    },
+    {
+      "feature": "escalating_episode_count",
+      "positive_mean": 0.44,
+      "negative_mean": 0.462,
+      "mean_gap": -0.022,
+      "absolute_gap": 0.022
+    }
+  ],
+  "current_risks": [
+    "reviewed negatives are still sparse and concentrated in a small set of countries",
+    "some current features invert intuition because the negative sample is dominated by severe contestation rather than quiet months",
+    "state_capacity_composite is currently almost non-separating in the reviewed fit sample"
+  ],
+  "recommended_next_actions": [
+    "expand reviewed negative cases beyond Colombia, El Salvador, Honduras, Mexico, and Venezuela",
+    "add explicit low-intensity reviewed negatives so the model learns more than severe-vs-severe distinctions",
+    "revisit episode features that currently look non-separating or inverted in the fit sample",
+    "keep the threshold baseline as the benchmark until the reviewed sample broadens"
+  ]
+}

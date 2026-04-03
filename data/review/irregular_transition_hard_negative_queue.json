@@ -1,0 +1,29 @@
+{
+  "generated_at": "2026-04-02T23:54:14Z",
+  "status": "private_internal_hard_negative_benchmark_queue",
+  "description": "Hard negative candidates for irregular-transition modeling: months that still look transition-like because of episode or historical-memory signals, but are not currently reviewed positives.",
+  "panel_file": "data/modeling/country_month_panel.json",
+  "gold_file": "data/modeling/gold_irregular_transition_labels.json",
+  "adjudicated_file": "data/modeling/adjudicated_irregular_transition_labels.json",
+  "local_negative_file": "data/review/reviewed_negative_decisions.local.json",
+  "selection_rules": {
+    "min_year": 1990,
+    "exclude": [
+      "gold positives",
+      "adjudicated positives",
+      "already reviewed negatives",
+      "months without a complete 1m observation window",
+      "routine low-signal background negatives"
+    ],
+    "include": [
+      "proxy score >= 2",
+      "regime-shift or democratic-backsliding signal, or",
+      "high-severity / escalating episode without a reviewed positive label"
+    ]
+  },
+  "summary": {
+    "queue_rows": 0,
+    "countries": []
+  },
+  "rows": []
+}

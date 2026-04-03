@@ -46,6 +46,11 @@ registry milestones.
 - persist worker-level outputs in a more formal contract
 - expose worker disagreement more clearly in the analyst console
 - use analyst corrections as feedback inputs for future scoring logic
+- continue calibrating the layered risk model in:
+  - `docs/baseline-pulse-design.md`
+  - `config/baseline_pulse_model.json`
+  with a particular focus on regime vulnerability, militarization, security
+  fragmentation, and impact-duration calibration over time
 
 ## 5. Continuous Learning And Gold Data
 

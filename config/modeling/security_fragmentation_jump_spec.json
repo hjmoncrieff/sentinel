@@ -1,0 +1,28 @@
+{
+  "target_name": "security_fragmentation_jump_next_3m",
+  "status": "private_internal_proxy_spec_v1",
+  "unit_of_analysis": "country_month",
+  "forecast_horizon": "3m",
+  "purpose": "Capture near-term jumps in security-fragmentation pressure as a construct-oriented predictive target.",
+  "logic_families": [
+    "fragmenting_episode_jump",
+    "high_severity_fragmentation_episode",
+    "conflict_or_oc_destabilization",
+    "event_shock_fragmentation",
+    "external_or_economic_stress_with_fragmentation"
+  ],
+  "positive_when": [
+    "the next month or one of the next three months reaches the security-fragmentation-jump proxy threshold",
+    "the threshold is driven by fragmenting or high-severity episodes linked to security fragmentation, optionally reinforced by conflict, organized crime, shock, or external-economic stress"
+  ],
+  "exclusions": [
+    "this target is not a generic violence count target",
+    "it should capture jumps in fragmentation pressure rather than all broad contestation"
+  ],
+  "next_workflow_steps": [
+    "review proxy positives country by country",
+    "create adjudication queue",
+    "promote a narrow reviewed layer",
+    "derive a stricter benchmark subset later if useful"
+  ]
+}

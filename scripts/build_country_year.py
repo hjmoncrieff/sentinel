@@ -15,7 +15,7 @@ Usage:
 import argparse
 import csv
 import json
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT    = Path(__file__).parent.parent
@@ -69,14 +69,178 @@ WB_SERIES = {
     "gdp_constant_2015_usd_series":             "gdp_const_2015_usd",
     "gdp_per_capita_constant_2015_usd_series":  "gdp_per_capita_const_usd",
     "population_total_series":                  "population",
+    "inflation_consumer_prices_pct_series":     "inflation_consumer_prices_pct",
+    "real_interest_rate_series":                "real_interest_rate",
+    "official_exchange_rate_series":            "official_exchange_rate",
+    "fdi_net_inflows_pct_gdp_series":           "fdi_net_inflows_pct_gdp",
+    "debt_service_pct_exports_series":          "debt_service_pct_exports",
+    "current_account_pct_gdp_series":           "current_account_pct_gdp",
+    "reserves_months_imports_series":           "reserves_months_imports",
+    "resource_rents_pct_gdp_series":            "resource_rents_pct_gdp",
+    "trade_openness_pct_gdp_series":            "trade_openness_pct_gdp",
+    "oda_received_pct_gni_series":              "oda_received_pct_gni",
 }
 
 # V-Dem series fields to include
 VDEM_SERIES = [
-    "polyarchy", "regime_type", "physinteg", "mil_constrain",
-    "mil_exec", "coup_event", "coup_attempts", "polity2",
-    "cs_repress", "political_violence",
+    "polyarchy", "liberal_democracy", "participatory_democracy",
+    "deliberative_democracy", "egalitarian_democracy", "regime_type",
+    "physinteg", "mil_constrain", "mil_exec", "exec_confidence",
+    "judicial_constraints", "legislative_constraints", "rule_of_law_vdem",
+    "public_sector_corruption", "executive_corruption", "corruption_index",
+    "clientelism", "civil_society_participation", "party_institutionalization",
+    "state_authority", "coup_total_events", "coup_event", "coup_attempts",
+    "executive_direct_election", "election_repression", "voter_turnout",
+    "democracy_breakdown", "democracy_transition", "polity2", "cs_repress",
+    "political_violence",
 ]
+
+
+def clamp(value: float, low: float = 0.0, high: float = 100.0) -> float:
+    return max(low, min(high, value))
+
+
+def normalize_unit(value):
+    if value is None:
+        return None
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return None
+    return clamp(numeric * 100.0)
+
+
+def normalize_governance_scale(value):
+    if value is None:
+        return None
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return None
+    return clamp(((numeric + 2.5) / 5.0) * 100.0)
+
+
+def build_state_capacity(row: dict) -> tuple[float | None, int]:
+    components = [
+        normalize_unit(row.get("state_authority")),
+        normalize_unit(row.get("rule_of_law_vdem")),
+        normalize_unit(row.get("judicial_constraints")),
+        normalize_unit(row.get("legislative_constraints")),
+        normalize_unit(row.get("public_sector_corruption")),
+        normalize_unit(row.get("executive_corruption")),
+        normalize_unit(row.get("civil_society_participation")),
+        normalize_unit(row.get("party_institutionalization")),
+    ]
+    components[0] = normalize_governance_scale(row.get("state_authority"))
+    for key in ("wgi_govt_effectiveness", "wgi_rule_of_law", "wgi_control_corruption"):
+        value = row.get(key)
+        if value is None:
+            continue
+        components.append(normalize_governance_scale(value))
+    present = [value for value in components if value is not None]
+    if not present:
+        return None, 0
+    return round(sum(present) / len(present), 2), len(present)
+
+
+def build_year_range(vdem_countries: dict, wb_countries: dict) -> list[int]:
+    years: set[int] = set()
+    for country in vdem_countries.values():
+        for series in country.get("series", {}).values():
+            for point in series:
+                year = point.get("year")
+                if year is not None:
+                    years.add(int(year))
+    for country in wb_countries.values():
+        for key, values in country.items():
+            if not key.endswith("_series") or not isinstance(values, list):
+                continue
+            for point in values:
+                year = point.get("year")
+                if year is not None:
+                    years.add(int(year))
+    return sorted(year for year in years if year >= 1960)
+
+
+def numeric(value):
+    if value is None:
+        return None
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def rounded_delta(current, previous) -> float | None:
+    current_num = numeric(current)
+    previous_num = numeric(previous)
+    if current_num is None or previous_num is None:
+        return None
+    return round(current_num - previous_num, 3)
+
+
+def build_country_derived_features(country_rows: list[dict]) -> None:
+    last_coup_year: int | None = None
+    last_coup_attempt_year: int | None = None
+    for idx, row in enumerate(country_rows):
+        year = int(row["year"])
+        prior_rows = country_rows[:idx]
+
+        row["time_since_last_coup"] = None if last_coup_year is None else year - last_coup_year
+        row["time_since_last_coup_attempt"] = (
+            None if last_coup_attempt_year is None else year - last_coup_attempt_year
+        )
+
+        row["coup_count_5y"] = sum(int(numeric(prev.get("coup_event")) or 0) for prev in prior_rows if year - int(prev["year"]) <= 5)
+        row["coup_attempt_count_5y"] = sum(int(numeric(prev.get("coup_attempts")) or 0) for prev in prior_rows if year - int(prev["year"]) <= 5)
+        row["coup_count_10y"] = sum(int(numeric(prev.get("coup_event")) or 0) for prev in prior_rows if year - int(prev["year"]) <= 10)
+        row["coup_attempt_count_10y"] = sum(int(numeric(prev.get("coup_attempts")) or 0) for prev in prior_rows if year - int(prev["year"]) <= 10)
+
+        if int(numeric(row.get("coup_event")) or 0) > 0:
+            last_coup_year = year
+        if int(numeric(row.get("coup_attempts")) or 0) > 0:
+            last_coup_attempt_year = year
+
+        prev_1 = prior_rows[-1] if len(prior_rows) >= 1 else None
+        prev_3 = prior_rows[-3] if len(prior_rows) >= 3 else None
+
+        row["polyarchy_delta_1y"] = rounded_delta(row.get("polyarchy"), prev_1.get("polyarchy") if prev_1 else None)
+        row["polyarchy_delta_3y"] = rounded_delta(row.get("polyarchy"), prev_3.get("polyarchy") if prev_3 else None)
+        row["mil_exec_delta_1y"] = rounded_delta(row.get("mil_exec"), prev_1.get("mil_exec") if prev_1 else None)
+        row["cs_repress_delta_1y"] = rounded_delta(row.get("cs_repress"), prev_1.get("cs_repress") if prev_1 else None)
+        row["state_capacity_delta_3y"] = rounded_delta(
+            row.get("state_capacity_composite"),
+            prev_3.get("state_capacity_composite") if prev_3 else None,
+        )
+        row["inflation_delta_1y"] = rounded_delta(
+            row.get("inflation_consumer_prices_pct"),
+            prev_1.get("inflation_consumer_prices_pct") if prev_1 else None,
+        )
+        row["trade_openness_delta_3y"] = rounded_delta(
+            row.get("trade_openness_pct_gdp"),
+            prev_3.get("trade_openness_pct_gdp") if prev_3 else None,
+        )
+        row["oda_received_delta_3y"] = rounded_delta(
+            row.get("oda_received_pct_gni"),
+            prev_3.get("oda_received_pct_gni") if prev_3 else None,
+        )
+        row["voter_turnout_delta_1y"] = rounded_delta(
+            row.get("voter_turnout"),
+            prev_1.get("voter_turnout") if prev_1 else None,
+        )
+
+        polyarchy_delta = numeric(row.get("polyarchy_delta_1y"))
+        repression_delta = numeric(row.get("cs_repress_delta_1y"))
+        inflation_delta = numeric(row.get("inflation_delta_1y"))
+        row["regime_shift_flag"] = int(
+            int(numeric(row.get("democracy_breakdown")) or 0) > 0
+            or (polyarchy_delta is not None and polyarchy_delta <= -0.08)
+        )
+        row["repression_shift_flag"] = int(repression_delta is not None and repression_delta >= 0.08)
+        row["macro_stress_shift_flag"] = int(
+            (inflation_delta is not None and abs(inflation_delta) >= 10.0)
+            or (numeric(row.get("trade_openness_delta_3y")) is not None and abs(numeric(row.get("trade_openness_delta_3y"))) >= 10.0)
+        )
 
 
 def main(out_dir: Path = OUT_DIR) -> None:
@@ -88,8 +252,7 @@ def main(out_dir: Path = OUT_DIR) -> None:
     wb_raw = json.loads(WB_IN.read_text(encoding="utf-8"))
     wb_countries = {c["country"]: c for c in wb_raw["countries"]}
 
-    # Build union of years (1990–2023 from V-Dem; WB goes to ~2024)
-    years = list(range(1990, 2025))
+    years = build_year_range(vdem_countries, wb_countries)
 
     rows: list[dict] = []
 
@@ -132,9 +295,17 @@ def main(out_dir: Path = OUT_DIR) -> None:
                 "m3_mil_eco":            m3.get("mil_eco"),
                 "m3_hwi":                m3.get("hwi"),
             }
+            state_capacity, state_capacity_coverage = build_state_capacity(row)
+            row["state_capacity_composite"] = state_capacity
+            row["state_capacity_coverage"] = state_capacity_coverage
             rows.append(row)
 
     rows.sort(key=lambda r: (r["country"], r["year"]))
+    grouped: dict[str, list[dict]] = {}
+    for row in rows:
+        grouped.setdefault(row["country"], []).append(row)
+    for country_rows in grouped.values():
+        build_country_derived_features(country_rows)
     print(f"  {len(rows)} country-year rows built ({len(all_countries)} countries × {len(years)} years)")
 
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -143,7 +314,7 @@ def main(out_dir: Path = OUT_DIR) -> None:
     json_path = out_dir / "country_year.json"
     json_path.write_text(
         json.dumps({
-            "generated": datetime.utcnow().isoformat() + "Z",
+            "generated": datetime.now(UTC).isoformat(),
             "schema_version": "1.0",
             "count": len(rows),
             "columns": list(rows[0].keys()) if rows else [],

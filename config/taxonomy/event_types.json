@@ -1,90 +1,138 @@
 {
-  "version": "1.0",
-  "updated": "2026-03-31",
+  "version": "2.0",
+  "updated": "2026-04-02",
   "event_types": [
     {
       "code": "coup",
       "label": "Coup / Coup Plot",
       "description": "Attempted, threatened, or actual seizure of political power involving military or security actors.",
       "exclusions": ["routine cabinet reshuffles", "ordinary partisan conflict"],
-      "precedence_rank": 100
+      "precedence_rank": 100,
+      "event_category": "political",
+      "event_subcategory": "irregular_transfer_and_command_break",
+      "construct_destinations": ["regime_vulnerability", "militarization"],
+      "analyst_lenses": ["political", "military"]
     },
     {
       "code": "purge",
       "label": "Purge / Command Reshuffle",
       "description": "Forced removals, retirements, command restructuring, or politically salient officer turnover.",
       "exclusions": ["routine retirement without political significance"],
-      "precedence_rank": 90
+      "precedence_rank": 90,
+      "event_category": "military",
+      "event_subcategory": "command_and_coercive_control",
+      "construct_destinations": ["militarization", "regime_vulnerability"],
+      "analyst_lenses": ["military", "political"]
     },
     {
       "code": "aid",
       "label": "Military Aid",
       "description": "Foreign military assistance, financing, training, or equipment transfers.",
       "exclusions": ["domestic budget decisions without external assistance"],
-      "precedence_rank": 60
+      "precedence_rank": 60,
+      "event_category": "international",
+      "event_subcategory": "external_security_support",
+      "construct_destinations": ["militarization", "security_fragmentation"],
+      "analyst_lenses": ["international", "military"]
     },
     {
       "code": "coop",
       "label": "Security Cooperation",
       "description": "Joint security cooperation, operational partnerships, bilateral support, or coordination that does not fit exercise or aid cleanly.",
       "exclusions": ["purely symbolic diplomatic statements"],
-      "precedence_rank": 55
+      "precedence_rank": 55,
+      "event_category": "international",
+      "event_subcategory": "external_security_alignment",
+      "construct_destinations": ["security_fragmentation", "militarization"],
+      "analyst_lenses": ["international", "security"]
     },
     {
       "code": "protest",
       "label": "Civil-Military Protest",
       "description": "Civil unrest or protest episodes that directly involve security forces, military institutions, or militarized policing.",
       "exclusions": ["protests with no security-sector relevance"],
-      "precedence_rank": 50
+      "precedence_rank": 50,
+      "event_category": "political",
+      "event_subcategory": "contention_and_state_response",
+      "construct_destinations": ["regime_vulnerability", "security_fragmentation"],
+      "analyst_lenses": ["political", "security"]
     },
     {
       "code": "reform",
       "label": "Security Sector Reform",
       "description": "Legal, doctrinal, administrative, or institutional reforms affecting civil-military relations or security governance.",
       "exclusions": ["minor administrative updates without institutional consequence"],
-      "precedence_rank": 40
+      "precedence_rank": 40,
+      "event_category": "political",
+      "event_subcategory": "institutional_security_reordering",
+      "construct_destinations": ["regime_vulnerability", "militarization"],
+      "analyst_lenses": ["political", "military"]
     },
     {
       "code": "conflict",
       "label": "Armed Conflict",
       "description": "Combat or violent confrontation involving state security forces and organized armed actors.",
       "exclusions": ["nonviolent military signaling"],
-      "precedence_rank": 80
+      "precedence_rank": 80,
+      "event_category": "security",
+      "event_subcategory": "armed_fragmentation_and_territorial_control",
+      "construct_destinations": ["security_fragmentation", "regime_vulnerability"],
+      "analyst_lenses": ["security", "political"]
     },
     {
       "code": "exercise",
       "label": "Military Exercise",
       "description": "Bilateral or multilateral military training exercises or drills.",
       "exclusions": ["operational deployments without exercise structure"],
-      "precedence_rank": 35
+      "precedence_rank": 35,
+      "event_category": "military",
+      "event_subcategory": "force_posture_and_training",
+      "construct_destinations": ["militarization"],
+      "analyst_lenses": ["military", "international"]
     },
     {
       "code": "procurement",
       "label": "Procurement / Arms",
       "description": "Weapons acquisitions, defense contracts, or arms transfer decisions.",
       "exclusions": ["aid announcements without acquisition details"],
-      "precedence_rank": 65
+      "precedence_rank": 65,
+      "event_category": "military",
+      "event_subcategory": "force_build_up_and_equipment",
+      "construct_destinations": ["militarization"],
+      "analyst_lenses": ["military", "international", "economist"]
     },
     {
       "code": "peace",
       "label": "Peace Process",
       "description": "Ceasefires, negotiations, DDR milestones, and peace implementation events.",
       "exclusions": ["routine public statements with no negotiation content"],
-      "precedence_rank": 30
+      "precedence_rank": 30,
+      "event_category": "political",
+      "event_subcategory": "conflict_management_and_settlement",
+      "construct_destinations": ["security_fragmentation", "regime_vulnerability"],
+      "analyst_lenses": ["political", "security", "international"]
     },
     {
       "code": "oc",
       "label": "Organized Crime / Transnational Security",
       "description": "Events involving organized crime, trafficking networks, illicit economies, or related military and security responses.",
       "exclusions": ["ordinary criminal incidents without strategic significance"],
-      "precedence_rank": 70
+      "precedence_rank": 70,
+      "event_category": "security",
+      "event_subcategory": "armed_non_state_and_illicit_order",
+      "construct_destinations": ["security_fragmentation", "regime_vulnerability"],
+      "analyst_lenses": ["security", "political", "economist"]
     },
     {
       "code": "other",
       "label": "Other",
       "description": "Institutionally relevant events not captured by the controlled categories above.",
       "exclusions": [],
-      "precedence_rank": 0
+      "precedence_rank": 0,
+      "event_category": "political",
+      "event_subcategory": "other_institutional_relevance",
+      "construct_destinations": ["regime_vulnerability"],
+      "analyst_lenses": ["political"]
     }
   ]
 }

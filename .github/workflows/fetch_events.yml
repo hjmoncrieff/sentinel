@@ -1,15 +1,16 @@
-name: Fetch LatAm Civil-Military Events
+name: Daily SENTINEL Pipeline
 
 on:
   schedule:
-    - cron: '0 4 * * *'   # 04:00 UTC daily (use '0 */4 * * *' for every-4h)
-  workflow_dispatch:        # Manual run: Actions tab → Run workflow
+    - cron: '0 6 * * *'   # 2 AM America/New_York during daylight time
+    - cron: '0 7 * * *'   # 2 AM America/New_York during standard time
+  workflow_dispatch:
 
 jobs:
-  fetch:
+  pipeline:
     runs-on: ubuntu-latest
     permissions:
-      contents: write        # Required to commit data/events.json back to repo
+      contents: write
 
     steps:
       - name: Checkout
@@ -22,10 +23,24 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Check Eastern Time Gate
+        id: eastern_time
+        run: |
+          echo "hour=$(TZ=America/New_York date +%H)" >> "$GITHUB_OUTPUT"
+          echo "stamp=$(TZ=America/New_York date +'%Y-%m-%d %H:%M:%S %Z')" >> "$GITHUB_OUTPUT"
+
+      - name: Skip Non-2AM Trigger
+        if: github.event_name == 'schedule' && steps.eastern_time.outputs.hour != '02'
+        run: |
+          echo "Skipping scheduled run at ${{ steps.eastern_time.outputs.stamp }}."
+          echo "This workflow waits for 2:00 AM America/New_York across DST."
+
       - name: Install dependencies
+        if: github.event_name != 'schedule' || steps.eastern_time.outputs.hour == '02'
         run: pip install requests feedparser anthropic
 
       - name: Run pipeline
+        if: github.event_name != 'schedule' || steps.eastern_time.outputs.hour == '02'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           NEWSAPI_KEY:        ${{ secrets.NEWSAPI_KEY }}
@@ -38,15 +53,27 @@ jobs:
           SMTP_PORT:          ${{ secrets.SMTP_PORT }}
           SMTP_USER:          ${{ secrets.SMTP_USER }}
           SMTP_PASSWORD:      ${{ secrets.SMTP_PASSWORD }}
-        run: python scripts/fetch_events.py
+        run: python scripts/run_pipeline.py
 
-      - name: Generate clean events dataset
-        run: python scripts/generate_clean_events.py
+      - name: Rebuild Downstream Layers
+        if: github.event_name != 'schedule' || steps.eastern_time.outputs.hour == '02'
+        run: |
+          python scripts/qa/run_qa.py
+          python scripts/qa/run_registry_qa.py
+          python scripts/pipeline/detect_duplicates.py
+          python scripts/analysis/build_country_monitors.py
+          python scripts/analysis/validate_country_monitors.py
+          python scripts/pipeline/build_canonical_events.py
+          python scripts/pipeline/code_actors.py
+          python scripts/review/build_review_queue.py
+          python scripts/analysis/run_council.py
+          python scripts/publish/publish_dashboard_data.py
 
-      - name: Commit updated events
+      - name: Commit updated data
+        if: github.event_name != 'schedule' || steps.eastern_time.outputs.hour == '02'
         run: |
           git config user.name  "sentinel-bot"
           git config user.email "sentinel-bot@users.noreply.github.com"
-          git add data/events.json data/cleaned/events_clean.json data/cleaned/events.csv
-          git diff --staged --quiet || git commit -m "chore: update events $(date -u +'%Y-%m-%d') [skip ci]"
+          git add data/
+          git diff --staged --quiet || git commit -m "chore: daily pipeline refresh $(date -u +'%Y-%m-%d') [skip ci]"
           git push

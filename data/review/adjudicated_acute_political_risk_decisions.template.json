@@ -1,0 +1,16 @@
+{
+  "description": "Private template for local adjudication decisions that extend the benchmark-reviewed acute political-risk label layer.",
+  "rows": [
+    {
+      "country": "Country Name",
+      "panel_date": "YYYY-MM-01",
+      "next_month": "YYYY-MM-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Short internal acute-risk adjudication note.",
+      "proxy_score_1m": 4
+    }
+  ]
+}

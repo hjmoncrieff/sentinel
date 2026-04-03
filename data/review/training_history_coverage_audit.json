@@ -1,0 +1,168 @@
+{
+  "generated_at": "2026-04-02T23:37:26Z",
+  "status": "private_training_history_coverage_audit",
+  "source_file": "data/cleaned/country_year.json",
+  "coverage_windows": {
+    "operational_product_window": "1990-present",
+    "current_country_year_window": {
+      "min_year": 1960,
+      "max_year": 2025
+    },
+    "training_history_window_possible_from_current_merged_layer": true
+  },
+  "summary": {
+    "rows": 1650,
+    "countries": 25,
+    "pre_1990_rows": 750,
+    "pre_1990_countries": 25,
+    "post_1990_rows": 900
+  },
+  "core_field_coverage": [
+    {
+      "field": "polyarchy",
+      "overall_present_rows": 1560,
+      "overall_coverage_pct": 94.545,
+      "post_1990_present_rows": 840,
+      "post_1990_coverage_pct": 93.333,
+      "pre_1990_present_rows": 720,
+      "pre_1990_coverage_pct": 96.0
+    },
+    {
+      "field": "liberal_democracy",
+      "overall_present_rows": 1560,
+      "overall_coverage_pct": 94.545,
+      "post_1990_present_rows": 840,
+      "post_1990_coverage_pct": 93.333,
+      "pre_1990_present_rows": 720,
+      "pre_1990_coverage_pct": 96.0
+    },
+    {
+      "field": "regime_type",
+      "overall_present_rows": 1560,
+      "overall_coverage_pct": 94.545,
+      "post_1990_present_rows": 840,
+      "post_1990_coverage_pct": 93.333,
+      "pre_1990_present_rows": 720,
+      "pre_1990_coverage_pct": 96.0
+    },
+    {
+      "field": "mil_constrain",
+      "overall_present_rows": 1515,
+      "overall_coverage_pct": 91.818,
+      "post_1990_present_rows": 825,
+      "post_1990_coverage_pct": 91.667,
+      "pre_1990_present_rows": 690,
+      "pre_1990_coverage_pct": 92.0
+    },
+    {
+      "field": "mil_exec",
+      "overall_present_rows": 1560,
+      "overall_coverage_pct": 94.545,
+      "post_1990_present_rows": 840,
+      "post_1990_coverage_pct": 93.333,
+      "pre_1990_present_rows": 720,
+      "pre_1990_coverage_pct": 96.0
+    },
+    {
+      "field": "state_authority",
+      "overall_present_rows": 1560,
+      "overall_coverage_pct": 94.545,
+      "post_1990_present_rows": 840,
+      "post_1990_coverage_pct": 93.333,
+      "pre_1990_present_rows": 720,
+      "pre_1990_coverage_pct": 96.0
+    },
+    {
+      "field": "rule_of_law_vdem",
+      "overall_present_rows": 1560,
+      "overall_coverage_pct": 94.545,
+      "post_1990_present_rows": 840,
+      "post_1990_coverage_pct": 93.333,
+      "pre_1990_present_rows": 720,
+      "pre_1990_coverage_pct": 96.0
+    },
+    {
+      "field": "wgi_govt_effectiveness",
+      "overall_present_rows": 625,
+      "overall_coverage_pct": 37.879,
+      "post_1990_present_rows": 625,
+      "post_1990_coverage_pct": 69.444,
+      "pre_1990_present_rows": 0,
+      "pre_1990_coverage_pct": 0.0
+    },
+    {
+      "field": "wgi_rule_of_law",
+      "overall_present_rows": 625,
+      "overall_coverage_pct": 37.879,
+      "post_1990_present_rows": 625,
+      "post_1990_coverage_pct": 69.444,
+      "pre_1990_present_rows": 0,
+      "pre_1990_coverage_pct": 0.0
+    },
+    {
+      "field": "wgi_control_corruption",
+      "overall_present_rows": 625,
+      "overall_coverage_pct": 37.879,
+      "post_1990_present_rows": 625,
+      "post_1990_coverage_pct": 69.444,
+      "pre_1990_present_rows": 0,
+      "pre_1990_coverage_pct": 0.0
+    },
+    {
+      "field": "inflation_consumer_prices_pct",
+      "overall_present_rows": 1315,
+      "overall_coverage_pct": 79.697,
+      "post_1990_present_rows": 768,
+      "post_1990_coverage_pct": 85.333,
+      "pre_1990_present_rows": 547,
+      "pre_1990_coverage_pct": 72.933
+    },
+    {
+      "field": "official_exchange_rate",
+      "overall_present_rows": 1555,
+      "overall_coverage_pct": 94.242,
+      "post_1990_present_rows": 823,
+      "post_1990_coverage_pct": 91.444,
+      "pre_1990_present_rows": 732,
+      "pre_1990_coverage_pct": 97.6
+    },
+    {
+      "field": "debt_service_pct_exports",
+      "overall_present_rows": 842,
+      "overall_coverage_pct": 51.03,
+      "post_1990_present_rows": 602,
+      "post_1990_coverage_pct": 66.889,
+      "pre_1990_present_rows": 240,
+      "pre_1990_coverage_pct": 32.0
+    },
+    {
+      "field": "reserves_months_imports",
+      "overall_present_rows": 1140,
+      "overall_coverage_pct": 69.091,
+      "post_1990_present_rows": 812,
+      "post_1990_coverage_pct": 90.222,
+      "pre_1990_present_rows": 328,
+      "pre_1990_coverage_pct": 43.733
+    },
+    {
+      "field": "state_capacity_composite",
+      "overall_present_rows": 1585,
+      "overall_coverage_pct": 96.061,
+      "post_1990_present_rows": 865,
+      "post_1990_coverage_pct": 96.111,
+      "pre_1990_present_rows": 720,
+      "pre_1990_coverage_pct": 96.0
+    }
+  ],
+  "current_conclusion": [
+    "The merged structural country-year layer now begins in 1960.",
+    "The private training-history extension is now active in the merged structural layer, with pre-1990 rows available for all 25 countries.",
+    "Any extension earlier than 1960 will still require further upstream ingestion changes."
+  ],
+  "recommended_next_actions": [
+    "use the 1960-1989 structural window for private training, calibration, and legacy-feature engineering",
+    "audit upstream raw sources such as V-Dem and any earlier structural series to confirm how far back each can go reliably beyond 1960",
+    "decide whether to extend build_country_year.py earlier than 1960 for training-only artifacts",
+    "keep the operational/live product window anchored to 1990-present even if the private training layer expands backward"
+  ]
+}

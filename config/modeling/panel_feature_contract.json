@@ -1,0 +1,146 @@
+{
+  "generated_for": "SENTINEL private modeling layer",
+  "status": "active_internal_contract",
+  "unit_of_analysis": "country_month",
+  "coverage": {
+    "operational_product_window": "1990-present",
+    "current_panel_window": "1960-01 through 2025-12 where monthly structural rows exist",
+    "training_history_window": "1960-1989 is now available for private training, calibration, priors, and long-run legacy feature engineering; earlier extensions remain possible if upstream sources are widened further",
+    "notes": [
+      "Operational monitoring and public/internal live products should remain anchored to the 1990-present project window.",
+      "Earlier country-year structural history can still be used privately for training, calibration, priors, or long-run legacy features.",
+      "The current merged private panel now includes a structural training-history extension back to 1960 while preserving the live product boundary at 1990-present.",
+      "Pre-1990 history should not be mixed into live monthly monitoring as if it were part of the same operational event window."
+    ]
+  },
+  "families": {
+    "external_pressure": {
+      "role": "mixed_baseline_and_pulse",
+      "status": "event_derived_plus_seed_override",
+      "fields": {
+        "external_pressure_sanctions_active": {
+          "type": "number_or_null",
+          "expected_scale": "0-100",
+          "construct_destinations": [
+            "regime_vulnerability",
+            "external_pressure"
+          ],
+          "notes": "Country-month estimate of active sanctions pressure."
+        },
+        "external_pressure_sanctions_delta": {
+          "type": "number_or_null",
+          "expected_scale": "-100_to_100",
+          "construct_destinations": [
+            "regime_vulnerability",
+            "external_pressure"
+          ],
+          "notes": "Month-on-month shock from sanctions tightening or easing."
+        },
+        "external_pressure_imf_program_active": {
+          "type": "number_or_null",
+          "expected_scale": "0-100",
+          "construct_destinations": [
+            "regime_vulnerability",
+            "economic_fragility",
+            "external_pressure"
+          ],
+          "notes": "IMF program presence or conditionality exposure."
+        },
+        "external_pressure_imf_program_break": {
+          "type": "number_or_null",
+          "expected_scale": "0-100",
+          "construct_destinations": [
+            "regime_vulnerability",
+            "economic_fragility",
+            "external_pressure"
+          ],
+          "notes": "Rupture, suspension, or high-friction IMF month."
+        },
+        "external_pressure_us_security_shift": {
+          "type": "number_or_null",
+          "expected_scale": "-100_to_100",
+          "construct_destinations": [
+            "militarization",
+            "external_pressure"
+          ],
+          "notes": "Directional change in US security cooperation or pressure."
+        }
+      }
+    },
+    "economic_fragility": {
+      "role": "mixed_baseline_and_pulse",
+      "status": "event_derived_plus_seed_override",
+      "fields": {
+        "economic_fragility_inflation_stress": {
+          "type": "number_or_null",
+          "expected_scale": "0-100",
+          "construct_destinations": [
+            "regime_vulnerability",
+            "economic_fragility"
+          ],
+          "notes": "Inflation stress signal for the month."
+        },
+        "economic_fragility_fx_stress": {
+          "type": "number_or_null",
+          "expected_scale": "0-100",
+          "construct_destinations": [
+            "regime_vulnerability",
+            "economic_fragility"
+          ],
+          "notes": "Exchange-rate or reserve stress signal."
+        },
+        "economic_fragility_debt_stress": {
+          "type": "number_or_null",
+          "expected_scale": "0-100",
+          "construct_destinations": [
+            "regime_vulnerability",
+            "economic_fragility"
+          ],
+          "notes": "Debt-servicing or sovereign financing stress signal."
+        },
+        "economic_policy_capital_controls_flag": {
+          "type": "number_or_null",
+          "expected_scale": "0_or_100",
+          "construct_destinations": [
+            "regime_vulnerability",
+            "economic_fragility"
+          ],
+          "notes": "Capital controls or equivalent restrictive policy action."
+        },
+        "economic_policy_nationalization_signal": {
+          "type": "number_or_null",
+          "expected_scale": "0-100",
+          "construct_destinations": [
+            "regime_vulnerability",
+            "economic_fragility"
+          ],
+          "notes": "Nationalization, expropriation, or abrupt seizure-risk signal."
+        }
+      }
+    },
+    "policy_shocks": {
+      "role": "pulse_only",
+      "status": "event_derived_plus_seed_override",
+      "fields": {
+        "economic_policy_capital_controls_flag": {
+          "type": "number_or_null",
+          "expected_scale": "0_or_100",
+          "construct_destinations": [
+            "regime_vulnerability",
+            "economic_fragility"
+          ],
+          "notes": "Country-month policy shock from capital controls or abrupt movement restrictions."
+        },
+        "economic_policy_nationalization_signal": {
+          "type": "number_or_null",
+          "expected_scale": "0-100",
+          "construct_destinations": [
+            "regime_vulnerability",
+            "economic_fragility"
+          ],
+          "notes": "Country-month signal of expropriation, nationalization, or seizure-risk escalation."
+        }
+      }
+    }
+  }
+}

@@ -56,6 +56,8 @@ ALLOWED_EVENT_FIELDS = {
 }
 ALLOWED_ACTOR_FIELDS = {
     "actor_name",
+    "actor_canonical_category",
+    "actor_canonical_group",
     "actor_canonical_name",
     "actor_canonical_type",
     "actor_canonical_subtype",
@@ -67,6 +69,26 @@ ALLOWED_ACTOR_FIELDS = {
     "actor_aliases",
     "actor_relationship_tags",
 }
+
+ACTOR_TYPE_HIERARCHY = {
+    "state_security_force": ("state_actor", "military", "state_security_force"),
+    "state_institution": ("state_actor", "executive", "state_institution"),
+    "foreign_government": ("state_actor", "foreign_government", "foreign_government"),
+    "international_org": ("non_state_actor", "international_org", "international_org"),
+    "civic_actor": ("non_state_actor", "civil_society", "civic_actor"),
+    "economic_actor": ("non_state_actor", "economic_group", "economic_actor"),
+    "media_actor": ("non_state_actor", "media", "media_actor"),
+    "civilian_group": ("non_state_actor", "protesters", "civilian_group"),
+    "armed_group": ("non_state_actor", "armed_non_state_actor", "armed_group"),
+    "organized_crime": ("non_state_actor", "armed_non_state_actor", "organized_crime"),
+    "other": ("other", "other", "other"),
+}
+
+
+def infer_actor_hierarchy(actor_type: str | None, actor_category: str | None = None, actor_group: str | None = None) -> tuple[str, str, str]:
+    if actor_category and actor_group and actor_type:
+        return actor_category, actor_group, actor_type
+    return ACTOR_TYPE_HIERARCHY.get(actor_type or "other", ("other", "other", actor_type or "other"))
 
 
 def _dedupe_preserve_order(values: list) -> list:
@@ -180,8 +202,12 @@ def recompute_actor_summary_fields(event: dict) -> None:
     primary = next((actor for actor in actors if actor.get("actor_role_in_event") == "initiator"), actors[0] if actors else None)
     secondary = next((actor for actor in actors if actor.get("actor_role_in_event") == "target"), None)
     event["actor_primary_name"] = primary.get("actor_canonical_name") if primary else None
+    event["actor_primary_category"] = primary.get("actor_canonical_category") if primary else None
+    event["actor_primary_group"] = primary.get("actor_canonical_group") if primary else None
     event["actor_primary_type"] = primary.get("actor_canonical_type") if primary else None
     event["actor_secondary_name"] = secondary.get("actor_canonical_name") if secondary else None
+    event["actor_secondary_category"] = secondary.get("actor_canonical_category") if secondary else None
+    event["actor_secondary_group"] = secondary.get("actor_canonical_group") if secondary else None
     event["actor_secondary_type"] = secondary.get("actor_canonical_type") if secondary else None
 
 
@@ -245,9 +271,16 @@ def apply_edit(event: dict, edit: dict, clearance_roles: dict) -> tuple[dict, li
                 continue
             canonical_name = patch_values.get("actor_canonical_name") or patch_values.get("actor_name")
             canonical_type = patch_values.get("actor_canonical_type") or "other"
+            canonical_category, canonical_group, canonical_type = infer_actor_hierarchy(
+                canonical_type,
+                patch_values.get("actor_canonical_category"),
+                patch_values.get("actor_canonical_group"),
+            )
             role_in_event = patch_values.get("actor_role_in_event") or "other"
             new_actor = {
                 "actor_name": patch_values.get("actor_name") or canonical_name or "Unnamed actor",
+                "actor_category": canonical_category,
+                "actor_group": canonical_group,
                 "actor_type": canonical_type,
                 "actor_subtype": patch_values.get("actor_canonical_subtype"),
                 "actor_country": patch_values.get("actor_country"),
@@ -259,6 +292,8 @@ def apply_edit(event: dict, edit: dict, clearance_roles: dict) -> tuple[dict, li
                     len(actors) + 1,
                 ),
                 "actor_canonical_name": canonical_name or "Unnamed actor",
+                "actor_canonical_category": canonical_category,
+                "actor_canonical_group": canonical_group,
                 "actor_canonical_type": canonical_type,
                 "actor_canonical_subtype": patch_values.get("actor_canonical_subtype"),
                 "coding_method": "analyst_manual",
@@ -333,6 +368,12 @@ def build_queue_row(event: dict, existing_row: dict | None) -> dict:
     row["country"] = event.get("country")
     row["headline"] = event.get("headline")
     row["event_type"] = event.get("event_type")
+    row["deed_type"] = event.get("deed_type")
+    row["axis"] = event.get("axis")
+    row["episode_id"] = event.get("episode_id")
+    row["process_id"] = event.get("process_id")
+    row["episode_role"] = event.get("episode_role")
+    row["process_relevance"] = event.get("process_relevance")
     row["salience"] = event.get("salience")
     row["confidence"] = event.get("confidence")
     row["review_status"] = event.get("review_status")
@@ -540,6 +581,9 @@ def main() -> None:
     edits_payload = load_json(edits_path)
 
     events = deepcopy(canonical.get("events", []))
+    for event in events:
+        event["deed_type"] = event.get("deed_type") or (event.get("provenance") or {}).get("deed_type")
+        event["axis"] = event.get("axis") or (event.get("provenance") or {}).get("axis")
     queue_items = deepcopy(queue.get("items", []))
     queue_by_id = {item["event_id"]: item for item in queue_items}
 
@@ -550,6 +594,9 @@ def main() -> None:
     edits.sort(key=lambda edit: (edit.get("edited_at") or "", edit.get("edit_id") or ""))
 
     events_by_id = {event["event_id"]: event for event in events}
+    for event_id, event in events_by_id.items():
+        if event_id in queue_by_id:
+            queue_by_id[event_id] = build_queue_row(event, queue_by_id.get(event_id))
     applied_count = 0
     warnings_total: list[dict] = []
 

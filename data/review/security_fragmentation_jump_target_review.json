@@ -1,0 +1,4586 @@
+{
+  "generated_at": "2026-04-03T02:27:11Z",
+  "status": "private_internal_security_fragmentation_jump_review",
+  "source_file": "data/modeling/country_month_panel.json",
+  "target_rule": "proxy_security_fragmentation_jump_v1",
+  "review_countries": [
+    "Brazil",
+    "Colombia",
+    "Ecuador",
+    "El Salvador",
+    "Guatemala",
+    "Haiti",
+    "Honduras",
+    "Mexico",
+    "Peru",
+    "Venezuela"
+  ],
+  "countries": [
+    {
+      "country": "Brazil",
+      "positive_case_count": 23,
+      "rating_summary": {
+        "strong": 0,
+        "plausible": 9,
+        "review": 4,
+        "weak": 10
+      },
+      "cases": [
+        {
+          "trigger_month": "2020-09-01",
+          "future_reference_month": "2020-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-10-01",
+          "future_reference_month": "2020-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-11-01",
+          "future_reference_month": "2020-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-03-01",
+          "future_reference_month": "2021-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-04-01",
+          "future_reference_month": "2021-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-05-01",
+          "future_reference_month": "2021-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-12-01",
+          "future_reference_month": "2022-02-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-01-01",
+          "future_reference_month": "2022-02-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-02-01",
+          "future_reference_month": "2022-03-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-11-01",
+          "future_reference_month": "2023-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-12-01",
+          "future_reference_month": "2023-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-01-01",
+          "future_reference_month": "2023-02-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-08-01",
+          "future_reference_month": "2023-10-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-09-01",
+          "future_reference_month": "2023-10-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-10-01",
+          "future_reference_month": "2023-11-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 2,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-03-01",
+          "future_reference_month": "2024-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-04-01",
+          "future_reference_month": "2024-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-05-01",
+          "future_reference_month": "2024-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-06-01",
+          "future_reference_month": "2024-07-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-07-01",
+          "future_reference_month": "2024-08-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2025-07-01",
+          "future_reference_month": "2025-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-08-01",
+          "future_reference_month": "2025-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-09-01",
+          "future_reference_month": "2025-10-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        }
+      ]
+    },
+    {
+      "country": "Colombia",
+      "positive_case_count": 37,
+      "rating_summary": {
+        "strong": 14,
+        "plausible": 6,
+        "review": 7,
+        "weak": 10
+      },
+      "cases": [
+        {
+          "trigger_month": "2020-11-01",
+          "future_reference_month": "2021-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-12-01",
+          "future_reference_month": "2021-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-01-01",
+          "future_reference_month": "2021-03-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-02-01",
+          "future_reference_month": "2021-03-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-03-01",
+          "future_reference_month": "2021-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-05-01",
+          "future_reference_month": "2021-08-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-06-01",
+          "future_reference_month": "2021-08-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-07-01",
+          "future_reference_month": "2021-08-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-08-01",
+          "future_reference_month": "2021-09-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-11-01",
+          "future_reference_month": "2022-02-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 2,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-12-01",
+          "future_reference_month": "2022-02-01",
+          "score_3m": 8,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 2,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-01-01",
+          "future_reference_month": "2022-02-01",
+          "score_3m": 8,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 2,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-02-01",
+          "future_reference_month": "2022-05-01",
+          "score_3m": 8,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-03-01",
+          "future_reference_month": "2022-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-04-01",
+          "future_reference_month": "2022-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-05-01",
+          "future_reference_month": "2022-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 2,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-06-01",
+          "future_reference_month": "2022-07-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-02-01",
+          "future_reference_month": "2023-04-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-03-01",
+          "future_reference_month": "2023-04-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-04-01",
+          "future_reference_month": "2023-07-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-05-01",
+          "future_reference_month": "2023-07-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-06-01",
+          "future_reference_month": "2023-07-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-07-01",
+          "future_reference_month": "2023-08-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 2,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-10-01",
+          "future_reference_month": "2023-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-11-01",
+          "future_reference_month": "2023-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-12-01",
+          "future_reference_month": "2024-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-02-01",
+          "future_reference_month": "2024-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 3,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-03-01",
+          "future_reference_month": "2024-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 3,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-04-01",
+          "future_reference_month": "2024-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-05-01",
+          "future_reference_month": "2024-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 3,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-11-01",
+          "future_reference_month": "2025-01-01",
+          "score_3m": 7,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2024-12-01",
+          "future_reference_month": "2025-01-01",
+          "score_3m": 7,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-01-01",
+          "future_reference_month": "2025-02-01",
+          "score_3m": 7,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-02-01",
+          "future_reference_month": "2025-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-04-01",
+          "future_reference_month": "2025-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-05-01",
+          "future_reference_month": "2025-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-06-01",
+          "future_reference_month": "2025-07-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        }
+      ]
+    },
+    {
+      "country": "Ecuador",
+      "positive_case_count": 21,
+      "rating_summary": {
+        "strong": 0,
+        "plausible": 8,
+        "review": 0,
+        "weak": 13
+      },
+      "cases": [
+        {
+          "trigger_month": "2021-07-01",
+          "future_reference_month": "2021-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-08-01",
+          "future_reference_month": "2021-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-09-01",
+          "future_reference_month": "2021-10-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-07-01",
+          "future_reference_month": "2022-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-08-01",
+          "future_reference_month": "2022-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-09-01",
+          "future_reference_month": "2022-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-10-01",
+          "future_reference_month": "2022-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-11-01",
+          "future_reference_month": "2022-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-12-01",
+          "future_reference_month": "2023-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-02-01",
+          "future_reference_month": "2023-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-03-01",
+          "future_reference_month": "2023-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-04-01",
+          "future_reference_month": "2023-07-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-10-01",
+          "future_reference_month": "2023-12-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-11-01",
+          "future_reference_month": "2023-12-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-12-01",
+          "future_reference_month": "2024-02-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-01-01",
+          "future_reference_month": "2024-02-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-02-01",
+          "future_reference_month": "2024-03-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2025-02-01",
+          "future_reference_month": "2025-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-03-01",
+          "future_reference_month": "2025-05-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-04-01",
+          "future_reference_month": "2025-05-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-05-01",
+          "future_reference_month": "2025-07-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        }
+      ]
+    },
+    {
+      "country": "El Salvador",
+      "positive_case_count": 22,
+      "rating_summary": {
+        "strong": 1,
+        "plausible": 6,
+        "review": 2,
+        "weak": 13
+      },
+      "cases": [
+        {
+          "trigger_month": "2020-09-01",
+          "future_reference_month": "2020-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-10-01",
+          "future_reference_month": "2020-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-11-01",
+          "future_reference_month": "2021-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-04-01",
+          "future_reference_month": "2021-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-05-01",
+          "future_reference_month": "2021-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-06-01",
+          "future_reference_month": "2021-07-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-07-01",
+          "future_reference_month": "2021-08-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-10-01",
+          "future_reference_month": "2021-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-11-01",
+          "future_reference_month": "2021-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-12-01",
+          "future_reference_month": "2022-02-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-01-01",
+          "future_reference_month": "2022-02-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-02-01",
+          "future_reference_month": "2022-03-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 2,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 2,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-03-01",
+          "future_reference_month": "2022-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-07-01",
+          "future_reference_month": "2022-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-08-01",
+          "future_reference_month": "2022-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-09-01",
+          "future_reference_month": "2022-10-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-09-01",
+          "future_reference_month": "2023-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-10-01",
+          "future_reference_month": "2023-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-11-01",
+          "future_reference_month": "2023-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 3,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2025-02-01",
+          "future_reference_month": "2025-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-03-01",
+          "future_reference_month": "2025-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-04-01",
+          "future_reference_month": "2025-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        }
+      ]
+    },
+    {
+      "country": "Guatemala",
+      "positive_case_count": 20,
+      "rating_summary": {
+        "strong": 1,
+        "plausible": 7,
+        "review": 0,
+        "weak": 12
+      },
+      "cases": [
+        {
+          "trigger_month": "2020-03-01",
+          "future_reference_month": "2020-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-04-01",
+          "future_reference_month": "2020-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-05-01",
+          "future_reference_month": "2020-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-09-01",
+          "future_reference_month": "2020-11-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-10-01",
+          "future_reference_month": "2020-11-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-11-01",
+          "future_reference_month": "2020-12-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-12-01",
+          "future_reference_month": "2021-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-01-01",
+          "future_reference_month": "2021-02-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 2,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-04-01",
+          "future_reference_month": "2021-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-05-01",
+          "future_reference_month": "2021-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-06-01",
+          "future_reference_month": "2021-07-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-02-01",
+          "future_reference_month": "2023-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-03-01",
+          "future_reference_month": "2023-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-04-01",
+          "future_reference_month": "2023-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-10-01",
+          "future_reference_month": "2023-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-11-01",
+          "future_reference_month": "2023-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-12-01",
+          "future_reference_month": "2024-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 2,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-05-01",
+          "future_reference_month": "2024-07-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-06-01",
+          "future_reference_month": "2024-07-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-07-01",
+          "future_reference_month": "2024-08-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        }
+      ]
+    },
+    {
+      "country": "Haiti",
+      "positive_case_count": 21,
+      "rating_summary": {
+        "strong": 3,
+        "plausible": 3,
+        "review": 5,
+        "weak": 10
+      },
+      "cases": [
+        {
+          "trigger_month": "2020-10-01",
+          "future_reference_month": "2020-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-11-01",
+          "future_reference_month": "2020-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-12-01",
+          "future_reference_month": "2021-03-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-01-01",
+          "future_reference_month": "2021-03-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-02-01",
+          "future_reference_month": "2021-03-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-03-01",
+          "future_reference_month": "2021-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-04-01",
+          "future_reference_month": "2021-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-05-01",
+          "future_reference_month": "2021-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-06-01",
+          "future_reference_month": "2021-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-09-01",
+          "future_reference_month": "2021-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-10-01",
+          "future_reference_month": "2021-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-11-01",
+          "future_reference_month": "2021-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 2,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-03-01",
+          "future_reference_month": "2022-05-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-04-01",
+          "future_reference_month": "2022-05-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-05-01",
+          "future_reference_month": "2022-06-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-08-01",
+          "future_reference_month": "2023-10-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-09-01",
+          "future_reference_month": "2023-10-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-10-01",
+          "future_reference_month": "2024-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-12-01",
+          "future_reference_month": "2024-02-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-01-01",
+          "future_reference_month": "2024-02-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-02-01",
+          "future_reference_month": "2024-03-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 2,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        }
+      ]
+    },
+    {
+      "country": "Honduras",
+      "positive_case_count": 16,
+      "rating_summary": {
+        "strong": 0,
+        "plausible": 9,
+        "review": 0,
+        "weak": 7
+      },
+      "cases": [
+        {
+          "trigger_month": "2020-10-01",
+          "future_reference_month": "2021-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-11-01",
+          "future_reference_month": "2021-01-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-12-01",
+          "future_reference_month": "2021-01-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-01-01",
+          "future_reference_month": "2021-02-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-02-01",
+          "future_reference_month": "2021-03-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-11-01",
+          "future_reference_month": "2022-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-12-01",
+          "future_reference_month": "2022-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-01-01",
+          "future_reference_month": "2022-02-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-02-01",
+          "future_reference_month": "2022-03-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-03-01",
+          "future_reference_month": "2022-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-11-01",
+          "future_reference_month": "2024-01-01",
+          "score_3m": 6,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-12-01",
+          "future_reference_month": "2024-01-01",
+          "score_3m": 6,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-01-01",
+          "future_reference_month": "2024-03-01",
+          "score_3m": 6,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-09-01",
+          "future_reference_month": "2024-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-10-01",
+          "future_reference_month": "2024-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-11-01",
+          "future_reference_month": "2024-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        }
+      ]
+    },
+    {
+      "country": "Mexico",
+      "positive_case_count": 24,
+      "rating_summary": {
+        "strong": 1,
+        "plausible": 5,
+        "review": 5,
+        "weak": 13
+      },
+      "cases": [
+        {
+          "trigger_month": "2020-04-01",
+          "future_reference_month": "2020-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-05-01",
+          "future_reference_month": "2020-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-06-01",
+          "future_reference_month": "2020-07-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 2,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-08-01",
+          "future_reference_month": "2020-10-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-09-01",
+          "future_reference_month": "2020-10-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-10-01",
+          "future_reference_month": "2020-11-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-04-01",
+          "future_reference_month": "2022-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-05-01",
+          "future_reference_month": "2022-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-06-01",
+          "future_reference_month": "2022-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-07-01",
+          "future_reference_month": "2022-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-08-01",
+          "future_reference_month": "2022-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-09-01",
+          "future_reference_month": "2022-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-05-01",
+          "future_reference_month": "2024-07-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-06-01",
+          "future_reference_month": "2024-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-07-01",
+          "future_reference_month": "2024-09-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-08-01",
+          "future_reference_month": "2024-09-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-09-01",
+          "future_reference_month": "2024-10-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-11-01",
+          "future_reference_month": "2025-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2024-12-01",
+          "future_reference_month": "2025-01-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-01-01",
+          "future_reference_month": "2025-02-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-02-01",
+          "future_reference_month": "2025-03-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-04-01",
+          "future_reference_month": "2025-06-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-05-01",
+          "future_reference_month": "2025-06-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-06-01",
+          "future_reference_month": "2025-07-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        }
+      ]
+    },
+    {
+      "country": "Peru",
+      "positive_case_count": 3,
+      "rating_summary": {
+        "strong": 0,
+        "plausible": 1,
+        "review": 2,
+        "weak": 0
+      },
+      "cases": [
+        {
+          "trigger_month": "2024-03-01",
+          "future_reference_month": "2024-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-04-01",
+          "future_reference_month": "2024-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-05-01",
+          "future_reference_month": "2024-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        }
+      ]
+    },
+    {
+      "country": "Venezuela",
+      "positive_case_count": 47,
+      "rating_summary": {
+        "strong": 3,
+        "plausible": 23,
+        "review": 9,
+        "weak": 12
+      },
+      "cases": [
+        {
+          "trigger_month": "2020-07-01",
+          "future_reference_month": "2020-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-08-01",
+          "future_reference_month": "2020-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2020-09-01",
+          "future_reference_month": "2020-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-05-01",
+          "future_reference_month": "2021-07-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-06-01",
+          "future_reference_month": "2021-07-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-07-01",
+          "future_reference_month": "2021-08-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-08-01",
+          "future_reference_month": "2021-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-11-01",
+          "future_reference_month": "2022-02-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2021-12-01",
+          "future_reference_month": "2022-02-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-01-01",
+          "future_reference_month": "2022-02-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-02-01",
+          "future_reference_month": "2022-04-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-03-01",
+          "future_reference_month": "2022-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-04-01",
+          "future_reference_month": "2022-05-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 2,
+            "episode_construct_security_fragmentation_count": 2,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 2,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-08-01",
+          "future_reference_month": "2022-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-09-01",
+          "future_reference_month": "2022-11-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-10-01",
+          "future_reference_month": "2022-11-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-11-01",
+          "future_reference_month": "2023-02-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2022-12-01",
+          "future_reference_month": "2023-02-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-01-01",
+          "future_reference_month": "2023-02-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-02-01",
+          "future_reference_month": "2023-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-03-01",
+          "future_reference_month": "2023-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-04-01",
+          "future_reference_month": "2023-07-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 3,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-05-01",
+          "future_reference_month": "2023-07-01",
+          "score_3m": 6,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 3,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-06-01",
+          "future_reference_month": "2023-07-01",
+          "score_3m": 6,
+          "label_3m": "elevated",
+          "rating": "strong",
+          "note": "future month contains a high-severity fragmentation-linked jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 3,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-07-01",
+          "future_reference_month": "2023-09-01",
+          "score_3m": 6,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-08-01",
+          "future_reference_month": "2023-09-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "review",
+          "note": "future month contains broader fragmentation stress but not yet a clear jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-09-01",
+          "future_reference_month": "2023-12-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-10-01",
+          "future_reference_month": "2023-12-01",
+          "score_3m": 6,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-11-01",
+          "future_reference_month": "2023-12-01",
+          "score_3m": 6,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2023-12-01",
+          "future_reference_month": "2024-01-01",
+          "score_3m": 6,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 1,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-03-01",
+          "future_reference_month": "2024-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-04-01",
+          "future_reference_month": "2024-06-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-05-01",
+          "future_reference_month": "2024-06-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-06-01",
+          "future_reference_month": "2024-07-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 1,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-07-01",
+          "future_reference_month": "2024-10-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-08-01",
+          "future_reference_month": "2024-10-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-09-01",
+          "future_reference_month": "2024-10-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2024-10-01",
+          "future_reference_month": "2024-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 1,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 1,
+            "economic_fragility_signal_present": 1
+          }
+        },
+        {
+          "trigger_month": "2025-02-01",
+          "future_reference_month": "2025-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-03-01",
+          "future_reference_month": "2025-04-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-04-01",
+          "future_reference_month": "2025-06-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 1,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-05-01",
+          "future_reference_month": "2025-08-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 2,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-06-01",
+          "future_reference_month": "2025-08-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 2,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-07-01",
+          "future_reference_month": "2025-08-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 2,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-08-01",
+          "future_reference_month": "2025-10-01",
+          "score_3m": 5,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-09-01",
+          "future_reference_month": "2025-10-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "weak",
+          "note": "future month looks more like background stress than a clear fragmentation jump",
+          "future_profile": {
+            "high_severity_episode_count": 1,
+            "fragmenting_episode_count": 0,
+            "episode_construct_security_fragmentation_count": 0,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 0,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        },
+        {
+          "trigger_month": "2025-10-01",
+          "future_reference_month": "2025-11-01",
+          "score_3m": 4,
+          "label_3m": "elevated",
+          "rating": "plausible",
+          "note": "future month contains a fragmenting security-fragmentation sequence",
+          "future_profile": {
+            "high_severity_episode_count": 0,
+            "fragmenting_episode_count": 1,
+            "episode_construct_security_fragmentation_count": 1,
+            "event_shock_flag": 0,
+            "event_type_conflict_count": 0,
+            "event_type_oc_count": 3,
+            "event_type_protest_count": 0,
+            "external_pressure_signal_present": 0,
+            "economic_fragility_signal_present": 0
+          }
+        }
+      ]
+    }
+  ]
+}

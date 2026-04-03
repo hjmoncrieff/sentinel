@@ -1,0 +1,352 @@
+{
+  "generated_at": "2026-04-03T01:20:55Z",
+  "status": "private_internal_adjudicated_acute_political_risk_label_artifact",
+  "source_file": "data/review/acute_political_risk_target_review.json",
+  "local_decision_file": "data/review/adjudicated_acute_political_risk_decisions.local.json",
+  "target_name": "acute_political_risk_next_1m",
+  "description": "First selective adjudicated acute political-risk label layer built from private benchmark review. This should remain narrower than the broader proxy layer.",
+  "approved_countries": [
+    "Bolivia",
+    "Chile",
+    "El Salvador",
+    "Haiti",
+    "Peru"
+  ],
+  "allowed_ratings": [
+    "plausible",
+    "strong"
+  ],
+  "count": 30,
+  "rows": [
+    {
+      "country": "Bolivia",
+      "panel_date": "2021-10-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a coup-coded acute deterioration signal",
+      "next_month": "2021-11-01",
+      "proxy_score_1m": 5
+    },
+    {
+      "country": "Bolivia",
+      "panel_date": "2022-04-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a coup-coded acute deterioration signal",
+      "next_month": "2022-05-01",
+      "proxy_score_1m": 5
+    },
+    {
+      "country": "Bolivia",
+      "panel_date": "2022-05-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a coup-coded acute deterioration signal",
+      "next_month": "2022-06-01",
+      "proxy_score_1m": 5
+    },
+    {
+      "country": "Bolivia",
+      "panel_date": "2024-05-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a coup-coded acute deterioration signal",
+      "next_month": "2024-06-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "Brazil",
+      "panel_date": "2023-10-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains broader acute stress sufficient for the broader acute political-risk target even without a cleaner core rupture episode.",
+      "next_month": "2023-11-01",
+      "proxy_score_1m": 5
+    },
+    {
+      "country": "Chile",
+      "panel_date": "2021-09-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a coup-coded acute deterioration signal",
+      "next_month": "2021-10-01",
+      "proxy_score_1m": 5
+    },
+    {
+      "country": "Chile",
+      "panel_date": "2023-08-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a coup-coded acute deterioration signal",
+      "next_month": "2023-09-01",
+      "proxy_score_1m": 10
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2020-05-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains broader acute stress across regime-vulnerability and fragmentation channels consistent with acute political risk.",
+      "next_month": "2020-06-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2020-09-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains broader acute stress with destabilizing conflict-linked pressure relevant to the broader acute-risk target.",
+      "next_month": "2020-10-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2021-08-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains broader acute stress with a fragmenting episode and regime-vulnerability pressure consistent with acute political risk.",
+      "next_month": "2021-09-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2022-09-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains a high-severity regime-vulnerability episode with clear broader acute deterioration.",
+      "next_month": "2022-10-01",
+      "proxy_score_1m": 5
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2023-04-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains broader acute stress with fragmentation and regime-vulnerability pressure that fits the broader acute-risk target.",
+      "next_month": "2023-05-01",
+      "proxy_score_1m": 5
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2023-06-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains a high-severity regime-vulnerability episode with broader acute-risk relevance.",
+      "next_month": "2023-07-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "El Salvador",
+      "panel_date": "2022-04-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a high-severity fragmentation-linked deterioration sequence",
+      "next_month": "2022-05-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "El Salvador",
+      "panel_date": "2022-05-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a high-severity fragmentation-linked deterioration sequence",
+      "next_month": "2022-06-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "El Salvador",
+      "panel_date": "2023-11-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a high-severity regime-vulnerability shock sequence",
+      "next_month": "2023-12-01",
+      "proxy_score_1m": 6
+    },
+    {
+      "country": "Guatemala",
+      "panel_date": "2020-11-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains broader acute institutional and stress-linked deterioration that fits the broader acute-risk target.",
+      "next_month": "2020-12-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "Haiti",
+      "panel_date": "2021-06-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a high-severity regime-vulnerability shock sequence",
+      "next_month": "2021-07-01",
+      "proxy_score_1m": 6
+    },
+    {
+      "country": "Haiti",
+      "panel_date": "2022-05-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains a fragmenting conflict-linked deterioration sequence consistent with acute political risk.",
+      "next_month": "2022-06-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "Haiti",
+      "panel_date": "2023-09-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a coup-coded acute deterioration signal",
+      "next_month": "2023-10-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "Haiti",
+      "panel_date": "2024-01-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a high-severity fragmentation-linked deterioration sequence",
+      "next_month": "2024-02-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "Haiti",
+      "panel_date": "2024-02-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a high-severity regime-vulnerability shock sequence",
+      "next_month": "2024-03-01",
+      "proxy_score_1m": 7
+    },
+    {
+      "country": "Haiti",
+      "panel_date": "2024-08-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a coup-coded acute deterioration signal",
+      "next_month": "2024-09-01",
+      "proxy_score_1m": 5
+    },
+    {
+      "country": "Honduras",
+      "panel_date": "2020-05-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains broader acute stress across the political-risk surface sufficient for the broader acute-risk target.",
+      "next_month": "2020-06-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "Honduras",
+      "panel_date": "2021-01-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains a fragmenting conflict-linked deterioration sequence that fits the broader acute-risk target.",
+      "next_month": "2021-02-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "Peru",
+      "panel_date": "2023-02-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "adjudicated_benchmark_review",
+      "rating": "strong",
+      "note": "next month contains a high-severity fragmentation-linked deterioration sequence",
+      "next_month": "2023-03-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2022-02-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains a fragmenting conflict-linked deterioration sequence with clear broader acute-risk relevance.",
+      "next_month": "2022-03-01",
+      "proxy_score_1m": 5
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2022-11-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains a fragmenting conflict-linked deterioration sequence with persistent broader acute stress.",
+      "next_month": "2022-12-01",
+      "proxy_score_1m": 4
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2023-12-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains broader acute stress and fragmentation-linked deterioration sufficient for the broader acute-risk target.",
+      "next_month": "2024-01-01",
+      "proxy_score_1m": 5
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2024-06-01",
+      "target_name": "acute_political_risk_next_1m",
+      "label": 1,
+      "label_source": "local_adjudication",
+      "rating": "reviewed",
+      "note": "Promoted after queue review: next month contains a fragmenting conflict-linked deterioration sequence that fits the broader acute-risk target.",
+      "next_month": "2024-07-01",
+      "proxy_score_1m": 4
+    }
+  ]
+}

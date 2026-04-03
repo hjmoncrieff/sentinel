@@ -97,25 +97,62 @@ Weak evidence should widen uncertainty, not produce overconfident AI outputs.
 
 ## Role-Specific Use
 
-### CMR analyst
+### Military analyst
 
 Best informed by the CMR-only report’s role ladder, relationship types, and
 inclusion/exclusion rules.
 
-### Political risk analyst
+### Political analyst
 
 Best informed by the CMR-only report’s attention to leader selection,
 institutional stress, repression, and executive-military interaction.
 
-### Regional security analyst
+### Security analyst
 
 Best informed by the CMR/organized-crime report’s actor typology, hybrid actor
 logic, cross-border threat dynamics, and deployment/cooperation patterns.
 
 ### Synthesis analyst
 
-Should integrate the three lenses while preserving uncertainty and clearly
+Should integrate the active lenses while preserving uncertainty and clearly
 labeling the result as AI-generated analysis.
+
+## Construct Map
+
+The public-facing analyst labels should map cleanly onto the project’s core
+constructs rather than sit beside them as a separate vocabulary.
+
+- `Military Analyst`
+  - anchored in the military / civil-military construct family
+- `Political Analyst`
+  - anchored in `regime_vulnerability`
+- `Security Analyst`
+  - anchored in `security_fragmentation`
+
+Supporting specialist lenses such as `International` and `Economist` can be
+be used as conditional specialist analysts rather than always-on peers.
+
+- `International Analyst`
+  - anchored in the external-pressure and foreign-alignment layer
+- `Economist Analyst`
+  - anchored in the economic-fragility and policy-shock layer
+
+## Event Taxonomy Direction
+
+Event categories and subcategories should now be interpreted as construct-aware
+scaffolding:
+
+- `event_category`
+  - broad analytical family such as `political`, `military`, `security`,
+    `international`, or `economic`
+- `event_subcategory`
+  - narrower mechanism-specific bucket such as
+    `command_and_coercive_control` or
+    `armed_non_state_and_illicit_order`
+- `event_construct_destinations`
+  - which higher-order constructs the event most directly informs
+- `event_analyst_lenses`
+  - which analyst lenses should normally interpret the event first
 
 ## Repo Assets
 

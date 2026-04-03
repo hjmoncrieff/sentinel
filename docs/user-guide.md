@@ -18,6 +18,26 @@ For a command-by-command reference for every executable stage runner, use:
 - do not commit `*.local.json` review files
 - use the public dashboard only for published outputs
 - use the analyst console only through the local server when making real edits
+- after any major architectural or product leap, record three things in the
+  private docs before moving on:
+  - what changed
+  - what decision was taken and why
+  - what commands or workflow order are now expected
+- when a new variable, field, construct, or dataset column is introduced,
+  update `data/CODEBOOK.md` in the same pass
+- keep `docs/private-roadmap.md` current when a major leap changes short-term,
+  medium-term, or long-term priorities
+- keep the private diagrams current when architecture or construct logic
+  changes:
+  - `docs/private-integration-diagram.md`
+  - `docs/private-integration-diagram.svg`
+  - `docs/private-construct-diagram.md`
+  - `docs/private-construct-diagram.svg`
+- keep private model-logic notes current when internal reasoning layers change:
+  - `docs/private-process-episode-event-note.md`
+  - `docs/private-signal-panel-note.md`
+- when a major leap changes the operating sequence, update this guide so the
+  step-by-step private workflow stays current
 
 ## 2. One-Time Local Setup
 
@@ -72,6 +92,452 @@ Open:
 - or the port you selected
 
 ## 4. Daily Data Workflow
+
+### Structural refresh when updating the country model
+
+Run these when you want to refresh slow-moving structural inputs before
+rebuilding country monitors:
+
+```bash
+python3 scripts/refresh_vdem.py
+python3 scripts/fetch_worldbank.py
+python3 scripts/clean_greenbook.py
+python3 scripts/clean_eusanct.py
+python3 scripts/clean_financial_crises.py
+python3 scripts/build_country_year.py
+```
+
+These update:
+
+- `data/cleaned/vdem.json`
+- `data/cleaned/worldbank.json`
+- `data/cleaned/greenbook.json`
+- `data/cleaned/eusanct.json`
+- `data/cleaned/financial_crises.json`
+- `data/cleaned/country_year.json`
+
+### Build the private country-month modeling panel
+
+Run this when you want the first private modeling artifact that joins
+structural and event-derived monthly data:
+
+```bash
+python3 scripts/analysis/build_episodes.py
+python3 scripts/analysis/build_external_economic_signals.py
+python3 scripts/analysis/build_country_month_panel.py
+```
+
+This writes:
+
+- `data/modeling/episodes.json`
+- `data/modeling/external_economic_country_month.json`
+- `data/modeling/country_month_panel.json`
+- `data/modeling/country_month_panel.csv`
+
+This panel is private/internal. It should not be treated as a public dashboard
+artifact.
+
+To build the current private benchmark review for the external/economic layer:
+
+```bash
+python3 scripts/analysis/review_external_economic_signals.py
+```
+
+This writes:
+
+- `data/review/external_economic_signal_review.json`
+
+It currently includes:
+
+- structural baseline fields
+- monthly event-pulse fields
+- rolling-window features
+- first proxy target columns for `irregular_transition_next_1m` and
+  `irregular_transition_next_3m`
+- target score/label support fields for the same transition horizon
+- benchmark-seed-ready contracts for external pressure, economic fragility, and
+  policy-shock inputs
+
+The tracked internal benchmark seed file is:
+
+- `data/modeling/benchmark_country_month_signals.json`
+
+If you want to seed private country-month external/economic inputs before
+automated ingestion exists:
+
+1. Copy:
+   - `data/modeling/manual_country_month_signals.template.json`
+   to:
+   - `data/modeling/manual_country_month_signals.local.json`
+2. Fill in local country-month rows.
+3. Rebuild:
+
+```bash
+python3 scripts/analysis/build_country_month_panel.py
+```
+
+To inspect the proxy-target distribution after rebuilding:
+
+```bash
+python3 scripts/analysis/audit_country_month_targets.py
+```
+
+This writes:
+
+- `data/modeling/country_month_target_audit.json`
+
+Optional follow-up review:
+
+```bash
+python3 scripts/analysis/review_irregular_transition_targets.py
+```
+
+This produces:
+
+- `data/review/irregular_transition_target_review.json`
+
+To convert the remaining `plausible` and `review` cases into a working
+adjudication queue:
+
+```bash
+python3 scripts/analysis/build_adjudication_queue.py
+```
+
+This adds:
+
+- `data/review/adjudication_queue_irregular_transition.json`
+
+To build the first selective adjudicated target layer from that review:
+
+```bash
+python3 scripts/analysis/build_adjudicated_transition_labels.py
+python3 scripts/analysis/build_country_month_panel.py
+python3 scripts/analysis/audit_country_month_targets.py
+```
+
+This adds:
+
+- `data/modeling/adjudicated_irregular_transition_labels.json`
+
+If you want to extend the adjudicated layer locally beyond the tracked
+benchmark cases:
+
+1. Copy:
+   - `data/review/adjudicated_transition_decisions.template.json`
+   to:
+   - `data/review/adjudicated_transition_decisions.local.json`
+2. Add reviewed rows.
+3. Rebuild:
+
+```bash
+python3 scripts/analysis/build_adjudicated_transition_labels.py
+python3 scripts/analysis/build_country_month_panel.py
+python3 scripts/analysis/audit_country_month_targets.py
+```
+
+The current adjudicated layer is intentionally narrow. It overrides only the
+`irregular_transition_next_1m` label for benchmark-reviewed cases, while the
+rest of the panel remains on the episode-aware proxy rule.
+
+Current checkpoint:
+
+- the first internal adjudicated layer now contains `34` reviewed `1m` labels
+- the adjudication queue is currently cleared
+- the recommended next step is to pause expansion and later tighten this into a
+  stricter gold-label subset
+
+To build that stricter gold subset:
+
+```bash
+python3 scripts/analysis/build_gold_transition_labels.py
+```
+
+This adds:
+
+- `data/modeling/gold_irregular_transition_labels.json`
+
+To validate the stricter fit-path target layer against that gold subset:
+
+```bash
+python3 scripts/analysis/validate_gold_transition_targets.py
+```
+
+This adds:
+
+- `data/review/gold_irregular_transition_validation.json`
+
+Current first validation checkpoint:
+
+- gold rows: `25`
+- fit-path gold recall: `88.0%`
+- fit-path precision against gold: `75.0%`
+
+To build the reviewed fit-ready dataset directly:
+
+```bash
+python3 scripts/analysis/build_irregular_transition_fit_dataset.py
+```
+
+This adds:
+
+- `data/modeling/irregular_transition_fit_dataset.json`
+
+Current fit-dataset checkpoint:
+
+- rows: `64`
+- gold positives: `25`
+- reviewed-watch negatives: `9`
+- weak-review negatives: `2`
+- local reviewed negatives: `28`
+
+For first model fitting, use the panel’s gold-aligned target fields rather than
+the broader adjudicated `v1` layer:
+
+- `irregular_transition_gold_next_1m`
+- `irregular_transition_gold_label_available`
+- `irregular_transition_fit_score_next_1m`
+- `irregular_transition_fit_label_next_1m`
+
+To validate the current signal-score baseline on the reviewed fit-ready sample:
+
+```bash
+python3 scripts/analysis/validate_irregular_transition_baseline.py
+```
+
+This adds:
+
+- `data/review/irregular_transition_baseline_validation.json`
+
+Current baseline checkpoint:
+
+- validation sample rows: `64`
+- positives: `25`
+- reviewed negatives: `39`
+- local reviewed negatives: `28`
+- operational `v1` label precision: `73.529%`
+- fit-path recommended score threshold: `2`
+- at fit threshold `2`:
+  - precision: `74.194%`
+  - recall: `92.0%`
+  - specificity: `79.487%`
+- at fit threshold `4`:
+  - precision: `100%`
+  - recall: `88.0%`
+  - specificity: `100%`
+
+To run the first actual fit comparison:
+
+```bash
+python3 scripts/analysis/validate_irregular_transition_models.py
+```
+
+This adds:
+
+- `data/review/irregular_transition_model_validation.json`
+
+Current first fit-comparison result:
+
+- threshold baseline:
+  - precision: `100%`
+  - recall: `88.0%`
+- leave-one-out logistic baseline:
+  - precision: `46.875%`
+  - recall: `60.0%`
+
+Current conclusion:
+
+- the stricter fit-path threshold baseline is still better than the first
+  fitted model on the reviewed sample
+- the broader watch-path remains useful for analyst-facing monitoring and
+  rupture-watch coverage
+- the expanded historical-memory feature set improved recall, but not enough to
+  replace the fit-time threshold benchmark
+- do not replace the baseline yet
+
+The next broader political-risk target now also exists privately at the proxy
+stage:
+
+- `acute_political_risk_next_1m`
+- `acute_political_risk_next_3m`
+- current proxy version:
+  - `proxy_acute_political_risk_v1`
+- first checkpoint:
+  - `1m` positives: `51`
+  - `3m` positives: `125`
+- first review path:
+  - `scripts/analysis/review_acute_political_risk_targets.py`
+  - `data/review/acute_political_risk_target_review.json`
+- first adjudication-queue path:
+  - `scripts/analysis/build_acute_political_risk_adjudication_queue.py`
+  - `data/review/adjudication_queue_acute_political_risk.json`
+- first adjudicated acute-risk layer:
+  - `scripts/analysis/build_adjudicated_acute_political_risk_labels.py`
+  - `data/modeling/adjudicated_acute_political_risk_labels.json`
+- current checkpoint:
+  - `acute political risk adjudicated layer v1`
+  - `30` reviewed `1m` rows
+  - adjudication queue empty
+- next stricter artifact:
+  - `scripts/analysis/build_gold_acute_political_risk_labels.py`
+  - `data/modeling/gold_acute_political_risk_labels.json`
+- first gold validation path:
+  - `scripts/analysis/validate_gold_acute_political_risk_targets.py`
+  - `data/review/gold_acute_political_risk_validation.json`
+- current first checkpoint:
+  - gold recall `100.0%`
+  - proxy precision `45.833%`
+- next benchmark diagnostics:
+  - `scripts/analysis/build_acute_political_risk_benchmark_tiers.py`
+  - `scripts/analysis/audit_acute_political_risk_tier_separation.py`
+  - `scripts/analysis/review_acute_political_risk_protest_cases.py`
+  - `scripts/analysis/build_acute_political_risk_benchmark_refinement_queue.py`
+- current benchmark-tier checkpoint:
+  - gold positives `22`
+  - hard negatives `18`
+  - easy negatives `22`
+- fit-ready acute-risk sample:
+  - `scripts/analysis/build_acute_political_risk_fit_dataset.py`
+  - `data/modeling/acute_political_risk_fit_dataset.json`
+- first acute-risk baseline validation:
+  - `scripts/analysis/validate_acute_political_risk_baseline.py`
+  - `data/review/acute_political_risk_baseline_validation.json`
+  - current best threshold: `4`
+  - current result: precision `100.0%`, recall `100.0%`, specificity `100.0%`
+  - this result still holds after freezing the benchmark refinement layer `v1`
+- first acute-risk model comparison:
+  - `scripts/analysis/validate_acute_political_risk_models.py`
+  - `data/review/acute_political_risk_model_validation.json`
+  - current result:
+    - threshold baseline still wins
+    - logistic precision `84.615%`, recall `100.0%`, specificity `89.744%`
+- protest-specific interpretation fields now also exist in the panel:
+  - `protest_acute_signal_score`
+  - `protest_background_load_score`
+- current modeling stance:
+  - keep those protest fields for interpretation/review
+  - do not feed them directly into acute-risk scoring until protest-heavy
+    benchmark cases are reviewed more tightly
+- current benchmark-refinement stance:
+  - review hard negatives before inventing more acute-risk features
+  - start with:
+    - protest-linked near misses
+    - high-severity near misses
+    - fragmentation-boundary hard negatives
+  - reviewed refinement decisions can be stored in:
+    - `data/review/acute_political_risk_benchmark_refinement_decisions.local.json`
+  - current checkpoint:
+    - all currently queued acute-risk refinement rows have been reviewed
+    - the active refinement queue is now `0`
+    - the acute-risk benchmark refinement layer can be treated as frozen `v1`
+
+The reviewed-negative workflow now has two layers:
+
+- `data/review/irregular_transition_negative_queue.json`
+  - broad low-intensity/background negatives
+- `data/review/irregular_transition_hard_negative_queue.json`
+  - hard transition-like negatives for benchmark stress-testing
+
+The benchmark layer now also has a consolidated tiered reference artifact:
+
+- `data/modeling/irregular_transition_benchmark_tiers.json`
+
+Current benchmark tier counts:
+
+- gold positives: `25`
+- hard negatives: `10`
+- easy negatives: `18`
+
+Current tiered validation read:
+
+- under the current `proxy_irregular_transition_v6` rule:
+  - `threshold 2` is the best reviewed-sample F1 cut
+  - `threshold 4` remains a stricter high-specificity cut
+- the fitted logistic struggles most on `hard_negative` cases
+  - hard-negative specificity: `30.0%`
+- the tier-separation audit suggests the strongest current contrasts are:
+  - higher `transition_contestation_load_score` in `hard_negative`
+  - more negative `transition_specificity_gap` in `hard_negative`
+  - `transition_rupture_precursor_score` alone is not yet sufficient
+- the `v6` rupture-sequence adjustment restored benchmark-positive
+  rupture-watch months like Haiti `2021-06-01` and Mexico `2020-06-01`, but
+  it also reduced recall at the stricter `threshold 4` cut
+
+The latest pass added five more hard benchmark negatives in:
+
+- Colombia
+- Mexico
+- Peru
+- Ecuador
+
+To audit what the reviewed fit sample still lacks:
+
+```bash
+python3 scripts/analysis/audit_irregular_transition_fit_sample.py
+```
+
+This adds:
+
+- `data/review/irregular_transition_fit_sample_audit.json`
+
+Current takeaway:
+
+- the fit sample still needs more reviewed negatives
+- especially outside:
+  - `Colombia`
+  - `El Salvador`
+  - `Honduras`
+  - `Mexico`
+  - `Venezuela`
+
+To build a structured queue of lower-intensity and background negative
+candidates:
+
+```bash
+python3 scripts/analysis/build_irregular_transition_negative_queue.py
+```
+
+This adds:
+
+- `data/review/irregular_transition_negative_queue.json`
+
+Current first queue checkpoint:
+
+- queue rows: `75`
+- reviewed-negative countries already represented: `25`
+- rows prioritized to expand country coverage: `0`
+- rows deepening existing negative countries: `75`
+
+To extend the fit-ready sample locally with reviewed negatives:
+
+1. Copy:
+   - `data/review/reviewed_negative_decisions.template.json`
+   to:
+   - `data/review/reviewed_negative_decisions.local.json`
+2. Add reviewed negative rows.
+3. Re-run:
+
+```bash
+python3 scripts/analysis/validate_irregular_transition_baseline.py
+python3 scripts/analysis/validate_irregular_transition_models.py
+python3 scripts/analysis/audit_irregular_transition_fit_sample.py
+```
+
+The validation runners now absorb those local reviewed negatives
+automatically.
+
+To build the first internal one-country signal panel pilot:
+
+```bash
+python3 scripts/analysis/build_internal_signal_panel.py --country Venezuela
+```
+
+This currently writes:
+
+- `data/modeling/internal_signal_panel_venezuela.json`
+
+To inspect it as a private internal chart page, open:
+
+- `apps/internal-tools/signal-panel.html?country=Venezuela`
 
 ### Fast ingest run
 
@@ -158,6 +624,8 @@ This refreshes:
 - `data/canonical/events.json`
 - `data/canonical/events_actor_coded.json`
 - `data/canonical/actor_mentions.json`
+- `config/actors/nsva_registry_seed.json`
+- `config/actors/broad_actor_registry_seed.json`
 - `config/actors/actor_registry.json`
 
 If you need the exact runner list for each stage, see:
@@ -191,6 +659,9 @@ The council now also records:
 
 - compact upstream AI-worker output summaries
 - recommended analyst actions for review follow-up
+- selective lens activation and analyst weights by event type and actor profile
+- article-context snippets drawn from linked source records rather than headline-only framing
+- mechanism-specific writing tied to `event_subcategory`, so public analysis is more event-specific and less repetitive
 
 The council is informed by:
 
@@ -202,6 +673,62 @@ The council is informed by:
 The Council tab now surfaces the project knowledge trace behind each lens, so
 analysts can inspect which concepts, priorities, and AI workers shaped the
 assessment.
+
+Current council structure:
+
+- `Military Analyst`
+- `Political Analyst`
+- `Security Analyst`
+- `International Analyst` when the event has a strong external-pressure or foreign-alignment mechanism
+- `Economist Analyst` when the event has a strong macro, fiscal, or illicit-economy mechanism
+- `Synthesis Analyst`
+
+Not every event activates the same bundle of analysts. Some events now route
+mainly through one core lens, while others activate multiple core and specialist
+lenses with unequal weights.
+
+The event taxonomy is now construct-aware as well. Event records can now carry:
+
+- `event_category`
+  - broad analytical family such as `political`, `military`, `security`, or
+    `international`
+- `event_subcategory`
+  - narrower mechanism bucket
+- `event_construct_destinations`
+  - which higher-order constructs the event most directly feeds
+- `event_analyst_lenses`
+  - which analyst lenses should usually activate first
+
+## 6b. Build Country Monitors
+
+Run the layered country-monitor and predictive-risk builder:
+
+```bash
+python3 scripts/analysis/build_country_monitors.py
+```
+
+This writes:
+
+- `data/published/country_monitors.json`
+
+Treat this as an experimental analytical layer. It is intended to improve
+country-level monitoring over time, not to replace event-level interpretation.
+
+## 6c. Validate Country Monitors
+
+Run the benchmark validation pass:
+
+```bash
+python3 scripts/analysis/validate_country_monitors.py
+```
+
+This writes:
+
+- `data/review/country_monitor_validation.json`
+
+Use this report to see which benchmark countries still sit outside the intended
+target ranges for overall risk, regime vulnerability, militarization, and
+security fragmentation.
 
 ## 7. Review Events In The Analyst Console
 
@@ -271,8 +798,31 @@ After actor follow-up review, promote the latest reviewed actor records into the
 durable registry with:
 
 ```bash
+python3 scripts/pipeline/build_broad_actor_registry_seed.py
 python3 scripts/pipeline/update_actor_registry.py
 ```
+
+The first command refreshes the broader seed module for state, civil-society,
+economic, media, protest, and international actors. The second merges all seed
+modules plus reviewed actor promotions into the durable registry.
+
+Actor records now follow a broader hierarchy so the registry can support state,
+social, economic, and armed non-state actors consistently:
+
+- `actor_category`
+  broad class such as `state_actor` or `non_state_actor`
+- `actor_group`
+  branch such as `executive`, `military`, `civil_society`, `economic_group`, or `armed_non_state_actor`
+- `actor_type`
+  specific class such as `state_institution`, `state_security_force`, `armed_group`, or `organized_crime`
+- `actor_subtype`
+  finer subtype such as `cartel`, `gang`, `insurgent`, or `dissident_faction`
+
+So organized crime is no longer treated as the main actor category. It sits under:
+
+- `actor_category = non_state_actor`
+- `actor_group = armed_non_state_actor`
+- `actor_type = organized_crime`
 
 ## 8. Save And Apply Analyst Edits
 
@@ -358,3 +908,19 @@ If public review badges are missing:
 - confirm review changes were saved
 - rerun `python3 scripts/publish/publish_dashboard_data.py`
 - refresh the dashboard after the published dataset updates
+- `security_fragmentation_jump_next_3m`
+  - `proxy_security_fragmentation_jump_v2`
+  - review artifact:
+    - `data/review/security_fragmentation_jump_target_review.json`
+  - adjudication queue:
+    - `data/review/adjudication_queue_security_fragmentation_jump.json`
+  - adjudicated layer:
+    - `data/modeling/adjudicated_security_fragmentation_jump_labels.json`
+  - gold subset:
+    - `data/modeling/gold_security_fragmentation_jump_labels.json`
+  - gold validation:
+    - `data/review/gold_security_fragmentation_jump_validation.json`
+  - tiered benchmark:
+    - `data/modeling/security_fragmentation_jump_benchmark_tiers.json`
+  - tier-separation audit:
+    - `data/review/security_fragmentation_jump_tier_separation.json`

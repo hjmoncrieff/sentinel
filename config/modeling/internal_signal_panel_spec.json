@@ -1,0 +1,148 @@
+{
+  "status": "private_internal_panel_spec",
+  "description": "Pilot internal signal panel specification for episode and process detection.",
+  "visibility": "private_internal_only",
+  "display_scope": "single_country_pilot",
+  "default_window_days": 180,
+  "construct_integration": {
+    "role": "internal_signal_layer_between_event_logic_and_country_constructs",
+    "primary_constructs": [
+      "regime_vulnerability",
+      "militarization",
+      "security_fragmentation"
+    ],
+    "topline_output": "overall_risk_internal",
+    "integration_rule": "signal series should feed the three primary constructs first; overall risk should be an aggregation of construct-level signal pressure rather than a direct raw-series sum"
+  },
+  "signal_series": [
+    {
+      "code": "coercive_instability",
+      "label": "Coercive Instability",
+      "component_fields": [
+        "event_type_coup_count",
+        "event_type_purge_count",
+        "event_type_conflict_count",
+        "high_salience_event_count",
+        "deed_type_destabilizing_count"
+      ],
+      "construct_destinations": [
+        "regime_vulnerability",
+        "militarization",
+        "overall_risk_internal"
+      ]
+    },
+    {
+      "code": "institutional_erosion",
+      "label": "Institutional Erosion",
+      "component_fields": [
+        "deed_type_symptom_count",
+        "deed_type_precursor_count",
+        "deed_type_destabilizing_count",
+        "axis_vertical_count",
+        "axis_horizontal_count"
+      ],
+      "construct_destinations": [
+        "regime_vulnerability",
+        "overall_risk_internal"
+      ]
+    },
+    {
+      "code": "security_fragmentation",
+      "label": "Security Fragmentation",
+      "component_fields": [
+        "event_type_oc_count",
+        "event_type_conflict_count",
+        "event_shock_flag",
+        "state_capacity_composite"
+      ],
+      "construct_destinations": [
+        "security_fragmentation",
+        "overall_risk_internal"
+      ]
+    },
+    {
+      "code": "elite_fracture",
+      "label": "Elite Fracture",
+      "component_fields": [
+        "event_type_purge_count",
+        "high_salience_event_count",
+        "review_priority_high_count"
+      ],
+      "construct_destinations": [
+        "regime_vulnerability",
+        "militarization",
+        "overall_risk_internal"
+      ]
+    },
+    {
+      "code": "external_pressure",
+      "label": "External Pressure",
+      "component_fields": [
+        "external_pressure_sanctions_active",
+        "external_pressure_sanctions_delta",
+        "external_pressure_imf_program_active",
+        "external_pressure_imf_program_break",
+        "external_pressure_us_security_shift"
+      ],
+      "construct_destinations": [
+        "regime_vulnerability",
+        "militarization",
+        "overall_risk_internal"
+      ]
+    },
+    {
+      "code": "economic_stress_policy_shock",
+      "label": "Economic Stress / Policy Shock",
+      "component_fields": [
+        "economic_fragility_inflation_stress",
+        "economic_fragility_fx_stress",
+        "economic_fragility_debt_stress",
+        "economic_policy_capital_controls_flag",
+        "economic_policy_nationalization_signal"
+      ],
+      "construct_destinations": [
+        "regime_vulnerability",
+        "security_fragmentation",
+        "overall_risk_internal"
+      ]
+    }
+  ],
+  "construct_signal_baskets": {
+    "regime_vulnerability": [
+      "coercive_instability",
+      "institutional_erosion",
+      "elite_fracture",
+      "external_pressure",
+      "economic_stress_policy_shock"
+    ],
+    "militarization": [
+      "coercive_instability",
+      "elite_fracture",
+      "external_pressure"
+    ],
+    "security_fragmentation": [
+      "security_fragmentation",
+      "economic_stress_policy_shock"
+    ],
+    "overall_risk_internal": [
+      "regime_vulnerability",
+      "militarization",
+      "security_fragmentation"
+    ]
+  },
+  "internal_labels": [
+    "background",
+    "watch",
+    "forming_episode",
+    "active_episode",
+    "process_acceleration"
+  ],
+  "benchmark_countries": [
+    "Venezuela",
+    "El Salvador",
+    "Ecuador",
+    "Haiti",
+    "Mexico"
+  ],
+  "priority_pilot_country": "Venezuela"
+}

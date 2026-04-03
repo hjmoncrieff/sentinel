@@ -1,0 +1,201 @@
+{
+  "generated_at": "2026-04-03T01:48:32Z",
+  "status": "private_internal_acute_political_risk_protest_review",
+  "panel_file": "data/modeling/country_month_panel.json",
+  "benchmark_file": "data/modeling/acute_political_risk_benchmark_tiers.json",
+  "summary": {
+    "gold_positive": {
+      "rows": 22,
+      "mean_event_type_protest_count": 0.0,
+      "mean_event_type_conflict_count": 0.045,
+      "mean_protest_acute_signal_score": 0.191,
+      "mean_protest_background_load_score": 0.102,
+      "mean_transition_contestation_load_score": 1.545,
+      "mean_acute_political_risk_signal_score_next_1m": 4.864
+    },
+    "hard_negative": {
+      "rows": 17,
+      "mean_event_type_protest_count": 0.176,
+      "mean_event_type_conflict_count": 0.588,
+      "mean_protest_acute_signal_score": 1.176,
+      "mean_protest_background_load_score": 0.75,
+      "mean_transition_contestation_load_score": 4.409,
+      "mean_acute_political_risk_signal_score_next_1m": 2.765
+    }
+  },
+  "protest_case_counts": {
+    "gold_positive": 1,
+    "hard_negative": 9
+  },
+  "protest_cases": {
+    "gold_positive": [
+      {
+        "country": "El Salvador",
+        "panel_date": "2022-05-01",
+        "tier": "gold_positive",
+        "acute_political_risk_signal_score_next_1m": 4,
+        "acute_political_risk_signal_label_next_1m": "elevated",
+        "event_type_protest_count": 0,
+        "event_type_conflict_count": 1,
+        "high_severity_episode_count": 1,
+        "fragmenting_episode_count": 0,
+        "episode_type_protest_security_escalation_count": 1,
+        "protest_acute_signal_score": 3.0,
+        "protest_background_load_score": 0.0,
+        "transition_contestation_load_score": 4.25,
+        "transition_specificity_gap": 0.35
+      }
+    ],
+    "hard_negative": [
+      {
+        "country": "Brazil",
+        "panel_date": "2023-01-01",
+        "tier": "hard_negative",
+        "acute_political_risk_signal_score_next_1m": 3,
+        "acute_political_risk_signal_label_next_1m": "watch",
+        "event_type_protest_count": 1,
+        "event_type_conflict_count": 0,
+        "high_severity_episode_count": 0,
+        "fragmenting_episode_count": 0,
+        "episode_type_protest_security_escalation_count": 1,
+        "protest_acute_signal_score": 2.6,
+        "protest_background_load_score": 0.4,
+        "transition_contestation_load_score": 7.3,
+        "transition_specificity_gap": 1.26
+      },
+      {
+        "country": "Colombia",
+        "panel_date": "2024-04-01",
+        "tier": "hard_negative",
+        "acute_political_risk_signal_score_next_1m": 3,
+        "acute_political_risk_signal_label_next_1m": "watch",
+        "event_type_protest_count": 0,
+        "event_type_conflict_count": 3,
+        "high_severity_episode_count": 0,
+        "fragmenting_episode_count": 0,
+        "episode_type_protest_security_escalation_count": 1,
+        "protest_acute_signal_score": 3.3,
+        "protest_background_load_score": 2.25,
+        "transition_contestation_load_score": 9.35,
+        "transition_specificity_gap": -2.37
+      },
+      {
+        "country": "Colombia",
+        "panel_date": "2024-06-01",
+        "tier": "hard_negative",
+        "acute_political_risk_signal_score_next_1m": 3,
+        "acute_political_risk_signal_label_next_1m": "watch",
+        "event_type_protest_count": 0,
+        "event_type_conflict_count": 3,
+        "high_severity_episode_count": 1,
+        "fragmenting_episode_count": 0,
+        "episode_type_protest_security_escalation_count": 0,
+        "protest_acute_signal_score": 1.9,
+        "protest_background_load_score": 3.75,
+        "transition_contestation_load_score": 10.4,
+        "transition_specificity_gap": -2.86
+      },
+      {
+        "country": "Guatemala",
+        "panel_date": "2020-12-01",
+        "tier": "hard_negative",
+        "acute_political_risk_signal_score_next_1m": 2,
+        "acute_political_risk_signal_label_next_1m": "watch",
+        "event_type_protest_count": 1,
+        "event_type_conflict_count": 0,
+        "high_severity_episode_count": 0,
+        "fragmenting_episode_count": 1,
+        "episode_type_protest_security_escalation_count": 0,
+        "protest_acute_signal_score": 0.6,
+        "protest_background_load_score": 1.6,
+        "transition_contestation_load_score": 7.15,
+        "transition_specificity_gap": -4.59
+      },
+      {
+        "country": "Haiti",
+        "panel_date": "2021-03-01",
+        "tier": "hard_negative",
+        "acute_political_risk_signal_score_next_1m": 3,
+        "acute_political_risk_signal_label_next_1m": "watch",
+        "event_type_protest_count": 1,
+        "event_type_conflict_count": 0,
+        "high_severity_episode_count": 0,
+        "fragmenting_episode_count": 0,
+        "episode_type_protest_security_escalation_count": 0,
+        "protest_acute_signal_score": 0.6,
+        "protest_background_load_score": 1.45,
+        "transition_contestation_load_score": 5.7,
+        "transition_specificity_gap": -3.94
+      },
+      {
+        "country": "Honduras",
+        "panel_date": "2022-02-01",
+        "tier": "hard_negative",
+        "acute_political_risk_signal_score_next_1m": 3,
+        "acute_political_risk_signal_label_next_1m": "watch",
+        "event_type_protest_count": 0,
+        "event_type_conflict_count": 1,
+        "high_severity_episode_count": 0,
+        "fragmenting_episode_count": 1,
+        "episode_type_protest_security_escalation_count": 1,
+        "protest_acute_signal_score": 2.4,
+        "protest_background_load_score": 0.1,
+        "transition_contestation_load_score": 2.95,
+        "transition_specificity_gap": -0.71
+      },
+      {
+        "country": "Mexico",
+        "panel_date": "2020-07-01",
+        "tier": "hard_negative",
+        "acute_political_risk_signal_score_next_1m": 3,
+        "acute_political_risk_signal_label_next_1m": "watch",
+        "event_type_protest_count": 0,
+        "event_type_conflict_count": 2,
+        "high_severity_episode_count": 1,
+        "fragmenting_episode_count": 0,
+        "episode_type_protest_security_escalation_count": 1,
+        "protest_acute_signal_score": 3.9,
+        "protest_background_load_score": 1.25,
+        "transition_contestation_load_score": 5.9,
+        "transition_specificity_gap": 1.44
+      },
+      {
+        "country": "Peru",
+        "panel_date": "2024-05-01",
+        "tier": "hard_negative",
+        "acute_political_risk_signal_score_next_1m": 2,
+        "acute_political_risk_signal_label_next_1m": "watch",
+        "event_type_protest_count": 0,
+        "event_type_conflict_count": 1,
+        "high_severity_episode_count": 0,
+        "fragmenting_episode_count": 0,
+        "episode_type_protest_security_escalation_count": 1,
+        "protest_acute_signal_score": 2.4,
+        "protest_background_load_score": 0.0,
+        "transition_contestation_load_score": 2.65,
+        "transition_specificity_gap": -1.21
+      },
+      {
+        "country": "Venezuela",
+        "panel_date": "2025-09-01",
+        "tier": "hard_negative",
+        "acute_political_risk_signal_score_next_1m": 3,
+        "acute_political_risk_signal_label_next_1m": "watch",
+        "event_type_protest_count": 0,
+        "event_type_conflict_count": 0,
+        "high_severity_episode_count": 1,
+        "fragmenting_episode_count": 0,
+        "episode_type_protest_security_escalation_count": 0,
+        "protest_acute_signal_score": 1.1,
+        "protest_background_load_score": 0.45,
+        "transition_contestation_load_score": 6.45,
+        "transition_specificity_gap": 3.41
+      }
+    ]
+  },
+  "current_takeaway": [
+    "Protest activity is now split into acute-signal and background-load fields in the panel.",
+    "These protest-specific fields are currently interpretive aids; their first direct use in acute-risk scoring increased false positives and was backed out.",
+    "This review artifact should help identify which protest-heavy months are true acute deterioration versus broad contestation near misses."
+  ]
+}

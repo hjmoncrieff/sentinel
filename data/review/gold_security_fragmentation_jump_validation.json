@@ -1,0 +1,474 @@
+{
+  "generated_at": "2026-04-03T02:54:41Z",
+  "status": "private_internal_gold_security_fragmentation_jump_validation",
+  "panel_file": "data/modeling/country_month_panel.json",
+  "gold_file": "data/modeling/gold_security_fragmentation_jump_labels.json",
+  "target_rule": "proxy_security_fragmentation_jump_v1",
+  "summary": {
+    "gold_rows": 36,
+    "panel_predicted_positive_rows": 328,
+    "true_positive_against_gold": 36,
+    "false_negative_against_gold": 0,
+    "false_positive_against_gold": 292,
+    "gold_recall_pct": 100.0,
+    "proxy_precision_against_gold_pct": 10.976,
+    "gold_rows_with_elevated_signal_pct": 100.0,
+    "gold_rows_with_watch_signal_pct": 0.0
+  },
+  "by_country": [
+    {
+      "country": "Brazil",
+      "gold_rows": 3,
+      "matched_positive": 3,
+      "missed": 0,
+      "gold_recall_pct": 100.0
+    },
+    {
+      "country": "Colombia",
+      "gold_rows": 10,
+      "matched_positive": 10,
+      "missed": 0,
+      "gold_recall_pct": 100.0
+    },
+    {
+      "country": "El Salvador",
+      "gold_rows": 3,
+      "matched_positive": 3,
+      "missed": 0,
+      "gold_recall_pct": 100.0
+    },
+    {
+      "country": "Guatemala",
+      "gold_rows": 2,
+      "matched_positive": 2,
+      "missed": 0,
+      "gold_recall_pct": 100.0
+    },
+    {
+      "country": "Haiti",
+      "gold_rows": 1,
+      "matched_positive": 1,
+      "missed": 0,
+      "gold_recall_pct": 100.0
+    },
+    {
+      "country": "Honduras",
+      "gold_rows": 2,
+      "matched_positive": 2,
+      "missed": 0,
+      "gold_recall_pct": 100.0
+    },
+    {
+      "country": "Mexico",
+      "gold_rows": 3,
+      "matched_positive": 3,
+      "missed": 0,
+      "gold_recall_pct": 100.0
+    },
+    {
+      "country": "Venezuela",
+      "gold_rows": 12,
+      "matched_positive": 12,
+      "missed": 0,
+      "gold_recall_pct": 100.0
+    }
+  ],
+  "rows": [
+    {
+      "country": "Brazil",
+      "panel_date": "2020-11-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 4,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a clear early fragmenting security-fragmentation jump.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Brazil",
+      "panel_date": "2023-10-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a clear fragmenting security-fragmentation sequence.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Brazil",
+      "panel_date": "2025-09-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 4,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a late fragmenting security-fragmentation jump with conflict reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2021-05-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 4,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a clear fragmenting security-fragmentation jump.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2021-06-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a clear fragmenting security-fragmentation jump that precedes the later high-severity burst.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2021-07-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a clear fragmenting security-fragmentation jump that precedes the later high-severity burst.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2021-08-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a clear fragmenting security-fragmentation jump with shock reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2021-11-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a high-severity fragmentation-linked jump with shock, conflict, and organized-crime reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2021-12-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 8,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a very strong high-severity fragmentation-linked jump.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2022-01-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 8,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a very strong high-severity fragmentation-linked jump.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2022-02-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 8,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a high-severity fragmentation-linked jump with conflict escalation.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2024-11-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 7,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a renewed high-severity fragmentation-linked jump.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Colombia",
+      "panel_date": "2024-12-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 7,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a renewed high-severity fragmentation-linked jump.",
+      "match_status": "hit"
+    },
+    {
+      "country": "El Salvador",
+      "panel_date": "2021-06-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 4,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a clear fragmenting security-fragmentation jump.",
+      "match_status": "hit"
+    },
+    {
+      "country": "El Salvador",
+      "panel_date": "2021-07-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 4,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a clear fragmenting security-fragmentation jump.",
+      "match_status": "hit"
+    },
+    {
+      "country": "El Salvador",
+      "panel_date": "2022-02-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 4,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a dense fragmenting security-fragmentation jump.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Guatemala",
+      "panel_date": "2020-11-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a dense fragmenting security-fragmentation jump.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Guatemala",
+      "panel_date": "2021-01-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 4,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a continued fragmenting security-fragmentation jump with organized-crime reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Haiti",
+      "panel_date": "2022-05-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a dense fragmenting security-fragmentation jump with conflict and organized-crime reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Honduras",
+      "panel_date": "2021-01-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a fragmenting security-fragmentation jump with shock and conflict reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Honduras",
+      "panel_date": "2022-01-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 4,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a renewed fragmenting security-fragmentation jump with conflict reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Mexico",
+      "panel_date": "2020-10-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a clear fragmenting security-fragmentation jump with conflict and organized-crime reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Mexico",
+      "panel_date": "2024-09-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a renewed fragmenting security-fragmentation jump with conflict reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Mexico",
+      "panel_date": "2025-06-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a fragmenting security-fragmentation jump with shock reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2021-12-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a sustained fragmenting security-fragmentation sequence with organized-crime reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2022-01-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a sustained fragmenting security-fragmentation sequence with organized-crime reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2022-04-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 4,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a dense fragmenting security-fragmentation sequence.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2023-05-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 6,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a clear high-severity fragmentation-linked jump.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2023-06-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 6,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a clear high-severity fragmentation-linked jump.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2023-10-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 6,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a dense fragmenting security-fragmentation sequence with organized-crime reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2023-11-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 6,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a dense fragmenting security-fragmentation sequence with organized-crime reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2023-12-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 6,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a dense fragmenting security-fragmentation sequence with organized-crime reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2024-06-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a reinforced fragmenting security-fragmentation jump with shock and conflict support.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2025-05-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 4,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a later fragmenting security-fragmentation jump with organized-crime reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2025-06-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a later fragmenting security-fragmentation jump with organized-crime reinforcement.",
+      "match_status": "hit"
+    },
+    {
+      "country": "Venezuela",
+      "panel_date": "2025-07-01",
+      "gold_label": 1,
+      "predicted_label_3m": 1,
+      "signal_score_3m": 5,
+      "signal_label_3m": "elevated",
+      "gold_rating": "reviewed",
+      "gold_note": "Promoted after queue review: next three months contain a later fragmenting security-fragmentation jump with organized-crime reinforcement.",
+      "match_status": "hit"
+    }
+  ]
+}

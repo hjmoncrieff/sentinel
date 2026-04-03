@@ -1,0 +1,516 @@
+{
+  "version": "0.2.0",
+  "status": "predictive_scaffold",
+  "description": "Layered baseline-plus-pulse model for SENTINEL country monitoring. Monitor families capture interpretable baseline and event-driven movement; higher-order risk constructs aggregate them into near-term regime, security, and alignment outlooks.",
+  "output_scale": {
+    "baseline_range": [0, 100],
+    "pulse_range": [0, 100],
+    "composite_range": [0, 100],
+    "construct_range": [0, 100]
+  },
+  "country_monitors": [
+    {
+      "code": "cmr_balance",
+      "label": "Civil-Military Stress",
+      "goal": "Track the degree of military political influence, institutional autonomy, and stress in civilian control.",
+      "baseline_weight": 0.65,
+      "pulse_weight": 0.35,
+      "baseline_inputs": [
+        "m3_conscription",
+        "m3_military_veto",
+        "m3_impunity",
+        "m3_public_security_role",
+        "m3_military_economic_role",
+        "executive_military_history",
+        "historical_coup_exposure"
+      ],
+      "pulse_event_types": [
+        "coup",
+        "purge",
+        "protest",
+        "reform",
+        "exercise",
+        "aid",
+        "coop"
+      ],
+      "pulse_weights": {
+        "coup": 1.0,
+        "purge": 0.85,
+        "protest": 0.65,
+        "reform": 0.45,
+        "exercise": 0.25,
+        "aid": 0.2,
+        "coop": 0.25
+      }
+    },
+    {
+      "code": "security_pressure",
+      "label": "Security Pressure",
+      "goal": "Track the intensity of conflict, organized crime, and coercive stress affecting the country security environment.",
+      "baseline_weight": 0.55,
+      "pulse_weight": 0.45,
+      "baseline_inputs": [
+        "acled_conflict_level",
+        "m3_public_security_role",
+        "criminality_baseline",
+        "territorial_state_capacity",
+        "violence_history"
+      ],
+      "pulse_event_types": [
+        "conflict",
+        "oc",
+        "protest",
+        "coup"
+      ],
+      "pulse_weights": {
+        "conflict": 1.0,
+        "oc": 0.9,
+        "protest": 0.5,
+        "coup": 0.55
+      }
+    },
+    {
+      "code": "external_security_alignment",
+      "label": "External Security Alignment",
+      "goal": "Track how foreign cooperation, aid, exercises, and procurement may be changing the strategic posture of the state.",
+      "baseline_weight": 0.7,
+      "pulse_weight": 0.3,
+      "baseline_inputs": [
+        "alliance_posture",
+        "arms_dependence_profile",
+        "security_partner_depth",
+        "historical_us_security_exposure"
+      ],
+      "pulse_event_types": [
+        "aid",
+        "coop",
+        "exercise",
+        "procurement",
+        "reform"
+      ],
+      "pulse_weights": {
+        "aid": 0.65,
+        "coop": 0.75,
+        "exercise": 0.55,
+        "procurement": 0.8,
+        "reform": 0.35
+      }
+    }
+  ],
+  "risk_constructs": [
+    {
+      "code": "regime_vulnerability",
+      "label": "Regime Vulnerability",
+      "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
+      "horizon_days": 90,
+      "component_weights": [
+        {
+          "kind": "monitor_composite",
+          "code": "cmr_balance",
+          "weight": 0.18
+        },
+        {
+          "kind": "monitor_composite",
+          "code": "security_pressure",
+          "weight": 0.08
+        },
+        {
+          "kind": "monitor_pulse",
+          "code": "cmr_balance",
+          "weight": 0.06
+        },
+        {
+          "kind": "monitor_pulse",
+          "code": "security_pressure",
+          "weight": 0.05
+        },
+        {
+          "kind": "structural_input",
+          "code": "democratic_fragility",
+          "weight": 0.2
+        },
+        {
+          "kind": "structural_input",
+          "code": "governance_erosion",
+          "weight": 0.16
+        },
+        {
+          "kind": "structural_input",
+          "code": "criminality_baseline",
+          "weight": 0.06
+        },
+        {
+          "kind": "structural_input",
+          "code": "territorial_state_capacity",
+          "weight": 0.08
+        },
+        {
+          "kind": "structural_input",
+          "code": "military_domestic_coercion_role",
+          "weight": 0.08
+        },
+        {
+          "kind": "structural_input",
+          "code": "military_constraint_weakness",
+          "weight": 0.09
+        },
+        {
+          "kind": "structural_input",
+          "code": "regime_authoritarianism",
+          "weight": 0.08
+        },
+        {
+          "kind": "structural_input",
+          "code": "deed_erosion_signal",
+          "weight": 0.05
+        },
+        {
+          "kind": "structural_input",
+          "code": "external_pressure_sanctions_active",
+          "weight": 0.05
+        },
+        {
+          "kind": "structural_input",
+          "code": "external_pressure_imf_program_active",
+          "weight": 0.03
+        },
+        {
+          "kind": "structural_input",
+          "code": "economic_fragility_inflation_stress",
+          "weight": 0.04
+        },
+        {
+          "kind": "structural_input",
+          "code": "economic_fragility_debt_stress",
+          "weight": 0.03
+        },
+        {
+          "kind": "structural_input",
+          "code": "coup_recency_risk",
+          "weight": 0.05
+        },
+        {
+          "kind": "structural_input",
+          "code": "recent_coup_intensity",
+          "weight": 0.03
+        },
+        {
+          "kind": "structural_input",
+          "code": "regime_shift_pressure",
+          "weight": 0.05
+        },
+        {
+          "kind": "structural_input",
+          "code": "democratic_backsliding_shift",
+          "weight": 0.05
+        },
+        {
+          "kind": "structural_input",
+          "code": "aid_dependence_shift",
+          "weight": 0.02
+        }
+      ]
+    },
+    {
+      "code": "militarization",
+      "label": "Militarization",
+      "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
+      "horizon_days": 60,
+      "component_weights": [
+        {
+          "kind": "monitor_composite",
+          "code": "cmr_balance",
+          "weight": 0.22
+        },
+        {
+          "kind": "monitor_pulse",
+          "code": "cmr_balance",
+          "weight": 0.1
+        },
+        {
+          "kind": "structural_input",
+          "code": "military_domestic_coercion_role",
+          "weight": 0.18
+        },
+        {
+          "kind": "structural_input",
+          "code": "military_governance_administration_role",
+          "weight": 0.16
+        },
+        {
+          "kind": "structural_input",
+          "code": "military_economic_control_role",
+          "weight": 0.12
+        },
+        {
+          "kind": "structural_input",
+          "code": "m3_public_security_role",
+          "weight": 0.04
+        },
+        {
+          "kind": "structural_input",
+          "code": "m3_military_veto",
+          "weight": 0.1
+        },
+        {
+          "kind": "structural_input",
+          "code": "m3_impunity",
+          "weight": 0.1
+        },
+        {
+          "kind": "structural_input",
+          "code": "executive_military_history",
+          "weight": 0.1
+        },
+        {
+          "kind": "structural_input",
+          "code": "external_pressure_us_security_shift",
+          "weight": 0.08
+        },
+        {
+          "kind": "structural_input",
+          "code": "economic_fragility_debt_stress",
+          "weight": 0.02
+        },
+        {
+          "kind": "structural_input",
+          "code": "coup_recency_risk",
+          "weight": 0.04
+        },
+        {
+          "kind": "structural_input",
+          "code": "recent_coup_intensity",
+          "weight": 0.05
+        }
+      ]
+    },
+    {
+      "code": "security_fragmentation",
+      "label": "Security Fragmentation",
+      "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
+      "horizon_days": 75,
+      "component_weights": [
+        {
+          "kind": "monitor_composite",
+          "code": "security_pressure",
+          "weight": 0.24
+        },
+        {
+          "kind": "monitor_pulse",
+          "code": "security_pressure",
+          "weight": 0.16
+        },
+        {
+          "kind": "structural_input",
+          "code": "criminality_baseline",
+          "weight": 0.12
+        },
+        {
+          "kind": "structural_input",
+          "code": "territorial_state_capacity",
+          "weight": 0.08
+        },
+        {
+          "kind": "structural_input",
+          "code": "security_governance_gap",
+          "weight": 0.12
+        },
+        {
+          "kind": "structural_input",
+          "code": "violence_history",
+          "weight": 0.04
+        },
+        {
+          "kind": "structural_input",
+          "code": "oc_actor_density",
+          "weight": 0.18
+        },
+        {
+          "kind": "structural_input",
+          "code": "territorial_fragmentation_signal",
+          "weight": 0.1
+        },
+        {
+          "kind": "structural_input",
+          "code": "external_pressure_sanctions_active",
+          "weight": 0.04
+        },
+        {
+          "kind": "structural_input",
+          "code": "economic_fragility_inflation_stress",
+          "weight": 0.05
+        },
+        {
+          "kind": "structural_input",
+          "code": "economic_fragility_fx_stress",
+          "weight": 0.05
+        },
+        {
+          "kind": "structural_input",
+          "code": "economic_fragility_debt_stress",
+          "weight": 0.01
+        },
+        {
+          "kind": "structural_input",
+          "code": "regime_shift_pressure",
+          "weight": 0.04
+        },
+        {
+          "kind": "structural_input",
+          "code": "trade_dislocation_shift",
+          "weight": 0.04
+        },
+        {
+          "kind": "monitor_composite",
+          "code": "cmr_balance",
+          "weight": 0.04
+        }
+      ]
+    }
+  ],
+  "predictive_layers": {
+    "overall_risk_weights": {
+      "regime_vulnerability": 0.42,
+      "militarization": 0.22,
+      "security_fragmentation": 0.36
+    },
+    "score_levels": [
+      {
+        "min": 75,
+        "label": "severe"
+      },
+      {
+        "min": 60,
+        "label": "high"
+      },
+      {
+        "min": 40,
+        "label": "elevated"
+      },
+      {
+        "min": 20,
+        "label": "guarded"
+      },
+      {
+        "min": 0,
+        "label": "low"
+      }
+    ]
+  },
+  "calibration": {
+    "method": "anchor_country_affine_fit",
+    "description": "Use a small set of regional anchor countries with expert target ranges to calibrate raw construct scores into more realistic comparative positions.",
+    "anchor_scores": {
+      "regime_vulnerability": {
+        "Venezuela": 88,
+        "El Salvador": 74,
+        "Nicaragua": 68,
+        "Haiti": 72,
+        "Mexico": 65,
+        "Colombia": 60,
+        "Brazil": 52,
+        "Ecuador": 58,
+        "Chile": 22,
+        "Argentina": 28,
+        "Uruguay": 10,
+        "Costa Rica": 8,
+        "Cuba": 30
+      },
+      "militarization": {
+        "Venezuela": 85,
+        "El Salvador": 82,
+        "Mexico": 72,
+        "Nicaragua": 70,
+        "Cuba": 65,
+        "Brazil": 48,
+        "Ecuador": 44,
+        "Colombia": 38,
+        "Chile": 18,
+        "Argentina": 12,
+        "Uruguay": 10,
+        "Costa Rica": 0
+      },
+      "security_fragmentation": {
+        "Haiti": 95,
+        "Mexico": 88,
+        "Ecuador": 84,
+        "Colombia": 82,
+        "Venezuela": 70,
+        "Brazil": 58,
+        "Guatemala": 48,
+        "El Salvador": 40,
+        "Honduras": 42,
+        "Argentina": 28,
+        "Nicaragua": 22,
+        "Chile": 18,
+        "Uruguay": 8,
+        "Costa Rica": 5
+      },
+      "overall_risk": {
+        "Venezuela": 86,
+        "Mexico": 78,
+        "El Salvador": 72,
+        "Colombia": 70,
+        "Brazil": 58,
+        "Ecuador": 62,
+        "Nicaragua": 57,
+        "Haiti": 64,
+        "Guatemala": 50,
+        "Honduras": 42,
+        "Chile": 24,
+        "Argentina": 22,
+        "Uruguay": 8,
+        "Costa Rica": 6,
+        "Cuba": 26
+      }
+    }
+  },
+  "pulse_design": {
+    "default_window_days": 30,
+    "short_window_days": 7,
+    "medium_window_days": 30,
+    "long_window_days": 90,
+    "salience_multiplier": {
+      "high": 1.0,
+      "medium": 0.6,
+      "low": 0.3
+    },
+    "confidence_multiplier": {
+      "high": 1.0,
+      "medium": 0.75,
+      "low": 0.4
+    },
+    "human_validation_multiplier": {
+      "human_validated": 1.1,
+      "human_reviewed": 1.0,
+      "machine_only": 0.9
+    },
+    "decay_model": {
+      "type": "time_decay",
+      "description": "Recent events matter more than older events in the pulse. The first implementation uses a stepwise decay by recency window."
+    }
+  },
+  "composite_logic": {
+    "description": "Monitor scores combine a slower structural baseline with a faster-moving pulse. Risk constructs then aggregate monitor outputs and structural fragilities into country-level outlooks.",
+    "trend_outputs": [
+      "rising",
+      "stable",
+      "easing"
+    ],
+    "display_outputs": [
+      "baseline_score",
+      "pulse_score",
+      "composite_score",
+      "trend_label",
+      "dominant_recent_signal"
+    ]
+  },
+  "future_extensions": [
+    "country-pair contingent monitoring",
+    "actor-sensitive pulse adjustments",
+    "event impact direction",
+    "expected duration",
+    "gold-data calibrated weights",
+    "learned calibration against historical ruptures"
+  ]
+}

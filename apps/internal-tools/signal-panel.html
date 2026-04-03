@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SENTINEL Internal Signal Panel</title>
+  <style>
+    :root{
+      --bg:#091018;
+      --panel:#101923;
+      --panel-2:#152231;
+      --line:#24374b;
+      --ink:#edf4fb;
+      --muted:#9eb0c4;
+      --accent:#34d399;
+      --teal:#28d7ff;
+      --amber:#f4c84b;
+      --red:#ff5c57;
+      --violet:#9f7aea;
+      --orange:#ff9f43;
+      --slate:#94a3b8;
+      --radius:18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(52,211,153,.08), transparent 28%),
+        radial-gradient(circle at top right, rgba(40,215,255,.07), transparent 24%),
+        linear-gradient(180deg, #070d14, #091018 40%, #0b1118);
+    }
+    .page{
+      max-width:1360px;
+      margin:0 auto;
+      padding:28px 24px 44px;
+    }
+    .hero{
+      display:grid;
+      grid-template-columns:minmax(0,1.35fr) minmax(320px,.65fr);
+      gap:18px;
+      margin-bottom:18px;
+    }
+    .hero-card,
+    .panel{
+      background:linear-gradient(180deg, rgba(16,25,35,.96), rgba(18,29,41,.94));
+      border:1px solid rgba(64,90,117,.42);
+      border-radius:var(--radius);
+      padding:20px;
+      box-shadow:0 20px 40px rgba(0,0,0,.18);
+    }
+    .kicker{
+      font:12px var(--mono);
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:1.4px;
+      margin-bottom:10px;
+    }
+    h1{
+      margin:0 0 10px;
+      font-size:48px;
+      letter-spacing:-0.05em;
+      line-height:1;
+    }
+    .lede{
+      color:#c6d4e3;
+      font-size:18px;
+      line-height:1.7;
+      max-width:860px;
+    }
+    .status-stack{
+      display:grid;
+      gap:10px;
+      align-content:start;
+    }
+    .pill{
+      border:1px solid rgba(79,110,141,.48);
+      border-radius:999px;
+      padding:10px 13px;
+      background:rgba(12,21,31,.72);
+      font:12px var(--mono);
+      color:#cdd9e4;
+      text-transform:uppercase;
+      letter-spacing:1.1px;
+    }
+    .metrics{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:14px;
+      margin-bottom:18px;
+    }
+    .metric{
+      padding:18px;
+      background:linear-gradient(180deg, rgba(14,23,32,.94), rgba(18,29,41,.9));
+      border:1px solid rgba(58,83,109,.4);
+      border-radius:16px;
+    }
+    .metric h2{
+      margin:0 0 6px;
+      font-size:14px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:1.1px;
+      font-family:var(--mono);
+      font-weight:500;
+    }
+    .metric .value{
+      font-size:38px;
+      font-weight:800;
+      letter-spacing:-0.05em;
+      line-height:1;
+    }
+    .metric .note{
+      margin-top:8px;
+      color:#bdd0df;
+      font-size:14px;
+      line-height:1.55;
+    }
+    .metric.overall .value{color:var(--accent)}
+    .metric.regime .value{color:var(--red)}
+    .metric.milit .value{color:var(--amber)}
+    .metric.frag .value{color:var(--teal)}
+    .layout{
+      display:grid;
+      grid-template-columns:minmax(0,1.6fr) minmax(320px,.7fr);
+      gap:18px;
+    }
+    .chart-head{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-end;
+      margin-bottom:14px;
+    }
+    .chart-head h2,
+    .side h2{
+      margin:0;
+      font-size:24px;
+      letter-spacing:-0.03em;
+    }
+    .chart-sub{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
+      margin-top:6px;
+    }
+    .legend{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:10px;
+    }
+    .legend-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid rgba(67,93,120,.42);
+      border-radius:999px;
+      padding:7px 10px;
+      font:11px var(--mono);
+      color:#dce8f3;
+      background:rgba(13,21,30,.58);
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+    .swatch{
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      display:inline-block;
+    }
+    .chart-wrap{
+      border:1px solid rgba(53,76,101,.45);
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(9,16,24,.96), rgba(12,19,28,.92));
+      padding:10px 12px 12px;
+    }
+    svg{width:100%; height:auto; display:block}
+    .side{
+      display:grid;
+      gap:14px;
+    }
+    .list{
+      display:grid;
+      gap:10px;
+    }
+    .list-item{
+      border:1px solid rgba(56,80,104,.46);
+      border-radius:14px;
+      background:rgba(13,21,30,.72);
+      padding:12px 13px;
+    }
+    .list-item .meta{
+      font:11px var(--mono);
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      margin-bottom:5px;
+    }
+    .list-item strong{
+      display:block;
+      font-size:15px;
+      line-height:1.5;
+      margin-bottom:4px;
+    }
+    .list-item p{
+      margin:0;
+      color:#c6d4e3;
+      font-size:13px;
+      line-height:1.55;
+    }
+    .construct-grid{
+      display:grid;
+      gap:10px;
+    }
+    .construct{
+      border:1px solid rgba(56,80,104,.46);
+      border-radius:14px;
+      background:rgba(13,21,30,.72);
+      padding:13px;
+    }
+    .construct .label{
+      font:11px var(--mono);
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      margin-bottom:6px;
+    }
+    .construct .score{
+      font-size:26px;
+      font-weight:800;
+      letter-spacing:-0.04em;
+      line-height:1;
+      margin-bottom:4px;
+    }
+    .construct .state{
+      color:#c6d4e3;
+      font-size:13px;
+      line-height:1.45;
+    }
+    .foot{
+      margin-top:14px;
+      color:var(--muted);
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+    @media (max-width: 1080px){
+      .hero,
+      .layout{grid-template-columns:1fr}
+      .metrics{grid-template-columns:repeat(2, minmax(0,1fr))}
+    }
+    @media (max-width: 760px){
+      .page{padding:18px 14px 28px}
+      h1{font-size:36px}
+      .metrics{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="kicker">Private Internal Monitoring Layer</div>
+        <h1>SENTINEL Signal Panel</h1>
+        <div class="lede" id="lede">
+          Loading country signal panel.
+        </div>
+      </div>
+      <div class="status-stack">
+        <div class="pill" id="country-pill">Country Loading</div>
+        <div class="pill" id="window-pill">Window Loading</div>
+        <div class="pill" id="status-pill">Private Internal Artifact</div>
+      </div>
+    </section>
+
+    <section class="metrics">
+      <div class="metric overall">
+        <h2>Overall Internal Risk</h2>
+        <div class="value" id="overall-risk">—</div>
+        <div class="note" id="overall-note">Loading latest risk snapshot.</div>
+      </div>
+      <div class="metric regime">
+        <h2>Regime Vulnerability</h2>
+        <div class="value" id="regime-risk">—</div>
+        <div class="note" id="regime-note">Loading.</div>
+      </div>
+      <div class="metric milit">
+        <h2>Militarization</h2>
+        <div class="value" id="milit-risk">—</div>
+        <div class="note" id="milit-note">Loading.</div>
+      </div>
+      <div class="metric frag">
+        <h2>Security Fragmentation</h2>
+        <div class="value" id="frag-risk">—</div>
+        <div class="note" id="frag-note">Loading.</div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <div class="panel">
+        <div class="chart-head">
+          <div>
+            <h2>Signal Trajectories</h2>
+            <div class="chart-sub">Six private signal series feeding the three main constructs and top-line internal risk.</div>
+          </div>
+        </div>
+        <div class="legend" id="legend"></div>
+        <div class="chart-wrap">
+          <svg id="chart" viewBox="0 0 920 520" role="img" aria-label="Internal signal panel chart"></svg>
+        </div>
+        <div class="foot">Private only · episode/process aid · not for public dashboard</div>
+      </div>
+
+      <div class="side">
+        <div class="panel">
+          <h2>Construct Pressure</h2>
+          <div class="construct-grid" id="constructs"></div>
+        </div>
+        <div class="panel">
+          <h2>Recent Markers</h2>
+          <div class="list" id="markers"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const SERIES_COLORS = {
+      coercive_instability: "#ff5c57",
+      institutional_erosion: "#f4c84b",
+      security_fragmentation: "#28d7ff",
+      elite_fracture: "#9f7aea",
+      external_pressure: "#ff9f43",
+      economic_stress_policy_shock: "#34d399",
+    };
+
+    function slugify(value) {
+      return String(value || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "venezuela";
+    }
+
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, ch => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      }[ch]));
+    }
+
+    function formatScore(value) {
+      return value == null ? "—" : Number(value).toFixed(1);
+    }
+
+    function linePath(points) {
+      return points.map((point, index) => `${index === 0 ? "M" : "L"} ${point.x.toFixed(2)} ${point.y.toFixed(2)}`).join(" ");
+    }
+
+    async function main() {
+      const params = new URLSearchParams(window.location.search);
+      const country = params.get("country") || "Venezuela";
+      const ref = `../../data/modeling/internal_signal_panel_${slugify(country)}.json`;
+      const res = await fetch(ref, { cache: "no-store" });
+      if (!res.ok) throw new Error(`Failed to load ${ref}`);
+      const payload = await res.json();
+
+      const latest = payload.latest_snapshot || {};
+      const constructs = latest.construct_pressure || {};
+
+      document.getElementById("lede").textContent = `Private internal pilot for ${payload.country}. This panel shows the signal-layer trajectories feeding the three main constructs and the top-line internal risk view.`;
+      document.getElementById("country-pill").textContent = `Country ${payload.country}`;
+      document.getElementById("window-pill").textContent = `Window ${payload.window_months} monthly observations`;
+      document.getElementById("status-pill").textContent = `Generated ${payload.generated_at}`;
+
+      document.getElementById("overall-risk").textContent = formatScore(latest.overall_risk_internal?.score);
+      document.getElementById("overall-note").textContent = `${latest.overall_risk_internal?.signal_label || "background"} state`;
+      document.getElementById("regime-risk").textContent = formatScore(constructs.regime_vulnerability?.score);
+      document.getElementById("regime-note").textContent = `${constructs.regime_vulnerability?.signal_label || "background"} pressure`;
+      document.getElementById("milit-risk").textContent = formatScore(constructs.militarization?.score);
+      document.getElementById("milit-note").textContent = `${constructs.militarization?.signal_label || "background"} pressure`;
+      document.getElementById("frag-risk").textContent = formatScore(constructs.security_fragmentation?.score);
+      document.getElementById("frag-note").textContent = `${constructs.security_fragmentation?.signal_label || "background"} pressure`;
+
+      const signalCodes = payload.series[0]?.signals?.map(signal => signal.code) || [];
+      document.getElementById("legend").innerHTML = signalCodes.map(code => `
+        <span class="legend-chip"><span class="swatch" style="background:${SERIES_COLORS[code] || "#94a3b8"}"></span>${esc(code.replaceAll("_", " "))}</span>
+      `).join("");
+
+      document.getElementById("constructs").innerHTML = Object.entries(constructs).map(([code, row]) => `
+        <div class="construct">
+          <div class="label">${esc(code.replaceAll("_", " "))}</div>
+          <div class="score">${esc(formatScore(row.score))}</div>
+          <div class="state">${esc(row.signal_label || "background")} state</div>
+        </div>
+      `).join("");
+
+      const markerList = payload.markers.slice(-8).reverse();
+      document.getElementById("markers").innerHTML = markerList.map(marker => `
+        <div class="list-item">
+          <div class="meta">${esc(marker.panel_date)} · ${esc(marker.marker_type.replaceAll("_", " "))}</div>
+          <strong>${esc(marker.headline || marker.event_id || "Marker")}</strong>
+          <p>${esc(marker.event_type || "event")} ${marker.deed_type ? `· ${esc(marker.deed_type)}` : ""}</p>
+        </div>
+      `).join("") || `<div class="list-item"><strong>No markers</strong><p>No qualifying markers were found for this window.</p></div>`;
+
+      renderChart(payload);
+    }
+
+    function renderChart(payload) {
+      const svg = document.getElementById("chart");
+      const width = 920;
+      const height = 520;
+      const margin = { top: 20, right: 24, bottom: 48, left: 48 };
+      const plotWidth = width - margin.left - margin.right;
+      const plotHeight = height - margin.top - margin.bottom;
+
+      const months = payload.series.map(row => row.panel_date);
+      const signalCodes = payload.series[0]?.signals?.map(signal => signal.code) || [];
+      const seriesByCode = Object.fromEntries(signalCodes.map(code => [code, payload.series.map(row => row.signals.find(signal => signal.code === code)?.score || 0)]));
+      const maxValue = Math.max(100, ...Object.values(seriesByCode).flat());
+
+      const xScale = index => margin.left + (plotWidth * index / Math.max(1, months.length - 1));
+      const yScale = value => margin.top + plotHeight - (plotHeight * value / maxValue);
+
+      const yTicks = [0, 20, 40, 60, 80, 100];
+      const grid = yTicks.map(value => {
+        const y = yScale(value);
+        return `
+          <line x1="${margin.left}" y1="${y}" x2="${width - margin.right}" y2="${y}" stroke="rgba(95,120,149,.22)" stroke-dasharray="4 6" />
+          <text x="${margin.left - 10}" y="${y + 4}" fill="#8fa4b8" font-size="11" text-anchor="end" font-family="var(--mono)">${value}</text>
+        `;
+      }).join("");
+
+      const paths = signalCodes.map(code => {
+        const points = seriesByCode[code].map((value, index) => ({ x: xScale(index), y: yScale(value) }));
+        return `<path d="${linePath(points)}" fill="none" stroke="${SERIES_COLORS[code] || "#94a3b8"}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" />`;
+      }).join("");
+
+      const markersByMonth = new Map();
+      for (const marker of payload.markers || []) {
+        if (!markersByMonth.has(marker.panel_date)) markersByMonth.set(marker.panel_date, []);
+        markersByMonth.get(marker.panel_date).push(marker);
+      }
+      const markerDots = months.flatMap((month, index) => {
+        const markers = markersByMonth.get(month) || [];
+        return markers.slice(0, 3).map((marker, offset) => {
+          const x = xScale(index);
+          const y = margin.top + 10 + offset * 10;
+          return `<circle cx="${x}" cy="${y}" r="3.2" fill="#dce7f2"><title>${esc(marker.headline || marker.marker_type)}</title></circle>`;
+        });
+      }).join("");
+
+      const xLabels = months.filter((_, index) => index % Math.max(1, Math.floor(months.length / 6)) === 0 || index === months.length - 1).map(month => {
+        const index = months.indexOf(month);
+        return `<text x="${xScale(index)}" y="${height - 16}" fill="#8fa4b8" font-size="11" text-anchor="middle" font-family="var(--mono)">${esc(month.slice(0, 7))}</text>`;
+      }).join("");
+
+      svg.innerHTML = `
+        <rect x="0" y="0" width="${width}" height="${height}" fill="transparent"></rect>
+        ${grid}
+        <line x1="${margin.left}" y1="${margin.top + plotHeight}" x2="${width - margin.right}" y2="${margin.top + plotHeight}" stroke="rgba(95,120,149,.34)" />
+        ${paths}
+        ${markerDots}
+        ${xLabels}
+      `;
+    }
+
+    main().catch(error => {
+      document.body.innerHTML = `<div style="padding:24px; color:#fff; font-family:system-ui, sans-serif"><h1>Signal Panel Load Failed</h1><p>${esc(error.message)}</p></div>`;
+      console.error(error);
+    });
+  </script>
+</body>
+</html>

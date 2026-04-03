@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1080" viewBox="0 0 1440 1080" role="img" aria-labelledby="title desc">
+  <title id="title">SENTINEL private integration diagram</title>
+  <desc id="desc">Private systems diagram showing how data moves from ingest and structural refresh through internal review and private modeling, including proxy targets, to the public dashboard.</desc>
+  <style>
+    .bg { fill: #0f172a; }
+    .panel { fill: #111827; stroke: #334155; stroke-width: 2; rx: 18; ry: 18; }
+    .box-public { fill: #0f766e; stroke: #5eead4; stroke-width: 2; rx: 16; ry: 16; }
+    .box-internal { fill: #4c1d95; stroke: #c4b5fd; stroke-width: 2; rx: 16; ry: 16; }
+    .box-private { fill: #374151; stroke: #d1d5db; stroke-width: 2; rx: 16; ry: 16; }
+    .box-process { fill: #1e293b; stroke: #94a3b8; stroke-width: 2; rx: 16; ry: 16; }
+    .label { fill: #e5e7eb; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 700; }
+    .sub { fill: #cbd5e1; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+    .small { fill: #94a3b8; font-family: Arial, Helvetica, sans-serif; font-size: 13px; }
+    .title { fill: #f8fafc; font-family: Arial, Helvetica, sans-serif; font-size: 34px; font-weight: 700; }
+    .arrow { stroke: #cbd5e1; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+    .dashed { stroke-dasharray: 9 8; }
+    .note { fill: #fde68a; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1440" height="1080"/>
+  <text class="title" x="60" y="60">SENTINEL private integration map</text>
+  <text class="sub" x="60" y="92">From source collection to analyst operations, private modeling, and public release</text>
+
+  <rect class="panel" x="40" y="120" width="1360" height="280"/>
+  <text class="label" x="70" y="160">Layer 1: collection and structural input</text>
+  <text class="small" x="70" y="185">Everything upstream that creates the raw material for internal review and modeling</text>
+
+  <rect class="box-process" x="70" y="220" width="250" height="120"/>
+  <text class="label" x="100" y="260">Source collection</text>
+  <text class="sub" x="100" y="292">RSS, NewsAPI, GDELT, ACLED</text>
+  <text class="small" x="100" y="320">Fast monitoring inputs</text>
+
+  <rect class="box-process" x="360" y="220" width="280" height="120"/>
+  <text class="label" x="390" y="260">Ingest and normalization</text>
+  <text class="sub" x="390" y="292">run_pipeline.py</text>
+  <text class="sub" x="390" y="314">normalize_articles.py</text>
+
+  <rect class="box-private" x="690" y="220" width="300" height="120"/>
+  <text class="label" x="720" y="260">Structural refresh</text>
+  <text class="sub" x="720" y="292">refresh_vdem.py</text>
+  <text class="sub" x="720" y="314">fetch_worldbank.py / build_country_year.py</text>
+
+  <rect class="box-private" x="1040" y="220" width="300" height="120"/>
+  <text class="label" x="1070" y="260">Private references</text>
+  <text class="sub" x="1070" y="292">country_year.json</text>
+  <text class="sub" x="1070" y="314">future external and economic layers</text>
+
+  <line class="arrow" x1="320" y1="280" x2="360" y2="280"/>
+  <line class="arrow" x1="640" y1="280" x2="690" y2="280"/>
+  <line class="arrow" x1="990" y1="280" x2="1040" y2="280"/>
+
+  <rect class="panel" x="40" y="440" width="1360" height="270"/>
+  <text class="label" x="70" y="480">Layer 2: internal event system and analyst operations</text>
+  <text class="small" x="70" y="505">Where data becomes reviewable events, actor logic, analysis, and publication decisions</text>
+
+  <rect class="box-internal" x="70" y="550" width="250" height="110"/>
+  <text class="label" x="100" y="590">Review diagnostics</text>
+  <text class="sub" x="100" y="620">QA, duplicates, review queue</text>
+
+  <rect class="box-internal" x="360" y="550" width="250" height="110"/>
+  <text class="label" x="390" y="590">Canonical event layer</text>
+  <text class="sub" x="390" y="620">classification, actor coding, registry</text>
+
+  <rect class="box-internal" x="650" y="550" width="250" height="110"/>
+  <text class="label" x="680" y="590">Council analysis</text>
+  <text class="sub" x="680" y="620">interpretation and recommended actions</text>
+
+  <rect class="box-internal" x="940" y="550" width="190" height="110"/>
+  <text class="label" x="970" y="590">Analyst console</text>
+  <text class="sub" x="970" y="620">credentialed review</text>
+
+  <rect class="box-internal" x="1170" y="550" width="190" height="110"/>
+  <text class="label" x="1200" y="590">Publish build</text>
+  <text class="sub" x="1200" y="620">public-safe data products</text>
+
+  <line class="arrow" x1="320" y1="605" x2="360" y2="605"/>
+  <line class="arrow" x1="610" y1="605" x2="650" y2="605"/>
+  <line class="arrow" x1="900" y1="605" x2="940" y2="605"/>
+  <line class="arrow" x1="1130" y1="605" x2="1170" y2="605"/>
+
+  <line class="arrow" x1="500" y1="340" x2="500" y2="550"/>
+  <line class="arrow" x1="840" y1="340" x2="840" y2="550"/>
+
+  <rect class="panel" x="40" y="750" width="1360" height="260"/>
+  <text class="label" x="70" y="790">Layer 3: private modeling and public release</text>
+  <text class="small" x="70" y="815">Strict separation between private calibration work and public-facing outputs</text>
+
+  <rect class="box-private" x="80" y="860" width="360" height="100"/>
+  <text class="label" x="110" y="900">Private modeling layer</text>
+  <text class="sub" x="110" y="930">country monitors, country-month panel, proxy targets, manual seeds, forecasting</text>
+
+  <rect class="box-private" x="500" y="860" width="360" height="100"/>
+  <text class="label" x="530" y="900">Internal calibration loop</text>
+  <text class="sub" x="530" y="930">benchmarks, analyst notes, weight changes, target design</text>
+
+  <rect class="box-public" x="920" y="860" width="420" height="100"/>
+  <text class="label" x="950" y="900">Public dashboard</text>
+  <text class="sub" x="950" y="930">published-safe events, summaries, maps, country monitor views</text>
+
+  <line class="arrow" x1="720" y1="660" x2="260" y2="860"/>
+  <line class="arrow" x1="780" y1="660" x2="680" y2="860"/>
+  <line class="arrow" x1="1265" y1="660" x2="1130" y2="860"/>
+
+  <line class="arrow dashed" x1="440" y1="910" x2="500" y2="910"/>
+  <line class="arrow dashed" x1="860" y1="910" x2="920" y2="910"/>
+
+  <text class="note" x="1010" y="1015">Decision rule: every new artifact must be classified as public, internal analyst, or private modeling.</text>
+</svg>

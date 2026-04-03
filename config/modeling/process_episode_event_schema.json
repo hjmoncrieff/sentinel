@@ -1,0 +1,145 @@
+{
+  "status": "private_internal_schema_scaffold",
+  "description": "Internal scaffold for a future Process -> Episode -> Event aggregation layer in SENTINEL.",
+  "hierarchy": [
+    "process",
+    "episode",
+    "event"
+  ],
+  "event": {
+    "role": "atomic_ingestion_and_publication_unit",
+    "candidate_fields": [
+      "event_id",
+      "country",
+      "event_date",
+      "event_type",
+      "event_subtype",
+      "salience_intrinsic",
+      "episode_id",
+      "process_id",
+      "episode_role",
+      "process_relevance"
+    ],
+    "enum_fields": {
+      "episode_role": [
+        "trigger",
+        "reinforcing",
+        "turning_point",
+        "background"
+      ],
+      "process_relevance": [
+        "low",
+        "medium",
+        "high"
+      ]
+    }
+  },
+  "episode": {
+    "role": "bounded_sequence_layer",
+    "candidate_fields": [
+      "episode_id",
+      "country",
+      "episode_type",
+      "episode_title",
+      "episode_status",
+      "episode_start",
+      "episode_end_estimate",
+      "linked_event_ids",
+      "event_count",
+      "high_salience_event_count",
+      "dominant_actor_set",
+      "dominant_mechanism",
+      "episode_direction",
+      "episode_severity",
+      "process_id",
+      "construct_links"
+    ],
+    "enum_fields": {
+      "episode_status": [
+        "forming",
+        "active",
+        "stabilizing",
+        "closed"
+      ],
+      "episode_direction": [
+        "escalating",
+        "stabilizing",
+        "fragmenting",
+        "institutionalizing"
+      ],
+      "episode_severity": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "suggested_types": [
+      "purge_wave",
+      "election_security_episode",
+      "anti_crime_crackdown",
+      "protest_security_escalation",
+      "sanctions_response_episode",
+      "imf_negotiation_episode",
+      "exception_regime_episode",
+      "cross_border_security_episode"
+    ]
+  },
+  "process": {
+    "role": "country_risk_reasoning_layer",
+    "candidate_fields": [
+      "process_id",
+      "country",
+      "process_type",
+      "process_label",
+      "process_status",
+      "start_estimate",
+      "latest_episode_id",
+      "linked_episode_ids",
+      "trajectory",
+      "country_risk_relevance",
+      "construct_links",
+      "watchpoints",
+      "summary_text"
+    ],
+    "enum_fields": {
+      "process_status": [
+        "latent",
+        "active",
+        "consolidating",
+        "receding"
+      ],
+      "trajectory": [
+        "rising",
+        "stable",
+        "volatile",
+        "easing"
+      ],
+      "country_risk_relevance": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "suggested_types": [
+      "authoritarian_consolidation",
+      "military_governance_expansion",
+      "security_fragmentation",
+      "elite_security_fracture",
+      "institutional_erosion",
+      "external_pressure_cycle",
+      "economic_stress_cycle"
+    ]
+  },
+  "construct_destinations": [
+    "regime_vulnerability",
+    "militarization",
+    "security_fragmentation",
+    "external_pressure",
+    "economic_fragility"
+  ],
+  "implementation_status": {
+    "event_layer": "current_primary_layer",
+    "episode_layer": "not_yet_implemented",
+    "process_layer": "not_yet_implemented"
+  }
+}

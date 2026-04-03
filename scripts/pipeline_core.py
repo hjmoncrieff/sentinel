@@ -979,9 +979,9 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
 # ── AI analysis ────────────────────────────────────────────────────────────────
 
 ANALYSIS_PROMPT = """\
-In 2-3 sentences, analyze the civil-military significance of this event for {country}.
-Be specific and analytical; draw on CMR theory (civilian control, institutional autonomy, \
-coup-proofing, security sector reform) where appropriate.
+Write 2-3 sentences on why this event matters for political risk and security politics in {country}.
+Be specific, concrete, and country-focused. Avoid jargon and generic theory language.
+Explain the mechanism: what happened, why it matters, and what it could change next.
 
 Event: {title}
 Summary: {summary}

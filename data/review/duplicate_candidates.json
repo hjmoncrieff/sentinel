@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-01T04:21:02.805366+00:00",
+  "generated_at": "2026-04-03T04:00:58.120527+00:00",
   "source_file": "data/events.json",
-  "event_count": 755,
-  "candidate_count": 21,
+  "event_count": 762,
+  "candidate_count": 22,
   "candidates": [
     {
       "candidate_id": "088f86d1dde3",
@@ -202,6 +202,26 @@
         "same_type": false,
         "same_actor": false,
         "same_target": false
+      }
+    },
+    {
+      "candidate_id": "5abbca670aa3",
+      "event_ids": [
+        "5d4c8dafb0d9",
+        "fb855d157606"
+      ],
+      "status": "definite_duplicate",
+      "reason": "Records share at least one source URL.",
+      "score": 1.0,
+      "details": {
+        "country": "Venezuela",
+        "day_gap": 0,
+        "title_score": 0.314,
+        "left_title": "The Venezuela Paradigm: Is Trump’s Model Intervention a Mirage?",
+        "right_title": "US reopens embassy in Venezuela after seizing Nicolas Maduro",
+        "same_type": false,
+        "same_actor": true,
+        "same_target": true
       }
     },
     {

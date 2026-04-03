@@ -1,0 +1,146 @@
+{
+  "version": "0.1.0",
+  "description": "Benchmark cases for validating SENTINEL's layered country risk model against expert-judgment target ranges. These are current comparative anchors, not event-level forecasts.",
+  "benchmarks": [
+    {
+      "country": "Venezuela",
+      "reason": "Authoritarian civil-military fusion with severe regime stress and entrenched militarization.",
+      "targets": {
+        "overall_risk": {"min": 82, "max": 92},
+        "regime_vulnerability": {"min": 84, "max": 92},
+        "militarization": {"min": 84, "max": 95},
+        "security_fragmentation": {"min": 62, "max": 78}
+      }
+    },
+    {
+      "country": "El Salvador",
+      "reason": "Exception-regime case with very high militarization and high regime vulnerability, but less fragmentation than Mexico or Haiti.",
+      "targets": {
+        "overall_risk": {"min": 68, "max": 78},
+        "regime_vulnerability": {"min": 68, "max": 78},
+        "militarization": {"min": 80, "max": 92},
+        "security_fragmentation": {"min": 32, "max": 52}
+      }
+    },
+    {
+      "country": "Mexico",
+      "reason": "Severe security fragmentation and deep structural militarization without a full regime-breakdown profile.",
+      "targets": {
+        "overall_risk": {"min": 74, "max": 84},
+        "regime_vulnerability": {"min": 60, "max": 72},
+        "militarization": {"min": 70, "max": 82},
+        "security_fragmentation": {"min": 84, "max": 94}
+      }
+    },
+    {
+      "country": "Colombia",
+      "reason": "High conflict fragmentation with lower militarization than Mexico or El Salvador.",
+      "targets": {
+        "overall_risk": {"min": 66, "max": 76},
+        "regime_vulnerability": {"min": 56, "max": 66},
+        "militarization": {"min": 34, "max": 48},
+        "security_fragmentation": {"min": 78, "max": 88}
+      }
+    },
+    {
+      "country": "Ecuador",
+      "reason": "High fragmentation and rising coercive stress under the internal-armed-conflict framework.",
+      "targets": {
+        "overall_risk": {"min": 58, "max": 68},
+        "regime_vulnerability": {"min": 54, "max": 64},
+        "militarization": {"min": 36, "max": 50},
+        "security_fragmentation": {"min": 80, "max": 90}
+      }
+    },
+    {
+      "country": "Brazil",
+      "reason": "High but not crisis-level regime vulnerability with meaningful fragmentation and moderate militarization.",
+      "targets": {
+        "overall_risk": {"min": 56, "max": 66},
+        "regime_vulnerability": {"min": 50, "max": 60},
+        "militarization": {"min": 42, "max": 56},
+        "security_fragmentation": {"min": 54, "max": 66}
+      }
+    },
+    {
+      "country": "Nicaragua",
+      "reason": "Authoritarian consolidation with high militarization but lower fragmentation than war- or cartel-driven cases.",
+      "targets": {
+        "overall_risk": {"min": 50, "max": 62},
+        "regime_vulnerability": {"min": 60, "max": 74},
+        "militarization": {"min": 62, "max": 76},
+        "security_fragmentation": {"min": 16, "max": 30}
+      }
+    },
+    {
+      "country": "Cuba",
+      "reason": "Entrenched military-economic and regime-security role with low current fragmentation.",
+      "targets": {
+        "overall_risk": {"min": 20, "max": 32},
+        "regime_vulnerability": {"min": 24, "max": 36},
+        "militarization": {"min": 46, "max": 62},
+        "security_fragmentation": {"min": 0, "max": 10}
+      }
+    },
+    {
+      "country": "Haiti",
+      "reason": "Extreme security fragmentation and state weakness, even if classical militarization is low.",
+      "targets": {
+        "overall_risk": {"min": 56, "max": 72},
+        "regime_vulnerability": {"min": 60, "max": 76},
+        "militarization": {"min": 8, "max": 24},
+        "security_fragmentation": {"min": 88, "max": 98}
+      }
+    },
+    {
+      "country": "Guatemala",
+      "reason": "Medium-high security and governance stress with meaningful but not extreme militarization.",
+      "targets": {
+        "overall_risk": {"min": 46, "max": 58},
+        "regime_vulnerability": {"min": 42, "max": 54},
+        "militarization": {"min": 42, "max": 56},
+        "security_fragmentation": {"min": 44, "max": 58}
+      }
+    },
+    {
+      "country": "Uruguay",
+      "reason": "Low-risk benchmark for robust civilian control and low fragmentation.",
+      "targets": {
+        "overall_risk": {"min": 4, "max": 12},
+        "regime_vulnerability": {"min": 4, "max": 12},
+        "militarization": {"min": 0, "max": 12},
+        "security_fragmentation": {"min": 0, "max": 12}
+      }
+    },
+    {
+      "country": "Costa Rica",
+      "reason": "Low-risk benchmark with no standing army and minimal militarization.",
+      "targets": {
+        "overall_risk": {"min": 3, "max": 12},
+        "regime_vulnerability": {"min": 3, "max": 12},
+        "militarization": {"min": 0, "max": 10},
+        "security_fragmentation": {"min": 0, "max": 10}
+      }
+    },
+    {
+      "country": "Chile",
+      "reason": "Low-to-guarded benchmark with low fragmentation and modest militarization.",
+      "targets": {
+        "overall_risk": {"min": 18, "max": 30},
+        "regime_vulnerability": {"min": 18, "max": 28},
+        "militarization": {"min": 14, "max": 28},
+        "security_fragmentation": {"min": 10, "max": 22}
+      }
+    },
+    {
+      "country": "Argentina",
+      "reason": "Guarded benchmark with low militarization but some governance and economic stress.",
+      "targets": {
+        "overall_risk": {"min": 18, "max": 30},
+        "regime_vulnerability": {"min": 18, "max": 32},
+        "militarization": {"min": 6, "max": 18},
+        "security_fragmentation": {"min": 18, "max": 34}
+      }
+    }
+  ]
+}

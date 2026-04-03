@@ -40,11 +40,18 @@ Use a registry file as the backbone for actor normalization.
 Current repo seed:
 
 - `config/actors/nsva_registry_seed.json`
+- `config/actors/broad_actor_registry_seed.json`
 
-This should grow into a full actor registry with:
+The NSVA seed is now only one registry module. The broader seed carries state,
+civil-society, economic, media, protest, and international actors so the full
+actor registry is not skewed toward organized crime and armed groups.
+
+This should grow into a fuller actor module inside the broader actor registry with:
 
 - `actor_id`
 - `canonical_name`
+- `actor_category`
+- `actor_group`
 - `aliases`
 - `country`
 - `actor_type`
@@ -57,15 +64,21 @@ This should grow into a full actor registry with:
 
 SENTINEL should preserve actor hierarchy explicitly:
 
-- `actor_type`: broad category
-- `actor_subtype`: subcategory
+- `actor_category`: broad top-level class such as `state_actor` or `non_state_actor`
+- `actor_group`: mid-level branch such as `military`, `executive`, `civil_society`, `economic_group`, `armed_non_state_actor`
+- `actor_type`: specific actor class such as `organized_crime`, `armed_group`, `state_security_force`, `state_institution`
+- `actor_subtype`: fine-grained subtype
 - `actor_canonical_name`: specific named actor
 
 Example:
 
+- `actor_category = non_state_actor`
+- `actor_group = armed_non_state_actor`
 - `actor_type = organized_crime`
 - `actor_subtype = transnational_network`
 - `actor_canonical_name = Tren de Aragua`
+
+This matters because the NSVA seed is only one branch of SENTINEL's actor world. It should not define the top-level actor ontology for the full project.
 
 ### 2. Keep uncertainty explicit
 
@@ -179,7 +192,7 @@ This is enough to improve internal knowledge immediately without pretending the 
 
 The next good knowledge step is:
 
-1. expand `config/actors/nsva_registry_seed.json` country by country
-2. wire alias lookup from the registry more deeply into `scripts/pipeline/code_actors.py`
+1. expand the broader state/non-state registry modules country by country
+2. deepen named institutional coverage beyond the current reusable seed templates
 3. add `state_interaction_mode` and `governance_behavior_tags` scaffolding to the actor-coded layer
 4. expose those fields in the future analyst review workflow

@@ -1,6 +1,6 @@
 {
-  "version": "1.0",
-  "updated": "2026-04-01",
+  "version": "1.2",
+  "updated": "2026-04-02",
   "description": "AI-first worker registry for SENTINEL. Humans supervise exceptions; AI workers perform most routine production and analysis.",
   "workers": [
     {
@@ -40,24 +40,38 @@
     },
     {
       "code": "cmr_analyst",
-      "label": "CMR Analyst",
+      "label": "Military Analyst",
       "stage": "analysis",
       "primary_outputs": ["cmr_assessment", "cmr_signals", "cmr_risk_level"],
       "supervision_triggers": ["ai_disagreement", "high_risk_assessment", "concept_mismatch"]
     },
     {
       "code": "political_risk_analyst",
-      "label": "Political Risk Analyst",
+      "label": "Political Analyst",
       "stage": "analysis",
-      "primary_outputs": ["political_risk_assessment", "political_risk_signals", "political_risk_level"],
+      "primary_outputs": ["regime_vulnerability_assessment", "regime_vulnerability_signals", "regime_vulnerability_level"],
       "supervision_triggers": ["ai_disagreement", "instability_signal_cluster", "confidence_gap"]
     },
     {
       "code": "regional_security_analyst",
-      "label": "Regional Security Analyst",
+      "label": "Security Analyst",
       "stage": "analysis",
-      "primary_outputs": ["regional_security_assessment", "regional_security_signals", "regional_security_level"],
+      "primary_outputs": ["security_fragmentation_assessment", "security_fragmentation_signals", "security_fragmentation_level"],
       "supervision_triggers": ["ai_disagreement", "spillover_risk", "external_actor_ambiguity"]
+    },
+    {
+      "code": "international_analyst",
+      "label": "International Analyst",
+      "stage": "analysis",
+      "primary_outputs": ["international_assessment", "international_signals", "international_risk_level"],
+      "supervision_triggers": ["ai_disagreement", "sanctions_interpretation_gap", "external_actor_ambiguity"]
+    },
+    {
+      "code": "economist_analyst",
+      "label": "Economist Analyst",
+      "stage": "analysis",
+      "primary_outputs": ["economic_assessment", "economic_signals", "economic_risk_level"],
+      "supervision_triggers": ["ai_disagreement", "macro_shock_signal", "economic_context_gap"]
     },
     {
       "code": "synthesis_analyst",

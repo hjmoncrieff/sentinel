@@ -19,6 +19,25 @@ OUT = ROOT / "data" / "published" / "events_public.json"
 POLICY_IN = ROOT / "config" / "publish_policy.json"
 COUNCIL_IN = ROOT / "data" / "review" / "council_analyses.json"
 QA_IN = ROOT / "data" / "review" / "qa_report.json"
+TAXONOMY_FALLBACK_FIELDS = [
+    "event_category",
+    "event_subcategory",
+    "event_construct_destinations",
+    "event_analyst_lenses",
+]
+GENERIC_TAXONOMY_VALUES = {
+    "other_institutional_relevance",
+    "armed_non_state_and_illicit_order",
+    "conflict_management_and_settlement",
+    "external_security_alignment",
+    "irregular_transfer_and_command_break",
+    "command_and_coercive_control",
+    "external_security_support",
+    "contention_and_state_response",
+    "institutional_security_reordering",
+    "force_posture_and_training",
+    "armed_fragmentation_and_territorial_control",
+}
 
 
 PUBLIC_EVENT_FIELDS = [
@@ -34,7 +53,13 @@ PUBLIC_EVENT_FIELDS = [
     "url_primary",
     "url_all",
     "event_type",
+    "event_category",
+    "event_subcategory",
+    "event_construct_destinations",
+    "event_analyst_lenses",
     "event_subtype",
+    "deed_type",
+    "axis",
     "salience",
     "confidence",
     "summary",
@@ -69,6 +94,34 @@ STAGE_ORDER = {
 
 def is_reviewed_by_human(event: dict) -> bool:
     return bool(event.get("human_validated")) or event.get("review_status") in HUMAN_REVIEW_STATUSES
+
+
+def enrich_with_canonical(events: list[dict]) -> list[dict]:
+    if not CANONICAL_IN.exists():
+        return events
+    canonical = json.loads(CANONICAL_IN.read_text(encoding="utf-8"))
+    canonical_by_event = {
+        str(row.get("event_id")): row
+        for row in canonical.get("events", [])
+        if row.get("event_id")
+    }
+    enriched: list[dict] = []
+    for row in events:
+        merged = dict(row)
+        canonical_row = canonical_by_event.get(str(row.get("event_id")))
+        if canonical_row:
+            for field in TAXONOMY_FALLBACK_FIELDS:
+                value = merged.get(field)
+                canonical_value = canonical_row.get(field)
+                replace = value in (None, "", [])
+                if field == "event_subcategory" and value in GENERIC_TAXONOMY_VALUES and value != canonical_value:
+                    replace = True
+                if field == "event_analyst_lenses" and canonical_value and value != canonical_value:
+                    replace = True
+                if replace:
+                    merged[field] = canonical_value
+        enriched.append(merged)
+    return enriched
 
 
 def should_publish(event: dict, policy: dict) -> tuple[bool, str | None]:
@@ -203,6 +256,8 @@ def public_linked_reports(event: dict) -> list[dict]:
             "source_name": row.get("source_name"),
             "url": row.get("url"),
             "link_domain": row.get("link_domain"),
+            "headline": row.get("headline"),
+            "description": row.get("description"),
         }
         for row in reports
     ]
@@ -214,7 +269,7 @@ def main() -> None:
     policy = json.loads(POLICY_IN.read_text(encoding="utf-8"))
     council = json.loads(COUNCIL_IN.read_text(encoding="utf-8")) if COUNCIL_IN.exists() else {"events": []}
     qa = json.loads(QA_IN.read_text(encoding="utf-8")) if QA_IN.exists() else {"flags": []}
-    events = canonical.get("events", [])
+    events = enrich_with_canonical(canonical.get("events", []))
     council_by_event = {row.get("event_id"): row for row in council.get("events", [])}
     qa_flags_by_event: dict[str, list[dict]] = {}
     for flag in qa.get("flags", []):
@@ -239,6 +294,8 @@ def main() -> None:
             continue
         row = {field: event.get(field) for field in PUBLIC_EVENT_FIELDS}
         row["human_validated"] = bool(event.get("human_validated"))
+        council_row = council_by_event.get(event.get("event_id")) or {}
+        synthesis = (council_row.get("analyses") or {}).get("synthesis") or {}
         row["provenance_summary"] = {
             "merge_strategy": (event.get("provenance") or {}).get("merge_strategy"),
             "source_type": (event.get("provenance") or {}).get("source_type"),
@@ -250,6 +307,9 @@ def main() -> None:
             "timeline_stage_count": len(timeline),
             "latest_stage": latest_semantic_stage(timeline),
         }
+        row["public_analysis"] = synthesis.get("assessment")
+        row["public_takeaways"] = synthesis.get("public_takeaways")
+        row["public_risk_level"] = synthesis.get("risk_level")
         row["linked_reports"] = public_linked_reports(event)
         row["provenance_timeline"] = [
             {

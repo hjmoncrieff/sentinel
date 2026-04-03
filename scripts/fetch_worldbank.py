@@ -1,7 +1,7 @@
 """
 fetch_worldbank.py
 Pulls World Bank WDI + WGI indicators for 25 SENTINEL countries.
-Fetches the full 1990-2025 range.
+Fetches the full 1960-2025 range.
 Saves raw JSON per indicator to data/raw/ and merged CSV + JSON to data/cleaned/.
 
 Run manually or add to GitHub Actions (no API key needed).
@@ -35,6 +35,16 @@ INDICATORS = {
     "SP.POP.TOTL":        "population_total",
     "NY.GDP.MKTP.KD":     "gdp_constant_2015_usd",
     "NY.GDP.PCAP.KD":     "gdp_per_capita_constant_2015_usd",
+    "FP.CPI.TOTL.ZG":     "inflation_consumer_prices_pct",
+    "FR.INR.RINR":        "real_interest_rate",
+    "PA.NUS.FCRF":        "official_exchange_rate",
+    "BX.KLT.DINV.WD.GD.ZS": "fdi_net_inflows_pct_gdp",
+    "DT.TDS.DECT.EX.ZS":  "debt_service_pct_exports",
+    "BN.CAB.XOKA.GD.ZS":  "current_account_pct_gdp",
+    "FI.RES.TOTL.MO":     "reserves_months_imports",
+    "NY.GDP.TOTL.RT.ZS":  "resource_rents_pct_gdp",
+    "NE.TRD.GNFS.ZS":     "trade_openness_pct_gdp",
+    "DT.ODA.ODAT.GN.ZS":  "oda_received_pct_gni",
     "RL.EST":             "wgi_rule_of_law",
     "GE.EST":             "wgi_govt_effectiveness",
     "CC.EST":             "wgi_control_of_corruption",
@@ -45,7 +55,7 @@ INDICATORS = {
 }
 
 BASE_URL = "https://api.worldbank.org/v2/country/{countries}/indicator/{indicator}"
-PARAMS   = {"format": "json", "date": "1990:2025", "per_page": 1000}
+PARAMS   = {"format": "json", "date": "1960:2025", "per_page": 1000}
 
 RAW_DIR     = os.path.join(os.path.dirname(__file__), "..", "data", "raw")
 CLEANED_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "cleaned")
@@ -96,7 +106,7 @@ def most_recent_value(rows: list[dict], iso2: str) -> tuple[str | None, float | 
 def all_values_for_country(rows: list[dict], iso2: str) -> list[dict]:
     """
     Return a list of {"year": str, "value": float_or_None} for all years in the
-    fetched range, sorted ascending by year (1990 first).
+    fetched range, sorted ascending by year.
     Years present in the API response but with null values are included as None.
     Years absent from the response entirely are omitted (no invented placeholders).
     """
@@ -112,7 +122,7 @@ def all_values_for_country(rows: list[dict], iso2: str) -> list[dict]:
 
 
 def main():
-    print(f"[{datetime.utcnow().isoformat()}] Fetching World Bank indicators (1990-2025)…")
+    print(f"[{datetime.utcnow().isoformat()}] Fetching World Bank indicators (1960-2025)…")
 
     # keyed as merged[iso2][col] = value
     merged: dict[str, dict] = {iso2: {"country": name, "iso2": iso2}
@@ -124,7 +134,7 @@ def main():
         non_null = sum(1 for r in rows if r["value"] is not None)
         print(f"{len(rows)} rows ({non_null} non-null)")
 
-        # save raw JSON (full 1990-2025 range)
+        # save raw JSON (full requested range)
         raw_path = os.path.join(RAW_DIR, f"wb_{col_name}.json")
         with open(raw_path, "w", encoding="utf-8") as f:
             json.dump(rows, f, ensure_ascii=False, indent=2)
@@ -159,7 +169,7 @@ def main():
     cleaned_json_path = os.path.join(CLEANED_DIR, "worldbank.json")
     payload = {
         "updated":    datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "date_range": "1990-2025",
+        "date_range": "1960-2025",
         "indicators": list(INDICATORS.values()),
         "countries":  list(merged.values()),
     }
@@ -167,7 +177,7 @@ def main():
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
     print(f"  → data/cleaned/worldbank.json (includes full series)")
-    print(f"  → data/raw/wb_*.json          ({len(INDICATORS)} files, full 1990-2025 range)")
+    print(f"  → data/raw/wb_*.json          ({len(INDICATORS)} files, full 1960-2025 range)")
     print("Done.")
 
 

@@ -52,6 +52,21 @@ def load_users() -> dict[str, dict[str, Any]]:
     return {user["username"]: user for user in payload.get("users", [])}
 
 
+def load_users_payload() -> dict[str, Any]:
+    payload = load_json(USERS_PATH)
+    payload.setdefault("schema_version", "1.0")
+    payload.setdefault("updated_at", None)
+    payload.setdefault("password_policy", "Local-only analyst credentials")
+    payload.setdefault("registration", {
+        "enabled": True,
+        "allowed_roles": ["analyst", "ra"],
+        "default_role": "analyst",
+        "min_password_length": 10,
+    })
+    payload.setdefault("users", [])
+    return payload
+
+
 def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode("utf-8")).hexdigest()
 
@@ -168,6 +183,9 @@ class AnalystHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
+        if parsed.path == "/api/register-config":
+            self.handle_register_config()
+            return
         if parsed.path == "/api/session":
             self.handle_session()
             return
@@ -197,6 +215,9 @@ class AnalystHandler(SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path == "/api/login":
             self.handle_login()
+            return
+        if parsed.path == "/api/register":
+            self.handle_register()
             return
         if parsed.path == "/api/logout":
             self.handle_logout()
@@ -262,6 +283,16 @@ class AnalystHandler(SimpleHTTPRequestHandler):
             return
         self.send_json({"authenticated": True, "user": session})
 
+    def handle_register_config(self) -> None:
+        payload = load_users_payload()
+        registration = payload.get("registration") or {}
+        self.send_json({
+            "enabled": bool(registration.get("enabled", True)),
+            "allowed_roles": registration.get("allowed_roles", ["analyst"]),
+            "default_role": registration.get("default_role", "analyst"),
+            "min_password_length": int(registration.get("min_password_length", 10)),
+        })
+
     def handle_login(self) -> None:
         body = self.parse_json_body()
         username = (body.get("username") or "").strip()
@@ -280,6 +311,62 @@ class AnalystHandler(SimpleHTTPRequestHandler):
         SESSIONS[token] = session
         cookie = f"{SESSION_COOKIE}={token}; HttpOnly; Path=/; SameSite=Lax"
         self.send_json({"ok": True, "user": session}, cookie=cookie)
+
+    def handle_register(self) -> None:
+        body = self.parse_json_body()
+        payload = load_users_payload()
+        registration = payload.get("registration") or {}
+        if not registration.get("enabled", True):
+            self.send_json({"ok": False, "error": "registration_disabled"}, status=403)
+            return
+
+        username = (body.get("username") or "").strip()
+        display_name = (body.get("display_name") or "").strip() or username
+        password = body.get("password") or ""
+        requested_role = (body.get("role") or registration.get("default_role") or "analyst").strip()
+        allowed_roles = {str(role) for role in (registration.get("allowed_roles") or ["analyst"])}
+        min_password_length = int(registration.get("min_password_length", 10))
+
+        if len(username) < 3 or len(username) > 40:
+            self.send_json({"ok": False, "error": "invalid_username_length"}, status=400)
+            return
+        if not all(ch.isalnum() or ch in {"_", "-", "."} for ch in username):
+            self.send_json({"ok": False, "error": "invalid_username_format"}, status=400)
+            return
+        if len(display_name) < 2 or len(display_name) > 80:
+            self.send_json({"ok": False, "error": "invalid_display_name"}, status=400)
+            return
+        if len(password) < min_password_length:
+            self.send_json({"ok": False, "error": "password_too_short"}, status=400)
+            return
+        if requested_role not in allowed_roles:
+            requested_role = registration.get("default_role", "analyst")
+
+        existing_users = {user.get("username"): user for user in payload.get("users", [])}
+        if username in existing_users:
+            self.send_json({"ok": False, "error": "username_taken"}, status=409)
+            return
+
+        user = {
+            "username": username,
+            "display_name": display_name,
+            "role": requested_role,
+            "password_sha256": hash_password(password),
+            "created_at": now_iso(),
+        }
+        payload["users"].append(user)
+        payload["updated_at"] = now_iso()
+        write_json(USERS_PATH, payload)
+
+        token = secrets.token_urlsafe(24)
+        session = {
+            "username": user["username"],
+            "display_name": user.get("display_name", user["username"]),
+            "role": user["role"],
+        }
+        SESSIONS[token] = session
+        cookie = f"{SESSION_COOKIE}={token}; HttpOnly; Path=/; SameSite=Lax"
+        self.send_json({"ok": True, "user": session, "registered": True}, cookie=cookie)
 
     def handle_logout(self) -> None:
         raw_cookie = self.headers.get("Cookie")

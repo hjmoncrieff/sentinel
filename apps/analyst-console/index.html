@@ -6,22 +6,22 @@
   <title>SENTINEL Analyst Console</title>
   <style>
     :root{
-      --bg:#edf2f7;
-      --bg-2:#dfe7f2;
-      --panel:#ffffff;
-      --panel-2:#f7f9fc;
-      --panel-3:#eef3f8;
-      --ink:#111827;
-      --muted:#617084;
+      --bg:#0f172a;
+      --bg-2:#111c33;
+      --panel:#f8fafc;
+      --panel-2:#eef3f9;
+      --panel-3:#e4ebf4;
+      --ink:#0f172a;
+      --muted:#5d6b80;
       --line:#d6dfeb;
-      --accent:#0f4c81;
-      --accent-strong:#133b5c;
-      --accent-soft:#e2edf8;
+      --accent:#78a9d6;
+      --accent-strong:#d5e9fb;
+      --accent-soft:#dcebf8;
       --warn:#a16207;
       --high:#b42318;
       --ok:#157347;
-      --shadow:0 18px 44px rgba(15, 23, 42, 0.10);
-      --shadow-soft:0 10px 28px rgba(15, 23, 42, 0.06);
+      --shadow:0 18px 44px rgba(2, 8, 23, 0.30);
+      --shadow-soft:0 10px 28px rgba(2, 8, 23, 0.16);
       --radius-xl:22px;
       --radius-lg:18px;
       --radius-md:14px;
@@ -44,9 +44,9 @@
       --text-xl:20px;
       --text-2xl:28px;
       --text-3xl:40px;
-      --info-surface:linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,249,252,.88));
-      --action-surface:linear-gradient(180deg, rgba(244,248,253,.98), rgba(255,255,255,.92));
-      --action-border:rgba(15,76,129,.16);
+      --info-surface:linear-gradient(180deg, rgba(255,255,255,.97), rgba(239,244,250,.92));
+      --action-surface:linear-gradient(180deg, rgba(229,238,248,.98), rgba(250,252,255,.94));
+      --action-border:rgba(74, 115, 160, .22);
       --info-border:rgba(214,223,235,.92);
     }
     *{box-sizing:border-box}
@@ -54,31 +54,51 @@
       margin:0;
       color:var(--ink);
       background:
-        radial-gradient(circle at 0% 0%, rgba(255,255,255,.78), transparent 28%),
-        radial-gradient(circle at 100% 0%, rgba(207,226,244,.72), transparent 24%),
-        linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 20%, #f6f8fb 100%);
+        radial-gradient(circle at 0% 0%, rgba(120,169,214,.24), transparent 26%),
+        radial-gradient(circle at 100% 0%, rgba(58,87,128,.32), transparent 22%),
+        linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 22%, #152238 100%);
       font-family:var(--sans);
       font-size:16px;
       line-height:1.6;
     }
     .page{
-      max-width:1560px;
+      max-width:1680px;
       margin:0 auto;
-      padding:26px 22px 40px;
+      padding:22px 20px 34px;
     }
     .hero{
       display:flex;
       justify-content:space-between;
       gap:22px;
       align-items:flex-start;
-      padding:28px 30px;
-      border:1px solid rgba(255,255,255,.55);
+      padding:22px 24px;
+      border:1px solid rgba(210,228,246,.15);
       border-radius:var(--radius-xl);
       background:
-        linear-gradient(135deg, rgba(15,76,129,.95), rgba(22,57,95,.95)),
+        linear-gradient(135deg, rgba(18,31,56,.98), rgba(25,45,78,.96)),
         linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0));
       box-shadow:var(--shadow);
       margin-bottom:18px;
+    }
+    .page.authenticated .hero{
+      padding:14px 18px;
+      margin-bottom:10px;
+      align-items:center;
+    }
+    .page.authenticated .hero .lede{
+      display:none;
+    }
+    .page.authenticated .hero h1{
+      font-size:34px;
+    }
+    .page.authenticated .hero .kicker{
+      margin-bottom:6px;
+    }
+    .page.authenticated .hero-meta{
+      min-width:260px;
+    }
+    .page.authenticated .desk-strip{
+      display:none;
     }
     .kicker{
       font:12px var(--mono);
@@ -89,39 +109,53 @@
     }
     h1{
       margin:0;
-      font-size:52px;
+      font-size:48px;
       line-height:1.04;
       font-weight:700;
       letter-spacing:-0.04em;
       color:#f8fbff;
     }
     .lede{
-      margin-top:12px;
+      margin-top:10px;
       max-width:900px;
-      color:rgba(237,243,250,.86);
-      line-height:1.72;
-      font-size:18px;
+      color:rgba(226,234,244,.84);
+      line-height:1.62;
+      font-size:17px;
     }
     .hero-meta{
       display:grid;
       gap:8px;
       min-width:320px;
     }
+    .hero-auth-locked,
+    .hero-auth-live{
+      display:grid;
+      gap:8px;
+    }
+    .hero-auth-copy{
+      color:rgba(226,234,244,.82);
+      font-size:14px;
+      line-height:1.55;
+      margin:0;
+    }
+    .hero-auth-live{
+      display:none;
+    }
     .meta-pill{
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.10);
+      border:1px solid rgba(215,233,250,.14);
+      background:rgba(255,255,255,.06);
       border-radius:var(--radius-md);
       padding:11px 13px;
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
-      color:#e9f2fb;
+      color:#d8e9f7;
       text-align:left;
       backdrop-filter:blur(12px);
     }
     .session-card{
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.10);
+      border:1px solid rgba(215,233,250,.14);
+      background:rgba(255,255,255,.06);
       border-radius:var(--radius-lg);
       padding:14px;
       backdrop-filter:blur(12px);
@@ -166,37 +200,133 @@
     .session-card .action-btn.warn{
       color:#ffe2b5;
     }
+    .workspace-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid rgba(204,217,231,.94);
+      border-radius:999px;
+      padding:8px 10px;
+      background:rgba(255,255,255,.84);
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:var(--ink);
+    }
+    .workspace-pill strong{
+      font-family:var(--sans);
+      font-size:13px;
+      text-transform:none;
+      letter-spacing:0;
+      color:#123a65;
+    }
     .stats{
       display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
-      gap:14px;
-      margin-bottom:18px;
+      gap:10px;
+      margin-bottom:14px;
+    }
+    .stats-primary{
+      display:grid;
+      grid-template-columns:repeat(6, minmax(0,1fr));
+      gap:10px;
+    }
+    .stats-more{
+      border:1px solid rgba(194,210,226,.92);
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(245,249,253,.98), rgba(236,242,249,.95));
+      box-shadow:var(--shadow-soft);
+      overflow:hidden;
+    }
+    .stats-more summary{
+      list-style:none;
+      cursor:pointer;
+      padding:12px 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:var(--muted);
+    }
+    .stats-more summary::-webkit-details-marker{display:none}
+    .stats-more-grid{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:10px;
+      padding:0 12px 12px;
     }
     .stat{
-      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,249,252,.94));
-      border:1px solid rgba(214,223,235,.9);
+      background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(238,243,250,.94));
+      border:1px solid rgba(203,216,231,.9);
       border-radius:var(--radius-lg);
       box-shadow:var(--shadow-soft);
-      padding:20px;
+      padding:12px 14px;
+      position:relative;
+      overflow:hidden;
+      min-height:0;
+    }
+    .stat::before{
+      content:"";
+      position:absolute;
+      inset:0 auto 0 0;
+      width:4px;
+      background:linear-gradient(180deg, rgba(120,169,214,.95), rgba(24,60,103,.95));
     }
     .stat-label{
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
       color:var(--muted);
-      margin-bottom:8px;
+      margin-bottom:6px;
     }
     .stat-value{
-      font-size:34px;
+      font-size:28px;
       line-height:1;
-      margin-bottom:5px;
+      margin-bottom:4px;
       font-weight:700;
       letter-spacing:-0.03em;
     }
     .stat-note{
       color:var(--muted);
+      font-size:12px;
+      line-height:1.45;
+    }
+    .stat.secondary .stat-value{
+      font-size:22px;
+    }
+    .stat.secondary .stat-note{
+      font-size:11px;
+    }
+    .desk-strip{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:10px;
+      margin-bottom:14px;
+    }
+    .desk-card{
+      border:1px solid rgba(213,233,251,.12);
+      border-radius:var(--radius-lg);
+      background:linear-gradient(180deg, rgba(18,31,56,.92), rgba(20,35,63,.82));
+      box-shadow:var(--shadow-soft);
+      padding:13px 15px;
+    }
+    .desk-card .toolbar-title{
+      color:rgba(197,221,243,.72);
+      margin-bottom:8px;
+    }
+    .desk-card .desk-value{
+      color:#f8fbff;
+      font-size:18px;
+      line-height:1.1;
+      font-weight:700;
+      letter-spacing:-0.03em;
+      margin-bottom:4px;
+    }
+    .desk-card .desk-note{
+      color:rgba(218,231,245,.74);
       font-size:14px;
-      line-height:1.6;
+      line-height:1.55;
     }
     .notice{
       display:none;
@@ -225,6 +355,16 @@
     }
     .access-wall.active{
       display:block;
+    }
+    .access-shell{
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);
+      gap:18px;
+      align-items:start;
+      margin-top:18px;
+    }
+    .access-shell .session-card{
+      margin:0;
     }
     .access-wall h2{
       margin:0 0 10px;
@@ -264,32 +404,162 @@
     }
     .toolbar{
       display:grid;
-      grid-template-columns:1.2fr 0.95fr 1.15fr;
-      gap:14px;
-      margin-bottom:18px;
+      grid-template-columns:1fr;
+      gap:12px;
+      margin-bottom:14px;
     }
     .toolbar-box{
-      background:var(--action-surface);
-      border:1px solid var(--action-border);
+      background:linear-gradient(180deg, rgba(255,255,255,.94), rgba(236,242,249,.92));
+      border:1px solid rgba(191,207,224,.92);
       border-radius:var(--radius-lg);
       padding:18px;
       box-shadow:var(--shadow-soft);
+    }
+    .toolbar-box.compact{
+      padding:14px 16px;
+    }
+    .toolbar-box.command-main{
+      background:linear-gradient(180deg, rgba(20,35,61,.96), rgba(24,42,73,.94));
+      border-color:rgba(77,104,141,.42);
+      color:#f4f8fc;
+      box-shadow:0 18px 36px rgba(15, 23, 42, 0.20);
+    }
+    .command-surface{
+      padding:10px 12px;
+    }
+    .command-header{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      margin-bottom:6px;
+    }
+    .command-header .toolbar-title{
+      margin:0;
+    }
+    .command-state{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      align-items:center;
+    }
+    .command-state-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border:1px solid rgba(92,118,153,.34);
+      border-radius:999px;
+      padding:6px 9px;
+      background:rgba(19,33,58,.72);
+      font:10px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:rgba(214,225,238,.72);
+    }
+    .command-state-chip strong{
+      color:#f4f8fc;
+      font-family:var(--sans);
+      font-size:12px;
+      text-transform:none;
+      letter-spacing:0;
+    }
+    .command-toprow{
+      display:grid;
+      grid-template-columns:minmax(0,1.95fr) repeat(2, minmax(140px,.34fr)) auto auto;
+      gap:8px;
+      align-items:center;
+    }
+    .command-search{
+      min-width:0;
+    }
+    .command-search input{
+      height:48px;
+      border-radius:14px;
+      background:rgba(245,249,253,.98);
+      border-color:rgba(128,154,188,.84);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.8), 0 8px 18px rgba(8, 15, 28, 0.08);
+      font-size:16px;
+      padding-inline:14px;
+    }
+    .filter-row{
+      display:contents;
+    }
+    .compact-note{
+      color:rgba(214,225,238,.68);
+      font-size:10px;
+      line-height:1.35;
+      margin-top:5px;
+    }
+    .command-bottomrow{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+      margin-top:6px;
+      align-items:center;
+      padding-top:7px;
+      border-top:1px solid rgba(87,113,147,.34);
+    }
+    .utility-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      justify-content:flex-end;
+      align-items:center;
+    }
+    .command-presets details{
+      display:inline-block;
+    }
+    .command-presets summary{
+      list-style:none;
+      cursor:pointer;
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:rgba(214,225,238,.72);
+      padding:6px 0;
+    }
+    .command-presets summary::-webkit-details-marker{display:none}
+    .command-presets[open] summary{
+      color:#153a61;
+    }
+    .command-caption{
+      color:rgba(214,225,238,.74);
+      font-size:13px;
+      line-height:1.55;
+      margin-top:8px;
+    }
+    .control-stack{
+      display:grid;
+      gap:10px;
+    }
+    .control-pair{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:10px;
+    }
+    .tiny-label{
+      font:10px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:rgba(214,225,238,.74);
+      margin-bottom:6px;
+      display:block;
     }
     .toolbar-title{
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
       color:var(--muted);
-      margin-bottom:10px;
+      margin-bottom:8px;
     }
     .toolbar input,
     .toolbar select,
     .toolbar textarea{
       width:100%;
-      border:1px solid var(--line);
-      border-radius:var(--radius-sm);
-      background:var(--panel-2);
-      padding:10px 12px;
+      border:1px solid rgba(112,139,175,.46);
+      border-radius:13px;
+      background:rgba(245,249,253,.96);
+      padding:9px 11px;
       font:15px var(--sans);
       color:var(--ink);
       transition:border-color .18s ease, box-shadow .18s ease, background .18s ease;
@@ -311,26 +581,28 @@
       resize:vertical;
     }
     .quick-grid{
-      display:grid;
-      grid-template-columns:repeat(3, minmax(0,1fr));
-      gap:8px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
     }
     .quick-btn{
-      border:1px solid var(--line);
-      border-radius:var(--radius-sm);
-      background:var(--panel-2);
-      padding:10px 8px;
+      border:1px solid rgba(95,121,154,.38);
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      padding:7px 10px;
       text-align:left;
       cursor:pointer;
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
-      color:var(--ink);
+      color:#edf4fb;
+      min-height:0;
+      flex:0 0 auto;
     }
     .quick-btn.active{
-      background:var(--accent-soft);
-      border-color:rgba(15,76,129,.26);
-      color:var(--accent);
+      background:linear-gradient(180deg, rgba(229,238,247,.96), rgba(243,248,252,.94));
+      border-color:rgba(179,199,221,.75);
+      color:#153a61;
     }
     .session-grid,
     .editor-grid{
@@ -356,27 +628,27 @@
       display:flex;
       flex-wrap:wrap;
       gap:6px;
-      margin-top:8px;
+      margin-top:6px;
     }
     .preset-grid{
       display:flex;
       flex-wrap:wrap;
       gap:8px;
-      margin-top:10px;
+      margin-top:6px;
     }
     .preset-btn{
-      border:1px solid var(--line);
+      border:1px solid rgba(98,126,160,.42);
       border-radius:999px;
-      background:rgba(255,255,255,.62);
-      padding:8px 10px;
+      background:rgba(255,255,255,.10);
+      padding:7px 10px;
       cursor:pointer;
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
-      color:var(--ink);
+      color:#edf4fb;
     }
     .preset-btn:hover{
-      background:var(--accent-soft);
+      background:rgba(230,238,247,.92);
       border-color:#aac4d0;
       color:var(--accent);
     }
@@ -386,20 +658,20 @@
       gap:8px;
     }
     .action-btn{
-      border:1px solid var(--line);
+      border:1px solid rgba(95,123,157,.34);
       border-radius:999px;
-      background:var(--panel-2);
-      padding:10px 12px;
+      background:rgba(255,255,255,.08);
+      padding:7px 10px;
       cursor:pointer;
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
-      color:var(--ink);
+      color:#f4f8fc;
     }
     .action-btn.primary{
-      background:var(--accent-soft);
-      border-color:rgba(15,76,129,.28);
-      color:var(--accent);
+      background:linear-gradient(180deg, rgba(226,237,248,.96), rgba(240,246,252,.94));
+      border-color:rgba(15,76,129,.22);
+      color:#18456f;
     }
     .action-btn.warn{
       color:var(--warn);
@@ -410,13 +682,13 @@
     }
     .layout{
       display:grid;
-      grid-template-columns:410px minmax(0, 1fr);
+      grid-template-columns:470px minmax(0, 1fr);
       gap:18px;
       min-height:780px;
     }
     .panel{
-      background:rgba(255,255,255,.90);
-      border:1px solid rgba(214,223,235,.95);
+      background:rgba(251,253,255,.94);
+      border:1px solid rgba(203,216,231,.95);
       border-radius:var(--radius-xl);
       box-shadow:var(--shadow);
       min-height:0;
@@ -428,18 +700,19 @@
       justify-content:space-between;
       gap:12px;
       align-items:center;
-      padding:18px 20px;
+      padding:14px 16px;
       border-bottom:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(238,243,248,.9), rgba(255,255,255,.7));
+      background:linear-gradient(180deg, rgba(225,233,243,.95), rgba(251,253,255,.88));
     }
     .panel-title{
-      font-size:20px;
+      font-size:21px;
       font-weight:700;
       margin:0;
+      letter-spacing:-0.02em;
     }
     .panel-sub{
       color:var(--muted);
-      font-size:14px;
+      font-size:13px;
       line-height:1.5;
     }
     .surface-read{
@@ -468,9 +741,175 @@
       margin-top:6px;
     }
     .queue{
-      max-height:840px;
+      max-height:920px;
       overflow:auto;
-      padding:8px;
+      padding:8px 8px 10px;
+    }
+    .watchlist{
+      padding:10px 12px 6px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(241,246,251,.96), rgba(252,254,255,.92));
+    }
+    .watchlist-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:8px;
+    }
+    .watch-card{
+      border:1px solid rgba(191,207,224,.92);
+      border-radius:12px;
+      background:rgba(255,255,255,.82);
+      padding:10px 11px;
+      text-align:left;
+      cursor:pointer;
+    }
+    .watch-card strong{
+      display:block;
+      margin-top:3px;
+      font-size:16px;
+      letter-spacing:-0.02em;
+      color:#153a61;
+    }
+    .watch-card p{
+      margin:5px 0 0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.45;
+    }
+    .desk-mode-toggle{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .desk-mode-btn{
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(255,255,255,.72);
+      padding:9px 12px;
+      cursor:pointer;
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:var(--ink);
+    }
+    .desk-mode-btn.active{
+      background:linear-gradient(180deg, rgba(18,31,56,.94), rgba(25,42,74,.9));
+      border-color:rgba(32,63,106,.55);
+      color:#f4f8fc;
+    }
+    .desk-list{
+      display:grid;
+      gap:12px;
+    }
+    .desk-country{
+      border:1px solid rgba(194,208,223,.92);
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(252,254,255,.98), rgba(242,247,252,.95));
+      box-shadow:var(--shadow-soft);
+      padding:15px 15px 14px;
+    }
+    .desk-country-head{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:10px;
+    }
+    .desk-country-title{
+      margin:0;
+      font-size:22px;
+      line-height:1.1;
+      letter-spacing:-0.03em;
+    }
+    .desk-country-note{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+      margin-top:4px;
+    }
+    .desk-metrics{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:8px;
+      margin-bottom:12px;
+    }
+    .desk-metric{
+      border:1px solid rgba(212,222,233,.94);
+      border-radius:12px;
+      background:rgba(255,255,255,.82);
+      padding:10px;
+    }
+    .desk-metric strong{
+      display:block;
+      font-size:18px;
+      line-height:1;
+      letter-spacing:-0.03em;
+      margin:3px 0 0;
+      color:#123a65;
+    }
+    .desk-country-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:12px;
+    }
+    .desk-link-btn{
+      border:1px solid rgba(173,191,211,.92);
+      border-radius:999px;
+      background:#fff;
+      padding:8px 10px;
+      cursor:pointer;
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:#123a65;
+    }
+    .desk-top-events{
+      display:grid;
+      gap:8px;
+    }
+    .desk-event{
+      border:1px solid rgba(213,223,233,.94);
+      border-radius:12px;
+      background:rgba(247,250,253,.92);
+      padding:10px 11px;
+      cursor:pointer;
+      text-align:left;
+    }
+    .desk-event strong{
+      display:block;
+      font-size:14px;
+      line-height:1.45;
+      color:var(--ink);
+      margin-top:4px;
+    }
+    .desk-event .mono{
+      color:var(--muted);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+    .queue-group{
+      margin-bottom:14px;
+    }
+    .queue-group-head{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      padding:10px 10px 8px;
+      position:sticky;
+      top:0;
+      z-index:1;
+      background:linear-gradient(180deg, rgba(246,250,253,.98), rgba(246,250,253,.82));
+      border-bottom:1px solid rgba(214,223,235,.9);
+      margin-bottom:8px;
+    }
+    .queue-group-head .mono{
+      color:var(--muted);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:1px;
     }
     .queue-select{
       display:flex;
@@ -492,19 +931,29 @@
     .queue-item{
       width:100%;
       display:block;
-      border:1px solid transparent;
+      border:1px solid rgba(211,221,232,.72);
       border-radius:var(--radius-md);
-      background:transparent;
-      padding:16px 16px;
+      background:rgba(255,255,255,.76);
+      padding:13px 14px 12px;
       margin-bottom:8px;
       text-align:left;
       cursor:pointer;
       transition:background .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
     }
+    .queue-item.must-act{
+      border-color:rgba(180, 35, 24, .28);
+      background:linear-gradient(180deg, rgba(255,248,247,.96), rgba(255,255,255,.88));
+      box-shadow:inset 3px 0 0 rgba(180, 35, 24, .78);
+    }
+    .queue-item.review-soon{
+      border-color:rgba(161, 98, 7, .24);
+      background:linear-gradient(180deg, rgba(255,251,244,.92), rgba(255,255,255,.86));
+      box-shadow:inset 3px 0 0 rgba(161, 98, 7, .74);
+    }
     .queue-item:hover,
     .queue-item.active{
       background:rgba(226,237,248,.72);
-      border-color:rgba(15,76,129,.16);
+      border-color:rgba(15,76,129,.24);
       transform:translateY(-1px);
       box-shadow:0 8px 18px rgba(15, 23, 42, 0.06);
     }
@@ -512,7 +961,21 @@
       display:flex;
       flex-wrap:wrap;
       gap:7px;
-      margin-bottom:8px;
+      margin-bottom:6px;
+    }
+    .queue-actionline{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      margin-bottom:6px;
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:var(--muted);
+    }
+    .queue-actionline strong{
+      color:#153a61;
     }
     .chip{
       display:inline-block;
@@ -580,14 +1043,56 @@
       transform:translateX(0) translateY(0);
     }
     .queue-title{
-      font-size:18px;
-      line-height:1.42;
-      margin-bottom:8px;
+      font-size:16px;
+      line-height:1.38;
+      margin-bottom:6px;
+      font-weight:700;
+      letter-spacing:-0.02em;
     }
     .queue-note{
       color:var(--muted);
-      font-size:14px;
-      line-height:1.58;
+      font-size:12.5px;
+      line-height:1.5;
+    }
+    .queue-contextline{
+      margin-top:7px;
+      color:var(--muted);
+      font-size:11.5px;
+      line-height:1.45;
+    }
+    .queue-signals{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-top:8px;
+    }
+    .queue-signal{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 8px;
+      border-radius:999px;
+      background:rgba(233,240,247,.92);
+      border:1px solid rgba(204,218,232,.92);
+      font:10px var(--mono);
+      letter-spacing:1px;
+      text-transform:uppercase;
+      color:#153a61;
+    }
+    .queue-tape{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      margin-bottom:8px;
+      font:11px var(--mono);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:var(--muted);
+    }
+    .queue-tape strong{
+      color:#193e66;
+      font-weight:700;
     }
     .detail{
       display:grid;
@@ -598,12 +1103,33 @@
       padding:24px 26px 20px;
       border-bottom:1px solid var(--line);
       background:
-        linear-gradient(180deg, rgba(247,249,252,.96), rgba(255,255,255,.85)),
-        radial-gradient(circle at top right, rgba(226,237,248,.8), transparent 32%);
+        linear-gradient(180deg, rgba(235,241,248,.97), rgba(251,253,255,.9)),
+        radial-gradient(circle at top right, rgba(206,224,241,.82), transparent 32%);
+    }
+    .detail-ribbon{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:10px;
+      margin-bottom:14px;
+    }
+    .detail-ribbon-card{
+      border:1px solid rgba(191,207,224,.92);
+      border-radius:14px;
+      background:rgba(255,255,255,.78);
+      padding:10px 12px;
+    }
+    .detail-ribbon-card .toolbar-title{
+      margin-bottom:4px;
+    }
+    .detail-ribbon-card .desk-note{
+      color:var(--ink);
+      font-size:15px;
+      line-height:1.35;
+      font-weight:700;
     }
     .detail-headline{
       margin:0 0 10px;
-      font-size:40px;
+      font-size:42px;
       line-height:1.1;
       letter-spacing:-0.03em;
     }
@@ -623,37 +1149,69 @@
       letter-spacing:1px;
     }
     .tabs{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
+      display:grid;
+      grid-template-columns:repeat(5, minmax(0,1fr));
+      gap:10px;
       padding:14px 20px;
       border-bottom:1px solid var(--line);
-      background:rgba(247,249,252,.92);
+      background:rgba(239,244,250,.96);
       position:sticky;
       top:0;
       z-index:2;
     }
     .tab-btn{
       border:1px solid var(--line);
-      border-radius:999px;
-      background:var(--panel-2);
-      padding:9px 13px;
-      font:12px var(--mono);
+      border-radius:16px;
+      background:rgba(255,255,255,.78);
+      padding:12px 13px 11px;
+      font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
       cursor:pointer;
+      text-align:left;
     }
     .tab-btn.active{
-      background:var(--accent-soft);
-      color:var(--accent);
-      border-color:rgba(15,76,129,.24);
+      background:linear-gradient(180deg, rgba(18,31,56,.94), rgba(28,46,80,.9));
+      color:#f4f8fc;
+      border-color:rgba(32,63,106,.48);
+      box-shadow:0 12px 24px rgba(16,26,48,.14);
     }
     .tab-panel{
       display:none;
-      padding:22px 24px 30px;
+      padding:16px 18px 22px;
       overflow:auto;
     }
     .tab-panel.active{display:block}
+    .tab-label{
+      display:block;
+      font-size:14px;
+      line-height:1.25;
+      letter-spacing:-0.02em;
+      margin-top:4px;
+      text-transform:none;
+      font-family:var(--sans);
+      font-weight:700;
+    }
+    .workspace-stack{
+      display:grid;
+      gap:10px;
+    }
+    .workspace-head{
+      border-bottom:1px solid rgba(214,223,235,.72);
+      padding:0 0 8px;
+      margin-bottom:10px;
+    }
+    .workspace-head h3{
+      margin:0 0 4px;
+      font-size:18px;
+      letter-spacing:-0.03em;
+    }
+    .workspace-head p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
     .detail-grid{
       display:grid;
       grid-template-columns:repeat(2, minmax(0,1fr));
@@ -671,7 +1229,82 @@
     }
     .detail-card h3{
       margin:0 0 10px;
+      font-size:19px;
+      letter-spacing:-0.02em;
+    }
+    .monitor-hero{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:14px;
+    }
+    .monitor-score{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+    .monitor-pill{
+      border:1px solid rgba(191,207,224,.92);
+      border-radius:14px;
+      background:rgba(255,255,255,.82);
+      padding:12px 12px 10px;
+    }
+    .monitor-pill .toolbar-title{
+      margin-bottom:4px;
+    }
+    .monitor-pill-value{
+      font-size:24px;
+      line-height:1.1;
+      font-weight:700;
+      letter-spacing:-0.03em;
+      color:#153a61;
+      margin-bottom:2px;
+    }
+    .monitor-pill-note{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+    .monitor-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:12px;
+    }
+    .signal-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:12px;
+    }
+    .signal-tile{
+      border:1px solid rgba(214,223,235,.94);
+      border-radius:14px;
+      background:rgba(255,255,255,.8);
+      padding:12px;
+    }
+    .signal-tile .mono{
+      color:var(--muted);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+    .signal-tile strong{
+      display:block;
+      margin-top:6px;
       font-size:18px;
+      letter-spacing:-0.02em;
+      color:#163a60;
+    }
+    .watch-list{
+      display:grid;
+      gap:10px;
+    }
+    .watch-item{
+      border-left:4px solid #7aa7d1;
+      padding:10px 0 10px 12px;
+      background:rgba(255,255,255,.65);
+      border-radius:0 12px 12px 0;
+      color:var(--ink);
+      line-height:1.6;
     }
     .kv{
       display:grid;
@@ -832,19 +1465,28 @@
     }
     .foot{
       margin-top:18px;
-      color:var(--muted);
+      color:rgba(220,231,242,.76);
       font:11px var(--mono);
       text-transform:uppercase;
       letter-spacing:1px;
       text-align:center;
     }
     @media (max-width: 1120px){
+      .desk-strip{grid-template-columns:repeat(2, minmax(0,1fr))}
       .toolbar{grid-template-columns:1fr}
+      .stats-primary,
+      .stats-more-grid,
+      .command-toprow,
+      .filter-row,
+      .command-bottomrow,
+      .control-pair,
+      .access-shell{grid-template-columns:1fr}
       .layout{grid-template-columns:1fr}
       .queue{max-height:none}
       .detail{min-height:0}
       .tabs{position:static}
       .hero-meta{min-width:0}
+      .detail-ribbon{grid-template-columns:repeat(2, minmax(0,1fr))}
     }
     @media (max-width: 760px){
       .page{padding:14px 12px 28px}
@@ -856,6 +1498,15 @@
       .kv{grid-template-columns:1fr}
       .hero{display:block}
       .hero-meta{margin-top:14px}
+      .desk-strip{grid-template-columns:1fr}
+      .stats-primary,
+      .stats-more-grid{grid-template-columns:1fr}
+      .detail-ribbon{grid-template-columns:1fr}
+      .monitor-hero,
+      .monitor-grid,
+      .monitor-score,
+      .signal-grid,
+      .watchlist-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -863,102 +1514,149 @@
   <div class="page">
     <div class="hero">
       <div>
-        <div class="kicker">Private Review Workspace</div>
-        <h1>SENTINEL Console</h1>
+        <div class="kicker">Private Sovereign Risk Terminal</div>
+        <h1>SENTINEL Analyst Terminal</h1>
         <div class="lede">
-          A unified workspace for AI supervision, review, and release control. It brings the queue,
-          QA signals, duplicate work, actor registry, provenance, and publication state into one
-          place so analysts can resolve exceptions quickly and consistently.
+          A terminal-style operating surface for political-risk supervision, sovereign monitoring,
+          and release control. It brings the event tape, exception queue, actor intelligence,
+          policy review, and publication state into one high-signal desk for analysts.
         </div>
       </div>
       <div class="hero-meta">
         <div class="meta-pill" id="generated-pill">Loading review artifacts</div>
         <div class="meta-pill" id="clearance-pill">Static Prototype · Clearance Loading</div>
-        <div class="session-card">
-          <div class="toolbar-title">Session</div>
-          <div class="session-grid">
-            <input id="login-username" type="text" placeholder="Username" />
-            <input id="login-password" type="password" placeholder="Password" />
-            <input id="session-name" type="text" placeholder="Analyst name" />
-            <select id="session-role"></select>
-            <div class="session-note" id="session-note">Loading clearance model.</div>
-            <div class="button-row">
-              <button class="action-btn primary" id="login-btn" type="button">Login</button>
-              <button class="action-btn" id="logout-btn" type="button">Logout</button>
+        <div class="hero-auth-locked" id="hero-auth-locked">
+          <p class="hero-auth-copy" id="access-wall-copy">Log in with a local analyst account to load the internal queue, review artifacts, and registry workflow.</p>
+          <div class="session-card">
+            <div class="toolbar-title">Session Access</div>
+            <div class="session-grid">
+              <input id="login-username" type="text" placeholder="Username" />
+              <input id="login-password" type="password" placeholder="Password" />
+              <input id="session-name" type="text" placeholder="Analyst name" />
+              <select id="session-role"></select>
+              <div class="session-note" id="session-note">Loading clearance model.</div>
+              <div class="button-row">
+                <button class="action-btn primary" id="login-btn" type="button">Login</button>
+                <button class="action-btn" id="register-toggle-btn" type="button">Register</button>
+                <button class="action-btn" id="logout-btn" type="button">Logout</button>
+              </div>
             </div>
+          </div>
+        </div>
+        <div class="hero-auth-live" id="hero-auth-live">
+          <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+            <div class="workspace-pill">User <strong id="workspace-user">Locked</strong></div>
+            <div class="workspace-pill">Role <strong id="workspace-role">No session</strong></div>
+            <div class="workspace-pill">Status <strong id="workspace-backend">Backend offline</strong></div>
+          </div>
+          <div class="utility-row" style="justify-content:flex-start;">
+            <button class="action-btn" id="workspace-register-btn" type="button">Register User</button>
+            <button class="action-btn warn" id="workspace-logout-btn" type="button">Logout</button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="access-wall" id="access-wall">
-      <div class="kicker" style="color:var(--accent); margin-bottom:12px;">Credentialed Access</div>
-      <h2>Private Analyst Workspace</h2>
-      <p id="access-wall-copy">Log in with a local analyst account to load the internal queue, review artifacts, and registry workflow. The public dashboard links here for trusted users, but this workspace should not expose its internal data before authentication.</p>
-      <div class="access-list">
-        <div>Internal review queues, QA diagnostics, and duplicate work only load after authentication.</div>
-        <div>Actor registry edits, private analyst reasoning, and publication actions stay behind the analyst server.</div>
-        <div>Use the session card in the header to log in and unlock the workspace.</div>
-      </div>
+    <div class="detail-card surface-action" id="registration-panel" style="margin:12px 0 14px; display:none;">
+        <h3 style="margin-top:0;">Create Local User</h3>
+        <div class="helper-text">Local registration creates a new analyst or research-assistant account on this machine only. Coordinator access is still managed separately.</div>
+        <div class="detail-grid">
+          <label>Username<input id="register-username" type="text" placeholder="new_analyst" /></label>
+          <label>Display Name<input id="register-display-name" type="text" placeholder="New Analyst" /></label>
+          <label>Password<input id="register-password" type="password" placeholder="At least 10 characters" /></label>
+          <label>Role<select id="register-role"></select></label>
+        </div>
+        <div class="button-row" style="margin-top:12px;">
+          <button class="action-btn primary" id="register-btn" type="button">Create And Enter</button>
+          <button class="action-btn" id="register-cancel-btn" type="button">Cancel</button>
+        </div>
+        <div class="helper-text" id="register-note">Registration is available only through the local analyst server.</div>
     </div>
 
     <div id="workspace-shell" class="locked">
+    <div class="toolbar">
+      <div class="toolbar-box command-main command-surface">
+        <div class="command-header">
+          <div class="toolbar-title">Command</div>
+          <div class="command-state">
+            <div class="command-state-chip">Mode <strong id="command-state-mode">Tape</strong></div>
+            <div class="command-state-chip">View <strong id="command-state-view">Core Tape</strong></div>
+            <div class="command-state-chip">Filter <strong id="command-state-filter">All items</strong></div>
+          </div>
+        </div>
+        <div class="command-toprow">
+          <div class="command-search">
+            <input id="search-input" type="search" placeholder="Search headline, country, actor, source" />
+            <div class="compact-note">Natural language and quick filters both work.</div>
+            <div class="query-chips" id="query-summary"></div>
+          </div>
+          <div>
+            <span class="tiny-label">Priority</span>
+            <select id="priority-filter">
+              <option value="all">All items</option>
+              <option value="high">High priority</option>
+              <option value="medium">High + medium</option>
+              <option value="qa">QA only</option>
+              <option value="dup">Duplicates only</option>
+            </select>
+          </div>
+          <div>
+            <span class="tiny-label">Grouping</span>
+            <select id="group-filter">
+              <option value="none">Flat tape</option>
+              <option value="country">By country</option>
+              <option value="construct">By construct</option>
+            </select>
+          </div>
+          <div>
+            <span class="tiny-label">Desk Mode</span>
+            <div class="desk-mode-toggle">
+              <button class="desk-mode-btn active" id="desk-mode-tape" type="button" data-desk-mode="tape">Tape</button>
+              <button class="desk-mode-btn" id="desk-mode-country" type="button" data-desk-mode="country">Country</button>
+            </div>
+          </div>
+          <div class="utility-row">
+            <button class="action-btn primary" id="export-edits-btn" type="button">Export</button>
+            <button class="action-btn" id="reload-edits-btn" type="button">Reload</button>
+            <button class="action-btn warn" id="clear-drafts-btn" type="button">Clear</button>
+          </div>
+        </div>
+        <div class="command-bottomrow">
+          <div>
+            <div class="quick-grid">
+              <button class="quick-btn active" data-view="queue" data-tooltip="Default AI-supervision queue across all active review items.">Core Tape</button>
+              <button class="quick-btn" data-view="high" data-tooltip="Focus on events coded as high salience.">High Salience</button>
+              <button class="quick-btn" data-view="publication" data-tooltip="Focus on items that are not yet published or are being held for publication review.">Release Hold</button>
+              <button class="quick-btn" data-view="publication-ready" data-tooltip="Focus on human-reviewed items that are eligible for the next publish run.">Release Ready</button>
+              <button class="quick-btn" data-view="duplicates" data-tooltip="Focus on events with duplicate candidates or merge work.">Consolidation</button>
+              <button class="quick-btn" data-view="qa" data-tooltip="Focus on events with QA flags that may need manual correction.">Exceptions</button>
+              <button class="quick-btn" data-view="actor" data-tooltip="Focus on events with richer actor structure for actor-centered review.">Actor Intel</button>
+              <button class="quick-btn" data-view="actor-registry" data-tooltip="Focus on events where actors need registry follow-up or uncertainty review.">Registry</button>
+              <button class="quick-btn" data-view="recent" data-tooltip="Sort the current queue by most recent event date first.">Most Recent</button>
+            </div>
+          </div>
+          <div class="command-presets">
+            <details>
+              <summary>Presets</summary>
+              <div class="preset-grid" id="query-presets"></div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="stats" id="stats"></div>
     <div class="notice" id="notice"></div>
-
-    <div class="toolbar">
-      <div class="toolbar-box">
-        <div class="toolbar-title">Search</div>
-        <input id="search-input" type="search" placeholder="Search headline, country, actor, source" />
-        <div class="query-note">Try `country:colombia salience:high qa:true actor:eln` or plain language like `high salience colombia duplicates`.</div>
-        <div class="query-chips" id="query-summary"></div>
-        <div class="preset-grid" id="query-presets"></div>
-      </div>
-      <div class="toolbar-box">
-        <div class="toolbar-title">Priority</div>
-        <select id="priority-filter">
-          <option value="all">All Queue Items</option>
-          <option value="high">High Priority Only</option>
-          <option value="medium">Medium Priority And Up</option>
-          <option value="qa">Items With QA Flags</option>
-          <option value="dup">Items With Duplicate Candidates</option>
-        </select>
-      </div>
-      <div class="toolbar-box">
-        <div class="toolbar-title">Views</div>
-        <div class="quick-grid">
-          <button class="quick-btn active" data-view="queue" data-tooltip="Default AI-supervision queue across all active review items.">Queue</button>
-          <button class="quick-btn" data-view="high" data-tooltip="Focus on events coded as high salience.">High Salience</button>
-          <button class="quick-btn" data-view="publication" data-tooltip="Focus on items that are not yet published or are being held for publication review.">Publication</button>
-          <button class="quick-btn" data-view="publication-ready" data-tooltip="Focus on human-reviewed items that are eligible for the next publish run.">Publication Ready</button>
-          <button class="quick-btn" data-view="duplicates" data-tooltip="Focus on events with duplicate candidates or merge work.">Duplicates</button>
-          <button class="quick-btn" data-view="qa" data-tooltip="Focus on events with QA flags that may need manual correction.">QA</button>
-          <button class="quick-btn" data-view="actor" data-tooltip="Focus on events with richer actor structure for actor-centered review.">Actors</button>
-          <button class="quick-btn" data-view="actor-registry" data-tooltip="Focus on events where actors need registry follow-up or uncertainty review.">Actor Registry</button>
-          <button class="quick-btn" data-view="recent" data-tooltip="Sort the current queue by most recent event date first.">Most Recent</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="toolbar" style="grid-template-columns:1fr; margin-top:-2px;">
-      <div class="toolbar-box">
-        <div class="toolbar-title">Local Review Data</div>
-        <div class="button-row">
-          <button class="action-btn primary" id="export-edits-btn" type="button">Export Edits JSON</button>
-          <button class="action-btn" id="reload-edits-btn" type="button">Reload File Edits</button>
-          <button class="action-btn warn" id="clear-drafts-btn" type="button">Clear Local Drafts</button>
-        </div>
-      </div>
-    </div>
 
     <div class="layout">
       <div class="panel">
         <div class="panel-head">
           <div>
-            <h2 class="panel-title">Queue</h2>
-            <div class="panel-sub" id="queue-sub">AI-ranked oversight queue</div>
+            <h2 class="panel-title">Tape</h2>
+            <div class="panel-sub" id="queue-sub">Event tape and exception queue</div>
           </div>
         </div>
+        <div class="watchlist" id="watchlist"></div>
         <div class="bulk-toolbar" id="actor-bulk-toolbar">
           <div class="toolbar-title">Actor Follow-Up Bulk Actions</div>
           <div class="helper-text">Use this in the `Actor Registry` view to seed registry entries, confirm reviewed actors, or clear uncertainty across selected events.</div>
@@ -979,32 +1677,22 @@
           <div class="empty empty-state">Select a queue item to supervise AI outputs, inspect the canonical event, and intervene only where needed.</div>
         </div>
         <div class="tabs">
-          <button class="tab-btn active" data-tab="overview" data-tooltip="High-level event summary, triage score, and AI supervision signals.">Summary</button>
-          <button class="tab-btn" data-tab="review" data-tooltip="Structured editor for internal event coding and human review fields.">Editor</button>
-          <button class="tab-btn" data-tab="actors" data-tooltip="Actor-level detail and coding for the current event.">Actors</button>
-          <button class="tab-btn" data-tab="registry" data-tooltip="Browse durable registry entries relevant to the current event and compare them with event-level actors.">Registry</button>
-          <button class="tab-btn" data-tab="qa" data-tooltip="QA flags, fixes, and resolution controls for the current event.">QA</button>
-          <button class="tab-btn" data-tab="duplicates" data-tooltip="Duplicate candidates, merge actions, and merge recovery.">Duplicates</button>
-          <button class="tab-btn" data-tab="publication" data-tooltip="Publication state, release checklist, and publication-facing actions.">Publish</button>
-          <button class="tab-btn" data-tab="council" data-tooltip="AI-generated multi-lens analysis with project knowledge traces.">Council</button>
-          <button class="tab-btn" data-tab="history" data-tooltip="Tracked audit trail of edits, resolutions, merges, and undo actions.">History</button>
-          <button class="tab-btn" data-tab="provenance" data-tooltip="Pipeline and review provenance for how the event entered the system.">Workflow</button>
+          <button class="tab-btn active" data-tab="briefing" data-tooltip="Country and event briefing with current monitor context and analysis."><span class="toolbar-title" style="margin:0; color:inherit; opacity:.72;">Desk</span><span class="tab-label">Briefing</span></button>
+          <button class="tab-btn" data-tab="action" data-tooltip="Editing, QA fixes, and consolidation controls for the current event."><span class="toolbar-title" style="margin:0; color:inherit; opacity:.72;">Work</span><span class="tab-label">Action</span></button>
+          <button class="tab-btn" data-tab="intelligence" data-tooltip="Actors, registry intelligence, and evidence surfaces for the current event."><span class="toolbar-title" style="margin:0; color:inherit; opacity:.72;">Intel</span><span class="tab-label">Intelligence</span></button>
+          <button class="tab-btn" data-tab="release" data-tooltip="Publication state, release checklist, and downstream public controls."><span class="toolbar-title" style="margin:0; color:inherit; opacity:.72;">Output</span><span class="tab-label">Release</span></button>
+          <button class="tab-btn" data-tab="audit" data-tooltip="Audit history and lineage for how the event moved through the system."><span class="toolbar-title" style="margin:0; color:inherit; opacity:.72;">Control</span><span class="tab-label">Audit</span></button>
         </div>
-        <div class="tab-panel active" id="tab-overview"></div>
-        <div class="tab-panel" id="tab-review"></div>
-        <div class="tab-panel" id="tab-actors"></div>
-        <div class="tab-panel" id="tab-registry"></div>
-        <div class="tab-panel" id="tab-qa"></div>
-        <div class="tab-panel" id="tab-duplicates"></div>
-        <div class="tab-panel" id="tab-publication"></div>
-        <div class="tab-panel" id="tab-council"></div>
-        <div class="tab-panel" id="tab-history"></div>
-        <div class="tab-panel" id="tab-provenance"></div>
+        <div class="tab-panel active" id="tab-briefing"></div>
+        <div class="tab-panel" id="tab-action"></div>
+        <div class="tab-panel" id="tab-intelligence"></div>
+        <div class="tab-panel" id="tab-release"></div>
+        <div class="tab-panel" id="tab-audit"></div>
       </div>
     </div>
 
     <div class="foot">
-      AI handles most production work upstream. This workspace reads from <code>../../data/review/*.json</code>, <code>../../data/canonical/events_actor_coded.json</code>, and <code>../../data/published/events_public.json</code> so analysts can review exceptions, correct sensitive cases, and supervise publication. Through the analyst server, authenticated saves can write directly into the local-only <code>data/review/edits.local.json</code>.
+      AI handles most production work upstream. This terminal reads from <code>../../data/review/*.json</code>, <code>../../data/canonical/events_actor_coded.json</code>, and <code>../../data/published/events_public.json</code> so analysts can supervise exceptions, correct sensitive cases, validate intelligence, and control release into the public layer. Through the analyst server, authenticated saves can write directly into the local-only <code>data/review/edits.local.json</code>.
     </div>
     </div>
   </div>
@@ -1018,6 +1706,7 @@
       council: "../../data/review/council_analyses.json",
       canonical: "../../data/canonical/events_actor_coded.json",
       published: "../../data/published/events_public.json",
+      countryMonitors: "../../data/published/country_monitors.json",
       edits: "../../data/review/edits.template.json",
       eventTypes: "../../config/taxonomy/event_types.json",
       actorTypes: "../../config/taxonomy/actor_types.json",
@@ -1174,7 +1863,9 @@
       queueItems: [],
       selectedId: null,
       activeView: "queue",
-      activeTab: "overview",
+      tapeMode: "none",
+      deskMode: "tape",
+      activeTab: "briefing",
       search: "",
       priorityFilter: "all",
       localEdits: loadLocalDrafts(),
@@ -1188,6 +1879,12 @@
         available: false,
         authenticated: false,
         user: null
+      },
+      registration: {
+        enabled: false,
+        allowedRoles: ["analyst"],
+        defaultRole: "analyst",
+        minPasswordLength: 10,
       },
       workspaceLoaded: false,
       queryPresets: [
@@ -1287,6 +1984,52 @@
         state.backend.authenticated = false;
         state.backend.user = null;
       }
+    }
+
+    async function detectRegistrationConfig() {
+      if (!isTrustedAnalystHost()) {
+        state.registration = { enabled: false, allowedRoles: ["analyst"], defaultRole: "analyst", minPasswordLength: 10 };
+        return;
+      }
+      try {
+        const payload = await apiFetch("/api/register-config", { method: "GET" });
+        state.registration = {
+          enabled: !!payload.enabled,
+          allowedRoles: Array.isArray(payload.allowed_roles) && payload.allowed_roles.length ? payload.allowed_roles : ["analyst"],
+          defaultRole: payload.default_role || "analyst",
+          minPasswordLength: Number(payload.min_password_length) || 10
+        };
+      } catch (_error) {
+        state.registration = { enabled: false, allowedRoles: ["analyst"], defaultRole: "analyst", minPasswordLength: 10 };
+      }
+    }
+
+    function buildRegisterControls() {
+      const panel = document.getElementById("registration-panel");
+      const roleSelect = document.getElementById("register-role");
+      const note = document.getElementById("register-note");
+      if (!panel || !roleSelect || !note) return;
+      roleSelect.innerHTML = "";
+      (state.registration.allowedRoles || ["analyst"]).forEach(role => {
+        const option = document.createElement("option");
+        option.value = role;
+        option.textContent = DEFAULT_EDITS_PAYLOAD.clearance_model.roles?.[role]?.label || role;
+        if (role === state.registration.defaultRole) option.selected = true;
+        roleSelect.appendChild(option);
+      });
+      note.textContent = state.registration.enabled
+        ? `Registration is local-only. Passwords must be at least ${state.registration.minPasswordLength} characters.`
+        : "Registration is not enabled on this analyst server.";
+      if (!state.registration.enabled) {
+        panel.style.display = "none";
+      }
+    }
+
+    function toggleRegistrationPanel(force) {
+      const panel = document.getElementById("registration-panel");
+      if (!panel) return;
+      const next = typeof force === "boolean" ? force : panel.style.display === "none";
+      panel.style.display = next && state.registration.enabled ? "block" : "none";
     }
 
     function clone(value) {
@@ -1518,6 +2261,7 @@
     function buildIndices(data) {
       data.canonicalById = new Map((data.canonical.events || []).map(ev => [ev.event_id, ev]));
       data.publicById = new Map((data.published.events || []).map(ev => [ev.event_id, ev]));
+      data.countryMonitorByCountry = new Map(((data.countryMonitors || {}).countries || []).map(item => [item.country, item]));
       data.councilByEvent = new Map((data.council.events || []).map(ev => [ev.event_id, ev]));
       data.aiWorkersByCode = new Map(((data.aiWorkers || {}).workers || []).map(worker => [worker.code, worker]));
       data.actorRegistryById = new Map(((data.actorRegistry || {}).actors || []).map(actor => [actor.registry_id, actor]));
@@ -2440,29 +3184,50 @@
       const publicationReadyCount = (state.data.reviewQueue.items || []).map(getEffectiveQueueItem).filter(item => item.publication_ready).length;
       const uncertaintyHeavyCount = (state.data.reviewQueue.items || []).filter(item => (item.uncertainty_score || 0) >= 2).length;
       const disagreementCount = (state.data.reviewQueue.items || []).filter(item => (item.disagreement_score || 0) > 0).length;
-      const stats = [
-        ["Queue Items", state.data.reviewQueue.count, "Analyst-facing review records after QA and duplicate scoring."],
-        ["QA Flags", state.data.qa.flag_count, "Machine-generated issues across the live event store."],
-        ["Registry QA", state.data.registryQa?.issue_count || 0, "Registry-level and event-linked actor registry issues currently detected."],
-        ["Duplicate Candidates", state.data.duplicates.candidate_count, "Possible or definite duplicate event pairs."],
-        ["Canonical Events", state.data.canonical.count, "Schema-aligned internal event records."],
-        ["Public Events", publishedCount, "Records currently released to the public dashboard under the active publication policy."],
-        ["Withheld By Policy", withheldCount, "Records currently held back from publication pending review or other policy checks."],
-        ["Publication Ready", publicationReadyCount, "Human-reviewed records that are eligible to enter the public layer on the next publish run."],
-        ["Council Analyses", councilCount, "AI-generated multi-lens analysis records currently available in the console."],
-        ["Model Uncertainty", uncertaintyHeavyCount, "Queue items where low or medium event confidence increases the need for human supervision."],
-        ["AI Disagreement", disagreementCount, "Queue items where council lenses disagree on risk level and deserve closer review."],
-        ["File Edits", fileEdits.length, "Saved review edits currently loaded from the current analyst edit layer."],
+      const primaryStats = [
+        ["Active Tape", state.data.reviewQueue.count, "Current analyst-facing event tape after QA and duplicate scoring."],
+        ["Exceptions", state.data.qa.flag_count, "Machine-generated issues across the live event store."],
+        ["Registry Stress", state.data.registryQa?.issue_count || 0, "Registry-level and event-linked actor-registry issues currently detected."],
+        ["Consolidation Cases", state.data.duplicates.candidate_count, "Possible or definite duplicate event pairs awaiting confirmation or merge."],
+        ["Public Release", publishedCount, "Records currently released to the public dashboard under the active publication policy."],
+        ["Held Back", withheldCount, "Records currently withheld pending review or other policy checks."]
+      ];
+      const secondaryStats = [
+        ["Internal Records", state.data.canonical.count, "Schema-aligned internal event records currently in the system."],
+        ["Release Ready", publicationReadyCount, "Human-reviewed records eligible for the next publish run."],
+        ["Analysis Runs", councilCount, "AI-generated multi-lens analysis records currently available in the terminal."],
+        ["Model Uncertainty", uncertaintyHeavyCount, "Queue items where confidence loss increases the need for human supervision."],
+        ["AI Disagreement", disagreementCount, "Queue items where council lenses disagree on risk level or interpretation."],
+        ["Saved Edits", fileEdits.length, "Saved review edits currently loaded from the active analyst edit layer."],
         ["Local Drafts", state.localEdits.length, state.backend.authenticated ? "Unsaved browser-only drafts still present after backend login." : "Browser-persisted drafts waiting to be exported or written back to file."]
       ];
-      document.getElementById("stats").innerHTML = stats.map(([label, value, note]) => `
+      document.getElementById("stats").innerHTML = `
+        <div class="stats-primary">
+          ${primaryStats.map(([label, value, note]) => `
         <div class="stat">
           <div class="stat-label">${esc(label)}</div>
           <div class="stat-value">${esc(value)}</div>
           <div class="stat-note">${esc(note)}</div>
         </div>
-      `).join("");
-      document.getElementById("generated-pill").textContent = "Review Queue " + (state.data.reviewQueue.generated_at || "Unknown");
+      `).join("")}
+        </div>
+        <details class="stats-more">
+          <summary>
+            <span>More Desk Metrics</span>
+            <span>${secondaryStats.length} additional indicators</span>
+          </summary>
+          <div class="stats-more-grid">
+            ${secondaryStats.map(([label, value, note]) => `
+              <div class="stat secondary">
+                <div class="stat-label">${esc(label)}</div>
+                <div class="stat-value">${esc(value)}</div>
+                <div class="stat-note">${esc(note)}</div>
+              </div>
+            `).join("")}
+          </div>
+        </details>
+      `;
+      document.getElementById("generated-pill").textContent = "Desk Refresh " + (state.data.reviewQueue.generated_at || "Unknown");
       const roleRules = getRoleRules();
       const backendLabel = state.backend.available
         ? (state.backend.authenticated ? "Backend Authenticated" : "Backend Available")
@@ -2488,6 +3253,24 @@
       document.getElementById("login-password").disabled = state.backend.authenticated || !isTrustedAnalystHost();
       document.getElementById("login-btn").disabled = state.backend.authenticated || !state.backend.available || !isTrustedAnalystHost();
       document.getElementById("logout-btn").disabled = !state.backend.authenticated;
+      const navUser = document.getElementById("workspace-user");
+      const navRole = document.getElementById("workspace-role");
+      const navBackend = document.getElementById("workspace-backend");
+      const navLogout = document.getElementById("workspace-logout-btn");
+      const navRegister = document.getElementById("workspace-register-btn");
+      if (navUser) navUser.textContent = state.backend.authenticated
+        ? (state.backend.user?.display_name || state.backend.user?.username || "Analyst")
+        : "Locked";
+      if (navRole) navRole.textContent = roles[state.session.role]?.label || state.session.role || "Unknown";
+      if (navBackend) navBackend.textContent = !isTrustedAnalystHost()
+        ? "Public host blocked"
+        : state.backend.authenticated
+        ? "Authenticated"
+        : state.backend.available
+        ? "Awaiting login"
+        : "Backend offline";
+      if (navLogout) navLogout.disabled = !state.backend.authenticated;
+      if (navRegister) navRegister.disabled = !state.registration.enabled || !state.backend.available || !isTrustedAnalystHost();
       renderSessionNote();
     }
 
@@ -2508,6 +3291,33 @@
       `;
     }
 
+    function updateCommandStateBar() {
+      const viewLabels = {
+        queue: "Core Tape",
+        high: "High Salience",
+        publication: "Release Hold",
+        "publication-ready": "Release Ready",
+        duplicates: "Consolidation",
+        qa: "Exceptions",
+        actor: "Actor Intel",
+        "actor-registry": "Registry",
+        recent: "Most Recent",
+      };
+      const filterLabels = {
+        all: "All items",
+        high: "High priority",
+        medium: "High + medium",
+        qa: "QA only",
+        dup: "Duplicates only",
+      };
+      const modeNode = document.getElementById("command-state-mode");
+      const viewNode = document.getElementById("command-state-view");
+      const filterNode = document.getElementById("command-state-filter");
+      if (modeNode) modeNode.textContent = state.deskMode === "country" ? "Country" : "Tape";
+      if (viewNode) viewNode.textContent = viewLabels[state.activeView] || "Core Tape";
+      if (filterNode) filterNode.textContent = filterLabels[state.priorityFilter] || "All items";
+    }
+
     function clearWorkspace() {
       state.data = null;
       state.queueItems = [];
@@ -2520,31 +3330,34 @@
       if (stats) stats.innerHTML = "";
       if (queue) queue.innerHTML = '<div class="empty empty-state">Log in to load the analyst queue.</div>';
       if (detailTop) detailTop.innerHTML = '<div class="empty empty-state">Authenticate to open the private review workspace.</div>';
-      for (const tabId of ["overview", "review", "actors", "registry", "qa", "duplicates", "publication", "council", "history", "provenance"]) {
+      for (const tabId of ["briefing", "action", "intelligence", "release", "audit"]) {
         const panel = document.getElementById(`tab-${tabId}`);
         if (panel) panel.innerHTML = "";
       }
     }
 
     function updateAccessWall() {
-      const wall = document.getElementById("access-wall");
       const shell = document.getElementById("workspace-shell");
       const copy = document.getElementById("access-wall-copy");
+      const lockedShell = document.getElementById("hero-auth-locked");
+      const liveShell = document.getElementById("hero-auth-live");
       const locked = !isTrustedAnalystHost() || !state.backend.authenticated;
-      wall.classList.toggle("active", locked);
       shell.classList.toggle("locked", locked);
+      if (lockedShell) lockedShell.style.display = locked ? "grid" : "none";
+      if (liveShell) liveShell.style.display = locked ? "none" : "grid";
       if (copy) {
         copy.textContent = !isTrustedAnalystHost()
           ? "This analyst console is disabled on public hosts. Keep the console on localhost or another private, access-controlled environment and expose only the public dashboard on the web."
           : state.backend.available
           ? "Log in with a local analyst account to load the internal queue, review artifacts, and registry workflow. The public dashboard links here for trusted users, but this workspace should not expose its internal data before authentication."
-          : "This console needs the local analyst server to be running before anyone can authenticate. Start the server, then log in from the session card in the header to unlock the workspace.";
+          : "This console needs the local analyst server to be running before anyone can authenticate. Start the server, then log in from this banner to unlock the workspace.";
       }
+      document.querySelector(".page")?.classList.toggle("authenticated", !locked);
     }
 
     async function loadWorkspaceData(force = false) {
       if (state.workspaceLoaded && !force) return;
-      const [reviewQueue, qa, registryQa, duplicates, council, canonical, published, eventTypes, actorTypes, actorRegistry, councilRoles, aiWorkers, countries] = await Promise.all([
+      const [reviewQueue, qa, registryQa, duplicates, council, canonical, published, countryMonitors, eventTypes, actorTypes, actorRegistry, councilRoles, aiWorkers, countries] = await Promise.all([
         loadJson(DATA_PATHS.reviewQueue),
         loadJson(DATA_PATHS.qa),
         loadOptionalJson(DATA_PATHS.registryQa, { generated_at: null, issue_count: 0, issues: [] }),
@@ -2552,6 +3365,7 @@
         loadOptionalJson(DATA_PATHS.council, { generated_at: null, count: 0, events: [] }),
         loadJson(DATA_PATHS.canonical),
         loadJson(DATA_PATHS.published),
+        loadOptionalJson(DATA_PATHS.countryMonitors, { countries: [] }),
         loadJson(DATA_PATHS.eventTypes),
         loadJson(DATA_PATHS.actorTypes),
         loadOptionalJson(DATA_PATHS.actorRegistry, { actors: [] }),
@@ -2559,7 +3373,7 @@
         loadOptionalJson(DATA_PATHS.aiWorkers, { workers: [] }),
         loadOptionalJson(DATA_PATHS.countries, { countries: [] })
       ]);
-      state.data = { reviewQueue, qa, registryQa, duplicates, council, canonical, published, eventTypes, actorTypes, actorRegistry, councilRoles, aiWorkers, countries, edits: clone(DEFAULT_EDITS_PAYLOAD) };
+      state.data = { reviewQueue, qa, registryQa, duplicates, council, canonical, published, countryMonitors, eventTypes, actorTypes, actorRegistry, councilRoles, aiWorkers, countries, edits: clone(DEFAULT_EDITS_PAYLOAD) };
       buildIndices(state.data);
       await loadEditsForCurrentMode();
       state.workspaceLoaded = true;
@@ -2711,7 +3525,10 @@
     function renderQueue() {
       const rows = getFilteredQueue();
       state.queueItems = rows;
+      updateCommandStateBar();
+      syncDeskModeButtons();
       updateActorBulkToolbar();
+      renderWatchlist(rows);
       const removedCount = rows.filter(item => item.removed).length;
       const undoCount = rows.filter(item =>
         item.latest_qa_resolution?.status === "undone"
@@ -2719,7 +3536,7 @@
         || item.restored
       ).length;
       const overrideCount = rows.filter(item => item.publication_override_active).length;
-      document.getElementById("queue-sub").textContent = `${rows.length} items in current view · ${removedCount} removed · ${undoCount} with undo activity · ${overrideCount} publication overrides`;
+      document.getElementById("queue-sub").textContent = `${rows.length} names on tape · ${removedCount} removed · ${undoCount} with undo activity · ${overrideCount} release overrides`;
 
       if (!rows.length) {
         document.getElementById("queue").innerHTML = `<div class="empty empty-state" style="padding:16px;">No review items match the current filters.</div>`;
@@ -2730,49 +3547,100 @@
         state.selectedId = rows[0].event_id;
       }
 
-      document.getElementById("queue").innerHTML = rows.map(item => {
+      if (state.deskMode === "country") {
+        document.getElementById("queue-sub").textContent = `${rows.length} items across ${buildCountryDesk(rows).length} country desks · ${removedCount} removed · ${undoCount} with undo activity · ${overrideCount} release overrides`;
+        renderCountryDesk(rows);
+        return;
+      }
+
+      const renderQueueCard = (item) => {
         const event = getEffectiveEvent(item.event_id);
         const reports = event?.provenance?.linked_reports || [];
         const selectable = shouldShowActorBulkToolbar();
         const selected = state.actorBulkSelection.has(item.event_id);
+        const actionLabel = item.review_priority === "high"
+          ? "Must act"
+          : item.review_priority === "medium"
+          ? "Review soon"
+          : "Monitor";
+        const actionClass = item.review_priority === "high"
+          ? "must-act"
+          : item.review_priority === "medium"
+          ? "review-soon"
+          : "";
+        const stateLabel = item.qa_flag_count
+          ? `${item.qa_flag_count} QA flag${item.qa_flag_count === 1 ? "" : "s"}`
+          : item.duplicate_candidate_count
+          ? `${item.duplicate_candidate_count} duplicate candidate${item.duplicate_candidate_count === 1 ? "" : "s"}`
+          : item.actor_registry_followup
+          ? "Registry follow-up"
+          : item.publication_ready
+          ? "Release ready"
+          : item.publication_status === "withheld"
+          ? "Held back"
+          : "In review";
+        const contextBits = [
+          item.confidence ? `confidence ${item.confidence}` : "",
+          item.council_disagreement_summary && item.council_disagreement_summary !== "aligned"
+            ? item.council_disagreement_summary.replaceAll("_", " ")
+            : "",
+          item.publication_reason ? item.publication_reason.replaceAll("_", " ") : "",
+          item.uncertain_actor_present ? "uncertain actor coding" : "",
+          item.latest_duplicate_resolution?.status === "distinct" ? "duplicate cleared as distinct" : "",
+          item.latest_qa_resolution?.status === "undone" ? "QA reopened" : "",
+        ].filter(Boolean);
+        const quickSignals = [
+          item.qa_flag_count ? `${item.qa_flag_count} qa` : "",
+          item.duplicate_candidate_count ? `${item.duplicate_candidate_count} dup` : "",
+          item.actor_registry_followup ? "registry" : "",
+          (item.disagreement_score || 0) > 0 ? "ai split" : "",
+          item.publication_status === "withheld" ? "held" : "",
+        ].filter(Boolean).slice(0, 3);
         return `
         <div class="queue-select">
           ${selectable ? `<input class="queue-check" type="checkbox" data-queue-select="${esc(item.event_id)}"${selected ? " checked" : ""} aria-label="Select this event for actor bulk actions" />` : ""}
-          <button class="queue-item queue-card ${item.event_id === state.selectedId ? "active" : ""}" data-id="${esc(item.event_id)}" data-tooltip="${esc(reports.length ? `${reports.length} linked report${reports.length === 1 ? "" : "s"} available for quick evidence review.` : "No linked reports recorded for this event.")}">
+          <button class="queue-item queue-card ${actionClass} ${item.event_id === state.selectedId ? "active" : ""}" data-id="${esc(item.event_id)}" data-tooltip="${esc(reports.length ? `${reports.length} linked report${reports.length === 1 ? "" : "s"} available for quick evidence review.` : "No linked reports recorded for this event.")}">
+            <div class="queue-actionline">
+              <span><strong>${esc(actionLabel)}</strong> · ${esc(stateLabel)}</span>
+              <span>${esc(item.event_date || "Unknown date")}</span>
+            </div>
             <div class="queue-meta">
             ${tag(item.country || "Unknown", "", "Country attached to the event record.")}
             ${tag(item.event_type || "other", "", "Current event type assigned by the coding pipeline or analyst review.")}
             ${tag(item.salience || "low", item.salience === "high" ? "high" : item.salience === "medium" ? "warn" : "", "Estimated public and analytical importance of the event.")}
-            ${tag("score " + item.priority_score, item.priority_score >= 8 ? "high" : "warn", "AI-supervision score used to rank the review queue. Higher scores deserve faster human attention.")}
-            ${item.removed ? tag("removed", "removed", "This event was removed from active workflow by being marked rejected. It is preserved for audit and can be restored.") : ""}
-            ${item.restored ? tag("restored", "ok", "This event was previously removed or downgraded, then restored to active workflow.") : ""}
-            ${item.qa_flag_count ? tag(item.qa_flag_count + " QA", "warn", "Number of QA flags currently attached to this event.") : ""}
-            ${item.registry_issue_count ? tag(item.registry_issue_count + " Registry QA", "warn", "Number of actor-registry issues linked to this event.") : ""}
-            ${item.latest_qa_resolution?.status === "undone" ? tag("QA undo", "undo", "A previous QA resolution was undone, so the issue is active again.") : ""}
-            ${item.duplicate_candidate_count ? tag(item.duplicate_candidate_count + " DUP", "warn", "Number of duplicate candidates linked to this event.") : ""}
-            ${item.latest_duplicate_resolution?.status === "undone" ? tag("DUP undo", "undo", "A previous duplicate decision was undone, so the candidate is back in active review.") : ""}
-            ${item.latest_duplicate_resolution?.status === "distinct" ? tag("distinct", "ok", "An analyst reviewed this candidate and confirmed the flagged events are different incidents.") : ""}
-            ${(item.uncertainty_score || 0) >= 2 ? tag("uncertain", "warn", "The event confidence is low enough to increase the need for human supervision.") : ""}
-            ${(item.disagreement_score || 0) > 0 ? tag("AI disagreement", "warn", "Council lenses disagree on risk level or interpretation, so this event may need closer review.") : ""}
-            ${item.actor_registry_followup ? tag("registry follow-up", "warn", "At least one actor still needs registry review, seeding, or confirmation.") : ""}
-            ${item.uncertain_actor_present ? tag("uncertain actor", "warn", "At least one actor remains uncertain and should be reviewed before relying on the coding.") : ""}
+            ${tag("score " + item.priority_score, item.priority_score >= 8 ? "high" : item.priority_score >= 5 ? "warn" : "", "AI-supervision score used to rank the review queue. Higher scores deserve faster human attention.")}
+            ${item.qa_flag_count ? tag("qa", "warn", "Number of QA flags currently attached to this event.") : ""}
+            ${item.duplicate_candidate_count ? tag("dup", "warn", "Number of duplicate candidates linked to this event.") : ""}
+            ${item.actor_registry_followup ? tag("registry", "warn", "At least one actor still needs registry review, seeding, or confirmation.") : ""}
+            ${(item.disagreement_score || 0) > 0 ? tag("ai split", "warn", "Council lenses disagree on risk level or interpretation, so this event may need closer review.") : ""}
             ${item.publication_label ? tag(item.publication_label, item.publication_status === "published" ? "ok" : item.publication_status === "withheld" ? "warn" : "high", "Current publication state under the active publish policy.") : ""}
-            ${item.publication_ready ? tag("Ready", "high", "This event is eligible for the next publish run and has satisfied the current review requirements.") : ""}
-            ${item.publication_override_active ? tag("publication override", "override", "A human publication-facing decision is currently active for this event.") : ""}
-            ${item.latest_edit ? tag(item.latest_edit.editor_role || "edit", "ok", "Most recent saved human editor role attached to this event.") : ""}
+            </div>
+            <div class="queue-tape">
+              <span><strong>${esc(item.country || "Unknown")}</strong> · ${esc(item.event_id || "No ID")}</span>
+              <span>${esc((item.review_priority || "—").toUpperCase())}</span>
             </div>
             <div class="queue-title">${esc(item.headline)}</div>
-            <div class="queue-note">${esc(item.event_date)} · confidence ${esc(item.confidence)} · review ${esc(item.review_status)}${item.council_disagreement_summary && item.council_disagreement_summary !== "aligned" ? " · " + esc(item.council_disagreement_summary.replaceAll("_", " ")) : ""}${item.publication_reason ? " · " + esc(item.publication_reason.replaceAll("_", " ")) : ""}${item.actor_registry_followup ? " · actor registry follow-up needed" : ""}${item.uncertain_actor_present ? " · uncertain actor coding present" : ""}${item.removed ? " · removed from active workflow" : ""}${item.latest_qa_resolution?.status === "undone" ? " · QA reopened" : ""}${item.latest_duplicate_resolution?.status === "undone" ? " · duplicate decision undone" : ""}${item.latest_duplicate_resolution?.status === "distinct" ? " · duplicate cleared as distinct" : ""}</div>
-            ${item.council_recommended_actions?.length ? `<div class="queue-meta" style="margin-top:8px;">${item.council_recommended_actions.slice(0, 2).map(action => tag(action.code || "action", action.priority === "high" ? "high" : action.priority === "medium" ? "warn" : "")).join("")}</div>` : ""}
-            ${reports.length ? `
-              <div style="margin-top:10px;">
-                ${renderLinkedReportChips(reports, 3)}
-              </div>
-            ` : ""}
+            <div class="queue-note">${esc(item.source_primary || event?.source_primary || "source unavailable")} · ${esc(item.review_status || "review pending")} · ${esc(reports.length)} linked report${reports.length === 1 ? "" : "s"}</div>
+            ${contextBits.length ? `<div class="queue-contextline">${esc(contextBits.join(" · "))}</div>` : ""}
+            ${quickSignals.length ? `<div class="queue-signals">${quickSignals.map(signal => `<span class="queue-signal">${esc(signal)}</span>`).join("")}</div>` : ""}
           </button>
         </div>
       `;
-      }).join("");
+      };
+
+      const grouped = groupQueueRows(rows);
+      document.getElementById("queue").innerHTML = grouped.map(group => `
+        <div class="queue-group">
+          <div class="queue-group-head">
+            <div>
+              <div class="mono">${esc(state.tapeMode === "construct" ? "Lead Construct" : state.tapeMode === "country" ? "Country Focus" : "Tape View")}</div>
+              <strong>${esc(group.label)}</strong>
+            </div>
+            <div class="mono">${esc(group.note)}</div>
+          </div>
+          ${group.rows.map(renderQueueCard).join("")}
+        </div>
+      `).join("");
 
       for (const btn of document.querySelectorAll(".queue-item")) {
         btn.addEventListener("click", () => {
@@ -2791,11 +3659,262 @@
       }
     }
 
+    function getCountryMonitor(country) {
+      return state.data?.countryMonitorByCountry?.get(country) || null;
+    }
+
+    function monitorByCode(countryMonitor, code) {
+      return (countryMonitor?.monitors || []).find(item => item.code === code) || null;
+    }
+
+    function constructByCode(countryMonitor, code) {
+      return (countryMonitor?.risk_constructs || []).find(item => item.code === code) || null;
+    }
+
+    function formatScore(value) {
+      return value == null ? "—" : Number(value).toFixed(1);
+    }
+
+    function renderMonitorPill(title, value, note) {
+      return `
+        <div class="monitor-pill">
+          <div class="toolbar-title">${esc(title)}</div>
+          <div class="monitor-pill-value">${esc(value)}</div>
+          <div class="monitor-pill-note">${esc(note)}</div>
+        </div>
+      `;
+    }
+
+    function getLeadingConstructLabel(country) {
+      const predictive = getCountryMonitor(country)?.predictive_summary;
+      return predictive?.leading_label || "Unassigned";
+    }
+
+    function buildWatchlist(rows) {
+      const byCountry = new Map();
+      for (const item of rows) {
+        const country = item.country || "Unknown";
+        const current = byCountry.get(country) || {
+          country,
+          count: 0,
+          high: 0,
+          priority: 0,
+          lead: getLeadingConstructLabel(country),
+        };
+        current.count += 1;
+        current.high += item.salience === "high" ? 1 : 0;
+        current.priority += Number(item.priority_score || 0);
+        byCountry.set(country, current);
+      }
+      return [...byCountry.values()]
+        .sort((a, b) => (b.priority - a.priority) || (b.high - a.high) || a.country.localeCompare(b.country))
+        .slice(0, 6);
+    }
+
+    function renderWatchlist(rows) {
+      const container = document.getElementById("watchlist");
+      if (!container) return;
+      const watch = buildWatchlist(rows);
+      if (!watch.length) {
+        container.innerHTML = '<div class="empty empty-state">No countries on tape.</div>';
+        return;
+      }
+      container.innerHTML = `
+        <div class="toolbar-title">Country Watchlist</div>
+        <div class="watchlist-grid">
+          ${watch.map(item => `
+            <button class="watch-card" type="button" data-watch-country="${esc(item.country)}">
+              <div class="mono">${esc(item.lead)}</div>
+              <strong>${esc(item.country)}</strong>
+              <p>${esc(item.count)} on tape · ${esc(item.high)} high salience · priority ${esc(item.priority.toFixed(1))}</p>
+            </button>
+          `).join("")}
+        </div>
+      `;
+      for (const btn of container.querySelectorAll("[data-watch-country]")) {
+        btn.addEventListener("click", () => {
+          state.search = `country:${btn.dataset.watchCountry.toLowerCase()}`;
+          document.getElementById("search-input").value = state.search;
+          renderQueue();
+          renderDetail();
+        });
+      }
+    }
+
+    function buildCountryDesk(rows) {
+      const byCountry = new Map();
+      for (const item of rows) {
+        const country = item.country || "Unknown";
+        const current = byCountry.get(country) || {
+          country,
+          items: [],
+          high: 0,
+          priority: 0,
+          lead: getLeadingConstructLabel(country),
+          monitor: getCountryMonitor(country),
+        };
+        current.items.push(item);
+        current.high += item.salience === "high" ? 1 : 0;
+        current.priority += Number(item.priority_score || 0);
+        byCountry.set(country, current);
+      }
+      return [...byCountry.values()]
+        .map(entry => ({
+          ...entry,
+          items: entry.items.sort((a, b) => (b.priority_score || 0) - (a.priority_score || 0)),
+        }))
+        .sort((a, b) => (b.priority - a.priority) || (b.high - a.high) || a.country.localeCompare(b.country));
+    }
+
+    function syncDeskModeButtons() {
+      for (const btn of document.querySelectorAll("[data-desk-mode]")) {
+        btn.classList.toggle("active", btn.dataset.deskMode === state.deskMode);
+      }
+    }
+
+    function renderCountryDesk(rows) {
+      const container = document.getElementById("queue");
+      const countries = buildCountryDesk(rows);
+      if (!countries.length) {
+        container.innerHTML = `<div class="empty empty-state" style="padding:16px;">No country desks match the current tape configuration.</div>`;
+        return;
+      }
+      container.innerHTML = `
+        <div class="desk-list">
+          ${countries.map(entry => {
+            const predictive = entry.monitor?.predictive_summary || null;
+            const topEvents = entry.items.slice(0, 3);
+            return `
+              <section class="desk-country">
+                <div class="desk-country-head">
+                  <div>
+                    <div class="mono">${esc(entry.lead)}</div>
+                    <h3 class="desk-country-title">${esc(entry.country)}</h3>
+                    <div class="desk-country-note">${esc(predictive?.summary_text || "No country monitor summary loaded yet. This desk remains event-led until monitor coverage improves.")}</div>
+                  </div>
+                  <div class="mono">${esc(entry.items.length)} items</div>
+                </div>
+                <div class="desk-metrics">
+                  <div class="desk-metric">
+                    <div class="toolbar-title">Priority Load</div>
+                    <strong>${esc(entry.priority.toFixed(1))}</strong>
+                  </div>
+                  <div class="desk-metric">
+                    <div class="toolbar-title">High Salience</div>
+                    <strong>${esc(String(entry.high))}</strong>
+                  </div>
+                  <div class="desk-metric">
+                    <div class="toolbar-title">Overall Risk</div>
+                    <strong>${esc(formatScore(predictive?.overall_risk_score))}</strong>
+                  </div>
+                </div>
+                <div class="desk-country-actions">
+                  <button class="desk-link-btn" type="button" data-country-focus="${esc(entry.country)}">Focus Desk</button>
+                  <button class="desk-link-btn" type="button" data-country-select="${esc(entry.country)}">Open Lead Event</button>
+                </div>
+                <div class="desk-top-events">
+                  ${topEvents.map(item => `
+                    <button class="desk-event" type="button" data-country-event="${esc(item.event_id)}">
+                      <span class="mono">${esc(item.event_date || "No date")} · ${esc((item.review_priority || "—").toUpperCase())} priority · ${esc(item.event_type || "other")}</span>
+                      <strong>${esc(item.headline)}</strong>
+                    </button>
+                  `).join("")}
+                </div>
+              </section>
+            `;
+          }).join("")}
+        </div>
+      `;
+      for (const btn of container.querySelectorAll("[data-country-focus]")) {
+        btn.addEventListener("click", () => {
+          state.search = `country:${btn.dataset.countryFocus.toLowerCase()}`;
+          state.deskMode = "tape";
+          document.getElementById("search-input").value = state.search;
+          syncDeskModeButtons();
+          renderQueue();
+          renderDetail();
+        });
+      }
+      for (const btn of container.querySelectorAll("[data-country-select]")) {
+        btn.addEventListener("click", () => {
+          const match = countries.find(entry => entry.country === btn.dataset.countrySelect);
+          const lead = match?.items?.[0];
+          if (!lead) return;
+          state.selectedId = lead.event_id;
+          renderQueue();
+          renderDetail();
+        });
+      }
+      for (const btn of container.querySelectorAll("[data-country-event]")) {
+        btn.addEventListener("click", () => {
+          state.selectedId = btn.dataset.countryEvent;
+          renderQueue();
+          renderDetail();
+        });
+      }
+    }
+
+    function groupQueueRows(rows) {
+      if (state.tapeMode === "none") {
+        return [{ label: "Active Tape", note: `${rows.length} items`, rows }];
+      }
+      const groups = new Map();
+      for (const item of rows) {
+        const label = state.tapeMode === "country"
+          ? (item.country || "Unknown")
+          : getLeadingConstructLabel(item.country);
+        if (!groups.has(label)) groups.set(label, []);
+        groups.get(label).push(item);
+      }
+      return [...groups.entries()]
+        .map(([label, groupRows]) => ({
+          label,
+          note: `${groupRows.length} items`,
+          rows: groupRows.sort((a, b) => (b.priority_score || 0) - (a.priority_score || 0)),
+        }))
+        .sort((a, b) => {
+          const aScore = a.rows.reduce((sum, item) => sum + Number(item.priority_score || 0), 0);
+          const bScore = b.rows.reduce((sum, item) => sum + Number(item.priority_score || 0), 0);
+          return bScore - aScore;
+        });
+    }
+
     function renderOverview(event, queueItem) {
       const latestEdit = state.editMaps.latestByEvent.get(event.event_id);
       const publication = getPublicationDecision(event);
+      const countryMonitor = getCountryMonitor(event.country);
+      const predictive = countryMonitor?.predictive_summary || null;
+      const regime = constructByCode(countryMonitor, "regime_vulnerability");
+      const militarization = constructByCode(countryMonitor, "militarization");
+      const fragmentation = constructByCode(countryMonitor, "security_fragmentation");
+      const cmrBalance = monitorByCode(countryMonitor, "cmr_balance");
+      const securityPressure = monitorByCode(countryMonitor, "security_pressure");
+      const externalAlignment = monitorByCode(countryMonitor, "external_security_alignment");
       return `
         <div class="detail-grid">
+          <div class="detail-card full">
+            <h3>Country Risk Brief</h3>
+            <div class="monitor-hero">
+              <div>
+                <p style="margin:0; font-size:16px; line-height:1.7; color:var(--muted);">
+                  ${esc(predictive?.summary_text || `No country monitor brief is loaded for ${event.country || "this event"} yet.`)}
+                </p>
+                <div class="monitor-score">
+                  ${renderMonitorPill("Overall Risk", formatScore(predictive?.overall_risk_score), `${esc(predictive?.overall_risk_level || "Unknown")} level`)}
+                  ${renderMonitorPill("Lead Construct", predictive?.leading_label || "—", `${esc((predictive?.leading_trend || "unknown").replaceAll("_", " "))} trend`)}
+                  ${renderMonitorPill("Regime Vulnerability", formatScore(predictive?.regime_vulnerability_score), `${esc(regime?.level || "Unknown")} pressure`)}
+                </div>
+              </div>
+              <div class="detail-card surface-action" style="padding:14px;">
+                <h3 style="margin-bottom:8px;">Watchpoints</h3>
+                <div class="watch-list">
+                  ${(predictive?.watchpoints?.length ? predictive.watchpoints : ["No country-level watchpoints are currently recorded."]).map(item => `
+                    <div class="watch-item">${esc(item)}</div>
+                  `).join("")}
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="detail-card">
             <h3>Event Core</h3>
             <dl class="kv">
@@ -2812,7 +3931,7 @@
             </dl>
           </div>
           <div class="detail-card">
-            <h3>Signals</h3>
+            <h3>Risk Signals</h3>
             <dl class="kv">
               <dt>Priority Score</dt><dd>${esc(queueItem.priority_score)}</dd>
               <dt>Model Uncertainty</dt><dd>${esc(queueItem.uncertainty_score ?? "—")}</dd>
@@ -2831,7 +3950,40 @@
             </dl>
           </div>
           <div class="detail-card full">
-            <h3>AI Supervision Signals</h3>
+            <h3>Country Constructs</h3>
+            <div class="monitor-grid">
+              ${[
+                ["Regime Vulnerability", regime],
+                ["Militarization", militarization],
+                ["Security Fragmentation", fragmentation]
+              ].map(([label, construct]) => `
+                <div class="signal-tile">
+                  <div class="mono">${esc(label)}</div>
+                  <strong>${esc(formatScore(construct?.score))} · ${esc(construct?.level || "Unknown")}</strong>
+                  <div class="queue-note">${esc(construct?.summary_text || "No construct brief recorded.")}</div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+          <div class="detail-card full">
+            <h3>Monitor Families</h3>
+            <div class="signal-grid">
+              ${[
+                ["Civil-Military Stress", cmrBalance],
+                ["Security Pressure", securityPressure],
+                ["External Security Alignment", externalAlignment]
+              ].map(([label, monitor]) => `
+                <div class="signal-tile">
+                  <div class="mono">${esc(label)}</div>
+                  <strong>${esc(formatScore(monitor?.composite_score))}</strong>
+                  <div class="queue-note">Baseline ${esc(formatScore(monitor?.baseline_score))} · Pulse ${esc(formatScore(monitor?.pulse_score))} · ${esc((monitor?.trend_label || "unknown").replaceAll("_", " "))}</div>
+                  <div class="queue-note">${esc(monitor?.goal || "No monitor goal recorded.")}</div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+          <div class="detail-card full">
+            <h3>Supervision Triggers</h3>
             <div class="list">
               ${((queueItem.supervision_reasons || []).length ? queueItem.supervision_reasons : ["routine_monitoring"]).map(reason => `
                 <div class="list-item">
@@ -2842,7 +3994,7 @@
             </div>
           </div>
           <div class="detail-card full">
-            <h3>Next Actions</h3>
+            <h3>Analyst Actions</h3>
             <div class="list">
               ${((queueItem.council_recommended_actions || []).length ? queueItem.council_recommended_actions : [{code: "routine_monitoring", priority: "low", reason: "No special intervention recommended beyond normal monitoring."}]).map(action => `
                 <div class="list-item">
@@ -2856,7 +4008,7 @@
             </div>
           </div>
           <div class="detail-card full">
-            <h3>Sources</h3>
+            <h3>Source Base</h3>
             <div class="list">
               ${(event.source_all || []).length ? (event.source_all || []).map((src, idx) => `
                 <div class="list-item">
@@ -2867,8 +4019,102 @@
             </div>
           </div>
           <div class="detail-card full">
-            <h3>Links</h3>
+            <h3>Reference Links</h3>
             <div class="list">${linkList(event.url_all)}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderBriefingWorkspace(event, queueItem) {
+      return `
+        <div class="workspace-stack">
+          <div class="workspace-head">
+            <h3>Desk Briefing</h3>
+            <p>Country context and current analytical reading.</p>
+          </div>
+          ${renderOverview(event, queueItem)}
+          <div class="detail-card full">
+            <h3>Analytical Reading</h3>
+            ${renderCouncil(event)}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderActionWorkspace(event, queueItem) {
+      return `
+        <div class="workspace-stack">
+          <div class="workspace-head">
+            <h3>Action Surface</h3>
+            <p>Edit, resolve, consolidate.</p>
+          </div>
+          <div class="detail-card full">
+            <h3>Review Editor</h3>
+            ${buildReviewEditor(event)}
+          </div>
+          <div class="detail-grid">
+            <div class="detail-card full">
+              <h3>Exceptions</h3>
+              ${renderQa(queueItem)}
+            </div>
+            <div class="detail-card full">
+              <h3>Consolidation</h3>
+              ${renderDuplicates(queueItem)}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderIntelligenceWorkspace(event, queueItem) {
+      return `
+        <div class="workspace-stack">
+          <div class="workspace-head">
+            <h3>Intelligence Surface</h3>
+            <p>Actors, registry context, and evidence.</p>
+          </div>
+          <div class="detail-card full">
+            <h3>Actor Intelligence</h3>
+            ${renderActors(event)}
+          </div>
+          <div class="detail-card full">
+            <h3>Registry Intelligence</h3>
+            ${renderRegistryBrowser(event)}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderReleaseWorkspace(event, queueItem) {
+      return `
+        <div class="workspace-stack">
+          <div class="workspace-head">
+            <h3>Release Control</h3>
+            <p>Keep internal or move public.</p>
+          </div>
+          <div class="detail-card full">
+            <h3>Release Decision</h3>
+            ${renderPublication(event, queueItem)}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAuditWorkspace(event, queueItem) {
+      return `
+        <div class="workspace-stack">
+          <div class="workspace-head">
+            <h3>Audit And Lineage</h3>
+            <p>Trail, undo activity, and lineage.</p>
+          </div>
+          <div class="detail-card full">
+            <h3>Audit Trail</h3>
+            ${renderHistory(event)}
+          </div>
+          <div class="detail-card full">
+            <h3>Lineage</h3>
+            ${renderProvenance(event, queueItem)}
           </div>
         </div>
       `;
@@ -3375,7 +4621,9 @@
       }
       const roleLabels = Object.fromEntries(roles.map(role => [role.code, role.label]));
       const analyses = council.analyses || {};
-      const order = ["cmr", "political_risk", "regional_security", "synthesis"];
+      const order = ["cmr", "political_risk", "regional_security", "international", "economist", "synthesis"];
+      const activation = council.analysis_activation || {};
+      const eventContext = council.event_context || {};
       const workerTrace = council.worker_trace || {};
       const upstreamWorkers = workerTrace.upstream_workers || [];
       const councilWorkers = workerTrace.council_workers || [];
@@ -3390,6 +4638,7 @@
               <dt>Tag</dt><dd>${esc(council.analysis_tag || "AI-generated analysis")}</dd>
               <dt>Method</dt><dd>${esc(council.generation_method || "—")}</dd>
               <dt>Scope</dt><dd>${esc(council.analysis_scope || "—")}</dd>
+              <dt>Active Lenses</dt><dd>${esc(Object.entries(activation).filter(([, row]) => row && row.active).map(([code]) => roleLabels[code] || code).join(" · ") || "—")}</dd>
               <dt>Reviewed By Human</dt><dd>${esc(council.reviewed_by_human ? "Yes" : "No")}</dd>
               <dt>Human Validated</dt><dd>${esc(council.human_validated ? "Yes" : "No")}</dd>
               <dt>Current Review Status</dt><dd>${esc(council.review_status || "—")}</dd>
@@ -3399,6 +4648,7 @@
               ${councilWorkers.map(worker => tag(worker.label || worker.code, "ok")).join("")}
             </div>
             ${knowledgeRefs.length ? `<p style="margin:12px 0 0; color:var(--muted); line-height:1.65;">Knowledge refs: ${esc(knowledgeRefs.join(" · "))}</p>` : ""}
+            ${eventContext.primary_context ? `<p style="margin:12px 0 0; color:var(--muted); line-height:1.65;"><strong>Event Context:</strong> ${esc(eventContext.primary_context)}</p>` : ""}
           </div>
           <div class="detail-card full">
             <h3>Next Actions</h3>
@@ -3440,7 +4690,9 @@
                 <dl class="kv">
                   <dt>Risk Level</dt><dd>${esc(analysis.risk_level || "—")}</dd>
                   <dt>Confidence</dt><dd>${esc(analysis.confidence ?? "—")}</dd>
+                  <dt>Weight</dt><dd>${esc(analysis.analyst_weight ?? "—")}</dd>
                   <dt>Signals</dt><dd>${esc((analysis.signals || []).join(", ") || "—")}</dd>
+                  <dt>Activation</dt><dd>${esc(analysis.activation_reason || "—")}</dd>
                 </dl>
                 <p style="margin:12px 0 0; color:var(--muted); line-height:1.65;">${esc(analysis.assessment || "No assessment available.")}</p>
                 ${traceRows.length ? `
@@ -4140,10 +5392,10 @@
     }
 
     function focusReviewField(fieldId) {
-      state.activeTab = "review";
-      for (const b of document.querySelectorAll(".tab-btn")) b.classList.toggle("active", b.dataset.tab === "review");
+      state.activeTab = "action";
+      for (const b of document.querySelectorAll(".tab-btn")) b.classList.toggle("active", b.dataset.tab === "action");
       for (const panel of document.querySelectorAll(".tab-panel")) {
-        panel.classList.toggle("active", panel.id === "tab-review");
+        panel.classList.toggle("active", panel.id === "tab-action");
       }
       const node = document.getElementById(fieldId);
       if (node) {
@@ -4427,20 +5679,33 @@
       const event = getEffectiveEvent(state.selectedId);
       if (!queueItem || !event) {
         document.getElementById("detail-top").innerHTML = '<div class="empty empty-state">No event selected.</div>';
-        document.getElementById("tab-overview").innerHTML = "";
-        document.getElementById("tab-review").innerHTML = "";
-        document.getElementById("tab-actors").innerHTML = "";
-        document.getElementById("tab-registry").innerHTML = "";
-        document.getElementById("tab-qa").innerHTML = "";
-        document.getElementById("tab-duplicates").innerHTML = "";
-        document.getElementById("tab-publication").innerHTML = "";
-        document.getElementById("tab-council").innerHTML = "";
-        document.getElementById("tab-history").innerHTML = "";
-        document.getElementById("tab-provenance").innerHTML = "";
+        document.getElementById("tab-briefing").innerHTML = "";
+        document.getElementById("tab-action").innerHTML = "";
+        document.getElementById("tab-intelligence").innerHTML = "";
+        document.getElementById("tab-release").innerHTML = "";
+        document.getElementById("tab-audit").innerHTML = "";
         return;
       }
 
-      document.getElementById("detail-top").innerHTML = `
+        document.getElementById("detail-top").innerHTML = `
+        <div class="detail-ribbon">
+          <div class="detail-ribbon-card">
+            <div class="toolbar-title">Event</div>
+            <div class="desk-note">${esc(event.event_id || "No ID")}</div>
+          </div>
+          <div class="detail-ribbon-card">
+            <div class="toolbar-title">Country</div>
+            <div class="desk-note">${esc(event.country || "Unknown")}</div>
+          </div>
+          <div class="detail-ribbon-card">
+            <div class="toolbar-title">Priority</div>
+            <div class="desk-note">${esc((queueItem.review_priority || "—").toUpperCase())}</div>
+          </div>
+          <div class="detail-ribbon-card">
+            <div class="toolbar-title">Release</div>
+            <div class="desk-note">${esc(queueItem.publication_label || "Internal only")}</div>
+          </div>
+        </div>
         <div class="queue-meta">
           ${tag(event.country || "Unknown")}
           ${tag(event.event_type || "other")}
@@ -4461,16 +5726,11 @@
         </div>
       `;
 
-      document.getElementById("tab-overview").innerHTML = renderOverview(event, queueItem);
-      document.getElementById("tab-review").innerHTML = buildReviewEditor(event);
-      document.getElementById("tab-actors").innerHTML = renderActors(event);
-      document.getElementById("tab-registry").innerHTML = renderRegistryBrowser(event);
-      document.getElementById("tab-qa").innerHTML = renderQa(queueItem);
-      document.getElementById("tab-duplicates").innerHTML = renderDuplicates(queueItem);
-      document.getElementById("tab-publication").innerHTML = renderPublication(event, queueItem);
-      document.getElementById("tab-council").innerHTML = renderCouncil(event);
-      document.getElementById("tab-history").innerHTML = renderHistory(event);
-      document.getElementById("tab-provenance").innerHTML = renderProvenance(event, queueItem);
+      document.getElementById("tab-briefing").innerHTML = renderBriefingWorkspace(event, queueItem);
+      document.getElementById("tab-action").innerHTML = renderActionWorkspace(event, queueItem);
+      document.getElementById("tab-intelligence").innerHTML = renderIntelligenceWorkspace(event, queueItem);
+      document.getElementById("tab-release").innerHTML = renderReleaseWorkspace(event, queueItem);
+      document.getElementById("tab-audit").innerHTML = renderAuditWorkspace(event, queueItem);
       wireReviewEditor();
     }
 
@@ -4622,6 +5882,17 @@
         renderQueue();
         renderDetail();
       });
+      for (const btn of document.querySelectorAll("[data-desk-mode]")) {
+        btn.addEventListener("click", () => {
+          state.deskMode = btn.dataset.deskMode || "tape";
+          renderQueue();
+          renderDetail();
+        });
+      }
+      document.getElementById("group-filter").addEventListener("change", (e) => {
+        state.tapeMode = e.target.value;
+        renderQueue();
+      });
       for (const btn of document.querySelectorAll(".quick-btn")) {
         btn.addEventListener("click", () => {
           state.activeView = btn.dataset.view;
@@ -4701,7 +5972,41 @@
           alert("Login failed: " + error.message);
         }
       });
-      document.getElementById("logout-btn").addEventListener("click", async () => {
+      const openRegistration = () => {
+        if (!state.registration.enabled) {
+          setNotice("Registration is not enabled on this analyst server.", "warn");
+          return;
+        }
+        toggleRegistrationPanel();
+      };
+      document.getElementById("register-toggle-btn").addEventListener("click", openRegistration);
+      document.getElementById("workspace-register-btn").addEventListener("click", openRegistration);
+      document.getElementById("register-cancel-btn").addEventListener("click", () => {
+        toggleRegistrationPanel(false);
+      });
+      document.getElementById("register-btn").addEventListener("click", async () => {
+        try {
+          await apiFetch("/api/register", {
+            method: "POST",
+            body: JSON.stringify({
+              username: document.getElementById("register-username").value.trim(),
+              display_name: document.getElementById("register-display-name").value.trim(),
+              password: document.getElementById("register-password").value,
+              role: document.getElementById("register-role").value
+            })
+          });
+          document.getElementById("register-password").value = "";
+          await detectBackendSession();
+          await loadWorkspaceData(true);
+          setNotice(`Registered and logged in as ${state.backend.user?.display_name || state.backend.user?.username || "analyst"}.`);
+          buildSessionControls();
+          updateAccessWall();
+          toggleRegistrationPanel(false);
+        } catch (error) {
+          alert("Registration failed: " + error.message);
+        }
+      });
+      const performLogout = async () => {
         try {
           await apiFetch("/api/logout", { method: "POST" });
           await detectBackendSession();
@@ -4712,7 +6017,9 @@
         } catch (error) {
           alert("Logout failed: " + error.message);
         }
-      });
+      };
+      document.getElementById("logout-btn").addEventListener("click", performLogout);
+      document.getElementById("workspace-logout-btn").addEventListener("click", performLogout);
       document.getElementById("export-edits-btn").addEventListener("click", exportEditsPayload);
       document.getElementById("reload-edits-btn").addEventListener("click", () => {
         reloadFileEdits().catch((error) => alert("Failed to reload edits file: " + error.message));
@@ -4730,6 +6037,8 @@
     async function init() {
       try {
         await detectBackendSession();
+        await detectRegistrationConfig();
+        buildRegisterControls();
         buildSessionControls();
         renderNotice();
         renderQueryPresets();

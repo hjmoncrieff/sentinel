@@ -1191,20 +1191,20 @@ header {
             <div class="tab-intro-title" id="sr-title">Latin America &amp; the Caribbean</div>
             <div id="sr-summary"></div>
           </div>
-          <div class="context-panel-note">Regional militarization monitor. Country shading combines a structural baseline from the M3 dataset with weighted live-event pressure from the SENTINEL feed, so the map captures both embedded military roles and current stress.</div>
+          <div class="context-panel-note">Regional risk monitor. The map highlights regime vulnerability, while the cards and charts below break that outlook into militarization and security-fragmentation layers built from structural factors and live events.</div>
           <div class="mini-legend" aria-hidden="true">
-            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#f1f0e1;"></span><span>lower militarization</span></div>
-            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#a8ae72;"></span><span>mixed structural and live pressure</span></div>
-            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#556b2f;"></span><span>higher militarization</span></div>
+            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#f1f0e1;"></span><span>lower vulnerability</span></div>
+            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#a8ae72;"></span><span>mixed structural and live stress</span></div>
+            <div class="mini-legend-item"><span class="mini-legend-swatch" style="background:#556b2f;"></span><span>higher vulnerability</span></div>
           </div>
         </div>
         <div class="context-map-card">
           <div class="cp-regional-map-wrap" id="cp-regional-map-wrap">
-            <div class="context-map-label">Regional Militarization Index</div>
+            <div class="context-map-label">Regional Regime Vulnerability</div>
             <svg id="cp-regional-map-svg" style="width:100%;height:100%;display:block;"></svg>
             <div class="cp-regional-tooltip" id="cp-regional-tooltip"></div>
           <div class="context-map-legend">
-            <div style="font-family:var(--mono);font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Militarization Index</div>
+            <div style="font-family:var(--mono);font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Regime Vulnerability</div>
             <div style="display:flex;flex-direction:column;gap:4px;">
               <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div class="mini-legend-swatch" style="background:#f1f0e1;"></div>Lower</div>
               <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div class="mini-legend-swatch" style="background:#a8ae72;"></div>Intermediate</div>
@@ -1216,83 +1216,23 @@ header {
       </div>
 
       <div class="card-grid" id="sr-cards">
-        <div class="card"><div class="card-label">Regional Mil. Spending</div><div class="card-value">$98.4B</div><div class="card-sub up">+4.2% YoY</div></div>
-        <div class="card"><div class="card-label">Total Active Personnel</div><div class="card-value">1.84M</div><div class="card-sub">across 24 countries</div></div>
-        <div class="card"><div class="card-label">Avg Spending / GDP</div><div class="card-value">1.3%</div><div class="card-sub">global avg: 2.3%</div></div>
-        <div class="card"><div class="card-label">Active Arms Deals</div><div class="card-value">67</div><div class="card-sub">23 delivered this year</div></div>
+        <div class="card"><div class="card-label">Regime Vulnerability</div><div class="card-value">—</div><div class="card-sub">loading monitor</div></div>
+        <div class="card"><div class="card-label">Militarization</div><div class="card-value">—</div><div class="card-sub">loading monitor</div></div>
+        <div class="card"><div class="card-label">Security Fragmentation</div><div class="card-value">—</div><div class="card-sub">loading monitor</div></div>
+        <div class="card"><div class="card-label">Rising Outlooks</div><div class="card-value">—</div><div class="card-sub">loading monitor</div></div>
       </div>
       <div class="chart-box">
-        <div class="sec-title">Regional Military Spending — trend ($B)</div>
+        <div class="sec-title">Regional Monitor Mix</div>
         <div class="chart-wrap"><canvas id="spendChart"></canvas></div>
       </div>
-      <div class="sec-title mt">Top Military Spenders (2025)</div>
-      <div class="bar-row"><span class="bar-name">Brazil</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--reform);"></div></div><span class="bar-num">$29.4B</span></div>
-      <div class="bar-row"><span class="bar-name">Colombia</span><div class="bar-track"><div class="bar-fill" style="width:48%;background:var(--reform);"></div></div><span class="bar-num">$14.1B</span></div>
-      <div class="bar-row"><span class="bar-name">Mexico</span><div class="bar-track"><div class="bar-fill" style="width:32%;background:var(--reform);"></div></div><span class="bar-num">$9.4B</span></div>
-      <div class="bar-row"><span class="bar-name">Chile</span><div class="bar-track"><div class="bar-fill" style="width:22%;background:var(--reform);"></div></div><span class="bar-num">$6.5B</span></div>
-      <div class="bar-row"><span class="bar-name">Argentina</span><div class="bar-track"><div class="bar-fill" style="width:16%;background:var(--reform);"></div></div><span class="bar-num">$4.7B</span></div>
-      <div class="bar-row"><span class="bar-name">Venezuela</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--reform);"></div></div><span class="bar-num">$3.2B</span></div>
-      <div class="bar-row"><span class="bar-name">Peru</span><div class="bar-track"><div class="bar-fill" style="width:10%;background:var(--reform);"></div></div><span class="bar-num">$2.9B</span></div>
-
-      <div class="tab-intro-block" style="margin-top:24px;">
-        <div class="tab-intro-title">Arms &amp; Procurement</div>
-        Procurement patterns reveal strategic alignments, capability-building priorities, and the degree to which military institutions exercise autonomous procurement authority outside civilian oversight. In Latin America, the US remains the leading supplier, but <strong>China's growing market share</strong> and Russia's continued ties with Venezuela and Nicaragua show a more diversified procurement environment with clear civil-military implications.
-      </div>
-      <div class="card-grid">
-        <div class="card"><div class="card-label">Total Deal Value</div><div class="card-value">$8.3B</div><div class="card-sub">2024–2026</div></div>
-        <div class="card"><div class="card-label">Top Buyer</div><div class="card-value" style="font-size:20px;">Brazil</div><div class="card-sub">31% of imports</div></div>
-        <div class="card"><div class="card-label">China Share</div><div class="card-value">11%</div><div class="card-sub up">+4pp since 2020</div></div>
-        <div class="card"><div class="card-label">Delivered This Year</div><div class="card-value">23</div><div class="card-sub">of 67 active</div></div>
-      </div>
       <div class="chart-box">
-        <div class="sec-title">Supplier Trends — SIPRI TIV ($M)</div>
+        <div class="sec-title">Highest Current Risk Layers</div>
         <div class="chart-wrap"><canvas id="armsChart"></canvas></div>
       </div>
-      <div class="sec-title mt">Major Recent Deals</div>
-      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">Sweden → Brazil</span></div><div class="ev-title">Gripen E/F fighter jets — 36 units ($5.4B)</div><div class="ev-meta"><span>2019–2027</span><span>SIPRI</span></div></div>
-      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivered</span><span class="ev-country">Germany → Chile</span></div><div class="ev-title">Leopard 2A4 main battle tanks — 100 units ($220M)</div><div class="ev-meta"><span>2023</span><span>SIPRI</span></div></div>
-      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--purge)"></div><span class="ev-type" style="color:var(--purge)">Negotiating</span><span class="ev-country">Pakistan/China → Argentina</span></div><div class="ev-title">JF-17 Block III multirole fighter evaluation ($1.2B est.)</div><div class="ev-meta"><span>2025–</span><span>News reports</span></div></div>
-      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Ordered</span><span class="ev-country">US → Colombia</span></div><div class="ev-title">UH-60 Black Hawk helicopters — 12 units ($380M)</div><div class="ev-meta"><span>2025</span><span>DSCA</span></div></div>
-      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">France → Brazil</span></div><div class="ev-title">Scorpène-class submarine — 4th of 4 ($1.8B program)</div><div class="ev-meta"><span>2024</span><span>SIPRI</span></div></div>
-      <div class="ev-item"><div class="ev-row1"><div class="ev-dot" style="background:var(--procurement)"></div><span class="ev-type" style="color:var(--procurement)">Delivering</span><span class="ev-country">South Korea → Peru</span></div><div class="ev-title">KAI KT-1 trainer aircraft — 20 units ($200M)</div><div class="ev-meta"><span>2024–2026</span><span>SIPRI</span></div></div>
-
-      <!-- ── CMR STATUS DISTRIBUTION ───────────────────────── -->
-      <div class="sec-title mt">CMR Status — Regional Distribution</div>
-      <div class="card-grid" style="grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;">
-        <div class="card" style="border-top:3px solid var(--reform);"><div class="card-label">Stable</div><div class="card-value" style="color:var(--reform);">5</div><div class="card-sub">Uruguay · Costa Rica · Chile · Panama · Trinidad</div></div>
-        <div class="card" style="border-top:3px solid var(--purge);"><div class="card-label">Strained</div><div class="card-value" style="color:var(--purge);">10</div><div class="card-sub">Brazil · Mexico · Peru · Ecuador · Honduras + 5</div></div>
-        <div class="card" style="border-top:3px solid var(--coup);"><div class="card-label">Crisis</div><div class="card-value" style="color:var(--coup);">6</div><div class="card-sub">Venezuela · El Salvador · Bolivia · Haiti · Guatemala · Paraguay</div></div>
-        <div class="card" style="border-top:3px solid var(--oc);"><div class="card-label">Authoritarian</div><div class="card-value" style="color:var(--oc);">4</div><div class="card-sub">Cuba · Nicaragua · Suriname + 1</div></div>
+      <div class="sec-title mt">Current Regional Readouts</div>
+      <div id="sr-monitor-readouts">
+        <div class="ev-item"><div class="ev-title">Monitor summaries loading.</div></div>
       </div>
-
-      <!-- ── COUP EVENTS SINCE 1990 ────────────────────────── -->
-      <div class="sec-title mt">Coup Events Since 1990 (successful + attempts)</div>
-      <div class="bar-row"><span class="bar-name">Venezuela</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--coup);"></div></div><span class="bar-num">6</span></div>
-      <div class="bar-row"><span class="bar-name">Ecuador</span><div class="bar-track"><div class="bar-fill" style="width:67%;background:var(--coup);"></div></div><span class="bar-num">4</span></div>
-      <div class="bar-row"><span class="bar-name">Bolivia</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--coup);"></div></div><span class="bar-num">3</span></div>
-      <div class="bar-row"><span class="bar-name">Haiti</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--coup);"></div></div><span class="bar-num">3</span></div>
-      <div class="bar-row"><span class="bar-name">Peru</span><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--coup);"></div></div><span class="bar-num">2</span></div>
-      <div class="bar-row"><span class="bar-name">Brazil</span><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--coup);"></div></div><span class="bar-num">2</span></div>
-      <div class="bar-row"><span class="bar-name">Honduras</span><div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--coup);"></div></div><span class="bar-num">1</span></div>
-      <div class="bar-row"><span class="bar-name">Paraguay</span><div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--coup);"></div></div><span class="bar-num">1</span></div>
-
-      <!-- ── MILITARY IN DOMESTIC SECURITY ─────────────────── -->
-      <div class="sec-title mt">Military in Domestic Security Role (2026)</div>
-      <div class="card-grid" style="grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;">
-        <div class="card" style="border-left:3px solid var(--conflict);"><div class="card-label">Active Internal Conflict Framework</div><div class="card-value" style="font-size:18px;">3</div><div class="card-sub">El Salvador · Ecuador · Haiti</div></div>
-        <div class="card" style="border-left:3px solid var(--purge);"><div class="card-label">Military in Law Enforcement</div><div class="card-value" style="font-size:18px;">7</div><div class="card-sub">Mexico · Honduras · Guatemala · Dominican Rep. · Bolivia · Trinidad · Nicaragua</div></div>
-        <div class="card" style="border-left:3px solid var(--aid);"><div class="card-label">US SOUTHCOM Active Partners</div><div class="card-value" style="font-size:18px;">18</div><div class="card-sub">All except Cuba, Venezuela, Nicaragua, Bolivia</div></div>
-      </div>
-
-      <!-- ── US SECURITY AID (ALL-TIME) ────────────────────── -->
-      <div class="sec-title mt">All-Time US Security Aid — Top Recipients (Greenbook)</div>
-      <div class="bar-row"><span class="bar-name">Colombia</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--aid);"></div></div><span class="bar-num">$26.96B</span></div>
-      <div class="bar-row"><span class="bar-name">Brazil</span><div class="bar-track"><div class="bar-fill" style="width:77%;background:var(--aid);"></div></div><span class="bar-num">$20.69B</span></div>
-      <div class="bar-row"><span class="bar-name">Peru</span><div class="bar-track"><div class="bar-fill" style="width:49%;background:var(--aid);"></div></div><span class="bar-num">$13.28B</span></div>
-      <div class="bar-row"><span class="bar-name">El Salvador</span><div class="bar-track"><div class="bar-fill" style="width:47%;background:var(--aid);"></div></div><span class="bar-num">$12.70B</span></div>
-      <div class="bar-row"><span class="bar-name">Bolivia</span><div class="bar-track"><div class="bar-fill" style="width:37%;background:var(--aid);"></div></div><span class="bar-num">$9.98B</span></div>
-      <div class="bar-row"><span class="bar-name">Honduras</span><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--aid);"></div></div><span class="bar-num">$8.87B</span></div>
-      <div class="bar-row"><span class="bar-name">Guatemala</span><div class="bar-track"><div class="bar-fill" style="width:26%;background:var(--aid);"></div></div><span class="bar-num">$7.01B</span></div>
 
       <!-- ── SPECIAL MONITORS (redirect cards) ────────────── -->
       <div class="sec-title mt">Special Monitors</div>
@@ -2179,21 +2119,26 @@ const SR_MAP_VIEW={
 let tlFilter='all', tlCountry='all', tlSalience='all', tlYear='all', tlMonth='all', tlConf='all';
 let map, markers=[];
 let selectedEventHalo = null;
+let countryMonitorsByCountry = new Map();
+let regionalMixChart = null;
+let regionalLeadersChart = null;
 
 // ── DATA LOADING ─────────────────────────────────────────────
 async function loadEvents(){
   try {
-    const [res, publishedRes, councilRes, taxonomyRes] = await Promise.all([
+    const [res, publishedRes, councilRes, taxonomyRes, monitorsRes] = await Promise.all([
       fetch('data/events.json?t='+Date.now()),
       fetch('data/published/events_public.json?t='+Date.now()).catch(()=>null),
       fetch('data/review/council_analyses.json?t='+Date.now()).catch(()=>null),
-      fetch('config/taxonomy/event_types.json?t='+Date.now()).catch(()=>null)
+      fetch('config/taxonomy/event_types.json?t='+Date.now()).catch(()=>null),
+      fetch('data/published/country_monitors.json?t='+Date.now()).catch(()=>null)
     ]);
     if(!res.ok) throw new Error('HTTP '+res.status);
     const raw = await res.json();
     let published = null;
     let council = null;
     let taxonomy = null;
+    let monitors = null;
     if(publishedRes && publishedRes.ok){
       published = await publishedRes.json();
     }
@@ -2203,9 +2148,13 @@ async function loadEvents(){
     if(taxonomyRes && taxonomyRes.ok){
       taxonomy = await taxonomyRes.json();
     }
+    if(monitorsRes && monitorsRes.ok){
+      monitors = await monitorsRes.json();
+    }
     councilById = new Map(((council?.events)||[]).map(item=>[String(item.event_id), item]));
     eventTypeMeta = new Map(((taxonomy?.event_types)||[]).map(item=>[String(item.code), item]));
     eventTypeOrder = ((taxonomy?.event_types)||[]).slice().sort((a,b)=>(b.precedence_rank||0)-(a.precedence_rank||0)).map(item=>item.code);
+    countryMonitorsByCountry = new Map(((monitors?.countries)||[]).map(item=>[String(item.country), item]));
     // Support both flat array and wrapped {updated, count, events:[...]} format
     let events = Array.isArray(raw) ? raw : (raw.events || []);
     const publishedEvents = published?.events || [];
@@ -2241,6 +2190,7 @@ async function loadEvents(){
     document.getElementById('confidence-filter-select') && (document.getElementById('confidence-filter-select').value = filters.conf);
     applyFilters();
     computeCmrScores();
+    renderRegionalMonitorSummary();
     ovRefreshMarkers();
     if(updatedStr){
       const ago = Math.round((Date.now()-new Date(updatedStr))/60000);
@@ -2260,6 +2210,198 @@ async function loadEvents(){
     document.querySelector('.log-txt').textContent = 'Failed to load events.json — '+e.message+' · Run the pipeline or serve via http-server';
     document.querySelector('.log-txt').className='log-txt';
   }
+}
+
+function getCountryMonitorEntry(country){
+  return countryMonitorsByCountry.get(String(country)) || null;
+}
+
+function getCountryMonitor(country, code){
+  const entry = getCountryMonitorEntry(country);
+  if(!entry) return null;
+  return (entry.monitors || []).find(item => String(item.code) === String(code)) || null;
+}
+
+function getCountryRiskConstruct(country, code){
+  const entry = getCountryMonitorEntry(country);
+  if(!entry) return null;
+  return (entry.risk_constructs || []).find(item => String(item.code) === String(code)) || null;
+}
+
+function getCountryPredictiveSummary(country){
+  return getCountryMonitorEntry(country)?.predictive_summary || null;
+}
+
+function getMonitorTrendColor(label){
+  const trend = String(label || '').toLowerCase();
+  if(trend === 'rising') return 'var(--purge)';
+  if(trend === 'easing') return 'var(--reform)';
+  return 'var(--text-muted)';
+}
+
+function getMonitorScoreColor(score){
+  const value = Number(score) || 0;
+  if(value >= 75) return 'var(--coup)';
+  if(value >= 55) return 'var(--purge)';
+  if(value >= 35) return 'var(--aid)';
+  return 'var(--reform)';
+}
+
+function formatMonitorValue(score){
+  return Number.isFinite(Number(score)) ? Math.round(Number(score)) : null;
+}
+
+function buildRegionalMonitorNarrative(countries, data){
+  if(!countries.length || !countryMonitorsByCountry.size) return data.note;
+  const summaries = ['regime_vulnerability','militarization','security_fragmentation'].map(code => {
+    const constructs = countries.map(country => getCountryRiskConstruct(country, code)).filter(Boolean);
+    if(!constructs.length) return null;
+    const avg = Math.round(constructs.reduce((sum, item) => sum + (Number(item.score) || 0), 0) / constructs.length);
+    const rising = constructs.filter(item => String(item.trend_label || '').toLowerCase() === 'rising').length;
+    return { code, avg, rising };
+  }).filter(Boolean);
+  if(!summaries.length) return data.note;
+  const regime = summaries.find(item => item.code === 'regime_vulnerability');
+  const militarization = summaries.find(item => item.code === 'militarization');
+  const fragmentation = summaries.find(item => item.code === 'security_fragmentation');
+  const bits = [];
+  if(regime) bits.push(`regime vulnerability averages ${regime.avg}/100 across the visible set`);
+  if(militarization) bits.push(`militarization averages ${militarization.avg}/100`);
+  if(fragmentation) bits.push(`${fragmentation.rising} ${fragmentation.rising === 1 ? 'country is' : 'countries are'} on a rising fragmentation trend`);
+  return `${data.note} ${bits.join(' · ')}.`;
+}
+
+function renderRegionalMonitorCards(){
+  const cardsEl = document.getElementById('sr-cards');
+  if(!cardsEl) return;
+  const visibleCountries = getVisibleProfileCountries();
+  const constructCodes = ['regime_vulnerability','militarization','security_fragmentation'];
+  const cardData = constructCodes.map(code => {
+    const constructs = visibleCountries.map(country => getCountryRiskConstruct(country, code)).filter(Boolean);
+    if(!constructs.length) return null;
+    const avgComposite = Math.round(constructs.reduce((sum, item) => sum + (Number(item.score) || 0), 0) / constructs.length);
+    const rising = constructs.filter(item => String(item.trend_label || '').toLowerCase() === 'rising').length;
+    return {
+      label: constructs[0].label,
+      value: `${avgComposite}/100`,
+      sub: `${rising} rising · ${constructs[0].horizon_days || 90}-day horizon`,
+      subClass: rising ? 'up' : ''
+    };
+  }).filter(Boolean);
+  const risingTotal = visibleCountries.filter(country => {
+    return ['regime_vulnerability','militarization','security_fragmentation']
+      .some(code => String(getCountryRiskConstruct(country, code)?.trend_label || '').toLowerCase() === 'rising');
+  }).length;
+  const strongestCountry = visibleCountries
+    .map(country => ({ country, score: Number(getCountryPredictiveSummary(country)?.overall_risk_score) || 0 }))
+    .sort((a,b) => b.score - a.score)[0];
+  const fallback = [
+    { label:'Regime Vulnerability', value:'—', sub:'monitor not loaded', subClass:'' },
+    { label:'Militarization', value:'—', sub:'monitor not loaded', subClass:'' },
+    { label:'Security Fragmentation', value:'—', sub:'monitor not loaded', subClass:'' }
+  ];
+  const rows = (cardData.length ? cardData : fallback).concat([{
+    label:'Rising Outlooks',
+    value: `${risingTotal}`,
+    sub: strongestCountry?.country ? `${strongestCountry.country} currently shows the highest overall risk score` : 'no current reading',
+    subClass: risingTotal ? 'up' : ''
+  }]);
+  cardsEl.innerHTML = rows.slice(0,4).map(item => `
+    <div class="card">
+      <div class="card-label">${item.label}</div>
+      <div class="card-value">${item.value}</div>
+      <div class="card-sub ${item.subClass || ''}">${item.sub}</div>
+    </div>`).join('');
+}
+
+function renderRegionalMonitorVisuals(){
+  const visibleCountries = getVisibleProfileCountries();
+  const mixes = ['cmr_balance','security_pressure','external_security_alignment'].map(code => {
+    const monitors = visibleCountries.map(country => getCountryMonitor(country, code)).filter(Boolean);
+    return {
+      code,
+      label: monitors[0]?.label || code,
+      avgComposite: monitors.length ? Math.round(monitors.reduce((sum, item) => sum + (Number(item.composite_score) || 0), 0) / monitors.length) : 0,
+      avgPulse: monitors.length ? Math.round(monitors.reduce((sum, item) => sum + (Number(item.pulse_score) || 0), 0) / monitors.length) : 0
+    };
+  });
+
+  const leaders = visibleCountries.map(country => ({
+    country,
+    regime: formatMonitorValue(getCountryRiskConstruct(country, 'regime_vulnerability')?.score) || 0,
+    militarization: formatMonitorValue(getCountryRiskConstruct(country, 'militarization')?.score) || 0,
+    fragmentation: formatMonitorValue(getCountryRiskConstruct(country, 'security_fragmentation')?.score) || 0
+  })).sort((a,b) => (b.regime + b.fragmentation) - (a.regime + a.fragmentation)).slice(0,6);
+
+  const readoutsEl = document.getElementById('sr-monitor-readouts');
+  if(readoutsEl){
+    const dominant = visibleCountries.map(country => {
+      const row = {
+        country,
+        regime: getCountryRiskConstruct(country, 'regime_vulnerability'),
+        militarization: getCountryRiskConstruct(country, 'militarization'),
+        fragmentation: getCountryRiskConstruct(country, 'security_fragmentation'),
+        summary: getCountryPredictiveSummary(country)
+      };
+      const score = Number(row.summary?.overall_risk_score) || 0;
+      return { ...row, score };
+    }).sort((a,b) => b.score - a.score).slice(0,4);
+    readoutsEl.innerHTML = dominant.length ? dominant.map(item => `
+      <div class="ev-item">
+        <div class="ev-row1">
+          <div class="ev-dot" style="background:${getMonitorScoreColor(item.summary?.overall_risk_score || item.regime?.score || 0)}"></div>
+          <span class="ev-type" style="color:${getMonitorScoreColor(item.summary?.overall_risk_score || item.regime?.score || 0)}">${item.country}</span>
+          <span class="ev-country">Regime ${formatMonitorValue(item.regime?.score) || 0} · Militarization ${formatMonitorValue(item.militarization?.score) || 0} · Fragmentation ${formatMonitorValue(item.fragmentation?.score) || 0}</span>
+        </div>
+        <div class="ev-title">${item.summary?.summary_text || 'No predictive summary is available yet.'}</div>
+        <div class="ev-meta"><span>${item.summary?.overall_risk_level || 'guarded'} overall risk</span><span>${item.summary?.leading_trend || 'stable'} leading trend</span></div>
+      </div>`).join('') : '<div class="ev-item"><div class="ev-title">No regional monitor readouts are available yet.</div></div>';
+  }
+
+  if(typeof Chart === 'undefined') return;
+
+  const spendCanvas = document.getElementById('spendChart');
+  if(spendCanvas){
+    regionalMixChart?.destroy();
+    regionalMixChart = new Chart(spendCanvas,{
+      type:'bar',
+      data:{
+        labels: mixes.map(item => item.label),
+        datasets:[
+          {label:'Baseline', data: mixes.map(item => Math.max(0, item.avgComposite - item.avgPulse)), backgroundColor:'rgba(85,107,47,0.35)', borderColor:'#556b2f', borderWidth:1, borderRadius:2},
+          {label:'Pulse', data: mixes.map(item => item.avgPulse), backgroundColor:'rgba(200,110,18,0.45)', borderColor:'#c46e12', borderWidth:1, borderRadius:2}
+        ]
+      },
+      options:{...chartOpts, plugins:{legend:{display:true,position:'top',labels:{color:chartText,font:{size:9,family:'DM Mono'},boxWidth:10,padding:10}}}, scales:{...chartOpts.scales,x:{...chartOpts.scales.x,stacked:true},y:{...chartOpts.scales.y,stacked:true,suggestedMax:100}}}
+    });
+  }
+
+  const leadersCanvas = document.getElementById('armsChart');
+  if(leadersCanvas){
+    regionalLeadersChart?.destroy();
+    regionalLeadersChart = new Chart(leadersCanvas,{
+      type:'bar',
+      data:{
+        labels: leaders.map(item => item.country),
+        datasets:[
+          {label:'Regime vulnerability', data: leaders.map(item => item.regime), backgroundColor:'rgba(184,50,50,0.6)', borderColor:'#b83232', borderWidth:0, borderRadius:2},
+          {label:'Militarization', data: leaders.map(item => item.militarization), backgroundColor:'rgba(85,107,47,0.58)', borderColor:'#556b2f', borderWidth:0, borderRadius:2},
+          {label:'Security fragmentation', data: leaders.map(item => item.fragmentation), backgroundColor:'rgba(26,83,143,0.52)', borderColor:'#1a538f', borderWidth:0, borderRadius:2}
+        ]
+      },
+      options:{...chartOpts, indexAxis:'y', plugins:{legend:{display:true,position:'top',labels:{color:chartText,font:{size:9,family:'DM Mono'},boxWidth:10,padding:10}}}, scales:{x:{grid:{color:chartGrid},ticks:{color:chartText,font:{size:9,family:'DM Mono'}},suggestedMax:100,border:{display:false}},y:{grid:{display:false},ticks:{color:chartText,font:{size:9,family:'DM Mono'}}}}}
+    });
+  }
+}
+
+function renderRegionalMonitorSummary(){
+  const data = SUBREGIONS[cpActiveSr] || SUBREGIONS.all;
+  const summaryEl = document.getElementById('sr-summary');
+  if(summaryEl){
+    summaryEl.textContent = buildRegionalMonitorNarrative(getVisibleProfileCountries(), data);
+  }
+  renderRegionalMonitorCards();
+  renderRegionalMonitorVisuals();
 }
 
 // ── MAP ─────────────────────────────────────────────────────
@@ -2463,10 +2605,14 @@ function getPublicEventContext(ev){
   const sourceNames = [...new Set(sources.map(item=>item.name).filter(Boolean))];
   const actors = getEventActorNames(ev);
   const classification = ev.council?.analyses?.synthesis?.classification || {};
+  const deedType = String(classification.deed_type || ev.public_review?.deed_type || ev.deed_type || '').trim().toLowerCase();
   const country = ev.display_country || getEventCountryLabel(ev);
   const location = ev.location || ev.subnational_location || country;
   const frame = normalizeKnowledgeLabel(classification.primary_frame || '');
   const effect = normalizeKnowledgeLabel(classification.effect_domain || '');
+  const deedLine = deedType
+    ? `This event is also classified as ${normalizeKnowledgeLabel(deedType)} within the project's institutional-erosion framework.`
+    : '';
 
   if(salience === 'high'){
     const sourceText = sourceNames.length
@@ -2480,7 +2626,7 @@ function getPublicEventContext(ev){
     const frameText = frame || effect
       ? `In analytical terms, it sits in the frame of ${frame || 'security politics'}${effect ? ` and points most directly to ${effect.toLowerCase()}` : ''}.`
       : '';
-    return [sourceText, actorText, frameText].filter(Boolean).join(' ');
+    return [sourceText, actorText, frameText, deedLine].filter(Boolean).join(' ');
   }
 
   if(salience === 'medium'){
@@ -2494,10 +2640,13 @@ function getPublicEventContext(ev){
     if(location && location !== country){
       bits.push(`The reporting is centered on ${location}.`);
     }
+    if(deedLine){
+      bits.push(deedLine);
+    }
     return bits.join(' ');
   }
 
-  return '';
+  return deedLine;
 }
 
 function cleanCouncilAssessment(text){
@@ -2551,10 +2700,14 @@ function getPublicEventAnalysisParts(ev){
   const takeaways = synthesis.public_takeaways || {};
   const significance = cleanCouncilAssessment(takeaways.significance || '');
   const countryEffect = cleanCouncilAssessment(takeaways.country_effect || '');
+  const patternFit = cleanCouncilAssessment(takeaways.pattern_fit || '');
+  const mechanism = cleanCouncilAssessment(takeaways.mechanism || '');
+  const institutionalImplication = cleanCouncilAssessment(takeaways.institutional_implication || '');
+  const forwardRisk = cleanCouncilAssessment(takeaways.forward_risk || '');
   const confidenceNote = cleanCouncilAssessment(takeaways.confidence_note || '');
   const watchpoint = cleanCouncilAssessment(takeaways.watchpoint || '');
-  if(significance || countryEffect || watchpoint){
-    return { significance, countryEffect, confidenceNote, watchpoint };
+  if(significance || countryEffect || patternFit || mechanism || institutionalImplication || forwardRisk || watchpoint){
+    return { significance, countryEffect, patternFit, mechanism, institutionalImplication, forwardRisk, confidenceNote, watchpoint };
   }
 
   const cleanedSynthesis = cleanCouncilAssessment(synthesis.assessment || '');
@@ -2563,6 +2716,10 @@ function getPublicEventAnalysisParts(ev){
     return {
       significance: bits[0] || '',
       countryEffect: bits[1] || '',
+      patternFit: '',
+      mechanism: '',
+      institutionalImplication: '',
+      forwardRisk: '',
       confidenceNote: '',
       watchpoint: bits.slice(2).join(' ')
     };
@@ -2574,17 +2731,66 @@ function getPublicEventAnalysisParts(ev){
   return {
     significance: `This ${typeLabel} event is relevant for ${countryLabel} because it touches the broader balance between political authority, security institutions, and public order.`,
     countryEffect: conceptSignals.length ? `The main analytical themes are ${joinReadableList(conceptSignals)}.` : '',
+    patternFit: '',
+    mechanism: '',
+    institutionalImplication: '',
+    forwardRisk: '',
     confidenceNote: '',
     watchpoint: 'The key question is whether follow-on reporting shows this to be isolated or part of a broader pattern.'
   };
+}
+
+function getRenderablePublicAnalysis(ev){
+  const salience = String(ev.salience || '').toLowerCase();
+  const raw = getPublicEventAnalysisParts(ev);
+  const ordered = [
+    ['significance', 'Immediate significance'],
+    ['countryEffect', 'Country-level effect'],
+    ['patternFit', 'Pattern fit'],
+    ['mechanism', 'Mechanism'],
+    ['institutionalImplication', 'Institutional implication'],
+    ['forwardRisk', 'Forward risk'],
+    ['confidenceNote', 'Interpretive note'],
+    ['watchpoint', 'What to watch'],
+  ];
+
+  let allowed;
+  if(salience === 'high'){
+    allowed = new Set(ordered.map(([key]) => key));
+  } else if(salience === 'medium'){
+    allowed = new Set(['significance','countryEffect','patternFit','mechanism','forwardRisk','confidenceNote','watchpoint']);
+  } else {
+    allowed = new Set(['significance','countryEffect','confidenceNote','watchpoint']);
+  }
+
+  const blocks = ordered
+    .filter(([key]) => allowed.has(key))
+    .map(([key, label]) => ({ key, label, value: String(raw[key] || '').trim() }))
+    .filter(item => item.value);
+
+  const deduped = [];
+  const seen = new Set();
+  for(const block of blocks){
+    const normalized = block.value.toLowerCase();
+    if(seen.has(normalized)) continue;
+    seen.add(normalized);
+    deduped.push(block);
+  }
+
+  if(salience !== 'high' && deduped.length > 5){
+    return deduped.slice(0, 5);
+  }
+  return deduped;
 }
 
 function getPublicClassificationChips(ev){
   const chips = [];
   const subtype = ev.public_review?.event_subtype || ev.subtype;
   const classification = ev.council?.analyses?.synthesis?.classification || {};
+  const deedType = classification.deed_type || ev.public_review?.deed_type || ev.deed_type;
   if(classification.primary_frame) chips.push(classification.primary_frame);
   if(classification.effect_domain) chips.push(classification.effect_domain);
+  if(deedType) chips.push(deedType);
   if(subtype) chips.push(subtype);
   getKnowledgeSignals(ev).slice(0,3).forEach(signal=>chips.push(signal));
   return [...new Set(chips)];
@@ -2593,10 +2799,12 @@ function getPublicClassificationChips(ev){
 function getPublicClassificationRows(ev){
   const actors = getEventActorNames(ev);
   const classification = ev.council?.analyses?.synthesis?.classification || {};
+  const deedType = classification.deed_type || ev.public_review?.deed_type || ev.deed_type;
   const eventMeta = eventTypeMeta.get(String(ev.type)) || {};
   return [
     { label:'Category', value:getEventTypeLabel(ev.type) },
     { label:'Subcategory', value:ev.public_review?.event_subtype || ev.subtype || 'Not specified' },
+    { label:'Institutional signal', value:deedType ? normalizeKnowledgeLabel(deedType) : 'Not identified' },
     { label:'Analytical frame', value:normalizeKnowledgeLabel(classification.primary_frame || eventMeta.description || 'General security monitoring') },
     { label:'Likely effect', value:normalizeKnowledgeLabel(classification.effect_domain || 'Security-sector positioning') },
     { label:'Main actors', value:actors.length ? actors.join(' · ') : 'No named actors identified yet' },
@@ -2781,6 +2989,7 @@ function selectEvent(ev){
   const synthesis = councilAnalyses.synthesis;
   const knowledgeSignals = getPublicClassificationChips(ev);
   const publicAnalysis = getPublicEventAnalysisParts(ev);
+  const analysisBlocks = getRenderablePublicAnalysis(ev);
   const publicDescription = getPublicEventDescription(ev);
   const publicContext = getPublicEventContext(ev);
   const provenanceSummaryItems = getPublicProvenanceSummary(ev, linkedReports, provenanceTimeline);
@@ -2817,17 +3026,14 @@ function selectEvent(ev){
       <div class="detail-text">${publicDescription}</div>
       ${publicContext ? `<div class="detail-context"><span class="detail-context-label">Context</span><div class="detail-context-copy">${publicContext}</div></div>` : ''}
     </div>
-    ${(publicAnalysis?.significance || publicAnalysis?.countryEffect || publicAnalysis?.watchpoint)?`
+    ${analysisBlocks.length?`
     <div class="detail-section">
       <div class="detail-section-title">Why It Matters</div>
       <div class="detail-analysis">
         <div class="detail-analysis-meta">
           ${synthesis?.risk_level?`<span class="detail-chip">${normalizeKnowledgeLabel(synthesis.risk_level)} concern</span>`:''}
         </div>
-        ${publicAnalysis?.significance?`<div class="detail-analysis-block"><span class="detail-analysis-label">Immediate significance</span><div class="detail-analysis-copy">${publicAnalysis.significance}</div></div>`:''}
-        ${publicAnalysis?.countryEffect?`<div class="detail-analysis-block"><span class="detail-analysis-label">Country-level effect</span><div class="detail-analysis-copy">${publicAnalysis.countryEffect}</div></div>`:''}
-        ${publicAnalysis?.confidenceNote?`<div class="detail-analysis-block"><span class="detail-analysis-label">Interpretive note</span><div class="detail-analysis-copy">${publicAnalysis.confidenceNote}</div></div>`:''}
-        ${publicAnalysis?.watchpoint?`<div class="detail-analysis-block"><span class="detail-analysis-label">What to watch</span><div class="detail-analysis-copy">${publicAnalysis.watchpoint}</div></div>`:''}
+        ${analysisBlocks.map(block=>`<div class="detail-analysis-block"><span class="detail-analysis-label">${block.label}</span><div class="detail-analysis-copy">${block.value}</div></div>`).join('')}
       </div>
     </div>`:''}
     ${linkedReports.length?`
@@ -2886,11 +3092,7 @@ new Chart(document.getElementById('usMilEconChart'),{type:'bar',data:{
     {label:'Military',data:[6.04,3.92,1.96,1.48,0.10,0.77,1.37,0.48],backgroundColor:'rgba(184,50,50,0.7)',borderColor:'#b83232',borderWidth:0,borderRadius:1}
   ]},options:{...chartOpts,indexAxis:'y',plugins:{legend:{display:true,position:'top',labels:{color:chartText,font:{size:9,family:'DM Mono'},boxWidth:10,padding:12}}},scales:{x:{grid:{color:chartGrid},ticks:{color:chartText,font:{size:9,family:'DM Mono'},callback:v=>'$'+v+'B'},stacked:true,border:{display:false}},y:{grid:{display:false},ticks:{color:chartText,font:{size:9,family:'DM Mono'}},stacked:true}}}});
 
-// Regional spending
-new Chart(document.getElementById('spendChart'),{type:'line',data:{labels:['2018','2019','2020','2021','2022','2023','2024','2025'],datasets:[{data:[74,76,72,78,84,89,94,98],borderColor:'#1a6e52',backgroundColor:'rgba(26,110,82,0.06)',borderWidth:2,pointRadius:3,fill:true,tension:0.3}]},options:{...chartOpts,scales:{...chartOpts.scales,y:{...chartOpts.scales.y,ticks:{...chartOpts.scales.y.ticks,callback:v=>'$'+v+'B'}}}}});
-
-// Arms supplier trends
-new Chart(document.getElementById('armsChart'),{type:'line',data:{labels:['2018','2019','2020','2021','2022','2023','2024','2025'],datasets:[{label:'US',data:[820,780,850,900,920,880,910,870],borderColor:'#1a538f',borderWidth:2,pointRadius:2,tension:0.3},{label:'China',data:[120,180,210,250,280,320,350,380],borderColor:'#b83232',borderWidth:2,pointRadius:2,tension:0.3},{label:'France',data:[200,190,280,310,290,300,280,290],borderColor:'#6e389a',borderWidth:2,pointRadius:2,tension:0.3},{label:'Russia',data:[350,300,220,180,90,60,50,40],borderColor:'#c46e12',borderWidth:2,pointRadius:2,tension:0.3,borderDash:[4,3]}]},options:{...chartOpts,plugins:{legend:{display:true,position:'top',labels:{color:chartText,font:{size:9,family:'DM Mono'},boxWidth:12,padding:12}}},scales:{...chartOpts.scales,y:{...chartOpts.scales.y,ticks:{...chartOpts.scales.y.ticks,callback:v=>'$'+v+'M'}}}}});
+// Regional monitor charts render after country monitor data loads.
 
 // Coca cultivation
 new Chart(document.getElementById('cocaChart'),{type:'bar',data:{labels:['2017','2018','2019','2020','2021','2022','2023','2024'],datasets:[{data:[171,169,154,143,204,230,214,230],backgroundColor:'rgba(184,50,50,0.22)',borderColor:'#b83232',borderWidth:1,borderRadius:2}]},options:{...chartOpts,scales:{...chartOpts.scales,y:{...chartOpts.scales.y,ticks:{...chartOpts.scales.y.ticks,callback:v=>v+'K'}}}}});
@@ -3635,6 +3837,60 @@ function renderTrends(name) {
   }).join('');
 }
 
+function renderCountryPredictiveOutlook(name){
+  const summary = getCountryPredictiveSummary(name);
+  const constructs = ['regime_vulnerability','militarization','security_fragmentation']
+    .map(code => getCountryRiskConstruct(name, code))
+    .filter(Boolean);
+  if(!summary && !constructs.length) return '';
+  const militarization = constructs.find(item => item.code === 'militarization');
+  const militarizationDimensions = militarization
+    ? militarization.components
+        .filter(item => ['military_domestic_coercion_role','military_governance_administration_role','military_economic_control_role'].includes(item.code))
+        .sort((a,b) => (b.weighted_contribution || 0) - (a.weighted_contribution || 0))
+    : [];
+  const militarizationLabel = code => ({
+    military_domestic_coercion_role: 'Domestic coercion',
+    military_governance_administration_role: 'Governance administration',
+    military_economic_control_role: 'Economic control'
+  }[code] || code);
+  const constructRows = constructs.map(item => `
+    <div class="cp-stat-row">
+      <span class="cp-stat-label">${item.label}</span>
+      <span class="cp-stat-val" style="color:${getMonitorScoreColor(item.score)};">${formatMonitorValue(item.score) || 0}/100 <span style="color:${getMonitorTrendColor(item.trend_label)};font-size:8px;text-transform:uppercase;letter-spacing:0.5px;">${item.trend_label || 'stable'}</span></span>
+    </div>`).join('');
+  const militarizationHtml = militarizationDimensions.length
+    ? `<div style="display:flex;flex-direction:column;gap:6px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);">
+        <div class="cp-sum-label" style="margin-bottom:0;">Militarization profile</div>
+        ${militarizationDimensions.map(item => `
+          <div class="cp-stat-row">
+            <span class="cp-stat-label">${militarizationLabel(item.code)}</span>
+            <span class="cp-stat-val" style="color:${getMonitorScoreColor(item.score)};">${formatMonitorValue(item.score) || 0}/100</span>
+          </div>`).join('')}
+      </div>`
+    : '';
+  const watchHtml = (summary?.watchpoints || []).length
+    ? `<div style="display:flex;flex-direction:column;gap:6px;">${summary.watchpoints.map(item => `<div class="cp-watch-text" style="font-size:11px;">${item}</div>`).join('')}</div>`
+    : '<div class="cp-watch-text">No watchpoints available yet.</div>';
+  return `
+    <div class="cp-h2">Predictive Outlook</div>
+    <div class="cp-summary-strip" style="margin-bottom:18px;">
+      <div class="cp-sum-block" style="grid-column:1 / span 2;">
+        <div class="cp-sum-label">Country Outlook</div>
+        <div class="cp-watch-text" style="line-height:1.7;">${summary?.summary_text || 'No predictive summary is available yet.'}</div>
+      </div>
+      <div class="cp-sum-block">
+        <div class="cp-sum-label">Risk Layers</div>
+        ${constructRows}
+        ${militarizationHtml}
+      </div>
+      <div class="cp-sum-block">
+        <div class="cp-sum-label">What To Watch</div>
+        ${watchHtml}
+      </div>
+    </div>`;
+}
+
 // ── COUNTRY PROFILE RENDERER ──────────────────────────────────
 function showCountryProfile(name){
   document.querySelectorAll('.cp-btn').forEach(b=>{
@@ -3657,7 +3913,18 @@ function showCountryProfile(name){
   // ── Summary strip ────────────────────────────────────────
   const acledHtml=acled?`<div class="cp-stat-row"><span class="cp-stat-label">ACLED Conflict Index</span><span class="cp-stat-val" style="color:${ACLED_LEVEL_COLOR[acled.level]||'var(--text)'}">${acled.level} <span style="color:var(--text-muted);font-size:9px;">#${acled.ranking}</span></span></div>`:'';
   const cmrRisk = _cmrScores[name];
-  const cmrRiskHtml = cmrRisk ? `<div class="cp-stat-row"><span class="cp-stat-label">CMR Risk Score</span><span class="cp-stat-val" style="color:${cmrScoreColor(cmrRisk.label)};" title="Event pressure: ${cmrRisk.pressure} · Structural: ${cmrRisk.structural}">${cmrRisk.composite} — ${cmrRisk.label}</span></div>` : '';
+  const monitorRows = ['cmr_balance','security_pressure','external_security_alignment'].map(code => {
+    const monitor = getCountryMonitor(name, code);
+    if(!monitor) return '';
+    const composite = formatMonitorValue(monitor.composite_score);
+    const baseline = formatMonitorValue(monitor.baseline_score);
+    const pulse = formatMonitorValue(monitor.pulse_score);
+    return `<div class="cp-stat-row">
+      <span class="cp-stat-label">${monitor.label}</span>
+      <span class="cp-stat-val" style="color:${getMonitorScoreColor(composite)};" title="Baseline ${baseline} · Pulse ${pulse} · Dominant signal ${monitor.dominant_recent_signal || 'none'}">${composite}/100 <span style="color:${getMonitorTrendColor(monitor.trend_label)};font-size:8px;text-transform:uppercase;letter-spacing:0.5px;">${monitor.trend_label || 'stable'}</span></span>
+    </div>`;
+  }).join('');
+  const cmrRiskHtml = monitorRows || (cmrRisk ? `<div class="cp-stat-row"><span class="cp-stat-label">CMR Risk Score</span><span class="cp-stat-val" style="color:${cmrScoreColor(cmrRisk.label)};" title="Event pressure: ${cmrRisk.pressure} · Structural: ${cmrRisk.structural}">${cmrRisk.composite} — ${cmrRisk.label}</span></div>` : '');
   const statsHtml=`
     ${cmrRiskHtml}
     <div class="cp-stat-row"><span class="cp-stat-label">Spending</span><span class="cp-stat-val">${stats.spending}</span></div>
@@ -3725,6 +3992,7 @@ function showCountryProfile(name){
   const trendsBlock=`
     <div class="cp-h2">Trends (1990–2023)</div>
     <div class="cp-trends-grid" id="cp-trends-${safeId}">${renderTrends(name)}</div>`;
+  const outlookBlock = renderCountryPredictiveOutlook(name);
 
   // ── Map placeholder ──────────────────────────────────────
   const mapDiv=`<div id="cp-map-leaf" class="cp-map-leaf"></div>`;
@@ -3776,6 +4044,7 @@ function showCountryProfile(name){
       countryDiv.innerHTML=`${hdr}
         <div class="cp-h2">${S['label.context']||'Context'}</div>
         ${contextHtml}
+        ${outlookBlock}
         ${mapDiv}
         ${statsStrip}${cmrBlock}${missionsBlock}${trendsBlock}
         ${specialContent}
@@ -3785,6 +4054,7 @@ function showCountryProfile(name){
     countryDiv.innerHTML=`${hdr}
       <div class="cp-h2">${S['label.context']||'Context'}</div>
       <div class="cp-note" style="margin-bottom:20px;">${prof.note}</div>
+      ${outlookBlock}
       ${mapDiv}
       ${statsStrip}${cmrBlock}${missionsBlock}${trendsBlock}
       <div class="cp-h2">${S['label.recent-events']||'Recent Events'}</div>
@@ -3803,6 +4073,7 @@ function showRegionalOverview(){
   document.getElementById('cp-regional').style.display='block';
   document.getElementById('cp-country').style.display='none';
   if(cpMap){ cpMap.remove(); cpMap=null; }
+  renderRegionalMonitorSummary();
   setTimeout(renderCpRegionalMap,60);
 }
 
@@ -3921,6 +4192,40 @@ function getMilitarizationMetrics(visibleCountries){
   return metrics;
 }
 
+function getRegionalMonitorMetrics(visibleCountries){
+  const metrics = new Map();
+  visibleCountries.forEach(country => {
+    const regime = getCountryRiskConstruct(country, 'regime_vulnerability');
+    const militarization = getCountryRiskConstruct(country, 'militarization');
+    const fragmentation = getCountryRiskConstruct(country, 'security_fragmentation');
+    if(regime){
+      metrics.set(country, {
+        score: formatMonitorValue(regime.score) || 0,
+        baseline: formatMonitorValue(getCountryMonitor(country, 'cmr_balance')?.baseline_score) || 0,
+        pulse: formatMonitorValue(getCountryMonitor(country, 'cmr_balance')?.pulse_score) || 0,
+        trend: regime.trend_label || 'stable',
+        dominantRecentSignal: getCountryMonitor(country, 'security_pressure')?.dominant_recent_signal || getCountryMonitor(country, 'cmr_balance')?.dominant_recent_signal || null,
+        militarizationScore: formatMonitorValue(militarization?.score) || 0,
+        fragmentationScore: formatMonitorValue(fragmentation?.score) || 0,
+        coverageLabel: 'Layered risk model'
+      });
+      return;
+    }
+    const legacy = getMilitarizationMetrics([country]).get(country);
+    metrics.set(country, {
+      score: legacy?.score || 0,
+      baseline: legacy?.structuralScore || 0,
+      pulse: legacy?.liveScore || 0,
+      trend: 'stable',
+      dominantRecentSignal: legacy?.topType || null,
+      securityScore: 0,
+      alignmentScore: 0,
+      coverageLabel: legacy?.coverageLabel || 'Legacy fallback'
+    });
+  });
+  return metrics;
+}
+
 function getMilitarizationColor(score){
   if(score >= 80) return '#556b2f';
   if(score >= 65) return '#6f7f3d';
@@ -3936,7 +4241,7 @@ function renderCpRegionalMap(){
   if(!wrap || !svgEl) return;
   const visibleCountries=getVisibleProfileCountries();
   const visibleIds=new Set(visibleCountries.map(c=>COUNTRY_NAME_TO_ID[c]).filter(Boolean));
-  const metrics=getMilitarizationMetrics(visibleCountries);
+  const metrics=getRegionalMonitorMetrics(visibleCountries);
 
   if(!worldFeatures){
     initOverviewMap();
@@ -3975,14 +4280,14 @@ function renderCpRegionalMap(){
       const countryName = COUNTRY_NAMES_MAP[+d.id];
       const metric = metrics.get(countryName);
       const level = (COUNTRY_ACLED[countryName] && COUNTRY_ACLED[countryName].level) || 'Low';
-      const topTypeLabel = metric?.topType ? (TYPE_LABEL[metric.topType] || metric.topType) : 'No dominant live signal';
+      const topTypeLabel = metric?.dominantRecentSignal ? (TYPE_LABEL[metric.dominantRecentSignal] || metric.dominantRecentSignal) : 'No dominant live signal';
       const rect = wrap.getBoundingClientRect();
       tooltip.html(
         `<strong style="font-size:12px;color:var(--text);">${countryName}</strong>` +
-        `<br><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">Militarization index</span> <strong style="color:var(--coup);">${metric?.score || 0}/100</strong>` +
-        `<br><span style="font-size:10.5px;color:var(--text-muted);">Structural M3: ${metric?.structuralScore || 0} · Live pressure: ${metric?.liveScore || 0}</span>` +
-        `<br><span style="font-size:10.5px;color:var(--text-muted);">${metric?.eventCount || 0} current events · ${metric?.high || 0} high / ${metric?.medium || 0} medium</span>` +
-        `<br><span style="font-size:10.5px;color:var(--text-muted);">Dominant live signal: ${topTypeLabel}</span>` +
+        `<br><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">Regime vulnerability</span> <strong style="color:${getMonitorScoreColor(metric?.score || 0)};">${metric?.score || 0}/100</strong>` +
+        `<br><span style="font-size:10.5px;color:var(--text-muted);">Underlying CMR baseline ${metric?.baseline || 0} · pulse ${metric?.pulse || 0} · trend ${metric?.trend || 'stable'}</span>` +
+        `<br><span style="font-size:10.5px;color:var(--text-muted);">Militarization ${metric?.militarizationScore || 0} · Security fragmentation ${metric?.fragmentationScore || 0}</span>` +
+        `<br><span style="font-size:10.5px;color:var(--text-muted);">Dominant recent signal: ${topTypeLabel}</span>` +
         `<br><span style="font-size:10.5px;color:var(--text-muted);">ACLED ${level}</span>`
       )
       .style('display','block')
@@ -4073,7 +4378,7 @@ let cpActiveSr='all', cpAcledFilter='all';
 function applyProfileFilters(){
   const data=SUBREGIONS[cpActiveSr]||SUBREGIONS.all;
   document.getElementById('sr-title').textContent=data.label;
-  document.getElementById('sr-summary').textContent=data.note;
+  renderRegionalMonitorSummary();
   document.querySelectorAll('.cp-btn[data-country]').forEach(btn=>{
     const c=btn.dataset.country;
     const inSr=cpActiveSr==='all'||data.countries.includes(c);

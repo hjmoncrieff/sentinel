@@ -24,6 +24,8 @@ REGISTRY_EDITS_TEMPLATE = ROOT / "data" / "review" / "registry_edits.template.js
 
 ALLOWED_REGISTRY_FIELDS = {
     "canonical_name",
+    "canonical_category",
+    "canonical_group",
     "canonical_type",
     "canonical_subtype",
     "primary_country",
@@ -194,6 +196,8 @@ def apply_registry_edit(registry: dict, edit: dict) -> tuple[dict, list[str]]:
                 clean.get("primary_country"),
             ),
             "canonical_name": clean.get("canonical_name"),
+            "canonical_category": clean.get("canonical_category"),
+            "canonical_group": clean.get("canonical_group"),
             "canonical_type": clean.get("canonical_type"),
             "canonical_subtype": clean.get("canonical_subtype"),
             "primary_country": clean.get("primary_country"),

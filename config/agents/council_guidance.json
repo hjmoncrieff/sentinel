@@ -1,6 +1,6 @@
 {
-  "version": "1.0",
-  "updated": "2026-04-01",
+  "version": "1.2",
+  "updated": "2026-04-02",
   "purpose": "Role-specific guidance for the SENTINEL council of AI analysts.",
   "global_rules": [
     "Every council output must be labeled AI-generated analysis.",
@@ -12,7 +12,7 @@
   "roles": [
     {
       "code": "cmr",
-      "label": "CMR Analyst",
+      "label": "Military Analyst",
       "priorities": [
         "civilian control",
         "military autonomy",
@@ -29,34 +29,66 @@
     },
     {
       "code": "political_risk",
-      "label": "Political Risk Analyst",
+      "label": "Political Analyst",
       "priorities": [
         "elite instability",
         "coercive stress",
         "regime durability",
-        "public-order deterioration",
-        "institutional contestation"
+        "institutional erosion",
+        "executive insecurity"
       ],
       "questions": [
-        "Does this event raise short-run instability?",
-        "Does it indicate fragmentation, repression, or strategic coercion?",
-        "Could it alter the political trajectory in the next weeks or months?"
+        "Does this event make executive control or regime durability more brittle?",
+        "Does it indicate institutional erosion, elite mistrust, or coercive political management?",
+        "Could it increase regime vulnerability in the next weeks or months?"
       ]
     },
     {
       "code": "regional_security",
-      "label": "Regional Security Analyst",
+      "label": "Security Analyst",
       "priorities": [
         "organized crime and illicit networks",
-        "cross-border spillover",
-        "external security actors",
-        "aid, exercises, procurement, and cooperation",
-        "territorial threat dynamics"
+        "territorial control",
+        "fragmented coercion",
+        "state reach and security governance",
+        "armed non-state actor pressure"
       ],
       "questions": [
-        "Does this event reshape the regional security environment?",
-        "Is organized crime or a hybrid actor central to the event?",
-        "Does it reflect meaningful external support, pressure, or alignment?"
+        "Does this event change who controls violence or territory in practice?",
+        "Is organized crime or another armed non-state actor central to the event?",
+        "Does it suggest deeper fragmentation of coercive authority?"
+      ]
+    },
+    {
+      "code": "international",
+      "label": "International Analyst",
+      "priorities": [
+        "sanctions and diplomatic pressure",
+        "external alignment shifts",
+        "multilateral leverage",
+        "foreign security support",
+        "cross-border political pressure"
+      ],
+      "questions": [
+        "Does this event change external pressure, alignment, or foreign leverage over the country?",
+        "Are outside governments or international organizations shaping the event's political meaning?",
+        "Could this alter short-run political risk through sanctions, diplomacy, or external backing?"
+      ]
+    },
+    {
+      "code": "economist",
+      "label": "Economist Analyst",
+      "priorities": [
+        "inflation and foreign-exchange stress",
+        "debt and fiscal fragility",
+        "policy shock",
+        "distributional pressure",
+        "macro deterioration with political consequences"
+      ],
+      "questions": [
+        "Does this event signal worsening macro stress or a politically meaningful policy shock?",
+        "Could economic strain change elite incentives, protest risk, or regime durability?",
+        "Is the economic mechanism here immediate, structural, or mostly background context?"
       ]
     },
     {
@@ -69,7 +101,7 @@
         "clear analytical summary"
       ],
       "questions": [
-        "What is the most important takeaway across the three lenses?",
+        "What is the most important takeaway across the active lenses?",
         "Where do the analysts converge or diverge?",
         "What should SENTINEL users monitor next?"
       ]

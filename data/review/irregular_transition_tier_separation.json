@@ -1,0 +1,185 @@
+{
+  "generated_at": "2026-04-03T00:23:06Z",
+  "status": "private_internal_tier_separation_audit",
+  "benchmark_file": "data/modeling/irregular_transition_benchmark_tiers.json",
+  "panel_file": "data/modeling/country_month_panel.json",
+  "summary": {
+    "gold_positive_rows": 25,
+    "hard_negative_rows": 10
+  },
+  "candidate_feature_snapshot": {
+    "transition_rupture_precursor_score": {
+      "gold_positive_mean": 1.848,
+      "hard_negative_mean": 2.14
+    },
+    "transition_contestation_load_score": {
+      "gold_positive_mean": 2.906,
+      "hard_negative_mean": 4.995
+    },
+    "transition_specificity_gap": {
+      "gold_positive_mean": -1.058,
+      "hard_negative_mean": -2.855
+    }
+  },
+  "feature_comparison": [
+    {
+      "feature": "economic_fragility_fx_stress",
+      "gold_positive_mean": 33.116,
+      "hard_negative_mean": 30.942,
+      "mean_gap": 2.174,
+      "absolute_gap": 2.174
+    },
+    {
+      "feature": "transition_contestation_load_score",
+      "gold_positive_mean": 2.906,
+      "hard_negative_mean": 4.995,
+      "mean_gap": -2.089,
+      "absolute_gap": 2.089
+    },
+    {
+      "feature": "transition_specificity_gap",
+      "gold_positive_mean": -1.058,
+      "hard_negative_mean": -2.855,
+      "mean_gap": 1.797,
+      "absolute_gap": 1.797
+    },
+    {
+      "feature": "time_since_last_coup",
+      "gold_positive_mean": 22.88,
+      "hard_negative_mean": 24.3,
+      "mean_gap": -1.42,
+      "absolute_gap": 1.42
+    },
+    {
+      "feature": "external_pressure_sanctions_active",
+      "gold_positive_mean": 1.015,
+      "hard_negative_mean": 0.026,
+      "mean_gap": 0.989,
+      "absolute_gap": 0.989
+    },
+    {
+      "feature": "trade_openness_delta_3y",
+      "gold_positive_mean": 2.932,
+      "hard_negative_mean": 3.694,
+      "mean_gap": -0.762,
+      "absolute_gap": 0.762
+    },
+    {
+      "feature": "state_capacity_composite",
+      "gold_positive_mean": 51.189,
+      "hard_negative_mean": 51.742,
+      "mean_gap": -0.553,
+      "absolute_gap": 0.553
+    },
+    {
+      "feature": "episode_construct_regime_vulnerability_count",
+      "gold_positive_mean": 0.52,
+      "hard_negative_mean": 0.9,
+      "mean_gap": -0.38,
+      "absolute_gap": 0.38
+    },
+    {
+      "feature": "event_type_conflict_count",
+      "gold_positive_mean": 0.32,
+      "hard_negative_mean": 0.7,
+      "mean_gap": -0.38,
+      "absolute_gap": 0.38
+    },
+    {
+      "feature": "escalating_episode_count",
+      "gold_positive_mean": 0.44,
+      "hard_negative_mean": 0.8,
+      "mean_gap": -0.36,
+      "absolute_gap": 0.36
+    },
+    {
+      "feature": "episode_start_count",
+      "gold_positive_mean": 0.68,
+      "hard_negative_mean": 1.0,
+      "mean_gap": -0.32,
+      "absolute_gap": 0.32
+    },
+    {
+      "feature": "transition_rupture_precursor_score",
+      "gold_positive_mean": 1.848,
+      "hard_negative_mean": 2.14,
+      "mean_gap": -0.292,
+      "absolute_gap": 0.292
+    },
+    {
+      "feature": "deed_type_destabilizing_count",
+      "gold_positive_mean": 0.36,
+      "hard_negative_mean": 0.6,
+      "mean_gap": -0.24,
+      "absolute_gap": 0.24
+    },
+    {
+      "feature": "oda_received_delta_3y",
+      "gold_positive_mean": -0.09,
+      "hard_negative_mean": 0.147,
+      "mean_gap": -0.237,
+      "absolute_gap": 0.237
+    },
+    {
+      "feature": "regime_shift_flag",
+      "gold_positive_mean": 0.0,
+      "hard_negative_mean": 0.2,
+      "mean_gap": -0.2,
+      "absolute_gap": 0.2
+    },
+    {
+      "feature": "high_salience_event_count",
+      "gold_positive_mean": 0.64,
+      "hard_negative_mean": 0.7,
+      "mean_gap": -0.06,
+      "absolute_gap": 0.06
+    },
+    {
+      "feature": "event_type_coup_count",
+      "gold_positive_mean": 0.04,
+      "hard_negative_mean": 0.0,
+      "mean_gap": 0.04,
+      "absolute_gap": 0.04
+    },
+    {
+      "feature": "high_severity_episode_count",
+      "gold_positive_mean": 0.28,
+      "hard_negative_mean": 0.3,
+      "mean_gap": -0.02,
+      "absolute_gap": 0.02
+    },
+    {
+      "feature": "event_shock_flag",
+      "gold_positive_mean": 0.08,
+      "hard_negative_mean": 0.1,
+      "mean_gap": -0.02,
+      "absolute_gap": 0.02
+    },
+    {
+      "feature": "polyarchy_delta_1y",
+      "gold_positive_mean": 0.009,
+      "hard_negative_mean": 0.001,
+      "mean_gap": 0.008,
+      "absolute_gap": 0.008
+    },
+    {
+      "feature": "event_type_protest_count",
+      "gold_positive_mean": 0.0,
+      "hard_negative_mean": 0.0,
+      "mean_gap": 0.0,
+      "absolute_gap": 0.0
+    },
+    {
+      "feature": "coup_count_5y",
+      "gold_positive_mean": 0.0,
+      "hard_negative_mean": 0.0,
+      "mean_gap": 0.0,
+      "absolute_gap": 0.0
+    }
+  ],
+  "current_takeaway": [
+    "Features with large positive gaps are stronger among gold positives than hard negatives.",
+    "Features with large negative gaps are stronger among hard negatives than gold positives.",
+    "The new transition-specificity features should help test rupture-vs-contestation separation directly."
+  ]
+}

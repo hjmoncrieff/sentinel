@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1100" viewBox="0 0 1440 1100" role="img" aria-labelledby="title desc">
+  <title id="title">SENTINEL private construct diagram</title>
+  <desc id="desc">Private construct diagram showing how structural variables, pulse signals, external pressure, and economic signals feed monitor families, higher-order risk constructs, and proxy target outputs.</desc>
+  <style>
+    .bg { fill: #0b1120; }
+    .panel { fill: #111827; stroke: #334155; stroke-width: 2; rx: 18; ry: 18; }
+    .box-struct { fill: #1d4ed8; stroke: #93c5fd; stroke-width: 2; rx: 16; ry: 16; }
+    .box-pulse { fill: #0f766e; stroke: #99f6e4; stroke-width: 2; rx: 16; ry: 16; }
+    .box-planned { fill: #7c2d12; stroke: #fdba74; stroke-width: 2; rx: 16; ry: 16; }
+    .box-monitor { fill: #4c1d95; stroke: #c4b5fd; stroke-width: 2; rx: 16; ry: 16; }
+    .box-construct { fill: #374151; stroke: #d1d5db; stroke-width: 2; rx: 16; ry: 16; }
+    .box-output { fill: #0f766e; stroke: #5eead4; stroke-width: 2; rx: 16; ry: 16; }
+    .title { fill: #f8fafc; font-family: Arial, Helvetica, sans-serif; font-size: 34px; font-weight: 700; }
+    .label { fill: #f3f4f6; font-family: Arial, Helvetica, sans-serif; font-size: 19px; font-weight: 700; }
+    .sub { fill: #d1d5db; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+    .small { fill: #94a3b8; font-family: Arial, Helvetica, sans-serif; font-size: 13px; }
+    .arrow { stroke: #cbd5e1; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1440" height="1100"/>
+  <text class="title" x="60" y="60">SENTINEL private variable and construct map</text>
+  <text class="sub" x="60" y="92">How variables feed monitor families, higher-order risk constructs, and final product layers</text>
+
+  <rect class="panel" x="40" y="120" width="1360" height="270"/>
+  <text class="label" x="70" y="160">Layer 1: input families</text>
+
+  <rect class="box-struct" x="70" y="220" width="280" height="120"/>
+  <text class="label" x="100" y="260">Structural variables</text>
+  <text class="sub" x="100" y="292">V-Dem, World Bank, M3, historical CMR</text>
+  <text class="small" x="100" y="320">state capacity, regime type, military roles</text>
+
+  <rect class="box-pulse" x="390" y="220" width="280" height="120"/>
+  <text class="label" x="420" y="260">Event-derived pulse</text>
+  <text class="sub" x="420" y="292">reviewed events, DEED, axis, salience</text>
+  <text class="small" x="420" y="320">monthly counts, rolling windows, shocks</text>
+
+  <rect class="box-planned" x="710" y="220" width="280" height="120"/>
+  <text class="label" x="740" y="260">External pressure</text>
+  <text class="sub" x="740" y="292">sanctions, IMF, US security shifts</text>
+  <text class="small" x="740" y="320">planned and partially scaffolded</text>
+
+  <rect class="box-planned" x="1030" y="220" width="300" height="120"/>
+  <text class="label" x="1060" y="260">Economic fragility and shocks</text>
+  <text class="sub" x="1060" y="292">inflation, debt, FX stress, capital controls</text>
+  <text class="small" x="1060" y="320">planned and partially scaffolded</text>
+
+  <rect class="panel" x="40" y="430" width="1360" height="210"/>
+  <text class="label" x="70" y="470">Layer 2: monitor families</text>
+
+  <rect class="box-monitor" x="140" y="520" width="290" height="80"/>
+  <text class="label" x="170" y="565">CMR balance</text>
+  <text class="sub" x="170" y="590">civil-military baseline plus recent shifts</text>
+
+  <rect class="box-monitor" x="570" y="520" width="290" height="80"/>
+  <text class="label" x="600" y="565">Security pressure</text>
+  <text class="sub" x="600" y="590">conflict, crime, coercive stress</text>
+
+  <rect class="box-monitor" x="1000" y="520" width="290" height="80"/>
+  <text class="label" x="1030" y="565">External security alignment</text>
+  <text class="sub" x="1030" y="590">external exposure and partner posture</text>
+
+  <line class="arrow" x1="210" y1="340" x2="260" y2="520"/>
+  <line class="arrow" x1="530" y1="340" x2="260" y2="520"/>
+  <line class="arrow" x1="530" y1="340" x2="690" y2="520"/>
+  <line class="arrow" x1="850" y1="340" x2="1145" y2="520"/>
+  <line class="arrow" x1="1180" y1="340" x2="1145" y2="520"/>
+
+  <rect class="panel" x="40" y="680" width="1360" height="240"/>
+  <text class="label" x="70" y="720">Layer 3: higher-order constructs</text>
+
+  <rect class="box-construct" x="110" y="770" width="350" height="100"/>
+  <text class="label" x="140" y="810">Regime vulnerability</text>
+  <text class="sub" x="140" y="838">democratic fragility, erosion, weak state capacity</text>
+
+  <rect class="box-construct" x="545" y="770" width="350" height="100"/>
+  <text class="label" x="575" y="810">Militarization</text>
+  <text class="sub" x="575" y="838">domestic coercion, governance roles, economic control</text>
+
+  <rect class="box-construct" x="980" y="770" width="350" height="100"/>
+  <text class="label" x="1010" y="810">Security fragmentation</text>
+  <text class="sub" x="1010" y="838">organized crime, territorial spread, fractured coercive order</text>
+
+  <line class="arrow" x1="285" y1="600" x2="285" y2="770"/>
+  <line class="arrow" x1="715" y1="600" x2="720" y2="770"/>
+  <line class="arrow" x1="1145" y1="600" x2="1155" y2="770"/>
+  <line class="arrow" x1="690" y1="600" x2="285" y2="770"/>
+  <line class="arrow" x1="690" y1="600" x2="1155" y2="770"/>
+
+  <rect class="panel" x="40" y="950" width="1360" height="120"/>
+  <text class="label" x="70" y="990">Layer 4: outputs and product surfaces</text>
+
+  <rect class="box-output" x="140" y="1010" width="360" height="40"/>
+  <text class="sub" x="165" y="1036">Public outputs: selected summaries, maps, country profiles</text>
+
+  <rect class="box-output" x="540" y="1010" width="360" height="40"/>
+  <text class="sub" x="565" y="1036">Internal outputs: analyst interpretation, review, calibration</text>
+
+  <rect class="box-output" x="940" y="1010" width="360" height="40"/>
+  <text class="sub" x="965" y="1036">Private outputs: country-month panel, proxy targets, manual seeds, forecasting models</text>
+
+  <line class="arrow" x1="285" y1="870" x2="320" y2="1010"/>
+  <line class="arrow" x1="720" y1="870" x2="720" y2="1010"/>
+  <line class="arrow" x1="1155" y1="870" x2="1120" y2="1010"/>
+</svg>

@@ -44,7 +44,23 @@
     },
     "language": { "type": ["string", "null"] },
     "event_type": { "type": "string" },
+    "event_category": { "type": ["string", "null"] },
+    "event_subcategory": { "type": ["string", "null"] },
+    "event_construct_destinations": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "event_analyst_lenses": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
     "event_subtype": { "type": ["string", "null"] },
+    "deed_type": { "type": ["string", "null"] },
+    "axis": { "type": ["string", "null"] },
+    "episode_id": { "type": ["string", "null"] },
+    "process_id": { "type": ["string", "null"] },
+    "episode_role": { "type": ["string", "null"] },
+    "process_relevance": { "type": ["string", "null"] },
     "salience": { "type": "string", "enum": ["high", "medium", "low"] },
     "confidence": { "type": "string", "enum": ["high", "medium", "low"] },
     "summary": { "type": ["string", "null"] },
@@ -60,17 +76,28 @@
         "required": ["actor_name", "actor_type"],
         "properties": {
           "actor_name": { "type": "string" },
+          "actor_category": { "type": ["string", "null"] },
+          "actor_group": { "type": ["string", "null"] },
           "actor_type": { "type": "string" },
           "actor_subtype": { "type": ["string", "null"] },
           "actor_country": { "type": ["string", "null"] },
-          "actor_role_in_event": { "type": ["string", "null"] }
+          "actor_role_in_event": { "type": ["string", "null"] },
+          "actor_canonical_name": { "type": ["string", "null"] },
+          "actor_canonical_category": { "type": ["string", "null"] },
+          "actor_canonical_group": { "type": ["string", "null"] },
+          "actor_canonical_type": { "type": ["string", "null"] },
+          "actor_canonical_subtype": { "type": ["string", "null"] }
         },
         "additionalProperties": false
       }
     },
     "actor_primary_name": { "type": ["string", "null"] },
+    "actor_primary_category": { "type": ["string", "null"] },
+    "actor_primary_group": { "type": ["string", "null"] },
     "actor_primary_type": { "type": ["string", "null"] },
     "actor_secondary_name": { "type": ["string", "null"] },
+    "actor_secondary_category": { "type": ["string", "null"] },
+    "actor_secondary_group": { "type": ["string", "null"] },
     "actor_secondary_type": { "type": ["string", "null"] },
     "duplicate_group_id": { "type": ["string", "null"] },
     "duplicate_status": {

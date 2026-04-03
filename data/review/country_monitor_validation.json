@@ -1,0 +1,698 @@
+{
+  "generated_at": "2026-04-03T04:00:58.413836+00:00",
+  "benchmark_file": "config/risk_model_benchmarks.json",
+  "monitor_file": "data/published/country_monitors.json",
+  "benchmark_count": 14,
+  "country_result_count": 14,
+  "failing_country_count": 12,
+  "metric_summary": {
+    "overall_risk": {
+      "count": 14,
+      "within_range": 8,
+      "mean_abs_distance_to_midpoint": 5.68,
+      "mean_distance_outside_range": 2.03,
+      "within_range_rate": 0.571
+    },
+    "regime_vulnerability": {
+      "count": 14,
+      "within_range": 8,
+      "mean_abs_distance_to_midpoint": 6.33,
+      "mean_distance_outside_range": 2.69,
+      "within_range_rate": 0.571
+    },
+    "militarization": {
+      "count": 14,
+      "within_range": 9,
+      "mean_abs_distance_to_midpoint": 5.56,
+      "mean_distance_outside_range": 1.48,
+      "within_range_rate": 0.643
+    },
+    "security_fragmentation": {
+      "count": 14,
+      "within_range": 6,
+      "mean_abs_distance_to_midpoint": 7.04,
+      "mean_distance_outside_range": 2.0,
+      "within_range_rate": 0.429
+    }
+  },
+  "countries": [
+    {
+      "country": "Venezuela",
+      "reason": "Authoritarian civil-military fusion with severe regime stress and entrenched militarization.",
+      "status": "needs_review",
+      "metrics": [
+        {
+          "metric": "overall_risk",
+          "status": "within_range",
+          "target_min": 82.0,
+          "target_max": 92.0,
+          "target_midpoint": 87.0,
+          "actual": 90.34,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 3.34
+        },
+        {
+          "metric": "regime_vulnerability",
+          "status": "within_range",
+          "target_min": 84.0,
+          "target_max": 92.0,
+          "target_midpoint": 88.0,
+          "actual": 87.65,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 0.35
+        },
+        {
+          "metric": "militarization",
+          "status": "within_range",
+          "target_min": 84.0,
+          "target_max": 95.0,
+          "target_midpoint": 89.5,
+          "actual": 88.49,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 1.01
+        },
+        {
+          "metric": "security_fragmentation",
+          "status": "out_of_range",
+          "target_min": 62.0,
+          "target_max": 78.0,
+          "target_midpoint": 70.0,
+          "actual": 86.13,
+          "distance_to_range": 8.13,
+          "distance_to_midpoint": 16.13
+        }
+      ]
+    },
+    {
+      "country": "El Salvador",
+      "reason": "Exception-regime case with very high militarization and high regime vulnerability, but less fragmentation than Mexico or Haiti.",
+      "status": "needs_review",
+      "metrics": [
+        {
+          "metric": "overall_risk",
+          "status": "out_of_range",
+          "target_min": 68.0,
+          "target_max": 78.0,
+          "target_midpoint": 73.0,
+          "actual": 61.09,
+          "distance_to_range": 6.91,
+          "distance_to_midpoint": 11.91
+        },
+        {
+          "metric": "regime_vulnerability",
+          "status": "out_of_range",
+          "target_min": 68.0,
+          "target_max": 78.0,
+          "target_midpoint": 73.0,
+          "actual": 61.92,
+          "distance_to_range": 6.08,
+          "distance_to_midpoint": 11.08
+        },
+        {
+          "metric": "militarization",
+          "status": "out_of_range",
+          "target_min": 80.0,
+          "target_max": 92.0,
+          "target_midpoint": 86.0,
+          "actual": 69.19,
+          "distance_to_range": 10.81,
+          "distance_to_midpoint": 16.81
+        },
+        {
+          "metric": "security_fragmentation",
+          "status": "within_range",
+          "target_min": 32.0,
+          "target_max": 52.0,
+          "target_midpoint": 42.0,
+          "actual": 50.82,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 8.82
+        }
+      ]
+    },
+    {
+      "country": "Mexico",
+      "reason": "Severe security fragmentation and deep structural militarization without a full regime-breakdown profile.",
+      "status": "needs_review",
+      "metrics": [
+        {
+          "metric": "overall_risk",
+          "status": "within_range",
+          "target_min": 74.0,
+          "target_max": 84.0,
+          "target_midpoint": 79.0,
+          "actual": 76.1,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 2.9
+        },
+        {
+          "metric": "regime_vulnerability",
+          "status": "within_range",
+          "target_min": 60.0,
+          "target_max": 72.0,
+          "target_midpoint": 66.0,
+          "actual": 60.38,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 5.62
+        },
+        {
+          "metric": "militarization",
+          "status": "out_of_range",
+          "target_min": 70.0,
+          "target_max": 82.0,
+          "target_midpoint": 76.0,
+          "actual": 84.26,
+          "distance_to_range": 2.26,
+          "distance_to_midpoint": 8.26
+        },
+        {
+          "metric": "security_fragmentation",
+          "status": "out_of_range",
+          "target_min": 84.0,
+          "target_max": 94.0,
+          "target_midpoint": 89.0,
+          "actual": 82.98,
+          "distance_to_range": 1.02,
+          "distance_to_midpoint": 6.02
+        }
+      ]
+    },
+    {
+      "country": "Colombia",
+      "reason": "High conflict fragmentation with lower militarization than Mexico or El Salvador.",
+      "status": "needs_review",
+      "metrics": [
+        {
+          "metric": "overall_risk",
+          "status": "out_of_range",
+          "target_min": 66.0,
+          "target_max": 76.0,
+          "target_midpoint": 71.0,
+          "actual": 61.39,
+          "distance_to_range": 4.61,
+          "distance_to_midpoint": 9.61
+        },
+        {
+          "metric": "regime_vulnerability",
+          "status": "out_of_range",
+          "target_min": 56.0,
+          "target_max": 66.0,
+          "target_midpoint": 61.0,
+          "actual": 55.7,
+          "distance_to_range": 0.3,
+          "distance_to_midpoint": 5.3
+        },
+        {
+          "metric": "militarization",
+          "status": "within_range",
+          "target_min": 34.0,
+          "target_max": 48.0,
+          "target_midpoint": 41.0,
+          "actual": 38.42,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 2.58
+        },
+        {
+          "metric": "security_fragmentation",
+          "status": "out_of_range",
+          "target_min": 78.0,
+          "target_max": 88.0,
+          "target_midpoint": 83.0,
+          "actual": 77.64,
+          "distance_to_range": 0.36,
+          "distance_to_midpoint": 5.36
+        }
+      ]
+    },
+    {
+      "country": "Ecuador",
+      "reason": "High fragmentation and rising coercive stress under the internal-armed-conflict framework.",
+      "status": "needs_review",
+      "metrics": [
+        {
+          "metric": "overall_risk",
+          "status": "within_range",
+          "target_min": 58.0,
+          "target_max": 68.0,
+          "target_midpoint": 63.0,
+          "actual": 63.22,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 0.22
+        },
+        {
+          "metric": "regime_vulnerability",
+          "status": "within_range",
+          "target_min": 54.0,
+          "target_max": 64.0,
+          "target_midpoint": 59.0,
+          "actual": 59.49,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 0.49
+        },
+        {
+          "metric": "militarization",
+          "status": "within_range",
+          "target_min": 36.0,
+          "target_max": 50.0,
+          "target_midpoint": 43.0,
+          "actual": 36.74,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 6.26
+        },
+        {
+          "metric": "security_fragmentation",
+          "status": "out_of_range",
+          "target_min": 80.0,
+          "target_max": 90.0,
+          "target_midpoint": 85.0,
+          "actual": 79.1,
+          "distance_to_range": 0.9,
+          "distance_to_midpoint": 5.9
+        }
+      ]
+    },
+    {
+      "country": "Brazil",
+      "reason": "High but not crisis-level regime vulnerability with meaningful fragmentation and moderate militarization.",
+      "status": "needs_review",
+      "metrics": [
+        {
+          "metric": "overall_risk",
+          "status": "out_of_range",
+          "target_min": 56.0,
+          "target_max": 66.0,
+          "target_midpoint": 61.0,
+          "actual": 54.72,
+          "distance_to_range": 1.28,
+          "distance_to_midpoint": 6.28
+        },
+        {
+          "metric": "regime_vulnerability",
+          "status": "out_of_range",
+          "target_min": 50.0,
+          "target_max": 60.0,
+          "target_midpoint": 55.0,
+          "actual": 49.4,
+          "distance_to_range": 0.6,
+          "distance_to_midpoint": 5.6
+        },
+        {
+          "metric": "militarization",
+          "status": "within_range",
+          "target_min": 42.0,
+          "target_max": 56.0,
+          "target_midpoint": 49.0,
+          "actual": 47.25,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 1.75
+        },
+        {
+          "metric": "security_fragmentation",
+          "status": "within_range",
+          "target_min": 54.0,
+          "target_max": 66.0,
+          "target_midpoint": 60.0,
+          "actual": 62.01,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 2.01
+        }
+      ]
+    },
+    {
+      "country": "Nicaragua",
+      "reason": "Authoritarian consolidation with high militarization but lower fragmentation than war- or cartel-driven cases.",
+      "status": "passes",
+      "metrics": [
+        {
+          "metric": "overall_risk",
+          "status": "within_range",
+          "target_min": 50.0,
+          "target_max": 62.0,
+          "target_midpoint": 56.0,
+          "actual": 50.39,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 5.61
+        },
+        {
+          "metric": "regime_vulnerability",
+          "status": "within_range",
+          "target_min": 60.0,
+          "target_max": 74.0,
+          "target_midpoint": 67.0,
+          "actual": 62.05,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 4.95
+        },
+        {
+          "metric": "militarization",
+          "status": "within_range",
+          "target_min": 62.0,
+          "target_max": 76.0,
+          "target_midpoint": 69.0,
+          "actual": 69.11,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 0.11
+        },
+        {
+          "metric": "security_fragmentation",
+          "status": "within_range",
+          "target_min": 16.0,
+          "target_max": 30.0,
+          "target_midpoint": 23.0,
+          "actual": 22.49,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 0.51
+        }
+      ]
+    },
+    {
+      "country": "Cuba",
+      "reason": "Entrenched military-economic and regime-security role with low current fragmentation.",
+      "status": "needs_review",
+      "metrics": [
+        {
+          "metric": "overall_risk",
+          "status": "out_of_range",
+          "target_min": 20.0,
+          "target_max": 32.0,
+          "target_midpoint": 26.0,
+          "actual": 41.91,
+          "distance_to_range": 9.91,
+          "distance_to_midpoint": 15.91
+        },
+        {
+          "metric": "regime_vulnerability",
+          "status": "out_of_range",
+          "target_min": 24.0,
+          "target_max": 36.0,
+          "target_midpoint": 30.0,
+          "actual": 56.51,
+          "distance_to_range": 20.51,
+          "distance_to_midpoint": 26.51
+        },
+        {
+          "metric": "militarization",
+          "status": "out_of_range",
+          "target_min": 46.0,
+          "target_max": 62.0,
+          "target_midpoint": 54.0,
+          "actual": 62.23,
+          "distance_to_range": 0.23,
+          "distance_to_midpoint": 8.23
+        },
+        {
+          "metric": "security_fragmentation",
+          "status": "out_of_range",
+          "target_min": 0.0,
+          "target_max": 10.0,
+          "target_midpoint": 5.0,
+          "actual": 10.8,
+          "distance_to_range": 0.8,
+          "distance_to_midpoint": 5.8
+        }
+      ]
+    },
+    {
+      "country": "Haiti",
+      "reason": "Extreme security fragmentation and state weakness, even if classical militarization is low.",
+      "status": "needs_review",
+      "metrics": [
+        {
+          "metric": "overall_risk",
+          "status": "within_range",
+          "target_min": 56.0,
+          "target_max": 72.0,
+          "target_midpoint": 64.0,
+          "actual": 64.0,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 0.0
+        },
+        {
+          "metric": "regime_vulnerability",
+          "status": "within_range",
+          "target_min": 60.0,
+          "target_max": 76.0,
+          "target_midpoint": 68.0,
+          "actual": 67.95,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 0.05
+        },
+        {
+          "metric": "militarization",
+          "status": "out_of_range",
+          "target_min": 8.0,
+          "target_max": 24.0,
+          "target_midpoint": 16.0,
+          "actual": 27.67,
+          "distance_to_range": 3.67,
+          "distance_to_midpoint": 11.67
+        },
+        {
+          "metric": "security_fragmentation",
+          "status": "out_of_range",
+          "target_min": 88.0,
+          "target_max": 98.0,
+          "target_midpoint": 93.0,
+          "actual": 76.81,
+          "distance_to_range": 11.19,
+          "distance_to_midpoint": 16.19
+        }
+      ]
+    },
+    {
+      "country": "Guatemala",
+      "reason": "Medium-high security and governance stress with meaningful but not extreme militarization.",
+      "status": "needs_review",
+      "metrics": [
+        {
+          "metric": "overall_risk",
+          "status": "within_range",
+          "target_min": 46.0,
+          "target_max": 58.0,
+          "target_midpoint": 52.0,
+          "actual": 54.51,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 2.51
+        },
+        {
+          "metric": "regime_vulnerability",
+          "status": "out_of_range",
+          "target_min": 42.0,
+          "target_max": 54.0,
+          "target_midpoint": 48.0,
+          "actual": 55.56,
+          "distance_to_range": 1.56,
+          "distance_to_midpoint": 7.56
+        },
+        {
+          "metric": "militarization",
+          "status": "out_of_range",
+          "target_min": 42.0,
+          "target_max": 56.0,
+          "target_midpoint": 49.0,
+          "actual": 59.79,
+          "distance_to_range": 3.79,
+          "distance_to_midpoint": 10.79
+        },
+        {
+          "metric": "security_fragmentation",
+          "status": "within_range",
+          "target_min": 44.0,
+          "target_max": 58.0,
+          "target_midpoint": 51.0,
+          "actual": 46.62,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 4.38
+        }
+      ]
+    },
+    {
+      "country": "Uruguay",
+      "reason": "Low-risk benchmark for robust civilian control and low fragmentation.",
+      "status": "passes",
+      "metrics": [
+        {
+          "metric": "overall_risk",
+          "status": "within_range",
+          "target_min": 4.0,
+          "target_max": 12.0,
+          "target_midpoint": 8.0,
+          "actual": 5.92,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 2.08
+        },
+        {
+          "metric": "regime_vulnerability",
+          "status": "within_range",
+          "target_min": 4.0,
+          "target_max": 12.0,
+          "target_midpoint": 8.0,
+          "actual": 8.18,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 0.18
+        },
+        {
+          "metric": "militarization",
+          "status": "within_range",
+          "target_min": 0.0,
+          "target_max": 12.0,
+          "target_midpoint": 6.0,
+          "actual": 11.57,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 5.57
+        },
+        {
+          "metric": "security_fragmentation",
+          "status": "within_range",
+          "target_min": 0.0,
+          "target_max": 12.0,
+          "target_midpoint": 6.0,
+          "actual": 3.21,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 2.79
+        }
+      ]
+    },
+    {
+      "country": "Costa Rica",
+      "reason": "Low-risk benchmark with no standing army and minimal militarization.",
+      "status": "needs_review",
+      "metrics": [
+        {
+          "metric": "overall_risk",
+          "status": "out_of_range",
+          "target_min": 3.0,
+          "target_max": 12.0,
+          "target_midpoint": 7.5,
+          "actual": 1.15,
+          "distance_to_range": 1.85,
+          "distance_to_midpoint": 6.35
+        },
+        {
+          "metric": "regime_vulnerability",
+          "status": "within_range",
+          "target_min": 3.0,
+          "target_max": 12.0,
+          "target_midpoint": 7.5,
+          "actual": 3.04,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 4.46
+        },
+        {
+          "metric": "militarization",
+          "status": "within_range",
+          "target_min": 0.0,
+          "target_max": 10.0,
+          "target_midpoint": 5.0,
+          "actual": 6.08,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 1.08
+        },
+        {
+          "metric": "security_fragmentation",
+          "status": "within_range",
+          "target_min": 0.0,
+          "target_max": 10.0,
+          "target_midpoint": 5.0,
+          "actual": 0.0,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 5.0
+        }
+      ]
+    },
+    {
+      "country": "Chile",
+      "reason": "Low-to-guarded benchmark with low fragmentation and modest militarization.",
+      "status": "needs_review",
+      "metrics": [
+        {
+          "metric": "overall_risk",
+          "status": "within_range",
+          "target_min": 18.0,
+          "target_max": 30.0,
+          "target_midpoint": 24.0,
+          "actual": 21.14,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 2.86
+        },
+        {
+          "metric": "regime_vulnerability",
+          "status": "within_range",
+          "target_min": 18.0,
+          "target_max": 28.0,
+          "target_midpoint": 23.0,
+          "actual": 22.16,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 0.84
+        },
+        {
+          "metric": "militarization",
+          "status": "within_range",
+          "target_min": 14.0,
+          "target_max": 28.0,
+          "target_midpoint": 21.0,
+          "actual": 17.96,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 3.04
+        },
+        {
+          "metric": "security_fragmentation",
+          "status": "out_of_range",
+          "target_min": 10.0,
+          "target_max": 22.0,
+          "target_midpoint": 16.0,
+          "actual": 23.14,
+          "distance_to_range": 1.14,
+          "distance_to_midpoint": 7.14
+        }
+      ]
+    },
+    {
+      "country": "Argentina",
+      "reason": "Guarded benchmark with low militarization but some governance and economic stress.",
+      "status": "needs_review",
+      "metrics": [
+        {
+          "metric": "overall_risk",
+          "status": "out_of_range",
+          "target_min": 18.0,
+          "target_max": 30.0,
+          "target_midpoint": 24.0,
+          "actual": 33.88,
+          "distance_to_range": 3.88,
+          "distance_to_midpoint": 9.88
+        },
+        {
+          "metric": "regime_vulnerability",
+          "status": "out_of_range",
+          "target_min": 18.0,
+          "target_max": 32.0,
+          "target_midpoint": 25.0,
+          "actual": 40.58,
+          "distance_to_range": 8.58,
+          "distance_to_midpoint": 15.58
+        },
+        {
+          "metric": "militarization",
+          "status": "within_range",
+          "target_min": 6.0,
+          "target_max": 18.0,
+          "target_midpoint": 12.0,
+          "actual": 12.69,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 0.69
+        },
+        {
+          "metric": "security_fragmentation",
+          "status": "out_of_range",
+          "target_min": 18.0,
+          "target_max": 34.0,
+          "target_midpoint": 26.0,
+          "actual": 38.47,
+          "distance_to_range": 4.47,
+          "distance_to_midpoint": 12.47
+        }
+      ]
+    }
+  ]
+}

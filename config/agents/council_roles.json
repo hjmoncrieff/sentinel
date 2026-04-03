@@ -1,23 +1,33 @@
 {
-  "version": "1.0",
-  "updated": "2026-04-01",
+  "version": "1.2",
+  "updated": "2026-04-02",
   "analysis_tag": "AI-generated analysis",
   "scope": "all_events",
   "roles": [
     {
       "code": "cmr",
-      "label": "CMR Analyst",
+      "label": "Military Analyst",
       "focus": "civilian control, military autonomy, command politics, politicization, coup risk"
     },
     {
       "code": "political_risk",
-      "label": "Political Risk Analyst",
-      "focus": "regime stability, unrest, elite fragmentation, coercive stress"
+      "label": "Political Analyst",
+      "focus": "regime durability, executive insecurity, elite instability, coercive stress, institutional erosion"
     },
     {
       "code": "regional_security",
-      "label": "Regional Security Analyst",
-      "focus": "organized crime, conflict spillover, external actors, cooperation, security architecture"
+      "label": "Security Analyst",
+      "focus": "organized crime, armed non-state actors, territorial control, fragmented coercion, security governance breakdown"
+    },
+    {
+      "code": "international",
+      "label": "International Analyst",
+      "focus": "sanctions, diplomatic pressure, external alignment, foreign security support, multilateral leverage"
+    },
+    {
+      "code": "economist",
+      "label": "Economist Analyst",
+      "focus": "inflation, debt, foreign-exchange stress, fiscal fragility, policy shock, macro-political spillovers"
     },
     {
       "code": "synthesis",

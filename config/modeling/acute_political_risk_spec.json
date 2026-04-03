@@ -1,0 +1,30 @@
+{
+  "target_name": "acute_political_risk_next_3m",
+  "status": "private_internal_proxy_spec_v1",
+  "unit_of_analysis": "country_month",
+  "forecast_horizon": "3m",
+  "purpose": "Capture near-term acute deterioration in political risk beyond the narrower irregular-transition target.",
+  "logic_families": [
+    "high_severity_episode_deterioration",
+    "regime_vulnerability_escalation",
+    "security_fragmentation_escalation",
+    "event_shock_deterioration",
+    "external_pressure_spike",
+    "economic_fragility_spike",
+    "structural_shift_flags"
+  ],
+  "positive_when": [
+    "the next month or one of the next three months reaches the acute political-risk proxy threshold",
+    "the threshold is driven by a combination of high-severity episodes, fragmentation or regime-vulnerability linkage, event shock, and/or external-economic deterioration"
+  ],
+  "exclusions": [
+    "this target is broader than irregular transition and should not be interpreted as a coup or transfer target",
+    "it is a deterioration-watch target, not yet an adjudicated or gold-standard outcome"
+  ],
+  "next_workflow_steps": [
+    "review proxy positives country by country",
+    "create adjudicated benchmark layer",
+    "derive stricter gold subset",
+    "build dedicated fit dataset and validation path"
+  ]
+}
