@@ -6,7 +6,23 @@ used to run each one.
 It is the command reference. For the daily operational sequence, use
 `docs/user-guide.md`.
 
+## Documentation Sync
+
+### Refresh Obsidian documentation mirror
+
+```bash
+python3 scripts/sync_obsidian_docs.py
+```
+
+This mirrors the project documentation set into:
+
+- `/Users/hjmoncrieff/Library/CloudStorage/Dropbox/MyObsidiainVault/Sentinel Documentation`
+
 ## Ingest
+
+Source-expansion planning note:
+
+- `docs/private-source-expansion-note.md`
 
 ### Fast monitoring pipeline
 

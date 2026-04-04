@@ -118,6 +118,24 @@ Cross-cutting coverage rule:
 - begin with a small interpretable series set:
   - coercive instability
   - institutional erosion
+
+### 2C. Ingest Source Expansion
+
+- expand the source layer in a staged way rather than ad hoc
+- keep regional agencies first in priority:
+  - `EFE`
+  - `Agência Brasil`
+  - `Notimérica`
+- treat official defense-ministry expansion as a second-step workflow
+- use `docs/private-source-expansion-note.md` as the active planning note for:
+  - source weighting
+  - ingest mode choice
+  - ministry watchlist expansion
+  - targeted scraper prioritization
+- preserve the rule:
+  - regional agency expansion first
+  - targeted official-defense monitors second
+  - broader ministry watchlist expansion third
   - security fragmentation
   - elite fracture
   - external pressure

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-03T04:00:58.413836+00:00",
+  "generated_at": "2026-04-04T20:03:06.588712+00:00",
   "benchmark_file": "config/risk_model_benchmarks.json",
   "monitor_file": "data/published/country_monitors.json",
   "benchmark_count": 14,
@@ -9,30 +9,30 @@
     "overall_risk": {
       "count": 14,
       "within_range": 8,
-      "mean_abs_distance_to_midpoint": 5.68,
-      "mean_distance_outside_range": 2.03,
+      "mean_abs_distance_to_midpoint": 5.9,
+      "mean_distance_outside_range": 2.21,
       "within_range_rate": 0.571
     },
     "regime_vulnerability": {
       "count": 14,
-      "within_range": 8,
-      "mean_abs_distance_to_midpoint": 6.33,
-      "mean_distance_outside_range": 2.69,
-      "within_range_rate": 0.571
+      "within_range": 9,
+      "mean_abs_distance_to_midpoint": 6.5,
+      "mean_distance_outside_range": 2.9,
+      "within_range_rate": 0.643
     },
     "militarization": {
       "count": 14,
       "within_range": 9,
-      "mean_abs_distance_to_midpoint": 5.56,
-      "mean_distance_outside_range": 1.48,
+      "mean_abs_distance_to_midpoint": 5.91,
+      "mean_distance_outside_range": 1.64,
       "within_range_rate": 0.643
     },
     "security_fragmentation": {
       "count": 14,
-      "within_range": 6,
-      "mean_abs_distance_to_midpoint": 7.04,
-      "mean_distance_outside_range": 2.0,
-      "within_range_rate": 0.429
+      "within_range": 7,
+      "mean_abs_distance_to_midpoint": 6.96,
+      "mean_distance_outside_range": 2.03,
+      "within_range_rate": 0.5
     }
   },
   "countries": [
@@ -47,9 +47,9 @@
           "target_min": 82.0,
           "target_max": 92.0,
           "target_midpoint": 87.0,
-          "actual": 90.34,
+          "actual": 90.51,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 3.34
+          "distance_to_midpoint": 3.51
         },
         {
           "metric": "regime_vulnerability",
@@ -57,9 +57,9 @@
           "target_min": 84.0,
           "target_max": 92.0,
           "target_midpoint": 88.0,
-          "actual": 87.65,
+          "actual": 87.61,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 0.35
+          "distance_to_midpoint": 0.39
         },
         {
           "metric": "militarization",
@@ -67,9 +67,9 @@
           "target_min": 84.0,
           "target_max": 95.0,
           "target_midpoint": 89.5,
-          "actual": 88.49,
+          "actual": 88.41,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 1.01
+          "distance_to_midpoint": 1.09
         },
         {
           "metric": "security_fragmentation",
@@ -77,9 +77,9 @@
           "target_min": 62.0,
           "target_max": 78.0,
           "target_midpoint": 70.0,
-          "actual": 86.13,
-          "distance_to_range": 8.13,
-          "distance_to_midpoint": 16.13
+          "actual": 86.64,
+          "distance_to_range": 8.64,
+          "distance_to_midpoint": 16.64
         }
       ]
     },
@@ -94,9 +94,9 @@
           "target_min": 68.0,
           "target_max": 78.0,
           "target_midpoint": 73.0,
-          "actual": 61.09,
-          "distance_to_range": 6.91,
-          "distance_to_midpoint": 11.91
+          "actual": 60.95,
+          "distance_to_range": 7.05,
+          "distance_to_midpoint": 12.05
         },
         {
           "metric": "regime_vulnerability",
@@ -104,9 +104,9 @@
           "target_min": 68.0,
           "target_max": 78.0,
           "target_midpoint": 73.0,
-          "actual": 61.92,
-          "distance_to_range": 6.08,
-          "distance_to_midpoint": 11.08
+          "actual": 61.65,
+          "distance_to_range": 6.35,
+          "distance_to_midpoint": 11.35
         },
         {
           "metric": "militarization",
@@ -114,9 +114,9 @@
           "target_min": 80.0,
           "target_max": 92.0,
           "target_midpoint": 86.0,
-          "actual": 69.19,
-          "distance_to_range": 10.81,
-          "distance_to_midpoint": 16.81
+          "actual": 68.58,
+          "distance_to_range": 11.42,
+          "distance_to_midpoint": 17.42
         },
         {
           "metric": "security_fragmentation",
@@ -124,9 +124,9 @@
           "target_min": 32.0,
           "target_max": 52.0,
           "target_midpoint": 42.0,
-          "actual": 50.82,
+          "actual": 51.19,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 8.82
+          "distance_to_midpoint": 9.19
         }
       ]
     },
@@ -141,9 +141,9 @@
           "target_min": 74.0,
           "target_max": 84.0,
           "target_midpoint": 79.0,
-          "actual": 76.1,
+          "actual": 75.82,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 2.9
+          "distance_to_midpoint": 3.18
         },
         {
           "metric": "regime_vulnerability",
@@ -151,9 +151,9 @@
           "target_min": 60.0,
           "target_max": 72.0,
           "target_midpoint": 66.0,
-          "actual": 60.38,
+          "actual": 60.24,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 5.62
+          "distance_to_midpoint": 5.76
         },
         {
           "metric": "militarization",
@@ -161,9 +161,9 @@
           "target_min": 70.0,
           "target_max": 82.0,
           "target_midpoint": 76.0,
-          "actual": 84.26,
-          "distance_to_range": 2.26,
-          "distance_to_midpoint": 8.26
+          "actual": 84.71,
+          "distance_to_range": 2.71,
+          "distance_to_midpoint": 8.71
         },
         {
           "metric": "security_fragmentation",
@@ -171,9 +171,9 @@
           "target_min": 84.0,
           "target_max": 94.0,
           "target_midpoint": 89.0,
-          "actual": 82.98,
-          "distance_to_range": 1.02,
-          "distance_to_midpoint": 6.02
+          "actual": 82.15,
+          "distance_to_range": 1.85,
+          "distance_to_midpoint": 6.85
         }
       ]
     },
@@ -188,19 +188,19 @@
           "target_min": 66.0,
           "target_max": 76.0,
           "target_midpoint": 71.0,
-          "actual": 61.39,
-          "distance_to_range": 4.61,
-          "distance_to_midpoint": 9.61
+          "actual": 61.87,
+          "distance_to_range": 4.13,
+          "distance_to_midpoint": 9.13
         },
         {
           "metric": "regime_vulnerability",
-          "status": "out_of_range",
+          "status": "within_range",
           "target_min": 56.0,
           "target_max": 66.0,
           "target_midpoint": 61.0,
-          "actual": 55.7,
-          "distance_to_range": 0.3,
-          "distance_to_midpoint": 5.3
+          "actual": 56.02,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 4.98
         },
         {
           "metric": "militarization",
@@ -208,19 +208,19 @@
           "target_min": 34.0,
           "target_max": 48.0,
           "target_midpoint": 41.0,
-          "actual": 38.42,
+          "actual": 38.76,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 2.58
+          "distance_to_midpoint": 2.24
         },
         {
           "metric": "security_fragmentation",
-          "status": "out_of_range",
+          "status": "within_range",
           "target_min": 78.0,
           "target_max": 88.0,
           "target_midpoint": 83.0,
-          "actual": 77.64,
-          "distance_to_range": 0.36,
-          "distance_to_midpoint": 5.36
+          "actual": 78.39,
+          "distance_to_range": 0.0,
+          "distance_to_midpoint": 4.61
         }
       ]
     },
@@ -235,9 +235,9 @@
           "target_min": 58.0,
           "target_max": 68.0,
           "target_midpoint": 63.0,
-          "actual": 63.22,
+          "actual": 63.07,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 0.22
+          "distance_to_midpoint": 0.07
         },
         {
           "metric": "regime_vulnerability",
@@ -245,9 +245,9 @@
           "target_min": 54.0,
           "target_max": 64.0,
           "target_midpoint": 59.0,
-          "actual": 59.49,
+          "actual": 59.19,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 0.49
+          "distance_to_midpoint": 0.19
         },
         {
           "metric": "militarization",
@@ -255,9 +255,9 @@
           "target_min": 36.0,
           "target_max": 50.0,
           "target_midpoint": 43.0,
-          "actual": 36.74,
+          "actual": 36.24,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 6.26
+          "distance_to_midpoint": 6.76
         },
         {
           "metric": "security_fragmentation",
@@ -265,9 +265,9 @@
           "target_min": 80.0,
           "target_max": 90.0,
           "target_midpoint": 85.0,
-          "actual": 79.1,
-          "distance_to_range": 0.9,
-          "distance_to_midpoint": 5.9
+          "actual": 79.41,
+          "distance_to_range": 0.59,
+          "distance_to_midpoint": 5.59
         }
       ]
     },
@@ -282,9 +282,9 @@
           "target_min": 56.0,
           "target_max": 66.0,
           "target_midpoint": 61.0,
-          "actual": 54.72,
-          "distance_to_range": 1.28,
-          "distance_to_midpoint": 6.28
+          "actual": 52.39,
+          "distance_to_range": 3.61,
+          "distance_to_midpoint": 8.61
         },
         {
           "metric": "regime_vulnerability",
@@ -292,9 +292,9 @@
           "target_min": 50.0,
           "target_max": 60.0,
           "target_midpoint": 55.0,
-          "actual": 49.4,
-          "distance_to_range": 0.6,
-          "distance_to_midpoint": 5.6
+          "actual": 47.56,
+          "distance_to_range": 2.44,
+          "distance_to_midpoint": 7.44
         },
         {
           "metric": "militarization",
@@ -302,9 +302,9 @@
           "target_min": 42.0,
           "target_max": 56.0,
           "target_midpoint": 49.0,
-          "actual": 47.25,
+          "actual": 45.7,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 1.75
+          "distance_to_midpoint": 3.3
         },
         {
           "metric": "security_fragmentation",
@@ -312,9 +312,9 @@
           "target_min": 54.0,
           "target_max": 66.0,
           "target_midpoint": 60.0,
-          "actual": 62.01,
+          "actual": 59.05,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 2.01
+          "distance_to_midpoint": 0.95
         }
       ]
     },
@@ -329,9 +329,9 @@
           "target_min": 50.0,
           "target_max": 62.0,
           "target_midpoint": 56.0,
-          "actual": 50.39,
+          "actual": 50.65,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 5.61
+          "distance_to_midpoint": 5.35
         },
         {
           "metric": "regime_vulnerability",
@@ -339,9 +339,9 @@
           "target_min": 60.0,
           "target_max": 74.0,
           "target_midpoint": 67.0,
-          "actual": 62.05,
+          "actual": 62.38,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 4.95
+          "distance_to_midpoint": 4.62
         },
         {
           "metric": "militarization",
@@ -349,9 +349,9 @@
           "target_min": 62.0,
           "target_max": 76.0,
           "target_midpoint": 69.0,
-          "actual": 69.11,
+          "actual": 69.53,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 0.11
+          "distance_to_midpoint": 0.53
         },
         {
           "metric": "security_fragmentation",
@@ -359,9 +359,9 @@
           "target_min": 16.0,
           "target_max": 30.0,
           "target_midpoint": 23.0,
-          "actual": 22.49,
+          "actual": 22.62,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 0.51
+          "distance_to_midpoint": 0.38
         }
       ]
     },
@@ -376,9 +376,9 @@
           "target_min": 20.0,
           "target_max": 32.0,
           "target_midpoint": 26.0,
-          "actual": 41.91,
-          "distance_to_range": 9.91,
-          "distance_to_midpoint": 15.91
+          "actual": 42.2,
+          "distance_to_range": 10.2,
+          "distance_to_midpoint": 16.2
         },
         {
           "metric": "regime_vulnerability",
@@ -386,9 +386,9 @@
           "target_min": 24.0,
           "target_max": 36.0,
           "target_midpoint": 30.0,
-          "actual": 56.51,
-          "distance_to_range": 20.51,
-          "distance_to_midpoint": 26.51
+          "actual": 57.04,
+          "distance_to_range": 21.04,
+          "distance_to_midpoint": 27.04
         },
         {
           "metric": "militarization",
@@ -396,9 +396,9 @@
           "target_min": 46.0,
           "target_max": 62.0,
           "target_midpoint": 54.0,
-          "actual": 62.23,
-          "distance_to_range": 0.23,
-          "distance_to_midpoint": 8.23
+          "actual": 62.63,
+          "distance_to_range": 0.63,
+          "distance_to_midpoint": 8.63
         },
         {
           "metric": "security_fragmentation",
@@ -406,9 +406,9 @@
           "target_min": 0.0,
           "target_max": 10.0,
           "target_midpoint": 5.0,
-          "actual": 10.8,
-          "distance_to_range": 0.8,
-          "distance_to_midpoint": 5.8
+          "actual": 10.81,
+          "distance_to_range": 0.81,
+          "distance_to_midpoint": 5.81
         }
       ]
     },
@@ -423,9 +423,9 @@
           "target_min": 56.0,
           "target_max": 72.0,
           "target_midpoint": 64.0,
-          "actual": 64.0,
+          "actual": 64.47,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 0.0
+          "distance_to_midpoint": 0.47
         },
         {
           "metric": "regime_vulnerability",
@@ -433,9 +433,9 @@
           "target_min": 60.0,
           "target_max": 76.0,
           "target_midpoint": 68.0,
-          "actual": 67.95,
+          "actual": 68.29,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 0.05
+          "distance_to_midpoint": 0.29
         },
         {
           "metric": "militarization",
@@ -443,9 +443,9 @@
           "target_min": 8.0,
           "target_max": 24.0,
           "target_midpoint": 16.0,
-          "actual": 27.67,
-          "distance_to_range": 3.67,
-          "distance_to_midpoint": 11.67
+          "actual": 27.99,
+          "distance_to_range": 3.99,
+          "distance_to_midpoint": 11.99
         },
         {
           "metric": "security_fragmentation",
@@ -453,9 +453,9 @@
           "target_min": 88.0,
           "target_max": 98.0,
           "target_midpoint": 93.0,
-          "actual": 76.81,
-          "distance_to_range": 11.19,
-          "distance_to_midpoint": 16.19
+          "actual": 77.54,
+          "distance_to_range": 10.46,
+          "distance_to_midpoint": 15.46
         }
       ]
     },
@@ -470,9 +470,9 @@
           "target_min": 46.0,
           "target_max": 58.0,
           "target_midpoint": 52.0,
-          "actual": 54.51,
+          "actual": 54.87,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 2.51
+          "distance_to_midpoint": 2.87
         },
         {
           "metric": "regime_vulnerability",
@@ -480,9 +480,9 @@
           "target_min": 42.0,
           "target_max": 54.0,
           "target_midpoint": 48.0,
-          "actual": 55.56,
-          "distance_to_range": 1.56,
-          "distance_to_midpoint": 7.56
+          "actual": 55.88,
+          "distance_to_range": 1.88,
+          "distance_to_midpoint": 7.88
         },
         {
           "metric": "militarization",
@@ -490,9 +490,9 @@
           "target_min": 42.0,
           "target_max": 56.0,
           "target_midpoint": 49.0,
-          "actual": 59.79,
-          "distance_to_range": 3.79,
-          "distance_to_midpoint": 10.79
+          "actual": 60.18,
+          "distance_to_range": 4.18,
+          "distance_to_midpoint": 11.18
         },
         {
           "metric": "security_fragmentation",
@@ -500,9 +500,9 @@
           "target_min": 44.0,
           "target_max": 58.0,
           "target_midpoint": 51.0,
-          "actual": 46.62,
+          "actual": 47.02,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 4.38
+          "distance_to_midpoint": 3.98
         }
       ]
     },
@@ -517,9 +517,9 @@
           "target_min": 4.0,
           "target_max": 12.0,
           "target_midpoint": 8.0,
-          "actual": 5.92,
+          "actual": 5.98,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 2.08
+          "distance_to_midpoint": 2.02
         },
         {
           "metric": "regime_vulnerability",
@@ -527,9 +527,9 @@
           "target_min": 4.0,
           "target_max": 12.0,
           "target_midpoint": 8.0,
-          "actual": 8.18,
+          "actual": 8.43,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 0.18
+          "distance_to_midpoint": 0.43
         },
         {
           "metric": "militarization",
@@ -537,9 +537,9 @@
           "target_min": 0.0,
           "target_max": 12.0,
           "target_midpoint": 6.0,
-          "actual": 11.57,
+          "actual": 11.85,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 5.57
+          "distance_to_midpoint": 5.85
         },
         {
           "metric": "security_fragmentation",
@@ -547,9 +547,9 @@
           "target_min": 0.0,
           "target_max": 12.0,
           "target_midpoint": 6.0,
-          "actual": 3.21,
+          "actual": 3.14,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 2.79
+          "distance_to_midpoint": 2.86
         }
       ]
     },
@@ -564,9 +564,9 @@
           "target_min": 3.0,
           "target_max": 12.0,
           "target_midpoint": 7.5,
-          "actual": 1.15,
-          "distance_to_range": 1.85,
-          "distance_to_midpoint": 6.35
+          "actual": 1.23,
+          "distance_to_range": 1.77,
+          "distance_to_midpoint": 6.27
         },
         {
           "metric": "regime_vulnerability",
@@ -574,9 +574,9 @@
           "target_min": 3.0,
           "target_max": 12.0,
           "target_midpoint": 7.5,
-          "actual": 3.04,
+          "actual": 3.28,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 4.46
+          "distance_to_midpoint": 4.22
         },
         {
           "metric": "militarization",
@@ -584,9 +584,9 @@
           "target_min": 0.0,
           "target_max": 10.0,
           "target_midpoint": 5.0,
-          "actual": 6.08,
+          "actual": 6.35,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 1.08
+          "distance_to_midpoint": 1.35
         },
         {
           "metric": "security_fragmentation",
@@ -611,9 +611,9 @@
           "target_min": 18.0,
           "target_max": 30.0,
           "target_midpoint": 24.0,
-          "actual": 21.14,
+          "actual": 21.31,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 2.86
+          "distance_to_midpoint": 2.69
         },
         {
           "metric": "regime_vulnerability",
@@ -621,9 +621,9 @@
           "target_min": 18.0,
           "target_max": 28.0,
           "target_midpoint": 23.0,
-          "actual": 22.16,
+          "actual": 22.43,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 0.84
+          "distance_to_midpoint": 0.57
         },
         {
           "metric": "militarization",
@@ -631,9 +631,9 @@
           "target_min": 14.0,
           "target_max": 28.0,
           "target_midpoint": 21.0,
-          "actual": 17.96,
+          "actual": 18.26,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 3.04
+          "distance_to_midpoint": 2.74
         },
         {
           "metric": "security_fragmentation",
@@ -641,9 +641,9 @@
           "target_min": 10.0,
           "target_max": 22.0,
           "target_midpoint": 16.0,
-          "actual": 23.14,
-          "distance_to_range": 1.14,
-          "distance_to_midpoint": 7.14
+          "actual": 23.29,
+          "distance_to_range": 1.29,
+          "distance_to_midpoint": 7.29
         }
       ]
     },
@@ -658,9 +658,9 @@
           "target_min": 18.0,
           "target_max": 30.0,
           "target_midpoint": 24.0,
-          "actual": 33.88,
-          "distance_to_range": 3.88,
-          "distance_to_midpoint": 9.88
+          "actual": 34.14,
+          "distance_to_range": 4.14,
+          "distance_to_midpoint": 10.14
         },
         {
           "metric": "regime_vulnerability",
@@ -668,9 +668,9 @@
           "target_min": 18.0,
           "target_max": 32.0,
           "target_midpoint": 25.0,
-          "actual": 40.58,
-          "distance_to_range": 8.58,
-          "distance_to_midpoint": 15.58
+          "actual": 40.87,
+          "distance_to_range": 8.87,
+          "distance_to_midpoint": 15.87
         },
         {
           "metric": "militarization",
@@ -678,9 +678,9 @@
           "target_min": 6.0,
           "target_max": 18.0,
           "target_midpoint": 12.0,
-          "actual": 12.69,
+          "actual": 12.97,
           "distance_to_range": 0.0,
-          "distance_to_midpoint": 0.69
+          "distance_to_midpoint": 0.97
         },
         {
           "metric": "security_fragmentation",
@@ -688,9 +688,9 @@
           "target_min": 18.0,
           "target_max": 34.0,
           "target_midpoint": 26.0,
-          "actual": 38.47,
-          "distance_to_range": 4.47,
-          "distance_to_midpoint": 12.47
+          "actual": 38.79,
+          "distance_to_range": 4.79,
+          "distance_to_midpoint": 12.79
         }
       ]
     }

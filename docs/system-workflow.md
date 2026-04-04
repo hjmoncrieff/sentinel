@@ -57,6 +57,8 @@ If a major leap changes the operating sequence, update:
 
 - `docs/user-guide.md`
 - `docs/stage-runners.md`
+- `docs/obsidian-documentation-sync.md`
+- `docs/private-source-expansion-note.md`
 - `docs/private-roadmap.md`
 - `docs/private-integration-diagram.md`
 - `docs/private-construct-diagram.md`
@@ -65,6 +67,30 @@ If a major leap changes the operating sequence, update:
 - and, when relevant, the private design notes in `docs/`
 
 This is a private operating rule, not a public-facing product requirement.
+
+## Obsidian Mirror Rule
+
+SENTINEL documentation should also be mirrored into the local Obsidian vault at:
+
+- `/Users/hjmoncrieff/Library/CloudStorage/Dropbox/MyObsidiainVault/Sentinel Documentation`
+
+This mirror is for project knowledge artifacts:
+
+- documentation
+- workflows
+- guides
+- setup notes
+- diagrams
+- `data/CODEBOOK.md`
+
+Refresh it with:
+
+```bash
+python3 scripts/sync_obsidian_docs.py
+```
+
+When a major documentation or workflow change is made, the Obsidian mirror
+should be refreshed in the same work session.
 
 ## Stage Model
 
@@ -84,6 +110,33 @@ Outputs:
 
 - live event store input data
 - review-layer source audit
+
+### 1A. Source Expansion Workflow
+
+Source expansion is now an explicit ingest sub-workflow.
+
+Use:
+
+- `docs/private-source-expansion-note.md`
+
+This note should govern how new sources enter the ingest layer, especially:
+
+- regional wire and agency additions
+- official defense-ministry or public-security ministry sources
+- targeted monitored-source additions where RSS is not clean
+
+Working rule:
+
+- add regional agencies before broad official-site expansion
+- prefer stable RSS or Google News site-scoped RSS first
+- use targeted official-site scrapers only after public news paths are mapped
+- record source weighting and ingest mode when a new source is proposed
+
+Priority order:
+
+1. regional agency expansion
+2. targeted official-defense monitors
+3. broader ministry watchlist expansion
 
 ### 2. Structural Refresh
 

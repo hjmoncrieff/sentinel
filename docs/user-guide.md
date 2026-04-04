@@ -45,6 +45,13 @@ For a command-by-command reference for every executable stage runner, use:
   - `docs/private-signal-panel-note.md`
 - when a major leap changes the operating sequence, update this guide so the
   step-by-step private workflow stays current
+- when project documentation, workflows, guides, setup notes, or the codebook
+  change, refresh the Obsidian mirror in the same work session:
+  - `python3 scripts/sync_obsidian_docs.py`
+  - mirror target:
+    `/Users/hjmoncrieff/Library/CloudStorage/Dropbox/MyObsidiainVault/Sentinel Documentation`
+- when planning new ingest sources, use
+  `docs/private-source-expansion-note.md` as the standing source-expansion rule
 
 ## 2. One-Time Local Setup
 
@@ -558,6 +565,24 @@ This updates:
 
 - `data/events.json`
 - `data/review/source_audit.json`
+
+Before extending the source layer, follow this workflow:
+
+1. record the candidate source in `docs/private-source-expansion-note.md`
+2. assign its ingest mode:
+   - direct RSS
+   - Google News site-scoped RSS
+   - targeted scraper
+   - monitored/manual-only source
+3. assign its source-weight tier
+4. only then add it to the live ingest layer
+
+This applies especially to:
+
+- regional agencies
+- defense ministries
+- public-security ministries
+- official press-release pages
 
 ### Optional GDELT run
 

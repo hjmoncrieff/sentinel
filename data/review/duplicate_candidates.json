@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-03T04:00:58.120527+00:00",
+  "generated_at": "2026-04-04T20:03:06.243428+00:00",
   "source_file": "data/events.json",
-  "event_count": 762,
-  "candidate_count": 22,
+  "event_count": 765,
+  "candidate_count": 25,
   "candidates": [
     {
       "candidate_id": "088f86d1dde3",
@@ -265,6 +265,26 @@
       }
     },
     {
+      "candidate_id": "646f5c24fefd",
+      "event_ids": [
+        "fb855d157606",
+        "fce45b70851d"
+      ],
+      "status": "definite_duplicate",
+      "reason": "Records share at least one source URL.",
+      "score": 1.0,
+      "details": {
+        "country": "Venezuela",
+        "day_gap": 3,
+        "title_score": 0.391,
+        "left_title": "El grito que se escuchó en las cárceles de Venezuela cuando cayó Nicolás Maduro: “Abajo cadenas, muera la opresión” - Revista Semana",
+        "right_title": "US reopens embassy in Venezuela after seizing Nicolas Maduro",
+        "same_type": false,
+        "same_actor": false,
+        "same_target": false
+      }
+    },
+    {
       "candidate_id": "692055a7c93b",
       "event_ids": [
         "23c4032f4723",
@@ -365,6 +385,26 @@
       }
     },
     {
+      "candidate_id": "a8fcca384d52",
+      "event_ids": [
+        "1fc32d3b9fd1",
+        "fce45b70851d"
+      ],
+      "status": "definite_duplicate",
+      "reason": "Records share at least one source URL.",
+      "score": 1.0,
+      "details": {
+        "country": "Venezuela",
+        "day_gap": 3,
+        "title_score": 0.295,
+        "left_title": "El grito que se escuchó en las cárceles de Venezuela cuando cayó Nicolás Maduro: “Abajo cadenas, muera la opresión” - Revista Semana",
+        "right_title": "U.S. reopens long-closed embassy in Venezuela months after military operation to remove Maduro",
+        "same_type": false,
+        "same_actor": false,
+        "same_target": false
+      }
+    },
+    {
       "candidate_id": "b5af1d9145a8",
       "event_ids": [
         "1fc32d3b9fd1",
@@ -440,6 +480,26 @@
         "left_title": "Maduro arraigned in New York on narco-terrorism charges; Delcy Rodríguez sworn in as acting president",
         "right_title": "Operation Absolute Resolve: US forces conduct strike on Caracas, capture President Maduro",
         "same_type": true,
+        "same_actor": false,
+        "same_target": false
+      }
+    },
+    {
+      "candidate_id": "fe7a129c7c68",
+      "event_ids": [
+        "5d4c8dafb0d9",
+        "fce45b70851d"
+      ],
+      "status": "definite_duplicate",
+      "reason": "Records share at least one source URL.",
+      "score": 1.0,
+      "details": {
+        "country": "Venezuela",
+        "day_gap": 3,
+        "title_score": 0.314,
+        "left_title": "El grito que se escuchó en las cárceles de Venezuela cuando cayó Nicolás Maduro: “Abajo cadenas, muera la opresión” - Revista Semana",
+        "right_title": "The Venezuela Paradigm: Is Trump’s Model Intervention a Mirage?",
+        "same_type": false,
         "same_actor": false,
         "same_target": false
       }

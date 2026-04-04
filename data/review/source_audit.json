@@ -1,37 +1,48 @@
 {
-  "generated_at": "2026-04-03T04:00:52.273175+00:00",
-  "raw_article_count": 182,
-  "filtered_article_count": 57,
-  "event_count": 11,
+  "generated_at": "2026-04-04T19:59:03.651570+00:00",
+  "raw_article_count": 189,
+  "filtered_article_count": 48,
+  "event_count": 10,
   "sources": [
+    {
+      "source": "AP LatAm",
+      "source_type": "wire",
+      "source_method": "rss",
+      "raw_articles": 6,
+      "filtered_articles": 1,
+      "filtered_rate": 0.167,
+      "events_generated": 1,
+      "event_yield": 1.0,
+      "high_salience_events": 1,
+      "event_types": {
+        "conflict": 1
+      }
+    },
     {
       "source": "Abcnews.com",
       "source_type": "news_api",
       "source_method": "newsapi",
       "raw_articles": 2,
-      "filtered_articles": 2,
-      "filtered_rate": 1.0,
+      "filtered_articles": 1,
+      "filtered_rate": 0.5,
       "events_generated": 1,
-      "event_yield": 0.5,
-      "high_salience_events": 1,
+      "event_yield": 1.0,
+      "high_salience_events": 0,
       "event_types": {
-        "aid": 1
+        "conflict": 1
       }
     },
     {
       "source": "Al Jazeera English",
       "source_type": "news_api",
       "source_method": "newsapi",
-      "raw_articles": 4,
-      "filtered_articles": 2,
-      "filtered_rate": 0.5,
-      "events_generated": 2,
-      "event_yield": 1.0,
-      "high_salience_events": 1,
-      "event_types": {
-        "aid": 1,
-        "coop": 1
-      }
+      "raw_articles": 1,
+      "filtered_articles": 0,
+      "filtered_rate": 0.0,
+      "events_generated": 0,
+      "event_yield": 0.0,
+      "high_salience_events": 0,
+      "event_types": {}
     },
     {
       "source": "Associated Press",
@@ -49,28 +60,26 @@
       "source": "BBC Americas",
       "source_type": "general_news",
       "source_method": "rss",
-      "raw_articles": 3,
-      "filtered_articles": 2,
-      "filtered_rate": 0.667,
-      "events_generated": 1,
-      "event_yield": 0.5,
-      "high_salience_events": 1,
-      "event_types": {
-        "aid": 1
-      }
+      "raw_articles": 2,
+      "filtered_articles": 0,
+      "filtered_rate": 0.0,
+      "events_generated": 0,
+      "event_yield": 0.0,
+      "high_salience_events": 0,
+      "event_types": {}
     },
     {
       "source": "BBC Mundo",
       "source_type": "general_news",
       "source_method": "rss",
-      "raw_articles": 16,
-      "filtered_articles": 2,
-      "filtered_rate": 0.125,
+      "raw_articles": 19,
+      "filtered_articles": 4,
+      "filtered_rate": 0.211,
       "events_generated": 1,
-      "event_yield": 0.5,
-      "high_salience_events": 1,
+      "event_yield": 0.25,
+      "high_salience_events": 0,
       "event_types": {
-        "aid": 1
+        "purge": 1
       }
     },
     {
@@ -80,12 +89,10 @@
       "raw_articles": 1,
       "filtered_articles": 1,
       "filtered_rate": 1.0,
-      "events_generated": 1,
-      "event_yield": 1.0,
+      "events_generated": 0,
+      "event_yield": 0.0,
       "high_salience_events": 0,
-      "event_types": {
-        "coop": 1
-      }
+      "event_types": {}
     },
     {
       "source": "Crisis Group",
@@ -98,11 +105,11 @@
       "event_yield": 0.333,
       "high_salience_events": 1,
       "event_types": {
-        "coup": 1
+        "conflict": 1
       }
     },
     {
-      "source": "DW (English)",
+      "source": "Democracy Now!",
       "source_type": "news_api",
       "source_method": "newsapi",
       "raw_articles": 1,
@@ -114,52 +121,76 @@
       "event_types": {}
     },
     {
-      "source": "El Nacional Venezuela",
-      "source_type": "general_news",
+      "source": "Efecto Cocuyo",
+      "source_type": "investigative_security",
       "source_method": "rss",
-      "raw_articles": 20,
-      "filtered_articles": 2,
-      "filtered_rate": 0.1,
+      "raw_articles": 1,
+      "filtered_articles": 1,
+      "filtered_rate": 1.0,
       "events_generated": 1,
-      "event_yield": 0.5,
+      "event_yield": 1.0,
       "high_salience_events": 1,
       "event_types": {
         "other": 1
       }
     },
     {
-      "source": "El País América",
+      "source": "El Nacional Venezuela",
       "source_type": "general_news",
       "source_method": "rss",
       "raw_articles": 20,
-      "filtered_articles": 5,
-      "filtered_rate": 0.25,
-      "events_generated": 1,
-      "event_yield": 0.2,
-      "high_salience_events": 1,
-      "event_types": {
-        "conflict": 1
-      }
-    },
-    {
-      "source": "El Tiempo Colombia",
-      "source_type": "general_news",
-      "source_method": "rss",
-      "raw_articles": 10,
-      "filtered_articles": 5,
-      "filtered_rate": 0.5,
+      "filtered_articles": 3,
+      "filtered_rate": 0.15,
       "events_generated": 0,
       "event_yield": 0.0,
       "high_salience_events": 0,
       "event_types": {}
     },
     {
+      "source": "El País América",
+      "source_type": "general_news",
+      "source_method": "rss",
+      "raw_articles": 20,
+      "filtered_articles": 1,
+      "filtered_rate": 0.05,
+      "events_generated": 0,
+      "event_yield": 0.0,
+      "high_salience_events": 0,
+      "event_types": {}
+    },
+    {
+      "source": "El Tiempo Colombia",
+      "source_type": "general_news",
+      "source_method": "rss",
+      "raw_articles": 10,
+      "filtered_articles": 4,
+      "filtered_rate": 0.4,
+      "events_generated": 1,
+      "event_yield": 0.25,
+      "high_salience_events": 0,
+      "event_types": {
+        "other": 1
+      }
+    },
+    {
       "source": "Folha de S.Paulo",
       "source_type": "general_news",
       "source_method": "rss",
       "raw_articles": 20,
-      "filtered_articles": 7,
-      "filtered_rate": 0.35,
+      "filtered_articles": 8,
+      "filtered_rate": 0.4,
+      "events_generated": 0,
+      "event_yield": 0.0,
+      "high_salience_events": 0,
+      "event_types": {}
+    },
+    {
+      "source": "Foreign Policy",
+      "source_type": "news_api",
+      "source_method": "newsapi",
+      "raw_articles": 2,
+      "filtered_articles": 0,
+      "filtered_rate": 0.0,
       "events_generated": 0,
       "event_yield": 0.0,
       "high_salience_events": 0,
@@ -169,45 +200,19 @@
       "source": "Fox News",
       "source_type": "news_api",
       "source_method": "newsapi",
-      "raw_articles": 2,
-      "filtered_articles": 1,
-      "filtered_rate": 0.5,
-      "events_generated": 0,
-      "event_yield": 0.0,
-      "high_salience_events": 0,
-      "event_types": {}
-    },
-    {
-      "source": "HuffPost",
-      "source_type": "news_api",
-      "source_method": "newsapi",
       "raw_articles": 1,
-      "filtered_articles": 0,
-      "filtered_rate": 0.0,
+      "filtered_articles": 1,
+      "filtered_rate": 1.0,
       "events_generated": 0,
       "event_yield": 0.0,
       "high_salience_events": 0,
       "event_types": {}
-    },
-    {
-      "source": "InSight Crime",
-      "source_type": "investigative_security",
-      "source_method": "rss",
-      "raw_articles": 2,
-      "filtered_articles": 1,
-      "filtered_rate": 0.5,
-      "events_generated": 1,
-      "event_yield": 1.0,
-      "high_salience_events": 0,
-      "event_types": {
-        "oc": 1
-      }
     },
     {
       "source": "Infodefensa",
       "source_type": "defense_specialist",
       "source_method": "rss",
-      "raw_articles": 3,
+      "raw_articles": 6,
       "filtered_articles": 0,
       "filtered_rate": 0.0,
       "events_generated": 0,
@@ -220,45 +225,19 @@
       "source_type": "general_news",
       "source_method": "rss",
       "raw_articles": 18,
-      "filtered_articles": 4,
-      "filtered_rate": 0.222,
-      "events_generated": 0,
-      "event_yield": 0.0,
-      "high_salience_events": 0,
-      "event_types": {}
-    },
-    {
-      "source": "NBC News",
-      "source_type": "news_api",
-      "source_method": "newsapi",
-      "raw_articles": 2,
       "filtered_articles": 2,
-      "filtered_rate": 1.0,
+      "filtered_rate": 0.111,
       "events_generated": 1,
       "event_yield": 0.5,
-      "high_salience_events": 1,
-      "event_types": {
-        "aid": 1
-      }
-    },
-    {
-      "source": "NYT World",
-      "source_type": "general_news",
-      "source_method": "rss",
-      "raw_articles": 20,
-      "filtered_articles": 5,
-      "filtered_rate": 0.25,
-      "events_generated": 1,
-      "event_yield": 0.2,
       "high_salience_events": 0,
       "event_types": {
-        "other": 1
+        "purge": 1
       }
     },
     {
-      "source": "New York Post",
-      "source_type": "news_api",
-      "source_method": "newsapi",
+      "source": "Mexico SEDENA",
+      "source_type": "official",
+      "source_method": "rss",
       "raw_articles": 1,
       "filtered_articles": 0,
       "filtered_rate": 0.0,
@@ -268,38 +247,36 @@
       "event_types": {}
     },
     {
-      "source": "Newser",
-      "source_type": "news_api",
-      "source_method": "newsapi",
-      "raw_articles": 1,
-      "filtered_articles": 1,
-      "filtered_rate": 1.0,
+      "source": "NYT World",
+      "source_type": "general_news",
+      "source_method": "rss",
+      "raw_articles": 20,
+      "filtered_articles": 7,
+      "filtered_rate": 0.35,
       "events_generated": 1,
-      "event_yield": 1.0,
-      "high_salience_events": 1,
+      "event_yield": 0.143,
+      "high_salience_events": 0,
       "event_types": {
-        "aid": 1
+        "protest": 1
       }
     },
     {
-      "source": "PBS",
+      "source": "New York Post",
       "source_type": "news_api",
       "source_method": "newsapi",
       "raw_articles": 2,
-      "filtered_articles": 2,
-      "filtered_rate": 1.0,
-      "events_generated": 1,
-      "event_yield": 0.5,
-      "high_salience_events": 1,
-      "event_types": {
-        "aid": 1
-      }
+      "filtered_articles": 1,
+      "filtered_rate": 0.5,
+      "events_generated": 0,
+      "event_yield": 0.0,
+      "high_salience_events": 0,
+      "event_types": {}
     },
     {
-      "source": "Reuters LatAm",
-      "source_type": "wire",
+      "source": "Notimérica",
+      "source_type": "general_news",
       "source_method": "rss",
-      "raw_articles": 3,
+      "raw_articles": 1,
       "filtered_articles": 0,
       "filtered_rate": 0.0,
       "events_generated": 0,
@@ -311,14 +288,14 @@
       "source": "Runrun.es",
       "source_type": "investigative_security",
       "source_method": "rss",
-      "raw_articles": 1,
-      "filtered_articles": 1,
+      "raw_articles": 2,
+      "filtered_articles": 2,
       "filtered_rate": 1.0,
       "events_generated": 1,
-      "event_yield": 1.0,
+      "event_yield": 0.5,
       "high_salience_events": 1,
       "event_types": {
-        "coup": 1
+        "conflict": 1
       }
     },
     {
@@ -326,22 +303,21 @@
       "source_type": "general_news",
       "source_method": "rss",
       "raw_articles": 8,
-      "filtered_articles": 4,
-      "filtered_rate": 0.5,
-      "events_generated": 3,
-      "event_yield": 0.75,
-      "high_salience_events": 2,
+      "filtered_articles": 3,
+      "filtered_rate": 0.375,
+      "events_generated": 2,
+      "event_yield": 0.667,
+      "high_salience_events": 1,
       "event_types": {
         "conflict": 1,
-        "peace": 1,
-        "reform": 1
+        "peace": 1
       }
     },
     {
       "source": "The Atlantic",
       "source_type": "news_api",
       "source_method": "newsapi",
-      "raw_articles": 2,
+      "raw_articles": 1,
       "filtered_articles": 0,
       "filtered_rate": 0.0,
       "events_generated": 0,
@@ -353,32 +329,16 @@
       "source": "The Guardian LatAm",
       "source_type": "general_news",
       "source_method": "rss",
-      "raw_articles": 5,
+      "raw_articles": 9,
       "filtered_articles": 3,
-      "filtered_rate": 0.6,
-      "events_generated": 1,
-      "event_yield": 0.333,
-      "high_salience_events": 1,
-      "event_types": {
-        "aid": 1
-      }
+      "filtered_rate": 0.333,
+      "events_generated": 0,
+      "event_yield": 0.0,
+      "high_salience_events": 0,
+      "event_types": {}
     },
     {
-      "source": "The Times of India",
-      "source_type": "news_api",
-      "source_method": "newsapi",
-      "raw_articles": 1,
-      "filtered_articles": 1,
-      "filtered_rate": 1.0,
-      "events_generated": 1,
-      "event_yield": 1.0,
-      "high_salience_events": 1,
-      "event_types": {
-        "aid": 1
-      }
-    },
-    {
-      "source": "The Week Magazine",
+      "source": "The Intercept",
       "source_type": "news_api",
       "source_method": "newsapi",
       "raw_articles": 1,
@@ -390,10 +350,22 @@
       "event_types": {}
     },
     {
+      "source": "The Times of India",
+      "source_type": "news_api",
+      "source_method": "newsapi",
+      "raw_articles": 1,
+      "filtered_articles": 1,
+      "filtered_rate": 1.0,
+      "events_generated": 0,
+      "event_yield": 0.0,
+      "high_salience_events": 0,
+      "event_types": {}
+    },
+    {
       "source": "Zeta Tijuana",
       "source_type": "investigative_security",
       "source_method": "rss",
-      "raw_articles": 1,
+      "raw_articles": 2,
       "filtered_articles": 0,
       "filtered_rate": 0.0,
       "events_generated": 0,

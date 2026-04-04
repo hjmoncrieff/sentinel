@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-03T04:01:40.761386+00:00",
+  "generated_at": "2026-04-04T20:03:51.749146+00:00",
   "source_file": "data/review/events_with_edits.json",
   "queue_model": "ai_supervision_queue_v2",
   "worker_registry_file": "config/agents/ai_workers.json",
@@ -1612,184 +1612,6 @@
       }
     },
     {
-      "event_id": "120a85f03242",
-      "event_date": "2026-01-06",
-      "country": "Venezuela",
-      "headline": "FANB issues loyalty statement backing Rodríguez; DGCIM detains at least 12 officers suspected of cooperation with US",
-      "event_type": "purge",
-      "salience": "high",
-      "confidence": "medium",
-      "review_status": "auto",
-      "review_priority": "high",
-      "event_review_priority": "high",
-      "priority_score": 15,
-      "ai_supervision_score": 15,
-      "uncertainty_score": 2,
-      "disagreement_score": 0,
-      "human_review_gap_score": 2,
-      "publication_block_score": 0,
-      "action_score": 5,
-      "qa_flag_count": 2,
-      "registry_issue_count": 0,
-      "duplicate_candidate_count": 0,
-      "reviewed_by_human": false,
-      "council_confidence_avg": 0.63,
-      "council_risk_levels": {
-        "cmr": "high",
-        "political_risk": "high",
-        "regional_security": null
-      },
-      "council_disagreement_summary": "aligned",
-      "council_recommended_actions": [
-        {
-          "code": "actor_follow_up",
-          "priority": "high",
-          "reason": "Actor coding is incomplete or uncertain."
-        },
-        {
-          "code": "high_salience_review",
-          "priority": "high",
-          "reason": "High-salience event should receive human review."
-        },
-        {
-          "code": "review_high_risk_assessment",
-          "priority": "medium",
-          "reason": "At least one AI lens assessed the event as high risk."
-        }
-      ],
-      "supervision_reasons": [
-        "qa_flags",
-        "model_uncertainty",
-        "high_salience_unreviewed",
-        "council_action:actor_follow_up",
-        "council_action:high_salience_review",
-        "council_action:review_high_risk_assessment"
-      ],
-      "ai_workers_in_scope": [
-        "event_classifier",
-        "actor_coder",
-        "duplicate_analyst",
-        "qa_scorer",
-        "publication_policy_agent",
-        "cmr_analyst",
-        "political_risk_analyst",
-        "regional_security_analyst",
-        "synthesis_analyst"
-      ],
-      "qa_flags": [
-        {
-          "flag_id": "e87bc53e9897",
-          "event_id": "120a85f03242",
-          "severity": "medium",
-          "code": "missing_actor",
-          "message": "Event type usually requires actor coding, but actor is empty.",
-          "details": null
-        },
-        {
-          "flag_id": "58e598f30fa5",
-          "event_id": "120a85f03242",
-          "severity": "low",
-          "code": "missing_target",
-          "message": "Event may benefit from target coding, but target is empty.",
-          "details": null
-        }
-      ],
-      "registry_issues": [],
-      "duplicate_candidates": [],
-      "provenance": {
-        "source_type": null,
-        "ingested_at": "2026-01-06T10:00:00+00:00",
-        "classification_model": "claude-haiku-4-5-20251001",
-        "merge_strategy": "clustered_source_merge",
-        "source_event_id": null,
-        "deed_type": null,
-        "axis": null,
-        "raw_confidence": "yellow",
-        "has_external_url": true,
-        "article_link_count": 1,
-        "article_record_ids": [
-          "0487a7b000324651"
-        ],
-        "linked_reports": [
-          {
-            "article_id": "0487a7b000324651",
-            "event_id": "120a85f03242",
-            "article_rank": 1,
-            "report_role": "primary",
-            "source_name": "InSight Crime",
-            "url": "https://www.crisisgroup.org/cmt/latin-america-caribbean/venezuela/venezuela-paradigm-trumps-model-intervention-mirage",
-            "link_domain": "crisisgroup.org",
-            "headline": "FANB issues loyalty statement backing Rodríguez; DGCIM detains at least 12 officers suspected of cooperation with US",
-            "source_type": null,
-            "linked_at": "2026-01-06T10:00:00+00:00"
-          }
-        ],
-        "timeline": [
-          {
-            "stage": "ingestion",
-            "label": "Source ingestion",
-            "status": "completed",
-            "at": "2026-01-06T10:00:00+00:00",
-            "details": {
-              "source_type": null,
-              "source_primary": "InSight Crime",
-              "source_count": 2,
-              "linked_report_count": 1,
-              "has_external_url": true
-            }
-          },
-          {
-            "stage": "normalization",
-            "label": "Source record normalized",
-            "status": "completed",
-            "at": "2026-04-01T07:33:47.398255+00:00",
-            "details": {
-              "normalized_fields": [
-                "event_date",
-                "country",
-                "source_primary",
-                "url_primary",
-                "summary"
-              ],
-              "location_available": true,
-              "coords_available": true
-            }
-          },
-          {
-            "stage": "classification",
-            "label": "Event classified",
-            "status": "completed",
-            "at": "2026-04-01T07:33:47.398255+00:00",
-            "details": {
-              "event_type": "purge",
-              "raw_confidence": "yellow",
-              "classification_model": "claude-haiku-4-5-20251001"
-            }
-          },
-          {
-            "stage": "canonicalization",
-            "label": "Canonical event assembled",
-            "status": "completed",
-            "at": "2026-04-01T07:33:47.398255+00:00",
-            "details": {
-              "merge_strategy": "clustered_source_merge",
-              "source_event_id": null
-            }
-          },
-          {
-            "stage": "actor_coding",
-            "label": "Actors coded",
-            "status": "completed",
-            "at": "2026-04-02T14:03:22.265257+00:00",
-            "details": {
-              "actor_count": 0,
-              "actor_coding_method": "heuristic_v1"
-            }
-          }
-        ]
-      }
-    },
-    {
       "event_id": "1fc32d3b9fd1",
       "event_date": "2026-03-30",
       "country": "Venezuela",
@@ -1800,8 +1622,8 @@
       "review_status": "auto",
       "review_priority": "high",
       "event_review_priority": "high",
-      "priority_score": 15,
-      "ai_supervision_score": 15,
+      "priority_score": 16,
+      "ai_supervision_score": 16,
       "uncertainty_score": 2,
       "disagreement_score": 0,
       "human_review_gap_score": 2,
@@ -1809,7 +1631,7 @@
       "action_score": 4,
       "qa_flag_count": 0,
       "registry_issue_count": 0,
-      "duplicate_candidate_count": 4,
+      "duplicate_candidate_count": 5,
       "reviewed_by_human": false,
       "council_confidence_avg": 0.62,
       "council_risk_levels": {
@@ -1892,6 +1714,26 @@
             "title_score": 0.351,
             "left_title": "U.S. reopens long-closed embassy in Venezuela months after military operation to remove Maduro",
             "right_title": "The Venezuela Paradigm: Is Trump’s Model Intervention a Mirage?",
+            "same_type": false,
+            "same_actor": false,
+            "same_target": false
+          }
+        },
+        {
+          "candidate_id": "a8fcca384d52",
+          "event_ids": [
+            "1fc32d3b9fd1",
+            "fce45b70851d"
+          ],
+          "status": "definite_duplicate",
+          "reason": "Records share at least one source URL.",
+          "score": 1.0,
+          "details": {
+            "country": "Venezuela",
+            "day_gap": 3,
+            "title_score": 0.295,
+            "left_title": "El grito que se escuchó en las cárceles de Venezuela cuando cayó Nicolás Maduro: “Abajo cadenas, muera la opresión” - Revista Semana",
+            "right_title": "U.S. reopens long-closed embassy in Venezuela months after military operation to remove Maduro",
             "same_type": false,
             "same_actor": false,
             "same_target": false
@@ -2081,8 +1923,8 @@
       "review_status": "auto",
       "review_priority": "high",
       "event_review_priority": "high",
-      "priority_score": 15,
-      "ai_supervision_score": 15,
+      "priority_score": 16,
+      "ai_supervision_score": 16,
       "uncertainty_score": 2,
       "disagreement_score": 0,
       "human_review_gap_score": 2,
@@ -2090,7 +1932,7 @@
       "action_score": 4,
       "qa_flag_count": 0,
       "registry_issue_count": 0,
-      "duplicate_candidate_count": 4,
+      "duplicate_candidate_count": 5,
       "reviewed_by_human": false,
       "council_confidence_avg": 0.62,
       "council_risk_levels": {
@@ -2216,6 +2058,26 @@
             "same_type": false,
             "same_actor": true,
             "same_target": true
+          }
+        },
+        {
+          "candidate_id": "fe7a129c7c68",
+          "event_ids": [
+            "5d4c8dafb0d9",
+            "fce45b70851d"
+          ],
+          "status": "definite_duplicate",
+          "reason": "Records share at least one source URL.",
+          "score": 1.0,
+          "details": {
+            "country": "Venezuela",
+            "day_gap": 3,
+            "title_score": 0.314,
+            "left_title": "El grito que se escuchó en las cárceles de Venezuela cuando cayó Nicolás Maduro: “Abajo cadenas, muera la opresión” - Revista Semana",
+            "right_title": "The Venezuela Paradigm: Is Trump’s Model Intervention a Mirage?",
+            "same_type": false,
+            "same_actor": false,
+            "same_target": false
           }
         }
       ],
@@ -2345,6 +2207,184 @@
             "at": "2026-04-02T14:03:22.237068+00:00",
             "details": {
               "actor_count": 2,
+              "actor_coding_method": "heuristic_v1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event_id": "120a85f03242",
+      "event_date": "2026-01-06",
+      "country": "Venezuela",
+      "headline": "FANB issues loyalty statement backing Rodríguez; DGCIM detains at least 12 officers suspected of cooperation with US",
+      "event_type": "purge",
+      "salience": "high",
+      "confidence": "medium",
+      "review_status": "auto",
+      "review_priority": "high",
+      "event_review_priority": "high",
+      "priority_score": 15,
+      "ai_supervision_score": 15,
+      "uncertainty_score": 2,
+      "disagreement_score": 0,
+      "human_review_gap_score": 2,
+      "publication_block_score": 0,
+      "action_score": 5,
+      "qa_flag_count": 2,
+      "registry_issue_count": 0,
+      "duplicate_candidate_count": 0,
+      "reviewed_by_human": false,
+      "council_confidence_avg": 0.63,
+      "council_risk_levels": {
+        "cmr": "high",
+        "political_risk": "high",
+        "regional_security": null
+      },
+      "council_disagreement_summary": "aligned",
+      "council_recommended_actions": [
+        {
+          "code": "actor_follow_up",
+          "priority": "high",
+          "reason": "Actor coding is incomplete or uncertain."
+        },
+        {
+          "code": "high_salience_review",
+          "priority": "high",
+          "reason": "High-salience event should receive human review."
+        },
+        {
+          "code": "review_high_risk_assessment",
+          "priority": "medium",
+          "reason": "At least one AI lens assessed the event as high risk."
+        }
+      ],
+      "supervision_reasons": [
+        "qa_flags",
+        "model_uncertainty",
+        "high_salience_unreviewed",
+        "council_action:actor_follow_up",
+        "council_action:high_salience_review",
+        "council_action:review_high_risk_assessment"
+      ],
+      "ai_workers_in_scope": [
+        "event_classifier",
+        "actor_coder",
+        "duplicate_analyst",
+        "qa_scorer",
+        "publication_policy_agent",
+        "cmr_analyst",
+        "political_risk_analyst",
+        "regional_security_analyst",
+        "synthesis_analyst"
+      ],
+      "qa_flags": [
+        {
+          "flag_id": "e87bc53e9897",
+          "event_id": "120a85f03242",
+          "severity": "medium",
+          "code": "missing_actor",
+          "message": "Event type usually requires actor coding, but actor is empty.",
+          "details": null
+        },
+        {
+          "flag_id": "58e598f30fa5",
+          "event_id": "120a85f03242",
+          "severity": "low",
+          "code": "missing_target",
+          "message": "Event may benefit from target coding, but target is empty.",
+          "details": null
+        }
+      ],
+      "registry_issues": [],
+      "duplicate_candidates": [],
+      "provenance": {
+        "source_type": null,
+        "ingested_at": "2026-01-06T10:00:00+00:00",
+        "classification_model": "claude-haiku-4-5-20251001",
+        "merge_strategy": "clustered_source_merge",
+        "source_event_id": null,
+        "deed_type": null,
+        "axis": null,
+        "raw_confidence": "yellow",
+        "has_external_url": true,
+        "article_link_count": 1,
+        "article_record_ids": [
+          "0487a7b000324651"
+        ],
+        "linked_reports": [
+          {
+            "article_id": "0487a7b000324651",
+            "event_id": "120a85f03242",
+            "article_rank": 1,
+            "report_role": "primary",
+            "source_name": "InSight Crime",
+            "url": "https://www.crisisgroup.org/cmt/latin-america-caribbean/venezuela/venezuela-paradigm-trumps-model-intervention-mirage",
+            "link_domain": "crisisgroup.org",
+            "headline": "FANB issues loyalty statement backing Rodríguez; DGCIM detains at least 12 officers suspected of cooperation with US",
+            "source_type": null,
+            "linked_at": "2026-01-06T10:00:00+00:00"
+          }
+        ],
+        "timeline": [
+          {
+            "stage": "ingestion",
+            "label": "Source ingestion",
+            "status": "completed",
+            "at": "2026-01-06T10:00:00+00:00",
+            "details": {
+              "source_type": null,
+              "source_primary": "InSight Crime",
+              "source_count": 2,
+              "linked_report_count": 1,
+              "has_external_url": true
+            }
+          },
+          {
+            "stage": "normalization",
+            "label": "Source record normalized",
+            "status": "completed",
+            "at": "2026-04-01T07:33:47.398255+00:00",
+            "details": {
+              "normalized_fields": [
+                "event_date",
+                "country",
+                "source_primary",
+                "url_primary",
+                "summary"
+              ],
+              "location_available": true,
+              "coords_available": true
+            }
+          },
+          {
+            "stage": "classification",
+            "label": "Event classified",
+            "status": "completed",
+            "at": "2026-04-01T07:33:47.398255+00:00",
+            "details": {
+              "event_type": "purge",
+              "raw_confidence": "yellow",
+              "classification_model": "claude-haiku-4-5-20251001"
+            }
+          },
+          {
+            "stage": "canonicalization",
+            "label": "Canonical event assembled",
+            "status": "completed",
+            "at": "2026-04-01T07:33:47.398255+00:00",
+            "details": {
+              "merge_strategy": "clustered_source_merge",
+              "source_event_id": null
+            }
+          },
+          {
+            "stage": "actor_coding",
+            "label": "Actors coded",
+            "status": "completed",
+            "at": "2026-04-02T14:03:22.265257+00:00",
+            "details": {
+              "actor_count": 0,
               "actor_coding_method": "heuristic_v1"
             }
           }
@@ -3749,6 +3789,228 @@
             "at": "2026-04-02T14:03:22.241991+00:00",
             "details": {
               "actor_count": 0,
+              "actor_coding_method": "heuristic_v1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event_id": "fb855d157606",
+      "event_date": "2026-03-30",
+      "country": "Venezuela",
+      "headline": "US reopens embassy in Venezuela after seizing Nicolas Maduro",
+      "event_type": "coup",
+      "salience": "high",
+      "confidence": "medium",
+      "review_status": "auto",
+      "review_priority": "high",
+      "event_review_priority": "high",
+      "priority_score": 14,
+      "ai_supervision_score": 14,
+      "uncertainty_score": 2,
+      "disagreement_score": 0,
+      "human_review_gap_score": 2,
+      "publication_block_score": 0,
+      "action_score": 4,
+      "qa_flag_count": 0,
+      "registry_issue_count": 0,
+      "duplicate_candidate_count": 3,
+      "reviewed_by_human": false,
+      "council_confidence_avg": 0.62,
+      "council_risk_levels": {
+        "cmr": "high",
+        "political_risk": "high",
+        "regional_security": null
+      },
+      "council_disagreement_summary": "aligned",
+      "council_recommended_actions": [
+        {
+          "code": "actor_follow_up",
+          "priority": "medium",
+          "reason": "Actor coding is incomplete or uncertain."
+        },
+        {
+          "code": "high_salience_review",
+          "priority": "high",
+          "reason": "High-salience event should receive human review."
+        },
+        {
+          "code": "review_high_risk_assessment",
+          "priority": "medium",
+          "reason": "At least one AI lens assessed the event as high risk."
+        }
+      ],
+      "supervision_reasons": [
+        "duplicate_conflict",
+        "model_uncertainty",
+        "high_salience_unreviewed",
+        "council_action:actor_follow_up",
+        "council_action:high_salience_review",
+        "council_action:review_high_risk_assessment"
+      ],
+      "ai_workers_in_scope": [
+        "event_classifier",
+        "actor_coder",
+        "duplicate_analyst",
+        "qa_scorer",
+        "publication_policy_agent",
+        "cmr_analyst",
+        "political_risk_analyst",
+        "regional_security_analyst",
+        "synthesis_analyst"
+      ],
+      "qa_flags": [],
+      "registry_issues": [],
+      "duplicate_candidates": [
+        {
+          "candidate_id": "4a5365d15023",
+          "event_ids": [
+            "1fc32d3b9fd1",
+            "fb855d157606"
+          ],
+          "status": "definite_duplicate",
+          "reason": "Records share at least one source URL.",
+          "score": 1.0,
+          "details": {
+            "country": "Venezuela",
+            "day_gap": 0,
+            "title_score": 0.627,
+            "left_title": "U.S. reopens long-closed embassy in Venezuela months after military operation to remove Maduro",
+            "right_title": "US reopens embassy in Venezuela after seizing Nicolas Maduro",
+            "same_type": false,
+            "same_actor": true,
+            "same_target": true
+          }
+        },
+        {
+          "candidate_id": "5abbca670aa3",
+          "event_ids": [
+            "5d4c8dafb0d9",
+            "fb855d157606"
+          ],
+          "status": "definite_duplicate",
+          "reason": "Records share at least one source URL.",
+          "score": 1.0,
+          "details": {
+            "country": "Venezuela",
+            "day_gap": 0,
+            "title_score": 0.314,
+            "left_title": "The Venezuela Paradigm: Is Trump’s Model Intervention a Mirage?",
+            "right_title": "US reopens embassy in Venezuela after seizing Nicolas Maduro",
+            "same_type": false,
+            "same_actor": true,
+            "same_target": true
+          }
+        },
+        {
+          "candidate_id": "646f5c24fefd",
+          "event_ids": [
+            "fb855d157606",
+            "fce45b70851d"
+          ],
+          "status": "definite_duplicate",
+          "reason": "Records share at least one source URL.",
+          "score": 1.0,
+          "details": {
+            "country": "Venezuela",
+            "day_gap": 3,
+            "title_score": 0.391,
+            "left_title": "El grito que se escuchó en las cárceles de Venezuela cuando cayó Nicolás Maduro: “Abajo cadenas, muera la opresión” - Revista Semana",
+            "right_title": "US reopens embassy in Venezuela after seizing Nicolas Maduro",
+            "same_type": false,
+            "same_actor": false,
+            "same_target": false
+          }
+        }
+      ],
+      "provenance": {
+        "source_type": null,
+        "ingested_at": "2026-04-01T04:11:25.022200+00:00",
+        "classification_model": "claude-haiku-4-5-20251001",
+        "merge_strategy": "single_source",
+        "source_event_id": "VEN_2026_03_fb855d",
+        "deed_type": "symptom",
+        "axis": "horizontal",
+        "raw_confidence": "yellow",
+        "has_external_url": true,
+        "article_link_count": 1,
+        "article_record_ids": [
+          "7e51067dffad1366"
+        ],
+        "linked_reports": [
+          {
+            "article_id": "7e51067dffad1366",
+            "event_id": "fb855d157606",
+            "article_rank": 1,
+            "report_role": "primary",
+            "source_name": "DW (English)",
+            "url": "https://www.dw.com/en/us-reopens-embassy-in-venezuela-after-seizing-nicolas-maduro/a-76599216",
+            "link_domain": "dw.com",
+            "headline": "US reopens embassy in Venezuela after seizing Nicolas Maduro",
+            "source_type": null,
+            "linked_at": "2026-04-01T04:11:25.022200+00:00"
+          }
+        ],
+        "timeline": [
+          {
+            "stage": "ingestion",
+            "label": "Source ingestion",
+            "status": "completed",
+            "at": "2026-04-01T04:11:25.022200+00:00",
+            "details": {
+              "source_type": null,
+              "source_primary": "DW (English)",
+              "source_count": 1,
+              "linked_report_count": 1,
+              "has_external_url": true
+            }
+          },
+          {
+            "stage": "normalization",
+            "label": "Source record normalized",
+            "status": "completed",
+            "at": "2026-04-01T07:33:47.398255+00:00",
+            "details": {
+              "normalized_fields": [
+                "event_date",
+                "country",
+                "source_primary",
+                "url_primary",
+                "summary"
+              ],
+              "location_available": true,
+              "coords_available": true
+            }
+          },
+          {
+            "stage": "classification",
+            "label": "Event classified",
+            "status": "completed",
+            "at": "2026-04-01T07:33:47.398255+00:00",
+            "details": {
+              "event_type": "coup",
+              "raw_confidence": "yellow",
+              "classification_model": "claude-haiku-4-5-20251001"
+            }
+          },
+          {
+            "stage": "canonicalization",
+            "label": "Canonical event assembled",
+            "status": "completed",
+            "at": "2026-04-01T07:33:47.398255+00:00",
+            "details": {
+              "merge_strategy": "single_source",
+              "source_event_id": "VEN_2026_03_fb855d"
+            }
+          },
+          {
+            "stage": "actor_coding",
+            "label": "Actors coded",
+            "status": "completed",
+            "at": "2026-04-02T14:03:22.238778+00:00",
+            "details": {
+              "actor_count": 2,
               "actor_coding_method": "heuristic_v1"
             }
           }
@@ -5479,208 +5741,6 @@
             "at": "2026-04-02T14:03:22.241988+00:00",
             "details": {
               "actor_count": 0,
-              "actor_coding_method": "heuristic_v1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "event_id": "fb855d157606",
-      "event_date": "2026-03-30",
-      "country": "Venezuela",
-      "headline": "US reopens embassy in Venezuela after seizing Nicolas Maduro",
-      "event_type": "coup",
-      "salience": "high",
-      "confidence": "medium",
-      "review_status": "auto",
-      "review_priority": "high",
-      "event_review_priority": "high",
-      "priority_score": 13,
-      "ai_supervision_score": 13,
-      "uncertainty_score": 2,
-      "disagreement_score": 0,
-      "human_review_gap_score": 2,
-      "publication_block_score": 0,
-      "action_score": 4,
-      "qa_flag_count": 0,
-      "registry_issue_count": 0,
-      "duplicate_candidate_count": 2,
-      "reviewed_by_human": false,
-      "council_confidence_avg": 0.62,
-      "council_risk_levels": {
-        "cmr": "high",
-        "political_risk": "high",
-        "regional_security": null
-      },
-      "council_disagreement_summary": "aligned",
-      "council_recommended_actions": [
-        {
-          "code": "actor_follow_up",
-          "priority": "medium",
-          "reason": "Actor coding is incomplete or uncertain."
-        },
-        {
-          "code": "high_salience_review",
-          "priority": "high",
-          "reason": "High-salience event should receive human review."
-        },
-        {
-          "code": "review_high_risk_assessment",
-          "priority": "medium",
-          "reason": "At least one AI lens assessed the event as high risk."
-        }
-      ],
-      "supervision_reasons": [
-        "duplicate_conflict",
-        "model_uncertainty",
-        "high_salience_unreviewed",
-        "council_action:actor_follow_up",
-        "council_action:high_salience_review",
-        "council_action:review_high_risk_assessment"
-      ],
-      "ai_workers_in_scope": [
-        "event_classifier",
-        "actor_coder",
-        "duplicate_analyst",
-        "qa_scorer",
-        "publication_policy_agent",
-        "cmr_analyst",
-        "political_risk_analyst",
-        "regional_security_analyst",
-        "synthesis_analyst"
-      ],
-      "qa_flags": [],
-      "registry_issues": [],
-      "duplicate_candidates": [
-        {
-          "candidate_id": "4a5365d15023",
-          "event_ids": [
-            "1fc32d3b9fd1",
-            "fb855d157606"
-          ],
-          "status": "definite_duplicate",
-          "reason": "Records share at least one source URL.",
-          "score": 1.0,
-          "details": {
-            "country": "Venezuela",
-            "day_gap": 0,
-            "title_score": 0.627,
-            "left_title": "U.S. reopens long-closed embassy in Venezuela months after military operation to remove Maduro",
-            "right_title": "US reopens embassy in Venezuela after seizing Nicolas Maduro",
-            "same_type": false,
-            "same_actor": true,
-            "same_target": true
-          }
-        },
-        {
-          "candidate_id": "5abbca670aa3",
-          "event_ids": [
-            "5d4c8dafb0d9",
-            "fb855d157606"
-          ],
-          "status": "definite_duplicate",
-          "reason": "Records share at least one source URL.",
-          "score": 1.0,
-          "details": {
-            "country": "Venezuela",
-            "day_gap": 0,
-            "title_score": 0.314,
-            "left_title": "The Venezuela Paradigm: Is Trump’s Model Intervention a Mirage?",
-            "right_title": "US reopens embassy in Venezuela after seizing Nicolas Maduro",
-            "same_type": false,
-            "same_actor": true,
-            "same_target": true
-          }
-        }
-      ],
-      "provenance": {
-        "source_type": null,
-        "ingested_at": "2026-04-01T04:11:25.022200+00:00",
-        "classification_model": "claude-haiku-4-5-20251001",
-        "merge_strategy": "single_source",
-        "source_event_id": "VEN_2026_03_fb855d",
-        "deed_type": "symptom",
-        "axis": "horizontal",
-        "raw_confidence": "yellow",
-        "has_external_url": true,
-        "article_link_count": 1,
-        "article_record_ids": [
-          "7e51067dffad1366"
-        ],
-        "linked_reports": [
-          {
-            "article_id": "7e51067dffad1366",
-            "event_id": "fb855d157606",
-            "article_rank": 1,
-            "report_role": "primary",
-            "source_name": "DW (English)",
-            "url": "https://www.dw.com/en/us-reopens-embassy-in-venezuela-after-seizing-nicolas-maduro/a-76599216",
-            "link_domain": "dw.com",
-            "headline": "US reopens embassy in Venezuela after seizing Nicolas Maduro",
-            "source_type": null,
-            "linked_at": "2026-04-01T04:11:25.022200+00:00"
-          }
-        ],
-        "timeline": [
-          {
-            "stage": "ingestion",
-            "label": "Source ingestion",
-            "status": "completed",
-            "at": "2026-04-01T04:11:25.022200+00:00",
-            "details": {
-              "source_type": null,
-              "source_primary": "DW (English)",
-              "source_count": 1,
-              "linked_report_count": 1,
-              "has_external_url": true
-            }
-          },
-          {
-            "stage": "normalization",
-            "label": "Source record normalized",
-            "status": "completed",
-            "at": "2026-04-01T07:33:47.398255+00:00",
-            "details": {
-              "normalized_fields": [
-                "event_date",
-                "country",
-                "source_primary",
-                "url_primary",
-                "summary"
-              ],
-              "location_available": true,
-              "coords_available": true
-            }
-          },
-          {
-            "stage": "classification",
-            "label": "Event classified",
-            "status": "completed",
-            "at": "2026-04-01T07:33:47.398255+00:00",
-            "details": {
-              "event_type": "coup",
-              "raw_confidence": "yellow",
-              "classification_model": "claude-haiku-4-5-20251001"
-            }
-          },
-          {
-            "stage": "canonicalization",
-            "label": "Canonical event assembled",
-            "status": "completed",
-            "at": "2026-04-01T07:33:47.398255+00:00",
-            "details": {
-              "merge_strategy": "single_source",
-              "source_event_id": "VEN_2026_03_fb855d"
-            }
-          },
-          {
-            "stage": "actor_coding",
-            "label": "Actors coded",
-            "status": "completed",
-            "at": "2026-04-02T14:03:22.238778+00:00",
-            "details": {
-              "actor_count": 2,
               "actor_coding_method": "heuristic_v1"
             }
           }

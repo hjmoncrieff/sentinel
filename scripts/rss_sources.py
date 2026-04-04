@@ -44,6 +44,18 @@ RSS_FEEDS = [
 
     # English wire / broadcast
     {
+        "name": "AP LatAm",
+        "url": gnews_site_feed("apnews.com", "latin+america+OR+military+OR+security+OR+coup+OR+protest+OR+organized+crime"),
+        "category": "wire",
+        "countries": ["Regional"],
+    },
+    {
+        "name": "AFP LatAm",
+        "url": gnews_site_feed("afp.com", "latin+america+OR+military+OR+security+OR+coup+OR+protest+OR+organized+crime"),
+        "category": "wire",
+        "countries": ["Regional"],
+    },
+    {
         "name": "Reuters LatAm",
         "url": gnews_site_feed("reuters.com", "latin+america+OR+military+OR+security+OR+coup+OR+protest"),
         "category": "wire",
@@ -86,6 +98,24 @@ RSS_FEEDS = [
 
     # Spanish-language regional
     {
+        "name": "EFE",
+        "url": gnews_site_feed("efe.com", "latinoamerica+OR+defensa+OR+seguridad+OR+golpe+OR+protesta+OR+crimen+organizado"),
+        "category": "wire",
+        "countries": ["Regional"],
+    },
+    {
+        "name": "Notimérica",
+        "url": gnews_site_feed("notimerica.com", "latinoamerica+OR+seguridad+OR+defensa+OR+presidente+OR+crimen+organizado"),
+        "category": "general_news",
+        "countries": ["Regional"],
+    },
+    {
+        "name": "Prensa Latina",
+        "url": gnews_site_feed("plenglish.com", "latin+america+OR+security+OR+military+OR+defense+OR+organized+crime"),
+        "category": "perspective_monitor",
+        "countries": ["Regional"],
+    },
+    {
         "name": "BBC Mundo",
         "url": "https://feeds.bbci.co.uk/mundo/rss.xml",
         "category": "general_news",
@@ -107,6 +137,12 @@ RSS_FEEDS = [
         "name": "Folha de S.Paulo",
         "url": "https://feeds.folha.uol.com.br/poder/rss091.xml",
         "category": "general_news",
+        "countries": ["Brazil"],
+    },
+    {
+        "name": "Agência Brasil",
+        "url": gnews_site_feed("agenciabrasil.ebc.com.br", "defesa+OR+seguranca+OR+segurança+OR+militar+OR+crime+organizado"),
+        "category": "official_public_media",
         "countries": ["Brazil"],
     },
     # Defense / security specialist
@@ -196,5 +232,61 @@ RSS_FEEDS = [
         "url": gnews_site_feed("amnesty.org", "Latin+America+OR+Colombia+OR+Mexico+OR+Venezuela+OR+El+Salvador+military+OR+police+OR+abuse"),
         "category": "human_rights_monitor",
         "countries": ["Regional"],
+    },
+
+    # Official defense / security monitoring
+    {
+        "name": "Argentina Defensa",
+        "url": gnews_site_feed("argentina.gob.ar", "\"ministerio+de+defensa\"+OR+ejercito+OR+armada+OR+fuerza+aerea+OR+operativo"),
+        "category": "official",
+        "countries": ["Argentina"],
+    },
+    {
+        "name": "Colombia Mindefensa",
+        "url": gnews_site_feed("mindefensa.gov.co", "ejercito+OR+policia+OR+defensa+OR+operacion+OR+seguridad"),
+        "category": "official",
+        "countries": ["Colombia"],
+    },
+    {
+        "name": "Mexico SEDENA",
+        "url": gnews_site_feed("gob.mx", "sedena+OR+ejercito+OR+guardia+nacional+OR+seguridad+OR+operativo+OR+defensa"),
+        "category": "official",
+        "countries": ["Mexico"],
+    },
+    {
+        "name": "Uruguay Defensa",
+        "url": gnews_site_feed("gub.uy", "\"ministerio+de+defensa+nacional\"+OR+defensa+OR+ejercito+OR+armada+OR+fuerza+aerea"),
+        "category": "official",
+        "countries": ["Uruguay"],
+    },
+    {
+        "name": "Honduras SEDENA",
+        "url": gnews_site_feed("sedena.gob.hn", "defensa+OR+fuerzas+armadas+OR+seguridad+OR+operacion"),
+        "category": "official",
+        "countries": ["Honduras"],
+    },
+    {
+        "name": "Dominican Republic MIDE",
+        "url": gnews_site_feed("mide.gob.do", "defensa+OR+fuerzas+armadas+OR+seguridad+OR+operativo"),
+        "category": "official",
+        "countries": ["Dominican Republic"],
+    },
+    {
+        "name": "Peru MINDEF",
+        "url": gnews_site_feed("gob.pe", "mindef+OR+defensa+OR+ejercito+OR+armada+OR+fuerza+aerea"),
+        "category": "official",
+        "countries": ["Peru"],
+    },
+    {
+        "name": "Guatemala MINDEF",
+        "url": gnews_site_feed("guatemala.gob.gt", "mindef+OR+defensa+OR+ejercito+OR+fuerza+aerea+OR+operativo"),
+        "category": "official",
+        "countries": ["Guatemala"],
+    },
+    {
+        "name": "Bolivia Defensa",
+        "url": gnews_site_feed("mindef.gob.bo", "defensa+OR+fuerzas+armadas+OR+seguridad+OR+operativo"),
+        "category": "official",
+        "countries": ["Bolivia"],
     },
 ]

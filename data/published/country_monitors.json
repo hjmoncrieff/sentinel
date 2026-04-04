@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-03T04:00:58.361567+00:00",
+  "generated_at": "2026-04-04T20:03:06.533643+00:00",
   "generation_method": "layered_country_risk_v0_2",
   "status": "predictive_scaffold",
   "source_files": {
@@ -13,23 +13,23 @@
     "method": "anchor_country_affine_fit",
     "transforms": {
       "regime_vulnerability": {
-        "slope": 1.590353,
-        "intercept": -17.630611,
+        "slope": 1.592892,
+        "intercept": -17.425505,
         "anchor_count": 13
       },
       "militarization": {
-        "slope": 1.578294,
-        "intercept": 0.615007,
+        "slope": 1.581881,
+        "intercept": 0.873261,
         "anchor_count": 12
       },
       "security_fragmentation": {
-        "slope": 1.603396,
-        "intercept": -28.068675,
+        "slope": 1.621036,
+        "intercept": -28.4874,
         "anchor_count": 14
       },
       "overall_risk": {
-        "slope": 1.053236,
-        "intercept": -1.597061,
+        "slope": 1.054483,
+        "intercept": -1.695557,
         "anchor_count": 15
       }
     },
@@ -102,7 +102,7 @@
   "countries": [
     {
       "country": "Argentina",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -336,7 +336,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 40.58,
+          "score": 40.87,
           "level": "elevated",
           "trend_label": "easing",
           "horizon_days": 90,
@@ -571,7 +571,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 12.69,
+          "score": 12.97,
           "level": "low",
           "trend_label": "easing",
           "horizon_days": 60,
@@ -734,7 +734,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 38.47,
+          "score": 38.79,
           "level": "guarded",
           "trend_label": "easing",
           "horizon_days": 75,
@@ -913,18 +913,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 33.88,
+        "overall_risk_score": 34.14,
         "overall_risk_level": "guarded",
         "leading_construct": "regime_vulnerability",
         "leading_label": "Regime Vulnerability",
         "leading_trend": "easing",
-        "regime_vulnerability_score": 40.58,
+        "regime_vulnerability_score": 40.87,
         "summary_text": "Argentina currently sits in the guarded overall risk tier. The strongest near-term pressure comes from regime vulnerability, though it has eased somewhat recently, especially through governance erosion and democratic fragility. A second layer of pressure comes from security fragmentation, which remains easing over the next 75 days.",
         "watchpoints": [
           "watch for whether coup starts affecting elite cohesion or executive authority",
           "watch for security-force intervention in politics, emergency powers, or abrupt command changes"
         ],
-        "raw_overall_risk_score": 33.68
+        "raw_overall_risk_score": 33.98
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -933,7 +933,7 @@
     },
     {
       "country": "Bahamas",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -1125,7 +1125,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 13.78,
+          "score": 14.03,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -1360,7 +1360,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 28.83,
+          "score": 29.16,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -1702,18 +1702,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 11.18,
+        "overall_risk_score": 11.29,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 13.78,
+        "regime_vulnerability_score": 14.03,
         "summary_text": "Bahamas currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and us security shift pressure.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 12.13
+        "raw_overall_risk_score": 12.31
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -1722,7 +1722,7 @@
     },
     {
       "country": "Belize",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -1914,7 +1914,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 23.34,
+          "score": 23.61,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -2149,7 +2149,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 13.64,
+          "score": 13.92,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -2312,7 +2312,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 5.52,
+          "score": 5.47,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -2491,18 +2491,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 13.98,
+        "overall_risk_score": 14.07,
         "overall_risk_level": "low",
         "leading_construct": "regime_vulnerability",
         "leading_label": "Regime Vulnerability",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 23.34,
+        "regime_vulnerability_score": 23.61,
         "summary_text": "Belize currently sits in the low overall risk tier. The strongest near-term pressure comes from regime vulnerability, especially through governance erosion and democratic fragility. A second layer of pressure comes from militarization, which remains stable over the next 60 days.",
         "watchpoints": [
           "watch for whether recent security reporting starts affecting elite cohesion or executive authority",
           "watch for security-force intervention in politics, emergency powers, or abrupt command changes"
         ],
-        "raw_overall_risk_score": 14.79
+        "raw_overall_risk_score": 14.95
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -2511,7 +2511,7 @@
     },
     {
       "country": "Bolivia",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -2729,7 +2729,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 45.16,
+          "score": 45.46,
           "level": "elevated",
           "trend_label": "rising",
           "horizon_days": 90,
@@ -2964,7 +2964,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 73.04,
+          "score": 73.47,
           "level": "high",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -3127,7 +3127,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 33.92,
+          "score": 34.18,
           "level": "guarded",
           "trend_label": "rising",
           "horizon_days": 75,
@@ -3306,18 +3306,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 48.17,
+        "overall_risk_score": 48.46,
         "overall_risk_level": "elevated",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 45.16,
+        "regime_vulnerability_score": 45.46,
         "summary_text": "Bolivia currently sits in the elevated overall risk tier. The strongest near-term pressure comes from militarization, especially through military domestic-coercion role and military governance-administration role. A second layer of pressure comes from regime vulnerability, which remains rising over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 47.25
+        "raw_overall_risk_score": 47.56
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -3326,16 +3326,16 @@
     },
     {
       "country": "Brazil",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
           "label": "Civil-Military Stress",
           "goal": "Track the degree of military political influence, institutional autonomy, and stress in civilian control.",
           "baseline_score": 31.54,
-          "pulse_score": 79.3,
-          "composite_score": 48.26,
-          "trend_label": "rising",
+          "pulse_score": 70.33,
+          "composite_score": 45.12,
+          "trend_label": "stable",
           "dominant_recent_signal": "coup",
           "baseline_mode": "observed",
           "baseline_components": [
@@ -3390,13 +3390,13 @@
             }
           ],
           "pulse_summary": {
-            "raw_pulse": 1.575,
-            "pulse_score": 79.3,
-            "trend_label": "rising",
+            "raw_pulse": 1.215,
+            "pulse_score": 70.33,
+            "trend_label": "stable",
             "dominant_recent_signal": "coup",
             "window_days": 90,
-            "short_window_raw": 1.494,
-            "medium_window_raw": 1.575,
+            "short_window_raw": 0.594,
+            "medium_window_raw": 1.215,
             "event_count": 4
           },
           "top_pulse_events": [
@@ -3406,7 +3406,7 @@
               "event_date": "2026-03-27",
               "salience": "high",
               "confidence": "high",
-              "contribution": 0.9
+              "contribution": 0.54
             },
             {
               "event_id": "f41b3d65ab3f",
@@ -3439,9 +3439,9 @@
           "label": "Security Pressure",
           "goal": "Track the intensity of conflict, organized crime, and coercive stress affecting the country security environment.",
           "baseline_score": 50.2,
-          "pulse_score": 53.47,
-          "composite_score": 51.67,
-          "trend_label": "rising",
+          "pulse_score": 43.28,
+          "composite_score": 47.09,
+          "trend_label": "stable",
           "dominant_recent_signal": "coup",
           "baseline_mode": "observed",
           "baseline_components": [
@@ -3482,13 +3482,13 @@
             }
           ],
           "pulse_summary": {
-            "raw_pulse": 0.765,
-            "pulse_score": 53.47,
-            "trend_label": "rising",
+            "raw_pulse": 0.567,
+            "pulse_score": 43.28,
+            "trend_label": "stable",
             "dominant_recent_signal": "coup",
             "window_days": 90,
-            "short_window_raw": 0.765,
-            "medium_window_raw": 0.765,
+            "short_window_raw": 0.27,
+            "medium_window_raw": 0.567,
             "event_count": 2
           },
           "top_pulse_events": [
@@ -3498,7 +3498,7 @@
               "event_date": "2026-03-27",
               "salience": "high",
               "confidence": "high",
-              "contribution": 0.495
+              "contribution": 0.297
             },
             {
               "event_id": "f41b3d65ab3f",
@@ -3585,9 +3585,9 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 49.4,
+          "score": 47.56,
           "level": "elevated",
-          "trend_label": "rising",
+          "trend_label": "stable",
           "horizon_days": 90,
           "components": [
             {
@@ -3595,36 +3595,36 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.18,
-              "score": 48.26,
-              "weighted_contribution": 8.69,
-              "trend_label": "rising"
+              "score": 45.12,
+              "weighted_contribution": 8.12,
+              "trend_label": "stable"
             },
             {
               "kind": "monitor_composite",
               "code": "security_pressure",
               "label": "Security Pressure",
               "weight": 0.08,
-              "score": 51.67,
-              "weighted_contribution": 4.13,
-              "trend_label": "rising"
+              "score": 47.09,
+              "weighted_contribution": 3.77,
+              "trend_label": "stable"
             },
             {
               "kind": "monitor_pulse",
               "code": "cmr_balance",
               "label": "Civil-Military Stress pulse",
               "weight": 0.06,
-              "score": 79.3,
-              "weighted_contribution": 4.76,
-              "trend_label": "rising"
+              "score": 70.33,
+              "weighted_contribution": 4.22,
+              "trend_label": "stable"
             },
             {
               "kind": "monitor_pulse",
               "code": "security_pressure",
               "label": "Security Pressure pulse",
               "weight": 0.05,
-              "score": 53.47,
-              "weighted_contribution": 2.67,
-              "trend_label": "rising"
+              "score": 43.28,
+              "weighted_contribution": 2.16,
+              "trend_label": "stable"
             },
             {
               "kind": "structural_input",
@@ -3795,9 +3795,9 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.18,
-              "score": 48.26,
-              "weighted_contribution": 8.69,
-              "trend_label": "rising"
+              "score": 45.12,
+              "weighted_contribution": 8.12,
+              "trend_label": "stable"
             },
             {
               "kind": "structural_input",
@@ -3809,20 +3809,20 @@
               "trend_label": null
             }
           ],
-          "summary_text": "Brazil shows elevated near-term regime vulnerability, with pressure building around governance erosion, Civil-Military Stress, and democratic fragility. If this pattern persists, governing authority in Brazil is more likely to face institutional contestation, coercive overreach, or sharper elite-security dependence.",
+          "summary_text": "Brazil shows elevated near-term regime vulnerability, centered on governance erosion, Civil-Military Stress, and democratic fragility. The main implication is that Brazil's governing order remains vulnerable where governance erosion is already weakening routine accountability.",
           "watchpoints": [
             "watch for whether coup starts affecting elite cohesion or executive authority",
             "watch for security-force intervention in politics, emergency powers, or abrupt command changes"
           ],
-          "raw_score": 42.15
+          "raw_score": 40.8
         },
         {
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 47.25,
+          "score": 45.7,
           "level": "elevated",
-          "trend_label": "rising",
+          "trend_label": "stable",
           "horizon_days": 60,
           "components": [
             {
@@ -3830,18 +3830,18 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.22,
-              "score": 48.26,
-              "weighted_contribution": 10.62,
-              "trend_label": "rising"
+              "score": 45.12,
+              "weighted_contribution": 9.93,
+              "trend_label": "stable"
             },
             {
               "kind": "monitor_pulse",
               "code": "cmr_balance",
               "label": "Civil-Military Stress pulse",
               "weight": 0.1,
-              "score": 79.3,
-              "weighted_contribution": 7.93,
-              "trend_label": "rising"
+              "score": 70.33,
+              "weighted_contribution": 7.03,
+              "trend_label": "stable"
             },
             {
               "kind": "structural_input",
@@ -3945,15 +3945,6 @@
           ],
           "drivers": [
             {
-              "kind": "monitor_composite",
-              "code": "cmr_balance",
-              "label": "Civil-Military Stress",
-              "weight": 0.22,
-              "score": 48.26,
-              "weighted_contribution": 10.62,
-              "trend_label": "rising"
-            },
-            {
               "kind": "structural_input",
               "code": "m3_impunity",
               "label": "military impunity",
@@ -3963,29 +3954,38 @@
               "trend_label": null
             },
             {
+              "kind": "monitor_composite",
+              "code": "cmr_balance",
+              "label": "Civil-Military Stress",
+              "weight": 0.22,
+              "score": 45.12,
+              "weighted_contribution": 9.93,
+              "trend_label": "stable"
+            },
+            {
               "kind": "monitor_pulse",
               "code": "cmr_balance",
               "label": "Civil-Military Stress pulse",
               "weight": 0.1,
-              "score": 79.3,
-              "weighted_contribution": 7.93,
-              "trend_label": "rising"
+              "score": 70.33,
+              "weighted_contribution": 7.03,
+              "trend_label": "stable"
             }
           ],
-          "summary_text": "Brazil currently sits at a guarded level of militarization, and the military role is expanding most clearly through Civil-Military Stress, military impunity, and Civil-Military Stress pulse. The key question is whether civil-military stress becomes further normalized as an ordinary state function in Brazil.",
+          "summary_text": "Brazil currently sits at a guarded level of militarization, with the strongest signal coming from military impunity, Civil-Military Stress, and Civil-Military Stress pulse. The key question is whether military impunity becomes further normalized as an ordinary state function in Brazil.",
           "watchpoints": [
             "watch for the armed forces moving deeper into domestic security or administrative roles",
             "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
           ],
-          "raw_score": 29.55
+          "raw_score": 28.34
         },
         {
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 62.01,
-          "level": "high",
-          "trend_label": "rising",
+          "score": 59.05,
+          "level": "elevated",
+          "trend_label": "stable",
           "horizon_days": 75,
           "components": [
             {
@@ -3993,18 +3993,18 @@
               "code": "security_pressure",
               "label": "Security Pressure",
               "weight": 0.24,
-              "score": 51.67,
-              "weighted_contribution": 12.4,
-              "trend_label": "rising"
+              "score": 47.09,
+              "weighted_contribution": 11.3,
+              "trend_label": "stable"
             },
             {
               "kind": "monitor_pulse",
               "code": "security_pressure",
               "label": "Security Pressure pulse",
               "weight": 0.16,
-              "score": 53.47,
-              "weighted_contribution": 8.56,
-              "trend_label": "rising"
+              "score": 43.28,
+              "weighted_contribution": 6.92,
+              "trend_label": "stable"
             },
             {
               "kind": "structural_input",
@@ -4119,21 +4119,12 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.04,
-              "score": 48.26,
-              "weighted_contribution": 1.93,
-              "trend_label": "rising"
+              "score": 45.12,
+              "weighted_contribution": 1.8,
+              "trend_label": "stable"
             }
           ],
           "drivers": [
-            {
-              "kind": "monitor_composite",
-              "code": "security_pressure",
-              "label": "Security Pressure",
-              "weight": 0.24,
-              "score": 51.67,
-              "weighted_contribution": 12.4,
-              "trend_label": "rising"
-            },
             {
               "kind": "structural_input",
               "code": "oc_actor_density",
@@ -4142,6 +4133,15 @@
               "score": 65.44,
               "weighted_contribution": 11.78,
               "trend_label": null
+            },
+            {
+              "kind": "monitor_composite",
+              "code": "security_pressure",
+              "label": "Security Pressure",
+              "weight": 0.24,
+              "score": 47.09,
+              "weighted_contribution": 11.3,
+              "trend_label": "stable"
             },
             {
               "kind": "structural_input",
@@ -4153,27 +4153,27 @@
               "trend_label": null
             }
           ],
-          "summary_text": "Brazil faces a elevated level of security fragmentation, with coercive competition spreading through Security Pressure, organized-crime actor density, and criminality baseline. The practical risk is that violence, criminal competition, or coercive stress in Brazil becomes harder to contain geographically and institutionally.",
+          "summary_text": "Brazil faces a elevated level of security fragmentation, shaped most by organized-crime actor density, Security Pressure, and criminality baseline. The practical risk is that organized-crime actor density keeps security stress in Brazil dispersed rather than contained.",
           "watchpoints": [
             "watch for criminal, insurgent, or protest dynamics spreading geographically or institutionally",
             "watch for evidence that state capacity is fragmenting across police, military, and local authorities"
           ],
-          "raw_score": 56.18
+          "raw_score": 54.0
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 54.72,
+        "overall_risk_score": 52.39,
         "overall_risk_level": "elevated",
         "leading_construct": "security_fragmentation",
         "leading_label": "Security Fragmentation",
-        "leading_trend": "rising",
-        "regime_vulnerability_score": 49.4,
-        "summary_text": "Brazil currently sits in the elevated overall risk tier. The strongest near-term pressure comes from security fragmentation, and it is still rising, especially through security pressure and organized-crime actor density. A second layer of pressure comes from regime vulnerability, which remains rising over the next 90 days.",
+        "leading_trend": "stable",
+        "regime_vulnerability_score": 47.56,
+        "summary_text": "Brazil currently sits in the elevated overall risk tier. The strongest near-term pressure comes from security fragmentation, especially through organized-crime actor density and security pressure. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for criminal, insurgent, or protest dynamics spreading geographically or institutionally",
           "watch for evidence that state capacity is fragmenting across police, military, and local authorities"
         ],
-        "raw_overall_risk_score": 53.47
+        "raw_overall_risk_score": 51.29
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -4182,7 +4182,7 @@
     },
     {
       "country": "Chile",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -4417,7 +4417,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 22.16,
+          "score": 22.43,
           "level": "guarded",
           "trend_label": "easing",
           "horizon_days": 90,
@@ -4652,7 +4652,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 17.96,
+          "score": 18.26,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -4815,7 +4815,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 23.14,
+          "score": 23.29,
           "level": "guarded",
           "trend_label": "easing",
           "horizon_days": 75,
@@ -4994,18 +4994,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 21.14,
+        "overall_risk_score": 21.31,
         "overall_risk_level": "guarded",
         "leading_construct": "security_fragmentation",
         "leading_label": "Security Fragmentation",
         "leading_trend": "easing",
-        "regime_vulnerability_score": 22.16,
+        "regime_vulnerability_score": 22.43,
         "summary_text": "Chile currently sits in the guarded overall risk tier. The strongest near-term pressure comes from security fragmentation, though it has eased somewhat recently, especially through organized-crime actor density and territorial spread of coercive stress. A second layer of pressure comes from regime vulnerability, which remains easing over the next 90 days.",
         "watchpoints": [
           "watch for criminal, insurgent, or protest dynamics spreading geographically or institutionally",
           "watch for evidence that state capacity is fragmenting across police, military, and local authorities"
         ],
-        "raw_overall_risk_score": 21.59
+        "raw_overall_risk_score": 21.82
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -5014,7 +5014,7 @@
     },
     {
       "country": "Colombia",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -5297,7 +5297,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 55.7,
+          "score": 56.02,
           "level": "elevated",
           "trend_label": "rising",
           "horizon_days": 90,
@@ -5532,7 +5532,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 38.42,
+          "score": 38.76,
           "level": "guarded",
           "trend_label": "rising",
           "horizon_days": 60,
@@ -5695,7 +5695,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 77.64,
+          "score": 78.39,
           "level": "severe",
           "trend_label": "easing",
           "horizon_days": 75,
@@ -5874,18 +5874,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 61.39,
+        "overall_risk_score": 61.87,
         "overall_risk_level": "high",
         "leading_construct": "security_fragmentation",
         "leading_label": "Security Fragmentation",
         "leading_trend": "easing",
-        "regime_vulnerability_score": 55.7,
-        "summary_text": "Colombia currently sits in the elevated overall risk tier. The strongest near-term pressure comes from security fragmentation, though it has eased somewhat recently, especially through organized-crime actor density and security pressure. A second layer of pressure comes from regime vulnerability, which remains rising over the next 90 days.",
+        "regime_vulnerability_score": 56.02,
+        "summary_text": "Colombia currently sits in the high overall risk tier. The strongest near-term pressure comes from security fragmentation, though it has eased somewhat recently, especially through organized-crime actor density and security pressure. A second layer of pressure comes from regime vulnerability, which remains rising over the next 90 days.",
         "watchpoints": [
           "watch for criminal, insurgent, or protest dynamics spreading geographically or institutionally",
           "watch for evidence that state capacity is fragmenting across police, military, and local authorities"
         ],
-        "raw_overall_risk_score": 59.8
+        "raw_overall_risk_score": 60.28
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -5894,7 +5894,7 @@
     },
     {
       "country": "Colombia|Mexico",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -6086,7 +6086,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 13.51,
+          "score": 13.76,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -6321,7 +6321,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 28.83,
+          "score": 29.16,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -6663,18 +6663,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 11.06,
+        "overall_risk_score": 11.16,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 13.51,
+        "regime_vulnerability_score": 13.76,
         "summary_text": "Colombia|Mexico currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and us security shift pressure.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 12.02
+        "raw_overall_risk_score": 12.19
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -6683,7 +6683,7 @@
     },
     {
       "country": "Colombia|Venezuela",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -6892,7 +6892,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 24.69,
+          "score": 24.96,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -7127,7 +7127,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 28.83,
+          "score": 29.16,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -7290,7 +7290,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 20.39,
+          "score": 20.5,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -7469,18 +7469,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 23.73,
+        "overall_risk_score": 23.91,
         "overall_risk_level": "guarded",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 24.69,
+        "regime_vulnerability_score": 24.96,
         "summary_text": "Colombia|Venezuela currently sits in the guarded overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and us security shift pressure. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 24.05
+        "raw_overall_risk_score": 24.28
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -7489,7 +7489,7 @@
     },
     {
       "country": "Colombia|Venezuela|Caribbean",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -7681,7 +7681,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 13.91,
+          "score": 14.16,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -7916,7 +7916,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 28.83,
+          "score": 29.16,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -8258,18 +8258,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 11.23,
+        "overall_risk_score": 11.34,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 13.91,
+        "regime_vulnerability_score": 14.16,
         "summary_text": "Colombia|Venezuela|Caribbean currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and us security shift pressure.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 12.18
+        "raw_overall_risk_score": 12.36
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -8278,7 +8278,7 @@
     },
     {
       "country": "Colombia|Venezuela|Latin America",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -8470,7 +8470,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 13.51,
+          "score": 13.76,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -8705,7 +8705,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 28.83,
+          "score": 29.16,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -9047,18 +9047,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 11.06,
+        "overall_risk_score": 11.16,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 13.51,
+        "regime_vulnerability_score": 13.76,
         "summary_text": "Colombia|Venezuela|Latin America currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and us security shift pressure.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 12.02
+        "raw_overall_risk_score": 12.19
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -9067,7 +9067,7 @@
     },
     {
       "country": "Costa Rica",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -9277,7 +9277,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 3.04,
+          "score": 3.28,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -9512,7 +9512,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 6.08,
+          "score": 6.35,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -9854,18 +9854,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 1.15,
+        "overall_risk_score": 1.23,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 3.04,
+        "regime_vulnerability_score": 3.28,
         "summary_text": "Costa Rica currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through military governance-administration role and civil-military stress. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 2.61
+        "raw_overall_risk_score": 2.77
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -9874,7 +9874,7 @@
     },
     {
       "country": "Cuba",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -10066,7 +10066,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 56.51,
+          "score": 57.04,
           "level": "elevated",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -10175,8 +10175,8 @@
               "code": "deed_erosion_signal",
               "label": "institutional erosion signal",
               "weight": 0.05,
-              "score": 2.22,
-              "weighted_contribution": 0.11,
+              "score": 6.08,
+              "weighted_contribution": 0.3,
               "trend_label": null
             },
             {
@@ -10295,13 +10295,13 @@
             "watch for whether recent security reporting starts affecting elite cohesion or executive authority",
             "watch for security-force intervention in politics, emergency powers, or abrupt command changes"
           ],
-          "raw_score": 46.62
+          "raw_score": 46.75
         },
         {
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 62.23,
+          "score": 62.63,
           "level": "high",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -10464,7 +10464,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 10.8,
+          "score": 10.81,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -10643,18 +10643,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 41.91,
+        "overall_risk_score": 42.2,
         "overall_risk_level": "elevated",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 56.51,
+        "regime_vulnerability_score": 57.04,
         "summary_text": "Cuba currently sits in the elevated overall risk tier. The strongest near-term pressure comes from militarization, especially through military domestic-coercion role and military governance-administration role. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 41.31
+        "raw_overall_risk_score": 41.63
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -10663,7 +10663,7 @@
     },
     {
       "country": "Dominican Republic",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -10873,7 +10873,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 20.46,
+          "score": 20.72,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -11108,7 +11108,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 27.04,
+          "score": 27.35,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -11271,7 +11271,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 1.03,
+          "score": 0.93,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -11450,18 +11450,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 14.11,
+        "overall_risk_score": 14.17,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 20.46,
+        "regime_vulnerability_score": 20.72,
         "summary_text": "Dominican Republic currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through military impunity and military domestic-coercion role. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 14.91
+        "raw_overall_risk_score": 15.05
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -11470,16 +11470,16 @@
     },
     {
       "country": "Ecuador",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
           "label": "Civil-Military Stress",
           "goal": "Track the degree of military political influence, institutional autonomy, and stress in civilian control.",
           "baseline_score": 31.63,
-          "pulse_score": 30.23,
-          "composite_score": 31.14,
-          "trend_label": "rising",
+          "pulse_score": 26.36,
+          "composite_score": 29.79,
+          "trend_label": "stable",
           "dominant_recent_signal": "coop",
           "baseline_mode": "observed",
           "baseline_components": [
@@ -11534,13 +11534,13 @@
             }
           ],
           "pulse_summary": {
-            "raw_pulse": 0.36,
-            "pulse_score": 30.23,
-            "trend_label": "rising",
+            "raw_pulse": 0.306,
+            "pulse_score": 26.36,
+            "trend_label": "stable",
             "dominant_recent_signal": "coop",
             "window_days": 90,
-            "short_window_raw": 0.36,
-            "medium_window_raw": 0.36,
+            "short_window_raw": 0.225,
+            "medium_window_raw": 0.306,
             "event_count": 2
           },
           "top_pulse_events": [
@@ -11558,7 +11558,7 @@
               "event_date": "2026-03-27",
               "salience": "medium",
               "confidence": "high",
-              "contribution": 0.135
+              "contribution": 0.081
             }
           ]
         },
@@ -11567,9 +11567,9 @@
           "label": "Security Pressure",
           "goal": "Track the intensity of conflict, organized crime, and coercive stress affecting the country security environment.",
           "baseline_score": 67.86,
-          "pulse_score": 93.18,
-          "composite_score": 79.25,
-          "trend_label": "stable",
+          "pulse_score": 91.98,
+          "composite_score": 78.71,
+          "trend_label": "easing",
           "dominant_recent_signal": "conflict",
           "baseline_mode": "observed",
           "baseline_components": [
@@ -11610,13 +11610,13 @@
             }
           ],
           "pulse_summary": {
-            "raw_pulse": 2.6856,
-            "pulse_score": 93.18,
-            "trend_label": "stable",
+            "raw_pulse": 2.5236,
+            "pulse_score": 91.98,
+            "trend_label": "easing",
             "dominant_recent_signal": "conflict",
             "window_days": 90,
-            "short_window_raw": 1.305,
-            "medium_window_raw": 2.4606,
+            "short_window_raw": 0.9,
+            "medium_window_raw": 2.2986,
             "event_count": 6
           },
           "top_pulse_events": [
@@ -11637,14 +11637,6 @@
               "contribution": 0.54
             },
             {
-              "event_id": "f74a421082a8",
-              "event_type": "conflict",
-              "event_date": "2026-03-27",
-              "salience": "medium",
-              "confidence": "medium",
-              "contribution": 0.405
-            },
-            {
               "event_id": "930bae77c68e",
               "event_type": "conflict",
               "event_date": "2026-03-20",
@@ -11659,6 +11651,14 @@
               "salience": "medium",
               "confidence": "high",
               "contribution": 0.2916
+            },
+            {
+              "event_id": "f74a421082a8",
+              "event_type": "conflict",
+              "event_date": "2026-03-27",
+              "salience": "medium",
+              "confidence": "medium",
+              "contribution": 0.243
             }
           ]
         },
@@ -11667,9 +11667,9 @@
           "label": "External Security Alignment",
           "goal": "Track how foreign cooperation, aid, exercises, and procurement may be changing the strategic posture of the state.",
           "baseline_score": 50.0,
-          "pulse_score": 66.04,
-          "composite_score": 54.81,
-          "trend_label": "rising",
+          "pulse_score": 60.07,
+          "composite_score": 53.02,
+          "trend_label": "stable",
           "dominant_recent_signal": "coop",
           "baseline_mode": "neutral_fallback",
           "baseline_components": [
@@ -11703,13 +11703,13 @@
             }
           ],
           "pulse_summary": {
-            "raw_pulse": 1.08,
-            "pulse_score": 66.04,
-            "trend_label": "rising",
+            "raw_pulse": 0.918,
+            "pulse_score": 60.07,
+            "trend_label": "stable",
             "dominant_recent_signal": "coop",
             "window_days": 90,
-            "short_window_raw": 1.08,
-            "medium_window_raw": 1.08,
+            "short_window_raw": 0.675,
+            "medium_window_raw": 0.918,
             "event_count": 2
           },
           "top_pulse_events": [
@@ -11727,7 +11727,7 @@
               "event_date": "2026-03-27",
               "salience": "medium",
               "confidence": "high",
-              "contribution": 0.405
+              "contribution": 0.243
             }
           ]
         }
@@ -11737,9 +11737,9 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 59.49,
+          "score": 59.19,
           "level": "elevated",
-          "trend_label": "rising",
+          "trend_label": "easing",
           "horizon_days": 90,
           "components": [
             {
@@ -11747,36 +11747,36 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.18,
-              "score": 31.14,
-              "weighted_contribution": 5.61,
-              "trend_label": "rising"
+              "score": 29.79,
+              "weighted_contribution": 5.36,
+              "trend_label": "stable"
             },
             {
               "kind": "monitor_composite",
               "code": "security_pressure",
               "label": "Security Pressure",
               "weight": 0.08,
-              "score": 79.25,
-              "weighted_contribution": 6.34,
-              "trend_label": "stable"
+              "score": 78.71,
+              "weighted_contribution": 6.3,
+              "trend_label": "easing"
             },
             {
               "kind": "monitor_pulse",
               "code": "cmr_balance",
               "label": "Civil-Military Stress pulse",
               "weight": 0.06,
-              "score": 30.23,
-              "weighted_contribution": 1.81,
-              "trend_label": "rising"
+              "score": 26.36,
+              "weighted_contribution": 1.58,
+              "trend_label": "stable"
             },
             {
               "kind": "monitor_pulse",
               "code": "security_pressure",
               "label": "Security Pressure pulse",
               "weight": 0.05,
-              "score": 93.18,
-              "weighted_contribution": 4.66,
-              "trend_label": "stable"
+              "score": 91.98,
+              "weighted_contribution": 4.6,
+              "trend_label": "easing"
             },
             {
               "kind": "structural_input",
@@ -11956,25 +11956,25 @@
               "code": "security_pressure",
               "label": "Security Pressure",
               "weight": 0.08,
-              "score": 79.25,
-              "weighted_contribution": 6.34,
-              "trend_label": "stable"
+              "score": 78.71,
+              "weighted_contribution": 6.3,
+              "trend_label": "easing"
             }
           ],
-          "summary_text": "Ecuador shows elevated near-term regime vulnerability, with pressure building around governance erosion, democratic fragility, and Security Pressure. If this pattern persists, governing authority in Ecuador is more likely to face institutional contestation, coercive overreach, or sharper elite-security dependence.",
+          "summary_text": "Ecuador shows elevated near-term regime vulnerability, but the immediate pressure has eased somewhat despite continued strain in governance erosion, democratic fragility, and Security Pressure. The main implication is that Ecuador's governing order remains vulnerable where governance erosion is already weakening routine accountability.",
           "watchpoints": [
             "watch for whether coop starts affecting elite cohesion or executive authority",
             "watch for security-force intervention in politics, emergency powers, or abrupt command changes"
           ],
-          "raw_score": 48.49
+          "raw_score": 48.1
         },
         {
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 36.74,
+          "score": 36.24,
           "level": "guarded",
-          "trend_label": "rising",
+          "trend_label": "stable",
           "horizon_days": 60,
           "components": [
             {
@@ -11982,18 +11982,18 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.22,
-              "score": 31.14,
-              "weighted_contribution": 6.85,
-              "trend_label": "rising"
+              "score": 29.79,
+              "weighted_contribution": 6.55,
+              "trend_label": "stable"
             },
             {
               "kind": "monitor_pulse",
               "code": "cmr_balance",
               "label": "Civil-Military Stress pulse",
               "weight": 0.1,
-              "score": 30.23,
-              "weighted_contribution": 3.02,
-              "trend_label": "rising"
+              "score": 26.36,
+              "weighted_contribution": 2.64,
+              "trend_label": "stable"
             },
             {
               "kind": "structural_input",
@@ -12110,9 +12110,9 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.22,
-              "score": 31.14,
-              "weighted_contribution": 6.85,
-              "trend_label": "rising"
+              "score": 29.79,
+              "weighted_contribution": 6.55,
+              "trend_label": "stable"
             },
             {
               "kind": "structural_input",
@@ -12124,20 +12124,20 @@
               "trend_label": null
             }
           ],
-          "summary_text": "Ecuador currently sits at a guarded level of militarization, and the military role is expanding most clearly through military domestic-coercion role, Civil-Military Stress, and military public-security role. The key question is whether military domestic-coercion role becomes further normalized as an ordinary state function in Ecuador.",
+          "summary_text": "Ecuador currently sits at a guarded level of militarization, with the strongest signal coming from military domestic-coercion role, Civil-Military Stress, and military public-security role. The key question is whether military domestic-coercion role becomes further normalized as an ordinary state function in Ecuador.",
           "watchpoints": [
             "watch for the armed forces moving deeper into domestic security or administrative roles",
             "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
           ],
-          "raw_score": 22.89
+          "raw_score": 22.36
         },
         {
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 79.1,
+          "score": 79.41,
           "level": "severe",
-          "trend_label": "stable",
+          "trend_label": "easing",
           "horizon_days": 75,
           "components": [
             {
@@ -12145,18 +12145,18 @@
               "code": "security_pressure",
               "label": "Security Pressure",
               "weight": 0.24,
-              "score": 79.25,
-              "weighted_contribution": 19.02,
-              "trend_label": "stable"
+              "score": 78.71,
+              "weighted_contribution": 18.89,
+              "trend_label": "easing"
             },
             {
               "kind": "monitor_pulse",
               "code": "security_pressure",
               "label": "Security Pressure pulse",
               "weight": 0.16,
-              "score": 93.18,
-              "weighted_contribution": 14.91,
-              "trend_label": "stable"
+              "score": 91.98,
+              "weighted_contribution": 14.72,
+              "trend_label": "easing"
             },
             {
               "kind": "structural_input",
@@ -12271,9 +12271,9 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.04,
-              "score": 31.14,
-              "weighted_contribution": 1.25,
-              "trend_label": "rising"
+              "score": 29.79,
+              "weighted_contribution": 1.19,
+              "trend_label": "stable"
             }
           ],
           "drivers": [
@@ -12282,9 +12282,9 @@
               "code": "security_pressure",
               "label": "Security Pressure",
               "weight": 0.24,
-              "score": 79.25,
-              "weighted_contribution": 19.02,
-              "trend_label": "stable"
+              "score": 78.71,
+              "weighted_contribution": 18.89,
+              "trend_label": "easing"
             },
             {
               "kind": "structural_input",
@@ -12300,32 +12300,32 @@
               "code": "security_pressure",
               "label": "Security Pressure pulse",
               "weight": 0.16,
-              "score": 93.18,
-              "weighted_contribution": 14.91,
-              "trend_label": "stable"
+              "score": 91.98,
+              "weighted_contribution": 14.72,
+              "trend_label": "easing"
             }
           ],
-          "summary_text": "Ecuador faces a high level of security fragmentation, shaped most by Security Pressure, organized-crime actor density, and Security Pressure pulse. The practical risk is that security pressure keeps security stress in Ecuador dispersed rather than contained.",
+          "summary_text": "Ecuador faces a high level of security fragmentation, but the current pattern is less expansionary than before even though Security Pressure, organized-crime actor density, and Security Pressure pulse still matter. The practical risk is that security pressure keeps security stress in Ecuador dispersed rather than contained.",
           "watchpoints": [
             "watch for criminal, insurgent, or protest dynamics spreading geographically or institutionally",
             "watch for evidence that state capacity is fragmenting across police, military, and local authorities"
           ],
-          "raw_score": 66.84
+          "raw_score": 66.56
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 63.22,
+        "overall_risk_score": 63.07,
         "overall_risk_level": "high",
         "leading_construct": "security_fragmentation",
         "leading_label": "Security Fragmentation",
-        "leading_trend": "stable",
-        "regime_vulnerability_score": 59.49,
-        "summary_text": "Ecuador currently sits in the high overall risk tier. The strongest near-term pressure comes from security fragmentation, especially through security pressure and organized-crime actor density. A second layer of pressure comes from regime vulnerability, which remains rising over the next 90 days.",
+        "leading_trend": "easing",
+        "regime_vulnerability_score": 59.19,
+        "summary_text": "Ecuador currently sits in the high overall risk tier. The strongest near-term pressure comes from security fragmentation, though it has eased somewhat recently, especially through security pressure and organized-crime actor density. A second layer of pressure comes from regime vulnerability, which remains easing over the next 90 days.",
         "watchpoints": [
           "watch for criminal, insurgent, or protest dynamics spreading geographically or institutionally",
           "watch for evidence that state capacity is fragmenting across police, military, and local authorities"
         ],
-        "raw_overall_risk_score": 61.54
+        "raw_overall_risk_score": 61.42
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -12334,7 +12334,7 @@
     },
     {
       "country": "Ecuador|Colombia",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -12526,7 +12526,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 13.91,
+          "score": 14.16,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -12761,7 +12761,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 28.83,
+          "score": 29.16,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -13103,18 +13103,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 11.23,
+        "overall_risk_score": 11.34,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 13.91,
+        "regime_vulnerability_score": 14.16,
         "summary_text": "Ecuador|Colombia currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and us security shift pressure.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 12.18
+        "raw_overall_risk_score": 12.36
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -13123,16 +13123,16 @@
     },
     {
       "country": "El Salvador",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
           "label": "Civil-Military Stress",
           "goal": "Track the degree of military political influence, institutional autonomy, and stress in civilian control.",
           "baseline_score": 59.53,
-          "pulse_score": 72.88,
-          "composite_score": 64.2,
-          "trend_label": "rising",
+          "pulse_score": 68.11,
+          "composite_score": 62.53,
+          "trend_label": "stable",
           "dominant_recent_signal": "purge",
           "baseline_mode": "observed",
           "baseline_components": [
@@ -13187,13 +13187,13 @@
             }
           ],
           "pulse_summary": {
-            "raw_pulse": 1.305,
-            "pulse_score": 72.88,
-            "trend_label": "rising",
+            "raw_pulse": 1.143,
+            "pulse_score": 68.11,
+            "trend_label": "stable",
             "dominant_recent_signal": "purge",
             "window_days": 90,
-            "short_window_raw": 1.305,
-            "medium_window_raw": 1.305,
+            "short_window_raw": 0.9,
+            "medium_window_raw": 1.143,
             "event_count": 3
           },
           "top_pulse_events": [
@@ -13211,7 +13211,7 @@
               "event_date": "2026-03-27",
               "salience": "high",
               "confidence": "high",
-              "contribution": 0.405
+              "contribution": 0.243
             },
             {
               "event_id": "0289855c3c6e",
@@ -13296,9 +13296,9 @@
           "label": "External Security Alignment",
           "goal": "Track how foreign cooperation, aid, exercises, and procurement may be changing the strategic posture of the state.",
           "baseline_score": 50.0,
-          "pulse_score": 51.32,
-          "composite_score": 50.4,
-          "trend_label": "rising",
+          "pulse_score": 44.79,
+          "composite_score": 48.44,
+          "trend_label": "stable",
           "dominant_recent_signal": "coop",
           "baseline_mode": "neutral_fallback",
           "baseline_components": [
@@ -13332,13 +13332,13 @@
             }
           ],
           "pulse_summary": {
-            "raw_pulse": 0.72,
-            "pulse_score": 51.32,
-            "trend_label": "rising",
+            "raw_pulse": 0.594,
+            "pulse_score": 44.79,
+            "trend_label": "stable",
             "dominant_recent_signal": "coop",
             "window_days": 90,
-            "short_window_raw": 0.72,
-            "medium_window_raw": 0.72,
+            "short_window_raw": 0.405,
+            "medium_window_raw": 0.594,
             "event_count": 2
           },
           "top_pulse_events": [
@@ -13356,7 +13356,7 @@
               "event_date": "2026-03-27",
               "salience": "high",
               "confidence": "high",
-              "contribution": 0.315
+              "contribution": 0.189
             }
           ]
         }
@@ -13366,7 +13366,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 61.92,
+          "score": 61.65,
           "level": "high",
           "trend_label": "rising",
           "horizon_days": 90,
@@ -13376,9 +13376,9 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.18,
-              "score": 64.2,
-              "weighted_contribution": 11.56,
-              "trend_label": "rising"
+              "score": 62.53,
+              "weighted_contribution": 11.26,
+              "trend_label": "stable"
             },
             {
               "kind": "monitor_composite",
@@ -13394,9 +13394,9 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress pulse",
               "weight": 0.06,
-              "score": 72.88,
-              "weighted_contribution": 4.37,
-              "trend_label": "rising"
+              "score": 68.11,
+              "weighted_contribution": 4.09,
+              "trend_label": "stable"
             },
             {
               "kind": "monitor_pulse",
@@ -13567,9 +13567,9 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.18,
-              "score": 64.2,
-              "weighted_contribution": 11.56,
-              "trend_label": "rising"
+              "score": 62.53,
+              "weighted_contribution": 11.26,
+              "trend_label": "stable"
             },
             {
               "kind": "structural_input",
@@ -13595,15 +13595,15 @@
             "watch for whether purge starts affecting elite cohesion or executive authority",
             "watch for security-force intervention in politics, emergency powers, or abrupt command changes"
           ],
-          "raw_score": 50.02
+          "raw_score": 49.64
         },
         {
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 69.19,
+          "score": 68.58,
           "level": "high",
-          "trend_label": "rising",
+          "trend_label": "stable",
           "horizon_days": 60,
           "components": [
             {
@@ -13611,18 +13611,18 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.22,
-              "score": 64.2,
-              "weighted_contribution": 14.12,
-              "trend_label": "rising"
+              "score": 62.53,
+              "weighted_contribution": 13.76,
+              "trend_label": "stable"
             },
             {
               "kind": "monitor_pulse",
               "code": "cmr_balance",
               "label": "Civil-Military Stress pulse",
               "weight": 0.1,
-              "score": 72.88,
-              "weighted_contribution": 7.29,
-              "trend_label": "rising"
+              "score": 68.11,
+              "weighted_contribution": 6.81,
+              "trend_label": "stable"
             },
             {
               "kind": "structural_input",
@@ -13739,9 +13739,9 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.22,
-              "score": 64.2,
-              "weighted_contribution": 14.12,
-              "trend_label": "rising"
+              "score": 62.53,
+              "weighted_contribution": 13.76,
+              "trend_label": "stable"
             },
             {
               "kind": "structural_input",
@@ -13753,18 +13753,18 @@
               "trend_label": null
             }
           ],
-          "summary_text": "El Salvador currently sits at a elevated level of militarization, and the military role is expanding most clearly through military domestic-coercion role, Civil-Military Stress, and military impunity. The key question is whether military domestic-coercion role becomes further normalized as an ordinary state function in El Salvador.",
+          "summary_text": "El Salvador currently sits at a elevated level of militarization, with the strongest signal coming from military domestic-coercion role, Civil-Military Stress, and military impunity. The key question is whether military domestic-coercion role becomes further normalized as an ordinary state function in El Salvador.",
           "watchpoints": [
             "watch for the armed forces moving deeper into domestic security or administrative roles",
             "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
           ],
-          "raw_score": 43.45
+          "raw_score": 42.8
         },
         {
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 50.82,
+          "score": 51.19,
           "level": "elevated",
           "trend_label": "rising",
           "horizon_days": 75,
@@ -13900,9 +13900,9 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.04,
-              "score": 64.2,
-              "weighted_contribution": 2.57,
-              "trend_label": "rising"
+              "score": 62.53,
+              "weighted_contribution": 2.5,
+              "trend_label": "stable"
             }
           ],
           "drivers": [
@@ -13939,22 +13939,22 @@
             "watch for criminal, insurgent, or protest dynamics spreading geographically or institutionally",
             "watch for evidence that state capacity is fragmenting across police, military, and local authorities"
           ],
-          "raw_score": 49.2
+          "raw_score": 49.15
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 61.09,
+        "overall_risk_score": 60.95,
         "overall_risk_level": "high",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
-        "leading_trend": "rising",
-        "regime_vulnerability_score": 61.92,
-        "summary_text": "El Salvador currently sits in the elevated overall risk tier. The strongest near-term pressure comes from militarization, and it is still rising, especially through military domestic-coercion role and civil-military stress. A second layer of pressure comes from regime vulnerability, which remains rising over the next 90 days.",
+        "leading_trend": "stable",
+        "regime_vulnerability_score": 61.65,
+        "summary_text": "El Salvador currently sits in the elevated overall risk tier. The strongest near-term pressure comes from militarization, especially through military domestic-coercion role and civil-military stress. A second layer of pressure comes from regime vulnerability, which remains rising over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 59.52
+        "raw_overall_risk_score": 59.41
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -13963,7 +13963,7 @@
     },
     {
       "country": "Guatemala",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -14172,7 +14172,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 55.56,
+          "score": 55.88,
           "level": "elevated",
           "trend_label": "easing",
           "horizon_days": 90,
@@ -14407,8 +14407,8 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 59.79,
-          "level": "elevated",
+          "score": 60.18,
+          "level": "high",
           "trend_label": "stable",
           "horizon_days": 60,
           "components": [
@@ -14570,7 +14570,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 46.62,
+          "score": 47.02,
           "level": "elevated",
           "trend_label": "easing",
           "horizon_days": 75,
@@ -14749,18 +14749,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 54.51,
+        "overall_risk_score": 54.87,
         "overall_risk_level": "elevated",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 55.56,
+        "regime_vulnerability_score": 55.88,
         "summary_text": "Guatemala currently sits in the elevated overall risk tier. The strongest near-term pressure comes from militarization, especially through military domestic-coercion role and military impunity. A second layer of pressure comes from regime vulnerability, which remains easing over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 53.27
+        "raw_overall_risk_score": 53.64
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -14769,7 +14769,7 @@
     },
     {
       "country": "Guyana",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -14988,7 +14988,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 24.96,
+          "score": 25.23,
           "level": "guarded",
           "trend_label": "easing",
           "horizon_days": 90,
@@ -15223,7 +15223,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 16.19,
+          "score": 16.49,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -15386,7 +15386,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 0.15,
+          "score": 0.04,
           "level": "low",
           "trend_label": "easing",
           "horizon_days": 75,
@@ -15565,18 +15565,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 13.25,
+        "overall_risk_score": 13.32,
         "overall_risk_level": "low",
         "leading_construct": "regime_vulnerability",
         "leading_label": "Regime Vulnerability",
         "leading_trend": "easing",
-        "regime_vulnerability_score": 24.96,
+        "regime_vulnerability_score": 25.23,
         "summary_text": "Guyana currently sits in the low overall risk tier. The strongest near-term pressure comes from regime vulnerability, though it has eased somewhat recently, especially through governance erosion and democratic fragility. A second layer of pressure comes from militarization, which remains stable over the next 60 days.",
         "watchpoints": [
           "watch for whether coop starts affecting elite cohesion or executive authority",
           "watch for security-force intervention in politics, emergency powers, or abrupt command changes"
         ],
-        "raw_overall_risk_score": 14.1
+        "raw_overall_risk_score": 14.24
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -15585,7 +15585,7 @@
     },
     {
       "country": "Haiti",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -15812,7 +15812,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 67.95,
+          "score": 68.29,
           "level": "high",
           "trend_label": "easing",
           "horizon_days": 90,
@@ -16047,7 +16047,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 27.67,
+          "score": 27.99,
           "level": "guarded",
           "trend_label": "easing",
           "horizon_days": 60,
@@ -16210,7 +16210,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 76.81,
+          "score": 77.54,
           "level": "severe",
           "trend_label": "rising",
           "horizon_days": 75,
@@ -16389,18 +16389,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 64.0,
+        "overall_risk_score": 64.47,
         "overall_risk_level": "high",
         "leading_construct": "security_fragmentation",
         "leading_label": "Security Fragmentation",
         "leading_trend": "rising",
-        "regime_vulnerability_score": 67.95,
+        "regime_vulnerability_score": 68.29,
         "summary_text": "Haiti currently sits in the high overall risk tier. The strongest near-term pressure comes from security fragmentation, and it is still rising, especially through organized-crime actor density and security pressure. A second layer of pressure comes from regime vulnerability, which remains easing over the next 90 days.",
         "watchpoints": [
           "watch for criminal, insurgent, or protest dynamics spreading geographically or institutionally",
           "watch for evidence that state capacity is fragmenting across police, military, and local authorities"
         ],
-        "raw_overall_risk_score": 62.28
+        "raw_overall_risk_score": 62.75
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -16409,7 +16409,7 @@
     },
     {
       "country": "Honduras",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -16627,7 +16627,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 45.4,
+          "score": 45.7,
           "level": "elevated",
           "trend_label": "easing",
           "horizon_days": 90,
@@ -16862,7 +16862,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 51.14,
+          "score": 51.51,
           "level": "elevated",
           "trend_label": "easing",
           "horizon_days": 60,
@@ -17025,7 +17025,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 39.32,
+          "score": 39.64,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -17204,18 +17204,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 45.24,
+        "overall_risk_score": 45.55,
         "overall_risk_level": "elevated",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "easing",
-        "regime_vulnerability_score": 45.4,
+        "regime_vulnerability_score": 45.7,
         "summary_text": "Honduras currently sits in the elevated overall risk tier. The strongest near-term pressure comes from militarization, though it has eased somewhat recently, especially through military impunity and civil-military stress. A second layer of pressure comes from regime vulnerability, which remains easing over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 44.47
+        "raw_overall_risk_score": 44.8
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -17224,7 +17224,7 @@
     },
     {
       "country": "Jamaica",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -17416,7 +17416,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 18.95,
+          "score": 19.21,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -17651,7 +17651,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 26.77,
+          "score": 27.09,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -17993,18 +17993,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 12.99,
+        "overall_risk_score": 13.1,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 18.95,
+        "regime_vulnerability_score": 19.21,
         "summary_text": "Jamaica currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through military domestic-coercion role and military public-security role. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 13.85
+        "raw_overall_risk_score": 14.03
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -18013,7 +18013,7 @@
     },
     {
       "country": "Mexico",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -18126,9 +18126,9 @@
           "label": "Security Pressure",
           "goal": "Track the intensity of conflict, organized crime, and coercive stress affecting the country security environment.",
           "baseline_score": 76.3,
-          "pulse_score": 88.57,
-          "composite_score": 81.82,
-          "trend_label": "rising",
+          "pulse_score": 83.62,
+          "composite_score": 79.59,
+          "trend_label": "stable",
           "dominant_recent_signal": "oc",
           "baseline_mode": "observed",
           "baseline_components": [
@@ -18169,24 +18169,16 @@
             }
           ],
           "pulse_summary": {
-            "raw_pulse": 2.169,
-            "pulse_score": 88.57,
-            "trend_label": "rising",
+            "raw_pulse": 1.809,
+            "pulse_score": 83.62,
+            "trend_label": "stable",
             "dominant_recent_signal": "oc",
             "window_days": 90,
-            "short_window_raw": 1.71,
-            "medium_window_raw": 1.71,
+            "short_window_raw": 0.81,
+            "medium_window_raw": 1.35,
             "event_count": 5
           },
           "top_pulse_events": [
-            {
-              "event_id": "03582d0dacf5",
-              "event_type": "conflict",
-              "event_date": "2026-03-27",
-              "salience": "high",
-              "confidence": "high",
-              "contribution": 0.9
-            },
             {
               "event_id": "4361d6ea7c3f",
               "event_type": "oc",
@@ -18194,6 +18186,14 @@
               "salience": "high",
               "confidence": "high",
               "contribution": 0.81
+            },
+            {
+              "event_id": "03582d0dacf5",
+              "event_type": "conflict",
+              "event_date": "2026-03-27",
+              "salience": "high",
+              "confidence": "high",
+              "contribution": 0.54
             },
             {
               "event_id": "a3f7c91d2e84",
@@ -18312,7 +18312,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 60.38,
+          "score": 60.24,
           "level": "high",
           "trend_label": "easing",
           "horizon_days": 90,
@@ -18331,9 +18331,9 @@
               "code": "security_pressure",
               "label": "Security Pressure",
               "weight": 0.08,
-              "score": 81.82,
-              "weighted_contribution": 6.55,
-              "trend_label": "rising"
+              "score": 79.59,
+              "weighted_contribution": 6.37,
+              "trend_label": "stable"
             },
             {
               "kind": "monitor_pulse",
@@ -18349,9 +18349,9 @@
               "code": "security_pressure",
               "label": "Security Pressure pulse",
               "weight": 0.05,
-              "score": 88.57,
-              "weighted_contribution": 4.43,
-              "trend_label": "rising"
+              "score": 83.62,
+              "weighted_contribution": 4.18,
+              "trend_label": "stable"
             },
             {
               "kind": "structural_input",
@@ -18541,13 +18541,13 @@
             "watch for whether reform starts affecting elite cohesion or executive authority",
             "watch for security-force intervention in politics, emergency powers, or abrupt command changes"
           ],
-          "raw_score": 49.05
+          "raw_score": 48.76
         },
         {
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 84.26,
+          "score": 84.71,
           "level": "severe",
           "trend_label": "easing",
           "horizon_days": 60,
@@ -18710,9 +18710,9 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 82.98,
+          "score": 82.15,
           "level": "severe",
-          "trend_label": "rising",
+          "trend_label": "stable",
           "horizon_days": 75,
           "components": [
             {
@@ -18720,18 +18720,18 @@
               "code": "security_pressure",
               "label": "Security Pressure",
               "weight": 0.24,
-              "score": 81.82,
-              "weighted_contribution": 19.64,
-              "trend_label": "rising"
+              "score": 79.59,
+              "weighted_contribution": 19.1,
+              "trend_label": "stable"
             },
             {
               "kind": "monitor_pulse",
               "code": "security_pressure",
               "label": "Security Pressure pulse",
               "weight": 0.16,
-              "score": 88.57,
-              "weighted_contribution": 14.17,
-              "trend_label": "rising"
+              "score": 83.62,
+              "weighted_contribution": 13.38,
+              "trend_label": "stable"
             },
             {
               "kind": "structural_input",
@@ -18857,9 +18857,9 @@
               "code": "security_pressure",
               "label": "Security Pressure",
               "weight": 0.24,
-              "score": 81.82,
-              "weighted_contribution": 19.64,
-              "trend_label": "rising"
+              "score": 79.59,
+              "weighted_contribution": 19.1,
+              "trend_label": "stable"
             },
             {
               "kind": "structural_input",
@@ -18875,32 +18875,32 @@
               "code": "security_pressure",
               "label": "Security Pressure pulse",
               "weight": 0.16,
-              "score": 88.57,
-              "weighted_contribution": 14.17,
-              "trend_label": "rising"
+              "score": 83.62,
+              "weighted_contribution": 13.38,
+              "trend_label": "stable"
             }
           ],
-          "summary_text": "Mexico faces a high level of security fragmentation, with coercive competition spreading through Security Pressure, organized-crime actor density, and Security Pressure pulse. The practical risk is that violence, criminal competition, or coercive stress in Mexico becomes harder to contain geographically and institutionally.",
+          "summary_text": "Mexico faces a high level of security fragmentation, shaped most by Security Pressure, organized-crime actor density, and Security Pressure pulse. The practical risk is that security pressure keeps security stress in Mexico dispersed rather than contained.",
           "watchpoints": [
             "watch for criminal, insurgent, or protest dynamics spreading geographically or institutionally",
             "watch for evidence that state capacity is fragmenting across police, military, and local authorities"
           ],
-          "raw_score": 69.26
+          "raw_score": 68.25
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 76.1,
+        "overall_risk_score": 75.82,
         "overall_risk_level": "severe",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "easing",
-        "regime_vulnerability_score": 60.38,
-        "summary_text": "Mexico currently sits in the high overall risk tier. The strongest near-term pressure comes from militarization, though it has eased somewhat recently, especially through military domestic-coercion role and military governance-administration role. A second layer of pressure comes from security fragmentation, which remains rising over the next 75 days.",
+        "regime_vulnerability_score": 60.24,
+        "summary_text": "Mexico currently sits in the high overall risk tier. The strongest near-term pressure comes from militarization, though it has eased somewhat recently, especially through military domestic-coercion role and military governance-administration role. A second layer of pressure comes from security fragmentation, which remains stable over the next 75 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 73.77
+        "raw_overall_risk_score": 73.51
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -18909,7 +18909,7 @@
     },
     {
       "country": "Mexico|Ecuador",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -19110,7 +19110,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 17.71,
+          "score": 17.97,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -19345,7 +19345,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 28.83,
+          "score": 29.16,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -19508,7 +19508,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 1.29,
+          "score": 1.19,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -19687,18 +19687,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 13.41,
+        "overall_risk_score": 13.48,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 17.71,
+        "regime_vulnerability_score": 17.97,
         "summary_text": "Mexico|Ecuador currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and us security shift pressure. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 14.25
+        "raw_overall_risk_score": 14.39
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -19707,7 +19707,7 @@
     },
     {
       "country": "Mexico|Guatemala|Colombia",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -19908,7 +19908,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 17.33,
+          "score": 17.59,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -20143,7 +20143,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 28.83,
+          "score": 29.16,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -20306,7 +20306,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 2.89,
+          "score": 2.81,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -20485,18 +20485,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 13.84,
+        "overall_risk_score": 13.92,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 17.33,
+        "regime_vulnerability_score": 17.59,
         "summary_text": "Mexico|Guatemala|Colombia currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and us security shift pressure. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 14.66
+        "raw_overall_risk_score": 14.81
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -20505,7 +20505,7 @@
     },
     {
       "country": "Mexico|United States",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -20715,7 +20715,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 18.72,
+          "score": 18.99,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -20950,7 +20950,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 31.14,
+          "score": 31.47,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -21292,18 +21292,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 13.9,
+        "overall_risk_score": 14.02,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 18.72,
+        "regime_vulnerability_score": 18.99,
         "summary_text": "Mexico|United States currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and us security shift pressure.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 14.71
+        "raw_overall_risk_score": 14.9
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -21312,7 +21312,7 @@
     },
     {
       "country": "Nicaragua",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -21530,7 +21530,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 62.05,
+          "score": 62.38,
           "level": "high",
           "trend_label": "easing",
           "horizon_days": 90,
@@ -21765,7 +21765,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 69.11,
+          "score": 69.53,
           "level": "high",
           "trend_label": "easing",
           "horizon_days": 60,
@@ -21928,7 +21928,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 22.49,
+          "score": 22.62,
           "level": "guarded",
           "trend_label": "easing",
           "horizon_days": 75,
@@ -22107,18 +22107,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 50.39,
+        "overall_risk_score": 50.65,
         "overall_risk_level": "elevated",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "easing",
-        "regime_vulnerability_score": 62.05,
+        "regime_vulnerability_score": 62.38,
         "summary_text": "Nicaragua currently sits in the elevated overall risk tier. The strongest near-term pressure comes from militarization, though it has eased somewhat recently, especially through military domestic-coercion role and civil-military stress. A second layer of pressure comes from regime vulnerability, which remains easing over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 49.36
+        "raw_overall_risk_score": 49.64
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -22127,7 +22127,7 @@
     },
     {
       "country": "Panama",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -22319,7 +22319,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 21.3,
+          "score": 21.57,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -22554,7 +22554,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 25.09,
+          "score": 25.41,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -22717,7 +22717,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 4.72,
+          "score": 4.66,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -22896,18 +22896,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 15.42,
+        "overall_risk_score": 15.52,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 21.3,
+        "regime_vulnerability_score": 21.57,
         "summary_text": "Panama currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through military governance-administration role and military domestic-coercion role. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 16.16
+        "raw_overall_risk_score": 16.33
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -22916,7 +22916,7 @@
     },
     {
       "country": "Paraguay",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -23126,7 +23126,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 26.14,
+          "score": 26.41,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -23361,7 +23361,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 29.58,
+          "score": 29.9,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -23524,7 +23524,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 12.75,
+          "score": 12.78,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -23703,18 +23703,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 21.66,
+        "overall_risk_score": 21.79,
         "overall_risk_level": "guarded",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 26.14,
+        "regime_vulnerability_score": 26.41,
         "summary_text": "Paraguay currently sits in the guarded overall risk tier. The strongest near-term pressure comes from militarization, especially through military impunity and military domestic-coercion role. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 22.08
+        "raw_overall_risk_score": 22.27
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -23723,7 +23723,7 @@
     },
     {
       "country": "Peru",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -23949,7 +23949,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 31.88,
+          "score": 32.16,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -24184,7 +24184,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 31.09,
+          "score": 31.42,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -24347,7 +24347,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 17.95,
+          "score": 18.04,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -24526,18 +24526,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 26.51,
+        "overall_risk_score": 26.68,
         "overall_risk_level": "guarded",
         "leading_construct": "regime_vulnerability",
         "leading_label": "Regime Vulnerability",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 31.88,
+        "regime_vulnerability_score": 32.16,
         "summary_text": "Peru currently sits in the guarded overall risk tier. The strongest near-term pressure comes from regime vulnerability, especially through governance erosion and democratic fragility. A second layer of pressure comes from militarization, which remains stable over the next 60 days.",
         "watchpoints": [
           "watch for whether aid starts affecting elite cohesion or executive authority",
           "watch for security-force intervention in politics, emergency powers, or abrupt command changes"
         ],
-        "raw_overall_risk_score": 26.69
+        "raw_overall_risk_score": 26.91
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -24546,7 +24546,7 @@
     },
     {
       "country": "Puerto Rico",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -24738,7 +24738,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 16.98,
+          "score": 17.24,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -24973,7 +24973,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 28.83,
+          "score": 29.16,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -25315,18 +25315,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 12.59,
+        "overall_risk_score": 12.71,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 16.98,
+        "regime_vulnerability_score": 17.24,
         "summary_text": "Puerto Rico currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and us security shift pressure. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 13.47
+        "raw_overall_risk_score": 13.66
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -25335,7 +25335,7 @@
     },
     {
       "country": "Suriname",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -25527,7 +25527,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 23.38,
+          "score": 23.66,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -25762,7 +25762,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 9.74,
+          "score": 10.02,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -25925,7 +25925,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 5.92,
+          "score": 5.88,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -26104,18 +26104,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 13.24,
+        "overall_risk_score": 13.34,
         "overall_risk_level": "low",
         "leading_construct": "regime_vulnerability",
         "leading_label": "Regime Vulnerability",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 23.38,
+        "regime_vulnerability_score": 23.66,
         "summary_text": "Suriname currently sits in the low overall risk tier. The strongest near-term pressure comes from regime vulnerability, especially through governance erosion and democratic fragility.",
         "watchpoints": [
           "watch for whether recent security reporting starts affecting elite cohesion or executive authority",
           "watch for security-force intervention in politics, emergency powers, or abrupt command changes"
         ],
-        "raw_overall_risk_score": 14.09
+        "raw_overall_risk_score": 14.26
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -26124,7 +26124,7 @@
     },
     {
       "country": "Trinidad and Tobago",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -26316,7 +26316,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 17.74,
+          "score": 18.0,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -26551,7 +26551,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 25.39,
+          "score": 25.71,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -26893,18 +26893,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 12.14,
+        "overall_risk_score": 12.24,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 17.74,
+        "regime_vulnerability_score": 18.0,
         "summary_text": "Trinidad and Tobago currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through military impunity and military domestic-coercion role. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 13.04
+        "raw_overall_risk_score": 13.22
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -26913,7 +26913,7 @@
     },
     {
       "country": "United States",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -27105,7 +27105,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 13.91,
+          "score": 14.78,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -27214,8 +27214,8 @@
               "code": "deed_erosion_signal",
               "label": "institutional erosion signal",
               "weight": 0.05,
-              "score": 5.59,
-              "weighted_contribution": 0.28,
+              "score": 8.84,
+              "weighted_contribution": 0.44,
               "trend_label": null
             },
             {
@@ -27324,23 +27324,23 @@
               "code": "deed_erosion_signal",
               "label": "institutional erosion signal",
               "weight": 0.05,
-              "score": 5.59,
-              "weighted_contribution": 0.28,
+              "score": 8.84,
+              "weighted_contribution": 0.44,
               "trend_label": null
             }
           ],
-          "summary_text": "United States shows low near-term regime vulnerability, centered on Civil-Military Stress, Security Pressure, and institutional erosion signal. The main implication is that United States's governing order remains vulnerable where civil-military stress is already weakening routine accountability.",
+          "summary_text": "United States shows guarded near-term regime vulnerability, centered on Civil-Military Stress, Security Pressure, and institutional erosion signal. The main implication is that United States's governing order remains vulnerable where civil-military stress is already weakening routine accountability.",
           "watchpoints": [
             "watch for whether recent security reporting starts affecting elite cohesion or executive authority",
             "watch for security-force intervention in politics, emergency powers, or abrupt command changes"
           ],
-          "raw_score": 19.83
+          "raw_score": 20.22
         },
         {
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 28.83,
+          "score": 29.16,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -27682,18 +27682,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 11.23,
+        "overall_risk_score": 11.61,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 13.91,
+        "regime_vulnerability_score": 14.78,
         "summary_text": "United States currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and us security shift pressure.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 12.18
+        "raw_overall_risk_score": 12.62
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -27702,7 +27702,7 @@
     },
     {
       "country": "United States|Brazil|Costa Rica",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -27894,7 +27894,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 16.98,
+          "score": 17.24,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -28129,7 +28129,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 28.83,
+          "score": 29.16,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -28471,18 +28471,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 12.59,
+        "overall_risk_score": 12.71,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 16.98,
+        "regime_vulnerability_score": 17.24,
         "summary_text": "United States|Brazil|Costa Rica currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and us security shift pressure. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 13.47
+        "raw_overall_risk_score": 13.66
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -28491,7 +28491,7 @@
     },
     {
       "country": "Uruguay",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -28683,7 +28683,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 8.18,
+          "score": 8.43,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -28918,7 +28918,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 11.57,
+          "score": 11.85,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -29081,7 +29081,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 3.21,
+          "score": 3.14,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -29260,18 +29260,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 5.92,
+        "overall_risk_score": 5.98,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 8.18,
+        "regime_vulnerability_score": 8.43,
         "summary_text": "Uruguay currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through military public-security role and civil-military stress. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 7.14
+        "raw_overall_risk_score": 7.28
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -29280,15 +29280,15 @@
     },
     {
       "country": "Venezuela",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
           "label": "Civil-Military Stress",
           "goal": "Track the degree of military political influence, institutional autonomy, and stress in civilian control.",
           "baseline_score": 62.5,
-          "pulse_score": 90.13,
-          "composite_score": 72.17,
+          "pulse_score": 87.64,
+          "composite_score": 71.3,
           "trend_label": "stable",
           "dominant_recent_signal": "coup",
           "baseline_mode": "observed",
@@ -29344,14 +29344,14 @@
             }
           ],
           "pulse_summary": {
-            "raw_pulse": 2.316,
-            "pulse_score": 90.13,
+            "raw_pulse": 2.091,
+            "pulse_score": 87.64,
             "trend_label": "stable",
             "dominant_recent_signal": "coup",
             "window_days": 90,
             "short_window_raw": 0.8438,
             "medium_window_raw": 1.4863,
-            "event_count": 9
+            "event_count": 8
           },
           "top_pulse_events": [
             {
@@ -29379,20 +29379,20 @@
               "contribution": 0.225
             },
             {
-              "event_id": "4a0a1e1559ed",
-              "event_type": "coup",
-              "event_date": "2026-01-03",
-              "salience": "high",
-              "confidence": "high",
-              "contribution": 0.225
-            },
-            {
               "event_id": "b2c3d4e5f6a1",
               "event_type": "purge",
               "event_date": "2026-03-20",
               "salience": "high",
               "confidence": "low",
               "contribution": 0.1836
+            },
+            {
+              "event_id": "1fc32d3b9fd1",
+              "event_type": "coop",
+              "event_date": "2026-03-30",
+              "salience": "high",
+              "confidence": "medium",
+              "contribution": 0.1688
             }
           ]
         },
@@ -29401,8 +29401,8 @@
           "label": "Security Pressure",
           "goal": "Track the intensity of conflict, organized crime, and coercive stress affecting the country security environment.",
           "baseline_score": 41.38,
-          "pulse_score": 93.6,
-          "composite_score": 64.88,
+          "pulse_score": 92.76,
+          "composite_score": 64.5,
           "trend_label": "stable",
           "dominant_recent_signal": "conflict",
           "baseline_mode": "observed",
@@ -29444,14 +29444,14 @@
             }
           ],
           "pulse_summary": {
-            "raw_pulse": 2.7495,
-            "pulse_score": 93.6,
+            "raw_pulse": 2.6258,
+            "pulse_score": 92.76,
             "trend_label": "stable",
             "dominant_recent_signal": "conflict",
             "window_days": 90,
             "short_window_raw": 0.3713,
             "medium_window_raw": 0.7763,
-            "event_count": 14
+            "event_count": 13
           },
           "top_pulse_events": [
             {
@@ -29563,7 +29563,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 87.65,
+          "score": 87.61,
           "level": "severe",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -29573,8 +29573,8 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.18,
-              "score": 72.17,
-              "weighted_contribution": 12.99,
+              "score": 71.3,
+              "weighted_contribution": 12.83,
               "trend_label": "stable"
             },
             {
@@ -29582,8 +29582,8 @@
               "code": "security_pressure",
               "label": "Security Pressure",
               "weight": 0.08,
-              "score": 64.88,
-              "weighted_contribution": 5.19,
+              "score": 64.5,
+              "weighted_contribution": 5.16,
               "trend_label": "stable"
             },
             {
@@ -29591,8 +29591,8 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress pulse",
               "weight": 0.06,
-              "score": 90.13,
-              "weighted_contribution": 5.41,
+              "score": 87.64,
+              "weighted_contribution": 5.26,
               "trend_label": "stable"
             },
             {
@@ -29600,8 +29600,8 @@
               "code": "security_pressure",
               "label": "Security Pressure pulse",
               "weight": 0.05,
-              "score": 93.6,
-              "weighted_contribution": 4.68,
+              "score": 92.76,
+              "weighted_contribution": 4.64,
               "trend_label": "stable"
             },
             {
@@ -29782,8 +29782,8 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.18,
-              "score": 72.17,
-              "weighted_contribution": 12.99,
+              "score": 71.3,
+              "weighted_contribution": 12.83,
               "trend_label": "stable"
             }
           ],
@@ -29792,13 +29792,13 @@
             "watch for whether coup starts affecting elite cohesion or executive authority",
             "watch for security-force intervention in politics, emergency powers, or abrupt command changes"
           ],
-          "raw_score": 66.2
+          "raw_score": 65.94
         },
         {
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 88.49,
+          "score": 88.41,
           "level": "severe",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -29808,8 +29808,8 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.22,
-              "score": 72.17,
-              "weighted_contribution": 15.88,
+              "score": 71.3,
+              "weighted_contribution": 15.69,
               "trend_label": "stable"
             },
             {
@@ -29817,8 +29817,8 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress pulse",
               "weight": 0.1,
-              "score": 90.13,
-              "weighted_contribution": 9.01,
+              "score": 87.64,
+              "weighted_contribution": 8.76,
               "trend_label": "stable"
             },
             {
@@ -29927,8 +29927,8 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.22,
-              "score": 72.17,
-              "weighted_contribution": 15.88,
+              "score": 71.3,
+              "weighted_contribution": 15.69,
               "trend_label": "stable"
             },
             {
@@ -29955,13 +29955,13 @@
             "watch for the armed forces moving deeper into domestic security or administrative roles",
             "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
           ],
-          "raw_score": 55.68
+          "raw_score": 55.34
         },
         {
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 86.13,
+          "score": 86.64,
           "level": "severe",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -29971,8 +29971,8 @@
               "code": "security_pressure",
               "label": "Security Pressure",
               "weight": 0.24,
-              "score": 64.88,
-              "weighted_contribution": 15.57,
+              "score": 64.5,
+              "weighted_contribution": 15.48,
               "trend_label": "stable"
             },
             {
@@ -29980,8 +29980,8 @@
               "code": "security_pressure",
               "label": "Security Pressure pulse",
               "weight": 0.16,
-              "score": 93.6,
-              "weighted_contribution": 14.98,
+              "score": 92.76,
+              "weighted_contribution": 14.84,
               "trend_label": "stable"
             },
             {
@@ -30097,8 +30097,8 @@
               "code": "cmr_balance",
               "label": "Civil-Military Stress",
               "weight": 0.04,
-              "score": 72.17,
-              "weighted_contribution": 2.89,
+              "score": 71.3,
+              "weighted_contribution": 2.85,
               "trend_label": "stable"
             }
           ],
@@ -30117,8 +30117,8 @@
               "code": "security_pressure",
               "label": "Security Pressure",
               "weight": 0.24,
-              "score": 64.88,
-              "weighted_contribution": 15.57,
+              "score": 64.5,
+              "weighted_contribution": 15.48,
               "trend_label": "stable"
             },
             {
@@ -30126,8 +30126,8 @@
               "code": "security_pressure",
               "label": "Security Pressure pulse",
               "weight": 0.16,
-              "score": 93.6,
-              "weighted_contribution": 14.98,
+              "score": 92.76,
+              "weighted_contribution": 14.84,
               "trend_label": "stable"
             }
           ],
@@ -30136,22 +30136,22 @@
             "watch for criminal, insurgent, or protest dynamics spreading geographically or institutionally",
             "watch for evidence that state capacity is fragmenting across police, military, and local authorities"
           ],
-          "raw_score": 71.22
+          "raw_score": 71.02
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 90.34,
+        "overall_risk_score": 90.51,
         "overall_risk_level": "severe",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 87.65,
+        "regime_vulnerability_score": 87.61,
         "summary_text": "Venezuela currently sits in the severe overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and military veto power. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 87.29
+        "raw_overall_risk_score": 87.44
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -30160,7 +30160,7 @@
     },
     {
       "country": "Venezuela|Colombia",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -30361,7 +30361,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 20.47,
+          "score": 20.74,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -30596,7 +30596,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 28.83,
+          "score": 29.16,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -30759,7 +30759,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 5.78,
+          "score": 5.73,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -30938,18 +30938,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 16.33,
+        "overall_risk_score": 16.43,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 20.47,
+        "regime_vulnerability_score": 20.74,
         "summary_text": "Venezuela|Colombia currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and us security shift pressure. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 17.02
+        "raw_overall_risk_score": 17.19
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
@@ -30958,7 +30958,7 @@
     },
     {
       "country": "Venezuela|Colombia|Mexico",
-      "generated_at": "2026-04-03T04:00:58.208134+00:00",
+      "generated_at": "2026-04-04T20:03:06.337034+00:00",
       "monitors": [
         {
           "code": "cmr_balance",
@@ -31159,7 +31159,7 @@
           "code": "regime_vulnerability",
           "label": "Regime Vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
-          "score": 17.33,
+          "score": 17.59,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 90,
@@ -31394,7 +31394,7 @@
           "code": "militarization",
           "label": "Militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
-          "score": 28.83,
+          "score": 29.16,
           "level": "guarded",
           "trend_label": "stable",
           "horizon_days": 60,
@@ -31557,7 +31557,7 @@
           "code": "security_fragmentation",
           "label": "Security Fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
-          "score": 2.89,
+          "score": 2.81,
           "level": "low",
           "trend_label": "stable",
           "horizon_days": 75,
@@ -31736,18 +31736,18 @@
         }
       ],
       "predictive_summary": {
-        "overall_risk_score": 13.84,
+        "overall_risk_score": 13.92,
         "overall_risk_level": "low",
         "leading_construct": "militarization",
         "leading_label": "Militarization",
         "leading_trend": "stable",
-        "regime_vulnerability_score": 17.33,
+        "regime_vulnerability_score": 17.59,
         "summary_text": "Venezuela|Colombia|Mexico currently sits in the low overall risk tier. The strongest near-term pressure comes from militarization, especially through civil-military stress and us security shift pressure. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "watchpoints": [
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "raw_overall_risk_score": 14.66
+        "raw_overall_risk_score": 14.81
       },
       "calibration": {
         "method": "anchor_country_affine_fit",
