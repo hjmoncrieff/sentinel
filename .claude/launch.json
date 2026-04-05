@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "SENTINEL Dashboard",
-      "runtimeExecutable": "python3",
+      "runtimeExecutable": "/opt/homebrew/bin/python3",
       "runtimeArgs": ["-m", "http.server", "8000"],
       "port": 8000
     }

@@ -1124,6 +1124,10 @@ def main() -> None:
                         help="Years back when using --backfill without --since (default: 5)")
     parser.add_argument("--gdelt",       action="store_true",
                         help="Opt in to GDELT. Disabled by default for both normal and historical runs.")
+    parser.add_argument("--from-staging", type=str, default=None, metavar="DIR",
+                        help="Load pre-fetched article records from JSONL files in DIR "
+                             "(e.g. data/staging/gdelt_events/) and classify them. "
+                             "Skips all live fetching when specified.")
     args = parser.parse_args()
 
     backfill = args.backfill or (args.since is not None)
@@ -1154,7 +1158,27 @@ def main() -> None:
     # ── 1. Fetch all sources ───────────────────────────────────────────────────
     all_articles: list[dict] = []
 
-    if backfill:
+    if args.from_staging:
+        # Staging mode: read pre-fetched JSONL files; skip all live fetching.
+        staging_dir = Path(args.from_staging)
+        if not staging_dir.is_dir():
+            raise ValueError(f"--from-staging path does not exist or is not a directory: {staging_dir}")
+        jsonl_files = sorted(staging_dir.glob("*.jsonl"))
+        log.info(f"Loading staging articles from {len(jsonl_files)} JSONL file(s) in {staging_dir}")
+        for jf in jsonl_files:
+            loaded = 0
+            for line in jf.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    all_articles.append(json.loads(line))
+                    loaded += 1
+                except json.JSONDecodeError as e:
+                    log.warning(f"Bad JSON line in {jf.name}: {e}")
+            log.info(f"  {jf.name}: {loaded} records")
+        log.info(f"Total staging articles loaded: {len(all_articles)}")
+    elif backfill:
         # Historical mode: archive scrapers, with optional GDELT.
         if args.gdelt:
             log.info("Fetching GDELT in monthly batches...")
@@ -1175,18 +1199,20 @@ def main() -> None:
         if args.gdelt:
             all_articles.extend(normalize_gdelt(fetch_gdelt()))
 
-    # NewsAPI (works in both modes — dev plan limited to 30 days)
-    newsapi_key = os.environ.get("NEWSAPI_KEY", "")
-    if newsapi_key:
-        newsapi_since = cutoff.strftime("%Y-%m-%dT%H:%M:%SZ") if backfill else None
-        all_articles.extend(normalize_newsapi(fetch_newsapi(newsapi_key, since=newsapi_since)))
-    else:
-        log.info("No NEWSAPI_KEY — skipping NewsAPI")
+    # NewsAPI (works in normal/backfill modes; skip in --from-staging mode)
+    if not args.from_staging:
+        newsapi_key = os.environ.get("NEWSAPI_KEY", "")
+        if newsapi_key:
+            newsapi_since = cutoff.strftime("%Y-%m-%dT%H:%M:%SZ") if backfill else None
+            all_articles.extend(normalize_newsapi(fetch_newsapi(newsapi_key, since=newsapi_since)))
+        else:
+            log.info("No NEWSAPI_KEY — skipping NewsAPI")
 
-    # DSCA arms sales
-    all_articles.extend(fetch_dsca())
-    # DEA press releases
-    all_articles.extend(fetch_dea())
+    if not args.from_staging:
+        # DSCA arms sales
+        all_articles.extend(fetch_dsca())
+        # DEA press releases
+        all_articles.extend(fetch_dea())
 
     log.info(f"Total raw articles: {len(all_articles)}")
 
