@@ -892,8 +892,6 @@ def add_target_columns(rows: list[dict]) -> None:
                 conflict_count = int(candidate.get("event_type_conflict_count", 0) or 0)
                 protest_count = int(candidate.get("event_type_protest_count", 0) or 0)
                 contestation_load = float(candidate.get("transition_contestation_load_score", 0) or 0.0)
-                protest_acute_signal = float(candidate.get("protest_acute_signal_score", 0) or 0.0)
-                protest_background = float(candidate.get("protest_background_load_score", 0) or 0.0)
                 if candidate.get("event_type_coup_count", 0) > 0:
                     score += 4
                 if (

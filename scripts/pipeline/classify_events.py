@@ -21,11 +21,9 @@ SCRIPTS_DIR = ROOT / "scripts"
 if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
 
-import anthropic  # type: ignore
+import anthropic  # type: ignore  # noqa: E402
 
-from pipeline_core import (
-    DATA_FILE,
-    REVIEW_DIR,
+from pipeline_core import (  # noqa: E402
     STAGING_DIR,
     classify_articles,
     generate_analysis,

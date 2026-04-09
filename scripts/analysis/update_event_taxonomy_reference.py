@@ -12,10 +12,6 @@ TAXONOMY_PATH = ROOT / "config" / "taxonomy" / "event_types.json"
 OUTPUT_PATH = ROOT / "docs" / "event-taxonomy-reference.md"
 
 
-def titleize(value: str) -> str:
-    return str(value or "").replace("_", " ").strip().title()
-
-
 def bullet_list(items: list[str]) -> str:
     cleaned = [item for item in items if item]
     if not cleaned:

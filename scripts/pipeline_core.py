@@ -28,7 +28,6 @@ import hashlib
 import json
 import logging
 import os
-import re
 import smtplib
 import sys
 import time
@@ -120,28 +119,6 @@ COUNTRY_ISO3: dict[str, str] = {
     "Haiti": "HTI", "Dominican Republic": "DOM", "Panama": "PAN",
     "Costa Rica": "CRI", "Jamaica": "JAM", "Trinidad and Tobago": "TTO",
     "Guyana": "GUY", "Suriname": "SUR", "Belize": "BLZ", "Regional": "REG",
-}
-
-# Correlates of War numeric codes
-COUNTRY_COW_N: dict[str, int] = {
-    "Brazil": 140, "Colombia": 100, "Mexico": 70, "Venezuela": 101,
-    "Argentina": 160, "Peru": 135, "Chile": 155, "Ecuador": 130,
-    "Bolivia": 145, "Honduras": 91, "Nicaragua": 93, "Guatemala": 90,
-    "El Salvador": 92, "Paraguay": 150, "Uruguay": 165, "Cuba": 40,
-    "Haiti": 41, "Dominican Republic": 42, "Panama": 95, "Costa Rica": 94,
-    "Jamaica": 51, "Trinidad and Tobago": 52, "Guyana": 110, "Suriname": 115,
-    "Belize": 80,
-}
-
-# Correlates of War character codes
-COUNTRY_COW_C: dict[str, str] = {
-    "Brazil": "BRA", "Colombia": "COL", "Mexico": "MEX", "Venezuela": "VEN",
-    "Argentina": "ARG", "Peru": "PER", "Chile": "CHL", "Ecuador": "ECU",
-    "Bolivia": "BOL", "Honduras": "HON", "Nicaragua": "NIC", "Guatemala": "GUA",
-    "El Salvador": "SAL", "Paraguay": "PAR", "Uruguay": "URU", "Cuba": "CUB",
-    "Haiti": "HAI", "Dominican Republic": "DOM", "Panama": "PAN",
-    "Costa Rica": "COS", "Jamaica": "JAM", "Trinidad and Tobago": "TRI",
-    "Guyana": "GUY", "Suriname": "SUR", "Belize": "BLZ",
 }
 
 PLACE_COORDS: dict[str, list[float]] = {
@@ -381,7 +358,7 @@ def save_events(existing: dict, new_events: list[dict]) -> int:
             prev_links = prev.get("links") or ([prev["url"]] if prev.get("url") else [])
             new_links  = ev.get("links")   or ([ev["url"]]   if ev.get("url")   else [])
             existing[eid]["links"] = list(dict.fromkeys(
-                l for l in prev_links + new_links if l and l != "#"
+                link for link in prev_links + new_links if link and link != "#"
             ))
             existing[eid]["url"] = existing[eid]["links"][0] if existing[eid]["links"] else ""
             prev_article_ids = prev.get("source_article_ids") or []
@@ -779,7 +756,7 @@ def _classify_batch(client: anthropic.Anthropic, items: list[dict]) -> list[dict
             messages=[{"role": "user", "content": CLASSIFY_PROMPT.format(items=texts)}],
         )
         lines = msg.content[0].text.strip().split("\n")
-        return [json.loads(l) for l in lines if l.strip().startswith("{")]
+        return [json.loads(line) for line in lines if line.strip().startswith("{")]
     except Exception as e:
         log.error(f"Classification batch error: {e}")
         return []
@@ -827,7 +804,7 @@ def _merge_cluster(events: list[dict]) -> dict:
     if len(events) == 1:
         ev = events[0]
         ev.setdefault("sources", [ev.get("source", "")])
-        ev.setdefault("links", [l for l in [ev.get("url")] if l and l != "#"])
+        ev.setdefault("links", [link for link in [ev.get("url")] if link and link != "#"])
         ev.setdefault("source_article_ids", [r.get("article_id") for r in ev.get("linked_reports", []) if r.get("article_id")])
         ev.setdefault("linked_reports", [])
         return ev
@@ -837,8 +814,10 @@ def _merge_cluster(events: list[dict]) -> dict:
         s for ev in events for s in (ev.get("sources") or [ev.get("source", "")]) if s
     ))
     links    = list(dict.fromkeys(
-        l for ev in events for l in (ev.get("links") or ([ev.get("url")] if ev.get("url") else []))
-        if l and l != "#"
+        link
+        for ev in events
+        for link in (ev.get("links") or ([ev.get("url")] if ev.get("url") else []))
+        if link and link != "#"
     ))
     summary  = max((ev.get("summary", "") for ev in events), key=len)
     title    = max((ev.get("title", "")   for ev in events), key=len)
@@ -1026,8 +1005,8 @@ def _build_digest_html(events: list[dict], days: int = 7) -> str:
         ) if ev.get("ai_analysis") else ""
         links    = ev.get("links") or ([ev["url"]] if ev.get("url") else [])
         link_html = " ".join(
-            f'<a href="{l}" style="color:#1a5fa8;font-size:11px;margin-right:8px;">Read →</a>'
-            for l in links[:3]
+            f'<a href="{link}" style="color:#1a5fa8;font-size:11px;margin-right:8px;">Read →</a>'
+            for link in links[:3]
         )
         rows += f"""
         <tr><td style="padding:16px 0;border-bottom:1px solid #e8e4dd;vertical-align:top;">

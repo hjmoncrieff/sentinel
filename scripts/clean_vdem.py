@@ -56,8 +56,6 @@ VDEM_NAME_MAP: dict[str, str] = {
     "Venezuela":           "Venezuela",
 }
 
-# V-Dem name  →  SENTINEL canonical name (reverse lookup)
-VDEM_TO_SENTINEL: dict[str, str] = {v: k for k, v in VDEM_NAME_MAP.items()}
 VDEM_NAMES: set[str] = set(VDEM_NAME_MAP.values())
 
 YEAR_MIN = 1990

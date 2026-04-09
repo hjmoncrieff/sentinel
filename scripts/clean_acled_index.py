@@ -172,20 +172,16 @@ def main():
 
     countries_out = []
     found_names = []
-    skipped = 0
-
     for row in rows[1:]:
         if not any(row):
             continue  # skip blank rows
 
         acled_name_raw = row[col_idx["country"]] if "country" in col_idx else None
         if acled_name_raw is None:
-            skipped += 1
             continue
         acled_name = str(acled_name_raw).strip()
 
         if acled_name not in NAME_MAP:
-            skipped += 1
             continue
 
         sentinel_name = NAME_MAP[acled_name]

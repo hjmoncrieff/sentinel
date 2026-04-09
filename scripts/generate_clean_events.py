@@ -279,13 +279,34 @@ def main(out_dir: Path = OUT_DIR) -> None:
 
 def infer_source_type(source: str) -> str:
     s = source.lower()
-    if any(x in s for x in ["acled", "gdelt"]): return "structured_data"
-    if any(x in s for x in ["crisis group", "insight crime", "wilson", "americas quarterly",
-                              "nacla", "southcom"]): return "think_tank"
-    if any(x in s for x in ["reuters", "ap ", "bbc", "guardian", "nyt", "times",
-                              "folha", "el país", "el tiempo", "semana", "cnn",
-                              "miami herald", "infobae", "el nacional"]): return "wire"
-    if any(x in s for x in ["dea", "dsca", "pentagon", "state dept"]): return "official"
+    if any(x in s for x in ["acled", "gdelt"]):
+        return "structured_data"
+    if any(
+        x in s for x in ["crisis group", "insight crime", "wilson", "americas quarterly", "nacla", "southcom"]
+    ):
+        return "think_tank"
+    if any(
+        x in s
+        for x in [
+            "reuters",
+            "ap ",
+            "bbc",
+            "guardian",
+            "nyt",
+            "times",
+            "folha",
+            "el país",
+            "el tiempo",
+            "semana",
+            "cnn",
+            "miami herald",
+            "infobae",
+            "el nacional",
+        ]
+    ):
+        return "wire"
+    if any(x in s for x in ["dea", "dsca", "pentagon", "state dept"]):
+        return "official"
     return "wire"
 
 

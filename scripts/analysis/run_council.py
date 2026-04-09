@@ -277,16 +277,6 @@ def classify_event_frame(event: dict, role_domains: list[str], interaction_types
     return "civil-military and security politics"
 
 
-def actor_focus_text(event: dict) -> str:
-    actors = actor_names(event)
-    if not actors:
-        return ""
-    named = actors[:2]
-    if len(named) == 1:
-        return f"The reporting centers on {named[0]}."
-    return f"The reporting centers on {named[0]} and {named[1]}."
-
-
 def confidence_context(event: dict) -> str:
     confidence = str(event.get("confidence") or "").lower()
     if confidence == "low":
@@ -490,17 +480,6 @@ def deed_effect_domain(event: dict) -> str:
     return mapping.get(deed_type(event), "")
 
 
-def deed_interpretive_line(event: dict) -> str:
-    country = event.get("country") or "the country"
-    mapping = {
-        "precursor": f"In DEED terms, this is best read as a precursor: a warning sign that the institutional rules of the game in {country} may be weakening before a fuller rupture is visible.",
-        "symptom": f"In DEED terms, this is best read as a symptom: the event suggests that erosion in {country} is no longer only rhetorical and is being expressed through institutions or coercive practice.",
-        "destabilizing": f"In DEED terms, this is best read as destabilizing: the episode points to institutional stress in {country} that could accelerate elite rupture, coercive escalation, or constitutional breakdown.",
-        "resistance": f"In DEED terms, this is best read as resistance: the event suggests that actors in {country} are still contesting erosion rather than simply accommodating it.",
-    }
-    return mapping.get(deed_type(event), "")
-
-
 def event_subcategory(event: dict) -> str:
     return str(event.get("event_subcategory") or "").strip().lower()
 
@@ -513,100 +492,99 @@ def subcategory_line(event: dict, lens: str) -> str:
             "political_risk": f"In {country}, the mechanism is not only violence but the relocation of trafficking infrastructure, which can widen the gap between formal authority and the actors who actually move money, goods, and protection.",
             "regional_security": f"In {country}, this looks like a route-and-hub problem: control is being contested through logistics corridors, not only through open clashes.",
             "economist": f"In {country}, the key economic mechanism is the financing power that comes from controlling routes, storage, and brokerage points.",
-            "synthesis": f"The mechanism here is logistical entrenchment: armed actors gain leverage when they can route traffic, rents, and protection through durable corridors."
+            "synthesis": "The mechanism here is logistical entrenchment: armed actors gain leverage when they can route traffic, rents, and protection through durable corridors."
         },
         "criminal_violence_and_social_control": {
             "political_risk": f"In {country}, this is about whether spectacular violence is beginning to shape public authority and political behavior, not just criminal fear.",
             "regional_security": f"In {country}, the issue is localized social control: violence is being used to govern communities and signal who rules on the ground.",
             "economist": f"In {country}, coercion matters economically because violent domination protects extortion, protection rents, and illicit market access.",
-            "synthesis": f"The mechanism here is coercive social control: violence is doing political work by reshaping fear, compliance, and local authority."
+            "synthesis": "The mechanism here is coercive social control: violence is doing political work by reshaping fear, compliance, and local authority."
         },
         "criminal_interdiction_and_state_response": {
             "regional_security": f"In {country}, this is less about who attacked whom than about whether state interdiction is actually disrupting criminal reach or merely forcing it to adapt.",
             "economist": f"In {country}, interdiction matters economically because it can change transport costs, risk premia, and the profitability of illicit routes.",
-            "synthesis": f"The mechanism here is adaptive pressure: state action may disrupt criminal operations, but it can also displace them geographically or organizationally."
+            "synthesis": "The mechanism here is adaptive pressure: state action may disrupt criminal operations, but it can also displace them geographically or organizationally."
         },
         "peace_process_electoral_stress": {
             "political_risk": f"In {country}, elections matter here because they can reopen bargains over who will honor, dilute, or reverse the peace track.",
             "international": f"In {country}, outside actors matter because electoral uncertainty changes how guarantors, donors, and diplomatic partners assess the peace process.",
-            "synthesis": f"The mechanism here is political uncertainty around implementation: the negotiation track is being filtered through electoral competition."
+            "synthesis": "The mechanism here is political uncertainty around implementation: the negotiation track is being filtered through electoral competition."
         },
         "transitional_justice_and_accountability": {
             "political_risk": f"In {country}, accountability is politically consequential because it can redistribute blame, weaken old protection networks, and provoke backlash from affected institutions.",
-            "synthesis": f"The mechanism here is institutional accountability: judicial action is testing whether past coercive power can still be shielded from scrutiny."
+            "synthesis": "The mechanism here is institutional accountability: judicial action is testing whether past coercive power can still be shielded from scrutiny."
         },
         "peace_process_breakdown_and_spoilers": {
             "political_risk": f"In {country}, this is not just a failed dialogue moment; it increases the chance that armed and political actors will revert to harder bargaining through force.",
             "regional_security": f"In {country}, spoilers matter because breakdown can quickly move local security orders back toward fragmentation and retaliation.",
-            "synthesis": f"The mechanism here is spoiler escalation: failed talks or attacks narrow the room for settlement and widen the room for coercive competition."
+            "synthesis": "The mechanism here is spoiler escalation: failed talks or attacks narrow the room for settlement and widen the room for coercive competition."
         },
         "operational_security_cooperation": {
             "military": f"In {country}, the important issue is whether operational cooperation changes who sets mission priorities and how domestic force is actually used.",
             "regional_security": f"In {country}, joint operations matter if they redirect where the state concentrates force and which territories become priority zones.",
             "international": f"In {country}, this is operational alignment, not just symbolism: outside partners are shaping how security action is organized in practice.",
-            "synthesis": f"The mechanism here is operational alignment: foreign-backed cooperation is changing practice on the ground, not only diplomatic posture."
+            "synthesis": "The mechanism here is operational alignment: foreign-backed cooperation is changing practice on the ground, not only diplomatic posture."
         },
         "foreign_training_and_force_assistance": {
             "military": f"In {country}, training assistance matters because it can build new professional habits, dependencies, and channels of outside influence inside the force.",
             "international": f"In {country}, this is a partnership signal as much as a training event: it says something about who is being trusted to shape the security sector.",
-            "synthesis": f"The mechanism here is capability shaping through partnership: training relationships can alter doctrine, preferences, and external dependence over time."
+            "synthesis": "The mechanism here is capability shaping through partnership: training relationships can alter doctrine, preferences, and external dependence over time."
         },
         "regional_security_alignment_and_strategy": {
             "international": f"In {country}, the event is strategically important because it points to a broader coalition or doctrine rather than a one-off cooperative step.",
-            "synthesis": f"The mechanism here is strategic alignment: the event tells us more about regional security direction than about a single operational decision."
+            "synthesis": "The mechanism here is strategic alignment: the event tells us more about regional security direction than about a single operational decision."
         },
         "executive_removal_and_irregular_transfer": {
             "cmr": f"In {country}, the key question is who controlled the handoff from leader removal to interim authority, and whether the chain of command stayed intact or was repurposed politically.",
             "political_risk": f"In {country}, this is a direct test of whether executive succession is still governed by rules or by whoever can impose control fastest.",
             "international": f"In {country}, outside recognition and pressure matter because they can quickly shape whether the irregular transfer hardens or unravels.",
-            "synthesis": f"The mechanism here is irregular succession under coercive pressure: leader removal and interim authority are being settled through force and recognition, not only procedure."
+            "synthesis": "The mechanism here is irregular succession under coercive pressure: leader removal and interim authority are being settled through force and recognition, not only procedure."
         },
         "historical_coup_memory_and_legacy": {
             "cmr": f"In {country}, the event matters less as a live rupture than as a reminder of how the armed forces have been remembered, justified, or politically narrated over time.",
-            "synthesis": f"The mechanism here is memory politics: the event shapes how past coercive rupture is interpreted in the present."
+            "synthesis": "The mechanism here is memory politics: the event shapes how past coercive rupture is interpreted in the present."
         },
         "elite_security_reshuffle": {
             "cmr": f"In {country}, this looks like selective control over senior posts rather than a neutral personnel change, which makes it relevant to loyalty management.",
             "political_risk": f"In {country}, reshuffles matter because they can reveal insecurity at the top and attempts to lock in more dependable coercive allies.",
-            "synthesis": f"The mechanism here is elite security management: personnel changes are being used to reshape trust and control inside the coercive apparatus."
+            "synthesis": "The mechanism here is elite security management: personnel changes are being used to reshape trust and control inside the coercive apparatus."
         },
-        "foreign_training_and_force_assistance": {},
         "security_force_labor_and_institutional_contention": {
             "political_risk": f"In {country}, the issue is not street protest alone but contention inside the security apparatus itself, which can expose friction between the executive and coercive institutions.",
             "regional_security": f"In {country}, internal labor or status disputes matter if they weaken day-to-day control capacity or fracture operational discipline.",
-            "synthesis": f"The mechanism here is institutional contention inside the coercive apparatus: pressure is coming from actors the state also depends on to enforce order."
+            "synthesis": "The mechanism here is institutional contention inside the coercive apparatus: pressure is coming from actors the state also depends on to enforce order."
         },
         "protest_repression_and_security_response": {
             "political_risk": f"In {country}, repression shifts the event from ordinary protest into a test of how far the state will go to manage dissent coercively.",
             "regional_security": f"In {country}, the important question is whether security deployment remains crowd control or starts to change local coercive authority more broadly.",
-            "synthesis": f"The mechanism here is coercive protest management: the state's response, not just the protest itself, is changing the event's political meaning."
+            "synthesis": "The mechanism here is coercive protest management: the state's response, not just the protest itself, is changing the event's political meaning."
         },
         "institutional_professionalization_and_inclusion": {
             "cmr": f"In {country}, this points to who is allowed to rise inside the force and what kind of institutional identity the leadership wants to project.",
-            "synthesis": f"The mechanism here is institutional shaping through promotion and symbolism: leadership is signaling what kind of force it wants to build."
+            "synthesis": "The mechanism here is institutional shaping through promotion and symbolism: leadership is signaling what kind of force it wants to build."
         },
         "domestic_security_militarization": {
             "cmr": f"In {country}, the core issue is mission transfer: domestic security functions are being moved more firmly under military command.",
             "political_risk": f"In {country}, this matters politically because military management of internal order can outlast the immediate reform and reshape executive tools of control.",
-            "synthesis": f"The mechanism here is mission expansion into domestic order: military institutions are gaining a more direct role in internal governance."
+            "synthesis": "The mechanism here is mission expansion into domestic order: military institutions are gaining a more direct role in internal governance."
         },
         "multinational_force_posture_and_interoperability": {
             "military": f"In {country}, the exercise matters because interoperability can build habits, expectations, and readiness ties that persist beyond the drill itself.",
             "international": f"In {country}, multinational exercise design is also a signal of who the country expects to align with in future security scenarios.",
-            "synthesis": f"The mechanism here is force-posture signaling through interoperability: training is shaping both readiness and external alignment."
+            "synthesis": "The mechanism here is force-posture signaling through interoperability: training is shaping both readiness and external alignment."
         },
         "state_offensive_and_counterinsurgent_action": {
             "political_risk": f"In {country}, offensive action matters politically because failure, collateral damage, or overreach can feed executive vulnerability instead of restoring control.",
             "regional_security": f"In {country}, this is about whether state force is consolidating territorial control or exposing how hard that control is to sustain.",
-            "synthesis": f"The mechanism here is offensive coercion under stress: the state is trying to restore control through force, but the operation itself can reveal its limits."
+            "synthesis": "The mechanism here is offensive coercion under stress: the state is trying to restore control through force, but the operation itself can reveal its limits."
         },
         "armed_violence_and_localized_breakdown": {
             "regional_security": f"In {country}, the event points to localized breakdown where armed actors can punish, displace, or govern communities more effectively than the state.",
-            "synthesis": f"The mechanism here is localized breakdown of order: armed violence is revealing where state protection is absent, weak, or contested."
+            "synthesis": "The mechanism here is localized breakdown of order: armed violence is revealing where state protection is absent, weak, or contested."
         },
         "conflict_aftershock_and_regime_spillover": {
             "political_risk": f"In {country}, the event matters because conflict dynamics are spilling into regime politics, succession, or elite legitimacy rather than staying confined to the battlefield.",
-            "synthesis": f"The mechanism here is spillover from conflict into regime politics: coercive confrontation is no longer separable from the political order itself."
+            "synthesis": "The mechanism here is spillover from conflict into regime politics: coercive confrontation is no longer separable from the political order itself."
         },
     }
     return lines.get(subtype, {}).get(lens, "")

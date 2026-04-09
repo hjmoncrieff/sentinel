@@ -347,12 +347,6 @@ def scale_wgi(value: float | int | None, invert: bool = False) -> float | None:
     return 100.0 - score if invert else score
 
 
-def scale_hwi(value: float | int | None) -> float | None:
-    if value is None:
-        return None
-    return clamp((float(value) / 20.0) * 100.0)
-
-
 def scale_polity(value: float | int | None, invert: bool = False) -> float | None:
     if value is None:
         return None

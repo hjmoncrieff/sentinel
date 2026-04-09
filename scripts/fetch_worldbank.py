@@ -176,7 +176,7 @@ def main():
     with open(cleaned_json_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
-    print(f"  → data/cleaned/worldbank.json (includes full series)")
+    print("  → data/cleaned/worldbank.json (includes full series)")
     print(f"  → data/raw/wb_*.json          ({len(INDICATORS)} files, full 1960-2025 range)")
     print("Done.")
 

@@ -262,22 +262,6 @@ def augment_timeline_for_publication(
     return sorted(unique, key=stage_sort_key)
 
 
-def public_provenance_timeline(event: dict) -> list[dict]:
-    timeline = sorted(
-        ((event.get("provenance") or {}).get("timeline") or []),
-        key=stage_sort_key,
-    )
-    public_rows = []
-    for row in timeline[-6:]:
-        public_rows.append({
-            "stage": row.get("stage"),
-            "label": row.get("label"),
-            "status": row.get("status"),
-            "at": row.get("at"),
-        })
-    return public_rows
-
-
 def public_linked_reports(event: dict) -> list[dict]:
     reports = ((event.get("provenance") or {}).get("linked_reports") or [])[:6]
     return [

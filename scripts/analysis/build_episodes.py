@@ -10,7 +10,6 @@ not only raw event counts.
 from __future__ import annotations
 
 import json
-import math
 from collections import Counter, defaultdict
 from datetime import UTC, datetime
 from pathlib import Path

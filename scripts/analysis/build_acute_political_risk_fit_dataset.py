@@ -62,13 +62,6 @@ def build_sample() -> tuple[list[dict], dict]:
         for row in panel_rows
     }
 
-    gold_payload = load_json(GOLD)
-    gold_rows = gold_payload.get("rows", []) if isinstance(gold_payload, dict) else []
-    gold_keys = {
-        (str(row.get("country") or ""), str(row.get("panel_date") or ""))
-        for row in gold_rows
-    }
-
     benchmark_payload = load_json(BENCHMARK_TIERS)
     benchmark_rows = benchmark_payload.get("rows", []) if isinstance(benchmark_payload, dict) else benchmark_payload
 

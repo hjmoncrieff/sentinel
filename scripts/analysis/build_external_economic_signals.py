@@ -382,7 +382,7 @@ def derive_rows() -> list[dict]:
     eusanct = build_country_year_lookup(load_rows_payload(EUSANCT))
     crises = build_country_year_lookup(load_rows_payload(FINANCIAL_CRISES))
     shocks = build_event_signal_shocks(load_events())
-    seed_sources, seed_map = load_seed_rows()
+    _, seed_map = load_seed_rows()
 
     rows: list[dict] = []
     by_country: dict[str, list[MonthKey]] = defaultdict(list)
