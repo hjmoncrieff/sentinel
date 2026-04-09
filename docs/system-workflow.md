@@ -59,6 +59,7 @@ If a major leap changes the operating sequence, update:
 - `docs/stage-runners.md`
 - `docs/obsidian-documentation-sync.md`
 - `docs/private-source-expansion-note.md`
+- `docs/private-source-enrichment-and-latent-variable-note.md`
 - `docs/private-roadmap.md`
 - `docs/private-integration-diagram.md`
 - `docs/private-construct-diagram.md`
@@ -92,6 +93,19 @@ python3 scripts/sync_obsidian_docs.py
 When a major documentation or workflow change is made, the Obsidian mirror
 should be refreshed in the same work session.
 
+## Private Replication Materials Rule
+
+Kenwick replication materials, Dataverse archives, and similar private raw
+replication bundles must remain local-only.
+
+Do not commit or push:
+
+- `data/raw/Coup Latent Variable/`
+- any file or folder under `data/raw/` whose name begins with `dataverse`
+
+These materials may be used for private design inspection and local modeling
+work, but they are never part of the public GitHub repository.
+
 ## Stage Model
 
 ### 1. Ingest
@@ -118,6 +132,7 @@ Source expansion is now an explicit ingest sub-workflow.
 Use:
 
 - `docs/private-source-expansion-note.md`
+- `docs/private-source-enrichment-and-latent-variable-note.md`
 
 This note should govern how new sources enter the ingest layer, especially:
 
@@ -137,6 +152,15 @@ Priority order:
 1. regional agency expansion
 2. targeted official-defense monitors
 3. broader ministry watchlist expansion
+
+Related next-step rule:
+
+- use the source-enrichment note for:
+  - open event-context expansion after discovery
+  - SOUTHCOM official-channel monitoring
+  - police baseline source assembly
+  - M3 structural-layer integration
+  - latent-variable design planning for civilian control and militarization
 
 ### 2. Structural Refresh
 

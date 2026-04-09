@@ -136,6 +136,14 @@ Cross-cutting coverage rule:
   - regional agency expansion first
   - targeted official-defense monitors second
   - broader ministry watchlist expansion third
+ - keep the parallel enrichment/design note active:
+   - `docs/private-source-enrichment-and-latent-variable-note.md`
+ - use that note to guide:
+   - open event-context enrichment after discovery
+   - SOUTHCOM official cooperation monitoring
+   - police-force data assembly
+   - M3 structural-layer integration
+   - latent-variable planning for civilian control and militarization
   - security fragmentation
   - elite fracture
   - external pressure

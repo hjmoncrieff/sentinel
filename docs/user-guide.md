@@ -52,6 +52,13 @@ For a command-by-command reference for every executable stage runner, use:
     `/Users/hjmoncrieff/Library/CloudStorage/Dropbox/MyObsidiainVault/Sentinel Documentation`
 - when planning new ingest sources, use
   `docs/private-source-expansion-note.md` as the standing source-expansion rule
+- when planning event-content enrichment, SOUTHCOM monitoring, police-source
+  collection, or latent-variable design for coercive politics, use:
+  - `docs/private-source-enrichment-and-latent-variable-note.md`
+  - include `M3` as a standing structural input when designing civilian-control
+    or militarization latent variables
+- keep Kenwick replication materials and any `dataverse*` raw archives local
+  only; never commit or push them to GitHub
 
 ## 2. One-Time Local Setup
 
