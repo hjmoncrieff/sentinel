@@ -1677,6 +1677,80 @@ header {
   text-align: justify;
   hyphens: auto;
 }
+
+/* ── EXPLORE TAB ── */
+#explore {
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+}
+.ex-scene-wrap {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  bottom: 56px; /* bottom nav height */
+  overflow: hidden;
+}
+.ex-scene {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+.ex-scene.ex-active {
+  opacity: 1; transform: none;
+  pointer-events: all;
+}
+@media (prefers-reduced-motion: reduce) { .ex-scene { transition: none; } }
+
+/* Scene header */
+.ex-scene-header {
+  padding: 18px 28px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+  background: var(--bg); gap: 16px; flex-wrap: wrap;
+}
+.ex-scene-kicker { font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; }
+.ex-scene-title { font-family: var(--serif); font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+.ex-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* Control groups */
+.ex-ctrl-group { display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: 7px; padding: 3px; }
+.ex-ctrl-btn { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.8px; text-transform: uppercase; padding: 5px 12px; border-radius: 5px; color: var(--text-muted); cursor: pointer; border: none; background: transparent; transition: color 0.15s, background 0.15s; }
+.ex-ctrl-btn.ex-active-ctrl { background: white; color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-weight: 500; }
+.ex-select { font-family: var(--mono); font-size: 9.5px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; background: white; color: var(--text-dim); outline: none; cursor: pointer; }
+.ex-select:focus { border-color: var(--amber); }
+.ex-play-btn { font-family: var(--mono); font-size: 9.5px; letter-spacing: 1px; text-transform: uppercase; padding: 6px 14px; background: var(--olive-dark); color: #e8e0d4; border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.15s; }
+.ex-play-btn:hover { background: var(--olive-mid); }
+
+/* Scene body */
+.ex-scene-body { flex: 1; overflow: hidden; position: relative; }
+
+/* Bottom navigator */
+.ex-bottom-nav {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 56px;
+  background: rgba(250,248,244,0.96); backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(212,200,180,0.9);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; gap: 16px; z-index: 50;
+}
+.ex-nav-btn {
+  display: flex; align-items: center; gap: 8px; cursor: pointer;
+  padding: 6px 12px; border-radius: 7px; border: 1px solid var(--border); background: transparent;
+  transition: border-color 0.15s, background 0.15s; min-width: 150px;
+}
+.ex-nav-btn:hover { border-color: var(--amber); background: rgba(196,122,32,0.06); }
+.ex-nav-arrow { font-size: 16px; color: var(--text-muted); flex-shrink: 0; }
+.ex-nav-label { font-family: var(--mono); font-size: 8.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); }
+.ex-nav-name { font-family: var(--sans); font-size: 12px; font-weight: 600; color: var(--text); }
+.ex-nav-prev { text-align: left; }
+.ex-nav-next { text-align: right; flex-direction: row-reverse; }
+.ex-nav-center { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.ex-dots { display: flex; gap: 6px; align-items: center; }
+.ex-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); cursor: pointer; transition: background 0.2s, transform 0.2s; }
+.ex-dot.ex-dot-active { background: var(--olive-mid); transform: scale(1.3); }
+.ex-dot:hover:not(.ex-dot-active) { background: var(--border2); }
+.ex-step { font-family: var(--mono); font-size: 9.5px; color: var(--text-muted); }
 </style>
 </head>
 <body>
@@ -1846,6 +1920,134 @@ header {
   </section>
 
 </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  EXPLORE TAB                                               -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="explore">
+  <div class="ex-scene-wrap">
+
+    <!-- Scene 1: Regional Map -->
+    <div class="ex-scene ex-active" id="ex-scene-1">
+      <div class="ex-scene-header">
+        <div><div class="ex-scene-kicker">Scene 1 of 5</div><div class="ex-scene-title">Regional Overview</div></div>
+        <div class="ex-controls">
+          <div class="ex-ctrl-group" id="ex-map-layer-group">
+            <button class="ex-ctrl-btn ex-active-ctrl" data-layer="cmr">CMR Status</button>
+            <button class="ex-ctrl-btn" data-layer="events">Events</button>
+            <button class="ex-ctrl-btn" data-layer="aid">US Aid</button>
+            <button class="ex-ctrl-btn" data-layer="conflict">Conflict</button>
+          </div>
+        </div>
+      </div>
+      <div class="ex-scene-body">
+        <div id="explore-map-wrap" style="position:absolute;inset:0;"></div>
+      </div>
+    </div>
+
+    <!-- Scene 2: Event Timeline (migrated from #timeline) -->
+    <div class="ex-scene" id="ex-scene-2">
+      <div class="ex-scene-header">
+        <div><div class="ex-scene-kicker">Scene 2 of 5</div><div class="ex-scene-title">Event Timeline</div></div>
+        <div class="ex-controls">
+          <div class="ex-ctrl-group" id="tl-sal-group">
+            <button class="ex-ctrl-btn ex-active-ctrl tl-sal" data-v="all">All</button>
+            <button class="ex-ctrl-btn tl-sal" data-v="high">High</button>
+            <button class="ex-ctrl-btn tl-sal" data-v="medium">Medium</button>
+          </div>
+          <select class="ex-select" id="tl-country-select" onchange="tlCountry=this.value;renderTimeline()">
+            <option value="all">All countries</option>
+          </select>
+        </div>
+      </div>
+      <div class="ex-scene-body">
+        <div id="ex-timeline-inner" style="height:100%;display:flex;"></div>
+      </div>
+    </div>
+
+    <!-- Scene 3: Military Spending -->
+    <div class="ex-scene" id="ex-scene-3">
+      <div class="ex-scene-header">
+        <div><div class="ex-scene-kicker">Scene 3 of 5</div><div class="ex-scene-title">Military Spending</div></div>
+        <div class="ex-controls">
+          <div class="ex-ctrl-group" id="ex-spend-metric">
+            <button class="ex-ctrl-btn ex-active-ctrl" data-metric="pct_gdp">% of GDP</button>
+            <button class="ex-ctrl-btn" data-metric="usd">USD absolute</button>
+            <button class="ex-ctrl-btn" data-metric="per_capita">Per capita</button>
+          </div>
+          <button class="ex-play-btn" id="ex-spend-play" onclick="exSpendTogglePlay()">▶ Animate 1990–2024</button>
+        </div>
+      </div>
+      <div class="ex-scene-body" style="overflow:hidden;position:relative;">
+        <div id="ex-spend-year" style="position:absolute;bottom:16px;right:28px;font-family:var(--serif);font-size:64px;font-weight:900;color:rgba(212,200,180,0.5);letter-spacing:-2px;line-height:1;pointer-events:none;">2024</div>
+        <div id="ex-spend-chart" style="padding:20px 32px;height:100%;overflow-y:auto;display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+    </div>
+
+    <!-- Scene 4: US Security Aid -->
+    <div class="ex-scene" id="ex-scene-4">
+      <div class="ex-scene-header">
+        <div><div class="ex-scene-kicker">Scene 4 of 5</div><div class="ex-scene-title">US Security Aid</div></div>
+        <div class="ex-controls">
+          <div class="ex-ctrl-group" id="ex-aid-type">
+            <button class="ex-ctrl-btn ex-active-ctrl" data-aid="military">Military</button>
+            <button class="ex-ctrl-btn" data-aid="economic">Economic</button>
+            <button class="ex-ctrl-btn" data-aid="both">Both</button>
+          </div>
+          <div class="ex-ctrl-group" id="ex-aid-period">
+            <button class="ex-ctrl-btn ex-active-ctrl" data-period="all">All-time</button>
+            <button class="ex-ctrl-btn" data-period="2020">2020–25</button>
+            <button class="ex-ctrl-btn" data-period="2010">2010–20</button>
+          </div>
+        </div>
+      </div>
+      <div class="ex-scene-body">
+        <div id="ex-aid-chart" style="padding:20px 32px;height:100%;overflow-y:auto;display:flex;flex-direction:column;gap:12px;"></div>
+      </div>
+    </div>
+
+    <!-- Scene 5: Civil-Military Index -->
+    <div class="ex-scene" id="ex-scene-5">
+      <div class="ex-scene-header">
+        <div><div class="ex-scene-kicker">Scene 5 of 5</div><div class="ex-scene-title">Civil-Military Index</div></div>
+        <div class="ex-controls">
+          <div class="ex-ctrl-group" id="ex-cmr-region">
+            <button class="ex-ctrl-btn ex-active-ctrl" data-region="all">All</button>
+            <button class="ex-ctrl-btn" data-region="Andean">Andean</button>
+            <button class="ex-ctrl-btn" data-region="Central America">Central Am.</button>
+            <button class="ex-ctrl-btn" data-region="Caribbean">Caribbean</button>
+            <button class="ex-ctrl-btn" data-region="Southern Cone">S. Cone</button>
+          </div>
+          <div class="ex-ctrl-group" id="ex-cmr-year">
+            <button class="ex-ctrl-btn ex-active-ctrl" data-year="2023">2023</button>
+            <button class="ex-ctrl-btn" data-year="2020">2020</button>
+            <button class="ex-ctrl-btn" data-year="2015">2015</button>
+          </div>
+        </div>
+      </div>
+      <div class="ex-scene-body">
+        <div id="ex-cmr-chart" style="padding:20px 28px;height:100%;overflow-y:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;align-content:start;"></div>
+      </div>
+    </div>
+
+  </div><!-- /ex-scene-wrap -->
+
+  <!-- Bottom navigator -->
+  <div class="ex-bottom-nav">
+    <button class="ex-nav-btn ex-nav-prev" id="ex-btn-prev" onclick="exGoPrev()">
+      <span class="ex-nav-arrow">‹</span>
+      <div><div class="ex-nav-label">Previous</div><div class="ex-nav-name" id="ex-prev-name">Home</div></div>
+    </button>
+    <div class="ex-nav-center">
+      <div class="ex-dots" id="ex-dots"></div>
+      <div class="ex-step" id="ex-step">Scene 1 of 5</div>
+    </div>
+    <button class="ex-nav-btn ex-nav-next" id="ex-btn-next" onclick="exGoNext()">
+      <div><div class="ex-nav-label">Next</div><div class="ex-nav-name" id="ex-next-name">Event Timeline</div></div>
+      <span class="ex-nav-arrow">›</span>
+    </button>
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════════ -->
@@ -2753,7 +2955,8 @@ function switchTab(id){
       document.querySelectorAll('.ov-fade').forEach(el => ovObs.observe(el));
     }
   }
-  if(id==='timeline') renderTimeline();
+  if(id==='timeline') { switchTab('explore'); exSetScene(1); return; }
+  if(id==='explore')  { exInitDots(); exSetScene(exCurrentScene); }
   if(id==='transnational') { renderTsEvents(); initSecurityMap(); }
   if(id==='us') { renderUsEvents(); initUsCoopMap(); }
   if(id==='profiles') {
@@ -2780,7 +2983,8 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     btn.classList.add('active');
     document.getElementById(btn.dataset.tab).classList.add('active');
     if(btn.dataset.tab==='events') ensureEventMap();
-    if(btn.dataset.tab==='timeline') renderTimeline();
+    if(btn.dataset.tab==='timeline') { switchTab('explore'); exSetScene(1); return; }
+    if(btn.dataset.tab==='explore')  { exInitDots(); exSetScene(exCurrentScene); }
     if(btn.dataset.tab==='overview') {
       if(!document.querySelector('.ov-fade.visible')) {
         const ovObs = new IntersectionObserver(entries => {
@@ -7110,6 +7314,73 @@ document.addEventListener('click', function(e) {
     closeFeedback();
   }
 });
+
+// ── EXPLORE TAB ────────────────────────────────────────────────
+const EX_SCENES = [
+  { id: 'ex-scene-1', name: 'Regional Map',        onActivate: exActivateMap },
+  { id: 'ex-scene-2', name: 'Event Timeline',      onActivate: exActivateTimeline },
+  { id: 'ex-scene-3', name: 'Military Spending',   onActivate: exActivateSpending },
+  { id: 'ex-scene-4', name: 'US Security Aid',     onActivate: exActivateAid },
+  { id: 'ex-scene-5', name: 'Civil-Military Index',onActivate: exActivateCmr },
+];
+let exCurrentScene = 0;
+let exMapInitialized = false;
+
+function exSetScene(idx) {
+  document.querySelectorAll('.ex-scene').forEach(s => s.classList.remove('ex-active'));
+  document.getElementById(EX_SCENES[idx].id).classList.add('ex-active');
+  document.querySelectorAll('.ex-dot').forEach((d, i) => d.classList.toggle('ex-dot-active', i === idx));
+  exCurrentScene = idx;
+  document.getElementById('ex-step').textContent = `Scene ${idx + 1} of ${EX_SCENES.length}`;
+  document.getElementById('ex-prev-name').textContent = idx === 0 ? 'Home' : EX_SCENES[idx - 1].name;
+  document.getElementById('ex-next-name').textContent = idx === EX_SCENES.length - 1 ? 'Events' : EX_SCENES[idx + 1].name;
+  EX_SCENES[idx].onActivate();
+}
+
+function exGoPrev() {
+  if (exCurrentScene === 0) { switchTab('overview'); }
+  else { exSetScene(exCurrentScene - 1); }
+}
+
+function exGoNext() {
+  if (exCurrentScene === EX_SCENES.length - 1) { switchTab('events'); }
+  else { exSetScene(exCurrentScene + 1); }
+}
+
+function exInitDots() {
+  const el = document.getElementById('ex-dots');
+  if (el.children.length) return;
+  EX_SCENES.forEach((s, i) => {
+    const d = document.createElement('div');
+    d.className = 'ex-dot' + (i === 0 ? ' ex-dot-active' : '');
+    d.title = s.name;
+    d.onclick = () => exSetScene(i);
+    el.appendChild(d);
+  });
+}
+
+// Wire control groups in Explore tab
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#explore .ex-ctrl-group').forEach(group => {
+    group.querySelectorAll('.ex-ctrl-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        group.querySelectorAll('.ex-ctrl-btn').forEach(b => b.classList.remove('ex-active-ctrl'));
+        btn.classList.add('ex-active-ctrl');
+      });
+    });
+  });
+});
+
+// Placeholder activate functions (filled in subsequent tasks)
+function exActivateMap()      { if (!exMapInitialized) { initExploreMap(); exMapInitialized = true; } }
+function exActivateTimeline() { renderTimeline(); }
+function exActivateSpending() { exRenderSpending(); }
+function exActivateAid()      { exRenderAid(); }
+function exActivateCmr()      { exRenderCmr(); }
+function exRenderSpending()   { /* Task 8 */ }
+function exRenderAid()        { /* Task 9 */ }
+function exRenderCmr()        { /* Task 10 */ }
+function initExploreMap()     { /* Task 6 */ }
 </script>
 <!-- ── Feedback Button & Panel ────────────────────────── -->
 <button class="fb-btn" id="fb-trigger" onclick="toggleFeedback()" aria-label="Submit feedback or suggestion">
