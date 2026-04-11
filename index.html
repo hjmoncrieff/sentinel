@@ -7217,6 +7217,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   configureAnalystLoginLink();
   initEventFilterControls();
   loadEvents();
+  fetch('data/cleaned/worldbank.json')
+    .then(r => r.json())
+    .then(d => { window.wbData = d; })
+    .catch(() => { window.wbData = {}; });
   updatePipelineAge();
   setInterval(updatePipelineAge, 1000);
   setInterval(loadEvents, 15*60*1000);
@@ -7362,6 +7366,13 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
+
+  const spendMetricGroup = document.getElementById('ex-spend-metric');
+  if (spendMetricGroup) {
+    spendMetricGroup.querySelectorAll('.ex-ctrl-btn').forEach(btn => {
+      btn.addEventListener('click', () => { exSpendYear = 2024; exRenderSpending(); });
+    });
+  }
 });
 
 // Placeholder activate functions (filled in subsequent tasks)
@@ -7370,7 +7381,89 @@ function exActivateTimeline() { renderTimeline(); }
 function exActivateSpending() { exRenderSpending(); }
 function exActivateAid()      { exRenderAid(); }
 function exActivateCmr()      { exRenderCmr(); }
-function exRenderSpending()   { /* Task 8 */ }
+let exSpendMetric = 'pct_gdp';
+let exSpendYear = 2024;
+let exSpendPlaying = false;
+let exSpendTimer = null;
+
+function exCmrColor(country) {
+  const p = COUNTRY_PROFILES[country];
+  if (!p) return 'var(--text-muted)';
+  if (p.cmrStatus === 'Crisis' || p.cmrStatus === 'Authoritarian') return 'var(--coup)';
+  if (p.cmrStatus === 'Strained') return 'var(--purge)';
+  return 'var(--reform)';
+}
+
+function exRenderSpending() {
+  const container = document.getElementById('ex-spend-chart');
+  const yearEl = document.getElementById('ex-spend-year');
+  if (!container || !window.wbData) return;
+
+  const metricBtn = document.querySelector('#ex-spend-metric .ex-active-ctrl');
+  exSpendMetric = metricBtn ? metricBtn.dataset.metric : 'pct_gdp';
+
+  const WB_KEY = {
+    pct_gdp:    'military_expenditure_pct_gdp',
+    usd:        'military_expenditure_current_usd',
+    per_capita: 'gdp_per_capita_constant_2015_usd',
+  };
+  const key = WB_KEY[exSpendMetric];
+  const fmt = {
+    pct_gdp:    v => v != null ? v.toFixed(1) + '%' : '—',
+    usd:        v => v != null ? '$' + (v/1e9).toFixed(1) + 'B' : '—',
+    per_capita: v => v != null ? '$' + Math.round(v).toLocaleString() : '—',
+  };
+
+  const rows = Object.entries(window.wbData)
+    .map(([country, series]) => {
+      const yearData = series.find(d => d.year === exSpendYear);
+      return { country, value: yearData ? yearData[key] : null };
+    })
+    .filter(r => r.value != null)
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 15);
+
+  if (!rows.length) {
+    container.innerHTML = '<p style="padding:20px;color:var(--text-muted);font-family:var(--mono);font-size:10px;">No data available for selected year/metric.</p>';
+    return;
+  }
+
+  const maxVal = rows[0].value;
+  if (yearEl) yearEl.textContent = exSpendYear;
+
+  container.innerHTML = rows.map((r, i) => `
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);width:18px;text-align:right;flex-shrink:0;">${i+1}</span>
+      <span style="font-family:var(--sans);font-size:12px;font-weight:600;width:120px;flex-shrink:0;text-align:right;">${r.country}</span>
+      <div style="flex:1;height:26px;background:var(--surface);border-radius:4px;overflow:hidden;">
+        <div style="height:100%;border-radius:4px;background:${exCmrColor(r.country)};width:${(r.value/maxVal*100).toFixed(1)}%;transition:width 0.8s ease-in-out;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;">
+          <span style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,0.85);">${fmt[exSpendMetric](r.value)}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function exSpendTogglePlay() {
+  exSpendPlaying = !exSpendPlaying;
+  const btn = document.getElementById('ex-spend-play');
+  if (exSpendPlaying) {
+    btn.textContent = '⏸ Pause';
+    if (exSpendYear >= 2024) exSpendYear = 1990;
+    exSpendTimer = setInterval(() => {
+      exSpendYear++;
+      exRenderSpending();
+      if (exSpendYear >= 2024) {
+        exSpendPlaying = false;
+        clearInterval(exSpendTimer);
+        btn.textContent = '▶ Animate 1990–2024';
+      }
+    }, 600);
+  } else {
+    clearInterval(exSpendTimer);
+    btn.textContent = '▶ Animate 1990–2024';
+  }
+}
 function exRenderAid()        { /* Task 9 */ }
 function exRenderCmr()        { /* Task 10 */ }
 
