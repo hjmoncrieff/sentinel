@@ -105,7 +105,7 @@ header {
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(212,200,180,0.8);
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 28px; gap: 16px;
+  padding: 0 28px;
   box-shadow: none;
 }
 .logo-wordmark {
@@ -121,7 +121,7 @@ header {
 .logo-name:hover { color: var(--olive-mid); }
 .logo-name em { color: var(--olive-mid); font-style: normal; }
 .logo-sub { display: none; }
-.tab-bar { display: flex; gap: 2px; list-style: none; flex: 1; justify-content: center; overflow: visible; }
+.tab-bar { position: absolute; left: 50%; transform: translateX(-50%); display: flex; gap: 2px; list-style: none; overflow: visible; }
 .tab-bar::-webkit-scrollbar { display: none; }
 .tab-btn {
   font-family: var(--mono); font-size: 10px; letter-spacing: 1.2px;
