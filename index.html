@@ -3375,17 +3375,16 @@ function cpBuildStructuralTrends(name) {
   const frag = cpWgiDelta(name);
   const gdp  = cpGdpDelta(name);
 
-  function deltaSpan(delta, priorYear, invertGood) {
+  function deltaSpan(delta, priorYear) {
     if (delta === null) return `<div class="cp2-trend-delta neutral">— no prior data</div>`;
-    const isRisk = invertGood ? delta < 0 : delta > 0;
-    const cls = isRisk ? 'up' : delta === 0 ? 'neutral' : 'down';
+    const cls = delta > 0 ? 'up' : delta === 0 ? 'neutral' : 'down';
     const sign = delta > 0 ? '+' : '';
     return `<div class="cp2-trend-delta ${cls}">${sign}${delta} vs ${priorYear}</div>`;
   }
 
-  const demDelta  = deltaSpan(dem.delta,  dem.priorYear,  false);
-  const physDelta = deltaSpan(phys.delta, phys.priorYear, false);
-  const fragDelta = deltaSpan(frag.delta, frag.priorYear, false);
+  const demDelta  = deltaSpan(dem.delta,  dem.priorYear);
+  const physDelta = deltaSpan(phys.delta, phys.priorYear);
+  const fragDelta = deltaSpan(frag.delta, frag.priorYear);
 
   let gdpVal = '—', gdpDeltaHtml = `<div class="cp2-trend-delta neutral">—</div>`;
   if (gdp.value !== null) {
