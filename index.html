@@ -1420,19 +1420,17 @@ header {
 .s-empty { padding:18px 16px; font-family:var(--mono); font-size:9.5px; color:var(--text-muted); }
 /* ── Feedback Button & Panel ──────────────────────────── */
 .fb-btn {
-  position: fixed; bottom: 36px; right: 24px; z-index: 900;
-  display: flex; align-items: center; gap: 7px;
-  background: var(--slate); color: #fffdf8;
-  border: none; border-radius: 2px; padding: 9px 14px;
-  font-family: var(--mono); font-size: 9px; letter-spacing: 1.2px;
-  text-transform: uppercase; cursor: pointer;
-  box-shadow: 0 2px 8px rgba(28,26,23,0.18); white-space: nowrap;
+  position: fixed; bottom: 40px; right: 24px; z-index: 900;
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  background: var(--olive-dark); color: #fffdf8;
+  border: none; border-radius: 50%;
+  font-family: var(--serif); font-size: 16px; font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(28,26,23,0.25);
 }
-.fb-btn:hover { background: #2e2b26; }
-.fb-btn-dot {
-  width: 6px; height: 6px; background: var(--gold);
-  border-radius: 50%; flex-shrink: 0;
-}
+.fb-btn:hover { background: var(--olive-mid); transform: scale(1.08); }
+.fb-btn-dot { display: none; }
 .fb-panel {
   position: fixed; bottom: 80px; right: 24px; z-index: 901;
   width: 300px; background: var(--surface);
@@ -1698,7 +1696,7 @@ header {
 #explore {
   position: relative;
   overflow: hidden;
-  height: calc(100vh - 50px); /* 50px sticky header */
+  height: calc(100vh - 50px - 28px); /* 50px header + 28px log bar */
 }
 .ex-scene-wrap {
   position: absolute;
@@ -1954,7 +1952,9 @@ header {
         </div>
       </div>
       <div class="ex-scene-body">
-        <div id="explore-map-wrap" style="position:absolute;inset:0;"></div>
+        <div id="explore-map-wrap" style="position:absolute;inset:0;">
+          <svg id="ov-svg" style="width:100%;height:100%;display:block;"></svg>
+        </div>
       </div>
     </div>
 
@@ -7699,8 +7699,7 @@ function exUpdateMapLayer(layer) {
 }
 </script>
 <!-- ── Feedback Button & Panel ────────────────────────── -->
-<button class="fb-btn" id="fb-trigger" onclick="toggleFeedback()" aria-label="Submit feedback or suggestion">
-  <span class="fb-btn-dot"></span>Suggest
+<button class="fb-btn" id="fb-trigger" onclick="toggleFeedback()" aria-label="Submit feedback or suggestion">?
 </button>
 <div class="fb-panel" id="fb-panel" role="dialog" aria-modal="true" aria-labelledby="fb-panel-title-text" aria-hidden="true">
   <button class="fb-panel-close" onclick="closeFeedback()" aria-label="Close">✕</button>
