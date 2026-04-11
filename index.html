@@ -3076,6 +3076,352 @@ function getCountryPredictiveSummary(country){
   return getCountryMonitorEntry(country)?.predictive_summary || null;
 }
 
+// ── CP v2 DATA HELPERS ─────────────────────────────────────────
+
+function cpGetVdem(name) {
+  if (!_vdemData) return null;
+  return _vdemData.countries.find(c => c.country === name) || null;
+}
+
+function cpGetWb(name) {
+  if (!_wbData) return null;
+  return _wbData.countries.find(c => c.country === name) || null;
+}
+
+// Returns { regimeVuln, militarization, secFrag, democDeficit, physVuln, stateFrag }
+// All 0-100, higher = more risk
+function cpRadarScores(name) {
+  const rv  = getCountryRiskConstruct(name, 'regime_vulnerability')?.score ?? 0;
+  const mil = getCountryRiskConstruct(name, 'militarization')?.score ?? 0;
+  const sf  = getCountryRiskConstruct(name, 'security_fragmentation')?.score ?? 0;
+
+  const vd = cpGetVdem(name);
+  const dem = vd ? Math.round((1 - (vd.polyarchy ?? 0.5)) * 100) : 0;
+  const phys = vd ? Math.round((1 - (vd.physinteg ?? 0.5)) * 100) : 0;
+
+  const wb = cpGetWb(name);
+  const wgi = wb?.wgi_govt_effectiveness ?? 0;
+  const frag = Math.min(100, Math.max(0, Math.round((1 - (wgi + 2) / 4) * 100)));
+
+  return { regimeVuln: rv, militarization: mil, secFrag: sf, democDeficit: dem, physVuln: phys, stateFrag: frag };
+}
+
+// Returns rank (1 = highest risk) for each of the 6 axes across all 25 monitored countries
+// Result shape: { regimeVuln: { [name]: rank }, militarization: {...}, ... }
+function cpComputeRanks() {
+  const COUNTRIES = Object.keys(COUNTRY_PROFILES);
+  const axes = ['regimeVuln', 'militarization', 'secFrag', 'democDeficit', 'physVuln', 'stateFrag'];
+  const allScores = {};
+  COUNTRIES.forEach(c => { allScores[c] = cpRadarScores(c); });
+
+  const ranks = {};
+  axes.forEach(axis => {
+    const sorted = [...COUNTRIES].sort((a, b) => (allScores[b][axis] ?? 0) - (allScores[a][axis] ?? 0));
+    ranks[axis] = {};
+    sorted.forEach((c, i) => { ranks[axis][c] = i + 1; });
+  });
+  return ranks;
+}
+
+function cpRankClass(rank) {
+  if (rank <= 6)  return 'r-hi';
+  if (rank <= 18) return 'r-md';
+  return 'r-lo';
+}
+
+// Returns { score, delta, priorYear } for a V-Dem indicator (polyarchy or physinteg)
+// delta is in risk-oriented direction: positive = more risk
+function cpVdemDelta(name, field) {
+  const vd = cpGetVdem(name);
+  if (!vd) return { score: 0, delta: null, priorYear: null };
+  const series = vd.series?.[field];
+  if (!series?.length) return { score: Math.round((1 - (vd[field] ?? 0.5)) * 100), delta: null, priorYear: null };
+  const sorted = [...series].sort((a, b) => b.year - a.year);
+  const cur = sorted[0]; const prev = sorted[1];
+  const curScore  = Math.round((1 - (cur.value  ?? 0.5)) * 100);
+  const prevScore = prev ? Math.round((1 - (prev.value ?? 0.5)) * 100) : null;
+  const delta = prevScore !== null ? +(curScore - prevScore).toFixed(1) : null;
+  return { score: curScore, delta, priorYear: prev?.year ?? null };
+}
+
+// Returns { score, delta, priorYear } for WGI state fragility
+function cpWgiDelta(name) {
+  const wb = cpGetWb(name);
+  if (!wb) return { score: 0, delta: null, priorYear: null };
+  const series = wb.wgi_govt_effectiveness_series;
+  if (!series?.length) {
+    const wgi = wb.wgi_govt_effectiveness ?? 0;
+    return { score: Math.min(100, Math.max(0, Math.round((1 - (wgi + 2) / 4) * 100))), delta: null, priorYear: null };
+  }
+  const sorted = [...series].filter(d => d.value != null).sort((a, b) => b.year - a.year);
+  const cur = sorted[0]; const prev = sorted[1];
+  const toFrag = v => Math.min(100, Math.max(0, Math.round((1 - (v + 2) / 4) * 100)));
+  const curScore = toFrag(cur.value);
+  const prevScore = prev ? toFrag(prev.value) : null;
+  const delta = prevScore !== null ? +(curScore - prevScore).toFixed(1) : null;
+  return { score: curScore, delta, priorYear: prev?.year ?? null };
+}
+
+// Returns { value, delta, priorYear } for GDP per capita (constant 2015 USD)
+function cpGdpDelta(name) {
+  const wb = cpGetWb(name);
+  if (!wb) return { value: null, delta: null, priorYear: null };
+  const series = (wb.gdp_per_capita_constant_2015_usd_series || []).filter(d => d.value != null);
+  if (!series.length) return { value: null, delta: null, priorYear: null };
+  const sorted = [...series].sort((a, b) => b.year - a.year);
+  const cur = sorted[0]; const prev = sorted[1];
+  const delta = prev ? +((cur.value - prev.value) / prev.value * 100).toFixed(1) : null;
+  return { value: Math.round(cur.value), delta, priorYear: prev?.year ?? null };
+}
+
+function cpBuildRadarSection(name, safeId) {
+  const scores = cpRadarScores(name);
+  const ranks  = cpComputeRanks();
+  const rv  = getCountryRiskConstruct(name, 'regime_vulnerability');
+  const mil = getCountryRiskConstruct(name, 'militarization');
+  const sf  = getCountryRiskConstruct(name, 'security_fragmentation');
+
+  function rankBadge(axis, country) {
+    const r = ranks[axis]?.[country] ?? 25;
+    return `<span class="cp2-rank-badge ${cpRankClass(r)}">#${r} of 25</span>`;
+  }
+  function trendSpan(label) {
+    const color = label === 'rising' ? 'var(--purge)' : label === 'easing' ? 'var(--reform)' : 'var(--text-muted)';
+    return label ? `<span class="cp2-score-trend" style="color:${color};">${label}</span>` : '';
+  }
+
+  const constructRows = [
+    { label: 'Regime Vulnerability', axis: 'regimeVuln', score: scores.regimeVuln, trend: rv?.trend_label },
+    { label: 'Militarization',       axis: 'militarization', score: scores.militarization, trend: mil?.trend_label },
+    { label: 'Security Fragmentation', axis: 'secFrag', score: scores.secFrag, trend: sf?.trend_label },
+  ].map(r => `
+    <div class="cp2-score-row">
+      <span class="cp2-score-name">${r.label}</span>
+      <span class="cp2-score-val">${Math.round(r.score)}/100</span>
+      ${trendSpan(r.trend)}
+      ${rankBadge(r.axis, name)}
+    </div>`).join('');
+
+  const indicatorRows = [
+    { label: 'Democracy Deficit',     axis: 'democDeficit', score: scores.democDeficit },
+    { label: 'Physical Vulnerability', axis: 'physVuln',    score: scores.physVuln },
+    { label: 'State Fragility',        axis: 'stateFrag',   score: scores.stateFrag },
+  ].map(r => `
+    <div class="cp2-score-row">
+      <span class="cp2-score-name">${r.label}</span>
+      <span class="cp2-score-val">${Math.round(r.score)}/100</span>
+      ${rankBadge(r.axis, name)}
+    </div>`).join('');
+
+  return `
+    <div class="cp2-radar-section">
+      <div class="cp2-radar-canvas-wrap">
+        <canvas id="cp-radar-${safeId}" width="258" height="258"></canvas>
+      </div>
+      <div class="cp2-score-table">
+        <div class="cp2-grp-lbl">Risk Constructs</div>
+        ${constructRows}
+        <div class="cp2-grp-lbl">Structural Indicators</div>
+        ${indicatorRows}
+      </div>
+    </div>
+    <div class="cp2-sources-band">
+      <span class="cp2-sources-label">Sources</span>
+      <span class="cp2-sources-sep">·</span>
+      <span class="cp2-sources-item">Risk constructs — SENTINEL Monitor</span>
+      <span class="cp2-sources-sep">·</span>
+      <span class="cp2-sources-item">Democracy · Physical Integrity — V-Dem 2024</span>
+      <span class="cp2-sources-sep">·</span>
+      <span class="cp2-sources-item">State Fragility — WGI 2023</span>
+    </div>`;
+}
+
+function cpInitRadar(name, safeId) {
+  if (_cpRadarChart) { try { _cpRadarChart.destroy(); } catch(e){} _cpRadarChart = null; }
+  const canvas = document.getElementById(`cp-radar-${safeId}`);
+  if (!canvas) return;
+  const scores = cpRadarScores(name);
+  const data = [
+    scores.regimeVuln,
+    scores.militarization,
+    scores.secFrag,
+    scores.democDeficit,
+    scores.physVuln,
+    scores.stateFrag,
+  ];
+  _cpRadarChart = new Chart(canvas, {
+    type: 'radar',
+    data: {
+      labels: [
+        ['Regime', 'Vulnerability'],
+        ['Militarization'],
+        ['Security', 'Fragmentation'],
+        ['Democracy', 'Deficit'],
+        ['Physical', 'Vulnerability'],
+        ['State', 'Fragility'],
+      ],
+      datasets: [{
+        data,
+        borderColor: 'rgba(184,50,50,0.7)',
+        backgroundColor: 'rgba(180,50,50,0.10)',
+        borderWidth: 1.5,
+        pointRadius: 3,
+        pointBackgroundColor: 'rgba(184,50,50,0.7)',
+      }],
+    },
+    options: {
+      responsive: false,
+      maintainAspectRatio: false,
+      layout: { padding: 10 },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          ticks: { display: false, stepSize: 25 },
+          grid: { color: '#e8e0d4' },
+          angleLines: { color: '#e8e0d4' },
+          pointLabels: {
+            color: '#7a746c',
+            font: { size: 9, family: "'DM Mono', monospace" },
+          },
+        },
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: items => {
+              const lbl = items[0].label;
+              return Array.isArray(lbl) ? lbl.join(' ') : lbl;
+            },
+            label: item => `${item.raw.toFixed(1)} / 100`,
+          },
+        },
+      },
+    },
+  });
+}
+
+function cpBuildPulseSection(name, safeId) {
+  const now = new Date();
+  const months = [];
+  for (let i = 11; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    months.push({ year: d.getFullYear(), month: d.getMonth(), label: d.toLocaleString('en', { month: 'short' }) });
+  }
+  const rangeLabel = `${months[0].label} ${months[0].year} – ${months[11].label} ${months[11].year}`;
+  return `
+    <div class="cp2-pulse-section">
+      <div class="cp2-pulse-hdr">
+        <span class="cp2-pulse-label">Event Pulse — ${rangeLabel}</span>
+        <div class="cp2-pulse-legend">
+          <div class="cp2-pulse-legend-item"><div class="cp2-pulse-swatch" style="background:rgba(168,64,0,0.5)"></div>Conflict / OC</div>
+          <div class="cp2-pulse-legend-item"><div class="cp2-pulse-swatch" style="background:#ccc5b9"></div>Other</div>
+        </div>
+      </div>
+      <div class="cp2-pulse-canvas-wrap">
+        <canvas id="cp-pulse-${safeId}" style="width:100%;height:52px;"></canvas>
+      </div>
+    </div>`;
+}
+
+function cpInitPulse(name, safeId) {
+  if (_cpPulseChart) { try { _cpPulseChart.destroy(); } catch(e){} _cpPulseChart = null; }
+  const canvas = document.getElementById(`cp-pulse-${safeId}`);
+  if (!canvas) return;
+
+  const now = new Date();
+  const months = [];
+  for (let i = 11; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    months.push({ year: d.getFullYear(), month: d.getMonth(), label: d.toLocaleString('en', { month: 'short' }) });
+  }
+
+  const hot   = months.map(() => 0);
+  const other = months.map(() => 0);
+
+  (allEvents || []).filter(e => e.country === name).forEach(ev => {
+    const d = new Date(ev.date);
+    const idx = months.findIndex(m => m.year === d.getFullYear() && m.month === d.getMonth());
+    if (idx === -1) return;
+    if (ev.type === 'conflict' || ev.type === 'oc') hot[idx]++;
+    else other[idx]++;
+  });
+
+  const labels = months.map(m => m.label);
+  _cpPulseChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Conflict/OC', data: hot,   backgroundColor: 'rgba(168,64,0,0.5)', stack: 's' },
+        { label: 'Other',       data: other, backgroundColor: '#ccc5b9',             stack: 's' },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 8, family: "'DM Mono', monospace" }, color: '#b5ab9d' } },
+        y: { stacked: true, display: false },
+      },
+    },
+  });
+}
+
+function cpBuildStructuralTrends(name) {
+  const dem  = cpVdemDelta(name, 'polyarchy');
+  const phys = cpVdemDelta(name, 'physinteg');
+  const frag = cpWgiDelta(name);
+  const gdp  = cpGdpDelta(name);
+
+  function deltaSpan(delta, priorYear, invertGood) {
+    if (delta === null) return `<div class="cp2-trend-delta neutral">— no prior data</div>`;
+    const isRisk = invertGood ? delta < 0 : delta > 0;
+    const cls = isRisk ? 'up' : delta === 0 ? 'neutral' : 'down';
+    const sign = delta > 0 ? '+' : '';
+    return `<div class="cp2-trend-delta ${cls}">${sign}${delta} vs ${priorYear}</div>`;
+  }
+
+  const demDelta  = deltaSpan(dem.delta,  dem.priorYear,  false);
+  const physDelta = deltaSpan(phys.delta, phys.priorYear, false);
+  const fragDelta = deltaSpan(frag.delta, frag.priorYear, false);
+
+  let gdpVal = '—', gdpDeltaHtml = `<div class="cp2-trend-delta neutral">—</div>`;
+  if (gdp.value !== null) {
+    gdpVal = '$' + gdp.value.toLocaleString();
+    if (gdp.delta !== null) {
+      const sign = gdp.delta > 0 ? '+' : '';
+      const cls = gdp.delta > 0 ? 'down' : gdp.delta < 0 ? 'up' : 'neutral';
+      gdpDeltaHtml = `<div class="cp2-trend-delta ${cls}">${sign}${gdp.delta}% vs ${gdp.priorYear}</div>`;
+    }
+  }
+
+  return `
+    <div class="cp2-trends-strip">
+      <div class="cp2-trend-cell">
+        <div class="cp2-trend-kicker">Democracy Deficit</div>
+        <div class="cp2-trend-value">${dem.score}/100</div>
+        ${demDelta}
+      </div>
+      <div class="cp2-trend-cell">
+        <div class="cp2-trend-kicker">Physical Vulnerability</div>
+        <div class="cp2-trend-value">${phys.score}/100</div>
+        ${physDelta}
+      </div>
+      <div class="cp2-trend-cell">
+        <div class="cp2-trend-kicker">State Fragility</div>
+        <div class="cp2-trend-value">${frag.score}/100</div>
+        ${fragDelta}
+      </div>
+      <div class="cp2-trend-cell">
+        <div class="cp2-trend-kicker">GDP per Capita</div>
+        <div class="cp2-trend-value">${gdpVal}</div>
+        ${gdpDeltaHtml}
+      </div>
+    </div>`;
+}
+
 function getMonitorTrendColor(label){
   const trend = String(label || '').toLowerCase();
   if(trend === 'rising') return 'var(--purge)';
@@ -5019,6 +5365,7 @@ function cmrScoreColor(label) {
 // ── INDICATOR DATA (V-Dem + World Bank) — lazy-loaded ─────────
 let _vdemData = null, _wbData = null, _indicatorLoadStarted = false;
 let _currentCpName = null;
+let _cpRadarChart = null, _cpPulseChart = null;
 
 async function loadIndicatorData() {
   if (_indicatorLoadStarted) return;
