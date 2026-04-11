@@ -83,12 +83,17 @@
   --shadow-md: 0 22px 48px rgba(30,22,12,0.14);
 }
 
+/* Typography floor — nothing below 10px */
+.tag, .filter-label, .filter-sub-label, .sidebar-top-label,
+.ev-meta, .ev-date, .tl-item-meta, .cp-kicker, .about-src-label {
+  font-size: max(10px, 1em);
+}
+
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
-  background:
-    radial-gradient(circle at top left, rgba(184,150,62,0.08), transparent 24%),
-    linear-gradient(180deg, var(--eggshell) 0%, #efe9df 100%);
-  color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.6; font-weight:400; min-height:100vh; overflow-x:hidden;
+  background: var(--bg);
+  color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6;
+  font-weight: 400; min-height: 100vh; overflow-x: hidden;
 }
 
 /* ── NAV ── */
@@ -2029,14 +2034,14 @@ header {
       <!-- Type Activity bars -->
       <div class="filter-block">
         <div class="filter-label">Type Activity</div>
-        <div style="font-family:var(--mono);font-size:8px;color:var(--text-faint);margin-bottom:8px;">Click to filter by type</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--text-faint);margin-bottom:8px;">Click to filter by type</div>
         <div id="tl-type-bars"></div>
       </div>
 
       <!-- Country Activity -->
       <div class="filter-block" style="border-bottom:none;">
         <div class="filter-label">Country Activity</div>
-        <div style="font-family:var(--mono);font-size:8px;color:var(--text-faint);margin-bottom:8px;">Click a country to filter</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--text-faint);margin-bottom:8px;">Click a country to filter</div>
         <div id="tl-country-bars"></div>
       </div>
     </div>
@@ -5696,7 +5701,7 @@ function renderCountryPredictiveOutlook(name){
   const constructRows = constructs.map(item => `
     <div class="cp-stat-row">
       <span class="cp-stat-label">${item.label}</span>
-      <span class="cp-stat-val" style="color:${getMonitorScoreColor(item.score)};">${formatMonitorValue(item.score) || 0}/100 <span style="color:${getMonitorTrendColor(item.trend_label)};font-size:8px;text-transform:uppercase;letter-spacing:0.5px;">${item.trend_label || 'stable'}</span></span>
+      <span class="cp-stat-val" style="color:${getMonitorScoreColor(item.score)};">${formatMonitorValue(item.score) || 0}/100 <span style="color:${getMonitorTrendColor(item.trend_label)};font-size:10px;text-transform:uppercase;letter-spacing:0.5px;">${item.trend_label || 'stable'}</span></span>
     </div>`).join('');
   const militarizationHtml = militarizationDimensions.length
     ? `<div style="display:flex;flex-direction:column;gap:6px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);">
@@ -7172,15 +7177,15 @@ function runSearch(q){
       const col=TYPE_COLORS_S[ev.type]||'var(--other)';
       return `<div class="s-item" onclick="closeSearch();switchTab('events');setTimeout(()=>selectEvent(allEvents.find(e=>e.id==='${ev.id}')),150)">
         <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:3px;">
-          <span style="font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:${col}">${ev.type}</span>
-          <span style="font-family:var(--mono);font-size:8px;color:var(--text-muted)">${ev.country}</span>
-          <span style="font-family:var(--mono);font-size:8px;color:var(--text-faint);margin-left:auto">${ev.date}</span>
+          <span style="font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:${col}">${ev.type}</span>
+          <span style="font-family:var(--mono);font-size:10px;color:var(--text-muted)">${ev.country}</span>
+          <span style="font-family:var(--mono);font-size:10px;color:var(--text-faint);margin-left:auto">${ev.date}</span>
         </div>
         <div style="font-size:12.5px;color:var(--text);line-height:1.4">${ev.title}</div>
       </div>`;
     }
     return `<div class="s-item" onclick="closeSearch();switchTab('profiles');setTimeout(()=>showCountryProfile('${r.name}'),100)">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;">Country Profile</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;">Country Profile</div>
       <div style="font-size:12.5px;color:var(--text)">${r.name}</div>
     </div>`;
   }).join('');
