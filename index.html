@@ -1365,7 +1365,7 @@ header {
   transform: translateY(12px); opacity: 0; pointer-events: none;
   transition: transform 0.15s ease, opacity 0.15s ease;
 }
-.fb-panel.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+.fb-panel.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
 .fb-panel-title {
   font-family: var(--mono); font-size: 8.5px; letter-spacing: 1.5px;
   text-transform: uppercase; color: var(--text-muted);
@@ -6343,10 +6343,16 @@ function toggleFeedback() {
   panel.classList.contains('open') ? closeFeedback() : openFeedback();
 }
 function openFeedback() {
-  document.getElementById('fb-panel').classList.add('open');
+  const panel = document.getElementById('fb-panel');
+  panel.classList.add('open');
+  panel.removeAttribute('aria-hidden');
+  document.getElementById('fb-category').focus();
 }
 function closeFeedback() {
-  document.getElementById('fb-panel').classList.remove('open');
+  const panel = document.getElementById('fb-panel');
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden', 'true');
+  document.getElementById('fb-trigger').focus();
 }
 function resetFeedbackForm() {
   document.getElementById('fb-form').reset();
@@ -6410,7 +6416,7 @@ document.addEventListener('click', function(e) {
 <button class="fb-btn" id="fb-trigger" onclick="toggleFeedback()" aria-label="Submit feedback or suggestion">
   <span class="fb-btn-dot"></span>Suggest
 </button>
-<div class="fb-panel" id="fb-panel" role="dialog" aria-modal="true" aria-labelledby="fb-panel-title-text">
+<div class="fb-panel" id="fb-panel" role="dialog" aria-modal="true" aria-labelledby="fb-panel-title-text" aria-hidden="true">
   <button class="fb-panel-close" onclick="closeFeedback()" aria-label="Close">✕</button>
   <div class="fb-panel-title" id="fb-panel-title-text">Suggest / Feedback</div>
   <div class="fb-panel-sub">Flag a missed event, suggest a source, or correct a classification.</div>
