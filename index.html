@@ -1418,8 +1418,8 @@ header {
 .cp2-cmr-pill.strained    { color: #8a6e1f; border-color: rgba(184,150,62,0.35); background: rgba(184,150,62,0.07); }
 .cp2-cmr-pill.crisis      { color: #8a3a2f; border-color: rgba(163,55,47,0.35); background: rgba(163,55,47,0.07); }
 .cp2-cmr-pill.authoritarian{ color: #6a2f6a; border-color: rgba(106,47,106,0.35); background: rgba(106,47,106,0.07); }
-.cp2-sm-btn { font-family: var(--mono); font-size: 8px; letter-spacing: 1px; text-transform: uppercase; color: var(--coup); background: rgba(184,50,50,0.08); border: 1px solid rgba(184,50,50,0.25); padding: 3px 9px; border-radius: 2px; cursor: pointer; }
-.cp2-sm-btn:hover { background: rgba(184,50,50,0.14); }
+.cp2-sm-btn { font-family: var(--mono); font-size: 8px; letter-spacing: 1px; text-transform: uppercase; color: var(--coup); background: rgba(163,55,47,0.08); border: 1px solid rgba(163,55,47,0.25); padding: 3px 9px; border-radius: 2px; cursor: pointer; } /* rgb matches --coup #a3372f */
+.cp2-sm-btn:hover { background: rgba(163,55,47,0.14); }
 
 /* Summary strip */
 .cp2-summary { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start; padding: 16px 20px; border-bottom: 1px solid var(--border); }
@@ -1446,7 +1446,7 @@ header {
 .cp2-rank-badge.r-lo { background: rgba(45,110,82,0.10); color: var(--reform); border: 1px solid rgba(45,110,82,0.22); }
 
 /* Sources band */
-.cp2-sources-band { background: #f5f1ea; border-bottom: 1px solid var(--border); padding: 6px 20px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.cp2-sources-band { background: #f5f1ea; border-bottom: 1px solid var(--border); padding: 6px 20px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; } /* intentional tint: slightly cooler than --eggshell */
 .cp2-sources-label { font-family: var(--mono); font-size: 7.5px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); }
 .cp2-sources-item { font-family: var(--mono); font-size: 7.5px; color: var(--text-faint); }
 .cp2-sources-sep { color: var(--border2); font-size: 9px; }
@@ -1493,7 +1493,7 @@ header {
 .cp2-events-count { font-family: var(--mono); font-size: 9px; color: var(--text-faint); }
 
 /* Structural Trends */
-.cp2-trends-strip { background: #f0ebe2; border-top: 1px solid var(--border); display: flex; gap: 0; }
+.cp2-trends-strip { background: #f0ebe2; border-top: 1px solid var(--border); display: flex; gap: 0; } /* intentional tint: slightly warmer than --eggshell-warm, anchors bottom strip */
 .cp2-trend-cell { flex: 1; padding: 12px 16px; border-right: 1px solid var(--border); }
 .cp2-trend-cell:last-child { border-right: none; }
 .cp2-trend-kicker { font-family: var(--mono); font-size: 7.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
