@@ -7451,22 +7451,31 @@ function exRenderSpending() {
   const metricBtn = document.querySelector('#ex-spend-metric .ex-active-ctrl');
   exSpendMetric = metricBtn ? metricBtn.dataset.metric : 'pct_gdp';
 
-  const WB_KEY = {
-    pct_gdp:    'military_expenditure_pct_gdp',
-    usd:        'military_expenditure_current_usd',
-    per_capita: 'gdp_per_capita_constant_2015_usd',
-  };
-  const key = WB_KEY[exSpendMetric];
   const fmt = {
     pct_gdp:    v => v != null ? v.toFixed(1) + '%' : '—',
     usd:        v => v != null ? '$' + (v/1e9).toFixed(1) + 'B' : '—',
     per_capita: v => v != null ? '$' + Math.round(v).toLocaleString() : '—',
   };
 
-  const rows = Object.entries(window.wbData)
-    .map(([country, series]) => {
-      const yearData = series.find(d => d.year === exSpendYear);
-      return { country, value: yearData ? yearData[key] : null };
+  const wbCountries = window.wbData.countries || [];
+  const yearStr = String(exSpendYear);
+
+  const rows = wbCountries
+    .map(c => {
+      let value = null;
+      if (exSpendMetric === 'per_capita') {
+        const milSeries = c['military_expenditure_current_usd_series'] || [];
+        const popSeries = c['population_total_series'] || [];
+        const milData = milSeries.find(d => d.year === yearStr);
+        const popData = popSeries.find(d => d.year === yearStr);
+        if (milData && popData && popData.value > 0) value = milData.value / popData.value;
+      } else {
+        const key = exSpendMetric === 'pct_gdp' ? 'military_expenditure_pct_gdp' : 'military_expenditure_current_usd';
+        const series = c[key + '_series'] || [];
+        const yearData = series.find(d => d.year === yearStr);
+        value = yearData ? yearData.value : null;
+      }
+      return { country: c.country, value };
     })
     .filter(r => r.value != null)
     .sort((a, b) => b.value - a.value)
@@ -7526,12 +7535,18 @@ function exRenderAid() {
   const startYear = PERIOD_START[period] || 0;
   const endYear   = period === '2020' ? 2025 : period === '2010' ? 2019 : 9999;
 
+  const gbCountries = (window.greenbookData.countries || window.greenbookData || []);
   const totals = {};
-  window.greenbookData.forEach(row => {
-    if (!row.country || row.year < startYear || row.year > endYear) return;
-    if (!totals[row.country]) totals[row.country] = { military: 0, economic: 0 };
-    if (row.category === 'Military') totals[row.country].military += (row.constant_usd || 0);
-    else totals[row.country].economic += (row.constant_usd || 0);
+  gbCountries.forEach(c => {
+    const name = c.country;
+    if (!name) return;
+    const series = c.series || [];
+    series.forEach(s => {
+      if (s.year < startYear || s.year > endYear) return;
+      if (!totals[name]) totals[name] = { military: 0, economic: 0 };
+      totals[name].military += (s.military || 0);
+      totals[name].economic += (s.economic || 0);
+    });
   });
 
   const rows = Object.entries(totals)
@@ -7609,26 +7624,28 @@ function exRenderCmr() {
   const region    = regionBtn ? regionBtn.dataset.region : 'all';
   const year      = yearBtn   ? parseInt(yearBtn.dataset.year) : 2023;
 
-  const countries = Object.keys(window.vdemData).filter(c => {
+  const vdemCountries = window.vdemData.countries || [];
+  const filtered = vdemCountries.filter(c => {
     if (region === 'all') return true;
-    return EX_COUNTRY_REGION[c] === region;
+    return EX_COUNTRY_REGION[c.country] === region;
   });
 
-  if (!countries.length) {
+  if (!filtered.length) {
     container.innerHTML = '<p style="padding:20px;color:var(--text-muted);font-family:var(--mono);font-size:10px;">No data.</p>';
     return;
   }
 
-  container.innerHTML = countries.map(country => {
-    const series = window.vdemData[country] || [];
-    const row = series.find(d => d.year === year) || {};
+  container.innerHTML = filtered.map(c => {
+    const country = c.country;
     const profile = COUNTRY_PROFILES[country] || {};
     const cmrStatus = profile.cmrStatus || 'Stable';
     const borderColor = cmrStatus === 'Crisis' || cmrStatus === 'Authoritarian' ? 'var(--coup)'
                       : cmrStatus === 'Strained' ? 'var(--purge)' : 'var(--reform)';
 
     const bars = EX_CMR_INDICATORS.map(ind => {
-      let val = row[ind.key];
+      const indSeries = (c.series && c.series[ind.key]) || [];
+      const yearData = indSeries.find(d => d.year === year);
+      let val = yearData ? yearData.value : (c[ind.key] != null ? c[ind.key] : 0);
       if (val == null) val = 0;
       if (ind.invert) val = 1 - val;
       const pct = Math.min(100, Math.max(0, val * 100)).toFixed(0);
