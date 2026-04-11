@@ -143,20 +143,21 @@ header {
 .tab-btn.active { color: var(--text); }
 .tab-btn.active::after { transform: scaleX(1); }
 .header-right { margin-left: 0; display: flex; align-items: center; gap: 8px; flex-shrink: 0; padding-left: 0; border-left: none; }
-.hdr-btn {
-  font-family: var(--mono); font-size: 8.5px; letter-spacing: 1.2px; text-transform: uppercase;
-  display: flex; align-items: center; gap: 5px;
-  padding: 5px 12px; border-radius: 6px;
-  border: 1px solid var(--border); background: transparent;
-  color: var(--text-muted); cursor: pointer; text-decoration: none;
+.nav-search-btn {
+  width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--border);
+  background: transparent; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text-muted); font-size: 16px; line-height: 1;
   transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
-.hdr-btn svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.5; fill: none; }
-.hdr-btn:hover { border-color: var(--amber); color: var(--amber); background: rgba(196,122,32,0.06); }
+.nav-search-btn:hover { border-color: var(--amber); color: var(--amber); background: rgba(196,122,32,0.06); }
 .login-btn {
-  background: var(--olive-dark); color: #e8e0d4; border-color: var(--olive-dark);
+  font-family: var(--mono); font-size: 8.5px; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 6px;
+  background: var(--olive-dark); color: #e8e0d4; border: 1px solid var(--olive-dark);
+  cursor: pointer; text-decoration: none; display: inline-flex; align-items: center;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.15s;
 }
-.login-btn:hover { background: var(--olive-mid); border-color: var(--olive-mid); color: #e8e0d4; transform: translateY(-1px); }
+.login-btn:hover { background: var(--olive-mid); border-color: var(--olive-mid); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(30,46,16,0.2); }
 
 .mobile-menu-btn{
   display:none; align-items:center; justify-content:center;
@@ -915,7 +916,7 @@ header {
   .detail-lens-grid, .detail-grid, .events-toolbar-grid, .context-map-grid, .cp-region-shell, .cp-regional-lower, .cp-readout-list, .cp-measure-row, .cp-mid-grid, .cp-reference-grid, .cp-hero-top { grid-template-columns:1fr; }
   .cp-region-brief-col { grid-template-rows:auto; }
   .detail-measures { grid-template-columns:1fr; }
-  .tab-bar, .header-right .hdr-btn:not(.login-btn) { display:none; }
+  .tab-bar, .header-right .nav-search-btn { display:none; }
   .mobile-menu-btn { display:inline-flex; }
 }
 @media(max-width:700px){
@@ -1786,14 +1787,8 @@ header {
     <button class="tab-btn" data-tab="about">About</button>
   </nav>
   <div class="header-right">
-    <button class="hdr-btn" id="search-btn" onclick="openSearch()" title="Search (⌘K)">
-      <svg viewBox="0 0 16 16"><circle cx="6.5" cy="6.5" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/></svg>
-      <span>Search</span>
-    </button>
-    <a class="hdr-btn login-btn" id="analyst-login-link" href="./apps/analyst-console/" title="Analyst Console">
-      <svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5.5A2.5 2.5 0 0 1 8 3a2.5 2.5 0 0 1 2.5 2.5V7"/></svg>
-      <span>Analyst Console</span>
-    </a>
+    <button class="nav-search-btn" id="search-btn" onclick="openSearch()" title="Search (⌘K)">⌕</button>
+    <a class="login-btn" id="analyst-login-link" href="./apps/analyst-console/" title="Analyst Console">Analyst Console</a>
   </div>
 </header>
 
