@@ -1405,6 +1405,138 @@ header {
   font-family: var(--mono); font-size: 9px; letter-spacing: 0.5px;
   color: var(--coup); margin-top: 2px;
 }
+
+/* ── COUNTRY PROFILE v2 ───────────────────────────────────── */
+/* Header */
+.cp2-hdr { padding: 14px 20px 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: linear-gradient(180deg, rgba(184,150,62,0.05), transparent); }
+.cp2-back { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); background: none; border: none; cursor: pointer; padding: 0; }
+.cp2-back:hover { color: var(--slate); }
+.cp2-name { font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--slate); line-height: 1; }
+.cp2-sub { font-family: var(--mono); font-size: 9px; color: var(--text-muted); letter-spacing: 0.5px; margin-top: 2px; }
+.cp2-cmr-pill { margin-left: auto; font-family: var(--mono); font-size: 8px; letter-spacing: 1.2px; text-transform: uppercase; padding: 3px 10px; border-radius: 2px; border: 1px solid; }
+.cp2-cmr-pill.stable      { color: #2d6e52; border-color: rgba(45,110,82,0.35); background: rgba(45,110,82,0.07); }
+.cp2-cmr-pill.strained    { color: #8a6e1f; border-color: rgba(184,150,62,0.35); background: rgba(184,150,62,0.07); }
+.cp2-cmr-pill.crisis      { color: #8a3a2f; border-color: rgba(163,55,47,0.35); background: rgba(163,55,47,0.07); }
+.cp2-cmr-pill.authoritarian{ color: #6a2f6a; border-color: rgba(106,47,106,0.35); background: rgba(106,47,106,0.07); }
+.cp2-sm-btn { font-family: var(--mono); font-size: 8px; letter-spacing: 1px; text-transform: uppercase; color: var(--coup); background: rgba(184,50,50,0.08); border: 1px solid rgba(184,50,50,0.25); padding: 3px 9px; border-radius: 2px; cursor: pointer; }
+.cp2-sm-btn:hover { background: rgba(184,50,50,0.14); }
+
+/* Summary strip */
+.cp2-summary { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+.cp2-summary-text { font-size: 13px; line-height: 1.8; color: var(--text-dim); font-weight: 300; }
+.cp2-risk-box { min-width: 130px; text-align: right; border: 1px solid var(--border); padding: 10px 14px; background: rgba(255,255,255,0.4); }
+.cp2-risk-kicker { font-family: var(--mono); font-size: 8px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+.cp2-risk-value { font-family: var(--serif); font-size: 32px; line-height: 1; color: var(--slate); }
+.cp2-risk-note { font-family: var(--mono); font-size: 9px; color: var(--text-muted); margin-top: 3px; line-height: 1.4; }
+
+/* Radar section */
+.cp2-radar-section { display: grid; grid-template-columns: 278px 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.cp2-radar-canvas-wrap { padding: 16px 16px 14px; display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--border); }
+.cp2-score-table { padding: 14px 18px; display: flex; flex-direction: column; gap: 0; }
+.cp2-grp-lbl { font-family: var(--mono); font-size: 8px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text-muted); padding: 10px 0 6px; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
+.cp2-grp-lbl:first-child { padding-top: 0; }
+.cp2-score-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(216,208,196,0.5); font-size: 11.5px; }
+.cp2-score-row:last-child { border-bottom: none; }
+.cp2-score-name { flex: 1; color: var(--text-dim); font-weight: 300; min-width: 0; }
+.cp2-score-val { font-family: var(--mono); font-size: 11px; color: var(--text); min-width: 44px; text-align: right; }
+.cp2-score-trend { font-family: var(--mono); font-size: 8px; letter-spacing: 0.5px; text-transform: uppercase; min-width: 40px; text-align: right; }
+.cp2-rank-badge { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.3px; padding: 1px 5px; border-radius: 2px; white-space: nowrap; }
+.cp2-rank-badge.r-hi { background: rgba(163,55,47,0.12); color: var(--coup); border: 1px solid rgba(163,55,47,0.25); }
+.cp2-rank-badge.r-md { background: rgba(196,110,18,0.10); color: var(--purge); border: 1px solid rgba(196,110,18,0.22); }
+.cp2-rank-badge.r-lo { background: rgba(45,110,82,0.10); color: var(--reform); border: 1px solid rgba(45,110,82,0.22); }
+
+/* Sources band */
+.cp2-sources-band { background: #f5f1ea; border-bottom: 1px solid var(--border); padding: 6px 20px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.cp2-sources-label { font-family: var(--mono); font-size: 7.5px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); }
+.cp2-sources-item { font-family: var(--mono); font-size: 7.5px; color: var(--text-faint); }
+.cp2-sources-sep { color: var(--border2); font-size: 9px; }
+
+/* Context / Watch */
+.cp2-context-band { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.cp2-context-col { padding: 14px 18px; }
+.cp2-context-col:first-child { border-right: 1px solid var(--border); }
+.cp2-col-kicker { font-family: var(--mono); font-size: 8px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+.cp2-context-text { font-size: 12px; line-height: 1.75; color: var(--text-dim); font-weight: 300; }
+.cp2-watch-item { font-size: 12px; line-height: 1.7; color: var(--text-dim); padding: 5px 0; border-bottom: 1px solid rgba(216,208,196,0.5); font-weight: 300; }
+.cp2-watch-item:last-child { border-bottom: none; }
+
+/* Reference band */
+.cp2-ref-band { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-bottom: 1px solid var(--border); }
+.cp2-ref-col { padding: 14px 18px; }
+.cp2-ref-col:not(:last-child) { border-right: 1px solid var(--border); }
+.cp2-ref-col .cp2-col-kicker { margin-bottom: 10px; }
+.cp2-ref-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 5px 0; border-bottom: 1px solid rgba(216,208,196,0.5); font-size: 11.5px; }
+.cp2-ref-row:last-child { border-bottom: none; }
+.cp2-ref-label { color: var(--text-dim); font-weight: 300; font-size: 11px; }
+.cp2-ref-val { font-family: var(--mono); font-size: 10.5px; color: var(--text); text-align: right; }
+.cp2-pos-title { font-family: var(--mono); font-size: 8px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1px; }
+.cp2-pos-name { font-size: 11.5px; color: var(--text); line-height: 1.4; }
+.cp2-pos-item { padding: 5px 0; border-bottom: 1px solid rgba(216,208,196,0.5); }
+.cp2-pos-item:last-child { border-bottom: none; }
+.cp2-elect-type { font-family: var(--mono); font-size: 8px; letter-spacing: 0.7px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
+.cp2-elect-date { font-family: var(--serif); font-size: 18px; color: var(--slate); line-height: 1.1; }
+.cp2-elect-note { font-size: 11px; color: var(--text-dim); margin-top: 4px; line-height: 1.5; }
+
+/* Event Pulse */
+.cp2-pulse-section { padding: 12px 20px 10px; border-bottom: 1px solid var(--border); }
+.cp2-pulse-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.cp2-pulse-label { font-family: var(--mono); font-size: 8px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); }
+.cp2-pulse-legend { display: flex; align-items: center; gap: 12px; }
+.cp2-pulse-legend-item { display: flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 7.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+.cp2-pulse-swatch { width: 10px; height: 8px; border-radius: 1px; }
+.cp2-pulse-canvas-wrap { position: relative; width: 100%; height: 52px; }
+
+/* Live Events */
+.cp2-events-section { padding: 0; border-bottom: 1px solid var(--border); }
+.cp2-events-hdr { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px 8px; border-bottom: 1px solid var(--border); }
+.cp2-events-label { font-family: var(--mono); font-size: 8px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); }
+.cp2-events-count { font-family: var(--mono); font-size: 9px; color: var(--text-faint); }
+
+/* Structural Trends */
+.cp2-trends-strip { background: #f0ebe2; border-top: 1px solid var(--border); display: flex; gap: 0; }
+.cp2-trend-cell { flex: 1; padding: 12px 16px; border-right: 1px solid var(--border); }
+.cp2-trend-cell:last-child { border-right: none; }
+.cp2-trend-kicker { font-family: var(--mono); font-size: 7.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+.cp2-trend-value { font-family: var(--serif); font-size: 22px; color: var(--slate); line-height: 1; }
+.cp2-trend-delta { font-family: var(--mono); font-size: 9px; margin-top: 3px; }
+.cp2-trend-delta.up   { color: var(--coup); }
+.cp2-trend-delta.down { color: var(--reform); }
+.cp2-trend-delta.neutral { color: var(--text-muted); }
+
+/* ── PROSE TEXT JUSTIFICATION ──────────────────────────────── */
+.prose,
+.brief-copy,
+.brief-side-copy,
+.events-sidebar-copy,
+.detail-summary,
+.detail-text,
+.detail-analysis-copy,
+.detail-context-copy,
+.detail-lens-text,
+.detail-kv span,
+.ai-box-text,
+.tl-text,
+.tab-intro-block,
+.cp-watch-text,
+.cp-note,
+.cp-hero-copy,
+.cp-brief-copy,
+.cp-brief-note,
+.cp-readout-text,
+.cp-section-body,
+.context-panel-note,
+.ov-project-body,
+.ov-lead-note,
+.ov-monitor-card-desc,
+.ov-subscribe-sub,
+.about-body,
+.about-team-bio,
+.about-fw-list li,
+.about-src-desc,
+.about-cite {
+  text-align: justify;
+  hyphens: auto;
+}
 </style>
 </head>
 <body>
@@ -1778,7 +1910,7 @@ header {
       </div>
 
       <div class="sec-title mt">Military Aid by Program Channel — FY2025 Allocations</div>
-      <div style="font-size:12.5px;line-height:1.8;color:var(--text-dim);font-weight:300;margin-bottom:12px;max-width:720px;">The Greenbook categorizes aid as Economic or Military assistance. Military assistance flows through six primary US government channels, each with a distinct legal authority, oversight mechanism, and CMR implication:</div>
+      <div style="font-size:12.5px;line-height:1.8;color:var(--text-dim);font-weight:300;margin-bottom:12px;max-width:720px;text-align:justify;hyphens:auto;">The Greenbook categorizes aid as Economic or Military assistance. Military assistance flows through six primary US government channels, each with a distinct legal authority, oversight mechanism, and CMR implication:</div>
       <div class="d-row" data-tooltip="International Narcotics Control and Law Enforcement — State Dept. program funding counter-narcotics operations, law enforcement capacity, and border security. Primary channel for US-Colombia counternarcotics cooperation and Plan Colombia successor programs." style="cursor:help;"><span class="d-label"><strong>INCLE</strong> — Int'l Narcotics Control &amp; Law Enforcement</span><span class="d-val">$724M <small style="color:var(--text-muted)">(Colombia $323M, Mexico $148M, Honduras $74M)</small></span></div>
       <div class="d-row" data-tooltip="Foreign Military Financing — DoD/State grant program providing funds to foreign governments to purchase US defense equipment, services, and training. Requires congressional notification; creates long-term equipment dependencies and logistical ties to US suppliers." style="cursor:help;"><span class="d-label"><strong>FMF</strong> — Foreign Military Financing</span><span class="d-val">$412M <small style="color:var(--text-muted)">(Colombia $95M, Peru $42M, Guatemala $28M)</small></span></div>
       <div class="d-row" data-tooltip="Non-proliferation, Anti-terrorism, Demining and Related Programs — State Dept. account covering WMD threat reduction, counter-terrorism capacity, humanitarian demining, and export control. Broadly scoped across security and stability objectives." style="cursor:help;"><span class="d-label"><strong>NADR</strong> — Non-proliferation, Anti-terrorism, Demining</span><span class="d-val">$298M <small style="color:var(--text-muted)">(Colombia $118M, Peru $38M, El Salvador $22M)</small></span></div>
@@ -2030,7 +2162,7 @@ header {
       <div class="tl-item"><div class="tl-dot" style="background:var(--reform);"></div><div class="tl-date">Mar 17</div><div class="tl-text">Maduro federal detention hearing (New York) — next proceeding scheduled. Election timeline under Rodríguez remains unannounced.</div></div>
 
       <div class="sec-title mt">Analysis</div>
-      <div style="font-size:12.5px;color:var(--text-dim);line-height:1.8;font-weight:300;padding:14px 16px;background:var(--bg2);border-left:3px solid var(--border2);border-radius:0 2px 2px 0;margin-bottom:20px;">
+      <div style="font-size:12.5px;color:var(--text-dim);line-height:1.8;font-weight:300;padding:14px 16px;background:var(--bg2);border-left:3px solid var(--border2);border-radius:0 2px 2px 0;margin-bottom:20px;text-align:justify;hyphens:auto;">
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;"><span class="analysis-badge military">Military</span><span class="analysis-badge political">Political</span></div>
         Operation Absolute Resolve represents a <strong>category-breaking event</strong> for CMR theory in Latin America. The entire Bolivarian civil-military architecture — 2,000+ coup-proofed generals, parallel intelligence structures (SEBIN/DGCIM), militia integration, military economic enterprises — was constructed around Maduro's personal authority. The survival of that architecture under Rodríguez, who lacks Maduro's revolutionary legitimacy and military patronage credibility, is uncertain. Key indicators SENTINEL is tracking: (1) Whether Padrino López retains Defence Ministry post; (2) Fragmentation signals among regional military commanders; (3) Fate of military economic enterprises (CAMIMPEG, etc.); (4) Whether Rodríguez calls elections within constitutional window; (5) Tren de Aragua and colectivos — do they maintain alignment or become independent actors?
       </div>
@@ -2096,7 +2228,7 @@ header {
       </div>
 
       <div class="sec-title mt">Analysis</div>
-      <div style="font-size:12.5px;line-height:1.82;color:var(--text-dim);font-weight:300;margin-bottom:18px;max-width:720px;border-left:3px solid var(--purge);padding-left:14px;">
+      <div style="font-size:12.5px;line-height:1.82;color:var(--text-dim);font-weight:300;margin-bottom:18px;max-width:720px;border-left:3px solid var(--purge);padding-left:14px;text-align:justify;hyphens:auto;">
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;"><span class="analysis-badge military">Military</span><span class="analysis-badge political">Political</span></div>
         El Salvador represents a textbook case of what scholars term <em>democratic backsliding through civil-military fusion</em>. Unlike classical coups, Bukele's consolidation proceeds via managed elections — enabled by judicial packing that reversed constitutional term limits — while using the military as a visible loyalty instrument and domestic enforcement mechanism. The February 2020 Legislative Assembly occupation was the defining inflection point: the officer corps' decision not to enforce constitutional limits on the executive signaled its institutional capture. Subsequent expansions — régimen enforcement, prison operations, protest suppression, and the July 2025 constitutional overhaul — follow this logic. The Trump alignment has effectively closed the last external accountability lever: the US not only declines to condition aid on democratic governance but actively co-finances the detention apparatus. SENTINEL classifies El Salvador as a <strong>Crisis / Civil-Military Fusion</strong> case, distinct from classical authoritarianism in maintaining electoral performance while comprehensively dismantling substantive civilian oversight of the armed forces.
       </div>
@@ -2150,7 +2282,7 @@ header {
       </div>
 
       <div class="sec-title mt">The Criminal Wars</div>
-      <div style="font-size:12.5px;line-height:1.82;color:var(--text-dim);font-weight:300;margin-bottom:16px;border-left:3px solid var(--conflict);padding-left:14px;">
+      <div style="font-size:12.5px;line-height:1.82;color:var(--text-dim);font-weight:300;margin-bottom:16px;border-left:3px solid var(--conflict);padding-left:14px;text-align:justify;hyphens:auto;">
         <strong>Sinaloa Cartel civil war</strong> (Sep 2024 – present): The arrest of founder Ismael "El Mayo" Zambada — engineered by the Chapitos faction and handed to US authorities September 2024 — split the cartel into an existential war. La Mayiza (Zambada loyalists) have reclaimed ~90% of contested territory by early 2026; only two Guzmán brothers remain free (Iván Archivaldo, Jesús Alfredo). The conflict has killed 1,000+ and produced 2,197 homicides and 2,133 kidnappings in Sinaloa state. Violence has spread to tourist hubs including Mazatlán. CJNG is reportedly seeking Chapitos alliance in Zacatecas, reshaping the national cartel map. <em><a href="https://insightcrime.org/special-series-sinaloa-cartel-internal-war/" target="_blank" rel="noopener" style="color:var(--aid);">InSight Crime series ↗</a></em><br><br>
         <strong>CJNG / El Mencho operation</strong> (Feb 22, 2026): SEDENA and SEMAR forces, with US JITC-CC intelligence and planning support, conducted an operation in Jalisco that killed Nemesio "El Mencho" Oseguera Cervantes — Mexico's most wanted cartel leader and a DEA priority target. At least 25 National Guard members were killed in the action. His death leaves CJNG succession dynamics unresolved and may trigger an internal power struggle or territorial realignment. <em><a href="https://www.chathamhouse.org/2026/03/mexicos-anti-cartel-operations-seek-prove-trump-it-serious-about-security-world-cup-looms" target="_blank" rel="noopener" style="color:var(--aid);">Chatham House ↗</a></em>
       </div>
@@ -2167,7 +2299,7 @@ header {
       </div>
 
       <div class="sec-title mt">Analysis</div>
-      <div style="font-size:12.5px;line-height:1.82;color:var(--text-dim);font-weight:300;margin-bottom:18px;max-width:720px;border-left:3px solid var(--reform);padding-left:14px;">
+      <div style="font-size:12.5px;line-height:1.82;color:var(--text-dim);font-weight:300;margin-bottom:18px;max-width:720px;border-left:3px solid var(--reform);padding-left:14px;text-align:justify;hyphens:auto;">
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;"><span class="analysis-badge military">Military</span><span class="analysis-badge security">Security</span></div>
         Mexico presents the region's most complex civil-military case: deep structural militarization under a formally democratic civilian government that has not experienced a coup or military veto. The officer corps has not asserted political preferences but has been the consistent beneficiary of institutional expansion — from the Calderón drug war to Sheinbaum's intelligence mandate. CMR theorists distinguish between <em>military prerogatives</em> (institutional autonomy, mission expansion) and <em>civilian control</em> (who holds formal authority). Mexico scores poorly on the former while maintaining formal civilian authority: Sheinbaum gives orders, but the military's economic empire, intelligence authority, and domestic security mandate are now structurally beyond reversal by any single government. The FTO designations have introduced a new variable: US sovereign pressure to allow unilateral operations on Mexican territory. Sheinbaum's consistent refusal is a civilian control success in one dimension, even as domestic militarization deepens. SENTINEL classifies Mexico as <strong>Strained</strong> — civilian control formally intact but institutional military autonomy expanding at a structurally irreversible pace.
       </div>
@@ -2373,7 +2505,7 @@ header {
       </div>
 
       <div class="sec-title">State Capture &amp; Security-Force Corruption Indicators</div>
-      <div style="font-size:12.5px;line-height:1.8;color:var(--text-dim);font-weight:300;margin-bottom:20px;max-width:760px;border-left:3px solid var(--oc);padding-left:14px;">
+      <div style="font-size:12.5px;line-height:1.8;color:var(--text-dim);font-weight:300;margin-bottom:20px;max-width:760px;border-left:3px solid var(--oc);padding-left:14px;text-align:justify;hyphens:auto;">
         Criminal infiltration of security forces represents the most acute long-term threat to civil-military relations integrity across the region. In <strong>Honduras</strong>, former President Hernández is serving 45 years in the US for trafficking facilitated by state security apparatus. In <strong>Guatemala</strong>, military intelligence networks (D-2) have been documented collaborating with trafficking organizations. In <strong>Mexico</strong>, systemic DEA-documented collusion at the state police and municipal levels continues despite federal military substitution. In <strong>Venezuela</strong> (pre-January 2026), FANB generals held documented interests in colectivo and Tren de Aragua criminal economies. In <strong>Haiti</strong>, MSS gang leader Jimmy "Barbecue" Chérizier has established territorial control over more than 80% of Port-au-Prince's key corridors, effectively displacing state security structures. These cases are not aberrations — they represent structurally predictable outcomes when military institutions are deployed in high-rent illicit economies without civilian oversight mechanisms.
       </div>
 
