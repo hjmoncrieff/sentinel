@@ -14,6 +14,17 @@ The goal is to improve both:
 - the factual depth of event records
 - the medium-term modeling base for coercive politics and political risk
 
+The standing annual variable checklist for this work lives in:
+
+- `docs/private-latent-indicator-inventory.md`
+
+The first private annual static latent outputs now live in:
+
+- `scripts/analysis/build_static_latent_scores.py`
+- `data/modeling/static_latent_scores_v0.json`
+- `data/modeling/static_latent_scores_v0.csv`
+- `data/review/static_latent_scores_v0_diagnostics.json`
+
 ## Local-Only Materials Rule
 
 The Kenwick replication materials and any raw `dataverse*` archives are for
@@ -546,6 +557,87 @@ Examples:
 - a country can be highly militarized even where executive control over the
   military is still relatively strong
 
+### 6D. Index Versus Latent rule
+
+For SENTINEL, the best design is not `index or latent`. It is both, with
+separate jobs.
+
+Use the `index` when the priority is:
+
+- transparency
+- fast updating
+- dashboard display
+- analyst readability
+- straightforward debugging
+- public communication
+
+Use the `latent construct` when the priority is:
+
+- internal measurement quality
+- combining many imperfect indicators
+- noise reduction
+- uncertainty estimation
+- private modeling and calibration
+- long-run research comparison
+
+Operational rule:
+
+- the `index` remains the live product score
+- the `latent construct` remains a private/internal measurement layer
+- the latent layer should be used to audit, refine, and recalibrate the index
+- the public product should not depend directly on the latent model unless the
+  latent design becomes stable, interpretable, and operationally robust
+
+Concrete application:
+
+- keep `regime_vulnerability`, `militarization`, and related live monitor
+  outputs as operational indices
+- build `civilian_control_latent` and `militarization_latent` privately
+- use those latent variables to test whether the index weights are:
+  - overreacting to event noise
+  - underweighting structural signals
+  - conflating related but distinct coercive dimensions
+
+Recommended sequence:
+
+1. improve and maintain the current index architecture
+2. assemble the latent-variable indicator panel privately
+3. estimate static latent versions first
+4. compare latent results against the index
+5. revise the index where the latent evidence shows persistent mismeasurement
+
+Bottom line:
+
+- `index` for operations and public-facing use
+- `latent construct` for private measurement and model development
+- the strongest long-run design is a latent layer underneath a simpler index
+  layer on top
+
+### Current static v0 rule
+
+The current private `v0` latent layer should be treated as:
+
+- a transparent first-pass extractor
+- a coverage and construct-behavior test
+- not the final ordinal-IRT implementation
+
+Current `v0` method:
+
+- eligibility-gated annual rows from
+  `data/modeling/latent_design_matrix.json`
+- median imputation within the eligible sample
+- standardized inputs
+- one-factor static extraction
+- sign orientation against anchor variables
+- rescaling to `0-100` for internal comparison
+
+Current limitation:
+
+- the annual `country_year` layer does not yet carry the live operational
+  `regime_vulnerability` and `militarization` index fields
+- so `static_latent_scores_v0_diagnostics.json` cannot yet perform a direct
+  annual latent-versus-live-index audit in the same file
+
 ## 7. Recommended Next Implementation Sequence
 
 ### Near term
@@ -565,6 +657,11 @@ Examples:
 3. add M3 variables explicitly to that annual inventory
 4. test a first private latent-variable prototype
 
+This step is now complete at a first-pass static level through:
+
+- `scripts/analysis/build_latent_design_matrix.py`
+- `scripts/analysis/build_static_latent_scores.py`
+
 ### Rule
 
 Do not start latent-variable fitting until:
@@ -574,7 +671,12 @@ Do not start latent-variable fitting until:
 - police and official-defense input coverage is documented
 - M3 variable coverage is documented
 
-The next stage is design and data assembly, not immediate fitting.
+The next stage is not first-time fitting anymore. It is:
+
+- inspecting the `v0` score behavior
+- pruning weak or empty indicators
+- improving annual indicator coverage
+- then deciding whether to move toward a stronger static measurement model
 
 ## 8. First Concrete SENTINEL Design Proposal
 

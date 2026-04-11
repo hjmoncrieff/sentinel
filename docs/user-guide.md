@@ -55,8 +55,13 @@ For a command-by-command reference for every executable stage runner, use:
 - when planning event-content enrichment, SOUTHCOM monitoring, police-source
   collection, or latent-variable design for coercive politics, use:
   - `docs/private-source-enrichment-and-latent-variable-note.md`
+  - `docs/private-latent-indicator-inventory.md`
   - include `M3` as a standing structural input when designing civilian-control
     or militarization latent variables
+  - use `scripts/analysis/build_static_latent_scores.py` for the first
+    private annual static latent prototype
+  - keep the operational rule that indices are the live product layer while
+    latent constructs remain private/internal measurement tools
 - keep Kenwick replication materials and any `dataverse*` raw archives local
   only; never commit or push them to GitHub
 

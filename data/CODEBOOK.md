@@ -448,13 +448,71 @@ Representative structural fields currently carried into the panel include:
   - `population`
 - M3 and related civil-military structure fields such as:
   - `m3_conscription`
+  - `m3_conscription_gender`
+  - `m3_conscription_dur_max`
+  - `m3_conscription_dur_min`
+  - `m3_alt_civil_service`
+  - `m3_mil_origin`
+  - `m3_mil_leader`
+  - `m3_mil_mod`
   - `m3_mil_veto`
+  - `m3_mil_repress`
+  - `m3_mil_repress_count`
   - `m3_mil_impunity`
   - `m3_mil_crime_police`
+  - `m3_mil_law_enforcement`
+  - `m3_mil_peace_order`
+  - `m3_mil_police_overlap`
   - `m3_mil_eco`
+  - `m3_mil_eco_own`
+  - `m3_mil_eco_share`
+  - `m3_mil_eco_dom`
+  - `m3_milex_gdp`
+  - `m3_milex_healthexp`
+  - `m3_pers_to_pop`
+  - `m3_pers_to_phy`
+  - `m3_reserve_pop`
   - `m3_hwi`
+  - `m3_source_year`
+  - `m3_observed_year`
+- annual SENTINEL event rollups now carried in `country_year` such as:
+  - `sentinel_event_count_y`
+  - `sentinel_high_salience_event_count_y`
+  - `sentinel_coup_family_count_y`
+  - `sentinel_purge_family_count_y`
+  - `sentinel_domestic_military_role_count_y`
+  - `sentinel_military_policing_role_count_y`
+  - `sentinel_exception_rule_militarization_count_y`
 - composite structural field:
   - `state_capacity_composite`
+
+### Private Annual Latent Outputs
+
+The first private annual latent outputs now live in:
+
+- `data/modeling/latent_design_matrix.json`
+- `data/modeling/latent_design_matrix.csv`
+- `data/review/latent_design_matrix_coverage.json`
+- `data/modeling/static_latent_scores_v0.json`
+- `data/modeling/static_latent_scores_v0.csv`
+- `data/review/static_latent_scores_v0_diagnostics.json`
+
+The `static_latent_scores_v0` layer currently includes:
+
+- `civilian_control_latent_v0_score`
+- `civilian_control_latent_v0_z`
+- `civilian_control_latent_v0_raw`
+- `militarization_latent_v0_score`
+- `militarization_latent_v0_z`
+- `militarization_latent_v0_raw`
+
+These are private/internal first-pass measurement outputs.
+
+They should be treated as:
+
+- annual construct checks
+- provisional static latent scores
+- not the final public-facing index layer
 
 ### Monthly Event-Derived Features Included
 

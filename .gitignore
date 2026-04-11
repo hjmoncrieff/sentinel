@@ -33,6 +33,17 @@ data/staging/gdelt_events/
 data/modeling/*.local.json
 data/modeling/country_month_panel.json
 
+# ── Private Modeling / Review / Structural Panels ────────────
+data/modeling/**
+!data/modeling/manual_country_month_signals.template.json
+data/review/**
+!data/review/*.template.json
+data/cleaned/country_year.csv
+data/cleaned/country_year.json
+data/raw/M3-Dataset-V1.xlsx
+data/raw/vdem.csv
+data/raw/wb_*.json
+
 # ── Private Replication / Dataverse Materials ────────────────
 data/raw/Coup Latent Variable/
 data/raw/dataverse*

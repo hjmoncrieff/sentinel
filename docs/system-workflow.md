@@ -60,6 +60,7 @@ If a major leap changes the operating sequence, update:
 - `docs/obsidian-documentation-sync.md`
 - `docs/private-source-expansion-note.md`
 - `docs/private-source-enrichment-and-latent-variable-note.md`
+- `docs/private-latent-indicator-inventory.md`
 - `docs/private-roadmap.md`
 - `docs/private-integration-diagram.md`
 - `docs/private-construct-diagram.md`
@@ -160,7 +161,10 @@ Related next-step rule:
   - SOUTHCOM official-channel monitoring
   - police baseline source assembly
   - M3 structural-layer integration
+  - index-versus-latent measurement rules
   - latent-variable design planning for civilian control and militarization
+  - the first private annual static latent prototype in
+    `scripts/analysis/build_static_latent_scores.py`
 
 ### 2. Structural Refresh
 

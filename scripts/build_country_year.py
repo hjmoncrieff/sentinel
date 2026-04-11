@@ -15,37 +15,18 @@ Usage:
 import argparse
 import csv
 import json
+from collections import defaultdict
 from datetime import UTC, datetime
 from pathlib import Path
+
+from openpyxl import load_workbook
 
 ROOT    = Path(__file__).parent.parent
 VDEM_IN = ROOT / "data" / "cleaned" / "vdem.json"
 WB_IN   = ROOT / "data" / "cleaned" / "worldbank.json"
+M3_IN   = ROOT / "data" / "raw" / "M3-Dataset-V1.xlsx"
+EVENTS_IN = ROOT / "data" / "canonical" / "events_actor_coded.json"
 OUT_DIR = ROOT / "data" / "cleaned"
-
-# M3 indicators — static (2020 snapshot); applied to all years as structural flags
-COUNTRY_M3 = {
-    "Brazil":             {"conscription":1,"mil_veto":0,"mil_impunity":1,"mil_crime_police":0,"mil_eco":0,"hwi":1.3},
-    "Colombia":           {"conscription":1,"mil_veto":0,"mil_impunity":0,"mil_crime_police":None,"mil_eco":1,"hwi":0.8},
-    "Mexico":             {"conscription":1,"mil_veto":0,"mil_impunity":1,"mil_crime_police":1,"mil_eco":1,"hwi":1.0},
-    "Venezuela":          {"conscription":1,"mil_veto":1,"mil_impunity":1,"mil_crime_police":0,"mil_eco":1,"hwi":3.6},
-    "Argentina":          {"conscription":0,"mil_veto":0,"mil_impunity":0,"mil_crime_police":0,"mil_eco":0,"hwi":2.9},
-    "Peru":               {"conscription":0,"mil_veto":0,"mil_impunity":1,"mil_crime_police":0,"mil_eco":1,"hwi":3.8},
-    "Chile":              {"conscription":1,"mil_veto":0,"mil_impunity":0,"mil_crime_police":0,"mil_eco":1,"hwi":7.8},
-    "Ecuador":            {"conscription":0,"mil_veto":0,"mil_impunity":0,"mil_crime_police":1,"mil_eco":1,"hwi":2.0},
-    "Bolivia":            {"conscription":0,"mil_veto":0,"mil_impunity":1,"mil_crime_police":1,"mil_eco":1,"hwi":2.6},
-    "Cuba":               {"conscription":1,"mil_veto":1,"mil_impunity":0,"mil_crime_police":0,"mil_eco":1,"hwi":19.6},
-    "Honduras":           {"conscription":0,"mil_veto":0,"mil_impunity":1,"mil_crime_police":1,"mil_eco":1,"hwi":0.6},
-    "Guatemala":          {"conscription":1,"mil_veto":0,"mil_impunity":1,"mil_crime_police":1,"mil_eco":1,"hwi":0.8},
-    "El Salvador":        {"conscription":1,"mil_veto":0,"mil_impunity":1,"mil_crime_police":1,"mil_eco":1,"hwi":2.0},
-    "Nicaragua":          {"conscription":0,"mil_veto":0,"mil_impunity":1,"mil_crime_police":1,"mil_eco":1,"hwi":8.0},
-    "Paraguay":           {"conscription":1,"mil_veto":0,"mil_impunity":1,"mil_crime_police":None,"mil_eco":0,"hwi":0.5},
-    "Uruguay":            {"conscription":0,"mil_veto":0,"mil_impunity":0,"mil_crime_police":1,"mil_eco":0,"hwi":15.0},
-    "Haiti":              {"conscription":0,"mil_veto":None,"mil_impunity":None,"mil_crime_police":0,"mil_eco":0,"hwi":None},
-    "Dominican Republic": {"conscription":0,"mil_veto":0,"mil_impunity":1,"mil_crime_police":None,"mil_eco":0,"hwi":0.3},
-    "Jamaica":            {"conscription":0,"mil_veto":0,"mil_impunity":0,"mil_crime_police":1,"mil_eco":0,"hwi":0.4},
-    "Trinidad and Tobago":{"conscription":0,"mil_veto":0,"mil_impunity":1,"mil_crime_police":0,"mil_eco":0,"hwi":None},
-}
 
 # ISO3 lookup
 ISO3 = {
@@ -55,6 +36,11 @@ ISO3 = {
     "Paraguay":"PRY","Uruguay":"URY","Haiti":"HTI","Dominican Republic":"DOM",
     "Panama":"PAN","Costa Rica":"CRI","Jamaica":"JAM","Trinidad and Tobago":"TTO",
     "Guyana":"GUY","Suriname":"SUR","Belize":"BLZ","Regional":"REG",
+}
+
+LATAM_COUNTRIES = {
+    country for country in ISO3
+    if country != "Regional"
 }
 
 # WB series fields to include (field_name → output column name)
@@ -94,6 +80,180 @@ VDEM_SERIES = [
     "democracy_breakdown", "democracy_transition", "polity2", "cs_repress",
     "political_violence",
 ]
+
+M3_FIELDS = [
+    "com_mil_serv",
+    "com_mil_serv_gen",
+    "com_mil_serv_dur_max",
+    "com_mil_serv_dur_min",
+    "alt_civ_serv",
+    "mil_origin",
+    "mil_leader",
+    "mil_mod",
+    "mil_veto",
+    "mil_repress",
+    "mil_repress_count",
+    "mil_impun",
+    "milpol_crime",
+    "milpol_law",
+    "milpol_peace",
+    "mil_police",
+    "mil_eco_dummy",
+    "mil_eco_own",
+    "mil_eco_share",
+    "mil_eco_dom",
+    "milex_gdp",
+    "milex_healthexp",
+    "pers_to_pop",
+    "pers_to_phy",
+    "reserve_pop",
+    "hwi",
+]
+
+DOMESTIC_MILITARY_ROLE_SUBCATEGORIES = {
+    "domestic_security_militarization",
+    "security_governance_reconfiguration",
+    "exceptional_rule_and_coercive_governance",
+    "protest_repression_and_security_response",
+    "coercive_internal_crackdown",
+    "coercive_detention_and_internal_crackdown",
+    "security_force_labor_and_institutional_contention",
+    "institutional_security_reordering",
+    "command_and_coercive_control",
+}
+
+MILITARY_POLICING_ROLE_SUBCATEGORIES = {
+    "domestic_security_militarization",
+    "protest_repression_and_security_response",
+    "coercive_internal_crackdown",
+    "coercive_detention_and_internal_crackdown",
+    "security_force_labor_and_institutional_contention",
+}
+
+EXCEPTION_RULE_SUBCATEGORIES = {
+    "exceptional_rule_and_coercive_governance",
+}
+
+
+def coerce_missing(value):
+    if value in (None, "", "NA", "N/A", -888, "-888"):
+        return None
+    return value
+
+
+def parse_m3_numeric(value):
+    value = coerce_missing(value)
+    if value is None:
+        return None
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return None
+    if numeric.is_integer():
+        return int(numeric)
+    return numeric
+
+
+def load_m3_rows() -> dict[str, dict[int, dict]]:
+    if not M3_IN.exists():
+        return {}
+    workbook = load_workbook(M3_IN, read_only=True, data_only=True)
+    worksheet = workbook[workbook.sheetnames[0]]
+    header = [cell for cell in next(worksheet.iter_rows(min_row=1, max_row=1, values_only=True))]
+    index = {name: pos for pos, name in enumerate(header)}
+    rows_by_country: dict[str, dict[int, dict]] = defaultdict(dict)
+    for raw_row in worksheet.iter_rows(min_row=2, values_only=True):
+        country = raw_row[index["countryname_standard"]]
+        if country not in LATAM_COUNTRIES:
+            continue
+        year = int(raw_row[index["year"]])
+        row = {
+            "year": year,
+            "country": country,
+        }
+        for field in M3_FIELDS:
+            row[field] = parse_m3_numeric(raw_row[index[field]])
+        rows_by_country[country][year] = row
+    return rows_by_country
+
+
+def select_m3_row(m3_country_rows: dict[int, dict], year: int) -> tuple[dict | None, int | None]:
+    if not m3_country_rows:
+        return None, None
+    if year in m3_country_rows:
+        return m3_country_rows[year], year
+    available_years = sorted(m3_country_rows)
+    if year > available_years[-1]:
+        source_year = available_years[-1]
+        return m3_country_rows[source_year], source_year
+    return None, None
+
+
+def parse_event_countries(country_value) -> list[str]:
+    if not country_value or not isinstance(country_value, str):
+        return []
+    country_value = country_value.strip()
+    if country_value in LATAM_COUNTRIES:
+        return [country_value]
+    parts = []
+    for chunk in country_value.replace(" / ", ",").replace(";", ",").split(","):
+        part = chunk.strip()
+        if part in LATAM_COUNTRIES:
+            parts.append(part)
+    unique = []
+    seen = set()
+    for country in parts:
+        if country in seen:
+            continue
+        seen.add(country)
+        unique.append(country)
+    return unique
+
+
+def build_annual_event_rollups() -> dict[tuple[str, int], dict[str, int]]:
+    if not EVENTS_IN.exists():
+        return {}
+    payload = json.loads(EVENTS_IN.read_text(encoding="utf-8"))
+    events = payload.get("events", [])
+    rollups: dict[tuple[str, int], dict[str, int]] = defaultdict(lambda: {
+        "sentinel_event_count_y": 0,
+        "sentinel_high_salience_event_count_y": 0,
+        "sentinel_coup_family_count_y": 0,
+        "sentinel_purge_family_count_y": 0,
+        "sentinel_domestic_military_role_count_y": 0,
+        "sentinel_military_policing_role_count_y": 0,
+        "sentinel_exception_rule_militarization_count_y": 0,
+    })
+    for event in events:
+        event_date = str(event.get("event_date") or "")
+        if len(event_date) < 4:
+            continue
+        try:
+            year = int(event_date[:4])
+        except ValueError:
+            continue
+        countries = parse_event_countries(event.get("country"))
+        if not countries:
+            continue
+        family = event.get("event_category_family")
+        subcategory = event.get("event_subcategory")
+        salience = event.get("salience")
+        for country in countries:
+            row = rollups[(country, year)]
+            row["sentinel_event_count_y"] += 1
+            if salience == "high":
+                row["sentinel_high_salience_event_count_y"] += 1
+            if family == "coup":
+                row["sentinel_coup_family_count_y"] += 1
+            if family == "purge":
+                row["sentinel_purge_family_count_y"] += 1
+            if subcategory in DOMESTIC_MILITARY_ROLE_SUBCATEGORIES:
+                row["sentinel_domestic_military_role_count_y"] += 1
+            if subcategory in MILITARY_POLICING_ROLE_SUBCATEGORIES:
+                row["sentinel_military_policing_role_count_y"] += 1
+            if subcategory in EXCEPTION_RULE_SUBCATEGORIES:
+                row["sentinel_exception_rule_militarization_count_y"] += 1
+    return rollups
 
 
 def clamp(value: float, low: float = 0.0, high: float = 100.0) -> float:
@@ -252,6 +412,12 @@ def main(out_dir: Path = OUT_DIR) -> None:
     wb_raw = json.loads(WB_IN.read_text(encoding="utf-8"))
     wb_countries = {c["country"]: c for c in wb_raw["countries"]}
 
+    print(f"Loading M3 from {M3_IN}")
+    m3_countries = load_m3_rows()
+
+    print(f"Loading annual event rollups from {EVENTS_IN}")
+    event_rollups = build_annual_event_rollups()
+
     years = build_year_range(vdem_countries, wb_countries)
 
     rows: list[dict] = []
@@ -260,9 +426,9 @@ def main(out_dir: Path = OUT_DIR) -> None:
 
     for country in all_countries:
         iso3 = ISO3.get(country, "")
-        m3 = COUNTRY_M3.get(country, {})
         vdem = vdem_countries.get(country)
         wb   = wb_countries.get(country)
+        m3_country_rows = m3_countries.get(country, {})
 
         # Build V-Dem year → value lookup
         vdem_series: dict[str, dict[int, float | None]] = {}
@@ -279,6 +445,8 @@ def main(out_dir: Path = OUT_DIR) -> None:
                     wb_series[col_name] = {int(pt["year"]): pt["value"] for pt in wb[wb_field]}
 
         for year in years:
+            m3_row, m3_source_year = select_m3_row(m3_country_rows, year)
+            annual_event_rollup = event_rollups.get((country, year), {})
             row: dict = {
                 "country":    country,
                 "iso3":       iso3,
@@ -287,13 +455,43 @@ def main(out_dir: Path = OUT_DIR) -> None:
                 **{f: vdem_series.get(f, {}).get(year) for f in VDEM_SERIES},
                 # WB indicators
                 **{col: wb_series.get(col, {}).get(year) for col in WB_SERIES.values()},
-                # M3 structural (static 2020 snapshot)
-                "m3_conscription":       m3.get("conscription"),
-                "m3_mil_veto":           m3.get("mil_veto"),
-                "m3_mil_impunity":       m3.get("mil_impunity"),
-                "m3_mil_crime_police":   m3.get("mil_crime_police"),
-                "m3_mil_eco":            m3.get("mil_eco"),
-                "m3_hwi":                m3.get("hwi"),
+                # M3 structural (annual where available, forward-filled after latest observation)
+                "m3_source_year":              m3_source_year,
+                "m3_observed_year":            int(m3_source_year == year) if m3_source_year is not None else 0,
+                "m3_conscription":             m3_row.get("com_mil_serv") if m3_row else None,
+                "m3_conscription_gender":      m3_row.get("com_mil_serv_gen") if m3_row else None,
+                "m3_conscription_dur_max":     m3_row.get("com_mil_serv_dur_max") if m3_row else None,
+                "m3_conscription_dur_min":     m3_row.get("com_mil_serv_dur_min") if m3_row else None,
+                "m3_alt_civil_service":        m3_row.get("alt_civ_serv") if m3_row else None,
+                "m3_mil_origin":               m3_row.get("mil_origin") if m3_row else None,
+                "m3_mil_leader":               m3_row.get("mil_leader") if m3_row else None,
+                "m3_mil_mod":                  m3_row.get("mil_mod") if m3_row else None,
+                "m3_mil_veto":                 m3_row.get("mil_veto") if m3_row else None,
+                "m3_mil_repress":              m3_row.get("mil_repress") if m3_row else None,
+                "m3_mil_repress_count":        m3_row.get("mil_repress_count") if m3_row else None,
+                "m3_mil_impunity":             m3_row.get("mil_impun") if m3_row else None,
+                "m3_mil_crime_police":         m3_row.get("milpol_crime") if m3_row else None,
+                "m3_mil_law_enforcement":      m3_row.get("milpol_law") if m3_row else None,
+                "m3_mil_peace_order":          m3_row.get("milpol_peace") if m3_row else None,
+                "m3_mil_police_overlap":       m3_row.get("mil_police") if m3_row else None,
+                "m3_mil_eco":                  m3_row.get("mil_eco_dummy") if m3_row else None,
+                "m3_mil_eco_own":              m3_row.get("mil_eco_own") if m3_row else None,
+                "m3_mil_eco_share":            m3_row.get("mil_eco_share") if m3_row else None,
+                "m3_mil_eco_dom":              m3_row.get("mil_eco_dom") if m3_row else None,
+                "m3_milex_gdp":                m3_row.get("milex_gdp") if m3_row else None,
+                "m3_milex_healthexp":          m3_row.get("milex_healthexp") if m3_row else None,
+                "m3_pers_to_pop":              m3_row.get("pers_to_pop") if m3_row else None,
+                "m3_pers_to_phy":              m3_row.get("pers_to_phy") if m3_row else None,
+                "m3_reserve_pop":              m3_row.get("reserve_pop") if m3_row else None,
+                "m3_hwi":                      m3_row.get("hwi") if m3_row else None,
+                # Annualized SENTINEL event rollups
+                "sentinel_event_count_y": annual_event_rollup.get("sentinel_event_count_y", 0),
+                "sentinel_high_salience_event_count_y": annual_event_rollup.get("sentinel_high_salience_event_count_y", 0),
+                "sentinel_coup_family_count_y": annual_event_rollup.get("sentinel_coup_family_count_y", 0),
+                "sentinel_purge_family_count_y": annual_event_rollup.get("sentinel_purge_family_count_y", 0),
+                "sentinel_domestic_military_role_count_y": annual_event_rollup.get("sentinel_domestic_military_role_count_y", 0),
+                "sentinel_military_policing_role_count_y": annual_event_rollup.get("sentinel_military_policing_role_count_y", 0),
+                "sentinel_exception_rule_militarization_count_y": annual_event_rollup.get("sentinel_exception_rule_militarization_count_y", 0),
             }
             state_capacity, state_capacity_coverage = build_state_capacity(row)
             row["state_capacity_composite"] = state_capacity
