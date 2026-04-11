@@ -5774,8 +5774,8 @@ function showCountryProfile(name) {
             <span class="ev-type" style="color:${TC_HEX[ev.type] || '#6a6560'}">${TYPE_LABEL[ev.type] || ev.type}</span>
             <span class="ev-country">${ev.date}</span>
           </div>
-          <div class="ev-title">${ev.title}</div>
-          <div class="ev-meta"><span>${ev.source || ''}</span></div>
+          <div class="ev-title">${escapeHtml(ev.title)}</div>
+          <div class="ev-meta"><span>${escapeHtml(ev.source || '')}</span></div>
         </div>`).join('')
     : '<div style="padding:16px 20px;font-size:12px;color:var(--text-muted);">No events in data store for this country yet.</div>';
   const eventsHtml = `
@@ -5936,8 +5936,10 @@ function smBuildSvg(smId, events) {
   const NOW = new Date().toISOString().slice(0, 10);
 
   function dateToX(d) {
-    const dt = new Date(d);
-    const t  = dt.getFullYear() + dt.getMonth() / 12 + dt.getDate() / 365;
+    const dt    = new Date(d + 'T12:00:00');
+    const start = new Date(dt.getFullYear(), 0, 1);
+    const end   = new Date(dt.getFullYear() + 1, 0, 1);
+    const t     = dt.getFullYear() + (dt - start) / (end - start);
     return PAD_L + ((t - START) / YEARS) * (YEARS * YEAR_W);
   }
 
@@ -6015,7 +6017,7 @@ function smBuildSvg(smId, events) {
     const fo = ns('foreignObject', { x: tipX, y: tipY, width: tipW, height: tipH, class: `sm-tip-fo sm-tip-${smId}-${ev.id}`, style: 'display:none;pointer-events:none;' });
     const div = document.createElement('div');
     div.style.cssText = `background:#1e2230;border:1px solid #2a2e40;border-radius:5px;padding:7px 9px;font-size:10px;color:#9a9590;line-height:1.4;font-family:'DM Sans',sans-serif;`;
-    div.innerHTML = `<div style="font-size:7.5px;font-family:'DM Mono',monospace;color:#4a4840;margin-bottom:2px;">${ev.date}</div><div style="font-size:7.5px;font-family:'DM Mono',monospace;color:${color};margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px;">${SM_CAT_LABEL[ev.cat] || ev.cat}</div>${ev.title}`;
+    div.innerHTML = `<div style="font-size:7.5px;font-family:'DM Mono',monospace;color:#4a4840;margin-bottom:2px;">${ev.date}</div><div style="font-size:7.5px;font-family:'DM Mono',monospace;color:${color};margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px;">${SM_CAT_LABEL[ev.cat] || ev.cat}</div>${escapeHtml(ev.title)}`;
     fo.appendChild(div);
     g.appendChild(fo);
 
@@ -6066,7 +6068,7 @@ function smSelectEvent(smId, id) {
     const color = SM_CAT_COLOR[g.dataset.cat] || '#6a6560';
     g.querySelector('.sm-dot-ring').setAttribute('stroke-opacity', '0.35');
     g.querySelector('.sm-dot-circle').setAttribute('fill', color);
-    document.querySelector(`.sm-tip-${smId}-${id}`)?.setAttribute('style', 'display:;pointer-events:none;');
+    document.querySelector(`.sm-tip-${smId}-${id}`)?.setAttribute('style', 'display:block;pointer-events:none;');
     document.querySelector(`.sm-stem-${smId}-${id}`)?.setAttribute('stroke-opacity', '0.65');
   }
   document.querySelectorAll(`#sm-ev-body-${smId} .sm-ev-row[data-id="${id}"]`).forEach(r => r.classList.add('highlighted', 'expanded'));
