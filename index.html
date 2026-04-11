@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SENTINEL — LatAm Political Risk Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -13,28 +13,46 @@
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <style>
 :root {
-  --eggshell: #F5F2ED;
-  --eggshell-warm: #EDE8DF;
-  --slate: #1C2B3A;
-  --slate-mid: #2E4057;
-  --gold: #B8963E;
-  --gold-pale: #F0E4C4;
-  --nearblack: #1A1A18;
-  --text-secondary: #5A6470;
-  --rule: #D8D0C4;
-  --card-bg: #EEEBE4;
+  /* ── Backgrounds ── */
+  --bg:          #faf8f4;
+  --surface:     #f0e8d8;
+  --surface-alt: #ede0cc;
 
-  --bg:        var(--eggshell);
-  --bg2:       var(--eggshell-warm);
-  --surface:   var(--eggshell);
-  --surface2:  var(--card-bg);
-  --surface3:  #e6dfd4;
-  --border:    var(--rule);
-  --border2:   #c4b7a2;
-  --border3:   #8b7f6d;
+  /* ── Borders ── */
+  --border:      #d4c8b4;
+  --border2:     #bfb09a;
+  --rule:        #d4c8b4;   /* alias kept for existing code */
 
-  --coup:           #a3372f;
-  --purge:          #bb6d2f;
+  /* ── Text ── */
+  --text:        #1a1814;
+  --text-dim:    #4a453e;
+  --text-muted:  #8a8278;
+  --text-faint:  #b5ab9d;
+  --text-secondary: #8a8278;  /* alias kept for existing code */
+
+  /* ── Olive palette (new) ── */
+  --olive-dark:  #1e2e10;
+  --olive-mid:   #4a5e2a;
+  --olive-warm:  #8a7a3a;
+  --amber:       #c47a20;
+
+  /* ── Legacy aliases (keep — used by existing tabs) ── */
+  --eggshell:       #faf8f4;
+  --eggshell-warm:  #f0e8d8;
+  --card-bg:        #ede0cc;
+  --slate:          #1a1814;
+  --slate-mid:      #4a453e;
+  --gold:           #c47a20;
+  --gold-pale:      #f0e8d8;
+  --nearblack:      #1a1814;
+  --bg2:            #f0e8d8;
+  --surface2:       #ede0cc;
+  --surface3:       #e6dfd4;
+  --border3:        #8b7f6d;
+
+  /* ── Event type colors (unchanged) ── */
+  --coup:           #b83232;
+  --purge:          #c46e12;
   --coup-proofing:  #6b4d7a;
   --aid:            #235a8b;
   --coop:           #326f7d;
@@ -47,32 +65,20 @@
   --oc:             #73514b;
   --other:          #5f645c;
 
-  --navy:      var(--slate);
-  --navy-2:    var(--slate-mid);
-  --gold-soft: var(--gold-pale);
+  /* ── Typography ── */
+  --mono:   'DM Mono', monospace;
+  --sans:   'DM Sans', system-ui, sans-serif;
+  --serif:  'Playfair Display', Georgia, serif;
 
-  --text:      var(--nearblack);
-  --text-dim:  var(--text-secondary);
-  --text-muted:#7a746c;
-  --text-faint:#b5ab9d;
+  /* ── Spacing ── */
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px;
+  --space-5:20px; --space-6:24px;
 
-  --mono: 'DM Mono', monospace;
-  --sans: 'DM Sans', system-ui, sans-serif;
-  --serif: 'Cormorant Garamond', Georgia, serif;
-  --space-1:4px;
-  --space-2:8px;
-  --space-3:12px;
-  --space-4:16px;
-  --space-5:20px;
-  --space-6:24px;
-  --text-xs:11px;
-  --text-sm:12px;
-  --text-md:14px;
-  --text-base:16px;
-  --text-lg:18px;
-  --text-xl:20px;
-  --text-2xl:28px;
+  /* ── Type scale ── */
+  --text-xs:10px; --text-sm:12px; --text-md:14px; --text-base:16px;
+  --text-lg:18px; --text-xl:20px; --text-2xl:28px;
 
+  /* ── Shadows ── */
   --shadow:    0 10px 28px rgba(45,34,18,0.08);
   --shadow-md: 0 22px 48px rgba(30,22,12,0.14);
 }
