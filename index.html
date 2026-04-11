@@ -5490,234 +5490,140 @@ function renderCountryPredictiveOutlook(name){
 }
 
 // ── COUNTRY PROFILE RENDERER ──────────────────────────────────
-function showCountryProfile(name){
-  document.querySelectorAll('.cp-btn').forEach(b=>{
-    b.classList.toggle('active', b.dataset.country===name);
+function showCountryProfile(name) {
+  document.querySelectorAll('.cp-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.country === name);
   });
-  const regional=document.getElementById('cp-regional');
-  const countryDiv=document.getElementById('cp-country');
-  const prof=COUNTRY_PROFILES[name];
-  if(!prof) return;
+  const regional   = document.getElementById('cp-regional');
+  const countryDiv = document.getElementById('cp-country');
+  const prof = COUNTRY_PROFILES[name];
+  if (!prof) return;
 
-  const cEvs=(allEvents||[]).filter(e=>e.country===name).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,12);
-  const stats=COUNTRY_STATS[name]||{spending:'—',personnel:'—',usAid:'—'};
-  const acled=COUNTRY_ACLED[name]||null;
-  const m3=COUNTRY_M3[name]||null;
-  const positions=COUNTRY_POSITIONS[name]||[];
-  const election=COUNTRY_ELECTIONS[name]||null;
-  const watch=COUNTRY_WATCH[name]||'';
-  const missions=COUNTRY_MISSIONS[name]||[];
-  const summary = getCountryPredictiveSummary(name);
-  const constructs = ['regime_vulnerability','militarization','security_fragmentation']
-    .map(code => getCountryRiskConstruct(name, code))
-    .filter(Boolean);
+  const safeId   = name.replace(/ /g, '_');
+  const summary  = getCountryPredictiveSummary(name);
+  const stats    = COUNTRY_STATS[name]   || { spending: '—', personnel: '—', usAid: '—' };
+  const positions = COUNTRY_POSITIONS[name] || [];
+  const election = COUNTRY_ELECTIONS[name] || null;
+  const watch    = COUNTRY_WATCH[name]   || '';
   const overallRiskScore = Number(summary?.overall_risk_score) || 0;
-  const overallRiskTone = getOverallRiskTone(overallRiskScore);
+  const overallRiskTone  = getOverallRiskTone(overallRiskScore);
 
-  // ── Summary strip ────────────────────────────────────────
-  const acledHtml=acled?`<div class="cp-stat-row"><span class="cp-stat-label">ACLED Conflict Index</span><span class="cp-stat-val" style="color:${ACLED_LEVEL_COLOR[acled.level]||'var(--text)'}">${acled.level} <span style="color:var(--text-muted);font-size:9px;">#${acled.ranking}</span></span></div>`:'';
-  const cmrRisk = _cmrScores[name];
-  const monitorRows = ['cmr_balance','security_pressure','external_security_alignment'].map(code => {
-    const monitor = getCountryMonitor(name, code);
-    if(!monitor) return '';
-    const composite = formatMonitorValue(monitor.composite_score);
-    const baseline = formatMonitorValue(monitor.baseline_score);
-    const pulse = formatMonitorValue(monitor.pulse_score);
-    return `<div class="cp-stat-row">
-      <span class="cp-stat-label">${monitor.label}</span>
-      <span class="cp-stat-val" style="color:${getMonitorScoreColor(composite)};" title="Baseline ${baseline} · Pulse ${pulse} · Dominant signal ${monitor.dominant_recent_signal || 'none'}">${composite}/100 <span style="color:${getMonitorTrendColor(monitor.trend_label)};font-size:8px;text-transform:uppercase;letter-spacing:0.5px;">${monitor.trend_label || 'stable'}</span></span>
-    </div>`;
-  }).join('');
-  const cmrRiskHtml = monitorRows || (cmrRisk ? `<div class="cp-stat-row"><span class="cp-stat-label">CMR Risk Score</span><span class="cp-stat-val" style="color:${cmrScoreColor(cmrRisk.label)};" title="Event pressure: ${cmrRisk.pressure} · Structural: ${cmrRisk.structural}">${cmrRisk.composite} — ${cmrRisk.label}</span></div>` : '');
-  const statsHtml=`
-    ${cmrRiskHtml}
-    <div class="cp-stat-row"><span class="cp-stat-label">Spending</span><span class="cp-stat-val">${stats.spending}</span></div>
-    <div class="cp-stat-row"><span class="cp-stat-label">Personnel</span><span class="cp-stat-val">${stats.personnel}</span></div>
-    <div class="cp-stat-row"><span class="cp-stat-label">Defence / GDP</span><span class="cp-stat-val">${prof.gdpPct}</span></div>
-    <div class="cp-stat-row"><span class="cp-stat-label">US Aid FY25</span><span class="cp-stat-val">${stats.usAid}</span></div>
-    ${acledHtml}`;
-
-  const posHtml=positions.map(p=>`
-    <div class="cp-pos-item">
-      <div class="cp-pos-title">${p.t}</div>
-      <div class="cp-pos-name">${p.n}</div>
-    </div>`).join('');
-
-  const electHtml=election ? `
-    <div class="cp-elect-type">${election.type}</div>
-    <div class="cp-elect-date">${election.date}</div>
-    <div class="cp-elect-note">${election.note}</div>` : '<div class="cp-elect-note">No election data.</div>';
-
-  const missionStatusColor={primary:'var(--aid)',active:'var(--reform)',expanded:'var(--purge)',controversial:'var(--coup)',routine:'var(--text-muted)'};
-  const missionsHtml=missions.length ? missions.map(m=>`
-    <div class="cp-stat-row">
-      <span class="cp-stat-label" style="max-width:180px;white-space:normal;line-height:1.35;">${m.role}</span>
-      <span class="cp-stat-val" style="color:${missionStatusColor[m.status]||'var(--text-muted)'};font-size:8px;text-transform:uppercase;letter-spacing:0.5px;cursor:help;" data-tooltip="${MISSION_STATUS_DEFS[m.status]||''}">${m.status}</span>
-    </div>`).join('') : '<div class="cp-stat-row"><span class="cp-stat-label">No mission data.</span></div>';
-
-  const statsBlocks=`
-    <div class="cp-reference-block"><div class="cp-sum-label">Key Stats</div>${statsHtml}</div>
-    <div class="cp-reference-block"><div class="cp-sum-label">Key Positions</div>${posHtml}</div>
-    <div class="cp-reference-block"><div class="cp-sum-label">Next Election</div>${electHtml}</div>
-    <div class="cp-reference-block"><div class="cp-sum-label">What to Watch</div><div class="cp-watch-text">${watch}</div></div>`;
-
-  const S=STRINGS[currentLang]||STRINGS.en;
-  const cmrBlock=m3?`
-    <div class="cp-reference-block wide">
-      <div class="cp-sum-label">${S['label.cmr-indicators']||'CMR Indicators'}</div>
-      <div>
-        <div style="font-family:var(--mono);font-size:8px;color:var(--text-muted);letter-spacing:0.5px;margin-bottom:10px;">M3 Dataset · 2020</div>
-        <div style="display:flex;flex-wrap:wrap;gap:10px 18px;">
-          ${[
-            ['Conscription', m3.conscription===1?'Yes':'No', m3.conscription===1?'var(--aid)':'var(--text-muted)'],
-            ['Military veto', m3.milVeto===1?'Yes':'No', m3.milVeto===1?'var(--coup)':'var(--text-muted)'],
-            ['Military impunity', m3.milImpunity===1?'Yes':'No', m3.milImpunity===1?'var(--purge)':'var(--text-muted)'],
-            ['Crime policing', m3.milCrimePolice===null?'—':m3.milCrimePolice===1?'Yes':'No', m3.milCrimePolice===1?'var(--conflict)':'var(--text-muted)'],
-            ['Economic role', m3.milEco===1?'Yes':'No', m3.milEco===1?'var(--purge)':'var(--text-muted)'],
-            m3.hwi!=null?['HWI score', m3.hwi.toFixed(1), 'var(--text)']:null
-          ].filter(Boolean).map(([label,val,col])=>`
-            <div style="min-width:120px;cursor:help;" data-tooltip="${CMR_DEFS[label]||''}">
-              <div class="cp-pos-title">${label}</div>
-              <div class="cp-stat-val" style="color:${col};font-size:13px;">${val}</div>
-            </div>`).join('')}
-        </div>
+  // ── 1. Header ────────────────────────────────────────────────
+  const cmrPillClass = (prof.cmrClass || 'stable').toLowerCase();
+  const smBtn = prof.special
+    ? `<button class="cp2-sm-btn" onclick="showSpecialMonitor('${name.replace(/'/g, "\\'")}')">★ Special Monitor</button>`
+    : '';
+  const hdrHtml = `
+    <div class="cp2-hdr">
+      <button class="cp2-back" onclick="showRegionalOverview()">← All Countries</button>
+      <div style="margin-left:6px;">
+        <div class="cp2-name">${name}</div>
+        <div class="cp2-sub">${prof.capital} · ${prof.regime}</div>
       </div>
-    </div>`:''
-
-  const missionsBlock=`
-    <div class="cp-reference-block wide">
-      <div class="cp-sum-label">${S['label.mil-missions']||'Military Missions & Roles'}</div>
-      ${missionsHtml}
-    </div>`;
-
-  const safeId = name.replace(/ /g,'_');
-  const trendsBlock=`
-    <div class="cp-reference-block wide">
-      <div class="cp-sum-label">Trends (1990–2023)</div>
-      <div class="cp-trends-grid" id="cp-trends-${safeId}">${renderTrends(name)}</div>
-    </div>`;
-
-  // ── Map placeholder ──────────────────────────────────────
-  const mapDiv=`<div id="cp-map-leaf" class="cp-map-leaf"></div>`;
-
-  // ── Event rows ───────────────────────────────────────────
-  const evRows=cEvs.length ? cEvs.map(ev=>`
-    <div class="ev-item" style="cursor:pointer;" onclick="switchTab('events');setTimeout(()=>selectEvent(allEvents.find(e=>String(e.id)==='${ev.id}')),100)">
-      <div class="ev-row1"><div class="ev-dot" style="background:${TC_HEX[ev.type]||'#6a6560'}"></div>
-        <span class="ev-type" style="color:${TC_HEX[ev.type]||'#6a6560'}">${TYPE_LABEL[ev.type]||ev.type}</span>
-        <span class="ev-country">${ev.date}</span>
-      </div>
-      <div class="ev-title">${ev.title}</div>
-      <div class="ev-meta"><span>${ev.source||''}</span><span class="conf-badge conf-${ev.conf==='green'?'green':ev.conf==='yellow'?'yellow':'red'}">${ev.conf==='green'?'● HIGH':ev.conf==='yellow'?'● MEDIUM':'○ LOW'}</span></div>
-    </div>`).join('') : '<div class="cp-no-events">No events in data store for this country yet.</div>';
-
-  const backBtn=`<button class="cp-back" onclick="showRegionalOverview()">
-    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1L3 6l5 5"/></svg>
-    All Countries
-  </button>`;
-
-  const evSection=`<div class="cp-events-hdr" style="margin-top:4px;">
-    <span class="cp-events-label">Live Events — ${name}</span>
-    <span class="cp-events-count">${cEvs.length} in data store</span>
-  </div>${evRows}`;
-  const measureCards = constructs.map(item=>`
-    <div class="cp-measure-card">
-      <div class="cp-measure-label">${item.label}</div>
-      <div class="cp-measure-value" style="color:${getMonitorScoreColor(item.score)};">${formatMonitorValue(item.score) || 0}/100</div>
-      <div class="cp-measure-sub">${item.trend_label || 'stable'} · ${item.horizon_days || 90}-day horizon</div>
-    </div>`).join('');
-  const watchItems = (summary?.watchpoints || []).length
-    ? summary.watchpoints.map(item=>`<div class="cp-watch-item">${item}</div>`).join('')
-    : `<div class="cp-watch-item">${watch || 'No watchpoints available yet.'}</div>`;
-  const topBrief = `
-    <div class="cp-hero">
-      <div class="cp-hero-top">
-        <div class="cp-hero-copy">${summary?.summary_text || prof.note}</div>
-        <div class="cp-overall-risk-panel ${overallRiskTone}">
-          <div class="cp-brief-kicker">Overall Risk</div>
-          <div class="cp-overall-risk-value" style="color:${getMonitorScoreColor(overallRiskScore)};">${formatMonitorValue(overallRiskScore) || '—'}</div>
-          <div class="cp-overall-risk-note">${summary?.overall_risk_level || getOverallRiskBand(overallRiskScore)} · ${summary?.leading_trend || 'steady trend'}</div>
-        </div>
-      </div>
-      <div class="cp-measure-row">${measureCards}</div>
-    </div>`;
-  const middleBand = `
-    <div class="cp-mid-grid">
-      ${mapDiv}
-      <div class="cp-side-stack">
-        <div class="cp-brief-card">
-          <div class="cp-brief-kicker">Context</div>
-          <div class="cp-brief-body">${prof.note}</div>
-        </div>
-        <div class="cp-brief-card">
-          <div class="cp-brief-kicker">What To Watch</div>
-          <div class="cp-watch-list">${watchItems}</div>
-        </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+        ${smBtn}
+        <span class="cp2-cmr-pill ${cmrPillClass}">${prof.cmrStatus} CMR</span>
       </div>
     </div>`;
-  const referenceBand = `
-    <div class="cp-reference-grid">
-      <div class="cp-reference-block wide">
-        <div class="cp-sum-label">Recent Events</div>
-        ${evSection}
+
+  // ── 2. Summary strip ─────────────────────────────────────────
+  const summaryText = summary?.summary_text || prof.note || '—';
+  const riskNote    = `${summary?.overall_risk_level || getOverallRiskBand(overallRiskScore)} · ${summary?.leading_trend || 'steady'}`;
+  const summaryHtml = `
+    <div class="cp2-summary">
+      <div class="cp2-summary-text">${summaryText}</div>
+      <div class="cp2-risk-box ${overallRiskTone}">
+        <div class="cp2-risk-kicker">Overall Risk</div>
+        <div class="cp2-risk-value" style="color:${getMonitorScoreColor(overallRiskScore)};">${formatMonitorValue(overallRiskScore) || '—'}</div>
+        <div class="cp2-risk-note">${riskNote}</div>
       </div>
-      ${statsBlocks}
-      ${cmrBlock}
-      ${missionsBlock}
-      ${trendsBlock}
     </div>`;
 
-  // ── Render ───────────────────────────────────────────────
-  const hdr=`${backBtn}
-    <div class="cp-country-hdr">
-      <div><div class="cp-country-name">${name}</div><div class="cp-country-sub">${prof.capital} · ${prof.regime}</div></div>
-      <span class="cp-cmr-pill ${prof.cmrClass}">${prof.cmrStatus} CMR</span>
-    </div>`;
-  const baseProfile = `${hdr}${topBrief}${middleBand}`;
-  const specialFocusLabel = `<span style="font-family:var(--mono);font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--coup);background:rgba(184,50,50,0.12);border:1px solid rgba(184,50,50,0.3);padding:3px 7px;border-radius:2px;">★ Special Focus</span>`;
+  // ── 3. Radar + Sources band ──────────────────────────────────
+  const radarHtml = cpBuildRadarSection(name, safeId);
 
-  if(prof.special){
-    const srcEl=document.getElementById(prof.specialId+'-block');
-    if(!srcEl){ countryDiv.innerHTML=`${baseProfile}${referenceBand}`; }
-    else {
-      // Use DOM to split cloned content cleanly
-      const tmp=document.createElement('div');
-      tmp.innerHTML=srcEl.innerHTML;
-      tmp.querySelector('.cp-section-divider')?.remove();
-      const bodyEl=tmp.querySelector('.cp-section-body');
-      const contextHtml=bodyEl ? bodyEl.outerHTML : '';
-      bodyEl?.remove();
-      // Replace coca chart canvas placeholder
-      const cc=tmp.querySelector('#cocaChart');
-      if(cc) cc.insertAdjacentHTML('afterend','<div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);padding:6px 0;">Chart available in Regional Overview</div>');
-      cc?.remove();
-      const specialContent=tmp.innerHTML;
-      const boxedSpecialFocus = `
-        <div class="tab-focus-block special-monitor" style="margin-bottom:18px;">
-          <div class="tab-focus-head">
-            ${specialFocusLabel}
-            <span style="font-size:14px;font-weight:700;color:var(--text);">${name} monitor</span>
+  // ── 4. Context / Watch ───────────────────────────────────────
+  const watchpoints = (summary?.watchpoints || []).length
+    ? summary.watchpoints
+    : (watch ? [watch] : ['No watchpoints available yet.']);
+  const watchItemsHtml = watchpoints.map(w => `<div class="cp2-watch-item">${w}</div>`).join('');
+  const contextHtml = `
+    <div class="cp2-context-band">
+      <div class="cp2-context-col">
+        <div class="cp2-col-kicker">Context</div>
+        <div class="cp2-context-text">${prof.note || '—'}</div>
+      </div>
+      <div class="cp2-context-col">
+        <div class="cp2-col-kicker">What to Watch</div>
+        ${watchItemsHtml}
+      </div>
+    </div>`;
+
+  // ── 5. Reference Band ────────────────────────────────────────
+  const statsColHtml = `
+    <div class="cp2-ref-row"><span class="cp2-ref-label">Spending</span><span class="cp2-ref-val">${stats.spending}</span></div>
+    <div class="cp2-ref-row"><span class="cp2-ref-label">Personnel</span><span class="cp2-ref-val">${stats.personnel}</span></div>
+    <div class="cp2-ref-row"><span class="cp2-ref-label">Defence / GDP</span><span class="cp2-ref-val">${prof.gdpPct || '—'}</span></div>
+    <div class="cp2-ref-row"><span class="cp2-ref-label">US Aid FY25</span><span class="cp2-ref-val">${stats.usAid}</span></div>`;
+  const posColHtml = positions.map(p => `
+    <div class="cp2-pos-item">
+      <div class="cp2-pos-title">${p.t}</div>
+      <div class="cp2-pos-name">${p.n}</div>
+    </div>`).join('') || '<div class="cp2-ref-label">No data.</div>';
+  const electColHtml = election
+    ? `<div class="cp2-elect-type">${election.type}</div>
+       <div class="cp2-elect-date">${election.date}</div>
+       <div class="cp2-elect-note">${election.note}</div>`
+    : '<div class="cp2-elect-note">No election data.</div>';
+  const refHtml = `
+    <div class="cp2-ref-band">
+      <div class="cp2-ref-col"><div class="cp2-col-kicker">Key Stats</div>${statsColHtml}</div>
+      <div class="cp2-ref-col"><div class="cp2-col-kicker">Key Positions</div>${posColHtml}</div>
+      <div class="cp2-ref-col"><div class="cp2-col-kicker">Next Election</div>${electColHtml}</div>
+    </div>`;
+
+  // ── 6. Event Pulse ───────────────────────────────────────────
+  const pulseHtml = cpBuildPulseSection(name, safeId);
+
+  // ── 7. Live Events ───────────────────────────────────────────
+  const cEvs = (allEvents || []).filter(e => e.country === name).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 12);
+  const evRows = cEvs.length
+    ? cEvs.map(ev => `
+        <div class="ev-item" style="cursor:pointer;" onclick="switchTab('events');setTimeout(()=>selectEvent(allEvents.find(e=>String(e.id)==='${ev.id}')),100)">
+          <div class="ev-row1">
+            <div class="ev-dot" style="background:${TC_HEX[ev.type] || '#6a6560'}"></div>
+            <span class="ev-type" style="color:${TC_HEX[ev.type] || '#6a6560'}">${TYPE_LABEL[ev.type] || ev.type}</span>
+            <span class="ev-country">${ev.date}</span>
           </div>
-          <div class="tab-focus-body">
-            ${contextHtml ? `<div class="tab-focus-copy" style="margin-bottom:16px;">${contextHtml}</div>` : ''}
-            ${specialContent}
-          </div>
-        </div>`;
-      countryDiv.innerHTML=`${baseProfile}
-        <div class="cp-reference-grid">
-          <div class="cp-reference-block wide" style="padding:0;border:none;background:transparent;">${boxedSpecialFocus}</div>
-        </div>
-        ${referenceBand}`;
-    }
-  } else {
-    countryDiv.innerHTML=`${baseProfile}${referenceBand}`;
-  }
+          <div class="ev-title">${ev.title}</div>
+          <div class="ev-meta"><span>${ev.source || ''}</span></div>
+        </div>`).join('')
+    : '<div style="padding:16px 20px;font-size:12px;color:var(--text-muted);">No events in data store for this country yet.</div>';
+  const eventsHtml = `
+    <div class="cp2-events-section">
+      <div class="cp2-events-hdr">
+        <span class="cp2-events-label">Live Events — ${name}</span>
+        <span class="cp2-events-count">${cEvs.length} events</span>
+      </div>
+      ${evRows}
+    </div>`;
+
+  // ── 8. Structural Trends ─────────────────────────────────────
+  const trendsHtml = cpBuildStructuralTrends(name);
+
+  // ── Assemble and render ──────────────────────────────────────
+  countryDiv.innerHTML = hdrHtml + summaryHtml + radarHtml + contextHtml + refHtml + pulseHtml + eventsHtml + trendsHtml;
 
   _currentCpName = name;
-  regional.style.display='none';
-  countryDiv.style.display='block';
-  countryDiv.scrollTop=0;
-  setTimeout(()=>initCpMap(name, cEvs),80);
+  regional.style.display = 'none';
+  countryDiv.style.display = 'block';
+  countryDiv.scrollTop = 0;
+
+  // Chart.js requires canvas to be visible — defer one tick
+  setTimeout(() => {
+    cpInitRadar(name, safeId);
+    cpInitPulse(name, safeId);
+  }, 0);
 }
 
 function showRegionalOverview(){
