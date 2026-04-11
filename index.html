@@ -7221,6 +7221,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     .then(r => r.json())
     .then(d => { window.wbData = d; })
     .catch(() => { window.wbData = {}; });
+  fetch('data/cleaned/greenbook.json')
+    .then(r => r.json())
+    .then(d => { window.greenbookData = d; })
+    .catch(() => { window.greenbookData = []; });
   updatePipelineAge();
   setInterval(updatePipelineAge, 1000);
   setInterval(loadEvents, 15*60*1000);
@@ -7464,7 +7468,75 @@ function exSpendTogglePlay() {
     btn.textContent = '▶ Animate 1990–2024';
   }
 }
-function exRenderAid()        { /* Task 9 */ }
+function exRenderAid() {
+  const container = document.getElementById('ex-aid-chart');
+  if (!container || !window.greenbookData) return;
+
+  const typeBtn   = document.querySelector('#ex-aid-type .ex-active-ctrl');
+  const periodBtn = document.querySelector('#ex-aid-period .ex-active-ctrl');
+  const aidType   = typeBtn   ? typeBtn.dataset.aid    : 'military';
+  const period    = periodBtn ? periodBtn.dataset.period : 'all';
+
+  const PERIOD_START = { all: 0, '2020': 2020, '2010': 2010 };
+  const startYear = PERIOD_START[period] || 0;
+  const endYear   = period === '2020' ? 2025 : period === '2010' ? 2019 : 9999;
+
+  const totals = {};
+  window.greenbookData.forEach(row => {
+    if (!row.country || row.year < startYear || row.year > endYear) return;
+    if (!totals[row.country]) totals[row.country] = { military: 0, economic: 0 };
+    if (row.category === 'Military') totals[row.country].military += (row.constant_usd || 0);
+    else totals[row.country].economic += (row.constant_usd || 0);
+  });
+
+  const rows = Object.entries(totals)
+    .map(([country, v]) => ({
+      country,
+      military: v.military,
+      economic: v.economic,
+      total: aidType === 'military' ? v.military : aidType === 'economic' ? v.economic : v.military + v.economic,
+    }))
+    .filter(r => r.total > 0)
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 12);
+
+  if (!rows.length) {
+    container.innerHTML = '<p style="padding:20px;color:var(--text-muted);font-family:var(--mono);font-size:10px;">No data for selected filters.</p>';
+    return;
+  }
+
+  const maxVal = rows[0].total;
+  const fmtB = v => '$' + (v / 1e9).toFixed(1) + 'B';
+
+  const legendHtml = aidType === 'both'
+    ? `<div style="display:flex;gap:18px;margin-bottom:12px;">
+        <span style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--text-dim)"><span style="width:10px;height:10px;border-radius:2px;background:var(--aid);display:inline-block;"></span>Military</span>
+        <span style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--text-dim)"><span style="width:10px;height:10px;border-radius:2px;background:var(--reform);display:inline-block;"></span>Economic</span>
+      </div>` : '';
+
+  container.innerHTML = legendHtml + rows.map(r => {
+    if (aidType === 'both') {
+      const milPct = (r.military / maxVal * 100).toFixed(1);
+      const ecoPct = (r.economic / maxVal * 100).toFixed(1);
+      return `<div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-family:var(--sans);font-size:12px;font-weight:600;width:130px;flex-shrink:0;text-align:right;">${r.country}</span>
+        <div style="flex:1;display:flex;height:22px;border-radius:3px;overflow:hidden;background:var(--surface);">
+          <div style="width:${milPct}%;background:var(--aid);opacity:0.85;transition:width 0.8s ease-in-out;"></div>
+          <div style="width:${ecoPct}%;background:var(--reform);opacity:0.85;transition:width 0.8s ease-in-out;"></div>
+        </div>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);width:50px;">${fmtB(r.total)}</span>
+      </div>`;
+    }
+    const color = aidType === 'military' ? 'var(--aid)' : 'var(--reform)';
+    return `<div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-family:var(--sans);font-size:12px;font-weight:600;width:130px;flex-shrink:0;text-align:right;">${r.country}</span>
+      <div style="flex:1;height:22px;background:var(--surface);border-radius:3px;overflow:hidden;">
+        <div style="height:100%;background:${color};opacity:0.85;width:${(r.total/maxVal*100).toFixed(1)}%;transition:width 0.8s ease-in-out;border-radius:3px;"></div>
+      </div>
+      <span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);width:50px;">${fmtB(r.total)}</span>
+    </div>`;
+  }).join('');
+}
 function exRenderCmr()        { /* Task 10 */ }
 
 // Map layer toggle for Scene 1
@@ -7477,6 +7549,13 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  ['ex-aid-type', 'ex-aid-period'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.querySelectorAll('.ex-ctrl-btn').forEach(btn => {
+      btn.addEventListener('click', () => exRenderAid());
+    });
+  });
 });
 
 function exUpdateMapLayer(layer) {
