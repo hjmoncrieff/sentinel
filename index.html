@@ -1962,7 +1962,95 @@ header {
         </div>
       </div>
       <div class="ex-scene-body">
-        <div id="ex-timeline-inner" style="height:100%;display:flex;"></div>
+        <div id="ex-timeline-inner" style="height:100%;display:flex;">
+  <div class="timeline-shell">
+    <div class="page-sidebar timeline-sidebar">
+      <div class="sidebar-top">
+        <div><div class="sidebar-top-label" data-i18n="label.timeline-events">Events (Timeline)</div><div class="big-count" id="tl-count">0</div></div>
+      </div>
+
+      <!-- Date Range -->
+      <div class="filter-block">
+        <div class="filter-label" data-i18n="filter.date-range">Date Range</div>
+        <div style="margin-bottom:9px;">
+          <div class="filter-sub-label">Year</div>
+          <div class="tag-row" id="tl-year-filters" style="gap:4px;">
+            <span class="tag active tl-year" data-v="all">All</span>
+          </div>
+        </div>
+        <div>
+          <div class="filter-sub-label">Month</div>
+          <div class="tag-row" id="tl-month-filters" style="gap:4px;flex-wrap:wrap;">
+            <span class="tag active tl-month" data-v="all">All</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event Type filter -->
+      <div class="filter-block">
+        <div class="filter-label" data-i18n="filter.event-type">Event Type</div>
+        <div class="tag-row" id="tl-type-filters">
+          <span class="tag active tl-tag" data-v="all">All</span>
+          <span class="tag tl-tag" data-v="coup" style="border-left:2px solid var(--coup)">Coup</span>
+          <span class="tag tl-tag" data-v="purge" style="border-left:2px solid var(--purge)">Purge</span>
+          <span class="tag tl-tag" data-v="coup_proofing" style="border-left:2px solid var(--coup-proofing)">Coup-Proof</span>
+          <span class="tag tl-tag" data-v="conflict" style="border-left:2px solid var(--conflict)">Conflict</span>
+          <span class="tag tl-tag" data-v="reform" style="border-left:2px solid var(--reform)">Reform</span>
+          <span class="tag tl-tag" data-v="oc" style="border-left:2px solid var(--oc)">Org. Crime</span>
+          <span class="tag tl-tag" data-v="aid" style="border-left:2px solid var(--aid)">Mil. Aid</span>
+          <span class="tag tl-tag" data-v="coop" style="border-left:2px solid var(--coop)">US Coop</span>
+          <span class="tag tl-tag" data-v="protest" style="border-left:2px solid var(--protest)">Protest</span>
+          <span class="tag tl-tag" data-v="other" style="border-left:2px solid var(--other)">Other</span>
+        </div>
+      </div>
+
+      <!-- Salience -->
+      <div class="filter-block">
+        <div class="filter-label" data-i18n="filter.salience">Salience</div>
+        <div class="tag-row" id="tl-sal-filters">
+          <span class="tag active tl-sal" data-v="all">All</span>
+          <span class="tag tl-sal" data-v="high" style="color:var(--coup)">●● High</span>
+          <span class="tag tl-sal" data-v="medium" style="color:var(--purge)">● Medium</span>
+          <span class="tag tl-sal" data-v="low" style="color:var(--border3)">○ Low</span>
+        </div>
+      </div>
+
+      <!-- Confidence -->
+      <div class="filter-block">
+        <div class="filter-label">Confidence</div>
+        <div class="tag-row" id="tl-conf-filters">
+          <span class="tag active tl-conf" data-v="all">All</span>
+          <span class="tag tl-conf" data-v="green" style="color:var(--reform)">● High</span>
+          <span class="tag tl-conf" data-v="yellow" style="color:var(--purge)">● Medium</span>
+          <span class="tag tl-conf" data-v="red" style="color:var(--coup)">● Low</span>
+        </div>
+      </div>
+
+      <!-- Type Activity bars -->
+      <div class="filter-block">
+        <div class="filter-label">Type Activity</div>
+        <div style="font-family:var(--mono);font-size:8px;color:var(--text-faint);margin-bottom:8px;">Click to filter by type</div>
+        <div id="tl-type-bars"></div>
+      </div>
+
+      <!-- Country Activity -->
+      <div class="filter-block" style="border-bottom:none;">
+        <div class="filter-label">Country Activity</div>
+        <div style="font-family:var(--mono);font-size:8px;color:var(--text-faint);margin-bottom:8px;">Click a country to filter</div>
+        <div id="tl-country-bars"></div>
+      </div>
+    </div>
+    <div class="timeline-main">
+      <div class="timeline-intro">
+        <div class="tab-intro-title" data-i18n="label.timeline-title">Historical &amp; Live Timeline</div>
+        <div data-i18n="label.timeline-body">This timeline merges two layers: <strong>live events</strong> ingested nightly from open-source reporting and classified by AI, and <strong>historical milestones</strong> — coups, constitutions, peace accords, elections, and episodes of repression curated by the SENTINEL research team from 1988 to the present. Unlike the Events feed, which shows only recent pipeline output, the timeline is the longitudinal record. Milestones are marked with a square indicator and a category badge; live events with a colored dot by type. All filters apply to both layers.</div>
+      </div>
+      <div class="timeline-list-wrap">
+        <div id="timeline-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
       </div>
     </div>
 
@@ -2450,101 +2538,6 @@ header {
     <div class="tab-intro-block">
       <div class="tab-intro-title">Arms &amp; Procurement has moved</div>
       Procurement information is now part of the <strong>Countries</strong> section so regional force structure, military spending, and arms acquisition can be reviewed in one place.
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════ -->
-<!--  COLOMBIA TAB                                              -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<!--  TIMELINE TAB                                              -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<div class="tab-panel" id="timeline">
-  <div class="timeline-shell">
-    <div class="page-sidebar timeline-sidebar">
-      <div class="sidebar-top">
-        <div><div class="sidebar-top-label" data-i18n="label.timeline-events">Events (Timeline)</div><div class="big-count" id="tl-count">0</div></div>
-      </div>
-
-      <!-- Date Range -->
-      <div class="filter-block">
-        <div class="filter-label" data-i18n="filter.date-range">Date Range</div>
-        <div style="margin-bottom:9px;">
-          <div class="filter-sub-label">Year</div>
-          <div class="tag-row" id="tl-year-filters" style="gap:4px;">
-            <span class="tag active tl-year" data-v="all">All</span>
-          </div>
-        </div>
-        <div>
-          <div class="filter-sub-label">Month</div>
-          <div class="tag-row" id="tl-month-filters" style="gap:4px;flex-wrap:wrap;">
-            <span class="tag active tl-month" data-v="all">All</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Event Type filter -->
-      <div class="filter-block">
-        <div class="filter-label" data-i18n="filter.event-type">Event Type</div>
-        <div class="tag-row" id="tl-type-filters">
-          <span class="tag active tl-tag" data-v="all">All</span>
-          <span class="tag tl-tag" data-v="coup" style="border-left:2px solid var(--coup)">Coup</span>
-          <span class="tag tl-tag" data-v="purge" style="border-left:2px solid var(--purge)">Purge</span>
-          <span class="tag tl-tag" data-v="coup_proofing" style="border-left:2px solid var(--coup-proofing)">Coup-Proof</span>
-          <span class="tag tl-tag" data-v="conflict" style="border-left:2px solid var(--conflict)">Conflict</span>
-          <span class="tag tl-tag" data-v="reform" style="border-left:2px solid var(--reform)">Reform</span>
-          <span class="tag tl-tag" data-v="oc" style="border-left:2px solid var(--oc)">Org. Crime</span>
-          <span class="tag tl-tag" data-v="aid" style="border-left:2px solid var(--aid)">Mil. Aid</span>
-          <span class="tag tl-tag" data-v="coop" style="border-left:2px solid var(--coop)">US Coop</span>
-          <span class="tag tl-tag" data-v="protest" style="border-left:2px solid var(--protest)">Protest</span>
-          <span class="tag tl-tag" data-v="other" style="border-left:2px solid var(--other)">Other</span>
-        </div>
-      </div>
-
-      <!-- Salience -->
-      <div class="filter-block">
-        <div class="filter-label" data-i18n="filter.salience">Salience</div>
-        <div class="tag-row" id="tl-sal-filters">
-          <span class="tag active tl-sal" data-v="all">All</span>
-          <span class="tag tl-sal" data-v="high" style="color:var(--coup)">●● High</span>
-          <span class="tag tl-sal" data-v="medium" style="color:var(--purge)">● Medium</span>
-          <span class="tag tl-sal" data-v="low" style="color:var(--border3)">○ Low</span>
-        </div>
-      </div>
-
-      <!-- Confidence -->
-      <div class="filter-block">
-        <div class="filter-label">Confidence</div>
-        <div class="tag-row" id="tl-conf-filters">
-          <span class="tag active tl-conf" data-v="all">All</span>
-          <span class="tag tl-conf" data-v="green" style="color:var(--reform)">● High</span>
-          <span class="tag tl-conf" data-v="yellow" style="color:var(--purge)">● Medium</span>
-          <span class="tag tl-conf" data-v="red" style="color:var(--coup)">● Low</span>
-        </div>
-      </div>
-
-      <!-- Type Activity bars -->
-      <div class="filter-block">
-        <div class="filter-label">Type Activity</div>
-        <div style="font-family:var(--mono);font-size:8px;color:var(--text-faint);margin-bottom:8px;">Click to filter by type</div>
-        <div id="tl-type-bars"></div>
-      </div>
-
-      <!-- Country Activity -->
-      <div class="filter-block" style="border-bottom:none;">
-        <div class="filter-label">Country Activity</div>
-        <div style="font-family:var(--mono);font-size:8px;color:var(--text-faint);margin-bottom:8px;">Click a country to filter</div>
-        <div id="tl-country-bars"></div>
-      </div>
-    </div>
-    <div class="timeline-main">
-      <div class="timeline-intro">
-        <div class="tab-intro-title" data-i18n="label.timeline-title">Historical &amp; Live Timeline</div>
-        <div data-i18n="label.timeline-body">This timeline merges two layers: <strong>live events</strong> ingested nightly from open-source reporting and classified by AI, and <strong>historical milestones</strong> — coups, constitutions, peace accords, elections, and episodes of repression curated by the SENTINEL research team from 1988 to the present. Unlike the Events feed, which shows only recent pipeline output, the timeline is the longitudinal record. Milestones are marked with a square indicator and a category badge; live events with a colored dot by type. All filters apply to both layers.</div>
-      </div>
-      <div class="timeline-list-wrap">
-        <div id="timeline-list"></div>
-      </div>
     </div>
   </div>
 </div>
