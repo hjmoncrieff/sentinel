@@ -7225,6 +7225,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     .then(r => r.json())
     .then(d => { window.greenbookData = d; })
     .catch(() => { window.greenbookData = []; });
+  fetch('data/cleaned/vdem.json')
+    .then(r => r.json())
+    .then(d => { window.vdemData = d; })
+    .catch(() => { window.vdemData = {}; });
   updatePipelineAge();
   setInterval(updatePipelineAge, 1000);
   setInterval(loadEvents, 15*60*1000);
@@ -7537,7 +7541,71 @@ function exRenderAid() {
     </div>`;
   }).join('');
 }
-function exRenderCmr()        { /* Task 10 */ }
+const EX_CMR_INDICATORS = [
+  { key: 'polyarchy',     label: 'Polyarchy',       invert: false },
+  { key: 'mil_constrain', label: 'Mil. constraint',  invert: false },
+  { key: 'physinteg',     label: 'Phys. integrity',  invert: false },
+  { key: 'cs_repress',    label: 'CS repression',    invert: true  },
+];
+
+const EX_COUNTRY_REGION = {
+  'Brazil':'Brazil','Colombia':'Andean','Mexico':'Mexico','Venezuela':'Andean',
+  'Chile':'Southern Cone','Argentina':'Southern Cone','Peru':'Andean','Ecuador':'Andean',
+  'Bolivia':'Andean','Cuba':'Caribbean','Honduras':'Central America','Guatemala':'Central America',
+  'El Salvador':'Central America','Nicaragua':'Central America','Paraguay':'Southern Cone',
+  'Uruguay':'Southern Cone','Haiti':'Caribbean','Dominican Republic':'Caribbean',
+  'Panama':'Central America','Costa Rica':'Central America','Jamaica':'Caribbean',
+  'Trinidad and Tobago':'Caribbean','Guyana':'Caribbean','Suriname':'Caribbean',
+  'Belize':'Central America',
+};
+
+function exRenderCmr() {
+  const container = document.getElementById('ex-cmr-chart');
+  if (!container || !window.vdemData) return;
+
+  const regionBtn = document.querySelector('#ex-cmr-region .ex-active-ctrl');
+  const yearBtn   = document.querySelector('#ex-cmr-year .ex-active-ctrl');
+  const region    = regionBtn ? regionBtn.dataset.region : 'all';
+  const year      = yearBtn   ? parseInt(yearBtn.dataset.year) : 2023;
+
+  const countries = Object.keys(window.vdemData).filter(c => {
+    if (region === 'all') return true;
+    return EX_COUNTRY_REGION[c] === region;
+  });
+
+  if (!countries.length) {
+    container.innerHTML = '<p style="padding:20px;color:var(--text-muted);font-family:var(--mono);font-size:10px;">No data.</p>';
+    return;
+  }
+
+  container.innerHTML = countries.map(country => {
+    const series = window.vdemData[country] || [];
+    const row = series.find(d => d.year === year) || {};
+    const profile = COUNTRY_PROFILES[country] || {};
+    const cmrStatus = profile.cmrStatus || 'Stable';
+    const borderColor = cmrStatus === 'Crisis' || cmrStatus === 'Authoritarian' ? 'var(--coup)'
+                      : cmrStatus === 'Strained' ? 'var(--purge)' : 'var(--reform)';
+
+    const bars = EX_CMR_INDICATORS.map(ind => {
+      let val = row[ind.key];
+      if (val == null) val = 0;
+      if (ind.invert) val = 1 - val;
+      const pct = Math.min(100, Math.max(0, val * 100)).toFixed(0);
+      return `<div style="display:flex;align-items:center;gap:6px;">
+        <span style="font-family:var(--mono);font-size:8.5px;color:var(--text-muted);width:70px;flex-shrink:0;">${ind.label}</span>
+        <div style="flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden;">
+          <div style="height:100%;border-radius:3px;background:${borderColor};width:${pct}%;"></div>
+        </div>
+      </div>`;
+    }).join('');
+
+    return `<div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid ${borderColor};border-radius:10px;padding:14px 16px;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 16px rgba(26,24,20,0.09)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+      <div style="font-weight:800;font-size:13px;margin-bottom:2px;">${country}</div>
+      <div style="font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:0.8px;color:${borderColor};margin-bottom:10px;">${cmrStatus}</div>
+      <div style="display:flex;flex-direction:column;gap:5px;">${bars}</div>
+    </div>`;
+  }).join('');
+}
 
 // Map layer toggle for Scene 1
 document.addEventListener('DOMContentLoaded', () => {
@@ -7554,6 +7622,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const el = document.getElementById(id);
     if (el) el.querySelectorAll('.ex-ctrl-btn').forEach(btn => {
       btn.addEventListener('click', () => exRenderAid());
+    });
+  });
+
+  ['ex-cmr-region', 'ex-cmr-year'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.querySelectorAll('.ex-ctrl-btn').forEach(btn => {
+      btn.addEventListener('click', () => exRenderCmr());
     });
   });
 });
