@@ -2818,6 +2818,7 @@ async function loadEvents(){
         actors: pub.actors || ev.actors || []
       };
       ev.actors = pub.actors || ev.actors || [];
+      ev.public_analysis = pub.public_analysis || null;
       ev.council = councilById.get(String(ev.id));
       ev.standard_title = getStandardizedEventTitle(ev);
       ev.display_country = getEventCountryLabel(ev);
@@ -3992,6 +3993,10 @@ function selectEvent(ev){
   const countryTags = getEventCountryTags(ev);
   const primaryProfileCountry = countryTags.find(item=>item.isProfile)?.label || '';
   const overallRiskTone = getOverallRiskTone(overallRisk);
+  const analystAssessmentText = (()=>{
+    const raw = cleanCouncilAssessment(ev.public_analysis || '');
+    return (!raw || isGenericCouncilText(raw)) ? '' : raw;
+  })();
   document.getElementById('detail').innerHTML=`
     <div class="detail-brief">
       <div class="detail-country-line">
@@ -4013,6 +4018,19 @@ function selectEvent(ev){
           </div>` : ''}
       </div>
       ${predictiveSummary?.summary_text ? `<div class="detail-text">${predictiveSummary.summary_text}</div>` : ''}
+      ${measureRows.length ? `
+        <details class="detail-more-grid">
+          <summary class="detail-more-toggle">Sentinel measures</summary>
+          <div class="detail-measures" style="margin-top:10px;">
+            ${measureRows.map(item=>`
+              <div class="detail-measure">
+                <span class="detail-measure-label">${item.label}</span>
+                <span class="detail-measure-value">${item.value}</span>
+                <div class="detail-measure-note">${item.note}</div>
+              </div>
+            `).join('')}
+          </div>
+        </details>` : ''}
     </div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:9px;">
       <span class="type-badge" style="background:${c}">${typeLabel}</span>
@@ -4032,27 +4050,11 @@ function selectEvent(ev){
       <div class="dmi"><label>Salience</label><span style="color:${c}">${(ev.salience||'').toUpperCase()}</span></div>
       <div class="dmi"><label>Coverage</label><span>${linkedReports.length} report${linkedReports.length===1?'':'s'}</span></div>
     </div>
-    ${measureRows.length ? `
     <div class="detail-section">
-      <div class="detail-section-title">Sentinel Measures</div>
-      <div class="detail-measures">
-        ${measureRows.map(item=>`
-          <div class="detail-measure">
-            <span class="detail-measure-label">${item.label}</span>
-            <span class="detail-measure-value">${item.value}</span>
-            <div class="detail-measure-note">${item.note}</div>
-          </div>
-        `).join('')}
-      </div>
-    </div>` : ''}
-    ${analystLenses.length ? `
-    <div class="detail-section">
-      <div class="detail-section-title">Active Analysts</div>
-      <div class="detail-chip-row">
-        ${analystLenses.map(item=>`<span class="analysis-badge ${item.className}">${item.label}</span>`).join('')}
-      </div>
-      <div class="detail-text" style="margin-top:10px;">This event is currently routed through the ${analystLenses.map(item=>item.label).join(', ')} lens${analystLenses.length === 1 ? '' : 'es'} based on its category, subcategory, and actor mix.</div>
-    </div>` : ''}
+      <div class="detail-section-title">Event</div>
+      <div class="detail-text">${publicDescription}</div>
+      ${publicContext ? `<div class="detail-context"><span class="detail-context-label">Context</span><div class="detail-context-copy">${publicContext}</div></div>` : ''}
+    </div>
     <div class="detail-section">
       <div class="detail-section-title">Classification</div>
       <div class="detail-grid">
@@ -4067,22 +4069,29 @@ function selectEvent(ev){
         </details>
       ` : ''}
       ${knowledgeSignals.length ? `<div class="detail-chip-row" style="margin-top:10px;">${knowledgeSignals.map(item=>`<span class="detail-chip">${item}</span>`).join('')}</div>` : ''}
+      ${analystLenses.length ? `<div class="detail-chip-row" style="margin-top:8px;">${analystLenses.map(item=>`<span class="analysis-badge ${item.className}">${item.label}</span>`).join('')}</div>` : ''}
     </div>
+    ${(analystAssessmentText || analysisBlocks.length) ? `
     <div class="detail-section">
-      <div class="detail-section-title">Event</div>
-      <div class="detail-text">${publicDescription}</div>
-      ${publicContext ? `<div class="detail-context"><span class="detail-context-label">Context</span><div class="detail-context-copy">${publicContext}</div></div>` : ''}
-    </div>
-    ${analysisBlocks.length?`
-    <div class="detail-section">
-      <div class="detail-section-title">Why It Matters</div>
+      <div class="detail-section-title">Analyst Assessment</div>
       <div class="detail-analysis">
         <div class="detail-analysis-meta">
+          ${analystAssessmentText ? `<span class="detail-chip">AI · Sonnet 4.6</span>` : ''}
           ${synthesis?.risk_level?`<span class="detail-chip">${normalizeKnowledgeLabel(synthesis.risk_level)} concern</span>`:''}
         </div>
-        ${analysisBlocks.map(block=>`<div class="detail-analysis-block"><span class="detail-analysis-label">${block.label}</span><div class="detail-analysis-copy">${block.value}</div></div>`).join('')}
+        ${analystAssessmentText ? `
+          <div class="detail-analysis-copy">${escapeHtml(analystAssessmentText).replace(/\n{2,}/g,'</p><p style="margin-top:10px">').replace(/\n/g,' ')}</div>
+        ` : ''}
+        ${analysisBlocks.length ? `
+          <details class="detail-more-grid" style="margin-top:${analystAssessmentText ? '14px' : '0'};">
+            <summary class="detail-more-toggle">Framework analysis</summary>
+            <div style="margin-top:10px;">
+              ${analysisBlocks.map(block=>`<div class="detail-analysis-block"><span class="detail-analysis-label">${block.label}</span><div class="detail-analysis-copy">${block.value}</div></div>`).join('')}
+            </div>
+          </details>
+        ` : ''}
       </div>
-    </div>`:''}
+    </div>` : ''}
     ${linkedReports.length?`
     <div class="detail-section">
       <div class="detail-section-title">Sources</div>

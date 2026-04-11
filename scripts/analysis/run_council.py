@@ -1475,7 +1475,49 @@ def synthesis(event: dict, analyses: dict[str, dict], guidance: dict, knowledge:
     }
 
 
+def _build_low_salience_stub(event: dict, article_lookup: dict[str, dict], workers: dict[str, dict]) -> dict:
+    """Minimal record for low-salience events — no lens analysis, no synthesis."""
+    reviewed = reviewed_by_human(event)
+    context = article_context(event, article_lookup)
+    return {
+        "event_id": event.get("event_id"),
+        "event_date": event.get("event_date"),
+        "country": event.get("country"),
+        "event_type": event.get("event_type"),
+        "event_category": event.get("event_category"),
+        "event_subcategory": event.get("event_subcategory"),
+        "event_construct_destinations": event.get("event_construct_destinations"),
+        "event_analyst_lenses": event.get("event_analyst_lenses"),
+        "salience": "low",
+        "review_status": event.get("review_status"),
+        "human_validated": bool(event.get("human_validated")),
+        "reviewed_by_human": reviewed,
+        "analysis_scope": "all_events",
+        "analysis_tag": "AI-generated analysis",
+        "generation_method": "heuristic_council_v4",
+        "generated_at": datetime.now(UTC).isoformat(),
+        "analysis_activation": {},
+        "event_context": context,
+        "upstream_worker_outputs": build_upstream_worker_outputs(event, workers, reviewed),
+        "recommended_review_actions": [],
+        "worker_trace": {"upstream_workers": [], "council_workers": []},
+        "analyses": {
+            "synthesis": {
+                "lens": "synthesis",
+                "public_analysis": None,
+                "public_takeaways": None,
+                "risk_level": "low",
+                "ai_generated": False,
+                "skipped": True,
+                "skip_reason": "low_salience",
+            }
+        },
+    }
+
+
 def build_entry(event: dict, knowledge: dict, guidance: dict, workers: dict[str, dict], article_lookup: dict[str, dict]) -> dict:
+    if str(event.get("salience") or "low").lower() == "low":
+        return _build_low_salience_stub(event, article_lookup, workers)
     context = article_context(event, article_lookup)
     plan = lens_plan(event)
     analyses = {}

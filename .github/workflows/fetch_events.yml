@@ -111,6 +111,8 @@ jobs:
           python scripts/pipeline/code_actors.py
           python scripts/review/build_review_queue.py
           python scripts/analysis/run_council.py
+          python scripts/analysis/run_council_synthesis.py
+          python scripts/analysis/validate_council_quality.py
           python scripts/publish/publish_dashboard_data.py
           echo "## Published output" >> "$GITHUB_STEP_SUMMARY"
           python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
