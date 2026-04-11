@@ -6251,7 +6251,7 @@ function openSearch(){
 function closeSearch(){ document.getElementById('search-overlay').classList.remove('open'); }
 
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape') closeSearch();
+  if(e.key==='Escape'){ closeSearch(); closeFeedback(); }
   if((e.metaKey||e.ctrlKey)&&e.key==='k'){ e.preventDefault(); openSearch(); }
 });
 
@@ -6386,10 +6386,12 @@ async function submitFeedback(e) {
       document.getElementById('fb-success').style.display = 'block';
       setTimeout(() => { closeFeedback(); setTimeout(resetFeedbackForm, 300); }, 2000);
     } else {
-      throw new Error('server error');
+      let msg = 'Something went wrong — try again.';
+      try { const d = await res.json(); if (d.error) msg = d.error; } catch {}
+      throw new Error(msg);
     }
-  } catch {
-    errorEl.textContent = 'Something went wrong — try again.';
+  } catch(err) {
+    errorEl.textContent = err.message || 'Something went wrong — try again.';
     errorEl.style.display = 'block';
     submitBtn.disabled = false;
   }
@@ -6402,10 +6404,6 @@ document.addEventListener('click', function(e) {
   if (panel.classList.contains('open') && !panel.contains(e.target) && !btn.contains(e.target)) {
     closeFeedback();
   }
-});
-// Close panel on Escape
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeFeedback();
 });
 </script>
 <!-- ── Feedback Button & Panel ────────────────────────── -->
