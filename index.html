@@ -1446,7 +1446,7 @@ header {
 .cp2-rank-badge.r-lo { background: rgba(45,110,82,0.10); color: var(--reform); border: 1px solid rgba(45,110,82,0.22); }
 
 /* Sources band */
-.cp2-sources-band { background: #f5f1ea; border-bottom: 1px solid var(--border); padding: 6px 20px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; } /* intentional tint: slightly cooler than --eggshell */
+.cp2-sources-band { background: #111419; border-bottom: 1px solid var(--border); padding: 6px 20px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; } /* intentional tint: slightly cooler than --eggshell */
 .cp2-sources-label { font-family: var(--mono); font-size: 7.5px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); }
 .cp2-sources-item { font-family: var(--mono); font-size: 7.5px; color: var(--text-faint); }
 .cp2-sources-sep { color: var(--border2); font-size: 9px; }
@@ -1493,11 +1493,11 @@ header {
 .cp2-events-count { font-family: var(--mono); font-size: 9px; color: var(--text-faint); }
 
 /* Structural Trends */
-.cp2-trends-strip { background: #f0ebe2; border-top: 1px solid var(--border); display: flex; gap: 0; } /* intentional tint: slightly warmer than --eggshell-warm, anchors bottom strip */
+.cp2-trends-strip { background: #131720; border-top: 1px solid var(--border); display: flex; gap: 0; } /* intentional tint: slightly warmer than --eggshell-warm, anchors bottom strip */
 .cp2-trend-cell { flex: 1; padding: 12px 16px; border-right: 1px solid var(--border); }
 .cp2-trend-cell:last-child { border-right: none; }
-.cp2-trend-kicker { font-family: var(--mono); font-size: 7.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
-.cp2-trend-value { font-family: var(--serif); font-size: 22px; color: var(--slate); line-height: 1; }
+.cp2-trend-kicker { font-family: var(--mono); font-size: 7.5px; letter-spacing: 1px; text-transform: uppercase; color: #7a746c; margin-bottom: 4px; }
+.cp2-trend-value { font-family: var(--serif); font-size: 22px; color: #c4bdb5; line-height: 1; }
 .cp2-trend-delta { font-family: var(--mono); font-size: 9px; margin-top: 3px; }
 .cp2-trend-delta.up   { color: var(--coup); }
 .cp2-trend-delta.down { color: var(--reform); }
@@ -3133,25 +3133,25 @@ function cpRankClass(rank) {
 // delta is in risk-oriented direction: positive = more risk
 function cpVdemDelta(name, field) {
   const vd = cpGetVdem(name);
-  if (!vd) return { score: 0, delta: null, priorYear: null };
+  if (!vd) return { current: 0, delta: null, priorYear: null };
   const series = vd.series?.[field];
-  if (!series?.length) return { score: Math.round((1 - (vd[field] ?? 0.5)) * 100), delta: null, priorYear: null };
+  if (!series?.length) return { current: Math.round((1 - (vd[field] ?? 0.5)) * 100), delta: null, priorYear: null };
   const sorted = [...series].sort((a, b) => b.year - a.year);
   const cur = sorted[0]; const prev = sorted[1];
   const curScore  = Math.round((1 - (cur.value  ?? 0.5)) * 100);
   const prevScore = prev ? Math.round((1 - (prev.value ?? 0.5)) * 100) : null;
   const delta = prevScore !== null ? +(curScore - prevScore).toFixed(1) : null;
-  return { score: curScore, delta, priorYear: prev?.year ?? null };
+  return { current: curScore, delta, priorYear: prev?.year ?? null };
 }
 
 // Returns { score, delta, priorYear } for WGI state fragility
 function cpWgiDelta(name) {
   const wb = cpGetWb(name);
-  if (!wb) return { score: 0, delta: null, priorYear: null };
+  if (!wb) return { current: 0, delta: null, priorYear: null };
   const series = wb.wgi_govt_effectiveness_series;
   if (!series?.length) {
     const wgi = wb.wgi_govt_effectiveness ?? 0;
-    return { score: Math.min(100, Math.max(0, Math.round((1 - (wgi + 2) / 4) * 100))), delta: null, priorYear: null };
+    return { current: Math.min(100, Math.max(0, Math.round((1 - (wgi + 2) / 4) * 100))), delta: null, priorYear: null };
   }
   const sorted = [...series].filter(d => d.value != null).sort((a, b) => b.year - a.year);
   const cur = sorted[0]; const prev = sorted[1];
@@ -3159,19 +3159,19 @@ function cpWgiDelta(name) {
   const curScore = toFrag(cur.value);
   const prevScore = prev ? toFrag(prev.value) : null;
   const delta = prevScore !== null ? +(curScore - prevScore).toFixed(1) : null;
-  return { score: curScore, delta, priorYear: prev?.year ?? null };
+  return { current: curScore, delta, priorYear: prev?.year ?? null };
 }
 
 // Returns { value, delta, priorYear } for GDP per capita (constant 2015 USD)
 function cpGdpDelta(name) {
   const wb = cpGetWb(name);
-  if (!wb) return { value: null, delta: null, priorYear: null };
+  if (!wb) return { value: null, pct: null, priorYear: null };
   const series = (wb.gdp_per_capita_constant_2015_usd_series || []).filter(d => d.value != null);
-  if (!series.length) return { value: null, delta: null, priorYear: null };
+  if (!series.length) return { value: null, pct: null, priorYear: null };
   const sorted = [...series].sort((a, b) => b.year - a.year);
   const cur = sorted[0]; const prev = sorted[1];
-  const delta = prev ? +((cur.value - prev.value) / prev.value * 100).toFixed(1) : null;
-  return { value: Math.round(cur.value), delta, priorYear: prev?.year ?? null };
+  const pct = prev ? +((cur.value - prev.value) / prev.value * 100).toFixed(1) : null;
+  return { value: Math.round(cur.value), pct, priorYear: prev?.year ?? null };
 }
 
 function cpBuildRadarSection(name, safeId) {
@@ -3277,10 +3277,10 @@ function cpInitRadar(name, safeId) {
         r: {
           min: 0, max: 100,
           ticks: { display: false, stepSize: 25 },
-          grid: { color: '#e8e0d4' },
-          angleLines: { color: '#e8e0d4' },
+          grid: { color: '#1e2230' },
+          angleLines: { color: '#1e2230' },
           pointLabels: {
-            color: '#7a746c',
+            color: '#6a6560',
             font: { size: 9, family: "'DM Mono', monospace" },
           },
         },
@@ -3315,7 +3315,7 @@ function cpBuildPulseSection(name, safeId) {
         <span class="cp2-pulse-label">Event Pulse — ${rangeLabel}</span>
         <div class="cp2-pulse-legend">
           <div class="cp2-pulse-legend-item"><div class="cp2-pulse-swatch" style="background:rgba(168,64,0,0.5)"></div>Conflict / OC</div>
-          <div class="cp2-pulse-legend-item"><div class="cp2-pulse-swatch" style="background:#ccc5b9"></div>Other</div>
+          <div class="cp2-pulse-legend-item"><div class="cp2-pulse-swatch" style="background:#2a2e3c"></div>Other</div>
         </div>
       </div>
       <div class="cp2-pulse-canvas-wrap">
@@ -3354,7 +3354,7 @@ function cpInitPulse(name, safeId) {
       labels,
       datasets: [
         { label: 'Conflict/OC', data: hot,   backgroundColor: 'rgba(168,64,0,0.5)', stack: 's' },
-        { label: 'Other',       data: other, backgroundColor: '#ccc5b9',             stack: 's' },
+        { label: 'Other',       data: other, backgroundColor: '#2a2e3c',             stack: 's' },
       ],
     },
     options: {
@@ -3390,10 +3390,10 @@ function cpBuildStructuralTrends(name) {
   let gdpVal = '—', gdpDeltaHtml = `<div class="cp2-trend-delta neutral">—</div>`;
   if (gdp.value !== null) {
     gdpVal = '$' + gdp.value.toLocaleString();
-    if (gdp.delta !== null) {
-      const sign = gdp.delta > 0 ? '+' : '';
-      const cls = gdp.delta > 0 ? 'down' : gdp.delta < 0 ? 'up' : 'neutral';
-      gdpDeltaHtml = `<div class="cp2-trend-delta ${cls}">${sign}${gdp.delta}% vs ${gdp.priorYear}</div>`;
+    if (gdp.pct !== null) {
+      const sign = gdp.pct > 0 ? '+' : '';
+      const cls = gdp.pct > 0 ? 'down' : gdp.pct < 0 ? 'up' : 'neutral';
+      gdpDeltaHtml = `<div class="cp2-trend-delta ${cls}">${sign}${gdp.pct}% vs ${gdp.priorYear}</div>`;
     }
   }
 
@@ -3401,17 +3401,17 @@ function cpBuildStructuralTrends(name) {
     <div class="cp2-trends-strip">
       <div class="cp2-trend-cell">
         <div class="cp2-trend-kicker">Democracy Deficit</div>
-        <div class="cp2-trend-value">${dem.score}/100</div>
+        <div class="cp2-trend-value">${dem.current}/100</div>
         ${demDelta}
       </div>
       <div class="cp2-trend-cell">
         <div class="cp2-trend-kicker">Physical Vulnerability</div>
-        <div class="cp2-trend-value">${phys.score}/100</div>
+        <div class="cp2-trend-value">${phys.current}/100</div>
         ${physDelta}
       </div>
       <div class="cp2-trend-cell">
         <div class="cp2-trend-kicker">State Fragility</div>
-        <div class="cp2-trend-value">${frag.score}/100</div>
+        <div class="cp2-trend-value">${frag.current}/100</div>
         ${fragDelta}
       </div>
       <div class="cp2-trend-cell">
