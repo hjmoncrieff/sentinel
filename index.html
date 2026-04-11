@@ -5805,6 +5805,299 @@ function showCountryProfile(name) {
   }, 0);
 }
 
+const SM_CAT_COLOR = {
+  peace:'#2d8659', military:'#a84000', political:'#1a6e82',
+  oc:'#6a4a6e', reform:'#1a538f', intl:'#2e6b8a', live:'#c49a20',
+};
+const SM_CAT_LABEL = {
+  peace:'Peace', military:'Military', political:'Political',
+  oc:'Armed Groups', reform:'Reform', intl:'International', live:'Live',
+};
+
+function showSpecialMonitor(name) {
+  const countryDiv = document.getElementById('cp-country');
+  const prof = COUNTRY_PROFILES[name];
+  const data = SPECIAL_MONITOR_MILESTONES[name];
+  if (!prof || !data) { showCountryProfile(name); return; }
+
+  const cmrClass = (prof.cmrClass || 'stable').toLowerCase();
+
+  // Merge curated events with live pipeline events (cat='live')
+  const startDate = `${data.timelineStart || 2016}-01-01`;
+  const liveEvs = (allEvents || [])
+    .filter(e => e.country === name && e.date >= startDate)
+    .map(e => ({ id: String(e.id), date: e.date, cat: 'live', title: e.title, desc: e.summary || '' }));
+  const curatedIds = new Set(data.events.map(e => e.id));
+  const merged = [
+    ...data.events,
+    ...liveEvs.filter(e => !curatedIds.has(e.id)),
+  ].sort((a, b) => a.date.localeCompare(b.date));
+
+  // ── Header ──────────────────────────────────────────────────
+  const hdrHtml = `
+    <div class="sm-hdr">
+      <button class="sm-back" onclick="showCountryProfile('${name.replace(/'/g, "\\'")}')">← ${name} Profile</button>
+      <div style="margin-left:10px;">
+        <div class="sm-name">${name}</div>
+        <div class="sm-sub">${data.subtitle || ''}</div>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+        <span class="sm-badge">★ Special Monitor</span>
+        <span class="sm-cmr-pill ${cmrClass}">${prof.cmrStatus} CMR</span>
+      </div>
+    </div>`;
+
+  // ── Brief ────────────────────────────────────────────────────
+  const metaHtml = (data.meta || []).map(m => `
+    <div class="sm-meta-block">
+      <div class="sm-meta-kicker">${m.kicker}</div>
+      <div class="sm-meta-val">${m.value}</div>
+    </div>`).join('');
+  const briefHtml = `
+    <div class="sm-brief">
+      <div class="sm-brief-text">${data.brief || ''}</div>
+      <div class="sm-brief-meta">${metaHtml}</div>
+    </div>`;
+
+  // ── Timeline section (shell — SVG built after innerHTML set) ─
+  const smId = name.replace(/ /g, '_');
+  const filterBtns = [
+    ['All', 'all'], ['Peace', 'peace'], ['Military', 'military'],
+    ['Political', 'political'], ['Armed Groups', 'oc'], ['Reform', 'reform'],
+    ['International', 'intl'], ['● Live', 'live'],
+  ].map(([label, cat]) =>
+    `<button class="sm-f-btn${cat === 'all' ? ' active' : ''}" data-c="${cat}" onclick="smSetFilter('${smId}','${cat}')">${label}</button>`
+  ).join('');
+
+  const evListRows = [...merged].reverse().map(ev => {
+    const color = SM_CAT_COLOR[ev.cat] || '#6a6560';
+    const livePip = ev.cat === 'live' ? '<span class="sm-live-pip">live</span>' : '';
+    return `
+      <div class="sm-ev-row" data-id="${ev.id}" data-cat="${ev.cat}" onclick="smSelectEvent('${smId}','${ev.id}')">
+        <div class="sm-ev-cat-bar" style="background:${color}"></div>
+        <div class="sm-ev-date">${ev.date.slice(0,7)}</div>
+        <div class="sm-ev-cat-lbl" style="color:${color}">${SM_CAT_LABEL[ev.cat] || ev.cat}${livePip}</div>
+        <div class="sm-ev-title">${ev.title}</div>
+      </div>
+      <div class="sm-ev-desc" data-id="${ev.id}">${ev.desc || ''}</div>`;
+  }).join('');
+
+  const tlHtml = `
+    <div class="sm-tl-sec">
+      <div class="sm-tl-top">
+        <div class="sm-tl-label">CMR Timeline — ${data.timelineStart} to present</div>
+        <div class="sm-filters">${filterBtns}</div>
+      </div>
+      <div class="sm-tl-figure">
+        <svg id="sm-svg-${smId}" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible;"></svg>
+      </div>
+      <div class="sm-scroll-hint">scroll to explore full timeline</div>
+      <div class="sm-ev-list">
+        <div class="sm-ev-list-hdr">
+          <span class="sm-ev-list-label">Events</span>
+          <span class="sm-ev-count" id="sm-ev-count-${smId}">${merged.length} total</span>
+        </div>
+        <div id="sm-ev-body-${smId}">${evListRows}</div>
+      </div>
+    </div>`;
+
+  // ── Key Data strip ───────────────────────────────────────────
+  const dsHtml = `
+    <div class="sm-data-strip">
+      <div class="sm-ds-label">Key Data — ${name}</div>
+      <div class="sm-ds-grid">
+        ${(data.keyData || []).map(d => `
+          <div class="sm-ds-cell">
+            <div class="sm-ds-name">${d.name}</div>
+            <div class="sm-ds-val">${d.value}</div>
+            <div class="sm-ds-sub">${d.sub}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+
+  countryDiv.innerHTML = `<div class="sm-card">${hdrHtml}${briefHtml}${tlHtml}${dsHtml}</div>`;
+  countryDiv.style.display = 'block';
+  countryDiv.scrollTop = 0;
+  document.getElementById('cp-regional').style.display = 'none';
+
+  // Build SVG after DOM is set
+  setTimeout(() => smBuildSvg(smId, merged), 0);
+}
+
+// ── SVG builder ──────────────────────────────────────────────────
+function smBuildSvg(smId, events) {
+  const svg = document.getElementById(`sm-svg-${smId}`);
+  if (!svg) return;
+
+  const PAD_L = 32, PAD_R = 32, YEAR_W = 90;
+  const START = 2016, END = 2027, YEARS = END - START;
+  const SVG_W = PAD_L + YEARS * YEAR_W + PAD_R;
+  const AXIS_Y = 110, DOT_R = 5, STEM_BASE = 18, STEP = 16;
+  const NOW = new Date().toISOString().slice(0, 10);
+
+  function dateToX(d) {
+    const dt = new Date(d);
+    const t  = dt.getFullYear() + dt.getMonth() / 12 + dt.getDate() / 365;
+    return PAD_L + ((t - START) / YEARS) * (YEARS * YEAR_W);
+  }
+
+  function ns(tag, attrs = {}) {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+    return el;
+  }
+
+  // Collision levels
+  const sorted = [...events].sort((a, b) => a.date.localeCompare(b.date));
+  const placed = [];
+  sorted.forEach(ev => {
+    const x = dateToX(ev.date);
+    let level = 0;
+    while (placed.some(p => p.level === level && Math.abs(p.x - x) < 38)) level++;
+    placed.push({ ...ev, x, level });
+  });
+
+  const svgH = AXIS_Y + 38;
+  svg.setAttribute('width', SVG_W);
+  svg.setAttribute('height', svgH);
+  svg.setAttribute('viewBox', `0 0 ${SVG_W} ${svgH}`);
+  svg.style.height = svgH + 'px';
+  svg.innerHTML = '';
+
+  // Year bands
+  for (let yr = START; yr < END; yr++) {
+    const x = dateToX(`${yr}-01-01`);
+    if ((yr - START) % 2 === 0) {
+      svg.appendChild(ns('rect', { x, y: 0, width: YEAR_W, height: svgH, fill: 'rgba(255,255,255,0.008)' }));
+    }
+  }
+
+  // Axis
+  svg.appendChild(ns('line', { x1: PAD_L, y1: AXIS_Y, x2: SVG_W - PAD_R, y2: AXIS_Y, stroke: '#252830', 'stroke-width': '1.5' }));
+
+  // Year ticks + labels
+  for (let yr = START; yr <= END - 1; yr++) {
+    const x = dateToX(`${yr}-01-01`);
+    svg.appendChild(ns('line', { x1: x, y1: AXIS_Y - 4, x2: x, y2: AXIS_Y + 4, stroke: '#2a2e3c', 'stroke-width': '1' }));
+    const lbl = ns('text', { x, y: AXIS_Y + 18, 'text-anchor': 'middle', fill: '#3e3c38', 'font-family': 'DM Mono,monospace', 'font-size': '9.5', 'letter-spacing': '0.3' });
+    lbl.textContent = yr;
+    svg.appendChild(lbl);
+  }
+
+  // NOW line
+  const nowX = dateToX(NOW);
+  svg.appendChild(ns('line', { x1: nowX, y1: 2, x2: nowX, y2: AXIS_Y - 2, stroke: 'rgba(196,80,32,0.22)', 'stroke-width': '1', 'stroke-dasharray': '3,3' }));
+  const nowT = ns('text', { x: nowX + 4, y: 11, fill: 'rgba(196,80,32,0.3)', 'font-family': 'DM Mono,monospace', 'font-size': '7.5', 'letter-spacing': '0.5' });
+  nowT.textContent = 'NOW';
+  svg.appendChild(nowT);
+
+  // Events
+  placed.forEach(ev => {
+    const color = SM_CAT_COLOR[ev.cat] || '#6a6560';
+    const stemH = STEM_BASE + ev.level * STEP;
+    const dotY  = AXIS_Y - stemH;
+
+    svg.appendChild(ns('line', {
+      x1: ev.x, y1: AXIS_Y, x2: ev.x, y2: dotY + DOT_R,
+      stroke: color, 'stroke-width': '1', 'stroke-opacity': '0.2',
+      class: `sm-stem sm-stem-${smId}-${ev.id}`,
+    }));
+
+    const g = ns('g', { transform: `translate(${ev.x},${dotY})`, cursor: 'pointer', class: `sm-dot-g sm-dot-${smId}-${ev.id}`, 'data-id': ev.id, 'data-cat': ev.cat });
+    g.appendChild(ns('circle', { r: '10', fill: 'none', stroke: color, 'stroke-width': '1', 'stroke-opacity': '0', class: 'sm-dot-ring' }));
+    g.appendChild(ns('circle', { r: String(DOT_R), fill: '#161a22', stroke: color, 'stroke-width': '2', class: 'sm-dot-circle' }));
+    g.appendChild(ns('circle', { r: '13', fill: 'transparent' }));
+
+    // Tooltip
+    const tipH = 58, tipW = 172;
+    const tipX = ev.x > SVG_W - 200 ? -(tipW + 6) : 9;
+    const tipY = -(stemH + tipH + 4);
+    const fo = ns('foreignObject', { x: tipX, y: tipY, width: tipW, height: tipH, class: `sm-tip-fo sm-tip-${smId}-${ev.id}`, style: 'display:none;pointer-events:none;' });
+    const div = document.createElement('div');
+    div.style.cssText = `background:#1e2230;border:1px solid #2a2e40;border-radius:5px;padding:7px 9px;font-size:10px;color:#9a9590;line-height:1.4;font-family:'DM Sans',sans-serif;`;
+    div.innerHTML = `<div style="font-size:7.5px;font-family:'DM Mono',monospace;color:#4a4840;margin-bottom:2px;">${ev.date}</div><div style="font-size:7.5px;font-family:'DM Mono',monospace;color:${color};margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px;">${SM_CAT_LABEL[ev.cat] || ev.cat}</div>${ev.title}`;
+    fo.appendChild(div);
+    g.appendChild(fo);
+
+    g.addEventListener('mouseenter', () => {
+      if (!g._smActive) fo.style.display = '';
+      g.querySelector('.sm-dot-ring').setAttribute('stroke-opacity', '0.3');
+      document.querySelector(`.sm-stem-${smId}-${ev.id}`)?.setAttribute('stroke-opacity', '0.55');
+    });
+    g.addEventListener('mouseleave', () => {
+      if (!g._smActive) fo.style.display = 'none';
+      if (!g._smActive) g.querySelector('.sm-dot-ring').setAttribute('stroke-opacity', '0');
+      if (!g._smActive) document.querySelector(`.sm-stem-${smId}-${ev.id}`)?.setAttribute('stroke-opacity', '0.2');
+    });
+    g.addEventListener('click', () => smSelectEvent(smId, ev.id));
+    svg.appendChild(g);
+  });
+}
+
+// ── Interaction handlers ─────────────────────────────────────────
+function smSelectEvent(smId, id) {
+  // Deselect if same
+  const g = document.querySelector(`.sm-dot-${smId}-${id}`);
+  if (g && g._smActive) {
+    g._smActive = false;
+    g.querySelector('.sm-dot-ring').setAttribute('stroke-opacity', '0');
+    g.querySelector('.sm-dot-circle').setAttribute('fill', '#161a22');
+    document.querySelector(`.sm-tip-${smId}-${id}`)?.setAttribute('style', 'display:none;pointer-events:none;');
+    document.querySelector(`.sm-stem-${smId}-${id}`)?.setAttribute('stroke-opacity', '0.2');
+    document.querySelectorAll(`#sm-ev-body-${smId} .sm-ev-row[data-id="${id}"]`).forEach(r => { r.classList.remove('highlighted', 'expanded'); });
+    document.querySelectorAll(`#sm-ev-body-${smId} .sm-ev-desc[data-id="${id}"]`).forEach(d => d.style.display = 'none');
+    return;
+  }
+
+  // Clear previous active
+  document.querySelectorAll(`.sm-dot-g`).forEach(dg => {
+    dg._smActive = false;
+    dg.querySelector('.sm-dot-ring')?.setAttribute('stroke-opacity', '0');
+    dg.querySelector('.sm-dot-circle')?.setAttribute('fill', '#161a22');
+  });
+  document.querySelectorAll(`[class*="sm-tip-${smId}-"]`).forEach(t => t.setAttribute('style', 'display:none;pointer-events:none;'));
+  document.querySelectorAll(`[class*="sm-stem-${smId}-"]`).forEach(s => s.setAttribute('stroke-opacity', '0.12'));
+  document.querySelectorAll(`#sm-ev-body-${smId} .sm-ev-row`).forEach(r => r.classList.remove('highlighted', 'expanded'));
+  document.querySelectorAll(`#sm-ev-body-${smId} .sm-ev-desc`).forEach(d => d.style.display = 'none');
+
+  // Activate selected
+  if (g) {
+    g._smActive = true;
+    const color = SM_CAT_COLOR[g.dataset.cat] || '#6a6560';
+    g.querySelector('.sm-dot-ring').setAttribute('stroke-opacity', '0.35');
+    g.querySelector('.sm-dot-circle').setAttribute('fill', color);
+    document.querySelector(`.sm-tip-${smId}-${id}`)?.setAttribute('style', 'display:;pointer-events:none;');
+    document.querySelector(`.sm-stem-${smId}-${id}`)?.setAttribute('stroke-opacity', '0.65');
+  }
+  document.querySelectorAll(`#sm-ev-body-${smId} .sm-ev-row[data-id="${id}"]`).forEach(r => r.classList.add('highlighted', 'expanded'));
+  document.querySelectorAll(`#sm-ev-body-${smId} .sm-ev-desc[data-id="${id}"]`).forEach(d => { d.style.display = 'block'; });
+  document.querySelector(`#sm-ev-body-${smId} .sm-ev-row[data-id="${id}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function smSetFilter(smId, cat) {
+  document.querySelectorAll(`.sm-filters .sm-f-btn`).forEach(b => b.classList.toggle('active', b.dataset.c === cat));
+  document.querySelectorAll(`.sm-dot-g`).forEach(g => {
+    const show = cat === 'all' || g.dataset.cat === cat;
+    g.setAttribute('opacity', show ? '1' : '0.07');
+    g.style.pointerEvents = show ? '' : 'none';
+  });
+  document.querySelectorAll(`[class*="sm-stem-"]`).forEach(s => {
+    const cls = [...s.classList].find(c => c.startsWith('sm-stem-'));
+    const evId = cls?.split('-').slice(3).join('-');
+    const ev   = document.querySelector(`.sm-dot-g[data-id="${evId}"]`);
+    s.setAttribute('stroke-opacity', (cat === 'all' || ev?.dataset.cat === cat) ? '0.2' : '0.04');
+  });
+  const body = document.getElementById(`sm-ev-body-${smId}`);
+  if (body) {
+    body.querySelectorAll('.sm-ev-row').forEach(r => r.classList.toggle('filtered-out', cat !== 'all' && r.dataset.cat !== cat));
+  }
+  const visCount = cat === 'all'
+    ? document.querySelectorAll(`.sm-dot-g`).length
+    : document.querySelectorAll(`.sm-dot-g[data-cat="${cat}"]`).length;
+  const countEl = document.getElementById(`sm-ev-count-${smId}`);
+  if (countEl) countEl.textContent = `${visCount} shown`;
+}
+
 function showRegionalOverview(){
   document.querySelectorAll('.cp-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('cp-regional').style.display='block';
