@@ -6756,7 +6756,7 @@ const MISSION_STATUS_DEFS={
 let currentLang='en';
 const STRINGS={
   en:{
-    'tab.events':'Events','tab.profiles':'Countries','tab.transnational':'Organized Crime',
+    'tab.events':'Events','tab.explore':'Explore','tab.profiles':'Countries','tab.transnational':'Organized Crime',
     'tab.us':'US-LatAm','tab.procurement':'Arms & Procurement','tab.timeline':'Timeline','tab.about':'About',
     'logo.sub':'LatAm Civil-Military Monitor',
     'label.events-loaded':'Events Loaded','label.countries-tracked':'Countries Tracked',
@@ -6789,7 +6789,7 @@ const STRINGS={
     'label.timeline-body':'This timeline merges two layers: live events ingested nightly from open-source reporting and classified by AI, and historical milestones — coups, constitutions, peace accords, elections, and episodes of repression curated by the SENTINEL research team from 1988 to the present. Unlike the Events feed, which shows only recent pipeline output, the timeline is the longitudinal record. Milestones are marked with a square indicator and a category badge; live events with a colored dot by type. All filters apply to both layers.',
   },
   es:{
-    'tab.events':'Eventos','tab.profiles':'Países','tab.transnational':'Crimen Organizado',
+    'tab.events':'Eventos','tab.explore':'Explorar','tab.profiles':'Países','tab.transnational':'Crimen Organizado',
     'tab.us':'EE.UU.-LatAm','tab.procurement':'Armas y Adquisiciones','tab.timeline':'Cronología','tab.about':'Acerca de',
     'logo.sub':'Monitor Cívico-Militar de LatAm',
     'label.events-loaded':'Eventos Cargados','label.countries-tracked':'Países Monitoreados',
@@ -6834,7 +6834,7 @@ function setLang(lang){
     if(S[k]) btn.textContent=S[k];
   });
   // Logo sub
-  document.querySelector('.logo-sub').textContent=S['logo.sub'];
+  const _logoSub=document.querySelector('.logo-sub'); if(_logoSub) _logoSub.textContent=S['logo.sub'];
   // Lang button
   const lb=document.getElementById('lang-btn');
   lb.textContent=S['lang.switch'];
