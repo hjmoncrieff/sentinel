@@ -6335,5 +6335,72 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(document.getElementById('events')?.classList.contains('active')) ensureEventMap();
 });
 </script>
+<!-- ── Feedback Button & Panel ────────────────────────── -->
+<button class="fb-btn" id="fb-trigger" onclick="toggleFeedback()" aria-label="Submit feedback or suggestion">
+  <span class="fb-btn-dot"></span>Suggest
+</button>
+<div class="fb-panel" id="fb-panel" role="dialog" aria-label="Feedback panel">
+  <button class="fb-panel-close" onclick="closeFeedback()" aria-label="Close">✕</button>
+  <div class="fb-panel-title">Suggest / Feedback</div>
+  <div class="fb-panel-sub">Flag a missed event, suggest a source, or correct a classification.</div>
+  <form id="fb-form" onsubmit="submitFeedback(event)">
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div>
+        <div class="fb-field-label">Category *</div>
+        <select class="fb-select" id="fb-category" required>
+          <option value="" disabled selected>Select a category</option>
+          <option value="Missed event">Missed event</option>
+          <option value="Wrong classification">Wrong classification</option>
+          <option value="Source suggestion">Source suggestion</option>
+          <option value="Country profile correction">Country profile correction</option>
+          <option value="Research tip">Research tip</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div>
+        <div class="fb-field-label">Country</div>
+        <select class="fb-select" id="fb-country">
+          <option value="">Regional / General</option>
+          <option value="Argentina">Argentina</option>
+          <option value="Belize">Belize</option>
+          <option value="Bolivia">Bolivia</option>
+          <option value="Brazil">Brazil</option>
+          <option value="Chile">Chile</option>
+          <option value="Colombia">Colombia</option>
+          <option value="Costa Rica">Costa Rica</option>
+          <option value="Cuba">Cuba</option>
+          <option value="Dominican Republic">Dominican Republic</option>
+          <option value="Ecuador">Ecuador</option>
+          <option value="El Salvador">El Salvador</option>
+          <option value="Guatemala">Guatemala</option>
+          <option value="Guyana">Guyana</option>
+          <option value="Haiti">Haiti</option>
+          <option value="Honduras">Honduras</option>
+          <option value="Jamaica">Jamaica</option>
+          <option value="Mexico">Mexico</option>
+          <option value="Nicaragua">Nicaragua</option>
+          <option value="Panama">Panama</option>
+          <option value="Paraguay">Paraguay</option>
+          <option value="Peru">Peru</option>
+          <option value="Suriname">Suriname</option>
+          <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+          <option value="Uruguay">Uruguay</option>
+          <option value="Venezuela">Venezuela</option>
+        </select>
+      </div>
+      <div>
+        <div class="fb-field-label">Message *</div>
+        <textarea class="fb-textarea" id="fb-message" placeholder="What did we miss?" required></textarea>
+      </div>
+      <div>
+        <div class="fb-field-label">Email (optional)</div>
+        <input class="fb-input" type="email" id="fb-email" placeholder="your@email.edu">
+      </div>
+      <div id="fb-error" class="fb-error" style="display:none;"></div>
+      <button class="fb-send" type="submit" id="fb-submit">Send →</button>
+    </div>
+  </form>
+  <div id="fb-success" class="fb-success" style="display:none;">Sent. Thank you.</div>
+</div>
 </body>
 </html>
