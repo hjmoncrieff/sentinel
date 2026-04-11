@@ -5226,6 +5226,115 @@ const COUNTRY_ELECTIONS = {
   "Belize":             {type:"Parliamentary — Held",           date:"2025",       note:"Briceño PUP; election due 2025 — verify outcome"}
 };
 
+const SPECIAL_MONITOR_MILESTONES = {
+  Colombia: {
+    subtitle: 'Peace Process · Armed Conflict · CMR',
+    brief: "Colombia's civil-military relations are defined by a decades-long counter-insurgency legacy and the unfinished 2016 FARC peace process. The armed forces retain significant operational autonomy acquired during 50+ years of internal conflict, which structurally constrains Petro's Total Peace agenda. Three simultaneous negotiation tracks — FARC-EMC, ELN, and paramilitary successor groups — create competing military command authorities and fragmented territorial control.",
+    meta: [
+      { kicker: 'Focus period', value: '2016 – present\nPost-agreement arc' },
+      { kicker: 'Key dynamic',  value: 'Peace process vs. military autonomy' },
+    ],
+    timelineStart: 2016,
+    events: [
+      { id:'col-e1',  date:'2016-11-24', cat:'peace',    title:'Final FARC agreement signed',                        desc:'Revised agreement establishes JEP, requiring military officers to testify on false positives. Armed forces accept framework but resist accountability mechanisms.' },
+      { id:'col-e2',  date:'2016-12-01', cat:'reform',   title:'DDR begins for 13,000 FARC combatants',             desc:'Military role shifts to territorial stabilisation. Doctrine gap exposed — counter-insurgency institutions ill-equipped for post-conflict consolidation.' },
+      { id:'col-e3',  date:'2018-04-10', cat:'military', title:'Army accused of resuming false positives',           desc:'HRW documents 5 new extrajudicial killings presented as combat kills. Defence Minister orders investigation.' },
+      { id:'col-e4',  date:'2019-08-29', cat:'oc',       title:'FARC-EMC declared; Márquez resurfaces',             desc:'Key FARC commanders return to armed conflict, citing non-compliance with 2016 agreement. Creates new armed actor outside the peace framework.' },
+      { id:'col-e5',  date:'2019-11-15', cat:'military', title:'Army airstrike kills 8 minors in Caquetá',          desc:'Bombing of a FARC-EMC camp. Defence Minister resigns. Military operating autonomously in borderline legal territory.' },
+      { id:'col-e6',  date:'2020-03-22', cat:'intl',     title:'SOUTHCOM joint ops expand under COVID',             desc:'US-Colombia counter-narcotics operations expand. Military given expanded police powers in 7 departments.' },
+      { id:'col-e7',  date:'2021-05-01', cat:'political',title:'National Strike — military deployed against protests',desc:'Mass protests met with live fire. Military tasked with civilian policing, triggering ICC preliminary examination.' },
+      { id:'col-e8',  date:'2022-08-07', cat:'political',title:'Petro inaugurated; Velásquez named Defence Minister',desc:'First civilian critic of military in the post. Three generals and army commander retire within 30 days.' },
+      { id:'col-e9',  date:'2022-10-13', cat:'military', title:'11 generals removed — deepest purge since 1957',    desc:'Rotation accelerates promotion of officers with professional rather than counter-insurgency profiles.' },
+      { id:'col-e10', date:'2023-02-20', cat:'peace',    title:'ELN peace talks open in Havana',                    desc:'Fifth round of talks. Military High Command publicly expresses reservations about ceasefire scope.' },
+      { id:'col-e11', date:'2023-10-05', cat:'intl',     title:'US suspends $90M FMF over human rights',            desc:'Leahy Law restrictions on three army brigades. SOUTHCOM ops continue separately, creating parallel US-military channels.' },
+      { id:'col-e12', date:'2024-02-08', cat:'peace',    title:'FARC-EMC ceasefire collapses',                      desc:'Estado Mayor Central cites non-compliance. Southwest Command resumes full offensive posture after 14-month pause.' },
+      { id:'col-e13', date:'2025-01-15', cat:'peace',    title:'ELN ceasefire collapses',                           desc:'Sixth round of Havana talks breaks down. Northern Command reauthorized for offensive operations.' },
+      { id:'col-e14', date:'2025-03-04', cat:'oc',       title:'FARC-EMC fractures into two factions',              desc:'EMC/Mordisco split creates ambiguity over negotiating partners. Army begins dual posture: ops vs Mordisco, talks with EMC.' },
+    ],
+    keyData: [
+      { name: 'FARC ex-combatants', value: '13,202', sub: 'enrolled in DDR · 2016' },
+      { name: 'Reincorporated',     value: '~3,900',  sub: 'civilian returnees · 2024' },
+      { name: 'FARC-EMC strength',  value: '~4,800',  sub: 'active combatants · 2025' },
+      { name: 'Ex-combatant killings', value: '390+', sub: 'since agreement · 2025' },
+    ],
+  },
+  Venezuela: {
+    subtitle: 'FANB Structure · Authoritarian CMR · Succession',
+    brief: "Venezuela represents the region's most advanced case of civil-military fusion. The Bolivarian Armed Forces (FANB) are structurally integrated into the economy, intelligence architecture, and political legitimation of the regime. The January 2026 Operation Absolute Resolve — the arrest of President Maduro by opposition forces and his transfer to US custody — creates an acute succession crisis with no precedent in SENTINEL's monitoring period.",
+    meta: [
+      { kicker: 'Focus period', value: '2013 – present\nMaduro era & beyond' },
+      { kicker: 'Key dynamic',  value: 'Military as regime pillar · succession crisis' },
+    ],
+    timelineStart: 2016,
+    events: [
+      { id:'ven-e1', date:'2017-04-19', cat:'military',  title:'Military loyalty oath to Maduro — officer corps public pledge', desc:'Following mass protests. Padrino López leads ceremony. Marks militarization of regime survival strategy.' },
+      { id:'ven-e2', date:'2018-05-20', cat:'political', title:'Maduro re-elected — international non-recognition',            desc:'FANB provides electoral security. US, EU, Lima Group reject results.' },
+      { id:'ven-e3', date:'2019-01-23', cat:'political', title:'Guaidó declares interim presidency — coup attempt fails',      desc:'Military refuses to back Guaidó despite US recognition. Padrino remains loyal. Marks limits of opposition strategy.' },
+      { id:'ven-e4', date:'2020-03-01', cat:'oc',        title:'FANB-colectivo-Tren de Aragua integration documented',        desc:'US Treasury sanctions FANB generals with direct cartel ties. Military economic enterprises (CAMIMPEG) expand.' },
+      { id:'ven-e5', date:'2023-07-28', cat:'political', title:'Maduro claims re-election amid mass fraud allegations',        desc:'Results disputed internationally. Armed forces maintain loyalty. Opposition candidate Edmundo González wins by independent tally.' },
+      { id:'ven-e6', date:'2025-01-10', cat:'political', title:'Maduro transferred to US custody — Operation Absolute Resolve',desc:'Opposition coalition seizes Caracas, arrests Maduro. Rodríguez sworn in as President. FANB High Command remains in place.' },
+      { id:'ven-e7', date:'2025-03-17', cat:'political', title:'Maduro federal detention hearing in New York',                desc:'First appearance before US judge. Charges include narco-terrorism. FANB generals monitor Rodríguez closely.' },
+    ],
+    keyData: [
+      { name: 'FANB active personnel', value: '~160K',  sub: 'army, navy, air, NG · 2024' },
+      { name: 'FANB generals',          value: '2,000+', sub: 'coup-proofing legacy' },
+      { name: 'Colectivos',             value: '~15K',   sub: 'armed pro-regime militias' },
+      { name: 'GDP contraction (2014–23)', value: '−80%', sub: 'constant USD' },
+    ],
+  },
+  'El Salvador': {
+    subtitle: 'Régimen de Excepción · Civil-Military Fusion · CECOT',
+    brief: "El Salvador represents a textbook case of democratic backsliding through civil-military fusion. Unlike classical coups, Bukele's consolidation proceeds via managed elections — enabled by judicial packing that reversed constitutional term limits — while using the military as a visible loyalty instrument and domestic enforcement mechanism. The February 2020 Legislative Assembly occupation was the defining inflection point.",
+    meta: [
+      { kicker: 'Focus period', value: '2020 – present\nBukele consolidation' },
+      { kicker: 'Key dynamic',  value: 'Civil-military fusion via Régimen' },
+    ],
+    timelineStart: 2016,
+    events: [
+      { id:'sv-e1', date:'2019-06-01', cat:'political', title:'Bukele inaugurated — begins military-adjacent posture',    desc:'Cabinet includes former military figures. Security policy emphasizes visibility of armed forces.' },
+      { id:'sv-e2', date:'2020-02-09', cat:'military',  title:'Bukele enters Assembly with armed soldiers — loyalty oath', desc:'Officers publicly pledge loyalty to president. Constitutional crisis: military refuses to enforce legislative limits on executive.' },
+      { id:'sv-e3', date:'2021-05-01', cat:'political', title:'Bukele-controlled Assembly removes Supreme Court magistrates',desc:'Judicial packing removes institutional check. Plan announced to double army from 20K to 40K by 2026.' },
+      { id:'sv-e4', date:'2022-03-27', cat:'military',  title:'Régimen de Excepción declared — mass arrest campaign',      desc:'Following 80-homicide weekend. Military and police begin mass arrests. Suspension of due process rights.' },
+      { id:'sv-e5', date:'2023-02-01', cat:'military',  title:'CECOT mega-prison opens — military operates security',       desc:'Designed for 40,000 detainees. Military handles transport and perimeter. Military discipline applied to civilians.' },
+      { id:'sv-e6', date:'2024-02-04', cat:'political', title:'Bukele re-elected with 85% — second term begins June 2024',  desc:'Despite constitutional ban on consecutive terms, reversed by packed court. No major military dissent recorded.' },
+      { id:'sv-e7', date:'2025-03-16', cat:'intl',      title:'252 Venezuelan deportees arrive at CECOT under Trump deal',  desc:'US pays $6M/year. Deportees later report systematic torture per HRW report (Nov 2025).' },
+      { id:'sv-e8', date:'2025-05-12', cat:'military',  title:'Military deployed to disperse peaceful protests',           desc:'First post-civil war use of armed forces against civil society. Heinrich Böll Stiftung documents cases.' },
+      { id:'sv-e9', date:'2025-07-31', cat:'political', title:'Constitutional reform: indefinite re-election, 6-year terms', desc:'Assembly approves 57–3: abolishes runoffs, moves elections to 2027. Constitutional order restructured.' },
+      { id:'sv-e10',date:'2026-03-27', cat:'political', title:'GIPES presents to CIDH: 504 in-custody deaths under régimen', desc:'Findings of crimes against humanity submitted to Inter-American Commission. 48th régimen extension.' },
+    ],
+    keyData: [
+      { name: 'Régimen detentions',  value: '85K+',  sub: 'total since Mar 2022' },
+      { name: 'In-custody deaths',   value: '504',   sub: 'per GIPES · Mar 2026' },
+      { name: 'CECOT capacity',      value: '40,000',sub: 'mega-prison · opened 2023' },
+      { name: 'Homicide rate (2023)', value: '2.4/100K', sub: 'vs 103/100K in 2015' },
+    ],
+  },
+  Mexico: {
+    subtitle: 'SEDENA Militarization · Cartel Wars · FTO Designations',
+    brief: "Mexico presents the region's most complex civil-military case: deep structural militarization under a formally democratic civilian government that has not experienced a coup. The officer corps has not asserted political preferences but has been the consistent beneficiary of institutional expansion. The Sheinbaum administration has deepened the AMLO-era model: in July 2025, SEDENA was formally granted national security intelligence authority, and the National Guard was transferred to SEDENA command.",
+    meta: [
+      { kicker: 'Focus period', value: '2006 – present\nMilitarization arc' },
+      { kicker: 'Key dynamic',  value: 'Structural militarization under civilian rule' },
+    ],
+    timelineStart: 2016,
+    events: [
+      { id:'mx-e1', date:'2019-01-01', cat:'reform',   title:'AMLO creates National Guard — civilian name, military personnel', desc:'Constitutionally civilian in name only. Built from military cadre. Marks start of institutional re-militarization under new labels.' },
+      { id:'mx-e2', date:'2022-09-05', cat:'reform',   title:'National Guard formally transferred to SEDENA',                  desc:'Military takes AIFA airport, Tren Maya, ports, customs. Mexico has no nationwide civilian police force.' },
+      { id:'mx-e3', date:'2024-06-01', cat:'political', title:'Sheinbaum takes office — deepens AMLO militarization model',   desc:'New SEDENA / SEMAR chiefs appointed Sep 2024. Maintains and expands military institutional roles.' },
+      { id:'mx-e4', date:'2024-09-12', cat:'oc',       title:'Sinaloa civil war begins — El Mayo transferred to US',          desc:'Chapitos faction hands Zambada to US. Cartel splits: La Mayiza vs Chapitos. 2,197 homicides in Sinaloa state.' },
+      { id:'mx-e5', date:'2025-02-06', cat:'intl',     title:'Trump designates 6 Mexican cartels as FTOs',                    desc:'Sovereignty crisis. Sheinbaum deploys 10K NG to border to preempt tariffs. DEA access restricted.' },
+      { id:'mx-e6', date:'2025-07-01', cat:'reform',   title:'SEDENA granted national security intelligence authority',        desc:'Legislative reform. Military now authorized to generate and act on national security intelligence without civilian co-lead.' },
+      { id:'mx-e7', date:'2026-02-22', cat:'military', title:'El Mencho (CJNG) killed in joint SEDENA/SEMAR operation',       desc:'US JITC-CC intelligence and planning support. 25 National Guard members killed. Largest cartel takedown in years.' },
+    ],
+    keyData: [
+      { name: 'Active military',       value: '~277K', sub: 'SEDENA + SEMAR · 2025' },
+      { name: 'National Guard (SEDENA)', value: '~120K', sub: 'formerly civilian mandate' },
+      { name: 'Homicides (2025)',       value: '23,374',sub: '−30% vs 2024 · 17.5/100K' },
+      { name: 'Cartel HVTs to US',      value: '93',    sub: 'transferred in 12 months' },
+    ],
+  },
+};
+
 // ── WHAT TO WATCH ─────────────────────────────────────────────
 const COUNTRY_WATCH = {
   "Brazil":      "Monitor civil-military normalization after Bolsonaro-era politicization; Army Commander Paiva's posture heading into the 2026 election cycle is the key CMR indicator.",
