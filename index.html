@@ -6190,7 +6190,7 @@ function renderCpStaticMap(){
   const name = cpProfileMapContext?.name;
   if(!el || !svgNode || !name) return;
   if(!worldFeatures){
-    initOverviewMap();
+    initExploreMap();
     if(!worldFeatures) return;
   }
   const cpNumId = COUNTRY_NAME_TO_ID[name];
@@ -6421,7 +6421,7 @@ function renderCpRegionalMap(){
   if(mapLabel) mapLabel.textContent = `Regional ${layerConfig.label}`;
 
   if(!worldFeatures){
-    initOverviewMap();
+    initExploreMap();
     return;
   }
 
@@ -6595,8 +6595,8 @@ function getEventCountryKey(ev){
   return ev?.display_country || ev?.country || null;
 }
 
-async function initOverviewMap(){
-  const wrap=document.getElementById('ov-map-wrap');
+async function initExploreMap(){
+  const wrap=document.getElementById('explore-map-wrap');
   if(!wrap||ovTopoLoaded) return;
   ovTopoLoaded=true;
 
@@ -6680,14 +6680,14 @@ async function initOverviewMap(){
 }
 
 function ovRefreshMarkers(){
-  if(!ovTopoLoaded){ initOverviewMap(); return; }
+  if(!ovTopoLoaded){ initExploreMap(); return; }
   if(_drawChoropleth) _drawChoropleth();
 }
 
 function showOvPopup(evt,d){
   const name=COUNTRY_NAMES_MAP[+d.id];
   if(!name) return;
-  const wrap=document.getElementById('ov-map-wrap');
+  const wrap=document.getElementById('explore-map-wrap');
   const rect=wrap.getBoundingClientRect();
   let px=evt.clientX-rect.left+12, py=evt.clientY-rect.top-10;
   if(px+260>wrap.clientWidth)  px=evt.clientX-rect.left-268;
@@ -7380,7 +7380,25 @@ function exActivateCmr()      { exRenderCmr(); }
 function exRenderSpending()   { /* Task 8 */ }
 function exRenderAid()        { /* Task 9 */ }
 function exRenderCmr()        { /* Task 10 */ }
-function initExploreMap()     { /* Task 6 */ }
+
+// Map layer toggle for Scene 1
+document.addEventListener('DOMContentLoaded', () => {
+  const layerGroup = document.getElementById('ex-map-layer-group');
+  if (layerGroup) {
+    layerGroup.querySelectorAll('.ex-ctrl-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        exUpdateMapLayer(btn.dataset.layer);
+      });
+    });
+  }
+});
+
+function exUpdateMapLayer(layer) {
+  // layer: 'cmr' | 'events' | 'aid' | 'conflict'
+  // The D3 choropleth currently uses CMR status coloring.
+  // Full layer switching is a future enhancement once per-layer data arrays are available.
+  console.log('[Explore] map layer selected:', layer);
+}
 </script>
 <!-- ── Feedback Button & Panel ────────────────────────── -->
 <button class="fb-btn" id="fb-trigger" onclick="toggleFeedback()" aria-label="Submit feedback or suggestion">
