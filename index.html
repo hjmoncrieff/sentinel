@@ -1722,95 +1722,130 @@ header {
 <!--  OVERVIEW TAB                                              -->
 <!-- ══════════════════════════════════════════════════════════ -->
 <div class="tab-panel active" id="overview">
-  <div class="ov-layout">
+<div class="ov-page">
 
-    <!-- Left: project description -->
-    <div class="ov-desc-col" style="border-left:none;border-right:1px solid var(--border);">
-      <div class="ov-project-kicker">Regional Monitor</div>
-      <div class="ov-project-sentinel">SENTINEL<em>.</em></div>
-      <div class="ov-project-tagline">Civil-Military Monitor for Latin America and the Caribbean</div>
-      <div class="ov-project-body">
-        <p>Latin America is in the middle of a structural contest over who controls the gun. Across the region, the boundary between civilian government and military institution — hard-won through the democratic transitions of the 1980s and 1990s — is under pressure from multiple directions at once. In El Salvador, a president has turned the armed forces into the operational core of a permanent state of exception. In Mexico, the military now commands a national police force enshrined in the constitution. In Bolivia, an armored column rammed the doors of the presidential palace in 2024. In Brazil, coup-planning documents were found in the homes of senior officers after January 8. And in Venezuela, the FANB has become the last institutional pillar holding a collapsing regime together.</p>
-        <p>These are not isolated episodes. They reflect a regional pattern: civilian control of the military, where it exists, is increasingly conditional — contingent on political alignment, economic crisis, and the willingness of individual commanders to hold the line. SENTINEL tracks this pattern in near-real time, country by country, event by event. The question driving the project is not whether coups happen, but whether the norms and institutions that make them costly are eroding — and where the erosion is fastest.</p>
-        <p>Four special monitors provide deep analytical coverage of the region's most consequential cases: <strong>Venezuela</strong> (post-Maduro transition), <strong>Colombia</strong> (Total Peace doctrine and the FARC's JEP reckoning), <strong>El Salvador</strong> (Bukele's institutionalized exception), and <strong>Mexico</strong> (structural militarization under Sheinbaum). For methodology and theoretical framework, see the <a href="#" onclick="event.preventDefault();switchTab('about')" style="color:var(--aid);text-decoration:none;">About tab →</a></p>
-      </div>
-      <!-- Special monitors 2×2 -->
-      <div style="margin-top:20px;">
-        <div class="ov-ql-label" style="margin-bottom:10px;">Priority monitors</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <a class="ov-monitor-card" href="#" onclick="event.preventDefault();switchTab('profiles');setTimeout(()=>showCountryProfile('Venezuela'),80)">
-            <div class="ov-monitor-card-status" style="color:var(--coup);">★ Crisis — Transition</div>
-            <div class="ov-monitor-card-country">Venezuela</div>
-            <div class="ov-monitor-card-desc">Post-Op. Absolute Resolve · Rodríguez acting · FANB cohesion fragile · elections due ~Jul 2026</div>
-            <div class="ov-monitor-card-link">View full profile →</div>
-          </a>
-          <a class="ov-monitor-card" href="#" onclick="event.preventDefault();switchTab('profiles');setTimeout(()=>showCountryProfile('Colombia'),80)">
-            <div class="ov-monitor-card-status" style="color:var(--purge);">★ Complex</div>
-            <div class="ov-monitor-card-country">Colombia</div>
-            <div class="ov-monitor-card-desc">Total Peace doctrine · Petro vs. military · ELN negotiations · DDR in progress</div>
-            <div class="ov-monitor-card-link">View full profile →</div>
-          </a>
-          <a class="ov-monitor-card" href="#" onclick="event.preventDefault();switchTab('profiles');setTimeout(()=>showCountryProfile('El Salvador'),80)">
-            <div class="ov-monitor-card-status" style="color:var(--coup);">★ Crisis — Fusion</div>
-            <div class="ov-monitor-card-country">El Salvador</div>
-            <div class="ov-monitor-card-desc">48 régimen renewals · indefinite re-election · CECOT deportation hub · 504 deaths in custody</div>
-            <div class="ov-monitor-card-link">View full profile →</div>
-          </a>
-          <a class="ov-monitor-card" href="#" onclick="event.preventDefault();switchTab('profiles');setTimeout(()=>showCountryProfile('Mexico'),80)">
-            <div class="ov-monitor-card-status" style="color:var(--purge);">★ Strained</div>
-            <div class="ov-monitor-card-country">Mexico</div>
-            <div class="ov-monitor-card-desc">Sinaloa civil war · El Mencho killed · SEDENA intelligence mandate · FTO designations</div>
-            <div class="ov-monitor-card-link">View full profile →</div>
-          </a>
-        </div>
-      </div>
-
-      <div class="ov-subscribe" style="margin-top:20px;">
-        <div class="ov-subscribe-label">Weekly brief</div>
-        <div class="ov-subscribe-sub">Receive a curated summary of high-salience civil-military events every Monday morning.</div>
-        <form class="ov-subscribe-row" onsubmit="return handleSubscribe(event)">
-          <input class="ov-subscribe-input" type="email" id="sub-email" placeholder="your@email.edu" required autocomplete="email">
-          <button class="ov-subscribe-btn" type="submit">Subscribe</button>
-        </form>
-        <div id="sub-msg" style="font-family:var(--mono);font-size:9px;color:var(--reform);margin-top:6px;display:none;"></div>
-      </div>
-
-      <div class="ov-badges-wrap">
-        <div class="ov-badges-label">Powered By</div>
-        <div class="ov-badges">
-          <span class="ov-badge">GDELT</span>
-          <span class="ov-badge">ACLED</span>
-          <span class="ov-badge">InSight Crime RSS</span>
-          <span class="ov-badge">Reuters LatAm RSS</span>
-          <span class="ov-badge">BBC Mundo RSS</span>
-          <span class="ov-badge">El País América RSS</span>
-          <span class="ov-badge">NewsAPI</span>
-          <span class="ov-badge">World Bank WDI/WGI</span>
-          <span class="ov-badge">V-Dem v16</span>
-          <span class="ov-badge">USAID Greenbook</span>
-          <span class="ov-badge">Claude (Anthropic)</span>
-          <span class="ov-badge">GitHub Actions</span>
-        </div>
-      </div>
-      <div class="ov-github-link">Open-source · <a href="https://github.com" target="_blank" rel="noopener">View on GitHub</a></div>
+  <!-- §1 Hero -->
+  <section class="ov-section ov-fade">
+    <div class="ov-kicker">Regional Monitor · Latin America &amp; the Caribbean</div>
+    <div class="ov-title">SENTINEL.</div>
+    <div class="ov-tagline">Civil-Military Relations · 25 Countries · Updated Nightly</div>
+    <div class="ov-body">Latin America is in the middle of a structural contest over who controls the gun. Across the region, the boundary between civilian government and military institution — hard-won through the democratic transitions of the 1980s and 1990s — is under pressure from multiple directions at once. SENTINEL tracks this pattern in near-real time, country by country, event by event.</div>
+    <div class="ov-cta-group">
+      <a class="ov-btn-primary" href="#" onclick="event.preventDefault();switchTab('explore')">Explore the region <span class="arrow">→</span></a>
+      <a class="ov-btn-secondary" href="#" onclick="event.preventDefault();document.getElementById('ov-monitors').scrollIntoView({behavior:'smooth'})">Special monitors</a>
     </div>
-
-    <!-- Right: D3 choropleth map -->
-    <div class="ov-map-col">
-      <div class="ov-map-label">Latin America — Civil-Military Events</div>
-      <div class="ov-map-wrap" id="ov-map-wrap">
-        <svg id="ov-svg"></svg>
+    <div class="ov-stats">
+      <div class="ov-stat"><div class="ov-stat-val">25</div><div class="ov-stat-label">Countries tracked</div></div>
+      <div class="ov-stat"><div class="ov-stat-val">500+</div><div class="ov-stat-label">Events in store</div></div>
+      <div class="ov-stat"><div class="ov-stat-val">12</div><div class="ov-stat-label">Data sources</div></div>
+      <div class="ov-stat">
+        <div class="ov-coverage">
+          <span class="ov-cov-year">1990</span>
+          <span class="ov-cov-dash">——</span>
+          <span class="ov-cov-present">Present</span>
+        </div>
+        <div class="ov-cov-bar"><div class="ov-cov-fill"></div></div>
+        <div class="ov-stat-label">Historical coverage</div>
       </div>
-      <div class="ov-legend">
-        <div class="ov-legend-title">Current Event Density</div>
-        <div class="ov-legend-bar"></div>
-        <div class="ov-legend-labs"><span>Lower</span><span>Higher</span></div>
-        <div class="ov-legend-types" id="ov-legend-types"></div>
-      </div>
-      <div id="ov-popup" class="ov-popup" style="display:none;"></div>
     </div>
+  </section>
 
-  </div>
+  <!-- §2 Dashboard cards -->
+  <section class="ov-section ov-fade">
+    <div class="ov-sec-kicker">Explore the Dashboard</div>
+    <div class="ov-cards">
+      <a class="ov-card" href="#" onclick="event.preventDefault();switchTab('events')">
+        <div class="ov-card-eyebrow">Live feed</div>
+        <div class="ov-card-title">Events</div>
+        <div class="ov-card-desc">Classified event feed · Leaflet map · Filter by type, country &amp; salience</div>
+      </a>
+      <a class="ov-card" href="#" onclick="event.preventDefault();switchTab('profiles')">
+        <div class="ov-card-eyebrow">25 countries</div>
+        <div class="ov-card-title">Country Profiles</div>
+        <div class="ov-card-desc">CMR status · spending · personnel · elections · deep monitors</div>
+      </a>
+      <a class="ov-card" href="#" onclick="event.preventDefault();switchTab('transnational')">
+        <div class="ov-card-eyebrow">Transnational security</div>
+        <div class="ov-card-title">Organized Crime</div>
+        <div class="ov-card-desc">Cartel–state nexus · gang expansion · OC event feed</div>
+      </a>
+      <a class="ov-card" href="#" onclick="event.preventDefault();switchTab('us')">
+        <div class="ov-card-eyebrow">SOUTHCOM · Greenbook</div>
+        <div class="ov-card-title">US–LATAM</div>
+        <div class="ov-card-desc">Security cooperation · aid flows · FTO designations · deployments</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- §3 Special monitors -->
+  <section class="ov-section ov-fade" id="ov-monitors">
+    <div class="ov-sec-kicker">Special Monitors &amp; Focus</div>
+    <div class="ov-sec-heading">Deep analytical coverage</div>
+    <div class="ov-monitors">
+      <a class="ov-monitor-card" href="#" style="border-left-color:var(--coup)" onclick="event.preventDefault();switchTab('profiles');setTimeout(()=>showCountryProfile('Venezuela'),80)">
+        <div class="ov-mc-dot" style="background:var(--coup)"></div>
+        <div><div class="ov-mc-country">Venezuela</div><div class="ov-mc-sub">Crisis — Transition · Post-Op. Absolute Resolve · FANB cohesion fragile · elections ~Jul 2026</div></div>
+        <div class="ov-mc-arrow">›</div>
+      </a>
+      <a class="ov-monitor-card" href="#" style="border-left-color:var(--purge)" onclick="event.preventDefault();switchTab('profiles');setTimeout(()=>showCountryProfile('Colombia'),80)">
+        <div class="ov-mc-dot" style="background:var(--purge)"></div>
+        <div><div class="ov-mc-country">Colombia</div><div class="ov-mc-sub">Complex · Total Peace doctrine · Petro vs. military · ELN negotiations · DDR in progress</div></div>
+        <div class="ov-mc-arrow">›</div>
+      </a>
+      <a class="ov-monitor-card" href="#" style="border-left-color:var(--coup)" onclick="event.preventDefault();switchTab('profiles');setTimeout(()=>showCountryProfile('El Salvador'),80)">
+        <div class="ov-mc-dot" style="background:var(--coup)"></div>
+        <div><div class="ov-mc-country">El Salvador</div><div class="ov-mc-sub">Crisis — Fusion · 48 régimen renewals · indefinite re-election · CECOT deportation hub</div></div>
+        <div class="ov-mc-arrow">›</div>
+      </a>
+      <a class="ov-monitor-card" href="#" style="border-left-color:var(--purge)" onclick="event.preventDefault();switchTab('profiles');setTimeout(()=>showCountryProfile('Mexico'),80)">
+        <div class="ov-mc-dot" style="background:var(--purge)"></div>
+        <div><div class="ov-mc-country">Mexico</div><div class="ov-mc-sub">Strained · Sinaloa civil war · SEDENA intelligence mandate · FTO designations</div></div>
+        <div class="ov-mc-arrow">›</div>
+      </a>
+      <a class="ov-sf-card" href="#" onclick="event.preventDefault();switchTab('events')">
+        <div class="ov-sf-kicker">★ Special Focus</div>
+        <div class="ov-sf-title">US Military &amp; Security Operations in the Caribbean — 2025–26</div>
+        <div class="ov-sf-desc">Operation Absolute Resolve · SOUTHCOM surge · Haiti MSS · Eastern Caribbean counter-narcotics · most consequential US military activity in the hemisphere since 1994</div>
+        <span class="ov-sf-link">Read full analysis →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- §4 Subscribe -->
+  <section class="ov-section ov-fade">
+    <div class="ov-sub-card">
+      <div class="ov-sub-kicker">Weekly Brief</div>
+      <div class="ov-sub-title">Stay current on Latin American security</div>
+      <div class="ov-sub-body">A curated summary of high-salience civil-military events delivered every Monday morning.</div>
+      <form class="ov-sub-row" onsubmit="return handleSubscribe(event)">
+        <input class="ov-sub-input" type="email" id="sub-email" placeholder="your@email.edu" required autocomplete="email">
+        <button class="ov-sub-btn" type="submit">Subscribe</button>
+      </form>
+      <div id="sub-msg" style="font-family:var(--mono);font-size:10px;color:var(--reform);margin-top:8px;display:none;"></div>
+    </div>
+  </section>
+
+  <!-- §5 Under the Hood -->
+  <section class="ov-section ov-fade">
+    <div class="ov-sec-kicker">Under the Hood</div>
+    <div class="ov-hood-badges">
+      <span class="ov-hood-badge">GDELT</span>
+      <span class="ov-hood-badge">ACLED</span>
+      <span class="ov-hood-badge">InSight Crime</span>
+      <span class="ov-hood-badge">BBC Mundo</span>
+      <span class="ov-hood-badge">El País América</span>
+      <span class="ov-hood-badge">NewsAPI</span>
+      <span class="ov-hood-badge">World Bank WDI/WGI</span>
+      <span class="ov-hood-badge">V-Dem v16</span>
+      <span class="ov-hood-badge">USAID Greenbook</span>
+      <span class="ov-hood-badge">Claude · Anthropic</span>
+      <span class="ov-hood-badge">GitHub Actions · Nightly</span>
+    </div>
+    <div class="ov-hood-body">SENTINEL is an AI-first research platform. Events are ingested from 12 sources, classified by Claude Haiku using a CMR taxonomy, deduplicated by country and week, and committed to a static JSON store on a nightly cron. No server. No database.</div>
+    <a class="ov-hood-link" href="#" onclick="event.preventDefault();switchTab('about')">Framework, methodology &amp; data sources → About</a>
+  </section>
+
+</div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════════ -->
@@ -2710,7 +2745,14 @@ function switchTab(id){
   if(btn) btn.classList.add('active');
   if(panel) panel.classList.add('active');
   if(id==='events') ensureEventMap();
-  if(id==='overview') setTimeout(initOverviewMap,50);
+  if(id==='overview') {
+    if(!document.querySelector('.ov-fade.visible')) {
+      const ovObs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); ovObs.unobserve(e.target); } });
+      }, { threshold: 0.07 });
+      document.querySelectorAll('.ov-fade').forEach(el => ovObs.observe(el));
+    }
+  }
   if(id==='timeline') renderTimeline();
   if(id==='transnational') { renderTsEvents(); initSecurityMap(); }
   if(id==='us') { renderUsEvents(); initUsCoopMap(); }
@@ -2739,7 +2781,14 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     document.getElementById(btn.dataset.tab).classList.add('active');
     if(btn.dataset.tab==='events') ensureEventMap();
     if(btn.dataset.tab==='timeline') renderTimeline();
-    if(btn.dataset.tab==='overview') ovRefreshMarkers();
+    if(btn.dataset.tab==='overview') {
+      if(!document.querySelector('.ov-fade.visible')) {
+        const ovObs = new IntersectionObserver(entries => {
+          entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); ovObs.unobserve(e.target); } });
+        }, { threshold: 0.07 });
+        document.querySelectorAll('.ov-fade').forEach(el => ovObs.observe(el));
+      }
+    }
     if(btn.dataset.tab==='transnational') { renderTsEvents(); initSecurityMap(); }
     if(btn.dataset.tab==='us') { renderUsEvents(); initUsCoopMap(); }
     if(btn.dataset.tab==='profiles') {
@@ -6974,9 +7023,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   updatePipelineAge();
   setInterval(updatePipelineAge, 1000);
   setInterval(loadEvents, 15*60*1000);
-  initOverviewMap();
   setTimeout(renderCpRegionalMap,120);
   if(document.getElementById('events')?.classList.contains('active')) ensureEventMap();
+  // Overview fade-up observer
+  if(document.getElementById('overview') && document.getElementById('overview').classList.contains('active')) {
+    const ovObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); ovObs.unobserve(e.target); } });
+    }, { threshold: 0.07 });
+    document.querySelectorAll('.ov-fade').forEach(el => ovObs.observe(el));
+  }
 });
 
 // ── Feedback Button ────────────────────────────────────
