@@ -1494,8 +1494,18 @@ header {
 .cp2-cmr-pill.strained    { color: #8a6e1f; border-color: rgba(184,150,62,0.35); background: rgba(184,150,62,0.07); }
 .cp2-cmr-pill.crisis      { color: #8a3a2f; border-color: rgba(163,55,47,0.35); background: rgba(163,55,47,0.07); }
 .cp2-cmr-pill.authoritarian{ color: #6a2f6a; border-color: rgba(106,47,106,0.35); background: rgba(106,47,106,0.07); }
-.cp2-sm-btn { font-family: var(--mono); font-size: 8px; letter-spacing: 1px; text-transform: uppercase; color: var(--coup); background: rgba(163,55,47,0.08); border: 1px solid rgba(163,55,47,0.25); padding: 3px 9px; border-radius: 2px; cursor: pointer; } /* rgb matches --coup #a3372f */
-.cp2-sm-btn:hover { background: rgba(163,55,47,0.14); }
+.cp2-sm-btn {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(184,50,50,0.35);
+  color: var(--coup); background: rgba(184,50,50,0.06);
+  cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.cp2-sm-btn:hover { background: rgba(184,50,50,0.14); border-color: rgba(184,50,50,0.5); }
+.cp2-sm-btn.sm-active {
+  background: var(--coup); color: #fff; border-color: var(--coup);
+}
+.cp2-sm-btn.sm-active:hover { background: #a02828; border-color: #a02828; }
 
 /* Summary strip */
 .cp2-summary { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start; padding: 16px 20px; border-bottom: 1px solid var(--border); }
@@ -1740,16 +1750,18 @@ header {
   padding: 0 20px; gap: 16px; z-index: 50;
 }
 .ex-nav-btn {
-  display: flex; align-items: center; gap: 8px; cursor: pointer;
-  padding: 6px 12px; border-radius: 7px; border: 1px solid var(--border); background: transparent;
-  transition: border-color 0.15s, background 0.15s; min-width: 150px;
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  padding: 8px 14px; border-radius: 7px; border: 1px solid var(--border); background: transparent;
+  transition: border-color 0.15s, background 0.15s; min-width: 160px;
 }
 .ex-nav-btn:hover { border-color: var(--amber); background: rgba(196,122,32,0.06); }
-.ex-nav-arrow { font-size: 16px; color: var(--text-muted); flex-shrink: 0; }
-.ex-nav-label { font-family: var(--mono); font-size: 8.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); }
-.ex-nav-name { font-family: var(--sans); font-size: 12px; font-weight: 600; color: var(--text); }
-.ex-nav-prev { text-align: left; }
-.ex-nav-next { text-align: right; flex-direction: row-reverse; }
+.ex-nav-arrow { font-size: 18px; color: var(--text-muted); flex-shrink: 0; line-height: 1; }
+.ex-nav-text { display: flex; flex-direction: column; gap: 1px; }
+.ex-nav-label { font-family: var(--mono); font-size: 9px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); line-height: 1.2; }
+.ex-nav-name { font-family: var(--sans); font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.ex-nav-prev { justify-content: flex-start; }
+.ex-nav-next { justify-content: flex-end; flex-direction: row-reverse; }
+.ex-nav-next .ex-nav-text { text-align: right; }
 .ex-nav-center { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .ex-dots { display: flex; gap: 6px; align-items: center; }
 .ex-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); cursor: pointer; transition: background 0.2s, transform 0.2s; }
@@ -2130,14 +2142,20 @@ header {
   <div class="ex-bottom-nav">
     <button class="ex-nav-btn ex-nav-prev" id="ex-btn-prev" onclick="exGoPrev()">
       <span class="ex-nav-arrow">‹</span>
-      <div><div class="ex-nav-label">Previous</div><div class="ex-nav-name" id="ex-prev-name">Home</div></div>
+      <div class="ex-nav-text">
+        <div class="ex-nav-label">Previous</div>
+        <div class="ex-nav-name" id="ex-prev-name">Home</div>
+      </div>
     </button>
     <div class="ex-nav-center">
       <div class="ex-dots" id="ex-dots"></div>
       <div class="ex-step" id="ex-step">Scene 1 of 5</div>
     </div>
     <button class="ex-nav-btn ex-nav-next" id="ex-btn-next" onclick="exGoNext()">
-      <div><div class="ex-nav-label">Next</div><div class="ex-nav-name" id="ex-next-name">Event Timeline</div></div>
+      <div class="ex-nav-text">
+        <div class="ex-nav-label">Next</div>
+        <div class="ex-nav-name" id="ex-next-name">Event Timeline</div>
+      </div>
       <span class="ex-nav-arrow">›</span>
     </button>
   </div>
@@ -5882,6 +5900,14 @@ const SM_CAT_LABEL = {
 };
 
 function showSpecialMonitor(name) {
+  // Toggle: if already in SM view, go back to profile
+  const smBtn = document.querySelector('.cp2-sm-btn');
+  if (smBtn && smBtn.classList.contains('sm-active')) {
+    smBtn.classList.remove('sm-active');
+    showCountryProfile(name);
+    return;
+  }
+
   const countryDiv = document.getElementById('cp-country');
   const prof = COUNTRY_PROFILES[name];
   const data = SPECIAL_MONITOR_MILESTONES[name];
@@ -5989,6 +6015,12 @@ function showSpecialMonitor(name) {
 
   // Build SVG after DOM is set
   setTimeout(() => smBuildSvg(smId, merged), 0);
+
+  // Mark pill as active — re-query after re-render
+  setTimeout(() => {
+    const activeBtn = document.querySelector('.cp2-sm-btn');
+    if (activeBtn) activeBtn.classList.add('sm-active');
+  }, 0);
 }
 
 // ── SVG builder ──────────────────────────────────────────────────
@@ -7224,15 +7256,24 @@ document.addEventListener('DOMContentLoaded',()=>{
   loadEvents();
   fetch('data/cleaned/worldbank.json')
     .then(r => r.json())
-    .then(d => { window.wbData = d; })
+    .then(d => {
+      window.wbData = d;
+      if (typeof exCurrentScene !== 'undefined' && exCurrentScene === 2) exRenderSpending();
+    })
     .catch(() => { window.wbData = {}; });
   fetch('data/cleaned/greenbook.json')
     .then(r => r.json())
-    .then(d => { window.greenbookData = d; })
+    .then(d => {
+      window.greenbookData = d;
+      if (typeof exCurrentScene !== 'undefined' && exCurrentScene === 3) exRenderAid();
+    })
     .catch(() => { window.greenbookData = []; });
   fetch('data/cleaned/vdem.json')
     .then(r => r.json())
-    .then(d => { window.vdemData = d; })
+    .then(d => {
+      window.vdemData = d;
+      if (typeof exCurrentScene !== 'undefined' && exCurrentScene === 4) exRenderCmr();
+    })
     .catch(() => { window.vdemData = {}; });
   updatePipelineAge();
   setInterval(updatePipelineAge, 1000);
