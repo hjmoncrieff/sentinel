@@ -6334,6 +6334,79 @@ document.addEventListener('DOMContentLoaded',()=>{
   setTimeout(renderCpRegionalMap,120);
   if(document.getElementById('events')?.classList.contains('active')) ensureEventMap();
 });
+
+// ── Feedback Button ────────────────────────────────────
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/REPLACE_ME'; // → create form at formspree.io, paste your endpoint ID here
+
+function toggleFeedback() {
+  const panel = document.getElementById('fb-panel');
+  panel.classList.contains('open') ? closeFeedback() : openFeedback();
+}
+function openFeedback() {
+  document.getElementById('fb-panel').classList.add('open');
+}
+function closeFeedback() {
+  document.getElementById('fb-panel').classList.remove('open');
+}
+function resetFeedbackForm() {
+  document.getElementById('fb-form').reset();
+  document.getElementById('fb-form').style.display = '';
+  document.getElementById('fb-success').style.display = 'none';
+  document.getElementById('fb-error').style.display = 'none';
+  document.getElementById('fb-submit').disabled = false;
+}
+async function submitFeedback(e) {
+  e.preventDefault();
+  const category = document.getElementById('fb-category').value;
+  const country  = document.getElementById('fb-country').value;
+  const message  = document.getElementById('fb-message').value;
+  const email    = document.getElementById('fb-email').value.trim();
+  const errorEl  = document.getElementById('fb-error');
+  const submitBtn = document.getElementById('fb-submit');
+
+  const payload = {
+    category,
+    message,
+    _subject: `SENTINEL Feedback — ${category}`
+  };
+  if (country) payload.country = country;
+  if (email)   payload.email   = email;
+
+  submitBtn.disabled = true;
+  errorEl.style.display = 'none';
+
+  try {
+    const res = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok) {
+      document.getElementById('fb-form').style.display = 'none';
+      document.getElementById('fb-success').style.display = 'block';
+      setTimeout(() => { closeFeedback(); setTimeout(resetFeedbackForm, 300); }, 2000);
+    } else {
+      throw new Error('server error');
+    }
+  } catch {
+    errorEl.textContent = 'Something went wrong — try again.';
+    errorEl.style.display = 'block';
+    submitBtn.disabled = false;
+  }
+}
+
+// Close panel on outside click
+document.addEventListener('click', function(e) {
+  const panel = document.getElementById('fb-panel');
+  const btn   = document.getElementById('fb-trigger');
+  if (panel.classList.contains('open') && !panel.contains(e.target) && !btn.contains(e.target)) {
+    closeFeedback();
+  }
+});
+// Close panel on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeFeedback();
+});
 </script>
 <!-- ── Feedback Button & Panel ────────────────────────── -->
 <button class="fb-btn" id="fb-trigger" onclick="toggleFeedback()" aria-label="Submit feedback or suggestion">
