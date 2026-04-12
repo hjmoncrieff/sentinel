@@ -5971,15 +5971,15 @@ function showSpecialMonitor(name) {
   ].sort((a, b) => a.date.localeCompare(b.date));
 
   // ── Header ──────────────────────────────────────────────────
+  const safeName = name.replace(/'/g, "\\'");
   const hdrHtml = `
     <div class="sm-hdr">
-      <button class="sm-back" onclick="showCountryProfile('${name.replace(/'/g, "\\'")}')">← Profile</button>
-      <div style="margin-left:10px;">
+      <div>
         <div class="sm-name">${name}</div>
         <div class="sm-sub">${data.subtitle || ''}</div>
       </div>
       <div style="margin-left:auto;display:flex;align-items:center;gap:6px;">
-        <span class="sm-badge">★ Special Monitor</span>
+        <button class="cp2-sm-btn sm-active" onclick="showCountryProfile('${safeName}')">★ Special Monitor</button>
         <span class="sm-cmr-pill ${cmrClass}">${prof.cmrStatus} CMR</span>
       </div>
     </div>`;
