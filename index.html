@@ -1653,8 +1653,9 @@ header {
 .sm-f-btn[data-c="intl"].active     { color: #2e6b8a; border-color: rgba(46,107,138,0.35);  background: rgba(46,107,138,0.07); }
 .sm-f-btn[data-c="live"].active     { color: #9a7a14; border-color: rgba(184,150,62,0.35);  background: rgba(184,150,62,0.07); }
 
-.sm-tl-figure { overflow-x: auto; overflow-y: visible; padding-bottom: 2px; scrollbar-width: thin; scrollbar-color: var(--border2) transparent; }
-.sm-tl-figure::-webkit-scrollbar { height: 3px; }
+.sm-tl-figure { overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; scrollbar-color: var(--border2) transparent; }
+.sm-tl-figure svg { display: block; overflow: visible; }
+.sm-tl-figure::-webkit-scrollbar { height: 4px; }
 .sm-tl-figure::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 .sm-scroll-hint { padding: 6px 0 14px; font-size: 8px; font-family: var(--mono); color: var(--text-faint); display: flex; align-items: center; gap: 5px; }
 .sm-scroll-hint::before { content:''; display:inline-block; width:16px; height:1px; background:var(--border); }
@@ -6089,17 +6090,21 @@ function smBuildSvg(smId, events) {
   const svg = document.getElementById(`sm-svg-${smId}`);
   if (!svg) return;
 
-  const PAD_L = 32, PAD_R = 32, YEAR_W = 90;
-  const START = 2016, END = 2027, YEARS = END - START;
+  const PAD_L = 40, PAD_R = 40, YEAR_W = 86;
+  const DOT_R = 5.5, STEM_BASE = 20, STEP = 18;
+
+  // Date range from actual events
+  const evYears = events.map(e => parseInt(e.date));
+  const START = Math.min(...evYears, 2016);
+  const END   = Math.max(...evYears, new Date().getFullYear()) + 1;
+  const YEARS = END - START;
   const SVG_W = PAD_L + YEARS * YEAR_W + PAD_R;
-  const AXIS_Y = 110, DOT_R = 5, STEM_BASE = 18, STEP = 16;
-  const NOW = new Date().toISOString().slice(0, 10);
+  const NOW   = new Date().toISOString().slice(0, 10);
 
   function dateToX(d) {
-    const dt    = new Date(d + 'T12:00:00');
-    const start = new Date(dt.getFullYear(), 0, 1);
-    const end   = new Date(dt.getFullYear() + 1, 0, 1);
-    const t     = dt.getFullYear() + (dt - start) / (end - start);
+    const dt = new Date(d + 'T12:00:00');
+    const yr = dt.getFullYear();
+    const t  = yr + (dt - new Date(yr, 0, 1)) / (new Date(yr + 1, 0, 1) - new Date(yr, 0, 1));
     return PAD_L + ((t - START) / YEARS) * (YEARS * YEAR_W);
   }
 
@@ -6109,49 +6114,71 @@ function smBuildSvg(smId, events) {
     return el;
   }
 
-  // Collision levels
+  // Collision detection — assign levels
   const sorted = [...events].sort((a, b) => a.date.localeCompare(b.date));
   const placed = [];
   sorted.forEach(ev => {
     const x = dateToX(ev.date);
     let level = 0;
-    while (placed.some(p => p.level === level && Math.abs(p.x - x) < 38)) level++;
+    while (placed.some(p => p.level === level && Math.abs(p.x - x) < 36)) level++;
     placed.push({ ...ev, x, level });
   });
 
-  const svgH = AXIS_Y + 38;
+  const maxLevel = placed.reduce((m, p) => Math.max(m, p.level), 0);
+  // AXIS_Y is dynamic: enough room for all levels + top padding
+  const AXIS_Y = STEM_BASE + maxLevel * STEP + DOT_R + 22;
+  const svgH   = AXIS_Y + 30; // space for year labels below axis
+
   svg.setAttribute('width', SVG_W);
   svg.setAttribute('height', svgH);
   svg.setAttribute('viewBox', `0 0 ${SVG_W} ${svgH}`);
   svg.style.height = svgH + 'px';
   svg.innerHTML = '';
 
-  // Year bands
+  // Alternating year bands
   for (let yr = START; yr < END; yr++) {
-    const x = dateToX(`${yr}-01-01`);
     if ((yr - START) % 2 === 0) {
-      svg.appendChild(ns('rect', { x, y: 0, width: YEAR_W, height: svgH, fill: 'rgba(28,43,58,0.025)' }));
+      svg.appendChild(ns('rect', {
+        x: dateToX(`${yr}-01-01`), y: 0,
+        width: YEAR_W, height: AXIS_Y,
+        fill: 'rgba(0,0,0,0.02)',
+      }));
     }
   }
 
-  // Axis
-  svg.appendChild(ns('line', { x1: PAD_L, y1: AXIS_Y, x2: SVG_W - PAD_R, y2: AXIS_Y, stroke: '#c4b7a2', 'stroke-width': '1.5' }));
+  // Axis line
+  svg.appendChild(ns('line', {
+    x1: PAD_L, y1: AXIS_Y, x2: SVG_W - PAD_R, y2: AXIS_Y,
+    stroke: '#c8bfb0', 'stroke-width': '1.5',
+  }));
 
   // Year ticks + labels
-  for (let yr = START; yr <= END - 1; yr++) {
+  for (let yr = START; yr <= END; yr++) {
     const x = dateToX(`${yr}-01-01`);
-    svg.appendChild(ns('line', { x1: x, y1: AXIS_Y - 4, x2: x, y2: AXIS_Y + 4, stroke: '#c4b7a2', 'stroke-width': '1' }));
-    const lbl = ns('text', { x, y: AXIS_Y + 18, 'text-anchor': 'middle', fill: '#7a746c', 'font-family': 'DM Mono,monospace', 'font-size': '9.5', 'letter-spacing': '0.3' });
+    svg.appendChild(ns('line', { x1: x, y1: AXIS_Y - 3, x2: x, y2: AXIS_Y + 5, stroke: '#c8bfb0', 'stroke-width': '1' }));
+    const lbl = ns('text', {
+      x, y: AXIS_Y + 18,
+      'text-anchor': 'middle', fill: '#8a8278',
+      'font-family': 'DM Mono,monospace', 'font-size': '9', 'letter-spacing': '0.2',
+    });
     lbl.textContent = yr;
     svg.appendChild(lbl);
   }
 
-  // NOW line
+  // NOW dashed line
   const nowX = dateToX(NOW);
-  svg.appendChild(ns('line', { x1: nowX, y1: 2, x2: nowX, y2: AXIS_Y - 2, stroke: 'rgba(196,80,32,0.22)', 'stroke-width': '1', 'stroke-dasharray': '3,3' }));
-  const nowT = ns('text', { x: nowX + 4, y: 11, fill: 'rgba(196,80,32,0.3)', 'font-family': 'DM Mono,monospace', 'font-size': '7.5', 'letter-spacing': '0.5' });
-  nowT.textContent = 'NOW';
-  svg.appendChild(nowT);
+  if (nowX >= PAD_L && nowX <= SVG_W - PAD_R) {
+    svg.appendChild(ns('line', {
+      x1: nowX, y1: 4, x2: nowX, y2: AXIS_Y - 2,
+      stroke: 'rgba(196,122,32,0.3)', 'stroke-width': '1', 'stroke-dasharray': '3,3',
+    }));
+    const nowT = ns('text', {
+      x: nowX + 4, y: 13, fill: 'rgba(196,122,32,0.45)',
+      'font-family': 'DM Mono,monospace', 'font-size': '7.5',
+    });
+    nowT.textContent = 'NOW';
+    svg.appendChild(nowT);
+  }
 
   // Events
   placed.forEach(ev => {
@@ -6159,37 +6186,57 @@ function smBuildSvg(smId, events) {
     const stemH = STEM_BASE + ev.level * STEP;
     const dotY  = AXIS_Y - stemH;
 
+    // Stem
     svg.appendChild(ns('line', {
-      x1: ev.x, y1: AXIS_Y, x2: ev.x, y2: dotY + DOT_R,
-      stroke: color, 'stroke-width': '1', 'stroke-opacity': '0.2',
+      x1: ev.x, y1: AXIS_Y - 2, x2: ev.x, y2: dotY + DOT_R + 1,
+      stroke: color, 'stroke-width': '1', 'stroke-opacity': '0.28',
       class: `sm-stem sm-stem-${smId}-${ev.id}`,
     }));
 
-    const g = ns('g', { transform: `translate(${ev.x},${dotY})`, cursor: 'pointer', class: `sm-dot-g sm-dot-${smId}-${ev.id}`, 'data-id': ev.id, 'data-cat': ev.cat });
-    g.appendChild(ns('circle', { r: '10', fill: 'none', stroke: color, 'stroke-width': '1', 'stroke-opacity': '0', class: 'sm-dot-ring' }));
-    g.appendChild(ns('circle', { r: String(DOT_R), fill: '#F5F2ED', stroke: color, 'stroke-width': '2', class: 'sm-dot-circle' }));
-    g.appendChild(ns('circle', { r: '13', fill: 'transparent' }));
+    const g = ns('g', {
+      transform: `translate(${ev.x},${dotY})`,
+      cursor: 'pointer',
+      class: `sm-dot-g sm-dot-${smId}-${ev.id}`,
+      'data-id': ev.id, 'data-cat': ev.cat,
+    });
 
-    // Tooltip
-    const tipH = 58, tipW = 172;
-    const tipX = ev.x > SVG_W - 200 ? -(tipW + 6) : 9;
-    const tipY = -(stemH + tipH + 4);
-    const fo = ns('foreignObject', { x: tipX, y: tipY, width: tipW, height: tipH, class: `sm-tip-fo sm-tip-${smId}-${ev.id}`, style: 'display:none;pointer-events:none;' });
+    // Outer glow ring (hover)
+    g.appendChild(ns('circle', { r: '9', fill: 'none', stroke: color, 'stroke-width': '1.5', 'stroke-opacity': '0', class: 'sm-dot-ring' }));
+    // Dot: filled with tint, colored stroke
+    g.appendChild(ns('circle', {
+      r: String(DOT_R), fill: color, 'fill-opacity': '0.18',
+      stroke: color, 'stroke-width': '1.8', class: 'sm-dot-circle',
+    }));
+    // Invisible hit area
+    g.appendChild(ns('circle', { r: '12', fill: 'transparent' }));
+
+    // Tooltip — flip to below axis if dot is in top third of chart
+    const tipW = 178, tipH = 60;
+    const flipBelow = dotY < svgH * 0.3;
+    const tipX = ev.x > SVG_W - tipW - 20 ? -(tipW + 8) : 10;
+    const tipY = flipBelow ? (AXIS_Y - dotY + 6) : -(stemH + tipH + 6);
+    const fo = ns('foreignObject', {
+      x: tipX, y: tipY, width: tipW, height: tipH,
+      class: `sm-tip-fo sm-tip-${smId}-${ev.id}`,
+      style: 'display:none;pointer-events:none;',
+    });
     const div = document.createElement('div');
-    div.style.cssText = `background:#F5F2ED;border:1px solid #D8D0C4;border-radius:4px;padding:7px 9px;font-size:10px;color:#5A6470;line-height:1.4;font-family:'DM Sans',sans-serif;box-shadow:0 2px 8px rgba(28,43,58,0.1);`;
-    div.innerHTML = `<div style="font-size:7.5px;font-family:'DM Mono',monospace;color:#b5ab9d;margin-bottom:2px;">${ev.date}</div><div style="font-size:7.5px;font-family:'DM Mono',monospace;color:${color};margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px;">${SM_CAT_LABEL[ev.cat] || ev.cat}</div>${escapeHtml(ev.title)}`;
+    div.style.cssText = `background:var(--bg,#faf8f4);border:1px solid #d4c8b4;border-radius:5px;padding:7px 9px;font-size:10px;color:#4a453e;line-height:1.45;font-family:'DM Sans',sans-serif;box-shadow:0 3px 10px rgba(26,24,20,0.1);`;
+    div.innerHTML = `<div style="font-size:7.5px;font-family:'DM Mono',monospace;color:#8a8278;margin-bottom:2px;">${ev.date}</div>`
+      + `<div style="font-size:7.5px;font-family:'DM Mono',monospace;color:${color};margin-bottom:4px;text-transform:uppercase;letter-spacing:.6px;">${SM_CAT_LABEL[ev.cat] || ev.cat}</div>`
+      + `<div style="font-size:9.5px;line-height:1.4;">${escapeHtml(ev.title)}</div>`;
     fo.appendChild(div);
     g.appendChild(fo);
 
     g.addEventListener('mouseenter', () => {
       if (!g._smActive) fo.style.display = '';
-      g.querySelector('.sm-dot-ring').setAttribute('stroke-opacity', '0.3');
-      document.querySelector(`.sm-stem-${smId}-${ev.id}`)?.setAttribute('stroke-opacity', '0.55');
+      g.querySelector('.sm-dot-ring').setAttribute('stroke-opacity', '0.35');
+      document.querySelector(`.sm-stem-${smId}-${ev.id}`)?.setAttribute('stroke-opacity', '0.6');
     });
     g.addEventListener('mouseleave', () => {
       if (!g._smActive) fo.style.display = 'none';
       if (!g._smActive) g.querySelector('.sm-dot-ring').setAttribute('stroke-opacity', '0');
-      if (!g._smActive) document.querySelector(`.sm-stem-${smId}-${ev.id}`)?.setAttribute('stroke-opacity', '0.2');
+      if (!g._smActive) document.querySelector(`.sm-stem-${smId}-${ev.id}`)?.setAttribute('stroke-opacity', '0.28');
     });
     g.addEventListener('click', () => smSelectEvent(smId, ev.id));
     svg.appendChild(g);
