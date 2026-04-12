@@ -1609,7 +1609,7 @@ header {
 /* ── SPECIAL MONITOR ─────────────────────────────────────────── */
 .sm-card { display: flex; flex-direction: column; background: var(--bg); color: var(--text); font-family: var(--sans); margin: 0; }
 
-.sm-hdr { padding: 16px 28px 14px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--border); }
+.sm-hdr { padding: 16px 28px 14px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--border); background: linear-gradient(180deg, rgba(74,94,42,0.06) 0%, transparent 100%); }
 .sm-back { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); background: none; border: 1px solid var(--border); border-radius: 5px; cursor: pointer; padding: 4px 10px; transition: border-color 0.15s, color 0.15s; }
 .sm-back:hover { color: var(--amber); border-color: var(--amber); }
 .sm-name { font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
@@ -5794,12 +5794,6 @@ function showCountryProfile(name) {
   const prof = COUNTRY_PROFILES[name];
   if (!prof) return;
 
-  // Special monitor countries go straight to SM view
-  if (prof.special && SPECIAL_MONITOR_MILESTONES[name]) {
-    showSpecialMonitor(name);
-    return;
-  }
-
   const safeId   = name.replace(/ /g, '_');
   const summary  = getCountryPredictiveSummary(name);
   const stats    = COUNTRY_STATS[name]   || { spending: '—', personnel: '—', usAid: '—' };
@@ -5952,15 +5946,18 @@ function showCountryProfileGeneric(name) {
 }
 
 function showSpecialMonitor(name) {
-  // No toggle needed — showCountryProfile auto-routes specials here;
-  // back button uses showCountryProfileGeneric to avoid the loop
-
   const countryDiv = document.getElementById('cp-country');
   const prof = COUNTRY_PROFILES[name];
   const data = SPECIAL_MONITOR_MILESTONES[name];
   if (!prof || !data) { showCountryProfile(name); return; }
 
+  const safeId   = name.replace(/ /g, '_');
   const cmrClass = (prof.cmrClass || 'stable').toLowerCase();
+  const summary  = getCountryPredictiveSummary(name);
+  const stats    = COUNTRY_STATS[name] || { spending: '—', personnel: '—', usAid: '—' };
+  const watch    = COUNTRY_WATCH[name] || '';
+  const overallRiskScore = Number(summary?.overall_risk_score) || 0;
+  const overallRiskTone  = getOverallRiskTone(overallRiskScore);
 
   // Merge curated events with live pipeline events (cat='live')
   const startDate = `${data.timelineStart || 2016}-01-01`;
@@ -5976,7 +5973,7 @@ function showSpecialMonitor(name) {
   // ── Header ──────────────────────────────────────────────────
   const hdrHtml = `
     <div class="sm-hdr">
-      <button class="sm-back" onclick="showCountryProfileGeneric('${name.replace(/'/g, "\\'")}')">← Profile</button>
+      <button class="sm-back" onclick="showCountryProfile('${name.replace(/'/g, "\\'")}')">← Profile</button>
       <div style="margin-left:10px;">
         <div class="sm-name">${name}</div>
         <div class="sm-sub">${data.subtitle || ''}</div>
@@ -5984,6 +5981,35 @@ function showSpecialMonitor(name) {
       <div style="margin-left:auto;display:flex;align-items:center;gap:6px;">
         <span class="sm-badge">★ Special Monitor</span>
         <span class="sm-cmr-pill ${cmrClass}">${prof.cmrStatus} CMR</span>
+      </div>
+    </div>`;
+
+  // ── Profile analytical sections (same as showCountryProfile) ─
+  const riskNote   = `${summary?.overall_risk_level || getOverallRiskBand(overallRiskScore)} · ${summary?.leading_trend || 'steady'}`;
+  const summaryHtml = `
+    <div class="cp2-summary">
+      <div class="cp2-summary-text">${summary?.summary_text || prof.note || '—'}</div>
+      <div class="cp2-risk-box ${overallRiskTone}">
+        <div class="cp2-risk-kicker">Overall Risk</div>
+        <div class="cp2-risk-value" style="color:${getMonitorScoreColor(overallRiskScore)};">${formatMonitorValue(overallRiskScore) || '—'}</div>
+        <div class="cp2-risk-note">${riskNote}</div>
+      </div>
+    </div>`;
+
+  const radarHtml = cpBuildRadarSection(name, safeId);
+
+  const watchpoints = (summary?.watchpoints || []).length
+    ? summary.watchpoints
+    : (watch ? [watch] : ['No watchpoints available yet.']);
+  const contextHtml = `
+    <div class="cp2-context-band">
+      <div class="cp2-context-col">
+        <div class="cp2-col-kicker">Context</div>
+        <div class="cp2-context-text">${prof.note || '—'}</div>
+      </div>
+      <div class="cp2-context-col">
+        <div class="cp2-col-kicker">What to Watch</div>
+        ${watchpoints.map(w => `<div class="cp2-watch-item">${w}</div>`).join('')}
       </div>
     </div>`;
 
@@ -5995,7 +6021,11 @@ function showSpecialMonitor(name) {
     </div>`).join('');
   const briefHtml = `
     <div class="sm-brief">
-      <div class="sm-brief-kicker">★ Analytical Brief</div>
+      <div class="sm-brief-kicker" style="display:flex;align-items:center;gap:8px;">
+        <span style="flex:1;height:1px;background:var(--border);display:inline-block;"></span>
+        ★ Special Monitor · Analytical Brief
+        <span style="flex:1;height:1px;background:var(--border);display:inline-block;"></span>
+      </div>
       <div class="sm-brief-text">${data.brief || ''}</div>
       <div class="sm-brief-meta">${metaHtml}</div>
     </div>`;
@@ -6056,13 +6086,15 @@ function showSpecialMonitor(name) {
       </div>
     </div>`;
 
-  countryDiv.innerHTML = `<div class="sm-card">${hdrHtml}${briefHtml}${tlHtml}${dsHtml}</div>`;
+  countryDiv.innerHTML = `<div class="sm-card">${hdrHtml}${summaryHtml}${radarHtml}${contextHtml}${briefHtml}${tlHtml}${dsHtml}</div>`;
   countryDiv.style.display = 'block';
   countryDiv.scrollTop = 0;
   document.getElementById('cp-regional').style.display = 'none';
 
-  // Build SVG after DOM is set
-  setTimeout(() => smBuildSvg(smId, merged), 0);
+  setTimeout(() => {
+    smBuildSvg(smId, merged);
+    cpInitRadar(name, safeId);
+  }, 0);
 }
 
 // ── SVG builder ──────────────────────────────────────────────────
