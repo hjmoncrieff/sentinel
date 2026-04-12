@@ -6838,39 +6838,105 @@ function showOvPopup(evt,d){
   const maxH=availH-py;
   const clampH=Math.max(120,Math.min(380,maxH));
 
+  const layer=exCurrentMapLayer||'cmr';
+  const prof=COUNTRY_PROFILES[name]||{};
   const stats=COUNTRY_STATS[name]||{spending:'—',personnel:'—',usAid:'—'};
   const thirtyAgo=new Date(Date.now()-30*864e5).toISOString().slice(0,10);
   const cEvs=allEvents.filter(ev=>getEventCountryKey(ev)===name);
-  const recentEvs=cEvs.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).slice(0,3);
-  const count30=cEvs.filter(ev=>ev.date>=thirtyAgo).length;
 
-  const typeCts={};
-  cEvs.forEach(ev=>{ typeCts[ev.type]=(typeCts[ev.type]||0)+1; });
-  const topType=Object.entries(typeCts).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—';
+  // Layer label shown in header
+  const LAYER_LABELS={cmr:'CMR Status',events:'Event Feed',aid:'US Security Aid',conflict:'Conflict Index'};
+  const LAYER_COLORS={cmr:'var(--olive-mid)',events:'var(--purge)',aid:'var(--aid)',conflict:'var(--coup)'};
+  const layerLabel=LAYER_LABELS[layer]||'Overview';
+  const layerColor=LAYER_COLORS[layer]||'var(--text-muted)';
 
-  const evHtml=recentEvs.map(ev=>`
-    <div class="ov-popup-ev" data-id="${ev.id}">
-      <div class="ov-popup-ev-dot" style="background:${TC_HEX[ev.type]||'#6a6560'}"></div>
-      <div><span style="font-family:var(--mono);font-size:7.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">${ev.type} · ${ev.date}</span><br>${(ev.standard_title||ev.title||'Untitled event').substring(0,70)}${(ev.standard_title||ev.title||'').length>70?'…':''}</div>
-    </div>`).join('');
+  let statGrid='', bodyHtml='';
+
+  if(layer==='cmr'){
+    const CMR_COLOR={Authoritarian:'#8a1a1a',Crisis:'#b83232',Strained:'#c46e12',Stable:'#1a6e52'};
+    const sc=CMR_COLOR[prof.cmrStatus]||'#6a6560';
+    statGrid=`
+      <div class="ov-stat" style="grid-column:1/-1;border-left:3px solid ${sc};">
+        <div class="ov-stat-val" style="color:${sc};">${prof.cmrStatus||'—'}</div>
+        <div class="ov-stat-lbl">CMR Status</div>
+      </div>
+      <div class="ov-stat"><div class="ov-stat-val">${prof.regime||'—'}</div><div class="ov-stat-lbl">Regime type</div></div>
+      <div class="ov-stat"><div class="ov-stat-val">${stats.spending}</div><div class="ov-stat-lbl">Mil. % GDP</div></div>
+      <div class="ov-stat"><div class="ov-stat-val">${stats.personnel}</div><div class="ov-stat-lbl">Personnel</div></div>`;
+    const watch=typeof COUNTRY_WATCH!=='undefined'&&COUNTRY_WATCH[name];
+    bodyHtml=watch
+      ?`<div class="ov-popup-toptype">Analyst watch</div><div style="font-family:var(--sans);font-size:11px;color:var(--text-dim);line-height:1.55;">${watch}</div>`
+      :`<div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">No watch note available.</div>`;
+
+  }else if(layer==='events'){
+    const count30=cEvs.filter(ev=>ev.date>=thirtyAgo).length;
+    const typeCts={};
+    cEvs.forEach(ev=>{ typeCts[ev.type]=(typeCts[ev.type]||0)+1; });
+    const topType=Object.entries(typeCts).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—';
+    const highSal=cEvs.filter(ev=>ev.salience==='high').length;
+    statGrid=`
+      <div class="ov-stat"><div class="ov-stat-val">${count30}</div><div class="ov-stat-lbl">Events (30d)</div></div>
+      <div class="ov-stat"><div class="ov-stat-val">${cEvs.length}</div><div class="ov-stat-lbl">Total events</div></div>
+      <div class="ov-stat"><div class="ov-stat-val">${topType}</div><div class="ov-stat-lbl">Top type</div></div>
+      <div class="ov-stat"><div class="ov-stat-val">${highSal}</div><div class="ov-stat-lbl">High salience</div></div>`;
+    const recent=cEvs.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).slice(0,4);
+    const evHtml=recent.map(ev=>`
+      <div class="ov-popup-ev" data-id="${ev.id}">
+        <div class="ov-popup-ev-dot" style="background:${TC_HEX[ev.type]||'#6a6560'}"></div>
+        <div><span style="font-family:var(--mono);font-size:7.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">${ev.type} · ${ev.date}</span><br>${(ev.standard_title||ev.title||'Untitled').substring(0,68)}${(ev.standard_title||ev.title||'').length>68?'…':''}</div>
+      </div>`).join('');
+    bodyHtml=`<div class="ov-popup-toptype">Recent events</div>${evHtml||'<div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">No events in store.</div>'}`;
+
+  }else if(layer==='aid'){
+    const gbC=(window.greenbookData?.countries||[]).find(c=>c.country===name);
+    const totalMil=gbC?'$'+(gbC.total_military/1e6).toFixed(1)+'M':'—';
+    const totalEco=gbC?'$'+((gbC.series||[]).reduce((s,r)=>s+(r.economic||0),0)/1e6).toFixed(1)+'M':'—';
+    const aidEvs=cEvs.filter(ev=>ev.type==='aid');
+    statGrid=`
+      <div class="ov-stat"><div class="ov-stat-val">${stats.usAid}</div><div class="ov-stat-lbl">FY25 est.</div></div>
+      <div class="ov-stat"><div class="ov-stat-val">${totalMil}</div><div class="ov-stat-lbl">Military (all-time)</div></div>
+      <div class="ov-stat"><div class="ov-stat-val">${totalEco}</div><div class="ov-stat-lbl">Economic (all-time)</div></div>
+      <div class="ov-stat"><div class="ov-stat-val">${aidEvs.length}</div><div class="ov-stat-lbl">Aid events</div></div>`;
+    const recentAid=aidEvs.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).slice(0,3);
+    const aidHtml=recentAid.map(ev=>`
+      <div class="ov-popup-ev" data-id="${ev.id}">
+        <div class="ov-popup-ev-dot" style="background:var(--aid)"></div>
+        <div><span style="font-family:var(--mono);font-size:7.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">aid · ${ev.date}</span><br>${(ev.standard_title||ev.title||'Untitled').substring(0,68)}${(ev.standard_title||ev.title||'').length>68?'…':''}</div>
+      </div>`).join('');
+    bodyHtml=`<div class="ov-popup-toptype">Recent aid events</div>${aidHtml||'<div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">No aid events in store.</div>'}`;
+
+  }else{ // conflict
+    const vC=(window.vdemData?.countries||[]).find(c=>c.country===name);
+    const milExec=vC&&vC.mil_exec!=null?vC.mil_exec.toFixed(2):'—';
+    const polyarchy=vC&&vC.polyarchy!=null?vC.polyarchy.toFixed(2):'—';
+    const conflEvs=cEvs.filter(ev=>['conflict','coup','protest'].includes(ev.type));
+    const count30=conflEvs.filter(ev=>ev.date>=thirtyAgo).length;
+    statGrid=`
+      <div class="ov-stat"><div class="ov-stat-val">${milExec}</div><div class="ov-stat-lbl">Mil. constraint (V-Dem)</div></div>
+      <div class="ov-stat"><div class="ov-stat-val">${polyarchy}</div><div class="ov-stat-lbl">Polyarchy</div></div>
+      <div class="ov-stat"><div class="ov-stat-val">${conflEvs.length}</div><div class="ov-stat-lbl">Conflict events</div></div>
+      <div class="ov-stat"><div class="ov-stat-val">${count30}</div><div class="ov-stat-lbl">Active (30d)</div></div>`;
+    const recentConfl=conflEvs.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).slice(0,3);
+    const conflHtml=recentConfl.map(ev=>`
+      <div class="ov-popup-ev" data-id="${ev.id}">
+        <div class="ov-popup-ev-dot" style="background:${TC_HEX[ev.type]||'#6a6560'}"></div>
+        <div><span style="font-family:var(--mono);font-size:7.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">${ev.type} · ${ev.date}</span><br>${(ev.standard_title||ev.title||'Untitled').substring(0,68)}${(ev.standard_title||ev.title||'').length>68?'…':''}</div>
+      </div>`).join('');
+    bodyHtml=`<div class="ov-popup-toptype">Conflict & political events</div>${conflHtml||'<div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">No conflict events in store.</div>'}`;
+  }
 
   const popup=document.getElementById('ov-popup');
   popup.innerHTML=`
     <div class="ov-popup-hdr">
-      <span class="ov-popup-country">${name}</span>
+      <div>
+        <div style="font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:0.8px;color:${layerColor};margin-bottom:2px;">${layerLabel}</div>
+        <span class="ov-popup-country">${name}</span>
+      </div>
       <button class="ov-popup-close" id="ov-popup-x">×</button>
     </div>
     <div class="ov-popup-scroll">
-      <div class="ov-stat-grid">
-        <div class="ov-stat"><div class="ov-stat-val">${count30}</div><div class="ov-stat-lbl">Events (30d)</div></div>
-        <div class="ov-stat"><div class="ov-stat-val">${stats.spending}</div><div class="ov-stat-lbl">Mil. Spending</div></div>
-        <div class="ov-stat"><div class="ov-stat-val">${stats.personnel}</div><div class="ov-stat-lbl">Personnel</div></div>
-        <div class="ov-stat"><div class="ov-stat-val">${stats.usAid}</div><div class="ov-stat-lbl">US Aid FY25</div></div>
-      </div>
-      <div class="ov-popup-body">
-        <div class="ov-popup-toptype">Top type: <span>${topType}</span></div>
-        ${evHtml||'<div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">No events in store yet.</div>'}
-      </div>
+      <div class="ov-stat-grid">${statGrid}</div>
+      <div class="ov-popup-body">${bodyHtml}</div>
     </div>
     <div class="ov-popup-footer">
       <button class="ov-view-profile" data-country="${name}">View Full Profile →</button>
