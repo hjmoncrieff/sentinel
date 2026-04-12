@@ -1717,6 +1717,42 @@ header {
   overflow: hidden;
   height: calc(100vh - 50px - 28px); /* 50px header + 28px log bar */
 }
+
+/* Map legend */
+.ov-legend {
+  position: absolute; bottom: 16px; left: 16px; z-index: 10;
+  background: rgba(250,248,244,0.94); backdrop-filter: blur(10px);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 10px 13px; display: flex; flex-direction: column; gap: 5px;
+  pointer-events: none;
+}
+.ov-legend-type { display: flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 9.5px; color: var(--text-dim); letter-spacing: 0.3px; white-space: nowrap; }
+.ov-legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+
+/* Map country popup */
+.ov-popup {
+  position: absolute; z-index: 20;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; box-shadow: 0 6px 24px rgba(26,24,20,0.14);
+  width: 240px; overflow: hidden; font-family: var(--sans);
+}
+.ov-popup-hdr { padding: 10px 13px 9px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); background: var(--surface); }
+.ov-popup-country { font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--text); }
+.ov-popup-close { background: none; border: none; cursor: pointer; font-size: 16px; color: var(--text-muted); padding: 0; line-height: 1; }
+.ov-popup-close:hover { color: var(--text); }
+.ov-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border-bottom: 1px solid var(--border); }
+.ov-stat { background: var(--bg); padding: 8px 10px; }
+.ov-stat-val { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--text); }
+.ov-stat-lbl { font-family: var(--mono); font-size: 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
+.ov-popup-body { padding: 8px 12px; }
+.ov-popup-toptype { font-family: var(--mono); font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.ov-popup-toptype span { color: var(--text); font-weight: 600; }
+.ov-popup-ev { display: flex; align-items: flex-start; gap: 7px; padding: 4px 0; cursor: pointer; }
+.ov-popup-ev:hover .ov-popup-ev-dot + div { color: var(--text); }
+.ov-popup-ev-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.ov-popup-footer { padding: 8px 12px; border-top: 1px solid var(--border); }
+.ov-view-profile { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.5px; text-transform: uppercase; background: var(--olive-dark); color: #fff; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; width: 100%; transition: background 0.15s; }
+.ov-view-profile:hover { background: var(--olive-mid); }
 .ex-scene-wrap {
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -1973,6 +2009,12 @@ header {
       <div class="ex-scene-body">
         <div id="explore-map-wrap" style="position:absolute;inset:0;">
           <svg id="ov-svg" style="width:100%;height:100%;display:block;"></svg>
+          <!-- Legend — bottom left -->
+          <div id="ov-legend" class="ov-legend">
+            <div id="ov-legend-types"></div>
+          </div>
+          <!-- Country popup — positioned by JS -->
+          <div id="ov-popup" class="ov-popup" style="display:none;"></div>
         </div>
       </div>
     </div>
