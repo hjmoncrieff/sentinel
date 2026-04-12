@@ -1734,7 +1734,12 @@ header {
   position: absolute; z-index: 20;
   background: var(--bg); border: 1px solid var(--border);
   border-radius: 10px; box-shadow: 0 6px 24px rgba(26,24,20,0.14);
-  width: 240px; overflow: hidden; font-family: var(--sans);
+  width: 240px; font-family: var(--sans);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.ov-popup-scroll {
+  overflow-y: auto; flex: 1;
 }
 .ov-popup-hdr { padding: 10px 13px 9px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); background: var(--surface); }
 .ov-popup-country { font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--text); }
@@ -6825,9 +6830,13 @@ function showOvPopup(evt,d){
   if(!name) return;
   const wrap=document.getElementById('explore-map-wrap');
   const rect=wrap.getBoundingClientRect();
+  const NAV_H=56, POPUP_W=252, PAD=10;
+  const availH=wrap.clientHeight-NAV_H-PAD;
   let px=evt.clientX-rect.left+12, py=evt.clientY-rect.top-10;
-  if(px+260>wrap.clientWidth)  px=evt.clientX-rect.left-268;
-  if(py+340>wrap.clientHeight) py=Math.max(0,wrap.clientHeight-345);
+  if(px+POPUP_W>wrap.clientWidth) px=Math.max(PAD,evt.clientX-rect.left-POPUP_W-8);
+  if(py<PAD) py=PAD;
+  const maxH=availH-py;
+  const clampH=Math.max(120,Math.min(380,maxH));
 
   const stats=COUNTRY_STATS[name]||{spending:'—',personnel:'—',usAid:'—'};
   const thirtyAgo=new Date(Date.now()-30*864e5).toISOString().slice(0,10);
@@ -6851,23 +6860,26 @@ function showOvPopup(evt,d){
       <span class="ov-popup-country">${name}</span>
       <button class="ov-popup-close" id="ov-popup-x">×</button>
     </div>
-    <div class="ov-stat-grid">
-      <div class="ov-stat"><div class="ov-stat-val">${count30}</div><div class="ov-stat-lbl">Events (30d)</div></div>
-      <div class="ov-stat"><div class="ov-stat-val">${stats.spending}</div><div class="ov-stat-lbl">Mil. Spending</div></div>
-      <div class="ov-stat"><div class="ov-stat-val">${stats.personnel}</div><div class="ov-stat-lbl">Personnel</div></div>
-      <div class="ov-stat"><div class="ov-stat-val">${stats.usAid}</div><div class="ov-stat-lbl">US Aid FY25</div></div>
-    </div>
-    <div class="ov-popup-body">
-      <div class="ov-popup-toptype">Top type: <span>${topType}</span></div>
-      ${evHtml||'<div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">No events in store yet.</div>'}
+    <div class="ov-popup-scroll">
+      <div class="ov-stat-grid">
+        <div class="ov-stat"><div class="ov-stat-val">${count30}</div><div class="ov-stat-lbl">Events (30d)</div></div>
+        <div class="ov-stat"><div class="ov-stat-val">${stats.spending}</div><div class="ov-stat-lbl">Mil. Spending</div></div>
+        <div class="ov-stat"><div class="ov-stat-val">${stats.personnel}</div><div class="ov-stat-lbl">Personnel</div></div>
+        <div class="ov-stat"><div class="ov-stat-val">${stats.usAid}</div><div class="ov-stat-lbl">US Aid FY25</div></div>
+      </div>
+      <div class="ov-popup-body">
+        <div class="ov-popup-toptype">Top type: <span>${topType}</span></div>
+        ${evHtml||'<div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">No events in store yet.</div>'}
+      </div>
     </div>
     <div class="ov-popup-footer">
       <button class="ov-view-profile" data-country="${name}">View Full Profile →</button>
     </div>`;
 
-  popup.style.display='block';
+  popup.style.display='flex';
   popup.style.left=px+'px';
   popup.style.top=py+'px';
+  popup.style.maxHeight=clampH+'px';
 
   popup.querySelector('#ov-popup-x').onclick=()=>{ popup.style.display='none'; };
   popup.querySelectorAll('.ov-popup-ev').forEach(row=>{
