@@ -2003,12 +2003,20 @@ header {
       <div class="ex-scene-header">
         <div><div class="ex-scene-kicker">Scene 1 of 5</div><div class="ex-scene-title">Regional Overview</div></div>
         <div class="ex-controls">
-          <div class="ex-ctrl-group" id="ex-map-layer-group">
-            <button class="ex-ctrl-btn ex-active-ctrl" data-layer="cmr">CMR Status</button>
-            <button class="ex-ctrl-btn" data-layer="events">Events</button>
-            <button class="ex-ctrl-btn" data-layer="aid">US Aid</button>
-            <button class="ex-ctrl-btn" data-layer="conflict">Conflict</button>
-          </div>
+          <select id="ex-map-layer-select" class="filter-select" onchange="exUpdateMapLayer(this.value)" style="font-size:9.5px;padding:5px 10px;">
+            <optgroup label="Analytical">
+              <option value="overall_risk">Overall Risk</option>
+              <option value="regime_vulnerability">Regime Vulnerability</option>
+              <option value="militarization">Militarization</option>
+              <option value="security_fragmentation">Security Fragmentation</option>
+            </optgroup>
+            <optgroup label="Data Layers">
+              <option value="cmr">CMR Status</option>
+              <option value="events">Events</option>
+              <option value="aid">US Aid</option>
+              <option value="conflict">Conflict Index</option>
+            </optgroup>
+          </select>
         </div>
       </div>
       <div class="ex-scene-body">
@@ -2337,30 +2345,9 @@ header {
       </div>
     </div>
     <div class="page-main">
-      <div class="context-map-grid">
-        <div class="context-panel">
-          <div class="tab-intro-block">
-            <div class="tab-intro-title" data-i18n="intro.us">US-LatAm</div>
-            US security cooperation is a central variable in Latin American CMR: it shapes military doctrine, equipment, training culture, and — in some cases — institutional loyalty. The Greenbook tracks US foreign aid obligations back to 1946 in constant dollars. Current security programs (FMF, IMET, INCLE, Section 333, NADR) represent an estimated <strong>$1.8B annually</strong> to the region in FY2025. This tab documents historical flows, active programs, US military installations, and the dramatic operational expansion since January 2025 — including the most consequential US military action in the hemisphere since Panama 1989.
-          </div>
-          <div class="context-panel-note">Map key: darker blue indicates higher FY2025 cooperation intensity. Sanctioned or inactive partners are shown separately to keep the regional picture readable.</div>
-        </div>
-        <div class="context-map-card">
-          <div class="us-coop-map-wrap" id="us-coop-map-wrap">
-            <div class="context-map-label">US Security Cooperation Intensity — FY2025</div>
-            <svg id="us-coop-svg" style="width:100%;height:100%;display:block;"></svg>
-            <div class="us-coop-tooltip" id="us-coop-tooltip"></div>
-            <div class="context-map-legend">
-              <div style="font-family:var(--mono);font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Aid Intensity (FY2025)</div>
-              <div style="height:8px;width:130px;border-radius:1px;background:linear-gradient(to right,#d4e4f5,#1a538f);"></div>
-              <div style="display:flex;justify-content:space-between;width:130px;margin-top:3px;font-family:var(--mono);font-size:7.5px;color:var(--text-muted);"><span>Low</span><span>High ($461M)</span></div>
-              <div style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
-                <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div style="width:8px;height:8px;border-radius:2px;background:#e8e4dc;border:1px solid #ccc;flex-shrink:0;"></div>No active coop</div>
-                <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div style="width:8px;height:8px;border-radius:2px;background:#c9b8a4;border:1px solid #bbb;flex-shrink:0;"></div>Sanctioned</div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="tab-intro-block" style="margin-bottom:24px;">
+        <div class="tab-intro-title" data-i18n="intro.us">US-LatAm</div>
+        US security cooperation is a central variable in Latin American CMR: it shapes military doctrine, equipment, training culture, and — in some cases — institutional loyalty. The Greenbook tracks US foreign aid obligations back to 1946 in constant dollars. Current security programs (FMF, IMET, INCLE, Section 333, NADR) represent an estimated <strong>$1.8B annually</strong> to the region in FY2025. This tab documents historical flows, active programs, US military installations, and the dramatic operational expansion since January 2025 — including the most consequential US military action in the hemisphere since Panama 1989.
       </div>
       <!-- ── CARIBBEAN OPERATIONS SPECIAL SECTION ─────────────── -->
       <div class="tab-focus-block special-monitor" id="us-sf-block" onclick="toggleUsSF(event)">
@@ -2551,35 +2538,12 @@ header {
     <div id="cp-regional" style="padding:24px 28px 40px;overflow-y:auto;">
 
       <div class="cp-region-shell">
-        <div class="cp-region-map-col">
-          <div class="context-map-card">
-            <div class="cp-regional-map-wrap" id="cp-regional-map-wrap">
-              <div class="context-map-label">Regional Political Risk Monitor</div>
-              <div class="context-map-layer-switch" id="cp-map-layer-switch">
-                <button class="context-map-layer-btn active" data-layer="overall_risk">Overall Risk</button>
-                <button class="context-map-layer-btn" data-layer="regime_vulnerability">Regime Vulnerability</button>
-                <button class="context-map-layer-btn" data-layer="militarization">Militarization</button>
-                <button class="context-map-layer-btn" data-layer="security_fragmentation">Security Fragmentation</button>
-              </div>
-              <svg id="cp-regional-map-svg" style="width:100%;height:100%;display:block;"></svg>
-              <div class="cp-regional-tooltip" id="cp-regional-tooltip"></div>
-              <div class="context-map-legend">
-                <div id="cp-map-legend-title" style="font-family:var(--mono);font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Overall Risk</div>
-                <div style="display:flex;flex-direction:column;gap:4px;">
-                  <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div class="mini-legend-swatch" style="background:#f1f0e1;"></div>Lower</div>
-                  <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div class="mini-legend-swatch" style="background:#a8ae72;"></div>Intermediate</div>
-                  <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:7.5px;color:var(--text-dim);letter-spacing:0.3px;text-transform:uppercase;"><div class="mini-legend-swatch" style="background:#556b2f;"></div>Higher</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="cp-region-brief-col">
+        <div class="cp-region-brief-col" style="flex:1;">
           <div class="cp-brief-panel">
             <div class="cp-brief-kicker">Regional Monitor</div>
             <div class="cp-brief-title" id="sr-title">Latin America &amp; the Caribbean</div>
             <div class="cp-brief-copy" id="sr-summary"></div>
-            <div class="cp-brief-note">The map tracks regime vulnerability across the visible set. The construct readout below breaks that picture into regime vulnerability, militarization, and security fragmentation so the regional view reads like an analytical monitor rather than a country list.</div>
+            <div class="cp-brief-note">The regional analytical map has moved to the <a href="#" onclick="switchTab('explore');return false;" style="color:var(--amber);">Explore tab</a> — use the layer selector to switch between Overall Risk, Regime Vulnerability, Militarization, and Security Fragmentation views.</div>
           </div>
           <div class="cp-brief-panel">
             <div class="cp-brief-kicker">Construct Snapshot</div>
@@ -6698,7 +6662,7 @@ document.querySelectorAll('#cp-map-layer-switch [data-layer]').forEach(btn=>{
 applyProfileFilters();
 
 let ovProjection=null, ovSvg=null, ovTopoLoaded=false, _drawChoropleth=null;
-let exCurrentMapLayer = 'cmr';
+let exCurrentMapLayer = 'overall_risk';
 
 function getEventCountryKey(ev){
   return ev?.display_country || ev?.country || null;
@@ -6764,6 +6728,21 @@ async function initExploreMap(){
 
   function drawChoropleth() {
     const layer = exCurrentMapLayer;
+    // ── Analytical layers (use existing scoring engine) ──
+    if (['overall_risk','regime_vulnerability','militarization','security_fragmentation'].includes(layer)) {
+      const cfg = getRegionalLayerConfig(layer);
+      const scores = {};
+      Object.keys(COUNTRY_PROFILES).forEach(n => { scores[n] = cfg.score(n) || 0; });
+      const ANAL_LEGEND = {
+        overall_risk:          [['Lower risk','#f1f0e1'],['Moderate','#a8ae72'],['Elevated','#556b2f']],
+        regime_vulnerability:  [['Stable','#f1f0e1'],['Stressed','#a8ae72'],['Vulnerable','#556b2f']],
+        militarization:        [['Low','#f1f0e1'],['Moderate','#a8ae72'],['High','#556b2f']],
+        security_fragmentation:[['Low','#f1f0e1'],['Fragmented','#a8ae72'],['High','#556b2f']]
+      };
+      addPaths(n => n && scores[n] != null ? getMilitarizationColor(scores[n]) : '#e0d8cc');
+      updateLegend(ANAL_LEGEND[layer]);
+      return;
+    }
     if (layer === 'cmr') {
       const CMR_COLOR = { Authoritarian:'#8a1a1a', Crisis:'#b83232', Strained:'#c46e12', Stable:'#1a6e52' };
       addPaths(n => n ? (CMR_COLOR[COUNTRY_PROFILES[n]?.cmrStatus] || '#c0b89a') : '#e0d8cc');
@@ -6845,14 +6824,96 @@ function showOvPopup(evt,d){
   const cEvs=allEvents.filter(ev=>getEventCountryKey(ev)===name);
 
   // Layer label shown in header
-  const LAYER_LABELS={cmr:'CMR Status',events:'Event Feed',aid:'US Security Aid',conflict:'Conflict Index'};
-  const LAYER_COLORS={cmr:'var(--olive-mid)',events:'var(--purge)',aid:'var(--aid)',conflict:'var(--coup)'};
+  const LAYER_LABELS={
+    cmr:'CMR Status',events:'Event Feed',aid:'US Security Aid',conflict:'Conflict Index',
+    overall_risk:'Overall Risk',regime_vulnerability:'Regime Vulnerability',
+    militarization:'Militarization',security_fragmentation:'Security Fragmentation'
+  };
+  const LAYER_COLORS={
+    cmr:'var(--olive-mid)',events:'var(--purge)',aid:'var(--aid)',conflict:'var(--coup)',
+    overall_risk:'#6f7f3d',regime_vulnerability:'var(--purge)',
+    militarization:'var(--exercise)',security_fragmentation:'var(--oc)'
+  };
   const layerLabel=LAYER_LABELS[layer]||'Overview';
   const layerColor=LAYER_COLORS[layer]||'var(--text-muted)';
 
   let statGrid='', bodyHtml='';
 
-  if(layer==='cmr'){
+  // ── Analytical layer popups ──
+  if(['overall_risk','regime_vulnerability','militarization','security_fragmentation'].includes(layer)){
+    const cfg=getRegionalLayerConfig(layer);
+    const score=cfg.score(name)||0;
+    const scoreColor=getMonitorScoreColor(score);
+    const detail=cfg.detail(name);
+    const rv=getCountryRiskConstruct(name,'regime_vulnerability');
+    const mil=getCountryRiskConstruct(name,'militarization');
+    const sf=getCountryRiskConstruct(name,'security_fragmentation');
+    const summary=getCountryPredictiveSummary(name);
+
+    if(layer==='overall_risk'){
+      statGrid=`
+        <div class="ov-stat" style="grid-column:1/-1;border-left:3px solid ${scoreColor};">
+          <div class="ov-stat-val" style="color:${scoreColor};">${score}/100</div>
+          <div class="ov-stat-lbl">Overall Risk Score</div>
+        </div>
+        <div class="ov-stat"><div class="ov-stat-val" style="color:${getMonitorScoreColor(rv?.score||0)};">${rv?.score||'—'}</div><div class="ov-stat-lbl">Regime Vuln.</div></div>
+        <div class="ov-stat"><div class="ov-stat-val" style="color:${getMonitorScoreColor(mil?.score||0)};">${mil?.score||'—'}</div><div class="ov-stat-lbl">Militarization</div></div>
+        <div class="ov-stat"><div class="ov-stat-val" style="color:${getMonitorScoreColor(sf?.score||0)};">${sf?.score||'—'}</div><div class="ov-stat-lbl">Sec. Fragmentation</div></div>`;
+      const outlook=summary?.overall_risk_level||'—';
+      const trend=summary?.leading_trend||'steady';
+      bodyHtml=`<div class="ov-popup-toptype">Outlook: <span>${outlook} · ${trend}</span></div>`
+        +(summary?.summary?`<div style="font-family:var(--sans);font-size:11px;color:var(--text-dim);line-height:1.5;">${summary.summary.substring(0,200)}…</div>`:'');
+
+    }else if(layer==='regime_vulnerability'){
+      const rc=rv;
+      statGrid=`
+        <div class="ov-stat" style="grid-column:1/-1;border-left:3px solid ${scoreColor};">
+          <div class="ov-stat-val" style="color:${scoreColor};">${score}/100</div>
+          <div class="ov-stat-lbl">Regime Vulnerability</div>
+        </div>
+        <div class="ov-stat"><div class="ov-stat-val">${rc?.trend_label||'stable'}</div><div class="ov-stat-lbl">Trend</div></div>
+        <div class="ov-stat"><div class="ov-stat-val">${prof.cmrStatus||'—'}</div><div class="ov-stat-lbl">CMR Status</div></div>
+        <div class="ov-stat"><div class="ov-stat-val">${prof.regime||'—'}</div><div class="ov-stat-lbl">Regime type</div></div>`;
+      const coupEvs=cEvs.filter(ev=>['coup','purge'].includes(ev.type));
+      const coupHtml=coupEvs.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).slice(0,3).map(ev=>`
+        <div class="ov-popup-ev" data-id="${ev.id}">
+          <div class="ov-popup-ev-dot" style="background:${TC_HEX[ev.type]||'#6a6560'}"></div>
+          <div><span style="font-family:var(--mono);font-size:7.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">${ev.type} · ${ev.date}</span><br>${(ev.standard_title||ev.title||'Untitled').substring(0,68)}…</div>
+        </div>`).join('');
+      bodyHtml=`<div class="ov-popup-toptype">Coup & purge events</div>${coupHtml||'<div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">None in store.</div>'}`;
+
+    }else if(layer==='militarization'){
+      const rc=mil;
+      statGrid=`
+        <div class="ov-stat" style="grid-column:1/-1;border-left:3px solid ${scoreColor};">
+          <div class="ov-stat-val" style="color:${scoreColor};">${score}/100</div>
+          <div class="ov-stat-lbl">Militarization</div>
+        </div>
+        <div class="ov-stat"><div class="ov-stat-val">${stats.spending}</div><div class="ov-stat-lbl">Mil. % GDP</div></div>
+        <div class="ov-stat"><div class="ov-stat-val">${stats.personnel}</div><div class="ov-stat-lbl">Personnel</div></div>
+        <div class="ov-stat"><div class="ov-stat-val">${rc?.trend_label||'stable'}</div><div class="ov-stat-lbl">Trend</div></div>`;
+      bodyHtml=`<div class="ov-popup-toptype">Detail: <span>${detail}</span></div>`;
+
+    }else{ // security_fragmentation
+      const rc=sf;
+      const ocConflEvs=cEvs.filter(ev=>['oc','conflict'].includes(ev.type));
+      statGrid=`
+        <div class="ov-stat" style="grid-column:1/-1;border-left:3px solid ${scoreColor};">
+          <div class="ov-stat-val" style="color:${scoreColor};">${score}/100</div>
+          <div class="ov-stat-lbl">Security Fragmentation</div>
+        </div>
+        <div class="ov-stat"><div class="ov-stat-val">${ocConflEvs.length}</div><div class="ov-stat-lbl">OC/conflict events</div></div>
+        <div class="ov-stat"><div class="ov-stat-val">${ocConflEvs.filter(ev=>ev.date>=thirtyAgo).length}</div><div class="ov-stat-lbl">Active (30d)</div></div>
+        <div class="ov-stat"><div class="ov-stat-val">${rc?.trend_label||'stable'}</div><div class="ov-stat-lbl">Trend</div></div>`;
+      const fragHtml=ocConflEvs.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).slice(0,3).map(ev=>`
+        <div class="ov-popup-ev" data-id="${ev.id}">
+          <div class="ov-popup-ev-dot" style="background:${TC_HEX[ev.type]||'#6a6560'}"></div>
+          <div><span style="font-family:var(--mono);font-size:7.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">${ev.type} · ${ev.date}</span><br>${(ev.standard_title||ev.title||'Untitled').substring(0,68)}…</div>
+        </div>`).join('');
+      bodyHtml=`<div class="ov-popup-toptype">OC & conflict events</div>${fragHtml||'<div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">None in store.</div>'}`;
+    }
+
+  }else if(layer==='cmr'){
     const CMR_COLOR={Authoritarian:'#8a1a1a',Crisis:'#b83232',Strained:'#c46e12',Stable:'#1a6e52'};
     const sc=CMR_COLOR[prof.cmrStatus]||'#6a6560';
     statGrid=`
@@ -7854,16 +7915,9 @@ function exRenderCmr() {
   }).join('');
 }
 
-// Map layer toggle for Scene 1
+// Map layer select for Scene 1 — handled via inline onchange
 document.addEventListener('DOMContentLoaded', () => {
-  const layerGroup = document.getElementById('ex-map-layer-group');
-  if (layerGroup) {
-    layerGroup.querySelectorAll('.ex-ctrl-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        exUpdateMapLayer(btn.dataset.layer);
-      });
-    });
-  }
+  {
 
   ['ex-aid-type', 'ex-aid-period'].forEach(id => {
     const el = document.getElementById(id);
@@ -7891,10 +7945,8 @@ function toggleUsSF(evt) {
 
 function exUpdateMapLayer(layer) {
   exCurrentMapLayer = layer;
-  // Update active button state
-  document.querySelectorAll('#ex-map-layer-group .ex-ctrl-btn').forEach(b => {
-    b.classList.toggle('ex-active-ctrl', b.dataset.layer === layer);
-  });
+  const sel = document.getElementById('ex-map-layer-select');
+  if (sel && sel.value !== layer) sel.value = layer;
   if (_drawChoropleth) _drawChoropleth();
 }
 </script>
