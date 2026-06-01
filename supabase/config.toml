@@ -1,0 +1,27 @@
+project_id = "sentinel"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[studio]
+port = 54323
+
+[auth]
+site_url = "http://127.0.0.1:8000"
+additional_redirect_urls = [
+  "http://localhost:8000",
+  "http://127.0.0.1:8000",
+  "http://localhost:8766",
+  "http://127.0.0.1:8766"
+]
+
+[functions.review-action]
+verify_jwt = true

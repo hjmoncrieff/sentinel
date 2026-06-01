@@ -17,12 +17,36 @@ Thumbs.db
 # ── Editor ────────────────────────────────────────────────────
 .vscode/
 *.swp
+.claude/
+.superpowers/
+
+# ── Agent / Workspace Notes ───────────────────────────────────
+AGENTS.md
+CLAUDE.md
+UCChile_interview_prep.md
 
 # ── Rendered Docs / Local Artifacts ───────────────────────────
 README.html
 README_files/
 data/CODEBOOK.html
 data/CODEBOOK_files/
+docs/*.html
+docs/*_files/
+docs/private-*
+docs/superpowers/
+docs/ai-analyst-knowledge.md
+docs/comparative-design-notes.md
+docs/console-ui-todo.md
+docs/implementation-plan.md
+docs/local-analyst-setup.md
+docs/nsva-knowledge-notes.md
+docs/obsidian-documentation-sync.md
+docs/pipeline-operations.md
+docs/sentinel-technical-reference.md
+docs/stage-runners.md
+docs/system-workflow.md
+docs/user-guide.md
+archive/
 
 # ── SENTINEL Local Analyst Ops ────────────────────────────────
 data/review/*.local.json
@@ -43,7 +67,11 @@ data/cleaned/country_year.json
 data/raw/M3-Dataset-V1.xlsx
 data/raw/vdem.csv
 data/raw/wb_*.json
+apps/internal-tools/
 
 # ── Private Replication / Dataverse Materials ────────────────
 data/raw/Coup Latent Variable/
 data/raw/dataverse*
+
+# ── Supabase Local State ──────────────────────────────────────
+supabase/.temp/

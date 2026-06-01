@@ -128,7 +128,7 @@ registry milestones.
 ## 12. Documentation Cleanup
 
 - keep `README.md` public-facing and concise
-- keep `docs/user-guide.md` as the operator playbook
+- keep a separate local operator playbook outside the public repo
 - reduce overlap among `system-workflow`, `pipeline-operations`, and
   `implementation-plan`
 - add a short maintainer checklist for repo hygiene before releases

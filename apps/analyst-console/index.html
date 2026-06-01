@@ -1958,7 +1958,7 @@
           <button class="action-btn primary" id="register-btn" type="button">Create And Enter</button>
           <button class="action-btn" id="register-cancel-btn" type="button">Cancel</button>
         </div>
-        <div class="helper-text" id="register-note">Registration is available only through the local analyst server.</div>
+        <div class="helper-text" id="register-note">Registration is available only through the configured analyst backend.</div>
     </div>
 
     <div id="workspace-shell" class="locked">
@@ -2085,19 +2085,43 @@
       <div class="foot-copy">Analyst references on GitHub for codebook, workflow, taxonomy, and knowledge context.</div>
       <div class="foot-links">
         <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/data/CODEBOOK.md" target="_blank" rel="noopener">Codebook</a>
-        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/ai-analyst-knowledge.md" target="_blank" rel="noopener">Analyst Knowledge</a>
-        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/nsva-knowledge-notes.md" target="_blank" rel="noopener">Knowledge Bank</a>
-        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/system-workflow.md" target="_blank" rel="noopener">System Workflow</a>
+        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/security-privacy.md" target="_blank" rel="noopener">Security</a>
+        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/repo-boundaries.md" target="_blank" rel="noopener">Repo Boundaries</a>
         <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/event-taxonomy-reference.md" target="_blank" rel="noopener">Taxonomy</a>
-        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/user-guide.md" target="_blank" rel="noopener">User Guide</a>
-        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/local-analyst-setup.md" target="_blank" rel="noopener">Local Setup</a>
+        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/historical-ingestion.md" target="_blank" rel="noopener">Historical Ingestion</a>
+        <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/next-steps.md" target="_blank" rel="noopener">Roadmap</a>
         <a class="foot-link" href="https://github.com/hjmoncrieff/sentinel/blob/main/docs/architecture.md" target="_blank" rel="noopener">Architecture</a>
       </div>
     </div>
     </div>
   </div>
 
-  <script>
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+    import { SUPABASE_CONFIG } from "./supabase-config.js";
+
+    const SUPABASE_ENABLED = Boolean(SUPABASE_CONFIG?.url && SUPABASE_CONFIG?.anonKey);
+    const supabaseClient = SUPABASE_ENABLED
+      ? createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey, {
+          auth: {
+            autoRefreshToken: true,
+            persistSession: true,
+            detectSessionInUrl: true,
+          },
+        })
+      : null;
+    const SUPABASE_SNAPSHOT_KEYS = {
+      reviewQueue: "review_queue",
+      qa: "qa_report",
+      registryQa: "registry_qa_report",
+      duplicates: "duplicate_candidates",
+      council: "council_analyses",
+      canonical: "canonical_events",
+      published: "published_events",
+      countryMonitors: "country_monitors",
+      actorRegistry: "actor_registry",
+    };
+
     const DATA_PATHS = {
       reviewQueue: "../../data/review/review_queue.json",
       qa: "../../data/review/qa_report.json",
@@ -2280,6 +2304,7 @@
         role: localStorage.getItem(STORAGE_KEYS.role) || "analyst"
       },
       backend: {
+        mode: SUPABASE_ENABLED ? "supabase" : "local",
         available: false,
         authenticated: false,
         user: null
@@ -2321,6 +2346,10 @@
       }
     };
 
+    function analystSurfaceAllowed() {
+      return SUPABASE_ENABLED || isTrustedAnalystHost();
+    }
+
     async function loadJson(path) {
       const res = await fetch(path + "?t=" + Date.now());
       if (!res.ok) throw new Error(path + " failed: " + res.status);
@@ -2334,7 +2363,26 @@
       return res.json();
     }
 
-    async function apiFetch(path, options = {}) {
+    function parseApiBody(options = {}) {
+      if (!options.body) return {};
+      if (typeof options.body === "string") {
+        try {
+          return JSON.parse(options.body);
+        } catch (_error) {
+          return {};
+        }
+      }
+      return typeof options.body === "object" ? options.body : {};
+    }
+
+    function buildApiError(message, status = 500, payload = {}) {
+      const error = new Error(message);
+      error.status = status;
+      error.payload = payload;
+      return error;
+    }
+
+    async function apiFetchLocal(path, options = {}) {
       const response = await fetch(path, {
         credentials: "include",
         headers: { "Content-Type": "application/json", ...(options.headers || {}) },
@@ -2349,12 +2397,362 @@
       }
       if (!response.ok) {
         const message = payload.error || payload.detail || response.statusText || "API request failed";
-        const error = new Error(message);
-        error.status = response.status;
-        error.payload = payload;
-        throw error;
+        throw buildApiError(message, response.status, payload);
       }
       return payload;
+    }
+
+    function mapSupabaseUser(user, profile = null) {
+      if (!user) return null;
+      return {
+        id: user.id,
+        email: user.email || "",
+        username: user.email || "",
+        display_name: profile?.display_name || user.user_metadata?.display_name || user.email?.split("@")[0] || "Analyst",
+        role: profile?.role || "analyst",
+        active: profile?.active !== false,
+      };
+    }
+
+    async function getSupabaseProfile(userId) {
+      if (!supabaseClient || !userId) return null;
+      const { data, error, status } = await supabaseClient
+        .from("profiles")
+        .select("display_name, role, active")
+        .eq("id", userId)
+        .maybeSingle();
+      if (error && status !== 406) {
+        throw buildApiError(error.message, status || 500, error);
+      }
+      return data || null;
+    }
+
+    async function getSupabaseSessionPayload() {
+      const { data, error } = await supabaseClient.auth.getUser();
+      if (error) {
+        throw buildApiError(error.message, 401, error);
+      }
+      if (!data?.user) {
+        return { authenticated: false, user: null };
+      }
+      const profile = await getSupabaseProfile(data.user.id);
+      return {
+        authenticated: true,
+        user: mapSupabaseUser(data.user, profile),
+      };
+    }
+
+    async function requireSupabaseUser() {
+      const payload = await getSupabaseSessionPayload();
+      if (!payload.authenticated || !payload.user) {
+        throw buildApiError("authentication_required", 401, { error: "authentication_required" });
+      }
+      return payload.user;
+    }
+
+    async function loadSupabaseSnapshot(snapshotKey, fallback) {
+      const { data, error, status } = await supabaseClient
+        .from("console_snapshots")
+        .select("payload")
+        .eq("snapshot_key", snapshotKey)
+        .maybeSingle();
+      if (error && status !== 406) {
+        throw buildApiError(error.message, status || 500, error);
+      }
+      return data?.payload ? clone(data.payload) : clone(fallback);
+    }
+
+    function sortByTimestamp(rows, timestampField, idField) {
+      return [...rows].sort((a, b) =>
+        String(a?.[timestampField] || "").localeCompare(String(b?.[timestampField] || ""))
+        || String(a?.[idField] || "").localeCompare(String(b?.[idField] || ""))
+      );
+    }
+
+    function collapseLatestBy(rows, keyField, timestampField, idField) {
+      const latest = new Map();
+      for (const row of sortByTimestamp(rows, timestampField, idField)) {
+        if (!row?.[keyField]) continue;
+        latest.set(row[keyField], row);
+      }
+      return [...latest.values()];
+    }
+
+    function mapSupabaseEditRow(row) {
+      return {
+        edit_id: row.edit_id,
+        event_id: row.event_id,
+        editor_name: row.editor_name,
+        editor_role: row.editor_role,
+        edited_at: row.edited_at,
+        status: row.status,
+        comment: row.comment,
+        patch: row.patch || {},
+        actor_patches: row.actor_patches || [],
+      };
+    }
+
+    function mapSupabaseQaResolutionRow(row) {
+      return {
+        resolution_id: row.resolution_id,
+        flag_id: row.flag_id,
+        event_id: row.event_id,
+        editor_name: row.editor_name,
+        editor_role: row.editor_role,
+        resolved_at: row.resolved_at,
+        status: row.status,
+        comment: row.comment,
+        resolution_type: row.resolution_type,
+      };
+    }
+
+    function mapSupabaseDuplicateResolutionRow(row) {
+      return {
+        resolution_id: row.resolution_id,
+        candidate_id: row.candidate_id,
+        keeper_event_id: row.keeper_event_id,
+        merged_event_ids: row.merged_event_ids || [],
+        event_ids: row.event_ids || [],
+        reason_code: row.reason_code,
+        manual: !!row.manual,
+        keeper_patch: row.keeper_patch || {},
+        editor_name: row.editor_name,
+        editor_role: row.editor_role,
+        resolved_at: row.resolved_at,
+        status: row.status,
+        comment: row.comment,
+      };
+    }
+
+    async function loadSupabaseEditsPayload() {
+      const [editsRes, qaRes, dupRes] = await Promise.all([
+        supabaseClient
+          .from("event_edits")
+          .select("edit_id,event_id,editor_name,editor_role,edited_at,status,comment,patch,actor_patches")
+          .order("edited_at", { ascending: true }),
+        supabaseClient
+          .from("qa_resolutions")
+          .select("resolution_id,flag_id,event_id,editor_name,editor_role,resolved_at,status,comment,resolution_type")
+          .order("resolved_at", { ascending: true }),
+        supabaseClient
+          .from("duplicate_resolutions")
+          .select("resolution_id,candidate_id,keeper_event_id,merged_event_ids,event_ids,reason_code,manual,keeper_patch,editor_name,editor_role,resolved_at,status,comment")
+          .order("resolved_at", { ascending: true }),
+      ]);
+      for (const response of [editsRes, qaRes, dupRes]) {
+        if (response.error) {
+          throw buildApiError(response.error.message, 500, response.error);
+        }
+      }
+      const edits = (editsRes.data || []).map(mapSupabaseEditRow);
+      const qaResolutions = collapseLatestBy(
+        (qaRes.data || []).map(mapSupabaseQaResolutionRow),
+        "flag_id",
+        "resolved_at",
+        "resolution_id"
+      );
+      const duplicateResolutions = collapseLatestBy(
+        (dupRes.data || []).map(mapSupabaseDuplicateResolutionRow),
+        "candidate_id",
+        "resolved_at",
+        "resolution_id"
+      );
+      return {
+        ...clone(DEFAULT_EDITS_PAYLOAD),
+        edits,
+        qa_resolutions: qaResolutions,
+        duplicate_resolutions: duplicateResolutions,
+      };
+    }
+
+    async function apiFetchSupabase(path, options = {}) {
+      const body = parseApiBody(options);
+      if (path === "/api/session") {
+        return getSupabaseSessionPayload();
+      }
+      if (path === "/api/register-config") {
+        return {
+          enabled: true,
+          allowed_roles: ["analyst"],
+          default_role: "analyst",
+          min_password_length: 10,
+        };
+      }
+      if (path === "/api/login") {
+        const email = String(body.username || "").trim();
+        const password = String(body.password || "");
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) {
+          throw buildApiError(error.message, 401, error);
+        }
+        const profile = await getSupabaseProfile(data.user?.id);
+        return { ok: true, user: mapSupabaseUser(data.user, profile) };
+      }
+      if (path === "/api/register") {
+        const email = String(body.username || "").trim();
+        const password = String(body.password || "");
+        const displayName = String(body.display_name || "").trim();
+        const { error } = await supabaseClient.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              display_name: displayName,
+              requested_role: "analyst",
+            },
+          },
+        });
+        if (error) {
+          throw buildApiError(error.message, 400, error);
+        }
+        const login = await apiFetchSupabase("/api/login", {
+          method: "POST",
+          body: JSON.stringify({ username: email, password }),
+        });
+        return { ...login, registered: true };
+      }
+      if (path === "/api/logout") {
+        const { error } = await supabaseClient.auth.signOut();
+        if (error) {
+          throw buildApiError(error.message, 400, error);
+        }
+        return { ok: true };
+      }
+      if (path === "/api/edits" && (options.method || "GET").toUpperCase() === "GET") {
+        return loadSupabaseEditsPayload();
+      }
+      if (path === "/api/edits") {
+        const user = await requireSupabaseUser();
+        const row = {
+          event_id: body.event_id,
+          editor_user_id: user.id,
+          editor_name: user.display_name,
+          editor_role: user.role,
+          edited_at: new Date().toISOString(),
+          status: body.status || "saved",
+          comment: body.comment || null,
+          patch: body.patch || {},
+          actor_patches: body.actor_patches || [],
+        };
+        const { data, error } = await supabaseClient
+          .from("event_edits")
+          .insert(row)
+          .select("edit_id,event_id,editor_name,editor_role,edited_at,status,comment,patch,actor_patches")
+          .single();
+        if (error) {
+          throw buildApiError(error.message, 400, error);
+        }
+        return { ok: true, edit: mapSupabaseEditRow(data), warnings: [] };
+      }
+      if (path === "/api/qa-resolution") {
+        const user = await requireSupabaseUser();
+        const row = {
+          flag_id: body.flag_id,
+          event_id: body.event_id,
+          editor_user_id: user.id,
+          editor_name: user.display_name,
+          editor_role: user.role,
+          resolved_at: new Date().toISOString(),
+          status: body.status || "resolved",
+          comment: body.comment || null,
+          resolution_type: body.resolution_type || "manual_fix",
+        };
+        const { data, error } = await supabaseClient
+          .from("qa_resolutions")
+          .insert(row)
+          .select("resolution_id,flag_id,event_id,editor_name,editor_role,resolved_at,status,comment,resolution_type")
+          .single();
+        if (error) {
+          throw buildApiError(error.message, 400, error);
+        }
+        return { ok: true, qa_resolution: mapSupabaseQaResolutionRow(data) };
+      }
+      if (path === "/api/undo-qa-resolution") {
+        return apiFetchSupabase("/api/qa-resolution", {
+          method: "POST",
+          body: JSON.stringify({
+            flag_id: body.flag_id,
+            event_id: state.selectedId,
+            status: "undone",
+            resolution_type: "undo",
+            comment: body.comment || "QA resolution undone in analyst console.",
+          }),
+        });
+      }
+      if (path === "/api/duplicate-resolution") {
+        const user = await requireSupabaseUser();
+        const row = {
+          candidate_id: body.candidate_id,
+          keeper_event_id: body.keeper_event_id || null,
+          merged_event_ids: body.merged_event_ids || [],
+          event_ids: body.event_ids || [],
+          reason_code: body.reason_code || null,
+          manual: !!body.manual,
+          keeper_patch: body.keeper_patch || {},
+          editor_user_id: user.id,
+          editor_name: user.display_name,
+          editor_role: user.role,
+          resolved_at: new Date().toISOString(),
+          status: body.status || "merged",
+          comment: body.comment || null,
+        };
+        const { data, error } = await supabaseClient
+          .from("duplicate_resolutions")
+          .insert(row)
+          .select("resolution_id,candidate_id,keeper_event_id,merged_event_ids,event_ids,reason_code,manual,keeper_patch,editor_name,editor_role,resolved_at,status,comment")
+          .single();
+        if (error) {
+          throw buildApiError(error.message, 400, error);
+        }
+        return { ok: true, duplicate_resolution: mapSupabaseDuplicateResolutionRow(data) };
+      }
+      if (path === "/api/undo-duplicate-resolution") {
+        return apiFetchSupabase("/api/duplicate-resolution", {
+          method: "POST",
+          body: JSON.stringify({
+            candidate_id: body.candidate_id,
+            status: "undone",
+            comment: body.comment || "Duplicate merge undone in analyst console.",
+          }),
+        });
+      }
+      if (path === "/api/registry-edits" && (options.method || "GET").toUpperCase() === "GET") {
+        const { data, error } = await supabaseClient
+          .from("registry_edits")
+          .select("registry_edit_id,action,payload,editor_name,editor_role,created_at")
+          .order("created_at", { ascending: false });
+        if (error) {
+          throw buildApiError(error.message, 400, error);
+        }
+        return { registry_edits: data || [] };
+      }
+      if (path === "/api/registry-edits") {
+        const user = await requireSupabaseUser();
+        const row = {
+          action: body.action || "registry_edit",
+          payload: body,
+          editor_user_id: user.id,
+          editor_name: user.display_name,
+          editor_role: user.role,
+        };
+        const { data, error } = await supabaseClient
+          .from("registry_edits")
+          .insert(row)
+          .select("registry_edit_id,action,payload,editor_name,editor_role,created_at")
+          .single();
+        if (error) {
+          throw buildApiError(error.message, 400, error);
+        }
+        return { ok: true, registry_edit: data };
+      }
+      throw buildApiError(`Unsupported Supabase API path: ${path}`, 404, { error: "unsupported_path" });
+    }
+
+    async function apiFetch(path, options = {}) {
+      if (SUPABASE_ENABLED) {
+        return apiFetchSupabase(path, options);
+      }
+      return apiFetchLocal(path, options);
     }
 
     function isTrustedAnalystHost() {
@@ -2372,7 +2770,21 @@
     }
 
     async function detectBackendSession() {
+      if (SUPABASE_ENABLED) {
+        state.backend.mode = "supabase";
+        state.backend.available = true;
+        try {
+          const payload = await apiFetch("/api/session", { method: "GET" });
+          state.backend.authenticated = !!payload.authenticated;
+          state.backend.user = payload.user || null;
+        } catch (_error) {
+          state.backend.authenticated = false;
+          state.backend.user = null;
+        }
+        return;
+      }
       if (!isTrustedAnalystHost()) {
+        state.backend.mode = "local";
         state.backend.available = false;
         state.backend.authenticated = false;
         state.backend.user = null;
@@ -2391,7 +2803,7 @@
     }
 
     async function detectRegistrationConfig() {
-      if (!isTrustedAnalystHost()) {
+      if (!analystSurfaceAllowed()) {
         state.registration = { enabled: false, allowedRoles: ["analyst"], defaultRole: "analyst", minPasswordLength: 10 };
         return;
       }
@@ -2421,9 +2833,15 @@
         if (role === state.registration.defaultRole) option.selected = true;
         roleSelect.appendChild(option);
       });
+      const loginField = document.getElementById("login-username");
+      const registerField = document.getElementById("register-username");
+      if (loginField) loginField.placeholder = SUPABASE_ENABLED ? "Email" : "Username";
+      if (registerField) registerField.placeholder = SUPABASE_ENABLED ? "analyst@example.com" : "new_analyst";
       note.textContent = state.registration.enabled
-        ? `Registration is local-only. Passwords must be at least ${state.registration.minPasswordLength} characters.`
-        : "Registration is not enabled on this analyst server.";
+        ? SUPABASE_ENABLED
+          ? `Supabase-backed registration creates analyst accounts. Passwords must be at least ${state.registration.minPasswordLength} characters. Elevated roles are assigned separately.`
+          : `Registration is local-only. Passwords must be at least ${state.registration.minPasswordLength} characters.`
+        : "Registration is not enabled on this analyst backend.";
       if (!state.registration.enabled) {
         panel.style.display = "none";
       }
@@ -3367,7 +3785,9 @@
     }
 
     async function reloadActorRegistryData() {
-      state.data.actorRegistry = await loadOptionalJson(DATA_PATHS.actorRegistry, { actors: [] });
+      state.data.actorRegistry = SUPABASE_ENABLED
+        ? await loadSupabaseSnapshot(SUPABASE_SNAPSHOT_KEYS.actorRegistry, { actors: [] })
+        : await loadOptionalJson(DATA_PATHS.actorRegistry, { actors: [] });
       buildIndices(state.data);
     }
 
@@ -3393,15 +3813,19 @@
 
     async function saveRegistryEntry(editPayload) {
       if (!state.backend.authenticated) {
-        setNotice("Registry edits require backend login through the local analyst server.", "warn");
+        setNotice("Registry edits require backend login.", "warn");
         return false;
       }
       await apiFetch("/api/registry-edits", {
         method: "POST",
         body: JSON.stringify(editPayload)
       });
-      await reloadActorRegistryData();
-      renderDetail();
+      if (state.backend.mode === "supabase") {
+        setNotice("Registry change queued in Supabase. Run the Supabase sync cycle locally to apply it to the durable actor registry and refresh snapshots.");
+      } else {
+        await reloadActorRegistryData();
+        renderDetail();
+      }
       return true;
     }
 
@@ -3634,7 +4058,9 @@
       document.getElementById("generated-pill").textContent = "Desk Refresh " + (state.data.reviewQueue.generated_at || "Unknown");
       const roleRules = getRoleRules();
       const backendLabel = state.backend.available
-        ? (state.backend.authenticated ? "Backend Authenticated" : "Backend Available")
+        ? state.backend.mode === "supabase"
+          ? (state.backend.authenticated ? "Supabase Authenticated" : "Supabase Ready")
+          : (state.backend.authenticated ? "Backend Authenticated" : "Backend Available")
         : "Static Fallback";
       document.getElementById("clearance-pill").textContent = `${roleRules.label || state.session.role} Clearance · ${backendLabel}`;
     }
@@ -3653,9 +4079,9 @@
       document.getElementById("session-role").value = state.session.role;
       document.getElementById("session-name").disabled = state.backend.authenticated;
       document.getElementById("session-role").disabled = state.backend.authenticated;
-      document.getElementById("login-username").disabled = state.backend.authenticated || !isTrustedAnalystHost();
-      document.getElementById("login-password").disabled = state.backend.authenticated || !isTrustedAnalystHost();
-      document.getElementById("login-btn").disabled = state.backend.authenticated || !state.backend.available || !isTrustedAnalystHost();
+      document.getElementById("login-username").disabled = state.backend.authenticated || !analystSurfaceAllowed();
+      document.getElementById("login-password").disabled = state.backend.authenticated || !analystSurfaceAllowed();
+      document.getElementById("login-btn").disabled = state.backend.authenticated || !state.backend.available || !analystSurfaceAllowed();
       document.getElementById("logout-btn").disabled = !state.backend.authenticated;
       const navUser = document.getElementById("workspace-user");
       const navRole = document.getElementById("workspace-role");
@@ -3667,7 +4093,7 @@
         ? (state.backend.user?.display_name || state.backend.user?.username || "Analyst")
         : "Locked";
       if (navRole) navRole.textContent = roles[state.session.role]?.label || state.session.role || "Unknown";
-      if (navBackend) navBackend.textContent = !isTrustedAnalystHost()
+      if (navBackend) navBackend.textContent = !analystSurfaceAllowed()
         ? "Public host blocked"
         : state.backend.authenticated
         ? "Authenticated"
@@ -3676,7 +4102,7 @@
         : "Backend offline";
       if (navLogout) navLogout.disabled = !state.backend.authenticated;
       if (navRegister) {
-        const registerEnabled = state.registration.enabled && state.backend.available && isTrustedAnalystHost();
+        const registerEnabled = state.registration.enabled && state.backend.available && analystSurfaceAllowed();
         navRegister.disabled = !registerEnabled;
         navRegister.style.display = registerEnabled ? "inline-flex" : "none";
       }
@@ -3700,11 +4126,13 @@
     function renderSessionNote() {
       const rules = getRoleRules();
       const statuses = getAllowedStatuses();
-      const mode = !isTrustedAnalystHost()
-        ? "Public host detected. This console is intentionally disabled outside a trusted local or private environment."
+      const mode = !analystSurfaceAllowed()
+        ? "Public host detected. This console is intentionally disabled outside its allowed private surface."
         : state.backend.available
         ? (state.backend.authenticated
           ? `Authenticated as ${state.backend.user?.username || "unknown"}`
+          : state.backend.mode === "supabase"
+          ? "Supabase backend detected. Log in to load private snapshots and save workflow edits."
           : "Analyst server detected. Log in to save edits directly.")
         : "No analyst backend detected. Console is in export/import fallback mode.";
       document.getElementById("session-note").innerHTML = `
@@ -3789,16 +4217,18 @@
       const copy = document.getElementById("access-wall-copy");
       const lockedShell = document.getElementById("hero-auth-locked");
       const liveShell = document.getElementById("hero-auth-live");
-      const locked = !isTrustedAnalystHost() || !state.backend.authenticated;
+      const locked = !analystSurfaceAllowed() || !state.backend.authenticated;
       shell.classList.toggle("locked", locked);
       if (lockedShell) lockedShell.style.display = locked ? "grid" : "none";
       if (liveShell) liveShell.style.display = locked ? "none" : "grid";
       if (copy) {
-        copy.textContent = !isTrustedAnalystHost()
-          ? "This analyst console is disabled on public hosts. Keep the console on localhost or another private, access-controlled environment and expose only the public dashboard on the web."
+        copy.textContent = !analystSurfaceAllowed()
+          ? "This analyst console is disabled on this host. Keep the console on a private surface or connect it to Supabase-backed authentication before exposing it on the web."
           : state.backend.available
-          ? "Log in with a local analyst account to load the internal queue, review artifacts, and registry workflow. The public dashboard links here for trusted users, but this workspace should not expose its internal data before authentication."
-          : "This console needs the local analyst server to be running before anyone can authenticate. Start the server, then log in from this banner to unlock the workspace.";
+          ? state.backend.mode === "supabase"
+            ? "Log in with a Supabase analyst account to load private queue snapshots and save review actions with an authenticated audit trail."
+            : "Log in with a local analyst account to load the internal queue, review artifacts, and registry workflow. The public dashboard links here for trusted users, but this workspace should not expose its internal data before authentication."
+          : "This console needs an analyst backend before anyone can authenticate. Start the local analyst server or configure Supabase, then log in from this banner to unlock the workspace.";
       }
       document.querySelector(".page")?.classList.toggle("authenticated", !locked);
       if (locked) state.commandOpen = false;
@@ -3807,18 +4237,33 @@
 
     async function loadWorkspaceData(force = false) {
       if (state.workspaceLoaded && !force) return;
-      const [reviewQueue, qa, registryQa, duplicates, council, canonical, published, countryMonitors, eventTypes, actorTypes, actorRegistry, councilRoles, aiWorkers, countries] = await Promise.all([
-        loadJson(DATA_PATHS.reviewQueue),
-        loadJson(DATA_PATHS.qa),
-        loadOptionalJson(DATA_PATHS.registryQa, { generated_at: null, issue_count: 0, issues: [] }),
-        loadJson(DATA_PATHS.duplicates),
-        loadOptionalJson(DATA_PATHS.council, { generated_at: null, count: 0, events: [] }),
-        loadJson(DATA_PATHS.canonical),
-        loadJson(DATA_PATHS.published),
-        loadOptionalJson(DATA_PATHS.countryMonitors, { countries: [] }),
+      const snapshotLoads = state.backend.mode === "supabase"
+        ? [
+            loadSupabaseSnapshot(SUPABASE_SNAPSHOT_KEYS.reviewQueue, { generated_at: null, count: 0, items: [] }),
+            loadSupabaseSnapshot(SUPABASE_SNAPSHOT_KEYS.qa, { generated_at: null, flag_count: 0, flags: [] }),
+            loadSupabaseSnapshot(SUPABASE_SNAPSHOT_KEYS.registryQa, { generated_at: null, issue_count: 0, issues: [] }),
+            loadSupabaseSnapshot(SUPABASE_SNAPSHOT_KEYS.duplicates, { generated_at: null, candidate_count: 0, candidates: [] }),
+            loadSupabaseSnapshot(SUPABASE_SNAPSHOT_KEYS.council, { generated_at: null, count: 0, events: [] }),
+            loadSupabaseSnapshot(SUPABASE_SNAPSHOT_KEYS.canonical, { generated_at: null, count: 0, events: [] }),
+            loadSupabaseSnapshot(SUPABASE_SNAPSHOT_KEYS.published, { generated_at: null, count: 0, events: [], withheld_count: 0 }),
+            loadSupabaseSnapshot(SUPABASE_SNAPSHOT_KEYS.countryMonitors, { countries: [] }),
+            loadSupabaseSnapshot(SUPABASE_SNAPSHOT_KEYS.actorRegistry, { actors: [] }),
+          ]
+        : [
+            loadJson(DATA_PATHS.reviewQueue),
+            loadJson(DATA_PATHS.qa),
+            loadOptionalJson(DATA_PATHS.registryQa, { generated_at: null, issue_count: 0, issues: [] }),
+            loadJson(DATA_PATHS.duplicates),
+            loadOptionalJson(DATA_PATHS.council, { generated_at: null, count: 0, events: [] }),
+            loadJson(DATA_PATHS.canonical),
+            loadJson(DATA_PATHS.published),
+            loadOptionalJson(DATA_PATHS.countryMonitors, { countries: [] }),
+            loadOptionalJson(DATA_PATHS.actorRegistry, { actors: [] }),
+          ];
+      const [reviewQueue, qa, registryQa, duplicates, council, canonical, published, countryMonitors, actorRegistry, eventTypes, actorTypes, councilRoles, aiWorkers, countries] = await Promise.all([
+        ...snapshotLoads,
         loadJson(DATA_PATHS.eventTypes),
         loadJson(DATA_PATHS.actorTypes),
-        loadOptionalJson(DATA_PATHS.actorRegistry, { actors: [] }),
         loadOptionalJson(DATA_PATHS.councilRoles, { roles: [] }),
         loadOptionalJson(DATA_PATHS.aiWorkers, { workers: [] }),
         loadOptionalJson(DATA_PATHS.countries, { countries: [] })
@@ -5443,11 +5888,13 @@
       const quickActions = buildQuickActions();
       return `
         <div class="editor-form">
-          <div class="editor-banner">
-            ${state.backend.authenticated
-              ? "Authenticated saves now write directly into the local-only <code>data/review/edits.local.json</code> through the analyst server and refresh the edited review artifacts automatically. The default expectation is that AI has already done the first-pass coding and analysis."
+            <div class="editor-banner">
+              ${state.backend.authenticated
+              ? state.backend.mode === "supabase"
+                ? "Authenticated saves now write into Supabase-backed workflow tables and overlay directly in the analyst console. The public dashboard still updates from the published export layer, keeping review operations separate from public release."
+                : "Authenticated saves now write directly into the local-only <code>data/review/edits.local.json</code> through the analyst server and refresh the edited review artifacts automatically. The default expectation is that AI has already done the first-pass coding and analysis."
               : "This console is still in fallback mode, so review edits persist in two stages: they save locally in your browser first, then you export the combined payload into a local-only analyst file such as <code>data/review/edits.local.json</code>. After that, run <code>python3 scripts/review/apply_analyst_edits.py</code> to materialize an edited internal layer. The default expectation is still AI-first production with targeted human intervention."}
-          </div>
+            </div>
           <details class="editor-group" open>
             <summary>Event Details</summary>
             <div class="editor-group-body">
@@ -6566,7 +7013,7 @@
       });
       const openRegistration = () => {
         if (!state.registration.enabled) {
-          setNotice("Registration is not enabled on this analyst server.", "warn");
+          setNotice("Registration is not enabled on this analyst backend.", "warn");
           return;
         }
         toggleRegistrationPanel();
@@ -6641,7 +7088,7 @@
         wireTooltips();
         wireToolbar();
         wireTabs();
-        if (!isTrustedAnalystHost()) {
+        if (!analystSurfaceAllowed()) {
           clearWorkspace();
         } else if (state.backend.authenticated) {
           await loadWorkspaceData(true);
@@ -6651,7 +7098,7 @@
         updateAccessWall();
       } catch (error) {
         document.getElementById("queue").innerHTML = `<div class="empty empty-state" style="padding:16px;">Failed to load analyst console data: ${esc(error.message)}</div>`;
-        document.getElementById("detail-top").innerHTML = `<div class="empty empty-state">Open the console from a local server rooted at the repository so it can fetch the JSON files.</div>`;
+        document.getElementById("detail-top").innerHTML = `<div class="empty empty-state">Check the configured analyst backend and snapshot data source, then reload the console.</div>`;
         const detailMiddle = document.getElementById("detail-middle");
         const detailRight = document.getElementById("detail-right");
         if (detailMiddle) detailMiddle.innerHTML = "";
@@ -6663,6 +7110,3 @@
   </script>
 </body>
 </html>
-    .page.authenticated{
-      padding-bottom:12px;
-    }

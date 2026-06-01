@@ -1011,7 +1011,7 @@ New acute protest-review artifact:
 
 Supporting interpretation note:
 
-- `docs/private-acute-protest-interpretation-note.md`
+- local-only acute protest interpretation note
 
 Acute benchmark-refinement artifact:
 
@@ -1177,7 +1177,7 @@ All datasets use the following canonical country names. Any raw dataset with var
 | `config/modeling/internal_signal_panel_spec.json` | Private spec for an internal country signal panel used for episode/process detection | 2026-04-02 | Internal panel scaffold |
 | `data/modeling/benchmark_country_month_signals.json` | Tracked internal benchmark month-level external/economic signal seeds | 2026-04-02 | Internal benchmark seed |
 | `data/modeling/internal_signal_panel_venezuela.json` | Private Venezuela pilot signal-panel artifact | 2026-04-02 | `build_internal_signal_panel.py` |
-| `apps/internal-tools/signal-panel.html` | Private standalone viewer for one-country internal signal-panel artifacts | 2026-04-02 | Internal HTML viewer |
+| Local-only internal signal-panel viewer | Private standalone viewer for one-country internal signal-panel artifacts | 2026-04-02 | Internal HTML viewer |
 | `data/modeling/country_month_target_audit.json` | Private audit of proxy target balance and distribution | 2026-04-02 | `audit_country_month_targets.py` |
 | `data/review/irregular_transition_target_review.json` | Private country-by-country review of proxy irregular-transition positives | 2026-04-02 | `review_irregular_transition_targets.py` |
 | `data/review/adjudication_queue_irregular_transition.json` | Private working queue of reviewed irregular-transition cases awaiting adjudication | 2026-04-02 | `build_adjudication_queue.py` |

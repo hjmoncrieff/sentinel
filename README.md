@@ -1,108 +1,76 @@
 # SENTINEL
 
-SENTINEL is an AI-first research platform for tracking civil-military
-relations, political stability, and regional security events in Latin America
-and the Caribbean. It combines automated event collection, classification,
-actor coding, QA, and AI-generated analysis with a lighter human oversight
-layer for review, validation, and publication decisions.
+SENTINEL is a research platform for tracking civil-military relations, political
+stability, and regional security events across Latin America and the Caribbean.
+It combines automated event ingestion with analyst review and publishes a
+public-facing static dashboard.
 
-## What The Repo Contains
+## Surfaces
 
-- a public dashboard in `index.html`
-- a local analyst console in `apps/analyst-console/` for oversight, correction,
-  and publication control
-- ingestion and processing scripts in `scripts/`
-- event, review, canonical, and published datasets in `data/`
-- architecture and methodology notes in `docs/`
+- `index.html`
+  Public dashboard served as a static site.
+- `apps/analyst-console/`
+  Private analyst workspace for review, QA, deduplication, and publication
+  control.
+- `scripts/`
+  Ingestion, normalization, QA, review, publishing, and analysis runners.
+- `scripts/sync/`
+  Local-to-Supabase and Supabase-to-published JSON sync automation.
+- `supabase/`
+  Supabase schema, RLS migration scaffolding, and local project config.
+- `data/published/`
+  Public-safe JSON outputs consumed by the dashboard.
 
-## Data Layers
+## Repo Boundary
 
-- `data/events.json`
-  Current live event store produced by the ingestion pipeline.
-- `data/review/`
-  QA outputs, duplicate candidates, review queues, and local analyst workflow
-  artifacts.
-- `data/canonical/`
-  Schema-aligned internal event and actor datasets.
-- `data/published/events_public.json`
-  Public-safe event dataset for the dashboard, including review metadata such as
-  `review_status`, `human_validated`, and provenance summary flags.
+This repository is being prepared as a public codebase. The intended split is:
 
-## Running The Public Dashboard
+- GitHub stores public-safe code, schemas, templates, and published outputs.
+- Supabase will own authenticated analyst operations and mutable workflow state.
+- Local-only files remain outside the public repo when they contain private
+  notes, credentials, internal planning, or generated scratch artifacts.
 
-Serve the repo locally and open the dashboard in a browser:
+See `docs/repo-boundaries.md` for the current boundary rules.
+
+## Running The Dashboard
 
 ```bash
 python3 -m http.server
 ```
 
-Then visit `http://127.0.0.1:8000/`.
+Then open `http://127.0.0.1:8000/`.
 
-## Architecture
+## Data Layers
 
-SENTINEL is organized as a staged workflow:
+- `data/events.json`
+  Current live event store from the ingestion pipeline.
+- `data/canonical/`
+  Internal canonical event and actor layers.
+- `data/review/`
+  Review templates and workflow artifacts.
+- `data/published/events_public.json`
+  Public-safe dataset used by the dashboard.
+
+## Workflow
+
+SENTINEL currently works as a staged pipeline:
 
 1. ingest and normalize source material
-2. generate QA and duplicate diagnostics
-3. assemble canonical event records
-4. code actors and enrich internal event structure
-5. run modular AI workers for classification, actor coding, QA, publication checks, and AI-tagged council analysis
-6. review exceptions, corrections, and publication decisions in the analyst console
-7. publish a public-safe dataset for the dashboard
+2. classify, deduplicate, and code actors
+3. generate QA and review queues
+4. review and approve records in the analyst console
+5. publish public-safe outputs for the dashboard
 
-The public dashboard reads only from published outputs. Analyst credentials,
-local review edits, private reasoning, and other sensitive workflow artifacts
-are intentionally kept out of the public data layer.
+The public dashboard should only consume the published layer. Credentials,
+private analyst notes, local edits, and internal planning materials should stay
+outside the public deployment surface.
 
-The public dashboard may expose a private analyst-access entry point for local
-operators, but that route is intended only for trusted local/private hosts. The
-analyst console is not part of the public web surface.
-
-Each event now carries a structured provenance timeline so both internal and
-public-facing views can show how the record moved from ingestion through
-classification, review, and publication. Canonical events also retain linked
-report metadata so provenance can identify the specific articles or reports
-that fed a clustered event.
-
-The publication layer can enforce release rules. The current policy withholds
-low-confidence events until they are corroborated by a human analyst, while
-credible events can still be published and monitored publicly.
-
-Internal council analysis is generated for every event, but it is explicitly
-tagged as AI-generated analysis and kept separate from human review state.
-The council now also records compact upstream AI-worker outputs and recommends
-specific analyst follow-up actions such as actor review, duplicate review, or
-human corroboration.
-
-The AI worker registry that defines these production roles lives in
-`config/agents/ai_workers.json`.
-
-The intended operating model is AI-first:
-
-- AI does the routine heavy lifting
-- humans supervise uncertainty, sensitive cases, and release decisions
-- the analyst console is an intervention layer, not the primary production engine
-
-## Documentation
-
-Public-facing and public-safe docs:
+## Key Docs
 
 - `docs/architecture.md`
-- `docs/ai-analyst-knowledge.md`
+- `docs/security-privacy.md`
+- `docs/repo-boundaries.md`
 - `docs/historical-ingestion.md`
 - `docs/next-steps.md`
-- `docs/pipeline-operations.md`
-- `docs/stage-runners.md`
-- `docs/system-workflow.md`
-- `docs/security-privacy.md`
+- `docs/supabase-setup.md`
 - `data/CODEBOOK.md`
-
-Operator playbook:
-
-- `docs/user-guide.md`
-
-## Security Note
-
-This repository is designed to keep operationally sensitive analyst data out of
-Git-tracked public outputs. Local credential files, private analyst reasoning,
-and live review edits should remain in ignored local files only.
