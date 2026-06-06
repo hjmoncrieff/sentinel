@@ -18,7 +18,58 @@ describe("App shell bootstrap", () => {
         country: "Colombia",
         event_date: "2026-06-01",
         event_type: "reform",
+        summary:
+          "Alpha summary keeps the review decision surface anchored in the active event.",
+        source_primary: "InSight Crime",
         review_priority: "high",
+        publication_status: "withheld",
+        publication_label: "Withheld",
+        publication_reason: "low_confidence_requires_human_review",
+        publication_ready: false,
+        reviewed_by_human: false,
+        qa_flag_count: 1,
+        duplicate_candidate_count: 0,
+        council_disagreement_summary: "aligned",
+        supervision_reasons: [
+          "qa_flags",
+          "high_salience_unreviewed",
+          "publication_corroboration_needed",
+        ],
+        council_recommended_actions: [
+          {
+            code: "human_corroboration",
+            priority: "high",
+            reason: "Low-confidence event should be corroborated before publication.",
+          },
+        ],
+        qa_flags: [
+          {
+            flag_id: "flag-1",
+            severity: "high",
+            code: "missing_url",
+            message: "Primary source URL is missing.",
+          },
+        ],
+        provenance: {
+          linked_reports: [
+            {
+              article_id: "article-1",
+              source_name: "InSight Crime",
+              report_role: "primary",
+              headline: "Alpha review item corroboration brief",
+              description:
+                "Source dossier material for the selected Alpha event remains inline in the brief panel.",
+            },
+          ],
+          timeline: [
+            {
+              stage: "ingestion",
+              label: "Source ingestion",
+              status: "completed",
+              at: "2026-06-01T05:00:00Z",
+            },
+          ],
+        },
       },
       {
         event_id: "evt-2",
@@ -27,6 +78,8 @@ describe("App shell bootstrap", () => {
         event_date: "2026-06-02",
         event_type: "aid",
         review_priority: "low",
+        publication_status: "published",
+        publication_label: "Published",
       },
     ]);
   });
@@ -111,6 +164,22 @@ describe("App shell bootstrap", () => {
     expect(screen.getByRole("region", { name: /event brief/i })).toHaveTextContent(
       "Alpha review item",
     );
+  });
+
+  it("reveals deeper evidence without leaving the selected event context", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+
+    await user.click(
+      await screen.findByRole("button", { name: /alpha review item/i }),
+    );
+    await user.click(screen.getByRole("button", { name: /evidence/i }));
+
+    const brief = screen.getByRole("region", { name: /event brief/i });
+
+    expect(brief).toHaveTextContent("Alpha review item");
+    expect(brief).toHaveTextContent(/source dossier/i);
   });
 
   it("surfaces queue load errors in the queue region", async () => {

@@ -3,6 +3,10 @@ import { useEffect, useReducer } from "react";
 import { GlobalRail } from "@/components/shell/global-rail";
 import { TopOperationsBar } from "@/components/shell/top-operations-bar";
 import { WorkspaceFrame } from "@/components/shell/workspace-frame";
+import { ActionPanel } from "@/features/actions/action-panel";
+import { AuditPanel } from "@/features/actions/audit-panel";
+import { ReleasePanel } from "@/features/actions/release-panel";
+import { BriefPanel } from "@/features/detail/brief-panel";
 import { QueuePanel } from "@/features/queue/queue-panel";
 import { loadConsoleData } from "@/lib/api/load-console-data";
 import { getVisibleQueue } from "@/lib/domain/queue";
@@ -64,41 +68,13 @@ export function App() {
         />
         <WorkspaceFrame
           actions={
-            <div className="space-y-3 p-4">
-              <h2 className="text-sm font-semibold text-[var(--console-ink)]">
-                Review actions
-              </h2>
-              <p className="text-sm text-[var(--console-muted)]">
-                Action surface scaffold for review, release, and audit steps.
-              </p>
+            <div className="grid min-h-full grid-rows-[auto_auto_minmax(0,1fr)]">
+              <ActionPanel item={selectedItem} />
+              <ReleasePanel item={selectedItem} />
+              <AuditPanel item={selectedItem} />
             </div>
           }
-          brief={
-            <div className="space-y-3 p-4">
-              <h2 className="text-sm font-semibold text-[var(--console-ink)]">
-                Event brief
-              </h2>
-              {selectedItem ? (
-                <>
-                  <p className="text-sm text-[var(--console-ink)]">
-                    {selectedItem.headline}
-                  </p>
-                  <p className="text-sm text-[var(--console-muted)]">
-                    {selectedItem.country ?? "Regional"} ·{" "}
-                    {selectedItem.review_priority} priority
-                  </p>
-                </>
-              ) : state.loadError ? (
-                <p className="text-sm text-[var(--console-muted)]">
-                  Brief unavailable while the review queue failed to load.
-                </p>
-              ) : (
-                <p className="text-sm text-[var(--console-muted)]">
-                  No visible queue item selected.
-                </p>
-              )}
-            </div>
-          }
+          brief={<BriefPanel item={selectedItem} loadError={state.loadError} />}
           queue={
             <QueuePanel
               loadError={state.loadError}
