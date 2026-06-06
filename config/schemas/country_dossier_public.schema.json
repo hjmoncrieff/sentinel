@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sentinel.local/schemas/country_dossier_public.schema.json",
+  "title": "SENTINEL Public Country Dossier Payload",
+  "type": "object",
+  "required": ["generated_at", "countries"],
+  "properties": {
+    "generated_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
+    "countries": {
+      "type": "array",
+      "minItems": 25,
+      "maxItems": 25,
+      "items": {
+        "type": "object",
+        "required": [
+          "country",
+          "iso2",
+          "iso3",
+          "subregion",
+          "generated_at",
+          "public_freshness",
+          "public_summary",
+          "public_structural_cards",
+          "public_construct_series",
+          "public_context"
+        ],
+        "properties": {
+          "country": {
+            "type": "string"
+          },
+          "iso2": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+          },
+          "iso3": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "subregion": {
+            "type": "string"
+          },
+          "generated_at": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+          },
+          "public_freshness": {
+            "type": "object",
+            "required": [
+              "structural_as_of_year",
+              "events_as_of_date",
+              "monitor_generated_at",
+              "series_coverage_note"
+            ],
+            "properties": {
+              "structural_as_of_year": {
+                "type": "integer"
+              },
+              "events_as_of_date": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "monitor_generated_at": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+              },
+              "series_coverage_note": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "public_summary": {
+            "type": "object",
+            "required": [
+              "overall_risk_score",
+              "overall_risk_level",
+              "leading_construct",
+              "leading_label",
+              "leading_trend",
+              "summary_text",
+              "watchpoints"
+            ],
+            "properties": {
+              "overall_risk_score": {
+                "type": "number"
+              },
+              "overall_risk_level": {
+                "type": "string"
+              },
+              "leading_construct": {
+                "type": "string"
+              },
+              "leading_label": {
+                "type": "string"
+              },
+              "leading_trend": {
+                "type": "string"
+              },
+              "summary_text": {
+                "type": "string"
+              },
+              "watchpoints": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "public_structural_cards": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "code",
+                "label",
+                "current_value",
+                "display_value",
+                "unit",
+                "as_of_year",
+                "trend_series"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "current_value": {},
+                "display_value": {
+                  "type": "string"
+                },
+                "unit": {
+                  "type": "string"
+                },
+                "as_of_year": {
+                  "type": "integer"
+                },
+                "trend_series": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "public_construct_series": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "code",
+                "label"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "public_context": {
+            "type": "object",
+            "required": [
+              "capital",
+              "regime",
+              "cmr_status",
+              "cmr_class",
+              "note",
+              "key_positions",
+              "next_election",
+              "country_watch",
+              "special_profile_id"
+            ],
+            "properties": {
+              "capital": {
+                "type": "string"
+              },
+              "regime": {
+                "type": "string"
+              },
+              "cmr_status": {
+                "type": "string"
+              },
+              "cmr_class": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              },
+              "key_positions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "title",
+                    "name"
+                  ],
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "next_election": {
+                "type": "object",
+                "required": [
+                  "date",
+                  "type"
+                ],
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "country_watch": {
+                "type": "string"
+              },
+              "special_profile_id": {
+                "type": ["string", "null"]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
