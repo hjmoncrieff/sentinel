@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { getVisibleQueue } from "./queue";
+import type { QueueItem } from "./types";
 
 const fixture = [
   {
@@ -17,11 +18,11 @@ const fixture = [
     country: "Mexico",
     publication_status: "published",
   },
-];
+] satisfies QueueItem[];
 
 describe("getVisibleQueue", () => {
   it("filters queue rows by search and priority", () => {
-    const rows = getVisibleQueue(fixture as never[], {
+    const rows = getVisibleQueue(fixture, {
       search: "colombia",
       priorityFilter: "high",
     });

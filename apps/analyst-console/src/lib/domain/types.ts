@@ -24,6 +24,7 @@ export type ConsoleState = {
   selectedId: string | null;
   search: string;
   priorityFilter: "all" | ReviewPriority;
-  middleTab: "briefing" | "assessment" | "networks";
+  middleTab: "briefing" | "ai-analysis" | "actors";
   rightTab: "action" | "release" | "audit";
+  loadError: string | null;
 };

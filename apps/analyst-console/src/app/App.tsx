@@ -21,7 +21,17 @@ export function App() {
 
         dispatch({ type: "queueLoaded", payload: rows });
       })
-      .catch(() => undefined);
+      .catch((error: unknown) => {
+        if (!active) {
+          return;
+        }
+
+        const message =
+          error instanceof Error
+            ? error.message
+            : "Failed to load review queue.";
+        dispatch({ type: "loadFailed", payload: message });
+      });
 
     return () => {
       active = false;
@@ -42,7 +52,11 @@ export function App() {
         SENTINEL Analyst Console
       </header>
       <main aria-label="Analyst workspace" className="p-4">
-        {visibleQueue.length} visible queue item(s)
+        {state.loadError ? (
+          <p role="status">{state.loadError}</p>
+        ) : (
+          `${visibleQueue.length} visible queue item(s)`
+        )}
       </main>
     </div>
   );

@@ -7,10 +7,12 @@ export const initialConsoleState: ConsoleState = {
   priorityFilter: "all",
   middleTab: "briefing",
   rightTab: "action",
+  loadError: null,
 };
 
 export type ConsoleAction =
   | { type: "queueLoaded"; payload: QueueItem[] }
+  | { type: "loadFailed"; payload: string }
   | { type: "selected"; payload: string }
   | { type: "searchChanged"; payload: string }
   | { type: "priorityChanged"; payload: ConsoleState["priorityFilter"] };
@@ -24,7 +26,16 @@ export function consoleReducer(
       return {
         ...state,
         queue: action.payload,
-        selectedId: state.selectedId ?? action.payload[0]?.event_id ?? null,
+        selectedId:
+          action.payload.some((row) => row.event_id === state.selectedId)
+            ? state.selectedId
+            : action.payload[0]?.event_id ?? null,
+        loadError: null,
+      };
+    case "loadFailed":
+      return {
+        ...state,
+        loadError: action.payload,
       };
     case "selected":
       return {
