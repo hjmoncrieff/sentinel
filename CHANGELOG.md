@@ -11,6 +11,301 @@ Each major change entry should include:
 
 ## 2026-06-05
 
+## 2026-06-06
+
+### Editorial System Redesign Spec
+
+Affected areas:
+- `docs/superpowers/specs/2026-06-06-sentinel-editorial-system-redesign-design.md`
+
+What changed:
+- Wrote the approved public-site editorial redesign spec capturing the selected `C2 — Editorial Oxide` palette, the `B — Editorial System` sitewide direction, and the rule that `Events` stays the most operational tab.
+- Documented shared visual-system rules for palette roles, typography, surface treatment, active states, and tab-by-tab application across `Overview`, `Countries`, `OC`, `US-LATAM`, `Events`, and `About`.
+- Recorded the rollout order, design risks, and validation criteria so later implementation work can stay aligned with the approved publication identity.
+
+Validation completed:
+- Reviewed the written spec for placeholders, contradictions, ambiguity, and scope.
+
+Remaining risks / follow-up:
+- The written spec still needs user review and approval before implementation planning begins.
+- The approved design direction has not yet been translated into a detailed implementation plan.
+
+### Editorial System Implementation Plan
+
+Affected areas:
+- `docs/superpowers/plans/2026-06-06-sentinel-editorial-system-redesign.md`
+
+What changed:
+- Added the execution plan for the approved public-site editorial redesign, including the public-dashboard Playwright harness, shared palette rollout, dossier-surface application across `Countries`, `OC`, and `US-LATAM`, the operational `Events` treatment, and the `About` methods-note rewrite.
+- Locked the redesign work to the current public-dashboard architecture so implementation stays grounded in `index.html`, `assets/css/dashboard.css`, `assets/js/dashboard.js`, and the existing smoke workflow rather than inventing a new component system first.
+
+Validation completed:
+- Reviewed the plan against the approved design spec for coverage, naming consistency, and placeholder-free task detail.
+
+Remaining risks / follow-up:
+- The plan still needs to be executed task by task in the working tree.
+- The earlier spec entry above reflects the state before approval; the approved plan supersedes its “pending planning” note.
+
+### Public Country Trend Visibility Follow-up
+
+Affected areas:
+- `index.html`
+- `assets/css/dashboard.css`
+
+What changed:
+- Changed the public country-profile structural and predictive trend cards so their year-range sparkline panels are visible by default instead of being hidden behind hover-only behavior.
+- Added a cache-busting asset version to both the public dashboard CSS and JS includes so the in-app browser and localhost sessions pick up the updated trend rendering immediately after refresh.
+
+Validation completed:
+- `node --check assets/js/dashboard.js`
+- `curl -s http://localhost:8000/index.html | rg "20260606-trends-visible"`
+
+Remaining risks / follow-up:
+- The already-open browser tab still needs a manual refresh to load the new asset URLs.
+- A fuller browser-level interaction smoke is still worth re-running once in-app browser control is available again.
+
+### Country Profile Redesign And Event Brief Overhaul
+
+Affected areas:
+- `index.html`
+- `assets/js/dashboard.js`
+- `assets/css/dashboard.css`
+
+What changed:
+- Reorganized the public country profile around a stronger monitor brief, with the opening section now combining the predictive summary, watchpoints, and compact KPI cards instead of repeating the same story across separate summary and risk strips.
+- Added a dedicated `Economy & State Capacity` panel so GDP per capita, inflation, population, defence burden, aid, and rule-of-law context sit alongside the political-risk story rather than being buried in generic reference rows.
+- Replaced the older context/reference band layout with cleaner briefing panels for institutional context, leadership and election timing, and the dossier data window.
+- Upgraded the live-event presentation from a metadata-heavy event card into a field-note format with tighter list summaries, event tags, a clearer `What happened / Why it matters` split, and monitor-relevance cues.
+- Bumped the public dashboard asset version again so browsers pick up the redesigned country-profile CSS and JS on refresh.
+
+Validation completed:
+- `node --check assets/js/dashboard.js`
+- `curl -s http://localhost:8000/index.html | rg "20260606-country-overhaul"`
+- `curl -s http://localhost:8000/assets/js/dashboard.js | rg "Field Reporting & Event Briefs|Economy & State Capacity|National Monitor Brief"`
+
+Remaining risks / follow-up:
+- The open browser tab still needs a refresh to load the overhauled country-profile assets.
+- A visual smoke pass in the in-app browser is still worth doing after refresh to tune spacing, copy density, and mobile behavior from the rendered page.
+
+### Sitewide Editorial Coherence Pass
+
+Affected areas:
+- `index.html`
+- `assets/css/dashboard.css`
+
+What changed:
+- Reworked the public dashboard shell around a stronger editorial masthead, including a desk-style SENTINEL lockup and more publication-like navigation treatment.
+- Added a sitewide paper-and-dossier visual system with shared background texture, softened gradients, stronger section frames, and more consistent shadows and corner treatment across overview, hero sections, event surfaces, country dossiers, and long-form pages.
+- Expanded the homepage from a narrow centered rail into a wider editorial stage so overview sections feel like designed features rather than stacked landing-page blocks.
+- Tightened coherence across `Overview`, `Events`, `Countries`, `OC`, `US–LatAm`, and `About` by aligning hero cards, section surfaces, and the persistent log bar to the same visual language.
+- Bumped the public asset version again so browsers refresh into the new editorial shell immediately.
+
+Validation completed:
+- `node --check assets/js/dashboard.js`
+- `curl -s http://localhost:8000/index.html | rg "20260606-editorial-coherence|Political Risk Desk"`
+
+Remaining risks / follow-up:
+- The open browser tab still needs a refresh to load the editorial coherence pass.
+- A manual visual review in the in-app browser is still useful to tune any tab-specific spacing that now looks slightly tighter or looser under the shared shell styles.
+
+### Country Brief Interaction Tightening
+
+Affected areas:
+- `index.html`
+- `assets/js/dashboard.js`
+- `assets/css/dashboard.css`
+
+What changed:
+- Removed the added top-left `Political Risk Desk` masthead subheading so the SENTINEL wordmark returns to a cleaner single-line lockup.
+- Flattened the country navigator cards by removing the stronger gradient treatment and toning down the hover motion so the left rail feels closer to the original dossier navigation.
+- Reworked country event briefs from a split list/detail workspace into a single-column accordion list where clicking one item expands it downward in place.
+- Updated the accordion behavior so opening one event closes the others automatically.
+- Restacked the expanded event-note content into a vertical reading flow rather than side-by-side panes.
+- Bumped the asset version again so browsers pick up the interaction and styling changes on refresh.
+
+Validation completed:
+- `node --check assets/js/dashboard.js`
+- `curl -s http://localhost:8000/index.html | rg "20260606-country-accordion"`
+
+Remaining risks / follow-up:
+- The open browser tab still needs a refresh to load the accordion version.
+- A quick live click-through in the in-app browser is still worth doing after refresh to confirm the accordion spacing feels right with longer event analyses.
+
+### Homepage Layout Revert
+
+Affected areas:
+- `index.html`
+- `assets/css/dashboard.css`
+
+What changed:
+- Reverted the overview homepage back to its earlier centered, narrower layout and original section/card treatment.
+- Removed the homepage-specific overrides from the broader editorial pass while leaving the newer country-profile and event-accordion work intact.
+- Bumped the public asset version again so browsers pick up the homepage rollback on refresh.
+
+Validation completed:
+- `node --check assets/js/dashboard.js`
+- `curl -s http://localhost:8000/index.html | rg "20260606-home-revert"`
+
+Remaining risks / follow-up:
+- The open browser tab still needs a refresh to load the reverted homepage assets.
+
+### Shared Country Dossier Contract And Publication Layer
+
+Affected areas:
+- `config/schemas/country_dossier_public.schema.json`
+- `scripts/analysis/build_country_dossiers.py`
+- `scripts/analysis/validate_country_dossiers.py`
+- `scripts/analysis/build_country_monitors.py`
+- `scripts/publish/publish_dashboard_data.py`
+- `scripts/sync/common.py`
+- `scripts/sync/push_console_snapshots_to_supabase.py`
+- `scripts/sync/export_published_from_supabase.py`
+- `tests/test_build_country_dossiers.py`
+- `data/published/country_dossiers.json`
+
+What changed:
+- Added a canonical public `country_dossiers.json` artifact that emits exactly one public-safe dossier row for each of the 25 monitored countries.
+- Added a strict dossier schema, recursive validator, and regression tests covering canonical country identity, public/private field separation, nested payload shape, and null-safe public summary handling.
+- Hardened dossier generation against pseudo-country leakage by limiting country monitor row generation to the structural canonical country set.
+- Wired dossier generation and validation into the publication layer so published country dossiers are rebuilt and checked alongside other dashboard artifacts.
+- Added a dedicated `country_dossiers` snapshot family to the Supabase push/export scripts so the analyst console can adopt the same shared base object after login.
+- Added annualized public predictive trajectories for `regime_vulnerability`, `militarization`, and `security_fragmentation`, derived from the monthly modeling panel and dossier-backed into both the public profile view and analyst console country brief.
+
+Validation completed:
+- `pytest tests/test_build_country_dossiers.py -q`
+- `python3 scripts/analysis/build_country_dossiers.py`
+- `python3 scripts/analysis/validate_country_dossiers.py`
+
+Remaining risks / follow-up:
+- The public dashboard still needs to switch its country-profile rendering over to the dossier artifact rather than reading older structural sources directly.
+- The analyst console snapshot now carries the shared dossier base layer, but the React console still needs a follow-on UI/data wiring pass to consume it.
+
+### Analyst Console Workflow Cleanup Pass
+
+Affected areas:
+- `apps/analyst-console/src/app/App.tsx`
+- `apps/analyst-console/src/components/shell/filter-manager.tsx`
+- `apps/analyst-console/src/components/shell/notification-center.tsx`
+- `apps/analyst-console/src/features/actions/release-panel.tsx`
+- `apps/analyst-console/src/features/queue/queue-panel.tsx`
+- `apps/analyst-console/src/lib/domain/queue.ts`
+- `apps/analyst-console/src/lib/domain/types.ts`
+- `apps/analyst-console/src/lib/state/console-reducer.ts`
+- `apps/analyst-console/src/lib/domain/queue.test.ts`
+- `apps/analyst-console/src/lib/state/console-reducer.test.ts`
+- `apps/analyst-console/src/app/App.test.tsx`
+
+What changed:
+- Added targeted analyst worklists on top of the simpler `All` and `Review now` queue toggle so the console can pivot cleanly into publish-ready, corroboration, registry, and duplicate lanes without bloating the left queue chrome.
+- Added a compact queue-health strip in the left column that surfaces ready, corroboration, and registry counts as fast entry points into the highest-value work buckets.
+- Reworked the filter navigator into a denser single-sheet control surface so queue scope, worklist, priority, sort, country, and event-type filters can be combined without adding more top-level navigation.
+- Added a publish checklist to the release workspace and disabled the ready-for-release action until human review, QA, registry/duplicate, and source-package requirements are satisfied.
+- Extended notifications into assignment-style team handoffs with explicit assignment type and due-window metadata that is visible both in the composer and the inbox.
+
+Validation completed:
+- `pnpm run analyst-console:typecheck`
+- `pnpm run analyst-console:test`
+- `pnpm run analyst-console:build`
+
+Remaining risks / follow-up:
+- The publish-ready lane is intentionally conservative and may still need tuning once real analyst behavior shows which unresolved cases should remain releasable with note-only exceptions.
+- The current notification metadata is client-driven and stored in the existing generic payload shape; if assignment routing becomes a core workflow, the Supabase layer should eventually harden those fields into a more explicit schema.
+
+### Review Queue Priority Rebalance
+
+Affected areas:
+- `scripts/review/build_review_queue.py`
+- `data/review/review_queue.json`
+- `data/review/review_queue_with_edits.json`
+- `apps/analyst-console/src/lib/domain/queue.ts`
+- `apps/analyst-console/src/lib/api/load-console-workspace.ts`
+- `apps/analyst-console/src/lib/domain/types.ts`
+- `apps/analyst-console/src/lib/domain/queue.test.ts`
+- `apps/analyst-console/src/lib/api/load-console-workspace.test.ts`
+
+What changed:
+- Tightened the analyst review-priority rule so `high` is no longer a broad upper bucket driven only by a composite score threshold.
+- Updated the queue builder so `high` now requires either an extreme priority score or a genuine blocking condition such as publication risk, strong council disagreement, or multiple QA / registry issues.
+- Raised the `medium` cutoff so more routine review items fall back to `low`, which restores separation between urgent queue items and normal supervision load.
+- Normalized queue priorities when the analyst console loads snapshots, so stale Supabase or local artifacts with inflated `high` labels are rebalanced in the UI even before the next snapshot sync.
+- Updated priority-first sorting so items with the same priority bucket are ordered by `priority_score` before recency.
+
+Validation completed:
+- `python3 scripts/review/build_review_queue.py`
+- `python3 scripts/review/apply_analyst_edits.py`
+- `pnpm run analyst-console:test`
+- `pnpm run analyst-console:typecheck`
+- `pnpm run analyst-console:build`
+
+Remaining risks / follow-up:
+- Supabase snapshot rows already pushed before this change will still exist until the next snapshot sync, though the console now rebalances their priority labels on read.
+- The event-level `review_priority` stored in canonical event artifacts is still salience-driven and may merit a separate redesign if other downstream workflows start relying on it more heavily.
+
+### Analyst Console Invite-Only Access Workflow
+
+Affected areas:
+- `apps/analyst-console/src/app/App.tsx`
+- `apps/analyst-console/src/components/shell/auth-banner.tsx`
+- `apps/analyst-console/src/components/shell/access-manager.tsx`
+- `apps/analyst-console/src/lib/api/console-invites.ts`
+- `apps/analyst-console/src/lib/domain/access.ts`
+- `apps/analyst-console/src/lib/domain/types.ts`
+- `apps/analyst-console/src/app/App.test.tsx`
+- `supabase/functions/review-action/index.ts`
+- `supabase/migrations/20260606023519_console_admin_invites.sql`
+
+What changed:
+- Added an admin-only access manager to the analyst console so invited-user provisioning now has a real signed-in workflow instead of only explanatory copy on the auth screen.
+- Added a Supabase-backed `console_user_invites` audit table plus admin-only RLS policies for invite history and access review.
+- Extended the `review-action` Edge Function with an `invite_console_user` action that sends Supabase Auth invitation emails and upserts the invited user profile with the requested console role.
+- Updated the signed-out auth surface so it explicitly directs users to contact a Sentinel admin for an invitation rather than implying public registration is available.
+
+Validation completed:
+- `pnpm run analyst-console:typecheck`
+- `pnpm run analyst-console:test`
+- `pnpm run analyst-console:build`
+
+Remaining risks / follow-up:
+- The invite flow assumes the legacy `SUPABASE_SERVICE_ROLE_KEY` is available to the Edge Function runtime; migrating this path to `SUPABASE_SECRET_KEYS` is the next security-hardening step.
+- This change provisions invited roles and keeps an audit trail, but it does not yet add a separate admin UI for revoking or reassigning existing users after they have already joined.
+
+### Analyst Console Operability, Role Gating, and Artifact Serving
+
+Affected areas:
+- `apps/analyst-console/src/app/App.tsx`
+- `apps/analyst-console/src/components/shell/`
+- `apps/analyst-console/src/features/actions/`
+- `apps/analyst-console/src/features/detail/`
+- `apps/analyst-console/src/lib/api/`
+- `apps/analyst-console/src/lib/domain/`
+- `apps/analyst-console/src/lib/state/`
+- `vite.config.ts`
+- `vitest.config.ts`
+- `supabase/functions/review-action/index.ts`
+- `supabase/migrations/20260605_000002_expand_registry_and_publish_permissions.sql`
+
+What changed:
+- Made the React analyst console operable end to end by wiring the left rail, top workspace state, review actions, release controls, audit history, and registry submission workflow to real app state and Supabase-backed mutations.
+- Added role-aware access rules so `ra` users can edit and annotate but cannot publish, while `analyst` and `admin` users can publish and can view restricted AI analysis and country brief surfaces.
+- Added dedicated center-panel tabs for event brief, AI analysis, country brief, and source/data inspection so analysts can review the decision surface, model output, and underlying context side by side.
+- Added a notification center in the top bar with an inbox, unread count, and event-linked message composer so users can route changes to RAs, analysts, or admins directly from the review workspace.
+- Added a manual-event submission workflow so signed-in users can add missed events directly into the analyst review queue when the scraper fails to capture them.
+- Added authenticated session handling for console users and local preview fallbacks for the core analyst artifacts when Supabase is unavailable.
+- Expanded the Vite artifact-serving layer so local preview and built preview both expose the required review artifacts: review queue, council analyses, country monitors, and actor registry snapshots.
+- Updated Vitest boundaries so Playwright specs are no longer collected by the unit test runner.
+- Added Supabase-backed `console_notifications` storage plus server-side send/read actions for team notifications.
+- Moved the analyst console behind a real sign-in gate so signed-out users no longer see the queue or review surfaces, and removed self-service registration from the public console UI.
+- Added Supabase-backed `manual_event_submissions` storage plus queue-side create actions so human-submitted events persist and load back into the queue on authenticated sessions.
+
+Validation completed:
+- `pnpm run analyst-console:typecheck`
+- `pnpm exec vitest run apps/analyst-console/src/app/App.test.tsx apps/analyst-console/src/lib/state/console-reducer.test.ts apps/analyst-console/src/lib/api/load-console-data.test.ts`
+- `pnpm run analyst-console:build`
+
+Remaining risks / follow-up:
+- Browser verification should still be rerun after restarting the local analyst-console server so the updated artifact-serving layer is active in the live preview.
+- The current role model still accepts a legacy `coordinator` value as analyst-equivalent for compatibility with older profile rows; this can be removed once all profile data is normalized to the three intended roles.
+
 ### Analyst Console Shell Cutover and QA Workflow
 
 Affected areas:
