@@ -3,6 +3,7 @@ import { useEffect, useReducer } from "react";
 import { GlobalRail } from "@/components/shell/global-rail";
 import { TopOperationsBar } from "@/components/shell/top-operations-bar";
 import { WorkspaceFrame } from "@/components/shell/workspace-frame";
+import { QueuePanel } from "@/features/queue/queue-panel";
 import { loadConsoleData } from "@/lib/api/load-console-data";
 import { getVisibleQueue } from "@/lib/domain/queue";
 import {
@@ -46,7 +47,7 @@ export function App() {
     priorityFilter: state.priorityFilter,
   });
   const selectedItem =
-    state.queue.find((row) => row.event_id === state.selectedId) ??
+    visibleQueue.find((row) => row.event_id === state.selectedId) ??
     visibleQueue[0] ??
     null;
 
@@ -87,33 +88,24 @@ export function App() {
                     {selectedItem.review_priority} priority
                   </p>
                 </>
+              ) : state.loadError ? (
+                <p className="text-sm text-[var(--console-muted)]">
+                  Brief unavailable while the review queue failed to load.
+                </p>
               ) : (
                 <p className="text-sm text-[var(--console-muted)]">
-                  Brief scaffold awaiting queue selection.
+                  No visible queue item selected.
                 </p>
               )}
             </div>
           }
           queue={
-            <div className="space-y-3 p-4">
-              <h2 className="text-sm font-semibold text-[var(--console-ink)]">
-                Review queue
-              </h2>
-              {state.loadError ? (
-                <p role="status" className="text-sm text-[var(--console-danger)]">
-                  {state.loadError}
-                </p>
-              ) : (
-                <>
-                  <p className="text-sm text-[var(--console-muted)]">
-                    {visibleQueue.length} visible queue item(s)
-                  </p>
-                  <p className="text-sm text-[var(--console-muted)]">
-                    Queue scaffold for the next review workflow pass.
-                  </p>
-                </>
-              )}
-            </div>
+            <QueuePanel
+              loadError={state.loadError}
+              onSelect={(id) => dispatch({ type: "selected", payload: id })}
+              rows={visibleQueue}
+              selectedId={selectedItem?.event_id ?? null}
+            />
           }
         />
       </div>

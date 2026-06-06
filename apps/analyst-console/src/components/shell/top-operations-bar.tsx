@@ -29,6 +29,7 @@ export function TopOperationsBar({
         aria-label="Console search"
         role="search"
         className="flex min-w-0 flex-1 justify-center"
+        onSubmit={(event) => event.preventDefault()}
       >
         <label className="sr-only" htmlFor="console-search">
           Search events, countries, and queue IDs
@@ -46,7 +47,10 @@ export function TopOperationsBar({
         </div>
       </form>
 
-      <div className="text-right text-xs text-[var(--console-muted)]">
+      <div
+        aria-live="polite"
+        className="text-right text-xs text-[var(--console-muted)]"
+      >
         <div>Supabase synced</div>
         <div>{itemCount} visible queue item(s)</div>
       </div>
