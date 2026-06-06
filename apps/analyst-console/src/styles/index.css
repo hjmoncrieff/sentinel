@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: var(--console-bg);
+  color: var(--console-ink);
+}
