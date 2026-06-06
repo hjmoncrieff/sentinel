@@ -56,9 +56,9 @@ export function App() {
     null;
 
   return (
-    <div className="flex min-h-screen bg-[var(--console-bg)] text-[var(--console-ink)]">
+    <div className="flex h-screen overflow-hidden bg-[var(--console-bg)] text-[var(--console-ink)]">
       <GlobalRail />
-      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <TopOperationsBar
           itemCount={visibleQueue.length}
           onSearchChange={(value) =>

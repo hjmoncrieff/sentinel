@@ -34,10 +34,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        analystConsole: resolve(
-          rootDir,
-          "apps/analyst-console/app-shell.html",
-        ),
+        analystConsole: resolve(rootDir, "apps/analyst-console/index.html"),
       },
     },
   },

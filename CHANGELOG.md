@@ -11,6 +11,38 @@ Each major change entry should include:
 
 ## 2026-06-05
 
+### Analyst Console Shell Cutover and QA Workflow
+
+Affected areas:
+- `apps/analyst-console/index.html`
+- `apps/analyst-console/src/`
+- `.storybook/`
+- `playwright.config.ts`
+- `tests/analyst-console/`
+- `package.json`
+- `pnpm-lock.yaml`
+- `README.md`
+
+What changed:
+- Replaced the temporary analyst-console fallback route with the React shell as the canonical private workspace entry.
+- Added the multi-panel review shell, queue workflow, progressive brief surface, and stacked action, release, and audit panels.
+- Added Storybook coverage for core analyst-console components, including accessibility addons and local component-state review scripts.
+- Added Playwright smoke and visual regression coverage for the analyst-console route and generated the first screenshot baseline.
+- Updated the README with the analyst-console UI workflow so local development now points at the Vite shell, Storybook, and Playwright checks directly.
+
+Validation completed:
+- `CI=true pnpm analyst-console:test apps/analyst-console/src/app/App.test.tsx`
+- `CI=true pnpm analyst-console:typecheck`
+- `CI=true pnpm analyst-console:build`
+- `CI=true pnpm analyst-console:storybook:build`
+- `CI=true pnpm exec playwright test tests/analyst-console/smoke.spec.ts`
+- `CI=true pnpm exec playwright test tests/analyst-console/visual.spec.ts --update-snapshots`
+- `CI=true pnpm analyst-console:test:visual`
+
+Remaining risks / follow-up:
+- The legacy single-file analyst console remains preserved at `apps/analyst-console/legacy/index.legacy.html` as a migration reference, but it is no longer the default entry route.
+- Future work should connect the new action controls to live review mutations and add broader browser coverage for additional analyst states.
+
 ### Analyst Console Vite/React Scaffold
 
 Affected areas:
