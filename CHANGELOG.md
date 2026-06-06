@@ -24,18 +24,21 @@ Affected areas:
 - `apps/analyst-console/src/`
 
 What changed:
-- Replaced the analyst console entry HTML with a Vite mount point for a new React application shell.
+- Kept `apps/analyst-console/index.html` as the stable static entry and redirected it to the preserved legacy console so the existing analyst workflow does not break during the migration.
+- Added `apps/analyst-console/app-shell.html` as the Vite entry for the new React application shell preview.
 - Added root Vite, Vitest, and TypeScript configuration for the analyst console app.
 - Added the first application bootstrap files: React entrypoint, minimal shell component, test setup, and style/token files.
+- Added an `analyst-console:typecheck` script plus React/Node type packages so the TypeScript scaffold validates cleanly.
 - Preserved the previous single-file analyst console in `apps/analyst-console/legacy/index.legacy.html` as the migration reference during the redesign.
 
 Validation completed:
 - Added the bootstrap test first and confirmed the initial red state with `pnpm vitest run apps/analyst-console/src/app/App.test.tsx` failing because `vitest` was not yet available.
-- Attempted dependency installation with `pnpm install --force --store-dir .pnpm-store/v11`, which recreated local `node_modules` but failed on registry fetches because package resolution is blocked in the current sandbox.
+- `CI=true pnpm analyst-console:test apps/analyst-console/src/app/App.test.tsx`
+- `CI=true pnpm analyst-console:build`
+- `CI=true pnpm analyst-console:typecheck`
 
 Remaining risks / follow-up:
-- `pnpm-lock.yaml` could not be updated in this environment because the required packages could not be fetched from `registry.npmjs.org`.
-- The passing green verification step for `pnpm analyst-console:test apps/analyst-console/src/app/App.test.tsx` remains pending until dependencies can be installed with network access.
+- The React shell is intentionally not the live default route yet; later migration tasks still need to port real workflow panels before cutover.
 
 ### Authenticated Review Action Function
 
