@@ -1204,11 +1204,11 @@ def build_country_rows(config: dict, structural_rows: dict[str, dict], acled: di
     deed = deed_lookup()
     event_signals = event_signal_lookup(events)
     external_signals = external_economic_lookup()
-    countries = sorted({
+    countries = sorted(
         country
-        for country in set(structural_rows.keys()) | {str(ev.get("country")) for ev in events if ev.get("country")}
+        for country in structural_rows.keys()
         if country and country != "Regional"
-    })
+    )
     rows = []
     for country in countries:
         structural = structural_rows.get(country, {})

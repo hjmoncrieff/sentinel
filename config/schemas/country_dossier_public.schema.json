@@ -9,6 +9,9 @@
       "type": "string",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
     },
+    "count": {
+      "type": "integer"
+    },
     "countries": {
       "type": "array",
       "minItems": 25,
@@ -25,6 +28,7 @@
           "public_summary",
           "public_structural_cards",
           "public_construct_series",
+          "public_predictive_series",
           "public_context"
         ],
         "properties": {
@@ -131,7 +135,9 @@
                 "label": {
                   "type": "string"
                 },
-                "current_value": {},
+                "current_value": {
+                  "type": ["number", "null"]
+                },
                 "display_value": {
                   "type": "string"
                 },
@@ -165,6 +171,65 @@
                 },
                 "label": {
                   "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "public_predictive_series": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "code",
+                "label",
+                "current_score",
+                "display_score",
+                "level",
+                "trend_label",
+                "as_of_year",
+                "trend_series"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "current_score": {
+                  "type": "number"
+                },
+                "display_score": {
+                  "type": "string"
+                },
+                "level": {
+                  "type": "string"
+                },
+                "trend_label": {
+                  "type": "string"
+                },
+                "as_of_year": {
+                  "type": "integer"
+                },
+                "trend_series": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "year",
+                      "score"
+                    ],
+                    "properties": {
+                      "year": {
+                        "type": "integer"
+                      },
+                      "score": {
+                        "type": "number"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
                 }
               },
               "additionalProperties": false

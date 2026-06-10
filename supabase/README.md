@@ -19,9 +19,15 @@ The public dashboard remains static and continues to read generated JSON from
 
 1. Create a Supabase project.
 2. Run the SQL migration in `migrations/`.
-3. Copy your project URL and anon key into:
+3. Deploy the authenticated review-write function:
+
+```bash
+supabase functions deploy review-action
+```
+
+4. Copy your project URL and anon key into:
    - `apps/analyst-console/supabase-config.js`
-4. Export your service role credentials locally before running sync scripts:
+5. Export your service role credentials locally before running sync scripts:
 
 ```bash
 export SUPABASE_URL="https://YOUR_PROJECT.supabase.co"
@@ -54,8 +60,13 @@ For the full step-by-step setup and automation model, use:
 
 - Only the anon key belongs in frontend code. Never place the service role key
   in the browser.
+- The browser analyst console now sends write actions through the `review-action`
+  Edge Function. Reads still come from snapshots and review tables directly.
 - Self-registration is intentionally conservative. New browser-created accounts
   default to the `analyst` role. Promote privileged users manually in Supabase.
 - In Supabase mode, registry edits are stored immediately in Supabase but are
   materialized into `config/actors/actor_registry.json` only when the sync cycle
   is run from a trusted local environment.
+- Local `supabase status` may report `imgproxy` and `pooler` as stopped. That is
+  currently acceptable for SENTINEL because the repo does not use Storage image
+  transformations or a pooled local database connection in its active workflow.

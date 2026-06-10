@@ -1,0 +1,931 @@
+{
+  "version": "1.0",
+  "updated": "2026-06-02",
+  "status": "design_ready_not_yet_wired",
+  "owner": "SENTINEL retrieval pipeline",
+  "purpose": "Central multilingual query lexicon for article discovery, retrieval filtering, and future source-specific query assembly across civil-military relations, democratic erosion, armed conflict, and transnational security in Latin America and the Caribbean.",
+  "design_principles": [
+    "Keep retrieval tied to SENTINEL event taxonomy rather than a flat bag of words.",
+    "Separate discovery breadth from pre-filter precision and verification logic.",
+    "Use geography plus event-family terms as the default retrieval spine.",
+    "Elevate state-security institutions, armed-group aliases, and organized-crime brands because they often carry more signal than generic words like military or security.",
+    "Support English, Spanish, and Portuguese directly rather than relying on translation at query time.",
+    "Reserve narrower country-specific expansions for the highest-priority cases instead of bloating every global query."
+  ],
+  "retrieval_layers": {
+    "discovery": {
+      "description": "Broad, recall-oriented query layer for Google News, NewsAPI, and other search products.",
+      "default_logic": "At least one event-family family plus geography tokens."
+    },
+    "prefilter": {
+      "description": "Cheap relevance screen before model classification.",
+      "default_logic": "Weighted scoring across family terms, actor aliases, institution aliases, and geography, with penalties for known false-positive domains."
+    },
+    "verification": {
+      "description": "Narrower query layer for wire and corroboration sources.",
+      "default_logic": "Prioritize high-signal incident terms, named actors, and strong geography."
+    },
+    "enrichment": {
+      "description": "Slower analytical layer for context, oversight, and human-rights reporting.",
+      "default_logic": "Allow wider reform, accountability, and democratic-erosion vocabulary."
+    }
+  },
+  "monitor_layers": {
+    "organized_crime_violence_illicit_economies": {
+      "description": "Dedicated retrieval layer for criminal violence, trafficking corridors, prison power, illicit extraction, extortion systems, and criminal governance that shape civil-military order.",
+      "why_it_matters": [
+        "In much of the region, organized crime is not just a public-safety issue but a driver of coercive governance, military deployment, and territorial control.",
+        "Illicit economies often generate the strongest pressure on civil-military relations through corruption, intelligence cooperation, emergency rule, and hybrid state-criminal bargains.",
+        "This layer should catch violence and extraction signals even when articles do not use explicit civil-military language."
+      ],
+      "primary_query_families": [
+        "organized_crime_and_transnational_security",
+        "criminal_violence_and_illicit_economies",
+        "corruption_capture_and_judicial_pressure",
+        "border_tension_and_sovereignty"
+      ],
+      "priority_countries": [
+        "Brazil",
+        "Colombia",
+        "Ecuador",
+        "El Salvador",
+        "Haiti",
+        "Honduras",
+        "Mexico",
+        "Peru",
+        "Venezuela"
+      ]
+    }
+  },
+  "country_scope_sets": {
+    "core_pipeline": [
+      "Argentina",
+      "Bolivia",
+      "Brazil",
+      "Chile",
+      "Colombia",
+      "Costa Rica",
+      "Cuba",
+      "Dominican Republic",
+      "Ecuador",
+      "El Salvador",
+      "Guatemala",
+      "Guyana",
+      "Haiti",
+      "Honduras",
+      "Jamaica",
+      "Mexico",
+      "Nicaragua",
+      "Panama",
+      "Paraguay",
+      "Peru",
+      "Suriname",
+      "Trinidad and Tobago",
+      "Uruguay",
+      "Venezuela"
+    ],
+    "extended_dashboard": [
+      "Bahamas",
+      "Barbados",
+      "Belize"
+    ],
+    "priority_cmr_focus": [
+      "Brazil",
+      "Colombia",
+      "Ecuador",
+      "El Salvador",
+      "Haiti",
+      "Mexico",
+      "Peru",
+      "Venezuela"
+    ],
+    "caribbean_security_watch": [
+      "Bahamas",
+      "Barbados",
+      "Dominican Republic",
+      "Guyana",
+      "Haiti",
+      "Jamaica",
+      "Suriname",
+      "Trinidad and Tobago"
+    ]
+  },
+  "regional_terms": {
+    "en": [
+      "Latin America",
+      "South America",
+      "Central America",
+      "Caribbean",
+      "Western Hemisphere",
+      "Inter-American"
+    ],
+    "es": [
+      "America Latina",
+      "Latinoamerica",
+      "Sudamerica",
+      "Centroamerica",
+      "Caribe",
+      "Interamericano"
+    ],
+    "pt": [
+      "America Latina",
+      "America do Sul",
+      "America Central",
+      "Caribe",
+      "Interamericano"
+    ]
+  },
+  "country_aliases": {
+    "Argentina": {
+      "iso2": "AR",
+      "subregion": "Southern Cone",
+      "terms": {
+        "en": ["Argentina", "Argentine", "Argentinian"],
+        "es": ["Argentina", "argentino", "argentina"],
+        "pt": ["Argentina", "argentino", "argentina"]
+      }
+    },
+    "Bahamas": {
+      "iso2": "BS",
+      "subregion": "Caribbean",
+      "terms": {
+        "en": ["Bahamas", "Bahamian"],
+        "es": ["Bahamas", "bahameno", "bahamena"],
+        "pt": ["Bahamas", "bahamense"]
+      }
+    },
+    "Barbados": {
+      "iso2": "BB",
+      "subregion": "Caribbean",
+      "terms": {
+        "en": ["Barbados", "Barbadian"],
+        "es": ["Barbados", "barbadense"],
+        "pt": ["Barbados", "barbadiano", "barbadiana"]
+      }
+    },
+    "Belize": {
+      "iso2": "BZ",
+      "subregion": "Central America",
+      "terms": {
+        "en": ["Belize", "Belizean"],
+        "es": ["Belice", "beliceno", "belicena"],
+        "pt": ["Belize", "belizenho", "belizenha"]
+      }
+    },
+    "Bolivia": {
+      "iso2": "BO",
+      "subregion": "Andean",
+      "terms": {
+        "en": ["Bolivia", "Bolivian"],
+        "es": ["Bolivia", "boliviano", "boliviana"],
+        "pt": ["Bolivia", "boliviano", "boliviana"]
+      }
+    },
+    "Brazil": {
+      "iso2": "BR",
+      "subregion": "Brazil",
+      "terms": {
+        "en": ["Brazil", "Brazilian"],
+        "es": ["Brasil", "brasileno", "brasilena"],
+        "pt": ["Brasil", "brasileiro", "brasileira"]
+      }
+    },
+    "Chile": {
+      "iso2": "CL",
+      "subregion": "Southern Cone",
+      "terms": {
+        "en": ["Chile", "Chilean"],
+        "es": ["Chile", "chileno", "chilena"],
+        "pt": ["Chile", "chileno", "chilena"]
+      }
+    },
+    "Colombia": {
+      "iso2": "CO",
+      "subregion": "Andean",
+      "terms": {
+        "en": ["Colombia", "Colombian"],
+        "es": ["Colombia", "colombiano", "colombiana"],
+        "pt": ["Colombia", "colombiano", "colombiana"]
+      }
+    },
+    "Costa Rica": {
+      "iso2": "CR",
+      "subregion": "Central America",
+      "terms": {
+        "en": ["Costa Rica", "Costa Rican"],
+        "es": ["Costa Rica", "costarricense"],
+        "pt": ["Costa Rica", "costarriquenho", "costarriquenha"]
+      }
+    },
+    "Cuba": {
+      "iso2": "CU",
+      "subregion": "Caribbean",
+      "terms": {
+        "en": ["Cuba", "Cuban"],
+        "es": ["Cuba", "cubano", "cubana"],
+        "pt": ["Cuba", "cubano", "cubana"]
+      }
+    },
+    "Dominican Republic": {
+      "iso2": "DO",
+      "subregion": "Caribbean",
+      "terms": {
+        "en": ["Dominican Republic", "Dominican"],
+        "es": ["Republica Dominicana", "dominicano", "dominicana"],
+        "pt": ["Republica Dominicana", "dominicano", "dominicana"]
+      }
+    },
+    "Ecuador": {
+      "iso2": "EC",
+      "subregion": "Andean",
+      "terms": {
+        "en": ["Ecuador", "Ecuadorian"],
+        "es": ["Ecuador", "ecuatoriano", "ecuatoriana"],
+        "pt": ["Equador", "equatoriano", "equatoriana"]
+      }
+    },
+    "El Salvador": {
+      "iso2": "SV",
+      "subregion": "Central America",
+      "terms": {
+        "en": ["El Salvador", "Salvadoran"],
+        "es": ["El Salvador", "salvadoreno", "salvadorena"],
+        "pt": ["El Salvador", "salvadorenho", "salvadorenha"]
+      }
+    },
+    "Guatemala": {
+      "iso2": "GT",
+      "subregion": "Central America",
+      "terms": {
+        "en": ["Guatemala", "Guatemalan"],
+        "es": ["Guatemala", "guatemalteco", "guatemalteca"],
+        "pt": ["Guatemala", "guatemalteco", "guatemalteca"]
+      }
+    },
+    "Guyana": {
+      "iso2": "GY",
+      "subregion": "Caribbean",
+      "terms": {
+        "en": ["Guyana", "Guyanese"],
+        "es": ["Guyana", "guyanesa", "guyanes"],
+        "pt": ["Guiana", "guianense"]
+      }
+    },
+    "Haiti": {
+      "iso2": "HT",
+      "subregion": "Caribbean",
+      "terms": {
+        "en": ["Haiti", "Haitian"],
+        "es": ["Haiti", "haitiano", "haitiana"],
+        "pt": ["Haiti", "haitiano", "haitiana"]
+      }
+    },
+    "Honduras": {
+      "iso2": "HN",
+      "subregion": "Central America",
+      "terms": {
+        "en": ["Honduras", "Honduran"],
+        "es": ["Honduras", "hondureno", "hondurena"],
+        "pt": ["Honduras", "hondurenho", "hondurenha"]
+      }
+    },
+    "Jamaica": {
+      "iso2": "JM",
+      "subregion": "Caribbean",
+      "terms": {
+        "en": ["Jamaica", "Jamaican"],
+        "es": ["Jamaica", "jamaicano", "jamaicana"],
+        "pt": ["Jamaica", "jamaicano", "jamaicana"]
+      }
+    },
+    "Mexico": {
+      "iso2": "MX",
+      "subregion": "Mexico",
+      "terms": {
+        "en": ["Mexico", "Mexican"],
+        "es": ["Mexico", "mexicano", "mexicana"],
+        "pt": ["Mexico", "mexicano", "mexicana"]
+      }
+    },
+    "Nicaragua": {
+      "iso2": "NI",
+      "subregion": "Central America",
+      "terms": {
+        "en": ["Nicaragua", "Nicaraguan"],
+        "es": ["Nicaragua", "nicaraguense"],
+        "pt": ["Nicaragua", "nicaraguense"]
+      }
+    },
+    "Panama": {
+      "iso2": "PA",
+      "subregion": "Central America",
+      "terms": {
+        "en": ["Panama", "Panamanian"],
+        "es": ["Panama", "panameno", "panamena"],
+        "pt": ["Panama", "panamenho", "panamenha"]
+      }
+    },
+    "Paraguay": {
+      "iso2": "PY",
+      "subregion": "Southern Cone",
+      "terms": {
+        "en": ["Paraguay", "Paraguayan"],
+        "es": ["Paraguay", "paraguayo", "paraguaya"],
+        "pt": ["Paraguai", "paraguaio", "paraguaia"]
+      }
+    },
+    "Peru": {
+      "iso2": "PE",
+      "subregion": "Andean",
+      "terms": {
+        "en": ["Peru", "Peruvian"],
+        "es": ["Peru", "peruano", "peruana"],
+        "pt": ["Peru", "peruano", "peruana"]
+      }
+    },
+    "Suriname": {
+      "iso2": "SR",
+      "subregion": "Caribbean",
+      "terms": {
+        "en": ["Suriname", "Surinamese"],
+        "es": ["Surinam", "surinames"],
+        "pt": ["Suriname", "surinamense"]
+      }
+    },
+    "Trinidad and Tobago": {
+      "iso2": "TT",
+      "subregion": "Caribbean",
+      "terms": {
+        "en": ["Trinidad and Tobago", "Trinidadian", "Tobagonian"],
+        "es": ["Trinidad y Tobago", "trinitense", "tobagueno", "tobaguena"],
+        "pt": ["Trinidad e Tobago", "trinitino", "trinitina", "tobagano", "tobagana"]
+      }
+    },
+    "Uruguay": {
+      "iso2": "UY",
+      "subregion": "Southern Cone",
+      "terms": {
+        "en": ["Uruguay", "Uruguayan"],
+        "es": ["Uruguay", "uruguayo", "uruguaya"],
+        "pt": ["Uruguai", "uruguaio", "uruguaia"]
+      }
+    },
+    "Venezuela": {
+      "iso2": "VE",
+      "subregion": "Andean",
+      "terms": {
+        "en": ["Venezuela", "Venezuelan"],
+        "es": ["Venezuela", "venezolano", "venezolana"],
+        "pt": ["Venezuela", "venezuelano", "venezuelana"]
+      }
+    }
+  },
+  "term_sets": {
+    "state_forces": {
+      "description": "Generic armed-forces vocabulary.",
+      "en": ["military", "army", "armed forces", "troops", "soldier", "high command", "general staff", "navy", "naval", "air force", "marines", "commander"],
+      "es": ["militar", "ejercito", "fuerzas armadas", "tropas", "soldado", "alto mando", "estado mayor", "armada", "fuerza aerea", "infanteria de marina", "comandante"],
+      "pt": ["militar", "exercito", "forcas armadas", "tropas", "soldado", "alto comando", "estado-maior", "marinha", "forca aerea", "fuzileiros navais", "comandante"]
+    },
+    "policing_internal_security": {
+      "description": "Police, gendarmerie, national guard, and internal-security institutions.",
+      "en": ["police", "policing", "security forces", "riot police", "national guard", "gendarmerie", "public security", "internal security", "special forces", "border police"],
+      "es": ["policia", "fuerzas de seguridad", "antimotines", "guardia nacional", "gendarmeria", "seguridad publica", "seguridad interna", "fuerzas especiales", "policia fronteriza"],
+      "pt": ["policia", "forcas de seguranca", "choque", "guarda nacional", "gendarmeria", "seguranca publica", "seguranca interna", "forcas especiais", "policia de fronteira"]
+    },
+    "defense_bureaucracy": {
+      "description": "Defense ministries, command appointments, and security governance bureaucracy.",
+      "en": ["defense ministry", "defence ministry", "defense minister", "security minister", "joint chiefs", "chief of defense", "interior ministry", "public security ministry", "military justice", "intelligence service"],
+      "es": ["ministerio de defensa", "ministro de defensa", "ministerio del interior", "ministerio de seguridad", "comandancia general", "jefe del estado mayor", "justicia militar", "servicio de inteligencia"],
+      "pt": ["ministerio da defesa", "ministro da defesa", "ministerio do interior", "ministerio da seguranca", "comando-geral", "chefe do estado-maior", "justica militar", "servico de inteligencia"]
+    },
+    "executive_command": {
+      "description": "Executive decision and command hierarchy terms often tied to politicized military action.",
+      "en": ["president", "executive decree", "emergency decree", "cabinet reshuffle", "commander removed", "dismissed", "sacked", "loyalty", "chain of command", "constitutional order"],
+      "es": ["presidente", "decreto ejecutivo", "decreto de emergencia", "relevo de gabinete", "destituido", "removido", "lealtad", "cadena de mando", "orden constitucional"],
+      "pt": ["presidente", "decreto executivo", "decreto de emergencia", "reforma ministerial", "demitido", "afastado", "lealdade", "cadeia de comando", "ordem constitucional"]
+    },
+    "contention_and_exception": {
+      "description": "Protest, emergency-rule, and exceptional-governance vocabulary.",
+      "en": ["protest", "demonstration", "state of emergency", "martial law", "curfew", "emergency rule", "mass detention", "crackdown", "rights suspension", "internal deployment"],
+      "es": ["protesta", "manifestacion", "estado de excepcion", "estado de emergencia", "toque de queda", "detenciones masivas", "represion", "suspension de garantias", "despliegue interno"],
+      "pt": ["protesto", "manifestacao", "estado de excecao", "estado de emergencia", "toque de recolher", "detencoes em massa", "repressao", "suspensao de direitos", "emprego interno"]
+    },
+    "armed_conflict_and_territorial_control": {
+      "description": "Combat, insurgency, territorial control, and violent fragmentation vocabulary.",
+      "en": ["clashes", "firefight", "offensive", "ambush", "counterinsurgency", "territorial control", "insurgent camp", "armed confrontation", "dissident front", "combat operation"],
+      "es": ["enfrentamientos", "combate", "ofensiva", "emboscada", "contrainsurgencia", "control territorial", "campamento insurgente", "confrontacion armada", "frente disidente", "operacion militar"],
+      "pt": ["confronto", "combate", "ofensiva", "emboscada", "contrainsurgencia", "controle territorial", "acampamento insurgente", "confronto armado", "frente dissidente", "operacao militar"]
+    },
+    "organized_crime_and_illicit_order": {
+      "description": "Cartels, gangs, illicit economies, trafficking, and criminal governance vocabulary.",
+      "en": ["cartel", "narco", "organized crime", "trafficking", "smuggling", "extortion", "money laundering", "prison gang", "criminal governance", "illicit economy"],
+      "es": ["cartel", "narco", "crimen organizado", "trafico", "contrabando", "extorsion", "lavado de activos", "pandilla carcelaria", "gobierno criminal", "economia ilicita"],
+      "pt": ["cartel", "narcotrafico", "crime organizado", "trafico", "contrabando", "extorsao", "lavagem de dinheiro", "faccao prisional", "governanca criminal", "economia ilicita"]
+    },
+    "criminal_violence_patterns": {
+      "description": "Violence forms strongly associated with cartel conflict, gang warfare, punitive control, and coercive criminal order.",
+      "en": ["massacre", "targeted killing", "assassination", "execution-style killing", "kidnapping", "disappearance", "armed attack", "prison riot", "burned vehicle", "body dump", "gunmen", "shootout"],
+      "es": ["masacre", "homicidio selectivo", "asesinato", "ejecucion", "secuestro", "desaparicion", "ataque armado", "motin carcelario", "vehiculo incendiado", "hallazgo de cuerpos", "sicarios", "balacera"],
+      "pt": ["massacre", "homicidio seletivo", "assassinato", "execucao", "sequestro", "desaparecimento", "ataque armado", "rebelião prisional", "veiculo incendiado", "desova de corpos", "pistoleiros", "tiroteio"]
+    },
+    "illicit_economies_and_extraction": {
+      "description": "Illicit economies beyond narcotics, including illegal mining, fuel theft, contraband, and migrant predation.",
+      "en": ["illegal mining", "gold trafficking", "illegal gold", "fuel theft", "contraband", "smuggling network", "arms trafficking", "human smuggling", "migrant extortion", "illegal logging", "coca economy", "precursor chemicals"],
+      "es": ["mineria ilegal", "trafico de oro", "oro ilegal", "robo de combustible", "contrabando", "red de trafico", "trafico de armas", "trafico de migrantes", "extorsion a migrantes", "tala ilegal", "economia cocalera", "precursores quimicos"],
+      "pt": ["garimpo ilegal", "trafico de ouro", "ouro ilegal", "roubo de combustivel", "contrabando", "rede de trafico", "trafico de armas", "trafico de migrantes", "extorsao de migrantes", "madeira ilegal", "economia da coca", "precursores quimicos"]
+    },
+    "criminal_governance_and_capture": {
+      "description": "Vocabulary for criminal governance, prison control, territorial taxation, and state-crime collusion.",
+      "en": ["criminal governance", "parallel authority", "territorial tax", "protection racket", "prison control", "local boss", "state-crime collusion", "security corruption", "narco-politics", "co-opted officials"],
+      "es": ["gobierno criminal", "autoridad paralela", "impuesto territorial", "cobro de piso", "control carcelario", "cacique local", "colusion estado-crimen", "corrupcion en seguridad", "narco-politica", "funcionarios cooptados"],
+      "pt": ["governanca criminal", "autoridade paralela", "imposto territorial", "taxa de protecao", "controle prisional", "chefe local", "colusao entre estado e crime", "corrupcao na seguranca", "narcopolitica", "autoridades cooptadas"]
+    },
+    "external_security_cooperation": {
+      "description": "Bilateral and multilateral defense cooperation, aid, and alignment vocabulary.",
+      "en": ["security cooperation", "defense agreement", "military aid", "partner force", "intelligence sharing", "base access", "foreign military financing", "security assistance", "joint task force", "training mission"],
+      "es": ["cooperacion en seguridad", "acuerdo de defensa", "ayuda militar", "fuerza socia", "intercambio de inteligencia", "acceso a base", "financiamiento militar extranjero", "asistencia en seguridad", "fuerza de tarea conjunta", "mision de entrenamiento"],
+      "pt": ["cooperacao em seguranca", "acordo de defesa", "ajuda militar", "forca parceira", "compartilhamento de inteligencia", "acesso a base", "financiamento militar estrangeiro", "assistencia em seguranca", "forca-tarefa conjunta", "missao de treinamento"]
+    },
+    "military_exercises_and_force_posture": {
+      "description": "Exercises, drills, readiness, port calls, and posture signals.",
+      "en": ["joint exercise", "military drill", "naval drill", "air exercise", "force posture", "readiness", "port call", "interoperability", "combined operation", "troop movement"],
+      "es": ["ejercicio conjunto", "maniobra militar", "ejercicio naval", "ejercicio aereo", "postura de fuerza", "alistamiento", "visita de puerto", "interoperabilidad", "operacion combinada", "movimiento de tropas"],
+      "pt": ["exercicio conjunto", "manobra militar", "exercicio naval", "exercicio aereo", "postura de forca", "prontidao", "escala portuaria", "interoperabilidade", "operacao combinada", "movimento de tropas"]
+    },
+    "procurement_and_force_build_up": {
+      "description": "Arms purchases, modernization, contracts, and equipment acquisitions.",
+      "en": ["defense contract", "arms purchase", "fighter jet", "armored vehicle", "radar", "missile system", "surveillance system", "procurement tender", "modernization plan", "equipment transfer"],
+      "es": ["contrato de defensa", "compra de armas", "avion caza", "vehiculo blindado", "radar", "sistema de misiles", "sistema de vigilancia", "licitacion", "plan de modernizacion", "transferencia de equipo"],
+      "pt": ["contrato de defesa", "compra de armas", "caca", "veiculo blindado", "radar", "sistema de misseis", "sistema de vigilancia", "licitacao", "plano de modernizacao", "transferencia de equipamentos"]
+    },
+    "peace_process_and_ddr": {
+      "description": "Negotiation, ceasefire, DDR, and peace-implementation vocabulary.",
+      "en": ["ceasefire", "peace talks", "negotiation table", "disarmament", "demobilization", "reintegration", "verification mission", "peace accord", "implementation mechanism", "confidence-building"],
+      "es": ["cese al fuego", "dialogos de paz", "mesa de negociacion", "desarme", "desmovilizacion", "reintegracion", "mision de verificacion", "acuerdo de paz", "mecanismo de implementacion", "medidas de confianza"],
+      "pt": ["cessar-fogo", "negociacoes de paz", "mesa de negociacao", "desarmamento", "desmobilizacao", "reintegracao", "missao de verificacao", "acordo de paz", "mecanismo de implementacao", "medidas de confianca"]
+    },
+    "corruption_capture_and_judicial_action": {
+      "description": "Accountability, sanctions, prosecution, and security-sector corruption vocabulary.",
+      "en": ["indictment", "prosecutor", "attorney general", "sanctions", "kickback", "illicit enrichment", "procurement corruption", "blacklist", "judicial probe", "human rights case"],
+      "es": ["imputacion", "fiscalia", "procuraduria", "sanciones", "soborno", "enriquecimiento ilicito", "corrupcion en contratacion", "lista negra", "investigacion judicial", "caso de derechos humanos"],
+      "pt": ["denuncia", "ministerio publico", "procuradoria", "sancoes", "propina", "enriquecimento ilicito", "corrupcao em contratacao", "lista de sancoes", "investigacao judicial", "caso de direitos humanos"]
+    },
+    "human_rights_and_abuses": {
+      "description": "Abuse, detention, disappearance, and coercive governance vocabulary.",
+      "en": ["abuse", "torture", "forced disappearance", "extrajudicial killing", "detention", "arbitrary arrest", "civilian casualties", "human rights violation", "abusive force", "custodial death"],
+      "es": ["abusos", "tortura", "desaparicion forzada", "ejecucion extrajudicial", "detencion", "arresto arbitrario", "victimas civiles", "violacion de derechos humanos", "uso abusivo de la fuerza", "muerte bajo custodia"],
+      "pt": ["abusos", "tortura", "desaparecimento forcado", "execucao extrajudicial", "detencao", "prisao arbitraria", "vitimas civis", "violacao de direitos humanos", "uso abusivo da forca", "morte sob custodia"]
+    },
+    "border_and_sovereignty": {
+      "description": "Border militarization, maritime disputes, sovereignty incidents, and frontier control.",
+      "en": ["border incursion", "frontier deployment", "territorial waters", "maritime patrol", "sovereignty dispute", "frontier security", "border closure", "cross-border operation", "incursion", "disputed territory"],
+      "es": ["incursion fronteriza", "despliegue fronterizo", "aguas territoriales", "patrullaje maritimo", "disputa de soberania", "seguridad fronteriza", "cierre fronterizo", "operacion transfronteriza", "territorio en disputa"],
+      "pt": ["incursao fronteirica", "deslocamento na fronteira", "aguas territoriais", "patrulha maritima", "disputa de soberania", "seguranca de fronteira", "fechamento da fronteira", "operacao transfronteirica", "territorio disputado"]
+    }
+  },
+  "actor_alias_sets": {
+    "armed_groups_and_insurgents": {
+      "description": "High-signal armed non-state actors tied to conflict and peace-process monitoring.",
+      "aliases": [
+        "ELN",
+        "Ejercito de Liberacion Nacional",
+        "FARC",
+        "FARC dissidents",
+        "Estado Mayor Central",
+        "EMC",
+        "Segunda Marquetalia",
+        "Sendero Luminoso",
+        "Shining Path",
+        "disidencias",
+        "insurgent front"
+      ]
+    },
+    "organized_crime_networks": {
+      "description": "Major cartels, prison gangs, and transnational criminal brands.",
+      "aliases": [
+        "Tren de Aragua",
+        "Sinaloa Cartel",
+        "Cartel de Sinaloa",
+        "CJNG",
+        "Jalisco New Generation Cartel",
+        "Gulf Cartel",
+        "Clan del Golfo",
+        "Comando Vermelho",
+        "PCC",
+        "Primeiro Comando da Capital",
+        "MS-13",
+        "Mara Salvatrucha",
+        "Barrio 18",
+        "Los Choneros",
+        "Los Lobos",
+        "Los Tiguerones",
+        "Familia Michoacana",
+        "La Familia Michoacana",
+        "Cartel del Noreste",
+        "Cartel de Santa Rosa de Lima",
+        "Clan Isaza",
+        "G9",
+        "Viv Ansanm",
+        "Cotas",
+        "colectivos armados",
+        "Fuerzas Especiales de la Guerra del Narco"
+      ]
+    },
+    "state_security_brands": {
+      "description": "High-frequency institution aliases that often carry more signal than generic words.",
+      "aliases": [
+        "FANB",
+        "GNB",
+        "SEBIN",
+        "DGCIM",
+        "PNB",
+        "FAES",
+        "SEDENA",
+        "SEMAR",
+        "Guardia Nacional",
+        "Policia Militar",
+        "Carabineros",
+        "FAES",
+        "PNC",
+        "Fuerzas Militares",
+        "Ejercito Nacional",
+        "Policia Nacional"
+      ]
+    },
+    "external_security_actors": {
+      "description": "External partners and institutions relevant to aid, cooperation, and alignment.",
+      "aliases": [
+        "SOUTHCOM",
+        "US Southern Command",
+        "Comando Sur",
+        "Comando Sul",
+        "DSCA",
+        "Defense Security Cooperation Agency",
+        "DEA",
+        "Drug Enforcement Administration",
+        "Pentagon",
+        "Department of Defense",
+        "State Department",
+        "USAID",
+        "FBI",
+        "US Coast Guard"
+      ]
+    }
+  },
+  "country_priority_overrides": {
+    "Brazil": {
+      "institutions": ["Exercito Brasileiro", "Marinha do Brasil", "Forca Aerea Brasileira", "Policia Militar", "GLO"],
+      "non_state_actors": ["PCC", "Comando Vermelho", "milicia", "garimpo ilegal"],
+      "issue_markers": ["Amazonia", "fronteira", "intervencao federal", "seguranca publica"]
+    },
+    "Colombia": {
+      "institutions": ["Mindefensa", "Ejercito Nacional", "Policia Nacional", "Fuerzas Militares", "Comando General", "Procuraduria", "Fiscalia"],
+      "non_state_actors": ["ELN", "EMC", "Segunda Marquetalia", "Clan del Golfo", "disidencias"],
+      "issue_markers": ["Catatumbo", "Arauca", "Cauca", "Paz Total", "acuerdo de paz"]
+    },
+    "Ecuador": {
+      "institutions": ["Fuerzas Armadas", "Policia Nacional", "Ministerio de Defensa", "estado de conflicto armado interno"],
+      "non_state_actors": ["Los Choneros", "Los Lobos", "Tiguerones"],
+      "issue_markers": ["crisis carcelaria", "conflicto armado interno", "puertos", "extorsion"]
+    },
+    "El Salvador": {
+      "institutions": ["FAES", "PNC", "Asamblea Legislativa", "Ministerio de Seguridad"],
+      "non_state_actors": ["MS-13", "Mara Salvatrucha", "Barrio 18"],
+      "issue_markers": ["regimen de excepcion", "CECOT", "captura masiva", "Bukele"]
+    },
+    "Haiti": {
+      "institutions": ["PNH", "Mission Multinationale", "Conseil Presidentiel de Transition"],
+      "non_state_actors": ["G9", "Viv Ansanm", "gang coalition"],
+      "issue_markers": ["Port-au-Prince", "security corridor", "airport closure", "multinational mission"]
+    },
+    "Mexico": {
+      "institutions": ["SEDENA", "SEMAR", "Guardia Nacional", "Secretaria de Seguridad", "FGR"],
+      "non_state_actors": ["Sinaloa Cartel", "CJNG", "Gulf Cartel", "Los Zetas", "Carteles Unidos"],
+      "issue_markers": ["militarizacion", "fentanilo", "frontera norte", "desapariciones"]
+    },
+    "Peru": {
+      "institutions": ["Mindef", "Ejercito del Peru", "Policia Nacional", "Comando Conjunto"],
+      "non_state_actors": ["Sendero Luminoso", "VRAEM"],
+      "issue_markers": ["VRAEM", "estado de emergencia", "control territorial"]
+    },
+    "Venezuela": {
+      "institutions": ["FANB", "GNB", "SEBIN", "DGCIM", "PNB", "FAES", "Ministerio de Defensa"],
+      "non_state_actors": ["Tren de Aragua", "colectivos", "ELN"],
+      "issue_markers": ["Esequibo", "colectivos", "Arco Minero", "inhabilitacion", "represion"]
+    }
+  },
+  "negative_filters": {
+    "sports_and_gaming": {
+      "en": ["football", "soccer", "baseball", "basketball", "match", "tournament", "video game", "gaming"],
+      "es": ["futbol", "beisbol", "baloncesto", "partido", "torneo", "videojuego", "gaming"],
+      "pt": ["futebol", "beisebol", "basquete", "partida", "torneio", "videogame", "gaming"]
+    },
+    "entertainment_and_lifestyle": {
+      "en": ["movie", "film", "festival", "concert", "fashion", "celebrity", "recipe", "travel"],
+      "es": ["pelicula", "festival", "concierto", "moda", "famoso", "receta", "viaje"],
+      "pt": ["filme", "festival", "show", "moda", "celebridade", "receita", "viagem"]
+    },
+    "consumer_arms_and_hobbies": {
+      "en": ["airsoft", "paintball", "hunting season", "shooting range", "rifle club"],
+      "es": ["airsoft", "paintball", "temporada de caza", "poligono de tiro", "club de tiro"],
+      "pt": ["airsoft", "paintball", "temporada de caca", "estande de tiro", "clube de tiro"]
+    },
+    "generic_public_safety_noise": {
+      "en": ["traffic safety", "school security", "cybersecurity tips", "weather alert", "fire department"],
+      "es": ["seguridad vial", "seguridad escolar", "consejos de ciberseguridad", "alerta meteorologica", "bomberos"],
+      "pt": ["seguranca viaria", "seguranca escolar", "dicas de ciberseguranca", "alerta meteorologico", "corpo de bombeiros"]
+    }
+  },
+  "query_families": {
+    "coup_and_command_break": {
+      "label": "Coup, coup-plot, and command-break",
+      "maps_to_event_types": ["coup", "purge"],
+      "priority": "critical",
+      "default_layers": ["prefilter", "discovery", "verification"],
+      "include_term_sets": ["state_forces", "defense_bureaucracy", "executive_command"],
+      "high_signal_terms": {
+        "en": ["coup", "coup plot", "self-coup", "attempted coup", "mutiny", "military ultimatum", "command purge", "commander dismissed", "loyalty test"],
+        "es": ["golpe de estado", "intento de golpe", "autogolpe", "motin", "ultimatum militar", "purga militar", "destitucion del comandante", "relevo del alto mando", "prueba de lealtad"],
+        "pt": ["golpe de estado", "tentativa de golpe", "autogolpe", "motim", "ultimato militar", "expurgo militar", "demissao do comandante", "troca do alto comando", "teste de lealdade"]
+      },
+      "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle"],
+      "notes": "This family should be treated as high priority even when source volume is low, because single-source command-break signals can matter."
+    },
+    "security_sector_reform_and_oversight": {
+      "label": "Security-sector reform and civilian oversight",
+      "maps_to_event_types": ["reform", "purge", "other"],
+      "priority": "high",
+      "default_layers": ["prefilter", "discovery", "enrichment"],
+      "include_term_sets": ["defense_bureaucracy", "policing_internal_security", "executive_command"],
+      "high_signal_terms": {
+        "en": ["police reform", "security reform", "civilian oversight", "defense doctrine", "intelligence reform", "command restructuring", "demilitarization", "military justice reform"],
+        "es": ["reforma policial", "reforma de seguridad", "control civil", "doctrina de defensa", "reforma de inteligencia", "reestructuracion del mando", "desmilitarizacion", "reforma de justicia militar"],
+        "pt": ["reforma policial", "reforma da seguranca", "controle civil", "doutrina de defesa", "reforma de inteligencia", "reestruturacao do comando", "desmilitarizacao", "reforma da justica militar"]
+      },
+      "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle"],
+      "notes": "Use this family widely with legislative, ministerial, and oversight reporting."
+    },
+    "state_repression_and_exceptional_rule": {
+      "label": "State repression, emergency rule, and contentious response",
+      "maps_to_event_types": ["protest", "other", "reform"],
+      "priority": "high",
+      "default_layers": ["prefilter", "discovery", "enrichment"],
+      "include_term_sets": ["policing_internal_security", "contention_and_exception", "human_rights_and_abuses"],
+      "high_signal_terms": {
+        "en": ["state of emergency", "martial law", "curfew", "mass detention", "crackdown", "rights suspension", "militarized policing", "anti-protest operation"],
+        "es": ["estado de excepcion", "estado de emergencia", "toque de queda", "detenciones masivas", "represion", "suspension de garantias", "militarizacion de la seguridad", "operativo antimotines"],
+        "pt": ["estado de excecao", "estado de emergencia", "toque de recolher", "detencoes em massa", "repressao", "suspensao de direitos", "militarizacao da seguranca", "operacao antidisturbios"]
+      },
+      "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle", "generic_public_safety_noise"],
+      "notes": "This family should absorb democratic-erosion signals that involve coercive institutions."
+    },
+    "armed_conflict_and_territorial_control": {
+      "label": "Armed conflict, insurgency, and territorial control",
+      "maps_to_event_types": ["conflict"],
+      "priority": "critical",
+      "default_layers": ["prefilter", "discovery", "verification"],
+      "include_term_sets": ["state_forces", "armed_conflict_and_territorial_control", "border_and_sovereignty"],
+      "include_actor_sets": ["armed_groups_and_insurgents"],
+      "high_signal_terms": {
+        "en": ["clashes", "firefight", "counterinsurgency", "ambush", "territorial control", "insurgent camp", "combat operation", "dissident front"],
+        "es": ["enfrentamientos", "combate", "contrainsurgencia", "emboscada", "control territorial", "campamento insurgente", "operacion militar", "frente disidente"],
+        "pt": ["confronto", "combate", "contrainsurgencia", "emboscada", "controle territorial", "acampamento insurgente", "operacao militar", "frente dissidente"]
+      },
+      "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle"],
+      "notes": "Use country-priority overrides heavily for Colombia, Peru, Haiti, Ecuador, and Venezuela."
+    },
+    "organized_crime_and_transnational_security": {
+      "label": "Organized crime, trafficking, and illicit order",
+      "maps_to_event_types": ["oc", "conflict"],
+      "priority": "critical",
+      "default_layers": ["prefilter", "discovery", "verification", "enrichment"],
+      "include_term_sets": ["policing_internal_security", "organized_crime_and_illicit_order", "border_and_sovereignty"],
+      "include_actor_sets": ["organized_crime_networks"],
+      "high_signal_terms": {
+        "en": ["cartel leadership", "trafficking corridor", "drug seizure", "extradition", "money laundering", "criminal governance", "prison gang", "narco-politics"],
+        "es": ["lider de cartel", "corredor de trafico", "incautacion", "extradicion", "lavado de activos", "gobierno criminal", "pandilla carcelaria", "narco-politica"],
+        "pt": ["lider de cartel", "corredor de trafico", "apreensao", "extradicao", "lavagem de dinheiro", "governanca criminal", "faccao prisional", "narcopolitica"]
+      },
+      "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle", "consumer_arms_and_hobbies"],
+      "notes": "This family is central for Mexico, Brazil, Ecuador, Haiti, Venezuela, Colombia, and Central America."
+    },
+    "criminal_violence_and_illicit_economies": {
+      "label": "Criminal violence and illicit economies",
+      "maps_to_event_types": ["oc", "conflict", "other"],
+      "priority": "critical",
+      "default_layers": ["prefilter", "discovery", "verification", "enrichment"],
+      "include_term_sets": ["organized_crime_and_illicit_order", "criminal_violence_patterns", "illicit_economies_and_extraction", "criminal_governance_and_capture", "human_rights_and_abuses"],
+      "include_actor_sets": ["organized_crime_networks"],
+      "high_signal_terms": {
+        "en": ["prison control", "massacre", "extortion economy", "illegal mining", "fuel theft", "gold trafficking", "criminal governance", "co-opted officials", "territorial tax", "migrant extortion"],
+        "es": ["control carcelario", "masacre", "economia de la extorsion", "mineria ilegal", "robo de combustible", "trafico de oro", "gobierno criminal", "funcionarios cooptados", "cobro de piso", "extorsion a migrantes"],
+        "pt": ["controle prisional", "massacre", "economia da extorsao", "garimpo ilegal", "roubo de combustivel", "trafico de ouro", "governanca criminal", "autoridades cooptadas", "taxa de protecao", "extorsao de migrantes"]
+      },
+      "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle", "consumer_arms_and_hobbies"],
+      "notes": "This family is designed to catch cases where criminal power is expressed through violent control or extraction economies even when military terms are absent."
+    },
+    "external_security_support_and_alignment": {
+      "label": "Military aid, external security support, and alignment",
+      "maps_to_event_types": ["aid", "coop"],
+      "priority": "high",
+      "default_layers": ["prefilter", "discovery", "verification"],
+      "include_term_sets": ["external_security_cooperation", "defense_bureaucracy", "executive_command"],
+      "include_actor_sets": ["external_security_actors"],
+      "high_signal_terms": {
+        "en": ["military aid", "security assistance", "defense agreement", "intelligence sharing", "base access", "equipment transfer", "foreign military financing"],
+        "es": ["ayuda militar", "asistencia en seguridad", "acuerdo de defensa", "intercambio de inteligencia", "acceso a base", "transferencia de equipo", "financiamiento militar extranjero"],
+        "pt": ["ajuda militar", "assistencia em seguranca", "acordo de defesa", "compartilhamento de inteligencia", "acesso a base", "transferencia de equipamentos", "financiamento militar estrangeiro"]
+      },
+      "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle"],
+      "notes": "This family should remain broad enough to capture US, Chinese, Russian, and regional security alignment signals."
+    },
+    "military_exercises_and_force_posture": {
+      "label": "Exercises, drills, and force-posture signaling",
+      "maps_to_event_types": ["exercise", "coop"],
+      "priority": "medium",
+      "default_layers": ["prefilter", "discovery", "verification"],
+      "include_term_sets": ["military_exercises_and_force_posture", "state_forces", "external_security_cooperation"],
+      "high_signal_terms": {
+        "en": ["joint exercise", "naval drill", "air exercise", "combined operation", "interoperability", "readiness", "port call", "task force"],
+        "es": ["ejercicio conjunto", "maniobra naval", "ejercicio aereo", "operacion combinada", "interoperabilidad", "alistamiento", "visita de puerto", "fuerza de tarea"],
+        "pt": ["exercicio conjunto", "manobra naval", "exercicio aereo", "operacao combinada", "interoperabilidade", "prontidao", "escala portuaria", "forca-tarefa"]
+      },
+      "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle"],
+      "notes": "Use this family heavily for official and defense-specialist sources."
+    },
+    "procurement_and_arms": {
+      "label": "Procurement, arms transfers, and force build-up",
+      "maps_to_event_types": ["procurement", "aid"],
+      "priority": "high",
+      "default_layers": ["prefilter", "discovery", "verification"],
+      "include_term_sets": ["procurement_and_force_build_up", "external_security_cooperation", "defense_bureaucracy"],
+      "high_signal_terms": {
+        "en": ["defense contract", "arms purchase", "fighter jet", "armored vehicle", "radar", "missile system", "surveillance system", "modernization plan"],
+        "es": ["contrato de defensa", "compra de armas", "avion caza", "vehiculo blindado", "radar", "sistema de misiles", "sistema de vigilancia", "plan de modernizacion"],
+        "pt": ["contrato de defesa", "compra de armas", "caca", "veiculo blindado", "radar", "sistema de misseis", "sistema de vigilancia", "plano de modernizacao"]
+      },
+      "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle", "consumer_arms_and_hobbies"],
+      "notes": "This family should stay narrower than general aid/cooperation because false positives rise quickly in commercial defense coverage."
+    },
+    "peace_process_and_ddr": {
+      "label": "Peace process, negotiation, and DDR",
+      "maps_to_event_types": ["peace", "conflict", "reform"],
+      "priority": "medium",
+      "default_layers": ["prefilter", "discovery", "enrichment"],
+      "include_term_sets": ["peace_process_and_ddr", "armed_conflict_and_territorial_control", "defense_bureaucracy"],
+      "include_actor_sets": ["armed_groups_and_insurgents"],
+      "high_signal_terms": {
+        "en": ["ceasefire", "peace talks", "negotiation table", "disarmament", "demobilization", "reintegration", "verification mission"],
+        "es": ["cese al fuego", "dialogos de paz", "mesa de negociacion", "desarme", "desmovilizacion", "reintegracion", "mision de verificacion"],
+        "pt": ["cessar-fogo", "negociacoes de paz", "mesa de negociacao", "desarmamento", "desmobilizacao", "reintegracao", "missao de verificacao"]
+      },
+      "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle"],
+      "notes": "Peace-process retrieval should stay active even when day-to-day event counts are low."
+    },
+    "corruption_capture_and_judicial_pressure": {
+      "label": "Corruption, capture, sanctions, and judicial pressure",
+      "maps_to_event_types": ["other", "reform", "oc"],
+      "priority": "medium",
+      "default_layers": ["prefilter", "discovery", "enrichment"],
+      "include_term_sets": ["corruption_capture_and_judicial_action", "defense_bureaucracy", "policing_internal_security"],
+      "high_signal_terms": {
+        "en": ["indictment", "sanctions", "procurement corruption", "illicit enrichment", "judicial probe", "attorney general", "kickback", "rights case"],
+        "es": ["imputacion", "sanciones", "corrupcion en contratacion", "enriquecimiento ilicito", "investigacion judicial", "fiscalia", "soborno", "caso de derechos humanos"],
+        "pt": ["denuncia", "sancoes", "corrupcao em contratacao", "enriquecimento ilicito", "investigacao judicial", "ministerio publico", "propina", "caso de direitos humanos"]
+      },
+      "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle"],
+      "notes": "This family is useful for slow-burn regime capture and military-commercial corruption signals that matter but rarely look like crisis events."
+    },
+    "border_tension_and_sovereignty": {
+      "label": "Border tension, sovereignty disputes, and frontier militarization",
+      "maps_to_event_types": ["conflict", "exercise", "coop"],
+      "priority": "medium",
+      "default_layers": ["prefilter", "discovery", "verification"],
+      "include_term_sets": ["border_and_sovereignty", "state_forces", "military_exercises_and_force_posture"],
+      "high_signal_terms": {
+        "en": ["border incursion", "maritime patrol", "territorial waters", "frontier deployment", "sovereignty dispute", "cross-border operation", "disputed territory"],
+        "es": ["incursion fronteriza", "patrullaje maritimo", "aguas territoriales", "despliegue fronterizo", "disputa de soberania", "operacion transfronteriza", "territorio en disputa"],
+        "pt": ["incursao fronteirica", "patrulha maritima", "aguas territoriais", "deslocamento na fronteira", "disputa de soberania", "operacao transfronteirica", "territorio disputado"]
+      },
+      "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle"],
+      "notes": "Keep this family active for Guyana-Venezuela, Haiti-Dominican Republic, and migrant-corridor militarization cases."
+    }
+  },
+  "query_assembly": {
+    "prefilter": {
+      "scoring_hints": {
+        "high_signal_family_term": 3.0,
+        "generic_family_term": 1.5,
+        "actor_alias": 2.5,
+        "country_or_demonym": 1.25,
+        "trusted_source_bonus": 0.75,
+        "negative_filter_penalty": -2.25
+      },
+      "default_minimum_conditions": [
+        "One geography hit plus one high-signal family or actor hit.",
+        "Or two strong family/actor hits in title and description when source metadata already ties the article to a monitored country.",
+        "Lower the threshold for tier-1 investigative sources; raise it for discovery-only or noisy aggregation sources."
+      ]
+    },
+    "newsapi_priority_query_sets": [
+      {
+        "id": "command_and_control_monitor",
+        "families": [
+          "coup_and_command_break",
+          "security_sector_reform_and_oversight",
+          "state_repression_and_exceptional_rule"
+        ],
+        "country_scope": "core_pipeline",
+        "template": "({family_terms}) AND ({country_terms})"
+      },
+      {
+            "id": "armed_order_monitor",
+            "families": [
+              "armed_conflict_and_territorial_control",
+              "organized_crime_and_transnational_security",
+              "criminal_violence_and_illicit_economies",
+              "border_tension_and_sovereignty"
+            ],
+            "country_scope": "core_pipeline",
+            "template": "({family_terms}) AND ({country_terms})"
+      },
+      {
+        "id": "external_alignment_monitor",
+        "families": [
+          "external_security_support_and_alignment",
+          "military_exercises_and_force_posture",
+          "procurement_and_arms"
+        ],
+        "country_scope": "core_pipeline",
+        "template": "({family_terms}) AND ({country_terms})"
+      },
+      {
+        "id": "settlement_and_capture_monitor",
+        "families": [
+          "peace_process_and_ddr",
+          "corruption_capture_and_judicial_pressure"
+        ],
+        "country_scope": "core_pipeline",
+        "template": "({family_terms}) AND ({country_terms})"
+      }
+    ],
+    "google_news_source_profiles": {
+      "wire_verification": {
+        "families": [
+          "coup_and_command_break",
+          "state_repression_and_exceptional_rule",
+          "armed_conflict_and_territorial_control",
+          "organized_crime_and_transnational_security"
+        ],
+        "term_density": "narrow",
+        "allow_country_priority_overrides": false
+      },
+      "investigative_security": {
+            "families": [
+              "armed_conflict_and_territorial_control",
+              "organized_crime_and_transnational_security",
+              "criminal_violence_and_illicit_economies",
+              "security_sector_reform_and_oversight",
+              "corruption_capture_and_judicial_pressure"
+            ],
+            "term_density": "medium",
+        "allow_country_priority_overrides": true
+      },
+      "official_defense": {
+        "families": [
+          "external_security_support_and_alignment",
+          "military_exercises_and_force_posture",
+          "procurement_and_arms",
+          "security_sector_reform_and_oversight"
+        ],
+        "term_density": "narrow",
+        "allow_country_priority_overrides": true
+      },
+      "human_rights_and_watchdog": {
+        "families": [
+          "state_repression_and_exceptional_rule",
+          "corruption_capture_and_judicial_pressure"
+        ],
+        "term_density": "medium",
+        "allow_country_priority_overrides": true
+      },
+      "policy_analysis": {
+        "families": [
+          "security_sector_reform_and_oversight",
+          "peace_process_and_ddr",
+          "corruption_capture_and_judicial_pressure",
+          "external_security_support_and_alignment"
+        ],
+        "term_density": "wide",
+        "allow_country_priority_overrides": true
+      }
+    }
+  },
+  "integration_order": [
+    "Refactor pipeline pre-filter scoring to load term sets, actor aliases, and negative filters from this file.",
+    "Refactor NewsAPI query assembly to build multilingual bundles from query families plus country scopes.",
+    "Refactor Google News source profiles so per-source terms are assembled from query families instead of hard-coded strings.",
+    "Optionally add per-country dynamic expansions for priority countries only after baseline adoption is stable."
+  ]
+}

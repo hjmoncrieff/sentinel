@@ -282,6 +282,12 @@ def _row_to_record(cols: list[str]) -> dict | None:
         source_type="gdelt_events_db",
         source_method="gdelt_bulk_csv",
         coords=coords,
+        source_tier=3,
+        source_role="discovery",
+        source_policy="public_metadata",
+        source_languages=[],
+        source_quality_weight=0.38,
+        extraction_status="disabled",
     )
 
 

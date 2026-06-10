@@ -32,4 +32,46 @@ describe("consoleReducer", () => {
 
     expect(nextState.loadError).toBe("Failed to load review queue: 503");
   });
+
+  it("switches workspace focus when the left rail changes", () => {
+    const nextState = consoleReducer(initialConsoleState, {
+      type: "workspaceChanged",
+      payload: "release",
+    });
+
+    expect(nextState.workspace).toBe("release");
+  });
+
+  it("switches the queue scope for queue-wide filtering", () => {
+    const nextState = consoleReducer(initialConsoleState, {
+      type: "queueScopeChanged",
+      payload: "attention",
+    });
+
+    expect(nextState.queueScope).toBe("attention");
+  });
+
+  it("stores a targeted worklist lane independently from the queue scope", () => {
+    const nextState = consoleReducer(initialConsoleState, {
+      type: "worklistFilterChanged",
+      payload: "publish-ready",
+    });
+
+    expect(nextState.worklistFilter).toBe("publish-ready");
+    expect(nextState.queueScope).toBe("all");
+  });
+
+  it("prepends inserted manual queue items and selects them", () => {
+    const nextState = consoleReducer(initialConsoleState, {
+      type: "queueItemInserted",
+      payload: {
+        event_id: "manual-evt-1",
+        headline: "Manual event",
+        review_priority: "medium",
+      },
+    });
+
+    expect(nextState.queue[0]?.event_id).toBe("manual-evt-1");
+    expect(nextState.selectedId).toBe("manual-evt-1");
+  });
 });

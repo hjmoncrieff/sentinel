@@ -14,3 +14,27 @@ body {
   background: var(--console-bg);
   color: var(--console-ink);
 }
+
+* {
+  scrollbar-color: var(--console-scroll-thumb) var(--console-scroll-track);
+  scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--console-scroll-track);
+}
+
+*::-webkit-scrollbar-thumb {
+  border: 3px solid var(--console-scroll-track);
+  border-radius: 999px;
+  background: var(--console-scroll-thumb);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--console-scroll-thumb-hover);
+}

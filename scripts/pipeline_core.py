@@ -31,17 +31,26 @@ import os
 import smtplib
 import sys
 import time
+import unicodedata
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
+from email.utils import parsedate_to_datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
+from xml.etree import ElementTree
 
 from ingest_gdelt import fetch_gdelt, fetch_gdelt_historical, normalize_gdelt
 from ingest_newsapi import fetch_newsapi, normalize_newsapi
 from ingest_rss import fetch_all_archives, fetch_rss
-from normalize_articles import make_article_record
-from rss_sources import RSS_FEEDS
+from normalize_articles import canonicalize_url, make_article_record
+from query_lexicon import (
+    DEFAULT_PREFILTER_FAMILIES,
+    get_prefilter_term_map,
+    load_lexicon,
+    normalize_text,
+)
+from rss_sources import RSS_FEEDS, gnews_site_feed
 
 # ── Load .env file if present (local development) ─────────────
 _env_path = Path(__file__).resolve().parent.parent / ".env"
@@ -72,6 +81,7 @@ MAX_EVENTS     = 2500       # increased to support 5-year history
 DATA_FILE = Path(__file__).parent.parent / "data" / "events.json"
 REVIEW_DIR = Path(__file__).parent.parent / "data" / "review"
 STAGING_DIR = Path(__file__).parent.parent / "data" / "staging"
+PRIVATE_RUN_LOG = REVIEW_DIR / "pipeline_run_costs.md"
 
 LATAM_COUNTRIES = [
     "Brazil", "Colombia", "Mexico", "Venezuela", "Argentina", "Peru",
@@ -270,41 +280,67 @@ TYPE_COLORS = {
     "other":       "#6a6560",
 }
 
-# Pre-filter: discard articles with none of these before the Claude call
-RELEVANCE_KEYWORDS = [
-    "military", "army", "coup", "protest", "soldier", "general",
-    "forces", "defense", "defence", "minister", "ejército", "fuerzas",
-    "militares", "golpe", "policía", "police", "security", "naval",
-    "navy", "air force", "guerrilla", "insurgent", "paramilitary",
-    "armed group", "cartel", "narco", "operation", "battalion",
-    "brigade", "regiment", "deployment", "exercise", "procurement",
-    "weapon", "arms", "missile", "drone", "intelligence",
-    # Expanded keywords
-    "ceasefire", "peace talks", "negotiations", "disarmament", "reintegration",
-    "state of emergency", "martial law", "curfew", "detention", "extradition",
-    "trafficking", "smuggling", "seizure", "arrest", "assassination", "kidnapping",
-    "hostage", "bombing", "airstrike", "massacre", "displacement", "refugee",
-    "sanction", "indictment", "conviction", "corruption", "bribery", "impunity",
-    "ELN", "FARC", "Sendero", "Hezbollah", "MS-13", "Mara",
-    "maduro", "petro", "bukele", "lula", "milei", "boric",
-    "southcom", "USAID", "pentagon", "DEA", "CIA",
-    "tren de aragua", "jalisco", "sinaloa", "gulf cartel",
-]
+CONFIDENCE_ORDER = {"red": 0, "yellow": 1, "green": 2}
+
+QUERY_LEXICON = load_lexicon()
+QUERY_FAMILY_META = QUERY_LEXICON.get("query_families", {})
+QUERY_FAMILY_LABELS = {
+    family_name: family.get("label", family_name.replace("_", " "))
+    for family_name, family in QUERY_FAMILY_META.items()
+}
+QUERY_FAMILY_PRIORITY = {
+    family_name: family.get("priority", "high")
+    for family_name, family in QUERY_FAMILY_META.items()
+}
+PREFILTER_TERM_MAP = get_prefilter_term_map(DEFAULT_PREFILTER_FAMILIES)
+LATAM_COUNTRY_TOKENS = sorted(PREFILTER_TERM_MAP.pop("__geography__", []), key=len, reverse=True)
+LATAM_MATCH_TOKENS = LATAM_COUNTRY_TOKENS
+NEGATIVE_TERMS = sorted(PREFILTER_TERM_MAP.pop("__negative__", []), key=len, reverse=True)
+FAMILY_PRIORITY_MULTIPLIER = {
+    "critical": 1.18,
+    "high": 1.0,
+    "medium": 0.86,
+    "low": 0.72,
+}
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("sentinel")
 
+ANTHROPIC_EST_INPUT_USD_PER_MTOK = float(os.environ.get("ANTHROPIC_EST_INPUT_USD_PER_MTOK", "1.0"))
+ANTHROPIC_EST_OUTPUT_USD_PER_MTOK = float(os.environ.get("ANTHROPIC_EST_OUTPUT_USD_PER_MTOK", "5.0"))
+
+RUN_METRICS = {
+    "anthropic": {
+        "classify": {"requests": 0, "input_tokens": 0, "output_tokens": 0, "items": 0},
+        "cluster": {"requests": 0, "input_tokens": 0, "output_tokens": 0, "items": 0},
+        "analysis": {"requests": 0, "input_tokens": 0, "output_tokens": 0, "items": 0},
+    },
+    "dedupe": {
+        "raw_before": 0,
+        "raw_after": 0,
+        "removed": 0,
+    },
+}
+
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
-def stable_id(country: str, event_type: str, date: str) -> str:
-    """ID keyed on country+type+ISO week — stable across source title variations."""
+def _slug_fragment(value: str, *, fallback: str = "na", max_words: int = 3) -> str:
+    normalized = normalize_text(value or "")
+    parts = [part for part in normalized.replace("/", " ").replace("-", " ").split() if part.isalnum()]
+    if not parts:
+        return fallback
+    return "-".join(parts[:max_words])
+
+
+def stable_id(country: str, event_type: str, date: str, location: str | None = None) -> str:
+    """ID keyed on country+type+day+location to avoid over-collapsing same-week incidents."""
     try:
-        d = datetime.strptime(date, "%Y-%m-%d")
-        week = d.strftime("%Y-W%V")
+        day_key = datetime.strptime(date, "%Y-%m-%d").strftime("%Y-%m-%d")
     except Exception:
-        week = date[:7]
-    key = f"{country.lower()}|{event_type}|{week}"
+        day_key = date[:10]
+    location_key = _slug_fragment(location or country, fallback=_slug_fragment(country))
+    key = f"{normalize_text(country)}|{event_type}|{day_key}|{location_key}"
     return hashlib.sha1(key.encode()).hexdigest()[:12]
 
 
@@ -314,6 +350,118 @@ def make_sentinel_id(country: str, date: str, internal_id: str) -> str:
     year  = date[:4]  if len(date) >= 4  else "0000"
     month = date[5:7] if len(date) >= 7  else "00"
     return f"{iso3}_{year}_{month}_{internal_id[:6]}"
+
+
+def _usage_attr(obj, path: str, default: int = 0) -> int:
+    current = obj
+    for part in path.split("."):
+        if current is None:
+            return default
+        current = getattr(current, part, None)
+    return int(current or default)
+
+
+def record_anthropic_usage(stage: str, msg, *, item_count: int = 0) -> None:
+    bucket = RUN_METRICS["anthropic"].setdefault(stage, {"requests": 0, "input_tokens": 0, "output_tokens": 0, "items": 0})
+    bucket["requests"] += 1
+    bucket["input_tokens"] += _usage_attr(getattr(msg, "usage", None), "input_tokens")
+    bucket["output_tokens"] += _usage_attr(getattr(msg, "usage", None), "output_tokens")
+    bucket["items"] += int(item_count or 0)
+
+
+def estimate_anthropic_cost_usd() -> float:
+    usage = RUN_METRICS["anthropic"]
+    input_tokens = sum(int(bucket.get("input_tokens", 0)) for bucket in usage.values())
+    output_tokens = sum(int(bucket.get("output_tokens", 0)) for bucket in usage.values())
+    input_cost = (input_tokens / 1_000_000) * ANTHROPIC_EST_INPUT_USD_PER_MTOK
+    output_cost = (output_tokens / 1_000_000) * ANTHROPIC_EST_OUTPUT_USD_PER_MTOK
+    return round(input_cost + output_cost, 4)
+
+
+def _normalize_title_for_dedupe(title: str) -> str:
+    text = (title or "").lower().strip()
+    text = " ".join(text.split())
+    return text
+
+
+def dedupe_ingested_articles(articles: list[dict]) -> list[dict]:
+    deduped: list[dict] = []
+    by_url: dict[str, dict] = {}
+    by_title_date: set[tuple[str, str]] = set()
+    raw_before = len(articles)
+
+    def article_priority(article: dict) -> tuple[float, int, int, int]:
+        quality = float(article.get("source_quality_weight") or 0.0)
+        tier = int(article.get("source_tier") or 99)
+        body_words = int(article.get("body_word_count") or 0)
+        source_role = str(article.get("source_role") or "")
+        role_bonus = {"detection": 3, "verification": 2, "official": 1, "enrichment": 0}.get(source_role, 0)
+        return (quality, -tier, body_words, role_bonus)
+
+    for article in articles:
+        canonical_url = canonicalize_url(article.get("url", ""))
+        title_key = _normalize_title_for_dedupe(article.get("title", ""))
+        date_key = str(article.get("date") or "")
+        if canonical_url:
+            existing = by_url.get(canonical_url)
+            if existing is None:
+                article["url_canonical"] = canonical_url
+                by_url[canonical_url] = article
+                deduped.append(article)
+            elif article_priority(article) > article_priority(existing):
+                article["url_canonical"] = canonical_url
+                by_url[canonical_url] = article
+                deduped[deduped.index(existing)] = article
+            continue
+        title_date_key = (title_key, date_key)
+        if title_date_key in by_title_date:
+            continue
+        by_title_date.add(title_date_key)
+        deduped.append(article)
+
+    RUN_METRICS["dedupe"]["raw_before"] = raw_before
+    RUN_METRICS["dedupe"]["raw_after"] = len(deduped)
+    RUN_METRICS["dedupe"]["removed"] = raw_before - len(deduped)
+    if raw_before != len(deduped):
+        log.info(f"Raw dedupe: {raw_before} → {len(deduped)} unique articles")
+    return deduped
+
+
+def _matches_latam_scope(text: str) -> bool:
+    lowered = normalize_text(text or "")
+    return any(token in lowered for token in LATAM_MATCH_TOKENS)
+
+
+def _parse_rss_date(value: str) -> str:
+    if not value:
+        return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    try:
+        return parsedate_to_datetime(value).astimezone(timezone.utc).strftime("%Y-%m-%d")
+    except Exception:
+        return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+
+def _fetch_rss_items(url: str, *, limit: int = 20) -> list[dict]:
+    headers = {"User-Agent": "Mozilla/5.0"}
+    resp = requests.get(url, timeout=30, headers=headers)
+    resp.raise_for_status()
+
+    root = ElementTree.fromstring(resp.content)
+    items = []
+    for node in root.findall(".//item")[:limit]:
+        title = (node.findtext("title") or "").strip()
+        link = (node.findtext("link") or "").strip()
+        description = (node.findtext("description") or "").strip()
+        pub_date = (node.findtext("pubDate") or "").strip()
+        if not title or not link:
+            continue
+        items.append({
+            "title": title,
+            "link": link,
+            "description": description,
+            "date": _parse_rss_date(pub_date),
+        })
+    return items
 
 
 # ── Load / save ────────────────────────────────────────────────────────────────
@@ -395,32 +543,28 @@ def save_events(existing: dict, new_events: list[dict]) -> int:
 # ── DSCA ───────────────────────────────────────────────────────────────────────
 
 def fetch_dsca() -> list[dict]:
-    """Scrape DSCA Major Arms Sales press releases for LatAm countries."""
-    url = "https://www.dsca.mil/press-media/major-arms-sales"
+    """Fetch DSCA Major Arms Sales items from the official RSS feed."""
+    url = "https://www.dsca.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=700&Site=1509&isdashboardselected=0&max=25"
     try:
-        resp = requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
-        resp.raise_for_status()
-        from bs4 import BeautifulSoup
-        soup = BeautifulSoup(resp.text, "html.parser")
         items = []
-        # DSCA lists articles in .views-row divs or similar
-        for link in soup.select("a[href*='/major-arms-sales']"):
-            title = link.get_text(strip=True)
-            href = link.get("href", "")
-            if not title or len(title) < 20:
-                continue
-            full_url = f"https://www.dsca.mil{href}" if href.startswith("/") else href
-            # Check if any LatAm country mentioned
-            if any(c.lower() in title.lower() for c in LATAM_COUNTRIES):
+        for entry in _fetch_rss_items(url, limit=25):
+            combined_text = f"{entry['title']} {entry['description']}"
+            if _matches_latam_scope(combined_text):
                 items.append(make_article_record(
-                    title=title,
-                    description=title,
-                    url=full_url,
-                    date=datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                    title=entry["title"],
+                    description=entry["description"] or entry["title"],
+                    url=entry["link"],
+                    date=entry["date"],
                     source="DSCA",
                     source_type="official",
-                    source_method="scrape",
+                    source_method="rss",
                     coords=None,
+                    source_tier=3,
+                    source_role="official",
+                    source_policy="public_metadata",
+                    source_languages=["en"],
+                    source_quality_weight=0.58,
+                    extraction_status="disabled",
                 ))
         log.info(f"DSCA: {len(items)} LatAm arms sale items")
         return items
@@ -432,33 +576,31 @@ def fetch_dsca() -> list[dict]:
 # ── DEA ────────────────────────────────────────────────────────────────────────
 
 def fetch_dea() -> list[dict]:
-    """Scrape DEA press releases mentioning LatAm countries."""
-    url = "https://www.dea.gov/press-releases"
+    """Use Google News discovery for DEA official releases when direct fetch is blocked."""
+    url = gnews_site_feed(
+        "dea.gov",
+        "drug+OR+cartel+OR+extradition+OR+trafficking+OR+fentanyl+OR+operation+OR+sanctions+OR+Latin+America+OR+Mexico+OR+Colombia+OR+Venezuela+OR+Brazil+OR+Ecuador+OR+Peru+OR+Haiti"
+    )
     try:
-        resp = requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
-        resp.raise_for_status()
-        from bs4 import BeautifulSoup
-        soup = BeautifulSoup(resp.text, "html.parser")
         items = []
-        for article in soup.select("article, .views-row, .press-release-teaser")[:30]:
-            link = article.find("a")
-            if not link:
-                continue
-            title = link.get_text(strip=True)
-            href = link.get("href", "")
-            if not title or len(title) < 15:
-                continue
-            full_url = f"https://www.dea.gov{href}" if href.startswith("/") else href
-            if any(c.lower() in title.lower() for c in LATAM_COUNTRIES):
+        for entry in _fetch_rss_items(url, limit=25):
+            combined_text = f"{entry['title']} {entry['description']}"
+            if _matches_latam_scope(combined_text):
                 items.append(make_article_record(
-                    title=title,
-                    description=title,
-                    url=full_url,
-                    date=datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                    title=entry["title"],
+                    description=entry["description"] or entry["title"],
+                    url=entry["link"],
+                    date=entry["date"],
                     source="DEA",
                     source_type="official",
-                    source_method="scrape",
+                    source_method="google_news_rss",
                     coords=None,
+                    source_tier=3,
+                    source_role="official",
+                    source_policy="public_metadata",
+                    source_languages=["en"],
+                    source_quality_weight=0.62,
+                    extraction_status="disabled",
                 ))
         log.info(f"DEA: {len(items)} LatAm items")
         return items
@@ -502,7 +644,7 @@ def acled_to_event(row: dict) -> dict:
     title      = f"{row.get('event_type', 'Event')}: {actor1}" + (f" vs {actor2}" if actor2 else "")
     date       = row.get("event_date", datetime.now(timezone.utc).strftime("%Y-%m-%d"))
     src        = f"ACLED / {row.get('source', '')}".strip(" /")
-    iid = stable_id(country, event_type, date)
+    iid = stable_id(country, event_type, date, row.get("location"))
     return {
         "id":          iid,
         "sentinel_id": make_sentinel_id(country, date, iid),
@@ -530,12 +672,85 @@ def acled_to_event(row: dict) -> dict:
 
 # ── Pre-filter ─────────────────────────────────────────────────────────────────
 
+def _article_filter_text(article: dict) -> tuple[str, str, str]:
+    title_text = normalize_text(article.get("title") or "")
+    description_text = normalize_text(article.get("description") or "")
+    body_text = normalize_text(article.get("body_text") or "")
+    return title_text, description_text, body_text
+
+
+def _count_term_hits(text: str, terms: list[str], limit: int | None = None) -> int:
+    hits = 0
+    for term in terms:
+        if term and term in text:
+            hits += 1
+            if limit is not None and hits >= limit:
+                break
+    return hits
+
+
+def _article_relevance_score(article: dict) -> float:
+    title_text, description_text, body_text = _article_filter_text(article)
+    source_tier = article.get("source_tier") or 99
+    source_role = article.get("source_role") or ""
+    quality_weight = float(article.get("source_quality_weight") or 0.0)
+    combined_text = " ".join(part for part in [title_text, description_text, body_text] if part)
+    matched_families: list[tuple[str, float]] = []
+    score = 0.0
+
+    for family_name, family_terms in PREFILTER_TERM_MAP.items():
+        title_hits = _count_term_hits(title_text, family_terms, limit=4)
+        description_hits = _count_term_hits(description_text, family_terms, limit=5)
+        body_hits = _count_term_hits(body_text, family_terms, limit=6)
+        family_score = (min(title_hits, 3) * 1.15) + (min(description_hits, 4) * 0.58) + (min(body_hits, 5) * 0.24)
+        if family_score < 1.15:
+            continue
+        matched_families.append((family_name, round(family_score, 3)))
+        priority = QUERY_FAMILY_PRIORITY.get(family_name, "high")
+        score += min(family_score, 3.2) * FAMILY_PRIORITY_MULTIPLIER.get(priority, 1.0)
+
+    country_hits = _count_term_hits(combined_text, LATAM_COUNTRY_TOKENS, limit=4)
+    negative_hits = _count_term_hits(combined_text, NEGATIVE_TERMS, limit=4)
+
+    score += min(country_hits, 2) * 0.5
+    score -= min(negative_hits, 3) * 0.8
+
+    if source_role == "detection":
+        score += 1.0
+    elif source_role == "verification":
+        score += 0.65
+    elif source_role == "official":
+        score += 0.45
+    elif source_role == "enrichment":
+        score += 0.2
+
+    if source_tier <= 1:
+        score += 0.9
+    elif source_tier == 2:
+        score += 0.55
+    elif source_tier == 3:
+        score += 0.2
+
+    score += quality_weight * 1.2
+    article["retrieval_query_families"] = [family for family, _ in sorted(matched_families, key=lambda item: (-item[1], item[0]))[:4]]
+    article["retrieval_query_labels"] = [QUERY_FAMILY_LABELS.get(family, family) for family in article["retrieval_query_families"]]
+    article["retrieval_negative_hits"] = negative_hits
+    return round(score, 3)
+
+
 def pre_filter(articles: list[dict]) -> list[dict]:
     kept = []
-    for a in articles:
-        text = f"{a['title']} {a.get('description', '')}".lower()
-        if any(kw in text for kw in RELEVANCE_KEYWORDS):
-            kept.append(a)
+    for article in articles:
+        score = _article_relevance_score(article)
+        article["filter_score"] = score
+        has_keyword_hit = score >= 2.0
+        trusted_detection = (
+            (article.get("source_role") in {"detection", "verification"})
+            and (article.get("source_tier") or 99) <= 2
+            and score >= 1.5
+        )
+        if has_keyword_hit or trusted_detection:
+            kept.append(article)
     log.info(f"Pre-filter: {len(articles)} → {len(kept)} articles retained")
     return kept
 
@@ -548,14 +763,36 @@ def _summarize_articles_by_source(articles: list[dict]) -> dict[str, dict]:
             "source": source,
             "source_type": article.get("source_type"),
             "source_method": article.get("source_method"),
+            "source_tier": article.get("source_tier"),
+            "source_role": article.get("source_role"),
+            "source_policy": article.get("source_policy"),
+            "source_languages": set(),
+            "source_quality_weight": article.get("source_quality_weight"),
             "count": 0,
             "urls": set(),
+            "with_full_text": 0,
+            "avg_filter_score_total": 0.0,
+            "retrieval_labels": defaultdict(int),
         })
         row["count"] += 1
         if article.get("url"):
             row["urls"].add(article["url"])
+        if article.get("body_word_count", 0) >= 80:
+            row["with_full_text"] += 1
+        row["avg_filter_score_total"] += float(article.get("filter_score") or 0.0)
+        for label in article.get("retrieval_query_labels") or []:
+            row["retrieval_labels"][label] += 1
+        for language in article.get("source_languages") or []:
+            if language:
+                row["source_languages"].add(language)
     for row in summary.values():
         row["unique_urls"] = len(row.pop("urls"))
+        row["source_languages"] = sorted(row["source_languages"])
+        row["retrieval_labels"] = dict(sorted(row["retrieval_labels"].items(), key=lambda item: (-item[1], item[0]))[:6])
+        row["avg_filter_score"] = (
+            round(row.pop("avg_filter_score_total") / row["count"], 3)
+            if row["count"] else 0.0
+        )
     return dict(sorted(summary.items(), key=lambda item: (-item[1]["count"], item[0])))
 
 
@@ -603,9 +840,17 @@ def write_source_audit(raw_articles: list[dict], filtered_articles: list[dict], 
             "source": source,
             "source_type": raw.get("source_type") or filtered.get("source_type"),
             "source_method": raw.get("source_method") or filtered.get("source_method"),
+            "source_tier": raw.get("source_tier") or filtered.get("source_tier"),
+            "source_role": raw.get("source_role") or filtered.get("source_role"),
+            "source_policy": raw.get("source_policy") or filtered.get("source_policy"),
+            "source_languages": raw.get("source_languages") or filtered.get("source_languages") or [],
+            "source_quality_weight": raw.get("source_quality_weight") or filtered.get("source_quality_weight"),
             "raw_articles": raw_count,
             "filtered_articles": filtered_count,
             "filtered_rate": round(filtered_count / raw_count, 3) if raw_count else 0.0,
+            "avg_filter_score": filtered.get("avg_filter_score", 0.0),
+            "top_retrieval_labels": filtered.get("retrieval_labels", {}),
+            "articles_with_full_text": raw.get("with_full_text", 0),
             "events_generated": event_count,
             "event_yield": round(event_count / filtered_count, 3) if filtered_count else 0.0,
             "high_salience_events": ev.get("high_salience", 0),
@@ -649,6 +894,10 @@ def _event_article_links(events: list[dict]) -> list[dict]:
                 "link_domain": report.get("link_domain"),
                 "source_type": report.get("source_type"),
                 "source_method": report.get("source_method"),
+                "source_tier": report.get("source_tier"),
+                "source_role": report.get("source_role"),
+                "source_policy": report.get("source_policy"),
+                "source_quality_weight": report.get("source_quality_weight"),
                 "headline": report.get("headline"),
                 "linked_at": report.get("linked_at"),
             })
@@ -685,6 +934,65 @@ def write_staging_articles(raw_articles: list[dict], filtered_articles: list[dic
     )
     log.info(f"Staging articles written to {raw_path} and {filtered_path}")
     log.info(f"Staging event/article links written to {links_path}")
+
+
+def write_private_run_cost_log(
+    *,
+    started_at: datetime,
+    cutoff: datetime,
+    backfill: bool,
+    from_staging: str | None,
+    raw_articles: list[dict],
+    filtered_articles: list[dict],
+    new_events: list[dict],
+    added: int,
+    current_total: int,
+) -> None:
+    REVIEW_DIR.mkdir(parents=True, exist_ok=True)
+    anthropic_usage = RUN_METRICS["anthropic"]
+    estimated_cost = estimate_anthropic_cost_usd()
+    raw_summary = _summarize_articles_by_source(raw_articles)
+    top_sources = list(raw_summary.values())[:6]
+    mode = "staging" if from_staging else ("backfill" if backfill else "nightly")
+    finished_at = datetime.now(timezone.utc)
+    elapsed_seconds = round((finished_at - started_at).total_seconds(), 1)
+
+    lines = [
+        f"## {finished_at.isoformat()}",
+        "",
+        f"- mode: `{mode}`",
+        f"- cutoff: `{cutoff.date()}`",
+        f"- runtime_seconds: `{elapsed_seconds}`",
+        f"- raw_articles: `{RUN_METRICS['dedupe']['raw_before'] or len(raw_articles)}`",
+        f"- raw_articles_after_dedupe: `{RUN_METRICS['dedupe']['raw_after'] or len(raw_articles)}`",
+        f"- raw_articles_removed_by_dedupe: `{RUN_METRICS['dedupe']['removed']}`",
+        f"- filtered_articles: `{len(filtered_articles)}`",
+        f"- new_events_candidate_count: `{len(new_events)}`",
+        f"- events_added_to_store: `{added}`",
+        f"- events_total_after_run: `{current_total}`",
+        f"- estimated_model_cost_usd: `${estimated_cost:.4f}`",
+        f"- pricing_basis: `claude-haiku-4-5 estimated at ${ANTHROPIC_EST_INPUT_USD_PER_MTOK:.2f}/MTok input and ${ANTHROPIC_EST_OUTPUT_USD_PER_MTOK:.2f}/MTok output`",
+        "",
+        "### Anthropic Usage",
+        "",
+    ]
+    for stage_name, bucket in anthropic_usage.items():
+        lines.append(
+            f"- `{stage_name}` — requests: `{bucket['requests']}`, items: `{bucket['items']}`, input_tokens: `{bucket['input_tokens']}`, output_tokens: `{bucket['output_tokens']}`"
+        )
+    lines.extend([
+        "",
+        "### Top Fetched Sources",
+        "",
+    ])
+    for row in top_sources:
+        lines.append(
+            f"- `{row['source']}` — raw: `{row['count']}`, unique_urls: `{row['unique_urls']}`, avg_filter_score: `{row['avg_filter_score']}`, full_text: `{row['with_full_text']}`"
+        )
+    lines.extend(["", "---", ""])
+    with PRIVATE_RUN_LOG.open("a", encoding="utf-8") as fh:
+        fh.write("\n".join(lines))
+    log.info(f"Private pipeline cost log written to {PRIVATE_RUN_LOG}")
 
 
 # ── Claude classification ──────────────────────────────────────────────────────
@@ -745,7 +1053,11 @@ ITEMS:
 
 def _classify_batch(client: anthropic.Anthropic, items: list[dict]) -> list[dict]:
     texts = "\n\n".join(
-        f"[{i}] TITLE: {it['title']}\nSNIPPET: {it.get('description', '')[:300]}\nSOURCE: {it['source']}"
+        f"[{i}] TITLE: {it['title']}\n"
+        f"SNIPPET: {it.get('description', '')[:320]}\n"
+        f"BODY: {it.get('body_text', '')[:520]}\n"
+        f"SOURCE: {it['source']} | TIER:{it.get('source_tier')} | ROLE:{it.get('source_role')} | METHOD:{it.get('source_method')}\n"
+        f"QUALITY: {it.get('source_quality_weight')}"
         for i, it in enumerate(items)
     )
     try:
@@ -755,6 +1067,7 @@ def _classify_batch(client: anthropic.Anthropic, items: list[dict]) -> list[dict
             temperature=0,
             messages=[{"role": "user", "content": CLASSIFY_PROMPT.format(items=texts)}],
         )
+        record_anthropic_usage("classify", msg, item_count=len(items))
         lines = msg.content[0].text.strip().split("\n")
         return [json.loads(line) for line in lines if line.strip().startswith("{")]
     except Exception as e:
@@ -777,6 +1090,7 @@ def _cluster_events(client: anthropic.Anthropic, candidates: list[dict]) -> list
             temperature=0,
             messages=[{"role": "user", "content": CLUSTER_PROMPT.format(n=len(candidates), items=texts)}],
         )
+        record_anthropic_usage("cluster", msg, item_count=len(candidates))
         raw = msg.content[0].text.strip()
         start = raw.find("[")
         if start == -1:
@@ -799,6 +1113,33 @@ def _cluster_events(client: anthropic.Anthropic, candidates: list[dict]) -> list
         return [[i] for i in range(len(candidates))]
 
 
+def _recompute_event_confidence(event: dict) -> dict:
+    reports = event.get("linked_reports") or []
+    if not reports:
+        return event
+
+    unique_sources = {
+        report.get("source_name")
+        for report in reports
+        if report.get("source_name")
+    }
+    trusted_reports = [
+        report for report in reports
+        if (report.get("source_tier") or 99) <= 2
+    ]
+    current_conf = event.get("conf", "yellow")
+    current_rank = CONFIDENCE_ORDER.get(current_conf, 1)
+
+    if len(unique_sources) >= 2 and len(trusted_reports) >= 2:
+        event["conf"] = "green"
+    elif len(trusted_reports) >= 1 and current_rank < CONFIDENCE_ORDER["yellow"]:
+        event["conf"] = "yellow"
+
+    event["source_diversity"] = len(unique_sources)
+    event["trusted_source_count"] = len(trusted_reports)
+    return event
+
+
 def _merge_cluster(events: list[dict]) -> dict:
     """Merge events covering the same incident into one canonical record."""
     if len(events) == 1:
@@ -807,7 +1148,7 @@ def _merge_cluster(events: list[dict]) -> dict:
         ev.setdefault("links", [link for link in [ev.get("url")] if link and link != "#"])
         ev.setdefault("source_article_ids", [r.get("article_id") for r in ev.get("linked_reports", []) if r.get("article_id")])
         ev.setdefault("linked_reports", [])
-        return ev
+        return _recompute_event_confidence(ev)
     sal_rank = {"high": 0, "medium": 1, "low": 2}
     best     = min(events, key=lambda e: sal_rank.get(e.get("salience", "low"), 2))
     sources  = list(dict.fromkeys(
@@ -840,7 +1181,7 @@ def _merge_cluster(events: list[dict]) -> dict:
             linked_reports.append(report)
     merged["linked_reports"] = linked_reports
     merged["source_article_ids"] = [report.get("article_id") for report in linked_reports if report.get("article_id")]
-    return merged
+    return _recompute_event_confidence(merged)
 
 
 def classify_articles(client: anthropic.Anthropic, articles: list[dict], existing_ids: set[str]) -> list[dict]:
@@ -886,7 +1227,7 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
                 coords = geolocate(location_text, country)
             _conf_map = {"high": "green", "med": "yellow", "low": "red"}
             _sal_map  = {"high": "high", "med": "medium", "low": "low"}
-            iid = stable_id(country, ev_type, date)
+            iid = stable_id(country, ev_type, date, location or article.get("location") or country)
             candidates.append({
                 "id":          iid,
                 "sentinel_id": make_sentinel_id(country, date, iid),
@@ -920,9 +1261,15 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
                         "headline": article.get("title"),
                         "source_type": article.get("source_type"),
                         "source_method": article.get("source_method"),
+                        "source_tier": article.get("source_tier"),
+                        "source_role": article.get("source_role"),
+                        "source_policy": article.get("source_policy"),
+                        "source_quality_weight": article.get("source_quality_weight"),
                         "linked_at": article.get("normalized_at") or now,
                     }
                 ],
+                "source_diversity": 1,
+                "trusted_source_count": 1 if (article.get("source_tier") or 99) <= 2 else 0,
                 "ai_analysis": None,
                 "ingested_at": now,
             })
@@ -980,6 +1327,7 @@ def generate_analysis(client: anthropic.Anthropic, ev: dict) -> str | None:
                 type=ev.get("type", "other"),
             )}],
         )
+        record_anthropic_usage("analysis", msg, item_count=1)
         return msg.content[0].text.strip()
     except Exception as e:
         log.error(f"Analysis error: {e}")
@@ -1121,6 +1469,7 @@ def main() -> None:
     else:
         cutoff = datetime.now(timezone.utc) - timedelta(days=DAYS_BACK)
 
+    started_at = datetime.now(timezone.utc)
     log.info("=== SENTINEL pipeline starting ===")
     if backfill:
         log.info(f"Historical mode: fetching from {cutoff.date()} ({args.years}-year window)")
@@ -1194,6 +1543,7 @@ def main() -> None:
         all_articles.extend(fetch_dea())
 
     log.info(f"Total raw articles: {len(all_articles)}")
+    all_articles = dedupe_ingested_articles(all_articles)
 
     # ── 2. Pre-filter ─────────────────────────────────────────────────────────
     relevant = pre_filter(all_articles)
@@ -1227,6 +1577,17 @@ def main() -> None:
     added = save_events(existing, new_events)
     current_total = len(json.loads(DATA_FILE.read_text(encoding="utf-8")).get("events", []))
     log.info(f"Done. {added} new events added. Total stored: {current_total}")
+    write_private_run_cost_log(
+        started_at=started_at,
+        cutoff=cutoff,
+        backfill=backfill,
+        from_staging=args.from_staging,
+        raw_articles=all_articles,
+        filtered_articles=relevant,
+        new_events=new_events,
+        added=added,
+        current_total=current_total,
+    )
 
     # ── 8. Weekly digest ──────────────────────────────────────────────────────
     all_saved = list(existing.values())

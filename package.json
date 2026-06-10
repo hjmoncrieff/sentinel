@@ -10,6 +10,7 @@
     "serve": "python3 -m http.server 8000",
     "playwright:install": "playwright install chromium",
     "smoke:dashboard": "node scripts/dev/playwright_smoke_dashboard.mjs",
+    "dashboard:test:e2e": "playwright test -c playwright.dashboard.config.ts",
     "lint:python": "ruff check scripts",
     "format:python": "ruff format scripts",
     "typecheck:python": "basedpyright scripts",

@@ -13,6 +13,29 @@ Each major change entry should include:
 
 ## 2026-06-06
 
+### Public Dashboard Editorial Redesign Release
+
+Affected areas:
+- `index.html`
+- `assets/css/dashboard.css`
+- `assets/js/dashboard.js`
+- `tests/public-dashboard/editorial-system.spec.ts`
+- `scripts/dev/playwright_smoke_dashboard.mjs`
+
+What changed:
+- Completed the public-dashboard editorial redesign by turning the site shell into a single publication system with the approved oxide palette, paper background, unified hero/dossier surfaces, and a cleaner single-line SENTINEL masthead.
+- Reworked the major public tabs so `Overview`, `Countries`, `Transnational Security`, `US-LATAM`, and `About` now read as one editorial product while preserving the more operational treatment for `Events`.
+- Finished the country dossier presentation changes, including the redesigned brief layout, event field-note styling, and single-open accordion behavior for live country event notes.
+- Added final QA coverage for the public release contract so both the standalone smoke flow and Playwright editorial regressions now assert the dossier/about hooks and the shared publication background across key tabs.
+
+Validation completed:
+- Added final public-release QA coverage in `tests/public-dashboard/editorial-system.spec.ts` and `scripts/dev/playwright_smoke_dashboard.mjs` for the shared editorial publication contract.
+
+Remaining risks / follow-up:
+- The local smoke and Playwright verification commands still need a fresh unsandboxed rerun because the localhost server bind was blocked in the sandbox and the approval rerun was interrupted.
+- The dashboard still depends on live public data, so future content or markup changes should keep the editorial data hooks stable to avoid brittle public QA failures.
+- If the public shell evolves again, the smoke script and editorial regression should be updated together so release checks continue to match the intended reading experience.
+
 ### Editorial System Redesign Spec
 
 Affected areas:
@@ -148,6 +171,45 @@ Validation completed:
 
 Remaining risks / follow-up:
 - The open browser tab still needs a refresh to load the reverted homepage assets.
+
+### Events Workspace Rollback And Country Brief Feed Alignment
+
+Affected areas:
+- `index.html`
+- `assets/js/dashboard.js`
+- `assets/css/dashboard.css`
+- `tests/public-dashboard/editorial-system.spec.ts`
+
+What changed:
+- Rolled the public `Events` tab back to the classic three-part workspace with a left live-feed list, center regional map, and right detail dossier instead of the newer inline operational-queue treatment.
+- Kept the approved editorial palette in place for the public events workspace so the rollback changes structure and readability rather than reverting the sitewide visual direction.
+- Rewired country-profile live events to use the stronger inline field-brief composition for expanded notes, bringing the dossier event treatment closer to the approved reference while preserving single-open accordion behavior.
+- Added stable regression hooks for the restored public events map/detail surfaces and updated the public Playwright regression to click through the restored event-selection flow.
+
+Validation completed:
+- Pending rerun after the rollback and country-feed styling pass.
+
+Remaining risks / follow-up:
+- A live localhost browser smoke still needs to confirm the restored public `Events` layout and the country-profile event brief spacing with real data.
+- If the user wants the country event cards pushed even closer to the provided reference, the next pass should focus on metadata density and source/tag hierarchy rather than structural changes.
+
+### Explore CMR Scene Rendering Fix And Feedback Pill Alignment
+
+Affected areas:
+- `index.html`
+- `assets/css/dashboard.css`
+- `assets/js/dashboard.js`
+
+What changed:
+- Reworked Explore Scene 5 (`Civil-Military Index`) from a sparse full-height card dump into a denser editorial stage with a summary rail and larger country cards so the scene no longer reads as partially unrendered.
+- Replaced the inline CMR card styles with dedicated scene classes, giving the grid a stronger layout contract and more consistent spacing, hierarchy, and hover behavior.
+- Matched the floating feedback button to the `Analyst Console` pill color and hover treatment so the global action buttons now share one visual system.
+
+Validation completed:
+- Pending live browser refresh and rendered interaction check.
+
+Remaining risks / follow-up:
+- If Explore needs a broader redesign later, the other scenes may still benefit from similar summary rails so Scene 5 does not feel more finished than the rest of the flow.
 
 ### Shared Country Dossier Contract And Publication Layer
 

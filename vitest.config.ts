@@ -17,5 +17,6 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./apps/analyst-console/src/test/setup.ts"],
+    exclude: ["tests/**", "node_modules/**", "dist/**"],
   },
 });

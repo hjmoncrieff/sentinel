@@ -2,6 +2,10 @@ from __future__ import annotations
 
 import json
 
+from scripts.analysis.build_country_dossiers import (
+    CANONICAL_COUNTRIES as DOSSIER_CANONICAL_COUNTRIES,
+    build_public_payload,
+)
 from scripts.analysis.validate_country_dossiers import (
     CANONICAL_COUNTRIES,
     SCHEMA,
@@ -35,7 +39,7 @@ def _make_country_row(country: str) -> dict:
         },
         "public_structural_cards": [
             {
-                "code": "mil_spend_pct_gdp",
+                "code": "mil_exp_pct_gdp",
                 "label": "Military Spending",
                 "current_value": 1.6,
                 "display_value": "1.6%",
@@ -48,6 +52,22 @@ def _make_country_row(country: str) -> dict:
             {
                 "code": "civilian_control",
                 "label": "Civilian Control",
+            }
+        ],
+        "public_predictive_series": [
+            {
+                "code": "regime_vulnerability",
+                "label": "Regime Vulnerability",
+                "current_score": 48.1,
+                "display_score": "48.1/100",
+                "level": "guarded",
+                "trend_label": "stable",
+                "as_of_year": 2025,
+                "trend_series": [
+                    {"year": 2023, "score": 42.0},
+                    {"year": 2024, "score": 45.5},
+                    {"year": 2025, "score": 48.1},
+                ],
             }
         ],
         "public_context": {
@@ -68,14 +88,365 @@ def _make_payload() -> dict:
     rows = [_make_country_row(country) for country in sorted(CANONICAL_COUNTRIES)]
     return {
         "generated_at": "2026-06-06T00:00:00Z",
+        "count": len(rows),
         "countries": rows,
     }
+
+
+def test_build_public_payload_returns_canonical_country_rows() -> None:
+    structural_rows = []
+    monitor_rows = []
+    context_rows = []
+    predictive_panel_rows = []
+    latent_rows = []
+
+    for index, (country, iso2, iso3, subregion) in enumerate(DOSSIER_CANONICAL_COUNTRIES):
+        structural_rows.extend([
+            {
+                "country": country,
+                "year": 2023,
+                "iso2": iso2,
+                "iso3": iso3,
+                "subregion": subregion,
+                "polyarchy": round(0.55 + index * 0.005, 3),
+                "mil_constrain": round(0.45 + index * 0.004, 3),
+                "mil_exec": round(0.18 + index * 0.003, 3),
+                "wgi_rule_of_law": round(-0.4 + index * 0.03, 3),
+                "mil_exp_pct_gdp": round(1.0 + index * 0.05, 3),
+                "inflation_consumer_prices_pct": round(2.5 + index * 0.4, 3),
+            },
+            {
+                "country": country,
+                "year": 2024,
+                "iso2": iso2,
+                "iso3": iso3,
+                "subregion": subregion,
+                "polyarchy": round(0.57 + index * 0.005, 3),
+                "mil_constrain": round(0.47 + index * 0.004, 3),
+                "mil_exec": round(0.2 + index * 0.003, 3),
+                "wgi_rule_of_law": round(-0.35 + index * 0.03, 3),
+                "mil_exp_pct_gdp": round(1.1 + index * 0.05, 3),
+                "inflation_consumer_prices_pct": round(3.0 + index * 0.4, 3),
+            },
+        ])
+        monitor_rows.append({
+            "country": country,
+            "generated_at": "2026-06-06T00:00:00Z",
+            "predictive_summary": {
+                "overall_risk_score": 48.0 if country == "Brazil" else round(35.0 + index, 1),
+                "overall_risk_level": "elevated" if country == "Brazil" else "medium",
+                "leading_construct": "regime_vulnerability",
+                "leading_label": "Regime Vulnerability",
+                "leading_trend": "stable",
+                "summary_text": f"{country} monitor summary.",
+                "watchpoints": [f"{country} watchpoint 1", f"{country} watchpoint 2"],
+            },
+            "risk_constructs": [
+                {"code": "regime_vulnerability", "label": "Regime Vulnerability", "score": 48.0 if country == "Brazil" else round(35.0 + index, 1), "level": "elevated", "trend_label": "stable"},
+                {"code": "militarization", "label": "Militarization", "score": round(30.0 + index, 1), "level": "medium", "trend_label": "stable"},
+                {"code": "security_fragmentation", "label": "Security Fragmentation", "score": round(28.0 + index, 1), "level": "medium", "trend_label": "rising"},
+            ],
+            "top_pulse_events": [
+                {"event_date": "2026-06-05"},
+            ],
+        })
+        context_rows.append({
+            "country": country,
+            "capital": f"{country} City",
+            "regime": "Democracy",
+            "cmr_status": "Stable",
+            "cmr_class": "Stable",
+            "note": f"{country} note.",
+            "key_positions": [{"title": "Defense Minister", "name": f"{country} Minister"}],
+            "next_election": {"date": "2027-01-01", "type": "presidential"},
+            "country_watch": f"{country} watch.",
+            "special_profile_id": None,
+        })
+        predictive_panel_rows.extend([
+            {
+                "country": country,
+                "panel_date": "2024-06-01",
+                "acute_political_risk_signal_score_next_3m": 1,
+                "episode_construct_regime_vulnerability_count_12m": 1,
+                "episode_construct_militarization_count_12m": 1,
+                "episode_construct_security_fragmentation_count_12m": 1,
+                "security_fragmentation_jump_signal_score_next_3m": 1,
+                "event_type_oc_count_12m": 1,
+                "event_type_conflict_count_12m": 0,
+                "event_type_protest_count_12m": 0,
+                "fragmenting_episode_count_12m": 0,
+                "regime_shift_flag": 0,
+                "sentinel_exception_rule_militarization_count_y": 0,
+            },
+            {
+                "country": country,
+                "panel_date": "2025-12-01",
+                "acute_political_risk_signal_score_next_3m": 2,
+                "episode_construct_regime_vulnerability_count_12m": 2,
+                "episode_construct_militarization_count_12m": 1,
+                "episode_construct_security_fragmentation_count_12m": 2,
+                "security_fragmentation_jump_signal_score_next_3m": 2,
+                "event_type_oc_count_12m": 1,
+                "event_type_conflict_count_12m": 1,
+                "event_type_protest_count_12m": 1,
+                "fragmenting_episode_count_12m": 1,
+                "regime_shift_flag": 1 if country == "Brazil" else 0,
+                "sentinel_exception_rule_militarization_count_y": 1 if country == "Brazil" else 0,
+            },
+        ])
+        latent_rows.extend([
+            {
+                "country": country,
+                "year": 2024,
+                "civilian_control_latent_v0_score": round(65.0 - index * 0.8, 3),
+                "militarization_latent_v0_score": round(30.0 + index * 1.1, 3),
+            },
+            {
+                "country": country,
+                "year": 2025,
+                "civilian_control_latent_v0_score": round(63.0 - index * 0.8, 3),
+                "militarization_latent_v0_score": round(31.0 + index * 1.1, 3),
+            },
+        ])
+
+    payload = build_public_payload(
+        structural_rows=structural_rows,
+        monitor_rows=monitor_rows,
+        context_rows=context_rows,
+        predictive_panel_rows=predictive_panel_rows,
+        latent_rows=latent_rows,
+    )
+
+    assert payload["count"] == 25
+    brazil = next((row for row in payload["countries"] if row["country"] == "Brazil"), None)
+    assert brazil is not None
+    assert brazil["public_summary"]["overall_risk_score"] == 48.0
+    assert brazil["public_structural_cards"][0]["code"] == "polyarchy"
+    assert brazil["public_predictive_series"][0]["code"] == "regime_vulnerability"
+    assert brazil["public_predictive_series"][0]["trend_series"][-1]["year"] == 2025
+
+
+def test_build_public_payload_validates_with_realistic_monitor_timestamp() -> None:
+    structural_rows = []
+    monitor_rows = []
+    context_rows = []
+    predictive_panel_rows = []
+    latent_rows = []
+
+    for index, (country, iso2, iso3, subregion) in enumerate(DOSSIER_CANONICAL_COUNTRIES):
+        structural_rows.extend([
+            {
+                "country": country,
+                "year": 2023,
+                "iso2": iso2,
+                "iso3": iso3,
+                "subregion": subregion,
+                "polyarchy": round(0.5 + index * 0.004, 3),
+                "mil_constrain": round(0.42 + index * 0.003, 3),
+                "mil_exec": round(0.16 + index * 0.002, 3),
+                "wgi_rule_of_law": round(-0.3 + index * 0.02, 3),
+                "mil_exp_pct_gdp": round(1.2 + index * 0.03, 3),
+                "inflation_consumer_prices_pct": round(3.5 + index * 0.25, 3),
+            },
+            {
+                "country": country,
+                "year": 2024,
+                "iso2": iso2,
+                "iso3": iso3,
+                "subregion": subregion,
+                "polyarchy": round(0.52 + index * 0.004, 3),
+                "mil_constrain": round(0.44 + index * 0.003, 3),
+                "mil_exec": round(0.18 + index * 0.002, 3),
+                "wgi_rule_of_law": round(-0.25 + index * 0.02, 3),
+                "mil_exp_pct_gdp": round(1.3 + index * 0.03, 3),
+                "inflation_consumer_prices_pct": round(3.9 + index * 0.25, 3),
+            },
+        ])
+        monitor_rows.append({
+            "country": country,
+            "generated_at": "2026-06-06T00:00:00+00:00",
+            "predictive_summary": {
+                "overall_risk_score": round(40.0 + index * 0.5, 2),
+                "overall_risk_level": None if country == "Brazil" else "medium",
+                "leading_construct": None if country == "Brazil" else "regime_vulnerability",
+                "leading_label": None if country == "Brazil" else "Regime Vulnerability",
+                "leading_trend": None if country == "Brazil" else "stable",
+                "summary_text": None if country == "Brazil" else f"{country} summary.",
+                "watchpoints": [f"{country} watchpoint", None],
+            },
+            "risk_constructs": [
+                {
+                    "code": "regime_vulnerability",
+                    "label": "Regime Vulnerability",
+                    "score": 41.5,
+                    "level": "elevated",
+                    "trend_label": "stable",
+                },
+                {
+                    "code": "militarization",
+                    "label": "Militarization",
+                    "score": 37.0,
+                    "level": "medium",
+                    "trend_label": "stable",
+                },
+            ],
+            "top_pulse_events": [
+                {"event_date": "2026-06-05"},
+                {"event_date": "2026-06-04"},
+            ],
+        })
+        context_rows.append({
+            "country": country,
+            "capital": f"{country} City",
+            "regime": "Democracy",
+            "cmr_status": "Stable",
+            "cmr_class": "Stable",
+            "note": f"{country} note.",
+            "key_positions": [{"title": "Defense Minister", "name": f"{country} Minister"}],
+            "next_election": {"date": "2027-01-01", "type": "presidential"},
+            "country_watch": f"{country} watch.",
+            "special_profile_id": None,
+        })
+        predictive_panel_rows.append({
+            "country": country,
+            "panel_date": "2025-12-01",
+            "acute_political_risk_signal_score_next_3m": 1,
+            "episode_construct_regime_vulnerability_count_12m": 1,
+            "episode_construct_militarization_count_12m": 1,
+            "episode_construct_security_fragmentation_count_12m": 1,
+            "security_fragmentation_jump_signal_score_next_3m": 1,
+            "event_type_oc_count_12m": 1,
+            "event_type_conflict_count_12m": 0,
+            "event_type_protest_count_12m": 0,
+            "fragmenting_episode_count_12m": 0,
+            "regime_shift_flag": 0,
+            "sentinel_exception_rule_militarization_count_y": 0,
+        })
+        latent_rows.append({
+            "country": country,
+            "year": 2024,
+            "civilian_control_latent_v0_score": round(58.0 - index * 0.3, 3),
+            "militarization_latent_v0_score": round(33.0 + index * 0.2, 3),
+        })
+
+    payload = build_public_payload(
+        structural_rows=structural_rows,
+        monitor_rows=monitor_rows,
+        context_rows=context_rows,
+        predictive_panel_rows=predictive_panel_rows,
+        latent_rows=latent_rows,
+    )
+    result = validate_payload(payload)
+    brazil = next(row for row in payload["countries"] if row["country"] == "Brazil")
+
+    assert result["status"] == "valid"
+    assert result["errors"] == []
+    assert payload["count"] == 25
+    assert brazil["public_freshness"]["monitor_generated_at"] == "2026-06-06T00:00:00Z"
+    assert brazil["public_summary"]["overall_risk_level"] == ""
+    assert brazil["public_summary"]["leading_construct"] == ""
+    assert brazil["public_summary"]["leading_label"] == ""
+    assert brazil["public_summary"]["leading_trend"] == ""
+    assert brazil["public_summary"]["summary_text"] == ""
+
+
+def test_build_public_payload_handles_empty_scores_and_null_next_election_fields() -> None:
+    structural_rows = []
+    monitor_rows = []
+    context_rows = []
+    predictive_panel_rows = []
+    latent_rows = []
+
+    for index, (country, iso2, iso3, subregion) in enumerate(DOSSIER_CANONICAL_COUNTRIES):
+        structural_rows.append({
+            "country": country,
+            "year": 2024,
+            "iso2": iso2,
+            "iso3": iso3,
+            "subregion": subregion,
+            "polyarchy": round(0.6 + index * 0.003, 3),
+            "mil_constrain": round(0.5 + index * 0.003, 3),
+            "mil_exec": round(0.2 + index * 0.002, 3),
+            "wgi_rule_of_law": round(-0.2 + index * 0.02, 3),
+            "mil_exp_pct_gdp": round(1.0 + index * 0.04, 3),
+            "inflation_consumer_prices_pct": round(3.0 + index * 0.3, 3),
+        })
+        monitor_rows.append({
+            "country": country,
+            "generated_at": "2026-06-06T00:00:00+00:00",
+            "predictive_summary": {
+                "overall_risk_score": None if country == "Brazil" else ("" if country == "Chile" else "bad"),
+                "overall_risk_level": "medium",
+                "leading_construct": "regime_vulnerability",
+                "leading_label": "Regime Vulnerability",
+                "leading_trend": "stable",
+                "summary_text": f"{country} summary.",
+                "watchpoints": [f"{country} watchpoint"],
+            },
+            "risk_constructs": [
+                {"code": "regime_vulnerability", "label": "Regime Vulnerability"},
+            ],
+            "top_pulse_events": [{"event_date": "2026-06-05"}],
+        })
+        context_rows.append({
+            "country": country,
+            "capital": f"{country} City",
+            "regime": "Democracy",
+            "cmr_status": "Stable",
+            "cmr_class": "Stable",
+            "note": f"{country} note.",
+            "key_positions": [{"title": "Defense Minister", "name": f"{country} Minister"}],
+            "next_election": {"date": None, "type": None},
+            "country_watch": f"{country} watch.",
+            "special_profile_id": None,
+        })
+        predictive_panel_rows.append({
+            "country": country,
+            "panel_date": "2025-12-01",
+            "acute_political_risk_signal_score_next_3m": 0,
+            "episode_construct_regime_vulnerability_count_12m": 0,
+            "episode_construct_militarization_count_12m": 0,
+            "episode_construct_security_fragmentation_count_12m": 0,
+            "security_fragmentation_jump_signal_score_next_3m": 0,
+            "event_type_oc_count_12m": 0,
+            "event_type_conflict_count_12m": 0,
+            "event_type_protest_count_12m": 0,
+            "fragmenting_episode_count_12m": 0,
+            "regime_shift_flag": 0,
+            "sentinel_exception_rule_militarization_count_y": 0,
+        })
+        latent_rows.append({
+            "country": country,
+            "year": 2024,
+            "civilian_control_latent_v0_score": round(62.0 - index * 0.2, 3),
+            "militarization_latent_v0_score": round(29.0 + index * 0.2, 3),
+        })
+
+    payload = build_public_payload(
+        structural_rows=structural_rows,
+        monitor_rows=monitor_rows,
+        context_rows=context_rows,
+        predictive_panel_rows=predictive_panel_rows,
+        latent_rows=latent_rows,
+    )
+    result = validate_payload(payload)
+    brazil = next(row for row in payload["countries"] if row["country"] == "Brazil")
+    chile = next(row for row in payload["countries"] if row["country"] == "Chile")
+
+    assert result["status"] == "valid"
+    assert brazil["public_summary"]["overall_risk_score"] == 0.0
+    assert chile["public_summary"]["overall_risk_score"] == 0.0
+    assert brazil["public_context"]["next_election"]["date"] == "1900-01-01"
+    assert brazil["public_context"]["next_election"]["type"] == "unknown"
 
 
 def test_schema_requires_public_payload_fields() -> None:
     schema = load_schema()
 
     assert schema["required"] == ["generated_at", "countries"]
+    assert schema["properties"]["count"]["type"] == "integer"
+    assert schema["properties"]["countries"]["items"]["properties"]["public_structural_cards"]["items"]["properties"]["current_value"]["type"] == ["number", "null"]
+    assert schema["properties"]["countries"]["items"]["properties"]["public_predictive_series"]["items"]["properties"]["current_score"]["type"] == "number"
     row_required = schema["properties"]["countries"]["items"]["required"]
     assert row_required == [
         "country",
@@ -87,6 +458,7 @@ def test_schema_requires_public_payload_fields() -> None:
         "public_summary",
         "public_structural_cards",
         "public_construct_series",
+        "public_predictive_series",
         "public_context",
     ]
     assert schema["additionalProperties"] is False
@@ -225,6 +597,19 @@ def test_validate_payload_rejects_malformed_structural_card_item() -> None:
     ) in result["errors"]
 
 
+def test_validate_payload_rejects_invalid_structural_card_current_value_object() -> None:
+    payload = _make_payload()
+    payload["countries"][0]["public_structural_cards"][0]["current_value"] = {"value": 1.6}
+
+    result = validate_payload(payload)
+
+    assert result["status"] == "invalid"
+    assert (
+        "Country row 0 field 'public_structural_cards' item 0 field 'current_value' "
+        "must be of type ['number', 'null']."
+    ) in result["errors"]
+
+
 def test_validate_payload_rejects_non_string_watchpoints() -> None:
     payload = _make_payload()
     payload["countries"][0]["public_summary"]["watchpoints"] = ["ok", 5]
@@ -259,6 +644,28 @@ def test_validate_payload_rejects_malformed_public_construct_series_item() -> No
     assert result["status"] == "invalid"
     assert (
         "Country row 0 field 'public_construct_series' item 0 missing required field: label"
+    ) in result["errors"]
+
+
+def test_validate_payload_rejects_malformed_public_predictive_series_item() -> None:
+    payload = _make_payload()
+    payload["countries"][0]["public_predictive_series"][0] = {
+        "code": "regime_vulnerability",
+        "label": "Regime Vulnerability",
+        "current_score": 48.1,
+        "display_score": "48.1/100",
+        "level": "guarded",
+        "trend_label": "stable",
+        "as_of_year": 2025,
+        "trend_series": [{"year": "2025", "score": 48.1}],
+    }
+
+    result = validate_payload(payload)
+
+    assert result["status"] == "invalid"
+    assert (
+        "Country row 0 field 'public_predictive_series' item 0 field 'trend_series' item 0 field 'year' "
+        "must be of type integer."
     ) in result["errors"]
 
 
@@ -319,5 +726,6 @@ def test_validator_required_fields_match_schema() -> None:
         "public_summary",
         "public_structural_cards",
         "public_construct_series",
+        "public_predictive_series",
         "public_context",
     }

@@ -14,6 +14,31 @@ export type EventEditPayload = {
   actor_patches?: unknown[];
 };
 
+export type RegistryEditPayload = {
+  action?: string;
+  registry_id?: string;
+  canonical_name?: string;
+  canonical_type?: string;
+  primary_country?: string;
+  aliases?: string[];
+  relationship_tags?: string[];
+  note?: string;
+};
+
+export type ManualEventPayload = {
+  headline: string;
+  country?: string;
+  event_date?: string;
+  event_type?: string;
+  summary?: string;
+  source_primary?: string;
+  confidence?: string;
+  salience?: string;
+  review_priority?: string;
+  location?: string;
+  note?: string;
+};
+
 async function invokeReviewAction<TResponse>(
   action: string,
   payload: Record<string, unknown>,
@@ -58,4 +83,16 @@ export function withholdEventFromRelease(
     ...payload,
     status: payload.status ?? "withheld",
   });
+}
+
+export function saveRegistryEdit(
+  payload: RegistryEditPayload,
+): Promise<ReviewActionResponse> {
+  return invokeReviewAction<ReviewActionResponse>("registry_edit", payload);
+}
+
+export function createManualEvent(
+  payload: ManualEventPayload,
+): Promise<ReviewActionResponse> {
+  return invokeReviewAction<ReviewActionResponse>("manual_event", payload);
 }

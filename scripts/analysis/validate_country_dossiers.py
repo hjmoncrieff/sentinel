@@ -8,9 +8,15 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.analysis.build_country_dossiers import OUT as DEFAULT_PAYLOAD
+
 SCHEMA = ROOT / "config" / "schemas" / "country_dossier_public.schema.json"
 
 CANONICAL_COUNTRIES = {
@@ -167,6 +173,11 @@ def validate_payload(payload: dict) -> dict:
     elif generated_at_pattern and generated_at is not None and not _matches_pattern(generated_at, generated_at_pattern):
         errors.append("Top-level field 'generated_at' must match the required timestamp pattern.")
 
+    count_value = payload.get("count")
+    count_type = top_level_properties.get("count", {}).get("type")
+    if count_value is not None and count_type and not _matches_schema_types(count_value, count_type):
+        errors.append(f"Top-level field 'count' must be of type {count_type}.")
+
     countries = payload.get("countries", [])
     if not isinstance(countries, list):
         return {
@@ -178,6 +189,10 @@ def validate_payload(payload: dict) -> dict:
     if len(countries) != len(CANONICAL_COUNTRIES):
         errors.append(
             f"Expected {len(CANONICAL_COUNTRIES)} country rows but found {len(countries)}."
+        )
+    if count_value is not None and isinstance(count_value, int) and count_value != len(countries):
+        errors.append(
+            f"Top-level field 'count' must equal the number of country rows ({len(countries)})."
         )
 
     seen_countries: set[str] = set()
@@ -259,6 +274,21 @@ def validate_payload(payload: dict) -> dict:
                 if construct_series_item_type == "object":
                     _validate_object_against_schema(item, construct_series_items_schema, item_path, errors)
 
+        predictive_series = row.get("public_predictive_series")
+        predictive_series_schema = row_properties.get("public_predictive_series", {})
+        predictive_series_items_schema = predictive_series_schema.get("items", {})
+        predictive_series_item_type = predictive_series_items_schema.get("type")
+        if isinstance(predictive_series, list) and predictive_series_item_type:
+            for item_index, item in enumerate(predictive_series):
+                item_path = f"Country row {index} field 'public_predictive_series' item {item_index}"
+                if not _matches_schema_types(item, predictive_series_item_type):
+                    errors.append(
+                        f"{item_path} must be of type {predictive_series_item_type}."
+                    )
+                    continue
+                if predictive_series_item_type == "object":
+                    _validate_object_against_schema(item, predictive_series_items_schema, item_path, errors)
+
         country = row.get("country")
         if country not in CANONICAL_COUNTRIES:
             errors.append(f"Country row {index} has noncanonical country: {country}")
@@ -287,7 +317,13 @@ def validate_payload(payload: dict) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Validate a public country dossier payload.")
-    parser.add_argument("payload", type=Path, help="Path to a JSON payload file")
+    parser.add_argument(
+        "payload",
+        type=Path,
+        nargs="?",
+        default=DEFAULT_PAYLOAD,
+        help="Path to a JSON payload file",
+    )
     args = parser.parse_args()
 
     payload = load_json(args.payload)

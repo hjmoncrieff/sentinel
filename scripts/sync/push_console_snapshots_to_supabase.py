@@ -16,6 +16,7 @@ SNAPSHOTS: dict[str, Path] = {
     "council_analyses": ROOT / "data" / "review" / "council_analyses.json",
     "canonical_events": ROOT / "data" / "canonical" / "events_actor_coded.json",
     "published_events": ROOT / "data" / "published" / "events_public.json",
+    "country_dossiers": ROOT / "data" / "published" / "country_dossiers.json",
     "country_monitors": ROOT / "data" / "published" / "country_monitors.json",
     "actor_registry": ROOT / "config" / "actors" / "actor_registry.json",
 }

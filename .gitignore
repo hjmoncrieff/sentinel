@@ -10,6 +10,13 @@ __pycache__/
 .venv/
 venv/
 
+# ── Node / JS ─────────────────────────────────────────────────
+node_modules/
+.pnpm-store/
+dist/
+storybook-static/
+test-results/
+
 # ── OS ────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
@@ -75,3 +82,4 @@ data/raw/dataverse*
 
 # ── Supabase Local State ──────────────────────────────────────
 supabase/.temp/
+supabase/.branches/

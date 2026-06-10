@@ -1,7 +1,9 @@
-import type { QueueItem } from "@/lib/domain/types";
+import type { EventEditRecord, QueueItem } from "@/lib/domain/types";
 
 type AuditPanelProps = {
   item: QueueItem | null;
+  editHistory: EventEditRecord[];
+  loadError?: string | null;
 };
 
 function formatAuditLabel(value?: string | null): string {
@@ -12,19 +14,22 @@ function formatAuditLabel(value?: string | null): string {
   return value.replaceAll("_", " ");
 }
 
-export function AuditPanel({ item }: AuditPanelProps) {
+export function AuditPanel({
+  item,
+  editHistory,
+  loadError = null,
+}: AuditPanelProps) {
   const timeline = item?.provenance?.timeline ?? [];
   const qaFlags = item?.qa_flags ?? [];
 
   return (
-    <section className="space-y-3 border-t border-[var(--console-line)] p-4">
+    <section className="space-y-3 p-4" aria-label="Audit actions">
       <div>
         <h2 className="text-sm font-semibold text-[var(--console-ink)]">
-          Audit
+          Audit trail
         </h2>
         <p className="mt-1 text-sm text-[var(--console-muted)]">
-          Review exceptions and provenance remain visible beside the active
-          event.
+          QA exceptions, provenance, and saved event edits stay adjacent to the active record.
         </p>
       </div>
 
@@ -47,10 +52,10 @@ export function AuditPanel({ item }: AuditPanelProps) {
         </div>
         <div className="rounded-md border border-[var(--console-line)] bg-[var(--console-panel-2)] px-3 py-2">
           <div className="text-[11px] uppercase tracking-wide text-[var(--console-muted)]">
-            Merge state
+            Saved edits
           </div>
           <div className="mt-1 text-sm text-[var(--console-ink)]">
-            {item?.merged_into_event_id ? "Merged away" : "Standalone"}
+            {editHistory.length}
           </div>
         </div>
       </div>
@@ -61,7 +66,7 @@ export function AuditPanel({ item }: AuditPanelProps) {
             Active QA review
           </h3>
           <ul className="space-y-2">
-            {qaFlags.slice(0, 2).map((flag, index) => (
+            {qaFlags.slice(0, 3).map((flag, index) => (
               <li
                 key={flag.flag_id ?? `${item?.event_id ?? "flag"}-${index}`}
                 className="rounded-md border border-[var(--console-line)] bg-[var(--console-panel)] p-3"
@@ -72,10 +77,49 @@ export function AuditPanel({ item }: AuditPanelProps) {
                 <p className="mt-1 text-sm font-medium text-[var(--console-ink)]">
                   {flag.message || formatAuditLabel(flag.code)}
                 </p>
+                {flag.details ? (
+                  <p className="mt-2 text-sm text-[var(--console-muted)]">
+                    {flag.details}
+                  </p>
+                ) : null}
               </li>
             ))}
           </ul>
         </div>
+      ) : null}
+
+      {editHistory.length > 0 ? (
+        <div className="space-y-2">
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-[var(--console-muted)]">
+            Recent saved edits
+          </h3>
+          <ul className="space-y-2">
+            {editHistory.slice(0, 5).map((edit) => (
+              <li
+                key={edit.edit_id ?? `${edit.event_id}-${edit.edited_at}`}
+                className="rounded-md border border-[var(--console-line)] bg-[var(--console-panel)] p-3"
+              >
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] uppercase tracking-wide text-[var(--console-muted)]">
+                  <span>{edit.editor_name || "Unknown"}</span>
+                  <span>{formatAuditLabel(edit.editor_role)}</span>
+                  <span>{edit.edited_at || "Undated"}</span>
+                </div>
+                <p className="mt-2 text-sm font-medium text-[var(--console-ink)]">
+                  {formatAuditLabel(edit.status)}
+                </p>
+                {edit.comment ? (
+                  <p className="mt-2 text-sm text-[var(--console-muted)]">
+                    {edit.comment}
+                  </p>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : loadError ? (
+        <p className="rounded-md border border-[var(--console-danger)]/40 bg-[var(--console-danger)]/10 px-3 py-3 text-sm text-[var(--console-danger)]">
+          {loadError}
+        </p>
       ) : null}
 
       {timeline.length > 0 ? (
@@ -84,7 +128,7 @@ export function AuditPanel({ item }: AuditPanelProps) {
             Provenance timeline
           </h3>
           <ul className="space-y-2">
-            {timeline.slice(0, 3).map((entry, index) => (
+            {timeline.slice(0, 4).map((entry, index) => (
               <li
                 key={`${entry.stage ?? "timeline"}-${entry.at ?? index}`}
                 className="rounded-md border border-[var(--console-line)] bg-[var(--console-panel)] p-3 text-sm text-[var(--console-muted)]"
