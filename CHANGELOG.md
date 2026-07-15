@@ -13,6 +13,34 @@ Each major change entry should include:
 
 ## 2026-06-06
 
+## 2026-07-14
+
+### Public Dashboard Freshness And Feed Usability Refresh
+
+Affected areas:
+- `index.html`
+- `assets/css/dashboard.css`
+- `assets/js/dashboard.js`
+- `data/published/events_public.json`
+- `data/published/country_monitors.json`
+- `data/published/country_dossiers.json`
+
+What changed:
+- Added visible public freshness cues across the masthead, overview hero, and live events workspace so the site now surfaces the exact publication window instead of implying freshness abstractly.
+- Tightened the overview lead copy into a faster, more directive landing experience with concise monitoring priorities and live event totals.
+- Improved the events workflow with a new `Latest` filter path, a “latest batch” entry point, stronger selected-card treatment, and `New` badges for the freshest published events.
+- Strengthened the top of each country dossier by promoting a compact country-at-a-glance strip before the longer analytical brief.
+- Rebuilt the public dashboard artifacts from the refreshed event pipeline so the live site now reads from a July 14, 2026 public event store rather than the older June 3, 2026 snapshot.
+
+Validation completed:
+- `node --check assets/js/dashboard.js`
+- `node scripts/dev/playwright_smoke_dashboard.mjs`
+- Rebuilt canonical, review, monitor, dossier, and published dashboard layers locally through the public artifact pipeline.
+
+Remaining risks / follow-up:
+- Local Supabase snapshot sync is still blocked on this machine because `.env` does not currently provide `SUPABASE_URL` and an elevated Supabase key for the sync helper.
+- The GitHub Actions `Supabase Sync` workflow remains available once repo secrets are configured or manually dispatched from GitHub.
+
 ### Public Dashboard Editorial Redesign Release
 
 Affected areas:

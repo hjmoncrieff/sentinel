@@ -11,7 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
-<link rel="stylesheet" href="assets/css/dashboard.css?v=20260608-editorial-header-refresh">
+<link rel="stylesheet" href="assets/css/dashboard.css?v=20260714-public-refresh">
 
 </head>
 <body>
@@ -30,10 +30,29 @@
     <button class="tab-btn" data-tab="about">About</button>
   </nav>
   <div class="header-right">
+    <div class="header-freshness" id="header-freshness-pill" aria-live="polite">
+      <span class="header-freshness-label">Updated through</span>
+      <span class="header-freshness-value" id="header-freshness-value">Loading…</span>
+    </div>
     <button class="nav-search-btn" id="search-btn" onclick="openSearch()" title="Search (⌘K)">⌕</button>
     <a class="login-btn" id="analyst-login-link" href="./apps/analyst-console/" title="Analyst Console">Analyst Console</a>
+    <button class="mobile-menu-btn" type="button" onclick="openMobileNav()" aria-label="Open navigation menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16"></path>
+        <path d="M4 12h16"></path>
+        <path d="M4 17h16"></path>
+      </svg>
+    </button>
   </div>
 </header>
+
+<div class="site-status-bar" aria-live="polite">
+  <div class="site-status-copy" id="pipeline-status-text">Loading public dashboard artifacts… <span data-live-ingestion-age>—</span></div>
+  <div class="site-status-actions">
+    <span class="site-status-chip" id="global-updated-through">Updated through —</span>
+    <a class="site-status-link" href="#" onclick="event.preventDefault();switchTab('events')">Open live feed</a>
+  </div>
+</div>
 
 <div class="mobile-nav-overlay" id="mobile-nav-overlay">
   <button class="mobile-nav-close" onclick="closeMobileNav()" aria-label="Close navigation">×</button>
@@ -44,6 +63,7 @@
     <button class="mobile-nav-link" onclick="switchTab('transnational');closeMobileNav()">Organized Crime</button>
     <button class="mobile-nav-link" onclick="switchTab('us');closeMobileNav()">US–LATAM</button>
     <button class="mobile-nav-link" onclick="switchTab('about');closeMobileNav()">About</button>
+    <a class="mobile-nav-link mobile-nav-link-secondary" href="./apps/analyst-console/">Analyst Console</a>
   </div>
 </div>
 
@@ -57,15 +77,25 @@
   <section class="ov-section ov-fade">
     <div class="ov-kicker">Regional Monitor · Latin America &amp; the Caribbean</div>
     <div class="ov-title">SENTINEL.</div>
-    <div class="ov-tagline">Civil-Military Relations · 25 Countries · Updated Nightly</div>
-    <div class="ov-body">Latin America is in the middle of a structural contest over who controls the gun. Across the region, the boundary between civilian government and military institution — hard-won through the democratic transitions of the 1980s and 1990s — is under pressure from multiple directions at once. SENTINEL tracks this pattern in near-real time, country by country, event by event.</div>
+    <div class="ov-tagline">Civil-Military Relations Monitor · 25 Countries · Public Event Feed</div>
+    <div class="ov-signal-row">
+      <span class="ov-signal-chip" id="overview-updated-through">Updated through —</span>
+      <span class="ov-signal-chip"><strong id="overview-event-count">0</strong> public events</span>
+      <span class="ov-signal-chip">Nightly pipeline · field-ready archive</span>
+    </div>
+    <div class="ov-body">SENTINEL tracks where civilian control is holding, where coercive institutions are being repurposed, and where security fragmentation is changing political risk across the hemisphere.</div>
+    <div class="ov-focus-list" aria-label="Core monitoring priorities">
+      <div class="ov-focus-item"><span>Track</span> civilian control, executive-military bargaining, and command stress.</div>
+      <div class="ov-focus-item"><span>Watch</span> organized crime, territorial conflict, and emergency rule as coercive accelerants.</div>
+      <div class="ov-focus-item"><span>Compare</span> country dossiers, live event fields, and regional routes without leaving the dashboard.</div>
+    </div>
     <div class="ov-cta-group">
       <a class="ov-btn-primary" href="#" onclick="event.preventDefault();switchTab('explore')">Explore the region <span class="arrow">→</span></a>
       <a class="ov-btn-secondary" href="#" onclick="event.preventDefault();document.getElementById('ov-monitors').scrollIntoView({behavior:'smooth'})">Special monitors</a>
     </div>
     <div class="ov-stats">
       <div class="ov-stat"><div class="ov-stat-val">25</div><div class="ov-stat-label">Countries tracked</div></div>
-      <div class="ov-stat"><div class="ov-stat-val">500+</div><div class="ov-stat-label">Events in store</div></div>
+      <div class="ov-stat"><div class="ov-stat-val" id="overview-event-count-stat">0</div><div class="ov-stat-label">Public events</div></div>
       <div class="ov-stat"><div class="ov-stat-val">12</div><div class="ov-stat-label">Data sources</div></div>
       <div class="ov-stat">
         <div class="ov-coverage">
@@ -448,6 +478,13 @@
           </svg>
           <span class="events-nav-rail-btn-label">High</span>
         </button>
+        <button class="events-nav-rail-btn" id="events-nav-quick-latest" type="button" title="Toggle latest published batch">
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M8 2.5v5.1l3 1.8"></path>
+            <circle cx="8" cy="8" r="5.2"></circle>
+          </svg>
+          <span class="events-nav-rail-btn-label">Latest</span>
+        </button>
         <button class="events-nav-rail-btn" id="events-nav-quick-focus" type="button" title="Filter to the selected country">
           <svg viewBox="0 0 16 16" aria-hidden="true">
             <circle cx="8" cy="8" r="4.8"></circle>
@@ -550,6 +587,7 @@
           <div class="events-chip-block">
             <div class="events-chip-row" id="event-range-chips">
               <button class="events-chip active" type="button" data-range="all">All</button>
+              <button class="events-chip" type="button" data-range="latest">Latest</button>
               <button class="events-chip" type="button" data-range="30d">30 Days</button>
               <button class="events-chip" type="button" data-range="90d">90 Days</button>
             </div>
@@ -609,6 +647,20 @@
     </div>
     <div class="events-layout">
     <div class="sidebar" data-editorial-surface="events-list" aria-label="Regional events feed">
+      <div class="events-feed-banner">
+        <div class="events-feed-banner-head">
+          <div>
+            <div class="events-feed-banner-kicker">Live public queue</div>
+            <div class="events-feed-banner-title">Start with the newest reporting</div>
+          </div>
+          <span class="events-feed-banner-stamp" id="events-updated-through">Updated through —</span>
+        </div>
+        <div class="events-feed-banner-copy">Use the latest batch to scan fresh movement first, then widen back to the archive for context.</div>
+        <div class="events-feed-banner-actions">
+          <button class="events-feed-banner-btn" type="button" onclick="setEventRange('latest')">Latest batch</button>
+          <button class="events-feed-banner-btn secondary" type="button" onclick="clearEventFilters()">Full archive</button>
+        </div>
+      </div>
       <div class="event-list" id="event-list" role="list"></div>
     </div>
     <div class="map-column" aria-label="Regional events map" data-editorial-surface="events-map">
@@ -1568,7 +1620,7 @@
   </div>
 </div>
 
-<script src="assets/js/dashboard.js?v=20260608-editorial-header-refresh" defer></script>
+<script src="assets/js/dashboard.js?v=20260714-public-refresh" defer></script>
 
 <!-- ── Feedback Button & Panel ────────────────────────── -->
 <button class="fb-btn" id="fb-trigger" onclick="toggleFeedback()" aria-label="Submit feedback or suggestion" aria-expanded="false" aria-controls="fb-panel">

@@ -135,6 +135,7 @@ let countryDossiersByCountry = new Map();
 let regionalMixChart = null;
 let regionalLeadersChart = null;
 let lastIngestionTimestamp = null;
+let latestPublishedEventDate = null;
 
 const EVENT_SIGNAL_ORDER = {
   coup_and_command_break: 10,
@@ -160,10 +161,11 @@ function closeMobileNav(){
 }
 
 function updatePipelineAge(){
-  const ageEl = document.getElementById('live-ingestion-age');
-  if(!ageEl || !lastIngestionTimestamp) return;
+  const ageEls = document.querySelectorAll('[data-live-ingestion-age]');
+  if(!ageEls.length || !lastIngestionTimestamp) return;
   const diff = Math.max(0, Math.floor((Date.now() - lastIngestionTimestamp) / 1000));
-  ageEl.textContent = diff < 60 ? `${diff}s ago` : `${Math.floor(diff / 60)}m ago`;
+  const label = diff < 60 ? `${diff}s ago` : `${Math.floor(diff / 60)}m ago`;
+  ageEls.forEach(el => { el.textContent = label; });
 }
 
 function getEventDateISO(ev){
@@ -178,6 +180,39 @@ function getAdaptiveEventRange(events){
   if(ageDays <= 30) return '30d';
   if(ageDays <= 90) return '90d';
   return 'all';
+}
+
+function getLatestEventDate(events = allEvents){
+  const dates = (events || [])
+    .map(getEventDateISO)
+    .filter(value => /^\d{4}-\d{2}-\d{2}$/.test(String(value || '')));
+  if(!dates.length) return '';
+  return dates.sort().at(-1) || '';
+}
+
+function isLatestPublishedEvent(ev){
+  return !!latestPublishedEventDate && getEventDateISO(ev) === latestPublishedEventDate;
+}
+
+function setTextContent(id, value){
+  const el = document.getElementById(id);
+  if(el) el.textContent = value;
+}
+
+function refreshDashboardFreshness(){
+  const count = Array.isArray(allEvents) ? allEvents.length : 0;
+  const updatedThrough = latestPublishedEventDate
+    ? cpFormatCalendarDate(latestPublishedEventDate)
+    : 'Date pending';
+  const headerFreshness = latestPublishedEventDate
+    ? cpFormatCalendarDate(latestPublishedEventDate).replace(/, \d{4}$/, '')
+    : 'Loading…';
+  setTextContent('header-freshness-value', headerFreshness);
+  setTextContent('global-updated-through', `Updated through ${updatedThrough}`);
+  setTextContent('overview-updated-through', `Updated through ${updatedThrough}`);
+  setTextContent('events-updated-through', `Updated through ${updatedThrough}`);
+  setTextContent('overview-event-count', count.toLocaleString('en-US'));
+  setTextContent('overview-event-count-stat', count.toLocaleString('en-US'));
 }
 
 // ── DATA LOADING ─────────────────────────────────────────────
@@ -335,6 +370,7 @@ async function loadEvents(){
     const updatedStr = published?.generated_at || events[0]?.date || null;
     allEvents = events;
     filtered = events;
+    latestPublishedEventDate = getLatestEventDate(events);
     filters.range = 'all';
     buildCountries();
     renderTypeFilterOptions();
@@ -354,6 +390,7 @@ async function loadEvents(){
     setActiveEventChips('event-confidence-chips','conf',filters.conf);
     updateEventFilterSummary();
     applyFilters();
+    refreshDashboardFreshness();
     computeCmrScores();
     renderRegionalMonitorSummary();
     ovRefreshMarkers();
@@ -368,12 +405,12 @@ async function loadEvents(){
       }
       const pipelineText = document.getElementById('pipeline-status-text');
       if(pipelineText){
-        pipelineText.innerHTML = `Pipeline running — ${events.length} public events loaded${policyBits.length ? ' · ' + policyBits.join(' · ') : ''} · last ingestion <span id="live-ingestion-age">${agoStr}</span>`;
+        pipelineText.innerHTML = `Pipeline running — ${events.length.toLocaleString('en-US')} public events loaded${policyBits.length ? ' · ' + policyBits.join(' · ') : ''} · last ingestion <span data-live-ingestion-age>${agoStr}</span>`;
       }
       document.querySelector('.log-txt')?.classList.add('ok');
     } else {
       const pipelineText = document.getElementById('pipeline-status-text');
-      if(pipelineText) pipelineText.textContent = `Pipeline running — ${events.length} public events loaded`;
+      if(pipelineText) pipelineText.textContent = `Pipeline running — ${events.length.toLocaleString('en-US')} public events loaded`;
       document.querySelector('.log-txt')?.classList.add('ok');
     }
   } catch(e) {
@@ -995,8 +1032,45 @@ function cpBuildHeroSection(name, summary, watchpoints, eventCount, latestEventD
   const leadingConstructLabel = summary?.leading_construct_label || summary?.leading_construct || 'Monitor loading';
   const leadingTrendLabel = summary?.leading_trend || 'steady';
   const economicSignal = cpGetEconomicSignal(name);
+  const stats = COUNTRY_STATS[name] || {};
+  const profile = COUNTRY_PROFILES[name] || {};
+  const dossierContext = getCountryPublicContext(name) || {};
+  const hasDossierElection = dossierContext.next_election
+    && dossierContext.next_election.date
+    && dossierContext.next_election.date !== '1900-01-01'
+    && String(dossierContext.next_election.type || '').toLowerCase() !== 'unknown';
+  const election = hasDossierElection ? dossierContext.next_election : (COUNTRY_ELECTIONS[name] || null);
+  const electionLabel = election?.date ? cpFormatCalendarDate(election.date) : 'No date set';
+  const profileCmrStatus = dossierContext.cmr_status || profile.cmrStatus || overallLevel;
   const briefText = summary?.summary_text || 'No predictive summary is available yet.';
   const watchMarkup = watchpoints.slice(0, 2).map(item => `<div class="cp2-hero-watch-item">${escapeHtml(item)}</div>`).join('');
+  const snapshotCards = [
+    {
+      label: 'CMR status',
+      value: profileCmrStatus,
+      note: overallLevel,
+    },
+    {
+      label: 'Military spend',
+      value: stats.spending || profile.gdpPct || '—',
+      note: 'Latest available estimate',
+    },
+    {
+      label: 'Personnel',
+      value: stats.personnel || '—',
+      note: 'Active force footprint',
+    },
+    {
+      label: 'Election clock',
+      value: electionLabel,
+      note: election?.type || 'Election outlook',
+    },
+  ].map(item => `
+      <div class="cp2-hero-snapshot-card">
+        <div class="cp2-hero-snapshot-label">${escapeHtml(item.label)}</div>
+        <div class="cp2-hero-snapshot-value">${escapeHtml(String(item.value))}</div>
+        <div class="cp2-hero-snapshot-note">${escapeHtml(String(item.note))}</div>
+      </div>`).join('');
   const metricCards = [
     {
       label: 'Overall risk',
@@ -1039,6 +1113,7 @@ function cpBuildHeroSection(name, summary, watchpoints, eventCount, latestEventD
     <section class="cp2-hero-grid">
       <div class="cp2-hero-brief">
         <div class="cp2-summary-kicker">National Monitor Brief</div>
+        <div class="cp2-hero-snapshot-grid">${snapshotCards}</div>
         <div class="cp2-summary-text">${escapeHtml(briefText)}</div>
         ${watchMarkup ? `<div class="cp2-hero-watchlist">${watchMarkup}</div>` : ''}
       </div>
@@ -2260,6 +2335,9 @@ function parseEventDateValue(value){
 
 function matchesDateRange(ev, range){
   if(range === 'all') return true;
+  if(range === 'latest'){
+    return !latestPublishedEventDate || getEventDateISO(ev) === latestPublishedEventDate;
+  }
   const ts = parseEventDateValue(ev.date);
   if(ts == null) return true;
   const days = range === '30d' ? 30 : range === '90d' ? 90 : null;
@@ -2310,6 +2388,7 @@ function updateEventQueueSummary(evs){
 }
 
 function describeEventRange(range){
+  if(range === 'latest') return 'latest batch';
   if(range === '30d') return '30-day window';
   if(range === '90d') return '90-day window';
   return 'full archive';
@@ -2328,6 +2407,7 @@ function updateEventFilterSummary(){
   const railCount=document.getElementById('events-nav-rail-count');
   const railScope=document.getElementById('events-nav-rail-scope');
   const quickHigh=document.getElementById('events-nav-quick-high');
+  const quickLatest=document.getElementById('events-nav-quick-latest');
   const quickFocus=document.getElementById('events-nav-quick-focus');
   const dock=document.getElementById('events-nav-dock');
   const filterTrigger=document.getElementById('events-nav-trigger');
@@ -2362,7 +2442,8 @@ function updateEventFilterSummary(){
   if(railScope){
     const scopeBits = [];
     if(countryLabel !== 'All tracked countries') scopeBits.push(countryLabel);
-    if(filters.range !== 'all') scopeBits.push(filters.range.toUpperCase());
+    if(filters.range === 'latest') scopeBits.push('Latest');
+    if(filters.range !== 'all' && filters.range !== 'latest') scopeBits.push(filters.range.toUpperCase());
     if(filters.salience === 'high') scopeBits.push('High');
     railScope.textContent = scopeBits.length ? scopeBits.join(' · ') : 'All countries';
   }
@@ -2373,6 +2454,7 @@ function updateEventFilterSummary(){
       : (selectedCountryLabel && selectedCountryLabel !== 'Regional' ? selectedCountryLabel : '')
   );
   quickHigh?.classList.toggle('is-active', filters.salience === 'high');
+  quickLatest?.classList.toggle('is-active', filters.range === 'latest');
   quickFocus?.classList.toggle('is-active', !!shortcutCountry && filters.country === shortcutCountry);
   quickFocus?.setAttribute('aria-disabled', shortcutCountry ? 'false' : 'true');
   filterTrigger?.classList.toggle('is-active', eventNavigatorMode === 'filters' && eventFilterPanelOpen);
@@ -2436,9 +2518,16 @@ function clearEventFilters(){
   applyFilters('country');
 }
 
+function setEventRange(range='all'){
+  filters.range = range;
+  setActiveEventChips('event-range-chips','range',filters.range);
+  applyFilters();
+}
+
 globalThis.toggleEventNavigator = toggleEventNavigator;
 globalThis.openEventNavigator = openEventNavigator;
 globalThis.clearEventFilters = clearEventFilters;
+globalThis.setEventRange = setEventRange;
 
 function getOverallRiskMapStyle(country, fallbackColor = '#3a6ea5'){
   const summary = getCountryPredictiveSummary(country);
@@ -2970,6 +3059,7 @@ function initEventFilterControls(){
   const searchClearBtn=document.getElementById('events-search-clear-btn');
   const searchCloseBtn=document.getElementById('events-search-close-btn');
   const quickHighBtn=document.getElementById('events-nav-quick-high');
+  const quickLatestBtn=document.getElementById('events-nav-quick-latest');
   const quickFocusBtn=document.getElementById('events-nav-quick-focus');
   const quickResetBtn=document.getElementById('events-nav-quick-reset');
   const navDock=document.getElementById('events-nav-dock');
@@ -3033,6 +3123,9 @@ function initEventFilterControls(){
     filters.salience = filters.salience === 'high' ? 'all' : 'high';
     setActiveEventChips('event-salience-chips','salience',filters.salience);
     applyFilters();
+  });
+  quickLatestBtn?.addEventListener('click',()=>{
+    setEventRange(filters.range === 'latest' ? 'all' : 'latest');
   });
   quickFocusBtn?.addEventListener('click',()=>{
     const selectedCountry = selected ? getEventCountryLabel(selected) : '';
@@ -3210,9 +3303,10 @@ function renderList(){
     const reviewedByHuman = !!ev.public_review?.reviewed_by_human;
     const sourceCount=getEventSources(ev).length;
     const isSelected = selected?.id===ev.id;
+    const isFresh = isLatestPublishedEvent(ev);
     const div=document.createElement('div');
     div.setAttribute('role', 'listitem');
-    div.className=`ev-item${isSelected?' selected':''}`;
+    div.className=`ev-item${isSelected?' selected':''}${isFresh?' is-fresh':''}`;
     const mechanism = getEventMechanismLabel(ev);
     const countryTags = getEventCountryTags(ev);
     const sourceLabel = ev.source || getEventSources(ev)[0]?.name || 'Source pending';
@@ -3220,6 +3314,7 @@ function renderList(){
       <div class="ev-row1">
         <div class="ev-dot" style="background:${c}"></div>
         <span class="ev-type" style="color:${c}">${getEventTypeLabel(ev.type)}</span>
+        ${isFresh?'<span class="ev-fresh-badge">New</span>':''}
         ${humanValidated?`<span class="src-badge tri" title="Validated by a human analyst">Human Validated</span>`:reviewedByHuman?`<span class="src-badge single" title="Reviewed by a human analyst">Human Reviewed</span>`:''}
         <span class="ev-country-tags">${countryTags.map(renderCountryTagHtml).join('')}</span>
       </div>
