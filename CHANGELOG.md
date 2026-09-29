@@ -11,6 +11,37 @@ Each major change entry should include:
 
 ## 2026-09-29
 
+### Analyst Console Build Outputs Rebuilt From The Redesign Branch
+
+Affected areas:
+- `dist/` and `storybook-static/` (local build outputs, gitignored)
+
+What changed:
+- The React analyst console, together with its Vite, Vitest, Storybook, and pnpm
+  toolchain, exists only on `codex/analyst-console-redesign`. Neither `main` nor this
+  branch has a `package.json`.
+- Rather than merge 112 diverged files into the published branch, I rebuilt both outputs
+  from the local branch tip (`1d910f5`) in a temporary git worktree outside Dropbox. The
+  build used the pinned `pnpm@11.5.2` and `--frozen-lockfile`.
+- The previous June builds were moved aside, not deleted.
+- The worktree and its `node_modules` were removed afterward.
+- `dist/` includes local copies of private review JSON, as the Vite config specifies. It
+  stays local-only.
+
+Validation completed:
+- `analyst-console:typecheck`: clean.
+- `analyst-console:test`: 41 passed (5 files).
+- `analyst-console:build`: ✓.
+- `analyst-console:storybook:build`: ✓.
+- The build ran on Node 26. The branch pins Node 22 via `.mise.toml`, but builds and
+  tests passed on 26.
+
+Remaining risks / follow-up:
+- The main console chunk is 509 kB minified (141 kB gzip) and triggers Vite's size warning.
+  Code-splitting belongs on the redesign branch.
+- The redesign branch still has to be reconciled with `main` deliberately. Until then,
+  `dist/` reflects a branch that isn't deployed.
+
 ### Public Site Launch Readiness
 
 Affected areas:
