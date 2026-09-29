@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      issues: write
 
     steps:
       - name: Checkout
@@ -103,19 +104,27 @@ jobs:
           python scripts/analysis/run_council_synthesis.py
           python scripts/analysis/validate_council_quality.py
           python scripts/publish/publish_dashboard_data.py
-          echo "## Published output" >> "$GITHUB_STEP_SUMMARY"
-          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
-          import json
+          python - <<'PY'
+          import json, os
+          from datetime import date
           from pathlib import Path
+          STALE_DAYS = 3
+          lines = ["## Published output"]
           path = Path("data/published/events_public.json")
           if not path.exists():
-              print("- data/published/events_public.json missing after downstream rebuild")
+              lines.append("- data/published/events_public.json missing after downstream rebuild")
+              print("::error::data/published/events_public.json missing after downstream rebuild")
           else:
-              payload = json.loads(path.read_text(encoding="utf-8"))
-              events = payload.get("events", [])
-              latest = max((event.get("date") or "" for event in events), default="unknown")
-              print(f"- Published events: {len(events)}")
-              print(f"- Latest published date: {latest}")
+              events = json.loads(path.read_text(encoding="utf-8")).get("events", [])
+              latest = max((e.get("event_date") or "" for e in events), default="")
+              lines += [f"- Published events: {len(events)}", f"- Latest published date: {latest or 'unknown'}"]
+              age = (date.today() - date.fromisoformat(latest)).days if latest else None
+              if age is None or age > STALE_DAYS:
+                  msg = f"Newest published event is {age if age is not None else '?'} days old (threshold {STALE_DAYS})."
+                  lines.append(f"- ⚠️ {msg}")
+                  print(f"::warning::{msg}")
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as fh:
+              fh.write("\n".join(lines) + "\n")
           PY
 
       - name: Commit updated data
@@ -126,3 +135,21 @@ jobs:
           git diff --staged --quiet || git commit -m "chore: daily pipeline refresh $(date -u +'%Y-%m-%d') [skip ci]"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push
+
+      - name: Alert on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          # One open issue per workflow; later failures comment on it instead of piling up.
+          label="pipeline-failure"
+          title="Daily SENTINEL Pipeline is failing"
+          gh label create "$label" --color B83232 --description "Automated workflow failure alert" --force
+          body="Run failed on $(date -u +'%Y-%m-%d %H:%M UTC'): $RUN_URL"
+          existing=$(gh issue list --label "$label" --state open --search "in:title \"$title\"" --json number -q '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "$title" --label "$label" --body "$body"
+          fi

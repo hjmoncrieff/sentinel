@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      issues: write
 
     steps:
       - name: Checkout
@@ -67,3 +68,21 @@ jobs:
           git diff --staged --quiet || git commit -m "chore: sync Supabase workflow outputs $(date -u +'%Y-%m-%dT%H:%M:%SZ') [skip ci]"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push
+
+      - name: Alert on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          # One open issue per workflow; later failures comment on it instead of piling up.
+          label="pipeline-failure"
+          title="Supabase Sync is failing"
+          gh label create "$label" --color B83232 --description "Automated workflow failure alert" --force
+          body="Run failed on $(date -u +'%Y-%m-%d %H:%M UTC'): $RUN_URL"
+          existing=$(gh issue list --label "$label" --state open --search "in:title \"$title\"" --json number -q '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "$title" --label "$label" --body "$body"
+          fi

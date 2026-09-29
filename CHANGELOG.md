@@ -11,6 +11,32 @@ Each major change entry should include:
 
 ## 2026-09-29
 
+### Pipeline Failure Alerts And Freshness Warning
+
+Affected areas:
+- `.github/workflows/fetch_events.yml`
+- `.github/workflows/supabase_sync.yml`
+
+What changed:
+- **Failure alerts.** Both data workflows gained an `Alert on failure` step, which needed
+  the `issues: write` permission. When a run fails, the step opens a GitHub issue labelled
+  `pipeline-failure`. If an issue for that workflow is already open, it adds a comment with
+  the run link instead of opening a new one. Silent failures, like the ~100 no-op runs from
+  July to September, now become visible.
+- **Freshness warning.** After publication, the run summary warns if the newest published
+  event is more than 3 days old.
+- **Summary-line bug fixed.** The "Latest published date" summary line was always blank,
+  because it read `date` instead of the published field `event_date`.
+
+Validation completed:
+- Both workflows parse as YAML. The alert step and permissions are in place.
+- Live behaviour will be confirmed by the next failing or stale run. The step runs only on
+  failure.
+
+Remaining risks / follow-up:
+- GitHub also emails the repo owner about failed scheduled runs if notifications are on.
+  The issue is the durable record.
+
 ### Daily Pipeline Revival
 
 Affected areas:
