@@ -9,6 +9,49 @@ Each major change entry should include:
 - validation completed
 - remaining risks or follow-up
 
+## 2026-09-29
+
+### Repo State Audit, Agent Context Rewrite, And Ignore Hygiene
+
+Affected areas:
+- `AGENTS.md`, `CLAUDE.md` (local-only, gitignored)
+- `.gitignore`
+- `CHANGELOG.md`
+
+What changed:
+- Audited the local repo against `origin/main`.
+  - `origin/main` is still at `8188f88` (2026-07-14), so no daily-pipeline commits have
+    landed for about 2.5 months.
+  - `data/events.json` ends at 2026-07-14.
+  - Local `main` has one unpushed docs commit and is one commit behind `origin/main`.
+  - `codex/analyst-console-redesign` has two unpushed commits.
+- Committed the previously uncommitted 2026-07-15 audit and pipeline work as `fc49070`.
+- Rewrote `AGENTS.md` as the single agent-neutral project context. It previously described
+  the March 2026 single-file dashboard and `fetch_events.py`. The rewrite covers the
+  three-surface architecture, the real run commands and downstream rebuild order, the data
+  layers, the public/private boundary, the changelog rule, current models, and known state.
+- `CLAUDE.md` now imports `AGENTS.md` and adds only Claude-specific notes, so the two
+  files can't drift apart.
+- Moved the ignore rules for JS tooling leftovers into their own `.gitignore` section:
+  `node_modules/`, `.pnpm-store/`, `dist/`, `storybook-static/`, `test-results/`,
+  `playwright-report/`, and `supabase/.branches/`.
+
+Validation completed:
+- `git ls-remote --heads origin` (confirmed the remote `main` SHA).
+- Every modified `data/` JSON and JSONL file parses; both canonical JSONL files have
+  1,214 records.
+- `python3 -m py_compile scripts/pipeline_core.py scripts/ingest_newsapi.py scripts/rss_sources.py scripts/pipeline/build_canonical_events.py`
+- `git status --short` is clean after the ignore update.
+
+Remaining risks / follow-up:
+- Find out why the daily GitHub Actions pipeline has not committed since July 14. Check the
+  Actions run history, the repo secrets, and whether the workflow is disabled.
+- Reconcile local `main` and `codex/analyst-console-redesign` with `origin/main`.
+- `git fetch` from the Dropbox working copy hangs waiting for credentials. The remote was
+  checked with `ls-remote` instead.
+- The empty `2026-06-05`, `2026-06-06` and `2026-07-14` headings below predate this entry and
+  were left unchanged.
+
 ## 2026-06-05
 
 ## 2026-06-06

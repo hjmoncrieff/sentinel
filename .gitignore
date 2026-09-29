@@ -75,3 +75,12 @@ data/raw/dataverse*
 
 # ── Supabase Local State ──────────────────────────────────────
 supabase/.temp/
+supabase/.branches/
+
+# ── JS Tooling / Build Output ─────────────────────────────────
+node_modules/
+.pnpm-store/
+dist/
+storybook-static/
+test-results/
+playwright-report/
