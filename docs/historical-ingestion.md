@@ -26,31 +26,70 @@ Treat historical ingestion as a different problem from nightly monitoring.
 - historical pipeline:
   slow, resumable, source-specific archive recovery with heavier QA
 
-## Current Scaffold
+## Components
 
-The repo now includes:
+- `scripts/historical_ingest.py` is the planner and runner.
+- `config/historical_sources.json` is the source manifest: groups, connector types,
+  endpoints, and coverage floors.
 
-- [historical_ingest.py](/Users/hjmoncrieff/Library/CloudStorage/Dropbox/SENTINEL/scripts/historical_ingest.py)
-- [historical_sources.json](/Users/hjmoncrieff/Library/CloudStorage/Dropbox/SENTINEL/config/historical_sources.json)
+Without `--run`, the script only prints a plan, as it always has. With `--run`, it
+executes the ingest:
 
-The script is currently a planning/orchestration scaffold. It does not yet
-perform full historical ingest, but it does establish:
+1. Every runnable source is split into **units** of one (source, calendar month).
+   Months before a source's `coverage_start` are dropped. For example, GDELT starts
+   on 2015-02-19.
+2. Each unit writes `data/staging/historical/<since>_<until>/<source_id>__<YYYY-MM>.jsonl`
+   using the shared `normalize_articles` schema. Duplicates within a unit are removed.
+3. `_checkpoint.json` records each unit as it finishes. An interrupted, crashed, or
+   rate-limited run resumes from where it stopped. A unit whose connector raises stays
+   pending and is recorded under `failed`.
+4. `_qa.json` is the archive-quality report. It flags:
+   - `coverage_gap`: months that returned zero articles
+   - `cross_batch_duplicates`: the same URL appearing in more than one month
+   - `source_imbalance`: one source contributing over 60% of articles
+   - `connector_error`
+5. The staged directory feeds straight into classification:
+   `python3 scripts/run_pipeline.py --from-staging <run_dir>`.
 
-- a dedicated entry point
-- a source-group manifest
-- a planning contract for deep backfill
+The runner currently supports two connectors:
 
-## Example
+| `connector_type` | Implementation | Sources |
+|---|---|---|
+| `gdelt` | `ingest_gdelt.fetch_gdelt_range` | GDELT API |
+| `wordpress_archive` | `ingest_rss.fetch_wordpress_archive` (needs `endpoint`) | InSight Crime, Americas Quarterly, NACLA |
+
+Sources that can't run are listed in the report under `skipped_sources`, each with a
+reason:
+- ACLED is structured events, not articles.
+- El Faro has no confirmed endpoint yet.
+- The El País and Folha custom archives have no connector yet.
+- NewsAPI only has 30 days of history.
+
+## Examples
 
 ```bash
+# Plan only
 python3 scripts/historical_ingest.py --since 2000-01-01 --until 2025-12-31
-```
-
-Or inspect the full plan as JSON:
-
-```bash
 python3 scripts/historical_ingest.py --since 2000-01-01 --json
+
+# Preview the units without fetching anything
+python3 scripts/historical_ingest.py --since 2015-01-01 --until 2015-12-31 --run --dry-run
+
+# Execute in bounded, resumable slices
+python3 scripts/historical_ingest.py --since 2015-01-01 --until 2015-12-31 --run --max-units 24
+python3 scripts/historical_ingest.py --since 2015-01-01 --until 2015-12-31 --run   # resumes
+
+# One source, gentler GDELT profile, retry months that came back empty
+python3 scripts/historical_ingest.py --since 2015-01-01 --until 2015-12-31 --run \
+    --source gdelt_api --conservative --pause 10 --retry-empty
+
+# Classify the staged articles
+python3 scripts/run_pipeline.py --from-staging data/staging/historical/2015-01-01_2015-12-31
 ```
+
+**Caveat on empty months:** the existing connectors log request errors and return an
+empty list instead of raising. So a `coverage_gap` month may be a failed request rather
+than a real gap. Rerun with `--retry-empty` before treating it as real.
 
 ## Recommended Source Order
 
@@ -65,8 +104,13 @@ python3 scripts/historical_ingest.py --since 2000-01-01 --json
 
 ## Next Build Steps
 
-- add source-specific historical connectors
-- add resumable batch execution
-- write article-level historical staging output
-- add archive QA for coverage gaps and duplicate title clusters
-- define source-specific access and rate-limit rules
+Done as of 2026-09-29: resumable batch execution, article-level staging output, and
+archive QA for gaps, duplicates, and imbalance.
+
+Still open:
+- custom connectors for El País and Folha, which need article-date pagination
+- confirming El Faro's archive endpoint and depth
+- per-source rate-limit rules. Today there is one global `--pause`, plus GDELT's own
+  retry and backoff
+- making connectors raise on request failure, so empty months are unambiguous
+- duplicate-title clustering across sources, beyond the current exact-URL matching

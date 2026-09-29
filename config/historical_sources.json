@@ -1,10 +1,14 @@
 {
-  "schema_version": "1.0",
-  "description": "Historical-ingestion manifest for SENTINEL. This is a planning and connector registry layer for deep backfill, especially 2000+ coverage.",
+  "schema_version": "1.1",
+  "description": "Historical-ingestion manifest for SENTINEL. Registers deep-backfill sources and their connectors; scripts/historical_ingest.py --run executes every source whose connector_type has a runner and records the rest as skipped with a reason.",
   "defaults": {
     "batch_granularity": "month",
     "start_date_floor": "2000-01-01",
-    "requires_manual_review": true
+    "requires_manual_review": true,
+    "runnable_connector_types": [
+      "gdelt",
+      "wordpress_archive"
+    ]
   },
   "source_groups": [
     {
@@ -26,7 +30,7 @@
           "connector_type": "structured_dataset",
           "historical_ready": true,
           "coverage_start": "1997-01-01",
-          "notes": "Structured conflict/event layer, not a news archive."
+          "notes": "Structured conflict/event layer, not a news archive. Ingested as events (not articles) through the ACLED path in pipeline_core.py, so the article runner skips it."
         }
       ]
     },
@@ -41,7 +45,8 @@
           "connector_type": "wordpress_archive",
           "historical_ready": true,
           "coverage_start": null,
-          "notes": "Good candidate for deeper archive scraping where the REST API exposes older posts."
+          "notes": "Good candidate for deeper archive scraping where the REST API exposes older posts.",
+          "endpoint": "https://insightcrime.org/wp-json/wp/v2/posts"
         },
         {
           "source_id": "elfaro_archive",
@@ -49,7 +54,26 @@
           "connector_type": "wordpress_archive",
           "historical_ready": "partial",
           "coverage_start": null,
-          "notes": "Requires validation of archive depth and stable endpoints."
+          "notes": "Requires validation of archive depth and a confirmed WordPress REST endpoint before it is enabled; the runner skips sources without an endpoint.",
+          "endpoint": null
+        },
+        {
+          "source_id": "americas_quarterly_archive",
+          "label": "Americas Quarterly",
+          "connector_type": "wordpress_archive",
+          "historical_ready": true,
+          "coverage_start": null,
+          "endpoint": "https://americasquarterly.org/wp-json/wp/v2/posts",
+          "notes": "Same WordPress REST endpoint the fast pipeline already uses for archive collection."
+        },
+        {
+          "source_id": "nacla_archive",
+          "label": "NACLA",
+          "connector_type": "wordpress_archive",
+          "historical_ready": true,
+          "coverage_start": null,
+          "endpoint": "https://nacla.org/wp-json/wp/v2/posts",
+          "notes": "Same WordPress REST endpoint the fast pipeline already uses for archive collection."
         }
       ]
     },
@@ -87,7 +111,7 @@
           "connector_type": "search_api",
           "historical_ready": "limited",
           "coverage_start": null,
-          "notes": "Useful only for limited recent backfill, not deep historical coverage."
+          "notes": "30-day history on the current plan; use scripts/run_pipeline.py --since for recent backfill. Not run by the historical article runner."
         }
       ]
     }

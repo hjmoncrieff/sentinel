@@ -11,6 +11,49 @@ Each major change entry should include:
 
 ## 2026-09-29
 
+### Historical Ingestion Runner
+
+Affected areas:
+- `scripts/historical_ingest.py`
+- `config/historical_sources.json` (schema 1.1)
+- `docs/historical-ingestion.md`
+- `tests/test_historical_ingest.py` (new)
+- `.gitignore`
+
+What changed:
+- Turned `historical_ingest.py` from a planner into a real archive runner (next-steps §10).
+  Planning without `--run` behaves exactly as before.
+- `--run` splits each runnable source into (source, month) units and writes one JSONL per
+  unit to `data/staging/historical/<since>_<until>/`. It checkpoints after every unit,
+  so runs are resumable.
+- Extra flags: `--max-units` bounds a slice, `--retry-empty` refetches zero-article months,
+  and `--dry-run` previews the units.
+- Each run writes an archive-QA report, `_qa.json`. It covers coverage gaps, cross-batch
+  duplicates, source imbalance, and connector errors.
+- The output directory feeds `run_pipeline.py --from-staging` directly.
+- The runner reuses the existing GDELT and WordPress connectors instead of duplicating
+  them. It also sidesteps GDELT's single global checkpoint file.
+- Manifest changes:
+  - added WordPress endpoints
+  - registered Americas Quarterly and NACLA, the archives the fast pipeline already uses
+  - recorded why ACLED, El Faro, the custom publisher archives, and NewsAPI are skipped
+- `data/staging/historical/` is gitignored.
+
+Validation completed:
+- `python -m pytest`: 32 passed. The 6 runner tests use fake connectors and cover
+  resume, retry-empty, coverage floors, and the QA flags.
+- Live smoke test:
+  `historical_ingest.py --since 2016-01-01 --until 2016-01-31 --run --source insight_crime_archive`
+  fetched 80 correctly normalized articles, with status `complete`.
+- The dry run over all sources lists 4 runnable units and 5 skipped sources, each with a
+  reason.
+
+Remaining risks / follow-up:
+- The existing connectors swallow request errors, so a zero-article month can mean a
+  failed request. The report says so and `--retry-empty` addresses it.
+- The live-fetched articles were not classified. Running `--from-staging` costs Claude API
+  calls, so start with bounded slices.
+
 ### Private Gold Layer
 
 Affected areas:
