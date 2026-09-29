@@ -11,6 +11,42 @@ Each major change entry should include:
 
 ## 2026-09-29
 
+### Daily Pipeline Revival
+
+Affected areas:
+- `.github/workflows/fetch_events.yml`
+- `.github/workflows/supabase_sync.yml`
+- `.github/workflows/tests.yml`
+
+What changed:
+- **Root cause of the stale data (nothing published since 2026-07-14).**
+  - The workflow ran only if it started during the 02:00 America/New_York hour.
+  - GitHub had been starting scheduled runs hours late, around 08:24 ET.
+  - So every run skipped the pipeline, and a leftover pip-cache cleanup step then marked
+    it failed.
+  - From mid-July to 2026-09-14 that happened on roughly 100 runs, and the pipeline never
+    actually ran.
+  - After 60 days without commits, GitHub disabled the schedule (`disabled_inactivity`).
+- **Replaced the two cron entries** with a single daily trigger at `0 7 * * *` (07:00 UTC)
+  and removed the start-time gate. A late start now still runs, and because dependencies
+  always install, the pip-cache error is gone too.
+- **Added `concurrency: daily-pipeline`** so manual and scheduled runs cannot overlap.
+- **Data-committing workflows rebase before pushing** (`git pull --rebase` in both the daily
+  pipeline and the Supabase sync), so a concurrent commit to `main` doesn't fail the run.
+- **Bumped actions** to `actions/checkout@v5` and `actions/setup-python@v6`, both of which
+  run on Node 24. The Node 20 versions were deprecated.
+- **Re-enabled the workflow** and started a manual run to validate it end to end.
+
+Validation completed:
+- All three workflow files parse as YAML, and their step lists were checked.
+- Results of the manual run are recorded in the entry that follows it.
+
+Remaining risks / follow-up:
+- Every nightly run now calls Claude (Haiku, plus Sonnet for the council synthesis) and
+  NewsAPI, and commits to `main`, which republishes the site.
+- If a repo goes 60 days without commits, GitHub disables its schedule again. While the
+  pipeline is healthy, its own daily commits prevent that.
+
 ### Repository Cleanup And Script Reorganization
 
 Affected areas:

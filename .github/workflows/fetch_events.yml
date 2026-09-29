@@ -2,9 +2,14 @@ name: Daily SENTINEL Pipeline
 
 on:
   schedule:
-    - cron: '0 6 * * *'   # 2 AM America/New_York during daylight time
-    - cron: '0 7 * * *'   # 2 AM America/New_York during standard time
+    # 07:00 UTC = 3 AM EDT / 2 AM EST. GitHub often starts scheduled runs hours
+    # late, so there is deliberately no start-time gate: a late run still runs.
+    - cron: '0 7 * * *'
   workflow_dispatch:
+
+concurrency:
+  group: daily-pipeline
+  cancel-in-progress: false
 
 jobs:
   pipeline:
@@ -14,31 +19,18 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
           cache: 'pip'
           cache-dependency-path: 'requirements-ci.txt'
 
-      - name: Check Eastern Time Gate
-        id: eastern_time
-        run: |
-          echo "hour=$(TZ=America/New_York date +%H)" >> "$GITHUB_OUTPUT"
-          echo "stamp=$(TZ=America/New_York date +'%Y-%m-%d %H:%M:%S %Z')" >> "$GITHUB_OUTPUT"
-
-      - name: Skip Non-2AM Trigger
-        if: github.event_name == 'schedule' && steps.eastern_time.outputs.hour != '02'
-        run: |
-          echo "Skipping scheduled run at ${{ steps.eastern_time.outputs.stamp }}."
-          echo "This workflow waits for 2:00 AM America/New_York across DST."
-
       - name: Preflight secrets
-        if: github.event_name != 'schedule' || steps.eastern_time.outputs.hour == '02'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
@@ -65,11 +57,9 @@ jobs:
           fi
 
       - name: Install dependencies
-        if: github.event_name != 'schedule' || steps.eastern_time.outputs.hour == '02'
         run: pip install -r requirements-ci.txt
 
       - name: Run pipeline
-        if: github.event_name != 'schedule' || steps.eastern_time.outputs.hour == '02'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           NEWSAPI_KEY:        ${{ secrets.NEWSAPI_KEY }}
@@ -100,7 +90,6 @@ jobs:
           PY
 
       - name: Rebuild Downstream Layers
-        if: github.event_name != 'schedule' || steps.eastern_time.outputs.hour == '02'
         run: |
           python scripts/qa/run_qa.py
           python scripts/qa/run_registry_qa.py
@@ -130,10 +119,10 @@ jobs:
           PY
 
       - name: Commit updated data
-        if: github.event_name != 'schedule' || steps.eastern_time.outputs.hour == '02'
         run: |
           git config user.name  "sentinel-bot"
           git config user.email "sentinel-bot@users.noreply.github.com"
           git add data/
           git diff --staged --quiet || git commit -m "chore: daily pipeline refresh $(date -u +'%Y-%m-%d') [skip ci]"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
           git push
