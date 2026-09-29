@@ -35,7 +35,9 @@ NEWSAPI_QUERIES = [
     (
         '(protest OR "security sector" OR "security reform" OR "police reform" OR coup'
         ' OR "democratic backsliding" OR "civil-military" OR "state of emergency"'
-        ' OR "estado de excepción") AND (Colombia OR Mexico OR Venezuela OR Brazil OR Ecuador'
+        ' OR "emergency response" OR "disaster relief" OR "military deployment"'
+        ' OR "humanitarian aid" OR "estado de excepción" OR "respuesta de emergencia"'
+        ' OR "ayuda humanitaria" OR "despliegue militar") AND (Colombia OR Mexico OR Venezuela OR Brazil OR Ecuador'
         ' OR Peru OR Bolivia OR Honduras OR Guatemala OR Argentina OR Chile)'
     ),
 ]

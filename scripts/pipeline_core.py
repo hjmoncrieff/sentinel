@@ -28,6 +28,7 @@ import hashlib
 import json
 import logging
 import os
+import re
 import smtplib
 import sys
 import time
@@ -289,6 +290,41 @@ RELEVANCE_KEYWORDS = [
     "maduro", "petro", "bukele", "lula", "milei", "boric",
     "southcom", "USAID", "pentagon", "DEA", "CIA",
     "tren de aragua", "jalisco", "sinaloa", "gulf cartel",
+    # Electoral legitimacy and transition signals can directly reshape security policy.
+    "election", "electoral", "vote", "voting", "ballot", "runoff", "campaign",
+    "fraud", "irregularities", "election observer", "vote count", "transition",
+    "elección", "elecciones", "electoral", "votación", "voto", "urna",
+    "segunda vuelta", "balotaje", "fraude", "irregularidades", "escrutinio",
+    "registraduría", "observación electoral", "transición",
+    # Disasters matter when state or foreign security forces take a response role.
+    "earthquake", "disaster response", "humanitarian", "search and rescue", "relief",
+    "aid distribution", "airlift", "emergency response", "terremoto", "desastre",
+    "ayuda humanitaria", "búsqueda y rescate", "rescate", "asistencia humanitaria",
+    "distribución de ayuda", "puente aéreo", "respuesta de emergencia",
+    "relief effort", "disaster relief", "natural disaster", "civil protection",
+    "civil defense", "emergency management", "disaster zone", "state of calamity",
+    "flood", "flooding", "hurricane", "storm surge", "wildfire", "landslide",
+    "inundación", "inundacion", "inundaciones", "huracán", "huracan",
+    "incendio forestal", "incendios forestales", "deslizamiento", "alud",
+    "protección civil", "proteccion civil", "defensa civil", "zona de desastre",
+    "estado de calamidad", "labores de socorro", "esfuerzos de socorro",
+    "resposta de emergência", "resposta de emergencia", "esforços de socorro",
+    "desastre natural", "defesa civil", "proteção civil", "protecao civil",
+    "enchente", "inundação", "inundacao", "deslizamento", "furacão", "furacao",
+    "incêndio florestal", "incendio florestal", "estado de calamidade",
+    # Executive framing that can authorize or normalize an exceptional security role.
+    "emergency decree", "emergency powers", "executive decree", "exceptional measures",
+    "restore order", "public order", "national unity", "national security",
+    "military deployment", "armed forces deployment", "protect the population",
+    "decreto de emergencia", "estado de excepción", "estado de excepcion",
+    "medidas extraordinarias", "restablecer el orden", "orden público", "orden publico",
+    "unidad nacional", "seguridad nacional", "despliegue militar",
+    "despliegue de las fuerzas armadas", "proteger a la población", "proteger a la poblacion",
+    "decreto de emergência", "decreto de emergencia", "poderes de emergência",
+    "medidas excepcionais", "restaurar a ordem", "ordem pública", "ordem publica",
+    "unidade nacional", "segurança nacional", "seguranca nacional",
+    "mobilização militar", "mobilizacao militar", "forças armadas mobilizadas",
+    "forcas armadas mobilizadas", "proteger a população", "proteger a populacao",
 ]
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -297,14 +333,15 @@ log = logging.getLogger("sentinel")
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
-def stable_id(country: str, event_type: str, date: str) -> str:
-    """ID keyed on country+type+ISO week — stable across source title variations."""
-    try:
-        d = datetime.strptime(date, "%Y-%m-%d")
-        week = d.strftime("%Y-W%V")
-    except Exception:
-        week = date[:7]
-    key = f"{country.lower()}|{event_type}|{week}"
+def stable_id(country: str, event_type: str, date: str, incident_key: str = "") -> str:
+    """Return a deterministic ID per incident rather than per country/type/week.
+
+    The previous weekly bucket merged unrelated high-tempo incidents (for example,
+    separate election, ceasefire, and security events) into a single record.
+    URLs are preferred by callers because they stay stable across reruns.
+    """
+    normalized_incident = re.sub(r"\s+", " ", incident_key.strip().lower())
+    key = f"{country.lower()}|{event_type}|{date}|{normalized_incident or date}"
     return hashlib.sha1(key.encode()).hexdigest()[:12]
 
 
@@ -502,7 +539,10 @@ def acled_to_event(row: dict) -> dict:
     title      = f"{row.get('event_type', 'Event')}: {actor1}" + (f" vs {actor2}" if actor2 else "")
     date       = row.get("event_date", datetime.now(timezone.utc).strftime("%Y-%m-%d"))
     src        = f"ACLED / {row.get('source', '')}".strip(" /")
-    iid = stable_id(country, event_type, date)
+    incident_key = "|".join([
+        row.get("location", ""), actor1, actor2, row.get("notes", ""),
+    ])
+    iid = stable_id(country, event_type, date, incident_key)
     return {
         "id":          iid,
         "sentinel_id": make_sentinel_id(country, date, iid),
@@ -700,14 +740,14 @@ TYPES:
 - purge: OFFICER dismissals/forced retirements for political/loyalty reasons (NOT civilian mass detentions)
 - coup_proofing: deliberate strategy — parallel forces, political commissars, loyalty promotions as pattern
 - aid: US/foreign military assistance, arms sales, IMET, FMF grants
-- coop: US military presence, joint ops, FTO/DEA operations, Green Berets, SOUTHCOM activities
+- coop: US/foreign military presence, joint ops, FTO/DEA operations, Green Berets, SOUTHCOM activities, or foreign military disaster assistance
 - protest: civil-military street tensions, soldier protests, anti-military demonstrations
 - reform: SSR, defense reform, institutional change; subtype: SSR|structural|legal|budget
 - conflict: armed conflict, guerrilla ops, criminal violence involving security forces
 - exercise: joint military exercises, multinational drills, port visits (non-US-led = exercise; US-led = coop)
 - oc: organized crime involving or targeting security forces (cartels, gangs, trafficking networks)
 - peace: peace talks, ceasefires, DDR, demobilization, negotiated settlements
-- other: civil-military relevance, no other type fits
+- other: civil-military relevance, no other type fits. Use subtype=military_disaster_response for a DOMESTIC military/civil-defense disaster deployment, and subtype=emergency_legitimation when a leader explicitly uses an emergency to authorize, normalize, praise, or expand an exceptional military/security role.
 
 conf: high=verified/multi-source credible outlet, med=single credible source, low=unverified/social media only
 salience: high=acute CMR significance OR major political stability impact; med=notable country-level development; low=background/routine
@@ -716,6 +756,8 @@ deed_type (DEED democratic erosion framework):
   resistance=pushback against military overreach or authoritarianism; destabilizing=threatens regime stability from below; null=not applicable
 axis: horizontal=between institutions (executive/military/courts/legislature); vertical=government vs citizens; both; null
 actor: who initiated/drove the event; target: who was affected/acted upon
+DISASTER AND EMERGENCY RULE: mark relevant=true when a disaster or relief story has a clear military, police, civil-defense, foreign-security, or emergency-authority connection. This includes deployments, military logistics, search-and-rescue, airlift, civil-defense command, emergency decrees, or leaders framing security-force action as necessary for protection, order, sovereignty, stability, or national unity. Do NOT keep a purely humanitarian or weather story with no such connection.
+For emergency_legitimation, briefly state the leader, the claimed justification, and the military/security role being legitimized. Use actor=executive and target=military or population where supported. Use deed_type=precursor for a proposed/announced role and symptom for an institutionalized emergency role.
 relevant=true ONLY if clear civil-military or defense-institutional relevance for a Latin American country.
 country: recognized Latin American country name or null. location: most specific place (city/department/region).
 Respond ONLY with JSON lines — no preamble, no markdown.
@@ -843,14 +885,31 @@ def _merge_cluster(events: list[dict]) -> dict:
     return merged
 
 
-def classify_articles(client: anthropic.Anthropic, articles: list[dict], existing_ids: set[str]) -> list[dict]:
+def classify_articles(client: anthropic.Anthropic, articles: list[dict], existing_events: dict[str, dict]) -> list[dict]:
     """Classify, deduplicate, and cluster a list of raw articles into event records."""
-    # Dedup against existing store (by stable_id approximation using title+date)
+    existing_article_ids = {
+        article_id
+        for event in existing_events.values()
+        for article_id in event.get("source_article_ids", [])
+        if article_id
+    }
+    existing_urls = {
+        url
+        for event in existing_events.values()
+        for url in (event.get("links") or [event.get("url")])
+        if url and url != "#"
+    }
+
+    # Avoid reclassifying already stored source reports on subsequent daily runs.
     seen_titles: set[str] = set()
     fresh = []
     for a in articles:
         key = hashlib.sha1(f"{a['title']}{a['date']}".encode()).hexdigest()[:12]
-        if key not in existing_ids and key not in seen_titles:
+        if (
+            a.get("article_id") not in existing_article_ids
+            and a.get("url") not in existing_urls
+            and key not in seen_titles
+        ):
             seen_titles.add(key)
             fresh.append(a)
     log.info(f"Dedup: {len(articles)} → {len(fresh)} fresh articles")
@@ -886,7 +945,7 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
                 coords = geolocate(location_text, country)
             _conf_map = {"high": "green", "med": "yellow", "low": "red"}
             _sal_map  = {"high": "high", "med": "medium", "low": "low"}
-            iid = stable_id(country, ev_type, date)
+            iid = stable_id(country, ev_type, date, article.get("url") or article["title"])
             candidates.append({
                 "id":          iid,
                 "sentinel_id": make_sentinel_id(country, date, iid),
@@ -1199,7 +1258,7 @@ def main() -> None:
     relevant = pre_filter(all_articles)
 
     # ── 3. Classify + cluster ─────────────────────────────────────────────────
-    new_events = classify_articles(client, relevant, existing_ids)
+    new_events = classify_articles(client, relevant, existing)
 
     # ── 4. ACLED (already structured — skip classification) ───────────────────
     acled_key   = os.environ.get("ACLED_API_KEY", "")

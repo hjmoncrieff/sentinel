@@ -45,7 +45,7 @@ RSS_FEEDS = [
     # English wire / broadcast
     {
         "name": "AP LatAm",
-        "url": gnews_site_feed("apnews.com", "latin+america+OR+military+OR+security+OR+coup+OR+protest+OR+organized+crime"),
+        "url": gnews_site_feed("apnews.com", "latin+america+OR+military+OR+security+OR+coup+OR+protest+OR+organized+crime+OR+election+OR+humanitarian+OR+earthquake+OR+hurricane+OR+flood+OR+wildfire+OR+landslide"),
         "category": "wire",
         "countries": ["Regional"],
     },
@@ -57,7 +57,7 @@ RSS_FEEDS = [
     },
     {
         "name": "Reuters LatAm",
-        "url": gnews_site_feed("reuters.com", "latin+america+OR+military+OR+security+OR+coup+OR+protest"),
+        "url": gnews_site_feed("reuters.com", "latin+america+OR+military+OR+security+OR+coup+OR+protest+OR+election+OR+humanitarian+OR+earthquake+OR+hurricane+OR+flood+OR+wildfire+OR+landslide"),
         "category": "wire",
         "countries": ["Regional"],
     },
@@ -77,7 +77,7 @@ RSS_FEEDS = [
     # Official / institutional
     {
         "name": "SOUTHCOM",
-        "url": gnews_site_feed("southcom.mil", "exercise+OR+cooperation+OR+operation+OR+security+OR+partner"),
+        "url": gnews_site_feed("southcom.mil", "exercise+OR+cooperation+OR+operation+OR+security+OR+partner+OR+humanitarian+OR+disaster+OR+relief+OR+search-and-rescue+OR+airlift"),
         "category": "official",
         "countries": ["Regional"],
     },
@@ -167,8 +167,14 @@ RSS_FEEDS = [
     },
     {
         "name": "Semana Colombia",
-        "url": gnews_site_feed("semana.com", "militar+OR+seguridad+OR+ejercito+OR+eln+OR+farc"),
+        "url": gnews_site_feed("semana.com", "militar+OR+seguridad+OR+ejercito+OR+eln+OR+farc+OR+elecciones+OR+fraude+OR+segunda+vuelta"),
         "category": "general_news",
+        "countries": ["Colombia"],
+    },
+    {
+        "name": "Registraduria Colombia",
+        "url": gnews_site_feed("registraduria.gov.co", "elecciones+OR+resultados+OR+escrutinio+OR+segunda+vuelta"),
+        "category": "official",
         "countries": ["Colombia"],
     },
     {
@@ -201,13 +207,13 @@ RSS_FEEDS = [
     },
     {
         "name": "Runrun.es",
-        "url": gnews_site_feed("runrun.es", "militar+OR+fuerza+armada+OR+seguridad+OR+represion+OR+padrino"),
+        "url": gnews_site_feed("runrun.es", "militar+OR+fuerza+armada+OR+seguridad+OR+represion+OR+padrino+OR+terremoto+OR+desastre+OR+ayuda+humanitaria+OR+rescate+OR+inundacion+OR+huracan+OR+deslizamiento+OR+proteccion+civil"),
         "category": "investigative_security",
         "countries": ["Venezuela"],
     },
     {
         "name": "Efecto Cocuyo",
-        "url": gnews_site_feed("efectococuyo.com", "militar+OR+fuerza+armada+OR+seguridad+OR+represion+OR+padrino"),
+        "url": gnews_site_feed("efectococuyo.com", "militar+OR+fuerza+armada+OR+seguridad+OR+represion+OR+padrino+OR+terremoto+OR+desastre+OR+ayuda+humanitaria+OR+rescate+OR+inundacion+OR+huracan+OR+deslizamiento+OR+proteccion+civil"),
         "category": "investigative_security",
         "countries": ["Venezuela"],
     },

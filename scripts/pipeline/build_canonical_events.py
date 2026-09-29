@@ -149,6 +149,33 @@ def classify_other_overlay(event: dict, actors: list[dict], context_text: str) -
     def has_any(*terms: str) -> bool:
         return any(term in text for term in terms)
 
+    if has_any(
+        "emergency decree", "emergency powers", "exceptional measures", "restore order",
+        "public order", "national unity", "decreto de emergencia", "estado de excepción",
+        "medidas extraordinarias", "restablecer el orden", "orden público", "unidad nacional",
+        "decreto de emergência", "medidas excepcionais", "restaurar a ordem", "ordem pública",
+        "unidade nacional",
+    ) and ("executive" in actor_groups or "military" in actor_groups):
+        return {
+            "event_category": "political",
+            "event_subcategory": "emergency_authority_and_security_legitimation",
+            "construct_destinations": ["regime_vulnerability", "militarization"],
+            "analyst_lenses": ["political", "military"],
+        }
+    if has_any(
+        "humanitarian", "search-and-rescue", "search and rescue", "civil defense",
+        "civil protection", "disaster response", "emergency response", "relief", "airlift",
+        "terremoto", "desastre", "rescate", "protección civil", "defensa civil",
+        "resposta de emergência", "defesa civil",
+    ) and (
+        "military" in actor_groups or "foreign_government" in actor_types or "external" in actor_groups
+    ):
+        return {
+            "event_category": "military",
+            "event_subcategory": "operational_posture_and_presence",
+            "construct_destinations": ["militarization"],
+            "analyst_lenses": ["military", "international"],
+        }
     if has_any("sanction", "blockade", "embargo", "o.a.s.", "oas", "u.s.", "united states", "united nations", "european union", "imf", "world bank", "embassy", "diplomatic", "foreign ministry", "foreign policy"):
         return {
             "event_category": "international",
@@ -176,15 +203,6 @@ def classify_other_overlay(event: dict, actors: list[dict], context_text: str) -
             "event_subcategory": "judicial_and_accountability_shock",
             "construct_destinations": ["regime_vulnerability"],
             "analyst_lenses": ["political", "international"] if "foreign_government" in actor_types or "foreign_government" in actor_groups else ["political"],
-        }
-    if has_any("humanitarian", "search-and-rescue", "search and rescue", "navy", "patrol", "coast guard", "deployment") and (
-        "military" in actor_groups or "foreign_government" in actor_types or "external" in actor_groups
-    ):
-        return {
-            "event_category": "military",
-            "event_subcategory": "operational_posture_and_presence",
-            "construct_destinations": ["militarization"],
-            "analyst_lenses": ["military", "international"],
         }
     if has_any("authoritarian", "democratic erosion", "governance style", "institutional erosion", "continuity", "political project"):
         return {
@@ -364,6 +382,18 @@ def classify_coop_overlay(context_text: str) -> dict:
     def has_any(*terms: str) -> bool:
         return any(term in text for term in terms)
 
+    if has_any(
+        "humanitarian", "search-and-rescue", "search and rescue", "disaster response",
+        "emergency response", "relief", "airlift", "earthquake", "hurricane", "flood",
+        "wildfire", "landslide", "terremoto", "desastre", "rescate", "ayuda humanitaria",
+        "asistencia humanitaria", "respuesta de emergencia", "protección civil", "defensa civil",
+    ):
+        return {
+            "event_category": "military",
+            "event_subcategory": "operational_posture_and_presence",
+            "construct_destinations": ["militarization"],
+            "analyst_lenses": ["military", "international"],
+        }
     if has_any("train", "training", "navy seal", "advis", "marine corps", "fbi office"):
         subcategory = "foreign_training_and_advisory_presence"
     elif has_any("airstrike", "operation", "bombard", "interdiction", "counter-cartel", "drug war"):

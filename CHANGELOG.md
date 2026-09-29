@@ -15,6 +15,96 @@ Each major change entry should include:
 
 ## 2026-07-14
 
+## 2026-07-15
+
+### Manual Two-Month News Audit And Coverage Backfill
+
+Affected areas:
+- `data/events.json`
+- `data/canonical/events.json`
+- `data/canonical/events.jsonl`
+- `data/canonical/events_actor_coded.json`
+- `data/canonical/events_actor_coded.jsonl`
+- `data/canonical/articles.json`
+- `data/canonical/event_article_links.json`
+- `data/canonical/actor_mentions.json`
+- `data/review/qa_report.json`
+- `data/review/events_with_edits.json`
+- `data/review/review_queue.json`
+- `data/review/review_queue_with_edits.json`
+- `data/published/events_public.json`
+- `data/published/country_monitors.json`
+
+What changed:
+- Ran a manual web audit for high-relevance civil-military and security reporting from May 15, 2026 through July 15, 2026 and compared the results against the live event store instead of relying only on the nightly feed mix.
+- Added six missing AP-verified events covering Haiti's elite-security kidnapping and new international force posture, Brazil's Tren de Aragua crackdown, Bolivia's military-backed state of emergency, Mexico's Guerrero cartel drone offensive during the World Cup, and Colombia's pressure on the Special Jurisdiction for Peace.
+- Rebuilt the canonical, actor-coded, review, and public dashboard layers so the manual additions now propagate into the published event feed and monitor system.
+- Recorded a clearer set of coverage lessons for future pipeline tuning:
+  - security mega-events can create peripheral blind spots when national forces are reallocated to showcase cities;
+  - elite-targeted kidnappings and attacks on senior security officials should be treated as higher-priority state-capacity signals;
+  - cross-border gang logistics and alliance stories need stronger detection because they matter even when the immediate violence is outside a capital;
+  - peace-tribunal and transitional-justice rollback stories are core civil-military accountability signals, not just general politics;
+  - protest stories become especially important when emergency decrees explicitly move the military into internal-order roles.
+
+Validation completed:
+- `python3 scripts/pipeline/build_canonical_events.py`
+- `python3 scripts/pipeline/code_actors.py`
+- `python3 scripts/qa/run_qa.py`
+- `python3 scripts/review/apply_analyst_edits.py`
+- `python3 scripts/review/build_review_queue.py`
+- `python3 scripts/analysis/build_country_monitors.py`
+- `python3 scripts/publish/publish_dashboard_data.py`
+- `python3 scripts/analysis/validate_country_monitors.py`
+
+Remaining risks / follow-up:
+- This was a manual backfill, so the new pattern lessons are documented but not yet encoded into `fetch_events.py` query expansion or source-priority logic.
+- `data/published/country_dossiers.json` and several local build directories were already dirty before this audit and were not normalized as part of this pass.
+- Local localhost fetch verification remains partially blocked by the sandbox's loopback networking restrictions even though the site artifacts rebuilt successfully on disk.
+
+### Election And Disaster Coverage Gap Fix
+
+Affected areas:
+- `data/events.json`
+- `scripts/pipeline_core.py`
+- `scripts/rss_sources.py`
+
+What changed:
+- Added four source-backed event records that make the Colombia election sequence explicit: EU validation of the first-round count, the ELN's election-period ceasefire, and the close contested runoff result; also added the initial U.S. search-and-rescue and military-airlift deployment after Venezuela's June 24 earthquakes.
+- Enriched the existing July 14 Venezuela cooperation event with AP's independently reported evidence of U.S. Marines distributing aid from an amphibious landing craft in Maiquetia.
+- Expanded RSS discovery and pre-classification terms to capture electoral legitimacy, runoff and transition signals, plus disaster-response and humanitarian military roles in English and Spanish. Added a targeted official Registraduria Colombia monitor and extended AP, Reuters, SOUTHCOM, Colombia, and Venezuela source queries.
+- Replaced the pipeline's country/type/week event ID with a deterministic incident ID and changed rerun deduplication to use stored source article IDs and URLs. This prevents distinct events in the same country and week from being collapsed while avoiding repeat classification of the same report.
+
+Validation completed:
+- Parsed `data/events.json` with `jq` and confirmed 1,214 unique event IDs.
+- Confirmed the revised collector and ID function call paths with static inspection.
+
+Remaining risks / follow-up:
+- The default two-day window and 20-item RSS cap still make retrospective coverage dependent on source archives or manual audit; the new terms improve future collection but cannot recover reports that a feed has already dropped.
+- Semantic clustering still relies on the model to join different outlets covering the same incident. The safer incident key eliminates silent loss, but may surface occasional duplicate coverage for analyst review.
+
+### Emergency Response And Security Legitimation Detection
+
+Affected areas:
+- `scripts/pipeline_core.py`
+- `scripts/rss_sources.py`
+- `scripts/ingest_newsapi.py`
+- `scripts/pipeline/build_canonical_events.py`
+
+What changed:
+- Expanded English, Spanish, and Portuguese collection terms for relief operations, natural disasters, civil protection, civil defense, emergency management, and disaster-specific hazards.
+- Added classifier instructions that retain disaster reporting only when a military, police, civil-defense, foreign-security, or emergency-authority link is explicit.
+- Added an `emergency_legitimation` subtype rule for leader rhetoric that authorizes, normalizes, praises, or expands an exceptional military/security role in the name of protection, order, sovereignty, stability, or national unity.
+- Added a canonical public overlay for `emergency_authority_and_security_legitimation`, distinguishing disaster operations from the political framing used to normalize them.
+- Prioritized emergency-response matching in both `other` and `coop` overlays so foreign military relief operations are classified as operational posture rather than generic external-security alignment.
+
+Validation completed:
+- `python3 -m py_compile scripts/pipeline_core.py scripts/ingest_newsapi.py scripts/rss_sources.py scripts/pipeline/build_canonical_events.py`
+- Focused pre-filter test for flood/hurricane response and emergency-decree deployment language.
+- Focused canonical-overlay test for executive emergency legitimation.
+
+Remaining risks / follow-up:
+- Keyword matching deliberately prioritizes recall at intake; the classifier remains responsible for excluding ordinary disaster and humanitarian stories without a civil-military connection.
+
 ### Public Dashboard Freshness And Feed Usability Refresh
 
 Affected areas:
