@@ -16,6 +16,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 from urllib.parse import urlparse
@@ -30,6 +31,12 @@ ARTICLE_LINKS_OUT = OUT_DIR / "event_article_links.json"
 STAGING_FILTERED_IN = ROOT / "data" / "staging" / "filtered_articles.json"
 STAGING_RAW_IN = ROOT / "data" / "staging" / "raw_articles.json"
 EVENT_TYPES_IN = ROOT / "config" / "taxonomy" / "event_types.json"
+
+sys.path.insert(0, str(ROOT / "scripts"))
+from prompt_library import model_for  # noqa: E402
+
+# Recorded in provenance; tracks the model the live classifier actually uses.
+CLASSIFICATION_MODEL = model_for("classify_events")
 
 
 CONFIDENCE_MAP = {
@@ -827,7 +834,7 @@ def canonicalize_event(
             {
                 "event_type": event.get("type", "other"),
                 "raw_confidence": event.get("conf"),
-                "classification_model": "claude-haiku-4-5-20251001",
+                "classification_model": CLASSIFICATION_MODEL,
             },
         ),
         timeline_entry(
@@ -902,7 +909,7 @@ def canonicalize_event(
         "provenance": {
             "source_type": event.get("source_type"),
             "ingested_at": ingested_at,
-            "classification_model": "claude-haiku-4-5-20251001",
+            "classification_model": CLASSIFICATION_MODEL,
             "merge_strategy": merge_strategy,
             "source_event_id": event.get("sentinel_id"),
             "deed_type": event.get("deed_type"),

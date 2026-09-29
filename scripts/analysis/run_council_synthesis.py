@@ -22,17 +22,22 @@ import argparse
 import json
 import os
 import re
+import sys
 import time
 from collections import defaultdict
 from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+
+from prompt_library import load_prompt, model_for  # noqa: E402
+
 COUNCIL_PATH = ROOT / "data" / "review" / "council_analyses.json"
 COUNTRY_YEAR_PATH = ROOT / "data" / "cleaned" / "country_year.csv"
 ANALYST_KNOWLEDGE_PATH = ROOT / "config" / "agents" / "analyst_knowledge.json"
 
-SYNTHESIS_MODEL = "claude-sonnet-4-6"
+SYNTHESIS_MODEL = model_for("council_synthesis_role")
 SYNTHESIS_SALIENCE = {"high", "medium"}
 MAX_TOKENS = 600   # one paragraph ~200 tokens; two paragraphs ~400 tokens; JSON overhead ~50
 RETRY_SLEEP = 5.0       # seconds between retries on rate-limit
@@ -119,62 +124,6 @@ def load_analyst_knowledge() -> dict:
 
 # ── Prompt builders ────────────────────────────────────────────────────────────
 
-_FRAMEWORK_BLOCK = """\
-## SENTINEL Analytical Framework
-
-SENTINEL tracks six core civil-military relations (CMR) concepts:
-1. Civilian Control — subordination of military to elected civilian authority
-2. Coup-Proofing — mechanisms leaders use to prevent coups (counterbalancing units, loyalty promotions, economic integration)
-3. Institutional Autonomy — degree to which the officer corps retains policy/budgetary independence from civilian oversight
-4. SSR (Security Sector Reform) — external/internal efforts to restructure security forces for democratic accountability
-5. Democratic Backsliding — erosion of civilian control norms via executive encroachment (the Bukele model) or entrenched military prerogatives
-6. Transnational Security — cartel/OC interactions with state security forces; proxy and collusion relationships
-
-## CMR Status Classifications
-- Stable: robust civilian control, no acute tensions
-- Strained: friction between civilian and military actors, but within institutional bounds
-- Crisis: active breach of civilian control norms (Ecuador internal conflict framework, El Salvador régimen)
-- Authoritarian: civil-military fusion; military as pillar of authoritarian regime (Venezuela, Cuba, Nicaragua)
-
-## Relationship Type Glossary
-- REL_SUBORDINATE: military complies with civilian direction without visible bargaining
-- REL_BARGAINING: civilian leaders and military negotiate informal boundaries
-- REL_TUTELARY_VETO: military acts as guardian or veto player without openly seizing power
-- REL_PARTISAN_PILLAR: military aligns with a leader or faction as a political pillar
-- REL_FRACTURED: military internally divided through mutiny, rival commands, or factionalism
-- REL_PRAETORIAN: military has seized or is actively contesting political power
-- REL_CORRUPTION_CAPTURE: criminal or predatory capture of security institutions
-
-## Role Domain Glossary
-- external_defense: military activity aimed at external threats or sovereign defense
-- public_security: military or militarized force used for internal coercion, policing, or domestic enforcement
-- governance_tasks: military assigned to administrative, economic, social, or state-capacity functions
-- political_influence: military behavior shaping executive survival, leadership outcomes, or regime direction
-
-## OC–State Interaction Type Glossary
-- INT_CONFRONTATION: state or military confrontation with criminal or hybrid armed actors
-- INT_DEPLOYMENT: domestic deployment of military/security actors for crime control, emergency policing, or border control
-- INT_JOINT_OPERATION: coordinated operation involving multiple state agencies (military, police, prosecutors)
-- INT_GOVERNANCE_ROLE: military or security actors performing governance or administrative functions
-- INT_NEGOTIATION_OR_TRUCE: negotiation, tacit pact, truce, or accommodation between state and criminal actors
-- INT_COLLUSION: protection, facilitation, shared rents, or operational coordination between state and criminal actors
-- INT_CORRUPTION_CASE: arrest, indictment, sanction, or documented corruption involving security actors linked to crime
-- INT_REFUSAL_OR_DEFECTION: refusal, neutrality, mutiny, or defection by military actors in a crisis
-
-## Evidence Tiers
-- documented: official legal action, court ruling, sanction, indictment, authoritative audit, or direct state document
-- credible: multiple independent reputable outlets or high-quality NGO/academic reporting with sourcing
-- alleged: single-source claim, partisan statement, or insufficiently corroborated report
-
-## Interpretive Rules
-- Separate role coding from relationship coding: roles describe what the military does; relationships describe how it relates to civilian authority
-- Keep public-security roles distinct from governance roles
-- Treat hybrid actors and state-linked auxiliaries as analytically distinct from regular armed forces
-- Use collusion and corruption-capture labels cautiously; prefer documented evidence
-- Preserve uncertainty rather than flattening weak claims into definitive judgements\
-"""
-
-
 def build_country_system_prompt(country: str, profile: dict, knowledge: dict) -> str:
     """Build the cached system prompt for a country batch."""
     cmr_status = CMR_STATUS.get(country, "Unknown — insufficient data")
@@ -197,23 +146,11 @@ Structural indicators (most recent available year: {p.get("year", "n/a")}):
 - Coup attempts in past 10 years: {p.get("coup_10y", "0")}\
 """
 
-    role_text = """\
-## Your Role
-
-You are the SENTINEL Synthesis Analyst. You receive structured lens assessments (CMR, Political Risk, Security, International, Economic) produced by specialist analysts. Your synthesis should:
-
-1. Integrate the most important signals across all active lenses into a coherent analytical narrative
-2. State the core mechanism clearly — what is happening, why it matters, what it could change
-3. Be grounded in the specific event: name actors, institutions, and concrete actions where possible
-4. Conclude with one specific, actionable watchpoint (what to monitor next)
-5. Use direct, plain language suitable for an intelligence brief — no hedges like "it should be noted", no generic theory language
-6. Length: determined by salience (specified in the event message)
-
-Respond ONLY with a JSON object in this exact format (no markdown code fences):
-{"synthesis": "<paragraph(s)>", "risk_level": "<high|medium|low>", "watchpoint": "<one sentence>"}\
-"""
-
-    return "\n\n".join([_FRAMEWORK_BLOCK, structural_block, role_text])
+    return "\n\n".join([
+        load_prompt("council_framework"),
+        structural_block,
+        load_prompt("council_synthesis_role"),
+    ])
 
 
 def build_event_user_message(council_entry: dict) -> str:

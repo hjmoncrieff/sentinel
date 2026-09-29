@@ -28,15 +28,20 @@ import argparse
 import json
 import os
 import re
+import sys
 import time
 from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+
+from prompt_library import load_prompt, model_for, render_prompt  # noqa: E402
+
 COUNCIL_PATH  = ROOT / "data" / "review" / "council_analyses.json"
 QUALITY_PATH  = ROOT / "data" / "review" / "council_quality_scores.json"
 
-JUDGE_MODEL     = "claude-haiku-4-5-20251001"
+JUDGE_MODEL     = model_for("council_quality_judge")
 MAX_TOKENS      = 300
 INTER_CALL_SLEEP = 0.25
 RETRY_SLEEP      = 5.0
@@ -44,45 +49,7 @@ REVIEW_THRESHOLD = 3          # flag any dimension scoring ≤ this
 HIGH_SCORE       = 4          # composite ≥ this considered good
 
 
-JUDGE_SYSTEM = """\
-You are a quality-control reviewer for an intelligence analysis platform.
-You evaluate written analytical syntheses on three dimensions.
-Respond ONLY with a JSON object — no markdown, no explanation outside the JSON.\
-"""
-
-JUDGE_PROMPT_TEMPLATE = """\
-## Event Context
-Country: {country}
-Type: {event_type} | Salience: {salience} | Date: {event_date}
-Headline: {headline}
-Summary: {summary}
-
-## Synthesis to Evaluate
-{synthesis_text}
-
-## Watchpoint
-{watchpoint}
-
-## Scoring Task
-Score this synthesis on three dimensions from 1 (poor) to 5 (excellent):
-
-1. **Specificity** — Does the synthesis name specific actors, institutions, locations, or mechanisms?
-   - 1 = entirely generic claims ("tensions may escalate", "the military plays a role")
-   - 5 = names concrete actors, institutions, actions, and mechanisms relevant to this event
-
-2. **Grounding** — Is the analysis tied to the actual event described above, or is it free-floating theory?
-   - 1 = could have been written without reading the event at all
-   - 5 = clearly derived from the specific event content; references headline/context details
-
-3. **Calibration** — Does it express appropriate uncertainty without over-hedging or over-confidence?
-   - 1 = either wildly overconfident ("this will cause a coup") or paralysed by hedges ("it is possible that perhaps…")
-   - 5 = makes clear analytical claims while acknowledging the limits of available evidence
-
-Also list up to 3 brief flags (specific phrases or issues you noticed, or leave empty if none).
-
-Respond with exactly this JSON (no other text):
-{{"specificity": N, "grounding": N, "calibration": N, "flags": ["...", "..."]}}\
-"""
+JUDGE_SYSTEM = load_prompt("council_quality_judge_system")
 
 
 def load_existing_scores() -> dict[str, dict]:
@@ -101,7 +68,8 @@ def build_judge_prompt(entry: dict) -> str:
     synthesis_text = (llm_syn.get("synthesis") or "").strip()
     watchpoint     = (llm_syn.get("watchpoint") or "").strip()
 
-    return JUDGE_PROMPT_TEMPLATE.format(
+    return render_prompt(
+        "council_quality_judge",
         country       = entry.get("country", ""),
         event_type    = entry.get("event_type", ""),
         salience      = entry.get("salience", ""),

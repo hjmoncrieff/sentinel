@@ -42,6 +42,7 @@ from ingest_gdelt import fetch_gdelt, fetch_gdelt_historical, normalize_gdelt
 from ingest_newsapi import fetch_newsapi, normalize_newsapi
 from ingest_rss import fetch_all_archives, fetch_rss
 from normalize_articles import make_article_record
+from prompt_library import model_for, render_prompt
 from rss_sources import RSS_FEEDS
 
 # ── Load .env file if present (local development) ─────────────
@@ -729,62 +730,6 @@ def write_staging_articles(raw_articles: list[dict], filtered_articles: list[dic
 
 # ── Claude classification ──────────────────────────────────────────────────────
 
-CLASSIFY_PROMPT = """\
-You are an expert on Latin American civil-military relations. Classify each news item.
-
-For each item [N], respond with ONE JSON line — no preamble, no markdown:
-{{"idx":N,"relevant":true/false,"type":"coup|purge|coup_proofing|aid|coop|protest|reform|conflict|exercise|oc|peace|other","subtype":null,"country":"CountryName or null","salience":"high|med|low","conf":"high|med|low","deed_type":"precursor|symptom|resistance|destabilizing|null","axis":"horizontal|vertical|both|null","actor":"executive|military|judiciary|legislature|civil_society|external|oc_group|null","target":"executive|military|judiciary|legislature|civil_society|external|oc_group|population|null","brief":"One sentence summary.","location":"City or region"}}
-
-TYPES:
-- coup: coup attempt, military takeover, autogolpe; subtype: attempt|successful|autogolpe|plot
-- purge: OFFICER dismissals/forced retirements for political/loyalty reasons (NOT civilian mass detentions)
-- coup_proofing: deliberate strategy — parallel forces, political commissars, loyalty promotions as pattern
-- aid: US/foreign military assistance, arms sales, IMET, FMF grants
-- coop: US/foreign military presence, joint ops, FTO/DEA operations, Green Berets, SOUTHCOM activities, or foreign military disaster assistance
-- protest: civil-military street tensions, soldier protests, anti-military demonstrations
-- reform: SSR, defense reform, institutional change; subtype: SSR|structural|legal|budget
-- conflict: armed conflict, guerrilla ops, criminal violence involving security forces
-- exercise: joint military exercises, multinational drills, port visits (non-US-led = exercise; US-led = coop)
-- oc: organized crime involving or targeting security forces (cartels, gangs, trafficking networks)
-- peace: peace talks, ceasefires, DDR, demobilization, negotiated settlements
-- other: civil-military relevance, no other type fits. Use subtype=military_disaster_response for a DOMESTIC military/civil-defense disaster deployment, and subtype=emergency_legitimation when a leader explicitly uses an emergency to authorize, normalize, praise, or expand an exceptional military/security role.
-
-conf: high=verified/multi-source credible outlet, med=single credible source, low=unverified/social media only
-salience: high=acute CMR significance OR major political stability impact; med=notable country-level development; low=background/routine
-deed_type (DEED democratic erosion framework):
-  precursor=warning sign, no institutional change yet; symptom=erosion institutionalized;
-  resistance=pushback against military overreach or authoritarianism; destabilizing=threatens regime stability from below; null=not applicable
-axis: horizontal=between institutions (executive/military/courts/legislature); vertical=government vs citizens; both; null
-actor: who initiated/drove the event; target: who was affected/acted upon
-DISASTER AND EMERGENCY RULE: mark relevant=true when a disaster or relief story has a clear military, police, civil-defense, foreign-security, or emergency-authority connection. This includes deployments, military logistics, search-and-rescue, airlift, civil-defense command, emergency decrees, or leaders framing security-force action as necessary for protection, order, sovereignty, stability, or national unity. Do NOT keep a purely humanitarian or weather story with no such connection.
-For emergency_legitimation, briefly state the leader, the claimed justification, and the military/security role being legitimized. Use actor=executive and target=military or population where supported. Use deed_type=precursor for a proposed/announced role and symptom for an institutionalized emergency role.
-relevant=true ONLY if clear civil-military or defense-institutional relevance for a Latin American country.
-country: recognized Latin American country name or null. location: most specific place (city/department/region).
-Respond ONLY with JSON lines — no preamble, no markdown.
-
-ITEMS:
-{items}"""
-
-
-CLUSTER_PROMPT = """\
-You are an expert on Latin American civil-military relations.
-
-Below are {n} classified news items from the past few days.
-Some may report the SAME real-world event from different outlets.
-
-Identify groups of items that describe the SAME event.
-Two items are the same event if: same country, same event type, same approximate date (within 3 days), and same core incident.
-
-Respond with a JSON array of clusters — each cluster is a list of idx values.
-Items that are NOT duplicates appear as singleton clusters [idx].
-Example: [[0,3],[1],[2,4,7],[5],[6]]
-
-Respond ONLY with the JSON array, no other text.
-
-ITEMS:
-{items}"""
-
-
 def _classify_batch(client: anthropic.Anthropic, items: list[dict]) -> list[dict]:
     texts = "\n\n".join(
         f"[{i}] TITLE: {it['title']}\nSNIPPET: {it.get('description', '')[:300]}\nSOURCE: {it['source']}"
@@ -792,10 +737,10 @@ def _classify_batch(client: anthropic.Anthropic, items: list[dict]) -> list[dict
     )
     try:
         msg = client.messages.create(
-            model="claude-haiku-4-5-20251001",
+            model=model_for("classify_events"),
             max_tokens=1200,
             temperature=0,
-            messages=[{"role": "user", "content": CLASSIFY_PROMPT.format(items=texts)}],
+            messages=[{"role": "user", "content": render_prompt("classify_events", items=texts)}],
         )
         lines = msg.content[0].text.strip().split("\n")
         return [json.loads(line) for line in lines if line.strip().startswith("{")]
@@ -814,10 +759,10 @@ def _cluster_events(client: anthropic.Anthropic, candidates: list[dict]) -> list
     )
     try:
         msg = client.messages.create(
-            model="claude-haiku-4-5-20251001",
+            model=model_for("cluster_events"),
             max_tokens=500,
             temperature=0,
-            messages=[{"role": "user", "content": CLUSTER_PROMPT.format(n=len(candidates), items=texts)}],
+            messages=[{"role": "user", "content": render_prompt("cluster_events", n=len(candidates), items=texts)}],
         )
         raw = msg.content[0].text.strip()
         start = raw.find("[")
@@ -1016,23 +961,14 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
 
 # ── AI analysis ────────────────────────────────────────────────────────────────
 
-ANALYSIS_PROMPT = """\
-Write 2-3 sentences on why this event matters for political risk and security politics in {country}.
-Be specific, concrete, and country-focused. Avoid jargon and generic theory language.
-Explain the mechanism: what happened, why it matters, and what it could change next.
-
-Event: {title}
-Summary: {summary}
-Type: {type}"""
-
-
 def generate_analysis(client: anthropic.Anthropic, ev: dict) -> str | None:
     try:
         msg = client.messages.create(
-            model="claude-haiku-4-5-20251001",
+            model=model_for("event_analysis"),
             max_tokens=250,
             temperature=0,
-            messages=[{"role": "user", "content": ANALYSIS_PROMPT.format(
+            messages=[{"role": "user", "content": render_prompt(
+                "event_analysis",
                 country=ev.get("country", "the region"),
                 title=ev.get("title", ""),
                 summary=ev.get("summary", ""),

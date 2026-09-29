@@ -55,6 +55,43 @@ Remaining risks / follow-up:
   rerun. The public layer was unaffected, but confirm whether the CI synthesis step is
   producing them.
 
+### Versioned Prompts Directory And Pytest Suite
+
+Affected areas:
+- `prompts/` (new): 7 prompt files, `manifest.json`, `README.md`
+- `scripts/prompt_library.py` (new)
+- `scripts/pipeline_core.py`
+- `scripts/analysis/run_council_synthesis.py`
+- `scripts/analysis/validate_council_quality.py`
+- `scripts/pipeline/build_canonical_events.py`
+- `tests/` (new suite), `pytest.ini`, `.github/workflows/tests.yml` (new)
+
+What changed:
+- Moved every static LLM prompt out of inline Python strings into `prompts/*.md`. These
+  cover classification, clustering, event analysis, the council framework, the synthesis
+  role, and the judge system and user prompts.
+- Prompts use plain `{placeholder}` tokens, so the JSON examples no longer need `{{ }}`
+  escaping. `render_prompt()` rejects missing or unexpected values.
+- Model IDs now come from one place, `prompts/manifest.json`, via `model_for()`. Before,
+  they were hardcoded in 7 places. The canonical builder's `classification_model`
+  provenance label now reads the same manifest entry, so it can't drift from the real
+  classifier.
+- Added the first real pytest suite: 22 tests covering the prompt manifest, the
+  per-incident `stable_id` regression, geolocation, the pre-filter, article normalization,
+  taxonomy completeness, and the public data contract. A new `Tests` workflow runs it on
+  every code push.
+
+Validation completed:
+- Each of the 7 extracted prompts renders byte-for-byte identical to the original inline
+  template. This was checked against the originals parsed from the pre-change source with
+  `ast`.
+- Every consumer module imports under Python 3.11.
+- `python -m pytest`: 22 passed.
+
+Remaining risks / follow-up:
+- The per-country structural block and the per-event council message are still built in
+  code, because they contain formatting logic.
+
 ### Repo State Audit, Agent Context Rewrite, And Ignore Hygiene
 
 Affected areas:
