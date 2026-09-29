@@ -23,9 +23,9 @@ GREENBOOK_CLEAN = ROOT / "data" / "cleaned" / "greenbook.json"
 EUSANCT_CLEAN = ROOT / "data" / "cleaned" / "eusanct.json"
 CRISES_CLEAN = ROOT / "data" / "cleaned" / "financial_crises.json"
 
-VDEM_SCRIPT = ROOT / "scripts" / "refresh_vdem.py"
-WB_SCRIPT = ROOT / "scripts" / "fetch_worldbank.py"
-COUNTRY_YEAR_SCRIPT = ROOT / "scripts" / "build_country_year.py"
+VDEM_SCRIPT = ROOT / "scripts" / "structural" / "refresh_vdem.py"
+WB_SCRIPT = ROOT / "scripts" / "structural" / "fetch_worldbank.py"
+COUNTRY_YEAR_SCRIPT = ROOT / "scripts" / "structural" / "build_country_year.py"
 
 OUT = ROOT / "data" / "review" / "upstream_training_source_audit.json"
 
@@ -127,7 +127,7 @@ def main() -> None:
         "greenbook_cleaned": {
             "file": str(GREENBOOK_CLEAN.relative_to(ROOT)),
             "cleaned_bounds": detect_year_bounds_from_cleaned(GREENBOOK_CLEAN),
-            "script": "scripts/clean_greenbook.py",
+            "script": "scripts/structural/clean_greenbook.py",
             "script_limits": {},
             "training_extension_assessment": (
                 "Useful for post-1960 external-security history where available, but not a broad structural baseline."
@@ -136,7 +136,7 @@ def main() -> None:
         "eusanct_cleaned": {
             "file": str(EUSANCT_CLEAN.relative_to(ROOT)),
             "cleaned_bounds": detect_year_bounds_from_cleaned(EUSANCT_CLEAN),
-            "script": "scripts/clean_eusanct.py",
+            "script": "scripts/structural/clean_eusanct.py",
             "script_limits": {},
             "training_extension_assessment": (
                 "Useful for sanctions history, but not a substitute for broader structural pre-1990 training coverage."
@@ -145,7 +145,7 @@ def main() -> None:
         "financial_crises_cleaned": {
             "file": str(CRISES_CLEAN.relative_to(ROOT)),
             "cleaned_bounds": detect_year_bounds_from_cleaned(CRISES_CLEAN),
-            "script": "scripts/clean_financial_crises.py",
+            "script": "scripts/structural/clean_financial_crises.py",
             "script_limits": {},
             "training_extension_assessment": (
                 "Useful for crisis memory and legacy features if earlier years are present."

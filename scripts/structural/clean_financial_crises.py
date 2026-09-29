@@ -19,7 +19,7 @@ from pathlib import Path
 
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 RAW = ROOT / "data" / "raw" / "FinancialCrises_A new comprehensive database of financial crises Identification, frequency, and duration.xlsx"
 OUT_JSON = ROOT / "data" / "cleaned" / "financial_crises.json"
 OUT_CSV = ROOT / "data" / "cleaned" / "financial_crises.csv"

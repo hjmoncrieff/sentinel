@@ -57,8 +57,8 @@ INDICATORS = {
 BASE_URL = "https://api.worldbank.org/v2/country/{countries}/indicator/{indicator}"
 PARAMS   = {"format": "json", "date": "1960:2025", "per_page": 1000}
 
-RAW_DIR     = os.path.join(os.path.dirname(__file__), "..", "data", "raw")
-CLEANED_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "cleaned")
+RAW_DIR     = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "data", "raw")
+CLEANED_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "data", "cleaned")
 os.makedirs(RAW_DIR, exist_ok=True)
 os.makedirs(CLEANED_DIR, exist_ok=True)
 

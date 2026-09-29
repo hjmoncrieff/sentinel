@@ -19,7 +19,7 @@ from pathlib import Path
 
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 RAW = ROOT / "data" / "raw" / "EUSANCT_CLEAN.dta"
 OUT_JSON = ROOT / "data" / "cleaned" / "eusanct.json"
 OUT_CSV = ROOT / "data" / "cleaned" / "eusanct.csv"

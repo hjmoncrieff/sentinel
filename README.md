@@ -73,6 +73,7 @@ python3 -m pytest   # Python 3.11+, requirements-ci.txt + pytest
 
 ## Key Docs
 
+- `scripts/README.md`
 - `docs/public-site.md`
 - `docs/historical-ingestion.md`
 - `prompts/README.md`

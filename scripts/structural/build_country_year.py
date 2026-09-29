@@ -8,8 +8,8 @@ Outputs:
   data/cleaned/country_year.csv
 
 Usage:
-  python3 scripts/build_country_year.py
-  python3 scripts/build_country_year.py --output-dir data/cleaned
+  python3 scripts/structural/build_country_year.py
+  python3 scripts/structural/build_country_year.py --output-dir data/cleaned
 """
 
 import argparse
@@ -21,7 +21,7 @@ from pathlib import Path
 
 from openpyxl import load_workbook
 
-ROOT    = Path(__file__).parent.parent
+ROOT    = Path(__file__).resolve().parents[2]
 VDEM_IN = ROOT / "data" / "cleaned" / "vdem.json"
 WB_IN   = ROOT / "data" / "cleaned" / "worldbank.json"
 M3_IN   = ROOT / "data" / "raw" / "M3-Dataset-V1.xlsx"

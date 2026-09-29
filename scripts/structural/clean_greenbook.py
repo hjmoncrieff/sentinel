@@ -4,7 +4,7 @@ Cleans the USAID US Foreign Aid Greenbook XLSX and writes SENTINEL-ready outputs
 to data/cleaned/greenbook.json and data/cleaned/greenbook.csv.
 
 Usage:
-    python scripts/clean_greenbook.py
+    python scripts/structural/clean_greenbook.py
     # Reads data/raw/us_foreignaid_greenbook.xlsx relative to the repo root.
 """
 
@@ -19,7 +19,7 @@ from collections import defaultdict
 # Paths (resolved relative to this script file so it works from any cwd)
 # ---------------------------------------------------------------------------
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-REPO_ROOT  = os.path.join(SCRIPT_DIR, "..")
+REPO_ROOT  = os.path.join(SCRIPT_DIR, "..", "..")
 RAW_XLSX   = os.path.join(REPO_ROOT, "data", "raw", "us_foreignaid_greenbook.xlsx")
 OUT_DIR    = os.path.join(REPO_ROOT, "data", "cleaned")
 OUT_JSON   = os.path.join(OUT_DIR, "greenbook.json")

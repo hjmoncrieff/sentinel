@@ -11,6 +11,76 @@ Each major change entry should include:
 
 ## 2026-09-29
 
+### Repository Cleanup And Script Reorganization
+
+Affected areas:
+- `scripts/structural/` (new):
+  - `fetch_worldbank.py`, `refresh_vdem.py`, `clean_acled_index.py`, `clean_greenbook.py`,
+    `clean_eusanct.py`, `clean_financial_crises.py`, and `build_country_year.py` moved here
+    with `git mv`, so their history is kept
+- `scripts/README.md` (new)
+- Removed: `scripts/fetch_events.py` and `scripts/clean_vdem.py`
+- `scripts/analysis/audit_upstream_training_sources.py`, `data/CODEBOOK.md`, `README.md`,
+  `.gitignore`, `.env.example` (now tracked)
+- Local-only docs and untracked files (see below)
+
+What changed:
+- **Branches.** The `codex/` prefix was only a naming convention from the Codex agent;
+  nothing required it.
+  - `codex/publish-july14-site` became `main`. It was exactly `origin/main` plus that day's
+    commits.
+  - `codex/analyst-console-redesign` became `analyst-console-redesign`.
+  - Local `main`'s only unpushed commit (`a2d7fd4`, a design spec) was already on
+    `origin/codex/analyst-console-redesign`, so moving `main` lost nothing.
+  - The remote branch rename waits for the push.
+- **Scripts.** The top level now holds only the fast ingestion pipeline, whose modules
+  import each other by bare name. The eight structural-data scripts moved into
+  `scripts/structural/`. Their repo-root calculation gained one level, and their callers,
+  usage lines, and the CODEBOOK were updated.
+- **Removed `scripts/clean_vdem.py`.** It was a superseded V-Dem v16 CSV cleaner that
+  writes the same `data/cleaned/vdem.*` files as `refresh_vdem.py` (the R `vdemdata`
+  source behind the committed layer), in an incompatible and much smaller format. Running
+  it silently degrades the V-Dem layer and everything built on it.
+- **Removed `scripts/fetch_events.py`.** It was a deprecated wrapper; no automation called
+  it, and only local docs mentioned it. The CODEBOOK now points to `run_pipeline.py`.
+- **`.env.example` is now tracked.** The `.env.*` rule had been hiding it. Every value in
+  it is empty.
+- **`.gitignore` additions:** `.pytest_cache/` and `.ruff_cache/`.
+- **Untracked files deleted** (about 17 MB):
+  - root `node_modules/` and `.pnpm-store/`. This branch has no `package.json`, and the
+    console builds from its own worktree.
+  - `test-results/`, every `__pycache__/`, `.pytest_cache/`, and `.ruff_cache/`
+  - `supabase/functions/` (only `node_modules`, no source) and `supabase/.branches/`
+  - `.superpowers/` brainstorm session scratch
+  - `archive/index.pre-dashboard-redesign.html`. It is byte-identical to `index.html` at
+    commit `123da05`; recover it with `git show 123da05:index.html`.
+  - the Quarto HTML renders (`README.html`, `data/CODEBOOK.html`, `docs/*.html`, and their
+    `*_files/` folders). The `.md` sources remain; regenerate with `quarto render`.
+  - the historical-runner smoke-test staging output
+- **Local-only docs updated:** `stage-runners`, `user-guide`, `system-workflow`,
+  `sentinel-technical-reference`, `pipeline-operations`, and the private roadmap and
+  indicator notes now use the new script paths and no longer mention the removed wrapper.
+
+Validation completed:
+- Each moved script except `fetch_worldbank.py` and `refresh_vdem.py` was run from an
+  unrelated working directory, and all exited cleanly. Those two need network access and R
+  respectively.
+- `python -m pytest`: 48 passed.
+- A repo-wide search found no stale references to the moved or removed scripts, apart from
+  dated CHANGELOG history.
+- Note: the verification run of the now-removed `clean_vdem.py` overwrote the tracked
+  cleaned outputs.
+  - They were restored with `git checkout -- data/cleaned/`.
+  - The private `data/cleaned/country_year.*` was then rebuilt from the restored inputs:
+    1,650 rows, 1960–2025.
+  - That incident is what exposed the script as harmful.
+
+Remaining risks / follow-up:
+- After pushing, rename the remote branch `codex/analyst-console-redesign`. Push it as
+  `analyst-console-redesign`, then delete the old remote name.
+- `UCChile_interview_prep.md`, a personal note, still sits at the repo root. It is
+  gitignored but lives inside the project folder.
+
 ### Analyst Console Build Outputs Rebuilt From The Redesign Branch
 
 Affected areas:

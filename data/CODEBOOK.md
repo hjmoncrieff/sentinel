@@ -35,7 +35,7 @@ change set.
 | **Update cadence** | Nightly (GitHub Actions cron: `0 4 * * *`) | |
 | **Raw files** | None — pipeline writes directly to cleaned output | |
 | **Cleaned file** | `data/events.json` | |
-| **Fetch script** | `scripts/fetch_events.py` | |
+| **Fetch script** | `scripts/run_pipeline.py` (implementation: `scripts/pipeline_core.py`) | |
 
 ### Schema
 
@@ -117,7 +117,7 @@ This hierarchy is currently implemented in the actor-coded canonical layer under
 | **Update cadence** | Run manually or add to GitHub Actions. Re-run annually. | |
 | **Raw files** | `data/raw/wb_<indicator_name>.json` (one file per indicator, full 1960–2025 series) | |
 | **Cleaned file** | `data/cleaned/worldbank.json` · `data/cleaned/worldbank.csv` | |
-| **Fetch script** | `scripts/fetch_worldbank.py` | |
+| **Fetch script** | `scripts/structural/fetch_worldbank.py` | |
 | **Last fetched** | 2026-04-02 | |
 
 ### Indicators
@@ -192,7 +192,7 @@ Each indicator column has a companion `<indicator>_year` column recording which 
 | **Download** | Manual — requires email + CAPTCHA at source URL above. Select "Country-Year: V-Dem Core". | |
 | **Raw file** | `data/raw/V-Dem-CY-Core-v16.csv` *(place here after download)* | |
 | **Cleaned file** | `data/cleaned/vdem.json` | |
-| **Clean script** | `scripts/clean_vdem.py data/raw/V-Dem-CY-Core-v16.csv` | |
+| **Refresh script** | `scripts/structural/refresh_vdem.py` (R `vdemdata` package) | |
 | **Last fetched** | Not yet downloaded | |
 
 ### Indicators Extracted
@@ -246,7 +246,7 @@ The `libdem_trend` array contains the last 10 years of liberal democracy scores 
 | **Source URL** | https://acleddata.com/data-export-tool/ | |
 | **API docs** | https://apidocs.acleddata.com | |
 | **Coverage** | Regions 6 (Central America), 7 (South America), 15 (Caribbean) | |
-| **Update cadence** | Nightly via pipeline (`scripts/fetch_events.py`) | |
+| **Update cadence** | Nightly via pipeline (`scripts/run_pipeline.py`) | |
 | **Authentication** | Requires `ACLED_API_KEY` + `ACLED_EMAIL` (free registration) | |
 | **Raw files** | Not saved separately — merged into `data/events.json` | |
 | **Cleaned file** | `data/events.json` | |
@@ -312,7 +312,7 @@ examples include:
 | **Download** | Manual Excel download from source URL above | |
 | **Raw file** | `data/raw/SIPRI-Milex-data-<year>.xlsx` *(place here after download)* | |
 | **Cleaned file** | `data/cleaned/sipri.json` *(not yet built)* | |
-| **Clean script** | `scripts/clean_sipri.py` *(not yet built)* | |
+| **Clean script** | `scripts/structural/clean_sipri.py` *(not yet built)* | |
 | **Status** | Planned | |
 
 ---
@@ -329,7 +329,7 @@ examples include:
 | **Download** | Manual CSV/Excel from UNODC data portal | |
 | **Raw file** | `data/raw/unodc_<topic>_<year>.csv` | |
 | **Cleaned file** | `data/cleaned/unodc.json` *(not yet built)* | |
-| **Clean script** | `scripts/clean_unodc.py` *(not yet built)* | |
+| **Clean script** | `scripts/structural/clean_unodc.py` *(not yet built)* | |
 | **Status** | Planned | |
 
 ---

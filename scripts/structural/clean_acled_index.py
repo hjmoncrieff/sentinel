@@ -4,7 +4,7 @@ Reads the ACLED Conflict Index Excel workbook and writes a SENTINEL-ready
 JSON to data/cleaned/acled_index.json.
 
 Usage:
-    python scripts/clean_acled_index.py
+    python scripts/structural/clean_acled_index.py
     # Reads data/raw/ACLED_Conflict_Index_2025.xlsx relative to repo root.
 
 Requires openpyxl:
@@ -31,7 +31,7 @@ except ImportError:
 # Paths
 # ---------------------------------------------------------------------------
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-REPO_ROOT   = os.path.join(SCRIPT_DIR, "..")
+REPO_ROOT   = os.path.join(SCRIPT_DIR, "..", "..")
 RAW_XLSX    = os.path.join(REPO_ROOT, "data", "raw", "ACLED_Conflict_Index_2025.xlsx")
 OUT_DIR     = os.path.join(REPO_ROOT, "data", "cleaned")
 OUT_JSON    = os.path.join(OUT_DIR, "acled_index.json")
