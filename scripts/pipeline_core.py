@@ -311,6 +311,16 @@ log = logging.getLogger("sentinel")
 ANTHROPIC_EST_INPUT_USD_PER_MTOK = float(os.environ.get("ANTHROPIC_EST_INPUT_USD_PER_MTOK", "1.0"))
 ANTHROPIC_EST_OUTPUT_USD_PER_MTOK = float(os.environ.get("ANTHROPIC_EST_OUTPUT_USD_PER_MTOK", "5.0"))
 
+# anthropic>=1 removed `temperature` from messages.create(); the API still honours it
+# for the Haiku 4.5 classifier, and classification depends on it being 0, so it is
+# sent through extra_body. Newer models (Opus 4.7+, Sonnet 5+) reject sampling params:
+# drop this when prompts/manifest.json moves to one of them.
+DETERMINISTIC = {"temperature": 0}
+
+# Set when a classification batch fails; if every batch fails the run aborts instead
+# of silently publishing nothing (e.g. the SDK 1.x temperature break, 2026-09-29).
+CLASSIFY_BATCH_FAILURES: list[str] = []
+
 RUN_METRICS = {
     "anthropic": {
         "classify": {"requests": 0, "input_tokens": 0, "output_tokens": 0, "items": 0},
@@ -1008,7 +1018,7 @@ def _classify_batch(client: anthropic.Anthropic, items: list[dict]) -> list[dict
         msg = client.messages.create(
             model=model_for("classify_events"),
             max_tokens=1200,
-            temperature=0,
+            extra_body=DETERMINISTIC,
             messages=[{"role": "user", "content": render_prompt("classify_events", items=texts)}],
         )
         record_anthropic_usage("classify", msg, item_count=len(items))
@@ -1016,6 +1026,7 @@ def _classify_batch(client: anthropic.Anthropic, items: list[dict]) -> list[dict
         return [json.loads(line) for line in lines if line.strip().startswith("{")]
     except Exception as e:
         log.error(f"Classification batch error: {e}")
+        CLASSIFY_BATCH_FAILURES.append(f"{type(e).__name__}: {e}")
         return []
 
 
@@ -1031,7 +1042,7 @@ def _cluster_events(client: anthropic.Anthropic, candidates: list[dict]) -> list
         msg = client.messages.create(
             model=model_for("cluster_events"),
             max_tokens=500,
-            temperature=0,
+            extra_body=DETERMINISTIC,
             messages=[{"role": "user", "content": render_prompt("cluster_events", n=len(candidates), items=texts)}],
         )
         record_anthropic_usage("cluster", msg, item_count=len(candidates))
@@ -1163,6 +1174,8 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
     # Classify in batches
     candidates: list[dict] = []
     now = datetime.now(timezone.utc).isoformat()
+    batch_count = -(-len(fresh) // CLASSIFY_BATCH)
+    failures_before = len(CLASSIFY_BATCH_FAILURES)
     for i in range(0, len(fresh), CLASSIFY_BATCH):
         batch = fresh[i:i + CLASSIFY_BATCH]
         log.info(f"Classifying batch {i // CLASSIFY_BATCH + 1}/{-(-len(fresh) // CLASSIFY_BATCH)}")
@@ -1236,6 +1249,14 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
             })
         time.sleep(0.5)
 
+    new_failures = CLASSIFY_BATCH_FAILURES[failures_before:]
+    if batch_count and len(new_failures) == batch_count:
+        raise RuntimeError(
+            f"All {batch_count} classification batches failed; nothing was classified. "
+            f"Last error: {new_failures[-1]}"
+        )
+    if new_failures:
+        log.warning(f"{len(new_failures)}/{batch_count} classification batches failed")
     log.info(f"Relevant after classification: {len(candidates)}")
     if not candidates:
         return []
@@ -1270,7 +1291,7 @@ def generate_analysis(client: anthropic.Anthropic, ev: dict) -> str | None:
         msg = client.messages.create(
             model=model_for("event_analysis"),
             max_tokens=250,
-            temperature=0,
+            extra_body=DETERMINISTIC,
             messages=[{"role": "user", "content": render_prompt(
                 "event_analysis",
                 country=ev.get("country", "the region"),

@@ -50,3 +50,35 @@ def test_pre_filter_keeps_civil_military_and_emergency_signals():
     titles = {a["title"] for a in kept}
     assert "Local bakery wins award" not in titles
     assert len(kept) == 3
+
+
+class _FailingMessages:
+    def create(self, **kwargs):
+        raise TypeError("Messages.create() got an unexpected keyword argument 'temperature'")
+
+
+class _FailingClient:
+    messages = _FailingMessages()
+
+
+def test_classify_aborts_when_every_batch_fails():
+    # Regression (2026-09-29): an SDK upgrade broke every call, yet the run
+    # "succeeded" and published nothing. A total failure must now raise.
+    import pytest
+
+    articles = [
+        {"article_id": f"a{i}", "title": f"Army deploys troops in Colombia {i}", "description": "",
+         "url": f"https://x.test/{i}", "date": "2026-09-01", "source": "Test"}
+        for i in range(3)
+    ]
+    with pytest.raises(RuntimeError, match="classification batches failed"):
+        pc.classify_articles(_FailingClient(), articles, {})
+
+
+def test_deterministic_sampling_goes_through_extra_body():
+    # anthropic>=1 removed the `temperature` keyword; it must not reappear as one.
+    import inspect
+
+    src = inspect.getsource(pc)
+    assert "temperature=0" not in src
+    assert pc.DETERMINISTIC == {"temperature": 0}

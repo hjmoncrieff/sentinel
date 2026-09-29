@@ -11,6 +11,53 @@ Each major change entry should include:
 
 ## 2026-09-29
 
+### Classifier SDK Break Fixed; Derived country_year Committed For CI
+
+Affected areas:
+- `scripts/pipeline_core.py`, `requirements-ci.txt`, `tests/test_pipeline_core.py`
+- `.gitignore`, `data/cleaned/country_year.json` (now tracked)
+
+What changed:
+- **Root cause of zero new events, locally and in CI.**
+  - `requirements-ci.txt` left `anthropic` unpinned, so installs picked up SDK 1.x.
+  - SDK 1.x removed the `temperature` keyword from `messages.create()`, so every
+    classify, cluster, and analysis call raised a `TypeError` before any request was sent.
+  - The pipeline logs batch errors and carries on, so runs "succeeded" with nothing
+    classified.
+- **Classifier fix.** The API still honours `temperature` for the Haiku 4.5 classifier, and
+  classification depends on it being 0, so the value is now sent as
+  `extra_body={"temperature": 0}` through a single `DETERMINISTIC` constant. This follows
+  the SDK 1.x upgrade guide.
+- **SDK pinned** to `anthropic>=1,<2`.
+- **The pipeline now fails loudly.** If every classification batch in a run fails, it raises
+  a `RuntimeError` naming the last error. A partial failure logs a warning. A total failure
+  therefore fails the CI run and opens the `pipeline-failure` issue.
+- **`country_year.json` is now tracked (owner decision).** It is derived from V-Dem, the
+  World Bank, M3, and canonical events. CI's `build_country_monitors.py` needs it, and its
+  absence had made the nightly downstream rebuild fail.
+  - `country_year.csv` and the raw M3 workbook stay private.
+  - Refresh the JSON locally with `scripts/structural/build_country_year.py` after
+    structural updates, then commit it.
+
+Validation completed:
+- `python -m pytest`: 74 passed. This includes new regression tests for the total-failure
+  abort and for the absence of a `temperature=` keyword.
+- One real classifier request through `_classify_batch` reached the API and was answered
+  with HTTP 400 "credit balance is too low". The SDK path works; the account needs credits.
+- **Clean-checkout replay.** The CI downstream sequence was replayed with only tracked files
+  plus `country_year.json`, skipping the two council API steps. All 10 steps passed.
+
+Remaining risks / follow-up:
+- **Anthropic API credits are exhausted.** Until they are topped up, the backfill and every
+  nightly run fail. Under the new abort, that failure is visible.
+- **CI-built monitors don't yet match local ones.** They differ in about 226 risk-component
+  scores, because `build_country_monitors.py` also reads the private
+  `data/modeling/external_economic_country_month.json`. That file is built from another
+  private modeling input, so publishing it needs a separate owner decision.
+- **The committed monitors predate today's `country_year` regeneration**, so the next
+  rebuild will shift scores. The regenerated file reflects the current inputs; the
+  pre-regeneration copy was never tracked.
+
 ### Analyst Console Redesign Shipped To Main
 
 Affected areas:
