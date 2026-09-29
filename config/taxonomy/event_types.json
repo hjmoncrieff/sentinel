@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "updated": "2026-04-02",
+  "updated": "2026-09-29",
   "event_types": [
     {
       "code": "coup",
@@ -25,6 +25,20 @@
       "type": "military",
       "category": "purge",
       "category_label": "Purge / Command Reshuffle",
+      "event_category": "military",
+      "event_subcategory": "command_and_coercive_control",
+      "construct_destinations": ["militarization", "regime_vulnerability"],
+      "analyst_lenses": ["military", "political"]
+    },
+    {
+      "code": "coup_proofing",
+      "label": "Coup-Proofing",
+      "description": "Deliberate strategies to insulate a ruler from military challenge: counterbalancing or parallel forces, political commissars, loyalty-based promotions, or economic co-optation of the officer corps as a pattern.",
+      "exclusions": ["one-off officer removals without a counterbalancing pattern (use purge)", "routine force restructuring justified on operational grounds"],
+      "precedence_rank": 85,
+      "type": "military",
+      "category": "coup_proofing",
+      "category_label": "Coup-Proofing",
       "event_category": "military",
       "event_subcategory": "command_and_coercive_control",
       "construct_destinations": ["militarization", "regime_vulnerability"],

@@ -11,6 +11,50 @@ Each major change entry should include:
 
 ## 2026-09-29
 
+### Coup-Proofing Taxonomy Gap Fix
+
+Affected areas:
+- `config/taxonomy/event_types.json` (v2.0 → `updated: 2026-09-29`)
+- `data/canonical/*`, `data/published/events_public.json`, `data/published/country_monitors.json`
+
+What changed:
+- The classifier emits `coup_proofing`, but the taxonomy had no row for it. Every
+  `coup_proofing` event (6 of them) silently fell back to the `other` overlay:
+  `political / other_institutional_relevance`, routed only to `regime_vulnerability`.
+- Added a `coup_proofing` row with precedence 85 (between `conflict` and `purge`). It is
+  typed `military / command_and_coercive_control`, routed to `militarization` and
+  `regime_vulnerability`, and uses the military and political lenses.
+- Reran the deterministic downstream rebuild. The 6 events now carry the correct overlay.
+  The same rebuild also filled `public_analysis` for 76 events from March–July that
+  previously had none. No existing analysis text changed.
+
+Validation completed:
+- `tests/test_taxonomy.py::test_every_classifier_type_is_in_the_taxonomy` (the new
+  regression guard).
+- Rebuild sequence, all runs clean:
+  - `build_canonical_events.py` (0 validation errors)
+  - `code_actors.py`
+  - `run_qa.py`
+  - `run_registry_qa.py`
+  - `detect_duplicates.py`
+  - `apply_analyst_edits.py`
+  - `build_review_queue.py`
+  - `run_council.py`
+  - `build_country_monitors.py`
+  - `validate_country_monitors.py`
+  - `publish_dashboard_data.py` (1,206 published, 8 withheld; the same event IDs as before)
+- Field-level diff of the published layer against `HEAD`:
+  - Only the 6 coup-proofing overlays changed, plus analysis fields that went from
+    `null` to filled.
+  - Every event's provenance timestamps were refreshed.
+
+Remaining risks / follow-up:
+- `run_council_synthesis.py` and `validate_council_quality.py` (the Sonnet and Haiku API
+  steps) were not rerun locally. The next CI run will cover them.
+- Local `data/review/council_analyses.json` has 0 `llm_synthesis` blocks after the heuristic
+  rerun. The public layer was unaffected, but confirm whether the CI synthesis step is
+  producing them.
+
 ### Repo State Audit, Agent Context Rewrite, And Ignore Hygiene
 
 Affected areas:
