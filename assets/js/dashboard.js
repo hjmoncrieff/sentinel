@@ -28,20 +28,71 @@ function switchTab(id){
     activateTabUI('explore');
     exInitDots();
     exSetScene(1);
+    syncTabHash('explore');
     return;
   }
   activateTabUI(id);
   runTabSideEffects(id);
+  syncTabHash(id);
 }
 
-function handleSubscribe(e){
+// Keep the active tab in the URL (#events, #profiles, …) so views can be linked
+// and bookmarked. replaceState avoids adding a history entry per tab click.
+function syncTabHash(id){
+  const hash = id === 'overview' ? '' : '#' + id;
+  if(location.hash !== hash){
+    history.replaceState(null, '', location.pathname + location.search + hash);
+  }
+}
+
+function tabFromHash(){
+  const id = decodeURIComponent(location.hash.slice(1));
+  return id && document.getElementById(id)?.classList.contains('tab-panel') ? id : null;
+}
+
+function setFormError(input, errorEl, message){
+  errorEl.textContent = message;
+  errorEl.hidden = !message;
+  input.setAttribute('aria-invalid', message ? 'true' : 'false');
+}
+
+async function handleSubscribe(e){
   e.preventDefault();
-  const email=document.getElementById('sub-email').value.trim();
-  const msg=document.getElementById('sub-msg');
-  if(!email) return false;
-  msg.textContent='✓ Subscribed — you will receive the next Monday digest.';
-  msg.style.display='block';
-  document.getElementById('sub-email').value='';
+  const form = e.target;
+  const input = document.getElementById('sub-email');
+  const errorEl = document.getElementById('sub-error');
+  const button = form.querySelector('button[type="submit"]');
+  const email = input.value.trim();
+
+  if(!email || !input.checkValidity()){
+    setFormError(input, errorEl, 'Enter a valid email address, like name@university.edu.');
+    input.focus();
+    return false;
+  }
+  setFormError(input, errorEl, '');
+  button.disabled = true;
+  form.setAttribute('aria-busy', 'true');
+  button.textContent = 'Subscribing…';
+
+  try {
+    const res = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email, form: 'weekly-brief', _subject: 'SENTINEL weekly brief subscription' })
+    });
+    if(!res.ok){
+      let msg = 'We could not record your subscription. Please try again.';
+      try { const d = await res.json(); if(d?.errors?.[0]?.message) msg = d.errors[0].message; } catch {}
+      throw new Error(msg);
+    }
+    window.location.href = 'thank-you.html';
+  } catch(err) {
+    const offline = err instanceof TypeError;
+    setFormError(input, errorEl, offline ? 'Network error — check your connection and try again.' : err.message);
+    button.disabled = false;
+    form.removeAttribute('aria-busy');
+    button.textContent = 'Subscribe';
+  }
   return false;
 }
 
@@ -160,12 +211,35 @@ function closeMobileNav(){
   document.getElementById('mobile-nav-overlay')?.classList.remove('open');
 }
 
+function formatAgeLabel(ms){
+  const s = Math.max(0, Math.floor(ms / 1000));
+  if(s < 60) return `${s}s ago`;
+  if(s < 3600) return `${Math.floor(s / 60)}m ago`;
+  if(s < 172800) return `${Math.floor(s / 3600)}h ago`;
+  return `${Math.floor(s / 86400)}d ago`;
+}
+
+// Publications older than this are shown as paused rather than "running".
+const PIPELINE_STALE_MS = 48 * 3600 * 1000;
+
 function updatePipelineAge(){
   const ageEls = document.querySelectorAll('[data-live-ingestion-age]');
   if(!ageEls.length || !lastIngestionTimestamp) return;
-  const diff = Math.max(0, Math.floor((Date.now() - lastIngestionTimestamp) / 1000));
-  const label = diff < 60 ? `${diff}s ago` : `${Math.floor(diff / 60)}m ago`;
+  const label = formatAgeLabel(Date.now() - lastIngestionTimestamp);
   ageEls.forEach(el => { el.textContent = label; });
+}
+
+function renderEventListState(state){
+  const el = document.getElementById('event-list');
+  if(!el) return;
+  el.setAttribute('aria-busy', state === 'loading' ? 'true' : 'false');
+  if(state === 'loading'){
+    el.innerHTML = '<div class="event-list-state" role="status"><span class="state-spinner" aria-hidden="true"></span>Loading live events…</div>';
+  } else if(state === 'error'){
+    el.innerHTML = '<div class="event-list-state event-list-state-error" role="alert">'
+      + 'Live events could not be loaded. Check your connection and try again.'
+      + '<button type="button" class="state-retry" onclick="loadEvents()">Retry</button></div>';
+  }
 }
 
 function getEventDateISO(ev){
@@ -323,12 +397,18 @@ function normalizePublishedEvent(pub){
 }
 
 async function loadEvents(){
+  renderEventListState('loading');
+  const pipelineStatus = document.getElementById('pipeline-status-text');
+  if(pipelineStatus) pipelineStatus.textContent = 'Loading public dashboard data…';
+  // 'no-cache' revalidates with the server's ETag on every load: fresh data is
+  // guaranteed, but an unchanged ~9 MB file comes back as a cheap 304.
+  const revalidate = { cache: 'no-cache' };
   try {
     const [publishedRes, taxonomyRes, monitorsRes, dossiersRes] = await Promise.all([
-      fetch('data/published/events_public.json?t='+Date.now()),
-      fetch('config/taxonomy/event_types.json?t='+Date.now()).catch(()=>null),
-      fetch('data/published/country_monitors.json?t='+Date.now()).catch(()=>null),
-      fetch('data/published/country_dossiers.json?t='+Date.now()).catch(()=>null)
+      fetch('data/published/events_public.json', revalidate),
+      fetch('config/taxonomy/event_types.json', revalidate).catch(()=>null),
+      fetch('data/published/country_monitors.json', revalidate).catch(()=>null),
+      fetch('data/published/country_dossiers.json', revalidate).catch(()=>null)
     ]);
     if(!publishedRes.ok) throw new Error('HTTP '+publishedRes.status);
     const published = await publishedRes.json();
@@ -394,28 +474,29 @@ async function loadEvents(){
     computeCmrScores();
     renderRegionalMonitorSummary();
     ovRefreshMarkers();
+    const countLabel = `${events.length.toLocaleString('en-US')} public events loaded`;
     if(updatedStr){
       lastIngestionTimestamp = new Date(updatedStr).getTime();
-      updatePipelineAge();
-      const ago = Math.round((Date.now()-new Date(updatedStr))/60000);
-      const agoStr = ago<60 ? ago+'m ago' : Math.round(ago/60)+'h ago';
+      const ageMs = Date.now() - lastIngestionTimestamp;
+      const agoStr = formatAgeLabel(ageMs);
       const policyBits = [];
       if((published?.withheld_count || 0) > 0){
         policyBits.push(`${published.withheld_count} withheld by publication policy`);
       }
-      const pipelineText = document.getElementById('pipeline-status-text');
-      if(pipelineText){
-        pipelineText.innerHTML = `Pipeline running — ${events.length.toLocaleString('en-US')} public events loaded${policyBits.length ? ' · ' + policyBits.join(' · ') : ''} · last ingestion <span data-live-ingestion-age>${agoStr}</span>`;
+      const lead = ageMs > PIPELINE_STALE_MS ? 'Updates paused' : 'Pipeline active';
+      if(pipelineStatus){
+        pipelineStatus.innerHTML = `${lead} — ${countLabel}${policyBits.length ? ' · ' + policyBits.join(' · ') : ''} · last published <span data-live-ingestion-age>${agoStr}</span>`;
       }
       document.querySelector('.log-txt')?.classList.add('ok');
     } else {
-      const pipelineText = document.getElementById('pipeline-status-text');
-      if(pipelineText) pipelineText.textContent = `Pipeline running — ${events.length.toLocaleString('en-US')} public events loaded`;
+      if(pipelineStatus) pipelineStatus.textContent = countLabel;
       document.querySelector('.log-txt')?.classList.add('ok');
     }
   } catch(e) {
-    const pipelineText = document.getElementById('pipeline-status-text');
-    if(pipelineText) pipelineText.textContent = 'Failed to load public dashboard artifacts — '+e.message+' · Rebuild data/published and serve via http-server';
+    console.error('Public dashboard data failed to load', e);
+    renderEventListState('error');
+    if(pipelineStatus) pipelineStatus.textContent = 'Live data could not be loaded. Check your connection and retry from the Events tab.';
+    setTextContent('header-freshness-value', 'Unavailable');
     document.querySelector('.log-txt')?.classList.remove('ok');
   }
 }
@@ -3756,10 +3837,7 @@ new Chart(document.getElementById('usMilEconChart'),{type:'bar',data:{
 
 // Regional monitor charts render after country monitor data loads.
 
-// Coca cultivation
-new Chart(document.getElementById('cocaChart'),{type:'bar',data:{labels:['2017','2018','2019','2020','2021','2022','2023','2024'],datasets:[{data:[171,169,154,143,204,230,214,230],backgroundColor:'rgba(184,50,50,0.22)',borderColor:'#b83232',borderWidth:1,borderRadius:2}]},options:{...chartOpts,scales:{...chartOpts.scales,y:{...chartOpts.scales.y,ticks:{...chartOpts.scales.y.ticks,callback:v=>v+'K'}}}}});
-
-// Transnational Security coca chart (same data as Colombia tab for now)
+// Transnational Security coca cultivation chart
 new Chart(document.getElementById('tscocaChart'),{type:'bar',data:{labels:['2017','2018','2019','2020','2021','2022','2023','2024'],datasets:[{data:[171,169,154,143,204,230,214,230],backgroundColor:'rgba(106,74,110,0.22)',borderColor:'#6a4a6e',borderWidth:1,borderRadius:2}]},options:{...chartOpts,scales:{...chartOpts.scales,y:{...chartOpts.scales.y,ticks:{...chartOpts.scales.y.ticks,callback:v=>v+'K'}}}}});
 
 // ── TIMELINE ─────────────────────────────────────────────────
@@ -6704,6 +6782,20 @@ document.addEventListener('DOMContentLoaded',()=>{
   initEventFilterControls();
   initFeedbackPickers();
   loadEvents();
+  // Tab hashes (#events, …) match the panels' element ids, so the browser's native
+  // fragment scroll would park the tab under the sticky header. Route, then reset.
+  const initialTab = tabFromHash();
+  if(initialTab){
+    switchTab(initialTab);
+    window.addEventListener('load', () => window.scrollTo(0, 0), { once: true });
+  }
+  window.addEventListener('hashchange', () => {
+    const tab = tabFromHash();
+    if(tab){
+      switchTab(tab);
+      window.scrollTo(0, 0);
+    }
+  });
   fetch('data/cleaned/worldbank.json')
     .then(r => r.json())
     .then(d => {
@@ -6740,7 +6832,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 // ── Feedback Button ────────────────────────────────────
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xkopdkwd';
+const FORMSPREE_ENDPOINT = window.SENTINEL_SITE?.formEndpoint || 'https://formspree.io/f/xkopdkwd';
 
 function toggleFeedback() {
   const panel = document.getElementById('fb-panel');

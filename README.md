@@ -65,8 +65,18 @@ The public dashboard should only consume the published layer. Credentials,
 private analyst notes, local edits, and internal planning materials should stay
 outside the public deployment surface.
 
+## Tests
+
+```bash
+python3 -m pytest   # Python 3.11+, requirements-ci.txt + pytest
+```
+
 ## Key Docs
 
+- `docs/public-site.md`
+- `docs/historical-ingestion.md`
+- `prompts/README.md`
+- `data/gold/README.md`
 - `docs/architecture.md`
 - `docs/security-privacy.md`
 - `docs/repo-boundaries.md`

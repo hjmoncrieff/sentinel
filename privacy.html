@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Privacy Policy · SENTINEL</title>
+<meta name="description" content="How SENTINEL handles data: no cookies by default, what the weekly brief and feedback forms collect, third-party services the dashboard loads, and optional consent-based analytics.">
+<link rel="canonical" href="https://hjmoncrieff.github.io/sentinel/privacy.html">
+<meta name="theme-color" content="#263221">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SENTINEL">
+<meta property="og:title" content="Privacy Policy · SENTINEL">
+<meta property="og:description" content="What SENTINEL collects, what it does not, and how to reach us.">
+<meta property="og:url" content="https://hjmoncrieff.github.io/sentinel/privacy.html">
+<meta property="og:image" content="https://hjmoncrieff.github.io/sentinel/assets/og/sentinel-og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="assets/js/site.js" defer></script>
+</head>
+<body class="page">
+<header class="page-header">
+  <a class="page-wordmark" href="./">SENTINEL<em>.</em></a>
+  <a class="page-header-link" href="./">Dashboard</a>
+</header>
+
+<main class="page-main">
+  <p class="page-kicker">Legal</p>
+  <h1 class="page-title">Privacy Policy</h1>
+  <p class="page-meta">Last updated: September 29, 2026</p>
+  <p class="page-lede">SENTINEL is a research dashboard. You can use all of it without an account, and by default it sets no cookies and does not track you.</p>
+
+  <h2>Browsing the dashboard</h2>
+  <p>The public dashboard is a static website. It does not use cookies, accounts, advertising, or tracking pixels, and it does not store anything in your browser unless you respond to the analytics prompt described below.</p>
+  <p>The site is hosted on GitHub Pages. Like any web host, GitHub may process your IP address and request details to deliver and secure the site. See the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">GitHub Privacy Statement</a>.</p>
+
+  <h2>Third-party resources</h2>
+  <p>To draw maps, charts, and typography, your browser loads files directly from these providers. Each receives your IP address and browser details when it serves a file:</p>
+  <ul>
+    <li><strong>Google Fonts</strong> (fonts.googleapis.com, fonts.gstatic.com): typefaces.</li>
+    <li><strong>jsDelivr</strong> (cdn.jsdelivr.net): D3, TopoJSON, and world map outlines.</li>
+    <li><strong>unpkg</strong> (unpkg.com): the Leaflet map library.</li>
+    <li><strong>cdnjs / Cloudflare</strong> (cdnjs.cloudflare.com): Chart.js.</li>
+  </ul>
+  <p>Links to news sources and datasets take you to other websites, which have their own policies.</p>
+
+  <h2>Weekly brief and feedback forms</h2>
+  <p>If you subscribe to the weekly brief or send feedback, the information you type goes to <a href="https://formspree.io/legal/privacy-policy" rel="noopener">Formspree</a>, our form processor, and is forwarded to the project maintainers. For the brief, that is your email address. For feedback, it is the category, country, your message, and, if you add it, your email address.</p>
+  <ul>
+    <li>We use it only to send the brief or to respond to your feedback.</li>
+    <li>We never sell or share it for marketing.</li>
+    <li>You can ask us to delete it, or to remove you from the brief, at any time. See <a href="#contact">Contact</a>.</li>
+  </ul>
+
+  <h2>Optional analytics</h2>
+  <p>The site can count anonymous page views with <a href="https://www.goatcounter.com/help/privacy" rel="noopener">GoatCounter</a>, a privacy-focused service that uses no cookies and builds no personal profiles. It is off unless you choose <em>Allow</em> in the consent prompt. Your choice is saved in your browser's local storage under <code>sentinel-analytics-consent</code>, and you can change it here:</p>
+  <p id="consent-status" class="page-meta" aria-live="polite">Analytics status: checking…</p>
+  <div class="page-actions">
+    <button type="button" class="page-btn page-btn-secondary" id="consent-reset">Reset my analytics choice</button>
+  </div>
+
+  <h2>Analyst console</h2>
+  <p>The analyst console is a separate, invitation-only tool for credentialed researchers. It uses Supabase for sign-in and browser storage to keep sessions. Its data is not part of the public dashboard.</p>
+
+  <h2>Children</h2>
+  <p>SENTINEL is intended for researchers, students, and professionals. It is not directed at children, and we do not knowingly collect their information.</p>
+
+  <h2>Changes</h2>
+  <p>We update this page when the site's data practices change. The date at the top shows the latest revision.</p>
+
+  <h2 id="contact">Contact</h2>
+  <p>For privacy requests or questions, use the <a href="./#about">feedback form on the dashboard</a> or open an issue on <a href="https://github.com/hjmoncrieff/sentinel/issues" rel="noopener">GitHub</a>. Please don't post personal data in a public issue. Use the feedback form for anything private.</p>
+</main>
+
+<footer class="page-footer">
+  <span>© 2026 SENTINEL</span>
+  <nav aria-label="Legal">
+    <a href="privacy.html" aria-current="page">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="https://github.com/hjmoncrieff/sentinel/issues" rel="noopener">Contact</a>
+  </nav>
+</footer>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var site = window.SENTINEL_SITE;
+    var status = document.getElementById('consent-status');
+    var reset = document.getElementById('consent-reset');
+    function render() {
+      if (!site || !site.analyticsEnabled()) {
+        status.textContent = 'Analytics status: not enabled on this site. Nothing is counted.';
+        reset.hidden = true;
+        return;
+      }
+      var state = site.consentState();
+      status.textContent = 'Analytics status: ' + (state === 'granted' ? 'allowed' : state === 'denied' ? 'declined' : 'no choice made yet');
+    }
+    reset.addEventListener('click', function () { site.resetConsent(); render(); });
+    render();
+  });
+</script>
+</body>
+</html>

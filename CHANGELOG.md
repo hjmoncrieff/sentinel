@@ -11,6 +11,97 @@ Each major change entry should include:
 
 ## 2026-09-29
 
+### Public Site Launch Readiness
+
+Affected areas:
+- `index.html`, `assets/js/dashboard.js`, `assets/css/dashboard.css`
+- `apps/analyst-console/index.html`
+- New files:
+  - pages: `404.html`, `privacy.html`, `terms.html`, `thank-you.html`
+  - crawler and app files: `robots.txt`, `sitemap.xml`, `site.webmanifest`
+  - shared code: `assets/js/site.js`, `assets/css/site.css`
+  - images: `assets/icons/*`, `assets/og/*`, `scripts/site/render_brand_assets.sh`
+  - docs and tests: `docs/public-site.md`, `tests/test_public_site.py`, `README.md`
+
+What changed:
+- **Real bug: the weekly-brief form was fake.** `handleSubscribe` showed "Subscribed" but
+  never sent the address anywhere, so every signup was lost. It now posts to the existing
+  Formspree endpoint. It validates the address, shows a loading state, reports server and
+  network errors inline with `aria-invalid`, and redirects to the new thank-you page on
+  success.
+- **Real bug: the Events tab was unusable on phones and tablets.** Two rules caused it:
+  - A later unconditional `.events-layout` rule (three columns, at least 1,120px wide)
+    overrode the ≤980px single-column rule.
+  - `#events` was fixed-height with `overflow: hidden`.
+
+  Together they clipped the event feed and pushed the map off-screen. A final ≤980px
+  override now stacks the list, map, and detail panels.
+- **Dead chart removed.** A `cocaChart` initializer was left behind after its canvas was
+  removed on July 14, and it threw a Chart.js error on every load.
+- **Honest status.**
+  - The status bar said "Pipeline running … last ingestion N m ago" regardless of age. It
+    would have shown about "108000m ago" for the current data.
+  - Ages now display as seconds, minutes, hours, or days.
+  - Publications older than 48 hours read "Updates paused".
+  - Load failures now show a user-facing message with a Retry button, instead of developer
+    instructions.
+- **Efficiency.** Data fetches no longer add `?t=Date.now()`, which forced a full 9.6 MB
+  download on every visit. They now use `cache: 'no-cache'`, so the browser revalidates
+  with the ETag and gets a 304 when nothing changed.
+- **Deep links.** Tabs now sync to the URL hash (`#events`, `#about`, …), so views can be
+  linked and bookmarked. The browser's native fragment scroll, which would have hidden the
+  tab under the sticky header, is neutralized.
+- **Launch checklist, now in place:**
+  - custom 404 page (with `<base href="/sentinel/">` for any path depth)
+  - a meta title and description on every page
+  - canonical, Open Graph, and Twitter tags
+  - favicon set and web manifest
+  - `robots.txt` and `sitemap.xml`
+  - a 1200×630 OG image, palette-compressed to 23 KB
+  - a sticky mobile CTA on the Overview tab, placed beside the feedback button
+  - loading and error states
+  - thank-you, privacy, and terms pages
+  - a site footer
+  - an About → Contact section
+  - the citation now uses the real site URL
+- **Consent-gated analytics.**
+  - Cookieless GoatCounter is wired in but ships disabled (`analytics.code: ''`).
+  - Once a code is set, a consent banner appears. Analytics loads only after *Allow*.
+  - The choice is stored under `sentinel-analytics-consent`, and the privacy page can
+    reset it.
+- **Noindex.** The analyst console gets `noindex, nofollow`.
+- **Copy accuracy.** The Overview "Under the Hood" text still said "deduplicated by country
+  and week" and "No database". It now matches the per-incident IDs and the analyst review
+  step.
+
+Validation completed:
+- `node --check` on both JS files. `site.webmanifest` and `sitemap.xml` parse.
+- `python -m pytest`: 48 passed (16 new site checks).
+- Playwright with iPhone 13 emulation driving local Chrome:
+  - no horizontal overflow on any tab (document width equals viewport width, 390px)
+  - hash routing lands on the right tab with its controls visible
+  - no console errors on the dashboard or the static pages. The dead-chart error was
+    confirmed pre-existing by loading `HEAD` in a temporary worktree.
+- `404.html` verified under a `/sentinel/` prefix, as served in production.
+- Subscribe form tested with Formspree intercepted (nothing was sent): invalid email,
+  422, network failure, and success all produce the expected result, including the
+  success payload.
+- Consent flow tested with a dummy code and the analytics host blocked: the banner shows;
+  Allow loads analytics; the choice persists across reloads; Reset re-prompts; Decline
+  persists.
+- `render_brand_assets.sh` reproduces byte-identical assets.
+
+Remaining risks / follow-up (owner decisions):
+- Weekly-brief delivery to subscribers is not automated. Signups reach the maintainers
+  through Formspree.
+- Analytics stays off until a GoatCounter code is set.
+- No dedicated contact email is published. Contact runs through the feedback form and
+  GitHub issues.
+- `robots.txt` is only honored at a domain root, so it takes effect only with a custom
+  domain. Until then, `noindex` protects the console.
+- The privacy and terms text describes the site accurately as built, but it has not had
+  legal review.
+
 ### Historical Ingestion Runner
 
 Affected areas:

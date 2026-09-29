@@ -1,0 +1,160 @@
+/*
+ * Shared styles for the public site outside the dashboard shell:
+ * consent banner (all pages) and the static pages (404, privacy, terms,
+ * thank-you) under `.page`. Tokens mirror assets/css/dashboard.css.
+ */
+
+/* ── Consent banner (all pages) ───────────────────────────── */
+.consent-banner {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 10000;
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  padding: 14px 16px;
+  background: #f8f4ec;
+  color: #191712;
+  border: 1px solid #a9987c;
+  border-radius: 12px;
+  box-shadow: 0 18px 38px rgba(41, 34, 25, 0.16);
+  font: 14px/1.5 'DM Sans', system-ui, sans-serif;
+}
+.consent-copy { flex: 1 1 260px; margin: 0; }
+.consent-copy a { color: #a86131; }
+.consent-actions { display: flex; gap: 8px; }
+.consent-btn {
+  font: 500 13px/1 'DM Sans', system-ui, sans-serif;
+  padding: 10px 16px;
+  min-height: 44px;
+  border-radius: 999px;
+  border: 1px solid #263221;
+  cursor: pointer;
+}
+.consent-decline { background: transparent; color: #263221; }
+.consent-accept { background: #263221; color: #f4efe6; }
+.consent-btn:focus-visible { outline: 2px solid #a86131; outline-offset: 2px; }
+
+/* ── Static pages ─────────────────────────────────────────── */
+.page {
+  --bg: #f4efe6;
+  --surface: #f8f4ec;
+  --border: #cabfaa;
+  --text: #191712;
+  --text-dim: #474137;
+  --text-muted: #7b7366;
+  --olive-dark: #263221;
+  --amber: #a86131;
+  --mono: 'DM Mono', ui-monospace, monospace;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --serif: 'Playfair Display', Georgia, serif;
+
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.65 var(--sans);
+}
+.page *, .page *::before, .page *::after { box-sizing: border-box; }
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px clamp(16px, 5vw, 48px);
+  border-bottom: 1px solid var(--border);
+}
+.page-wordmark {
+  font: 900 22px/1 var(--serif);
+  letter-spacing: 0.02em;
+  color: var(--text);
+  text-decoration: none;
+}
+.page-wordmark em { color: var(--amber); font-style: normal; }
+.page-header-link {
+  font: 500 12px/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+}
+.page-header-link:hover, .page-header-link:focus-visible { color: var(--amber); }
+
+.page-main {
+  flex: 1;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(32px, 7vw, 72px) clamp(16px, 5vw, 32px);
+}
+.page-kicker {
+  font: 500 11px/1.4 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin: 0 0 12px;
+}
+.page-title {
+  font: 900 clamp(32px, 6vw, 52px)/1.08 var(--serif);
+  margin: 0 0 16px;
+}
+.page-lede { font-size: 18px; color: var(--text-dim); margin: 0 0 28px; }
+.page-main h2 {
+  font: 700 22px/1.25 var(--serif);
+  margin: 36px 0 10px;
+}
+.page-main p, .page-main li { color: var(--text-dim); }
+.page-main ul { padding-left: 20px; }
+.page-main a { color: var(--amber); }
+.page-meta { font: 12px/1.5 var(--mono); color: var(--text-muted); }
+.page-note {
+  margin: 28px 0 0;
+  padding: 14px 16px;
+  border-left: 3px solid var(--amber);
+  background: var(--surface);
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.page-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.page-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font: 500 14px/1 var(--sans);
+  text-decoration: none;
+  border: 1px solid var(--olive-dark);
+}
+.page-btn-primary { background: var(--olive-dark); color: #f4efe6 !important; }
+.page-btn-secondary { background: transparent; color: var(--olive-dark) !important; }
+.page-btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+.page-footer, .site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding: 20px clamp(16px, 5vw, 48px) calc(20px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid #cabfaa;
+  font: 12px/1.6 'DM Mono', ui-monospace, monospace;
+  color: #7b7366;
+}
+.page-footer nav, .site-footer nav { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.page-footer a, .site-footer a { color: #474137; text-decoration: none; }
+.page-footer a:hover, .site-footer a:hover,
+.page-footer a:focus-visible, .site-footer a:focus-visible { color: #a86131; text-decoration: underline; }
+
+@media (prefers-reduced-motion: reduce) {
+  .page *, .consent-banner { transition: none !important; animation: none !important; }
+}

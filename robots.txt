@@ -1,0 +1,12 @@
+# SENTINEL — crawler rules.
+# Crawlers only honour robots.txt at a domain root. While the site is served as a
+# GitHub Pages project site (hjmoncrieff.github.io/sentinel/), this file is not
+# read; the analyst console is kept out of search results by its own
+# <meta name="robots" content="noindex, nofollow">. These rules take effect if the
+# site moves to a custom domain.
+
+User-agent: *
+Allow: /
+Disallow: /apps/
+
+Sitemap: https://hjmoncrieff.github.io/sentinel/sitemap.xml
