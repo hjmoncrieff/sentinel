@@ -1,0 +1,54 @@
+{
+  "policy_name": "gold_v1",
+  "updated": "2026-09-29",
+  "description": "Data-quality thresholds for the private gold layer (data/gold/). Only human-reviewed records that clear these gates are eligible for evaluation sets, retrieval examples, or future task-specific training.",
+  "eligible_review_statuses": ["analyst_reviewed", "coordinator_approved"],
+  "accept_human_validated_flag": true,
+  "tier_rank": {
+    "coordinator_approved": 3,
+    "analyst_reviewed": 2,
+    "human_validated": 1
+  },
+  "negative_review_statuses": ["rejected"],
+  "exclude_events_with_edit_warnings": true,
+  "exclude_merged_away_events": true,
+  "editor_role_rank": {
+    "ra": 1,
+    "analyst": 2,
+    "coordinator": 3
+  },
+  "min_editor_role_for_corrections": "analyst",
+  "correction_fields": [
+    "event_date",
+    "country",
+    "subnational_location",
+    "headline",
+    "summary",
+    "event_type",
+    "event_subtype",
+    "salience",
+    "confidence",
+    "duplicate_status"
+  ],
+  "gold_event_fields": [
+    "event_id",
+    "event_date",
+    "country",
+    "subnational_location",
+    "headline",
+    "summary",
+    "event_type",
+    "event_subtype",
+    "salience",
+    "confidence",
+    "deed_type",
+    "axis",
+    "actors",
+    "source_primary",
+    "url_primary"
+  ],
+  "label_decision_globs": [
+    "data/review/adjudicated_*_decisions.local.json",
+    "data/review/reviewed_negative_decisions.local.json"
+  ]
+}

@@ -11,6 +11,45 @@ Each major change entry should include:
 
 ## 2026-09-29
 
+### Private Gold Layer
+
+Affected areas:
+- `data/gold/` (new; only `README.md` is tracked)
+- `config/gold_policy.json` (new)
+- `scripts/review/build_gold_layer.py` (new)
+- `tests/test_build_gold_layer.py` (new)
+- `.gitignore`
+
+What changed:
+- Added the gold layer that `docs/next-steps.md` §5 calls for. It is a private store of
+  human judgments that clear explicit quality thresholds. It exists to supply evaluation
+  sets, retrieval examples, and later task-specific training.
+- Threshold policy `gold_v1`:
+  - Events qualify through `analyst_reviewed` or `coordinator_approved` status, or through
+    an explicit `human_validated` flag.
+  - Events with edit warnings, and events that were merged away, are excluded.
+  - Field-level corrections count only from the analyst role and above.
+- Outputs:
+  - tiered `events.jsonl`
+  - human-rejected `negatives.jsonl`
+  - `corrections.jsonl`, pairing each machine value with the human value
+  - final duplicate and QA decisions
+  - adjudicated country-month `labels.jsonl`
+  - `summary.json`, which includes SHA-256 fingerprints of every input
+- `data/gold/**` is gitignored, with the README as the only exception.
+
+Validation completed:
+- `python -m pytest`: 26 passed (4 new gold tests).
+- `python3 scripts/review/build_gold_layer.py` on local data: 187 adjudicated labels and 0
+  event-level gold rows. The local `edits.local.json` holds only a single test edit.
+- `git check-ignore` confirms `data/gold/events.jsonl` is ignored and
+  `data/gold/README.md` is not.
+
+Remaining risks / follow-up:
+- Analyst decisions increasingly live in Supabase. The builder reads the local mirror, so
+  it needs a Supabase pull of edits and resolutions before it can produce event-level gold
+  at scale.
+
 ### Coup-Proofing Taxonomy Gap Fix
 
 Affected areas:
