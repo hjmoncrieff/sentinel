@@ -50,10 +50,13 @@ Validation completed:
 Remaining risks / follow-up:
 - **Anthropic API credits are exhausted.** Until they are topped up, the backfill and every
   nightly run fail. Under the new abort, that failure is visible.
-- **CI-built monitors don't yet match local ones.** They differ in about 226 risk-component
-  scores, because `build_country_monitors.py` also reads the private
-  `data/modeling/external_economic_country_month.json`. That file is built from another
-  private modeling input, so publishing it needs a separate owner decision.
+- **CI-built monitors differ from local ones (accepted, owner decision).** They differ in
+  about 226 risk-component scores, because `build_country_monitors.py` also reads
+  `data/modeling/external_economic_country_month.json`, which stays private.
+  - Nightly (published) monitors run without the external economic-pressure inputs:
+    active sanctions, IMF programme, and US security-aid shifts.
+  - Monitors built locally include them.
+  - The builder tolerates the missing file.
 - **The committed monitors predate today's `country_year` regeneration**, so the next
   rebuild will shift scores. The regenerated file reflects the current inputs; the
   pre-regeneration copy was never tracked.

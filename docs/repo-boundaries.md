@@ -61,3 +61,17 @@ For the public repo:
 - keep `archive/` local-only unless a historical artifact is still actively
   needed
 - keep root-level one-off notes out of Git
+
+## Derived Data Decisions
+
+These are owner decisions about specific derived files. The date is when each was made.
+
+- `data/cleaned/country_year.json` is **public** (2026-09-29).
+  - It is derived from V-Dem, the World Bank, M3, and canonical events.
+  - It is tracked so the nightly CI can rebuild country monitors.
+  - `country_year.csv` and the raw M3 workbook stay private.
+  - Refresh it locally with `scripts/structural/build_country_year.py`, then commit.
+- `data/modeling/external_economic_country_month.json` stays **private** (2026-09-29).
+  - As a result, nightly CI builds country monitors without the external
+    economic-pressure inputs, so published monitors can differ from locally built ones.
+  - This difference is accepted. Do not commit the file to close it.
