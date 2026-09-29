@@ -11,6 +11,96 @@ Each major change entry should include:
 
 ## 2026-09-29
 
+### Analyst Console Redesign Shipped To Main
+
+Affected areas:
+- Merge of `analyst-console-redesign` (17 commits, 2026-06-05 → 2026-07-14) into `main`
+- `vite.config.ts`
+- `.github/workflows/pages.yml` (new), `.github/workflows/tests.yml`
+- `apps/analyst-console/index.html`, `assets/js/dashboard.js`
+- `config/queries/event_query_lexicon.json`, `scripts/query_lexicon.py`,
+  `scripts/ingest_newsapi.py`, `scripts/rss_sources.py`, `scripts/pipeline_core.py`
+- `tests/test_normalize_articles.py`, `docs/public-site.md`, `scripts/README.md`
+
+What changed:
+- **Brought to `main`:**
+  - the React/Vite analyst console, with invite-only Supabase auth, review, release,
+    audit, registry, and notification panels, Storybook, and Vitest and Playwright tests
+  - the `review-action` edge function and four Supabase migrations
+  - the country-dossier builder and validator
+  - article full-text extraction
+  - the **query lexicon** that drives the pre-filter, NewsAPI queries, and Google News
+    feeds. `main`'s CHANGELOG already described "Lexicon-Wired Retrieval", but the code
+    had never reached `main`.
+  - Claude token and cost tracking per run
+- **How the 20 conflicts were resolved:**
+  - **Data and dashboard files:** took `main`, a strict superset. `main` has 1,214
+    events, including all 1,204 from the redesign branch, plus the July 15 backfill,
+    the coup-proofing fix, and the day's site work.
+  - **Console entry:** took the redesign's React entry and restored its `noindex` tag and
+    favicon.
+  - **`.gitignore` and `CHANGELOG.md`:** combined. Every redesign CHANGELOG entry already
+    existed on `main`.
+  - **Pipeline scripts:**
+    - Took the redesign's lexicon pre-filter, lexicon NewsAPI queries, and `feed()`
+      metadata model.
+    - Kept `main`'s per-incident `stable_id`. The redesign's day+location key would
+      silently merge distinct same-day incidents in one city, which is the data loss the
+      July 15 change fixed.
+    - Kept `main`'s versioned `prompts/`. The redesign had not edited the prompt text,
+      which was verified with `ast`.
+- **July 15 audit terms ported into the lexicon.** The terms added by hand on July 15
+  became two lexicon families:
+  - `emergency_response_and_security_legitimation`
+  - `electoral_legitimacy_and_transition`
+
+  They are wired in three places:
+  - the pre-filter, now 14 families
+  - a new NewsAPI `emergency` bundle, in English and Spanish
+  - five dedicated feeds: AP and Reuters emergency/election feeds, SOUTHCOM relief,
+    Semana elections, and the Registraduría feed restored in the new format
+
+  Dedicated feeds were needed because Google News terms keep only the first two terms
+  per family and at most 8 per feed.
+- **Deployment.**
+  - The Vite source entry and the root-absolute bundle paths could not work on GitHub
+    Pages under `/sentinel/`.
+  - The new `pages.yml` builds the console with `CONSOLE_BASE=/sentinel/` and
+    `CONSOLE_DEPLOY=1`, then deploys it over the static site. The bundles sit in
+    `apps/analyst-console/assets/`.
+  - The Vite build previously copied private `data/review/*.json` into `dist/`. It now
+    skips that for deploys and tolerates missing files, and the workflow also deletes the
+    private data folders from the site.
+  - The Pages source switches from branch to GitHub Actions.
+- **Dashboard.** The "Analyst Console" link was disabled on public hosts, a guard left
+  over from the local-server console. It is now live, because the console enforces
+  sign-in itself.
+- **Tests.**
+  - The Python suite now has 72 tests, including the redesign's dossier contract tests.
+  - The description-length test follows the redesign's deliberate change of the cap from
+    500 to 1,200 characters.
+  - CI gained a console job: typecheck, Vitest, and a production build.
+
+Validation completed:
+- `python -m pytest`: 72 passed. `compileall` passed on `scripts/` and `tests/`.
+- `analyst-console:typecheck`: clean. `analyst-console:test`: 41 passed. The deploy build
+  output contains no `data/` or `config/` files.
+- The lexicon parses (14 families). All 49 feeds build URLs with no duplicate names. The
+  generated emergency and election queries were inspected.
+- **Local Pages rehearsal.** `_site` was assembled exactly as the workflow does it, from a
+  checkout of tracked files only, and served under `/sentinel/`.
+  - The dashboard loaded 1,206 events.
+  - The header link opened the built console, which loaded with zero errors and showed the
+    invite-only sign-in.
+  - It requested no private files.
+
+Remaining risks / follow-up:
+- The console bundle is 509 kB minified and should be code-split.
+- The redesign's Playwright visual snapshot was captured on macOS (`-darwin.png`), so it
+  is not portable to Linux CI.
+- Nightly CI still cannot rebuild country monitors: `data/cleaned/country_year.json` is
+  private and depends on the gitignored M3 dataset. That needs an owner decision.
+
 ### Pipeline Failure Alerts And Freshness Warning
 
 Affected areas:

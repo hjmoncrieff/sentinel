@@ -9,13 +9,21 @@ Outputs:
 from __future__ import annotations
 
 import json
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.analysis.build_country_dossiers import main as build_country_dossiers_main
+from scripts.analysis.validate_country_dossiers import validate_payload as validate_country_dossiers_payload
+
 EDITED_IN = ROOT / "data" / "review" / "events_with_edits.json"
 CANONICAL_IN = ROOT / "data" / "canonical" / "events_actor_coded.json"
 OUT = ROOT / "data" / "published" / "events_public.json"
+COUNTRY_DOSSIERS_OUT = ROOT / "data" / "published" / "country_dossiers.json"
 POLICY_IN = ROOT / "config" / "publish_policy.json"
 COUNCIL_IN = ROOT / "data" / "review" / "council_analyses.json"
 QA_IN = ROOT / "data" / "review" / "qa_report.json"
@@ -74,6 +82,11 @@ PUBLIC_EVENT_FIELDS = [
     "review_status",
     "review_priority",
     "human_validated",
+    "public_category_key",
+    "public_category_label",
+    "public_category_rank",
+    "event_signal_families",
+    "event_signal_labels",
 ]
 
 HUMAN_REVIEW_STATUSES = {
@@ -97,6 +110,71 @@ STAGE_ORDER = {
     "publication_decision": 100,
     "publication": 110,
 }
+
+PUBLIC_CATEGORY_META = {
+    "power_command": {"label": "Power & Command", "rank": 10},
+    "security_governance": {"label": "Security Governance", "rank": 20},
+    "protest_repression": {"label": "Protest & Repression", "rank": 30},
+    "armed_conflict": {"label": "Armed Conflict", "rank": 40},
+    "crime_illicit_economies": {"label": "Crime & Illicit Economies", "rank": 50},
+    "external_security": {"label": "External Security", "rank": 60},
+    "force_build_up": {"label": "Force Build-Up", "rank": 70},
+    "peace_negotiation": {"label": "Peace & Negotiation", "rank": 80},
+}
+
+SIGNAL_PUBLIC_LABELS = {
+    "coup_and_command_break": "Power & Command",
+    "security_sector_reform_and_oversight": "Security Governance",
+    "state_repression_and_exceptional_rule": "State Repression",
+    "armed_conflict_and_territorial_control": "Territorial Conflict",
+    "organized_crime_and_transnational_security": "Organized Crime",
+    "criminal_violence_and_illicit_economies": "Illicit Economies",
+    "external_security_support_and_alignment": "External Alignment",
+    "military_exercises_and_force_posture": "Force Posture",
+    "procurement_and_arms": "Arms Build-Up",
+    "peace_process_and_ddr": "Peace Process",
+    "corruption_capture_and_judicial_pressure": "Judicial Pressure",
+    "border_tension_and_sovereignty": "Border Tension",
+}
+
+SIGNAL_ORDER = {
+    key: index
+    for index, key in enumerate([
+        "coup_and_command_break",
+        "security_sector_reform_and_oversight",
+        "state_repression_and_exceptional_rule",
+        "armed_conflict_and_territorial_control",
+        "organized_crime_and_transnational_security",
+        "criminal_violence_and_illicit_economies",
+        "external_security_support_and_alignment",
+        "military_exercises_and_force_posture",
+        "procurement_and_arms",
+        "peace_process_and_ddr",
+        "corruption_capture_and_judicial_pressure",
+        "border_tension_and_sovereignty",
+    ], start=1)
+}
+
+CRIMINAL_ACTOR_MARKERS = (
+    "tren de aragua",
+    "sinaloa",
+    "cartel",
+    "cjng",
+    "jalisco",
+    "gulf cartel",
+    "clan del golfo",
+    "comando vermelho",
+    "pcc",
+    "mara",
+    "ms-13",
+    "barrio 18",
+    "choneros",
+    "lobos",
+    "tiguerones",
+    "g9",
+    "viv ansanm",
+    "colectivos",
+)
 
 
 def is_reviewed_by_human(event: dict) -> bool:
@@ -198,6 +276,183 @@ def latest_semantic_stage(timeline: list[dict]) -> str | None:
     return max(timeline, key=stage_sort_key).get("stage")
 
 
+def ordered_unique(values: list[str]) -> list[str]:
+    seen: set[str] = set()
+    out: list[str] = []
+    for value in values:
+        key = str(value or "").strip()
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        out.append(key)
+    return out
+
+
+def get_event_family(event: dict) -> str:
+    return str(
+        event.get("event_category_family")
+        or event.get("event_type")
+        or event.get("legacy_event_family")
+        or ""
+    ).strip().lower()
+
+
+def get_event_domain(event: dict) -> str:
+    return str(
+        event.get("event_type_domain")
+        or event.get("event_category")
+        or ""
+    ).strip().lower()
+
+
+def get_event_subcategory(event: dict) -> str:
+    return str(event.get("event_subcategory") or "").strip().lower()
+
+
+def get_actor_text(event: dict) -> str:
+    values = []
+    for item in event.get("actors") or []:
+        if isinstance(item, str):
+            values.append(item)
+        elif isinstance(item, dict):
+            values.extend(
+                [
+                    str(item.get("name") or ""),
+                    str(item.get("canonical_name") or ""),
+                    str(item.get("alias") or ""),
+                ]
+            )
+    return " ".join(values).lower()
+
+
+def get_public_category(event: dict) -> tuple[str, str, int]:
+    family = get_event_family(event)
+    domain = get_event_domain(event)
+    subcategory = get_event_subcategory(event)
+
+    if family in {"coup", "purge"}:
+        key = "power_command"
+    elif family == "reform":
+        key = "security_governance"
+    elif family == "protest":
+        key = "protest_repression"
+    elif family == "peace":
+        key = "peace_negotiation"
+    elif family == "procurement":
+        key = "force_build_up"
+    elif family in {"aid", "coop", "exercise"}:
+        key = "external_security"
+    elif family == "oc":
+        key = "crime_illicit_economies"
+    elif family == "conflict":
+        if subcategory in {"criminal_conflict_and_fragmented_order"}:
+            key = "crime_illicit_economies"
+        elif subcategory in {"coercive_internal_crackdown"}:
+            key = "protest_repression"
+        else:
+            key = "armed_conflict"
+    elif family == "other":
+        if subcategory in {
+            "judicial_and_accountability_shock",
+            "electoral_contestation_and_realignment",
+            "institutional_drift_and_leadership_project",
+            "other_institutional_relevance",
+        }:
+            key = "security_governance"
+        elif subcategory in {
+            "diplomatic_pressure_and_external_alignment",
+            "external_pressure_and_alignment_watch",
+        }:
+            key = "external_security"
+        elif subcategory in {"executive_removal_and_irregular_transfer"}:
+            key = "power_command"
+        elif any(token in subcategory for token in ("criminal", "trafficking", "illicit")):
+            key = "crime_illicit_economies"
+        elif domain == "international":
+            key = "external_security"
+        elif domain == "security":
+            key = "armed_conflict"
+        else:
+            key = "security_governance"
+    else:
+        key = {
+            "international": "external_security",
+            "military": "force_build_up",
+            "security": "armed_conflict",
+            "political": "security_governance",
+        }.get(domain, "security_governance")
+
+    meta = PUBLIC_CATEGORY_META[key]
+    return key, meta["label"], meta["rank"]
+
+
+def get_event_signal_families(event: dict) -> list[str]:
+    family = get_event_family(event)
+    subcategory = get_event_subcategory(event)
+    domain = get_event_domain(event)
+    actor_text = get_actor_text(event)
+    signals: list[str] = []
+
+    def add(value: str) -> None:
+        if value and value not in signals:
+            signals.append(value)
+
+    if family in {"coup", "purge"}:
+        add("coup_and_command_break")
+    if family == "reform":
+        add("security_sector_reform_and_oversight")
+    if family == "protest":
+        add("state_repression_and_exceptional_rule")
+    if family == "peace":
+        add("peace_process_and_ddr")
+    if family == "procurement":
+        add("procurement_and_arms")
+    if family in {"aid", "coop"}:
+        add("external_security_support_and_alignment")
+    if family == "exercise":
+        add("military_exercises_and_force_posture")
+    if family == "oc":
+        add("organized_crime_and_transnational_security")
+        add("criminal_violence_and_illicit_economies")
+    if family == "conflict":
+        add("armed_conflict_and_territorial_control")
+        if subcategory in {"criminal_conflict_and_fragmented_order", "armed_violence_and_localized_breakdown"}:
+            add("criminal_violence_and_illicit_economies")
+        if subcategory == "coercive_internal_crackdown":
+            add("state_repression_and_exceptional_rule")
+        if "border" in subcategory or "spillover" in subcategory:
+            add("border_tension_and_sovereignty")
+    if family == "other":
+        if subcategory in {"judicial_and_accountability_shock"}:
+            add("corruption_capture_and_judicial_pressure")
+        if subcategory in {
+            "electoral_contestation_and_realignment",
+            "institutional_drift_and_leadership_project",
+            "other_institutional_relevance",
+        }:
+            add("security_sector_reform_and_oversight")
+        if subcategory in {
+            "diplomatic_pressure_and_external_alignment",
+            "external_pressure_and_alignment_watch",
+        }:
+            add("external_security_support_and_alignment")
+        if subcategory in {"executive_removal_and_irregular_transfer"}:
+            add("coup_and_command_break")
+
+    if any(marker in actor_text for marker in CRIMINAL_ACTOR_MARKERS) or any(
+        token in subcategory for token in ("criminal", "trafficking", "interdiction", "illicit")
+    ):
+        add("organized_crime_and_transnational_security")
+        add("criminal_violence_and_illicit_economies")
+
+    if "settlement" in subcategory or "peace" in subcategory:
+        add("peace_process_and_ddr")
+    if "external" in subcategory or domain == "international":
+        add("external_security_support_and_alignment")
+
+    return sorted(ordered_unique(signals), key=lambda item: SIGNAL_ORDER.get(item, 999))
+
+
 def augment_timeline_for_publication(
     event: dict,
     council_by_event: dict[str, dict],
@@ -280,6 +535,13 @@ def public_linked_reports(event: dict) -> list[dict]:
 
 
 def main() -> None:
+    build_country_dossiers_main(output=COUNTRY_DOSSIERS_OUT)
+    dossier_payload = json.loads(COUNTRY_DOSSIERS_OUT.read_text(encoding="utf-8"))
+    dossier_validation = validate_country_dossiers_payload(dossier_payload)
+    if dossier_validation.get("status") != "valid":
+        error_text = "; ".join(dossier_validation.get("errors", [])) or "unknown validation error"
+        raise RuntimeError(f"Country dossier publication failed validation: {error_text}")
+
     source_events, source_label = load_publication_source()
     policy = json.loads(POLICY_IN.read_text(encoding="utf-8"))
     council = json.loads(COUNCIL_IN.read_text(encoding="utf-8")) if COUNCIL_IN.exists() else {"events": []}
@@ -325,6 +587,15 @@ def main() -> None:
         row["public_analysis"] = synthesis.get("public_analysis") or synthesis.get("assessment")
         row["public_takeaways"] = synthesis.get("public_takeaways")
         row["public_risk_level"] = synthesis.get("risk_level")
+        row["public_classification"] = synthesis.get("classification") or {}
+        row["public_ai_generated"] = bool(synthesis.get("ai_generated"))
+        public_category_key, public_category_label, public_category_rank = get_public_category(event)
+        signal_families = get_event_signal_families(event)
+        row["public_category_key"] = public_category_key
+        row["public_category_label"] = public_category_label
+        row["public_category_rank"] = public_category_rank
+        row["event_signal_families"] = signal_families
+        row["event_signal_labels"] = [SIGNAL_PUBLIC_LABELS.get(item, item.replace("_", " ").title()) for item in signal_families]
         row["linked_reports"] = public_linked_reports(event)
         row["provenance_timeline"] = [
             {
@@ -349,6 +620,7 @@ def main() -> None:
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"Validated country dossiers at {COUNTRY_DOSSIERS_OUT}")
     print(f"Wrote published dashboard data to {OUT}")
     print(f"Events published: {len(public_events)}")
     print(f"Events withheld: {len(withheld)}")

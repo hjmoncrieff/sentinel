@@ -35,10 +35,48 @@ See `docs/repo-boundaries.md` for the current boundary rules.
 ## Running The Dashboard
 
 ```bash
+pnpm install
 python3 -m http.server
 ```
 
 Then open `http://127.0.0.1:8000/`.
+
+## Local Development Baseline
+
+SENTINEL now assumes the local toolchain is managed with:
+
+- `mise` for runtime pinning
+- `uv` for Python package workflows
+- `pnpm` for Node/package scripts
+- `playwright` for dashboard smoke checks
+
+The repo pins:
+
+- Node `22`
+- Python `3.13`
+
+Useful local commands:
+
+```bash
+pnpm install
+uv pip install -r requirements-ci.txt
+make lint-python
+make typecheck-python
+pnpm run smoke:dashboard
+make supabase-start
+make supabase-status
+make supabase-cycle
+```
+
+Environment setup starts from `.env.example`.
+
+## Analyst Console UI Workflow
+
+- `pnpm analyst-console:dev` - run the Vite analyst console
+- `pnpm analyst-console:test` - run Vitest component tests
+- `pnpm analyst-console:storybook` - inspect component states
+- `pnpm analyst-console:test:e2e` - run Playwright smoke tests
+- `pnpm analyst-console:test:visual` - validate screenshot baselines
 
 ## Data Layers
 

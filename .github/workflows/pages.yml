@@ -1,0 +1,80 @@
+name: Deploy Site
+
+# Publishes the static public site plus the built React analyst console to
+# GitHub Pages. Bot data commits use [skip ci], which suppresses push triggers,
+# so the site is also redeployed after each successful data workflow.
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: ["Daily SENTINEL Pipeline", "Supabase Sync"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install console dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build analyst console
+        env:
+          CONSOLE_BASE: /sentinel/
+          CONSOLE_DEPLOY: '1'
+        run: pnpm analyst-console:build
+
+      - name: Assemble site
+        run: |
+          mkdir _site
+          rsync -a ./ _site/ \
+            --exclude .git --exclude .github --exclude node_modules --exclude dist \
+            --exclude _site --exclude 'apps/analyst-console/src' \
+            --exclude .storybook --exclude tests --exclude templates
+          # Built console replaces the Vite source entry.
+          rsync -a dist/apps/analyst-console/ _site/apps/analyst-console/
+          # Defence in depth: never publish private workflow layers.
+          rm -rf _site/data/review _site/data/gold _site/data/modeling _site/data/staging
+          test -f _site/index.html && test -f _site/apps/analyst-console/index.html
+          echo "Site files: $(find _site -type f | wc -l)"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

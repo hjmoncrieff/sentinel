@@ -10,6 +10,7 @@ from common import ROOT, fetch_console_snapshots, finish_sync_run, start_sync_ru
 
 EXPORT_TARGETS: dict[str, Path] = {
     "published_events": ROOT / "data" / "published" / "events_public.json",
+    "country_dossiers": ROOT / "data" / "published" / "country_dossiers.json",
     "country_monitors": ROOT / "data" / "published" / "country_monitors.json",
 }
 

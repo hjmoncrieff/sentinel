@@ -5,7 +5,7 @@ from normalize_articles import infer_source_domain, make_article_record, should_
 
 def test_article_record_id_is_stable_and_domain_inferred():
     kwargs = dict(
-        title="  Title  ", description="d" * 900, url="https://www.example.org/a",
+        title="  Title  ", description="d" * 2000, url="https://www.example.org/a",
         date="2026-01-02", source="Example", source_type="wire", source_method="rss",
     )
     a = make_article_record(**kwargs)
@@ -13,7 +13,7 @@ def test_article_record_id_is_stable_and_domain_inferred():
     assert a["article_id"] == b["article_id"]
     assert len(a["article_id"]) == 16
     assert a["title"] == "Title"
-    assert len(a["description"]) == 500
+    assert len(a["description"]) == 1200  # cap raised from 500 for richer classifier context
     assert a["source_domain"] == "example.org"
 
 

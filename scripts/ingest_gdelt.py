@@ -175,6 +175,12 @@ def normalize_gdelt(articles: list[dict]) -> list[dict]:
             source_type="gdelt",
             source_method="gdelt_api",
             coords=coords,
+            source_tier=3,
+            source_role="discovery",
+            source_policy="public_metadata",
+            source_languages=[],
+            source_quality_weight=0.4,
+            extraction_status="disabled",
         ))
     return out
 

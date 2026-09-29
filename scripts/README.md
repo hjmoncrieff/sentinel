@@ -18,6 +18,8 @@ These modules import each other by bare name, so they stay together at this leve
 | `prompt_library.py` | Loads the versioned prompts and model IDs in `prompts/` |
 | `historical_ingest.py` | Deep-backfill planner and resumable runner (`--run`) |
 | `ingest_gdelt_events.py` | Standalone GDELT event-table staging |
+| `query_lexicon.py` | Builds pre-filter terms, NewsAPI queries, and Google News feed terms from `config/queries/event_query_lexicon.json` |
+| `extract_article_text.py` | Full-text extraction for sources marked `fetch_full_text` |
 | `generate_clean_events.py` | Research export: `data/cleaned/events_clean.json` / `events.csv` |
 | `sync_obsidian_docs.py` | Local tool: mirrors the docs into an Obsidian vault |
 
@@ -33,6 +35,7 @@ These modules import each other by bare name, so they stay together at this leve
 | `sync/` | Local ↔ Supabase sync |
 | `structural/` | Slow-moving structural data (World Bank, V-Dem, ACLED index, Greenbook, EUSANCT, financial crises) → `data/cleaned/`, then `build_country_year.py` merges them |
 | `site/` | Public-site asset tooling (`render_brand_assets.sh`) |
+| `dev/` | Developer helpers (Playwright dashboard smoke test, template bootstrap) |
 
 The downstream rebuild order after `data/events.json` changes is listed in `AGENTS.md`
 and in `.github/workflows/fetch_events.yml`.

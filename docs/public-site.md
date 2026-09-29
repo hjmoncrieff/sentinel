@@ -1,7 +1,8 @@
 # Public Site
 
 This is the operator reference for the public website at
-<https://hjmoncrieff.github.io/sentinel/>, which is served by GitHub Pages from the repo root.
+<https://hjmoncrieff.github.io/sentinel/>. It is deployed by `.github/workflows/pages.yml`
+(GitHub Pages source: **GitHub Actions**).
 
 ## Pages
 
@@ -12,7 +13,7 @@ This is the operator reference for the public website at
 | `privacy.html` | Privacy policy. Includes a control to reset analytics consent |
 | `terms.html` | Terms of use, data limitations, and citation |
 | `thank-you.html` | Destination after a weekly-brief signup succeeds (`noindex`) |
-| `apps/analyst-console/` | Private console (`noindex, nofollow`) |
+| `apps/analyst-console/` | React analyst console, built at deploy time. Invite-only Supabase sign-in; `noindex, nofollow` |
 
 ## Shared pieces
 
@@ -48,6 +49,23 @@ This is the operator reference for the public website at
 
    `robots.txt` only takes effect at a domain root, so it starts working once the site
    has its own domain.
+
+## Deployment
+
+`.github/workflows/pages.yml` runs on every push to `main`. It also runs after each
+successful Daily Pipeline or Supabase Sync run, because bot data commits use `[skip ci]`,
+which suppresses push triggers. Each run:
+
+1. Builds the console with `CONSOLE_BASE=/sentinel/ CONSOLE_DEPLOY=1 pnpm analyst-console:build`.
+   Its bundles land in `dist/apps/analyst-console/`, and no workspace JSON is copied.
+2. Copies the repo into `_site/`, excluding the console source, tests, and tooling.
+3. Places the built console over `apps/analyst-console/`.
+4. Deletes `data/review`, `data/gold`, `data/modeling`, and `data/staging` from `_site/` as a
+   second safeguard. Those folders are already gitignored apart from templates.
+5. Deploys with `actions/deploy-pages`.
+
+The console gets review data only from Supabase, after sign-in, under row-level security.
+Without a session it shows the sign-in screen and requests no private files.
 
 ## Data loading
 

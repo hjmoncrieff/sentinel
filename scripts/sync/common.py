@@ -80,7 +80,7 @@ def payload_hash(payload: dict[str, Any]) -> str:
 
 
 def payload_row_count(payload: dict[str, Any]) -> int | None:
-    for key in ("items", "flags", "candidates", "events", "countries", "actors"):
+    for key in ("items", "flags", "candidates", "events", "countries", "actors", "dossiers"):
         value = payload.get(key)
         if isinstance(value, list):
             return len(value)

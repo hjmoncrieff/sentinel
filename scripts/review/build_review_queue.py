@@ -101,11 +101,27 @@ def council_recommended_actions(council_row: dict | None) -> list[dict]:
     return list(council_row.get("recommended_review_actions") or [])
 
 
-def derive_priority(score: int) -> str:
-    if score >= 11:
+def derive_priority(
+    score: int,
+    *,
+    publication_block_score: int,
+    disagreement_score: int,
+    qa_flag_count: int,
+    registry_issue_count: int,
+) -> str:
+    blocker = (
+        publication_block_score >= 3
+        or disagreement_score >= 4
+        or qa_flag_count >= 2
+        or registry_issue_count >= 2
+    )
+
+    if score >= 13 or (score >= 11 and blocker):
         return "high"
-    if score >= 6:
+
+    if score >= 8:
         return "medium"
+
     return "low"
 
 
@@ -169,7 +185,13 @@ def main() -> None:
         if priority_score <= 1:
             continue
 
-        suggested_priority = derive_priority(priority_score)
+        suggested_priority = derive_priority(
+            priority_score,
+            publication_block_score=publication_block_score,
+            disagreement_score=disagreement_score,
+            qa_flag_count=len(flags),
+            registry_issue_count=len(registry_issues),
+        )
         supervision_reasons = []
         if qa_score:
             supervision_reasons.append("qa_flags")

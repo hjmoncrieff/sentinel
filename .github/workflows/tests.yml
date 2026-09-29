@@ -5,6 +5,7 @@ on:
     paths-ignore:
       - 'data/**'
       - '**.md'
+      - 'docs/**'
   pull_request:
   workflow_dispatch:
 
@@ -29,3 +30,35 @@ jobs:
 
       - name: Run tests
         run: python -m pytest -q
+
+  analyst-console:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm analyst-console:typecheck
+
+      - name: Unit tests
+        run: pnpm analyst-console:test
+
+      - name: Production build
+        env:
+          CONSOLE_BASE: /sentinel/
+          CONSOLE_DEPLOY: '1'
+        run: pnpm analyst-console:build

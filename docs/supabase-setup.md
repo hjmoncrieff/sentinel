@@ -33,6 +33,14 @@ export const SUPABASE_CONFIG = {
 
 Use only the public `anon` key in the browser config.
 
+The analyst console now reads snapshots and review tables directly, but sends
+write actions through the authenticated `review-action` Edge Function. Deploy it
+before testing browser edits:
+
+```bash
+supabase functions deploy review-action
+```
+
 ## 3. Configure Local Sync Credentials
 
 Set one of the following locally:
@@ -83,7 +91,20 @@ where email = 'your-email@example.com';
 
 Then log out and back in.
 
-## 6. Daily Local Command
+## 6. Verify The Review Function Locally
+
+With the local Supabase stack running:
+
+```bash
+supabase functions serve review-action --env-file .env
+```
+
+Because `review-action` runs with `verify_jwt = true`, an unauthenticated curl
+will correctly return a missing-authorization error. Use the analyst console
+after signing in, or call the function with a real access token, for end-to-end
+verification. Authenticated POST requests still respect row-level security.
+
+## 7. Daily Local Command
 
 For a full local cycle, run:
 
@@ -99,7 +120,7 @@ This performs:
 4. push refreshed snapshots back to Supabase
 5. export the published dashboard artifacts
 
-## 7. GitHub Automation
+## 8. GitHub Automation
 
 The repo includes a GitHub Actions workflow that can run the Supabase cycle
 after the nightly pipeline or on manual trigger.
@@ -126,9 +147,10 @@ can:
 5. export published dashboard JSON
 6. commit the refreshed public-safe outputs to GitHub
 
-## 8. Recommended Operating Model
+## 9. Recommended Operating Model
 
 - local pipeline and research work stay local-first
 - Supabase stores analyst workflow state and registry edit requests
+- Supabase Edge Functions own authenticated analyst write actions
 - GitHub Actions runs the sync/export cycle automatically for public release
 - GitHub Pages serves only the public dashboard layer

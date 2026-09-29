@@ -6750,35 +6750,11 @@ function runSearch(q){
   }).join('');
 }
 
-function isTrustedAnalystHost(){
-  const host = String(window.location.hostname || '').toLowerCase();
-  if(!host || host==='localhost' || host==='127.0.0.1' || host==='::1') return true;
-  if(host.endsWith('.local')) return true;
-  if(/^10\./.test(host)) return true;
-  if(/^192\.168\./.test(host)) return true;
-  const match = host.match(/^172\.(\d+)\./);
-  if(match){
-    const second = Number(match[1]);
-    if(second >= 16 && second <= 31) return true;
-  }
-  return false;
-}
-
-function configureAnalystLoginLink(){
-  const link = document.getElementById('analyst-login-link');
-  if(!link) return;
-  if(isTrustedAnalystHost()) return;
-  link.classList.add('disabled');
-  link.setAttribute('aria-disabled','true');
-  link.removeAttribute('href');
-  link.setAttribute('title','Private analyst access is available only from a trusted local or private host.');
-  const label = link.querySelector('span');
-  if(label) label.textContent = 'Private Analyst Access';
-}
+// The analyst console enforces invite-only Supabase sign-in itself, so the
+// header link is live on every host.
 
 // ── INIT ────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',()=>{
-  configureAnalystLoginLink();
   initEventFilterControls();
   initFeedbackPickers();
   loadEvents();
