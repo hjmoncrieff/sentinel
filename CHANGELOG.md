@@ -30,6 +30,7 @@ Validation completed:
 Remaining risks / follow-up:
 - **Supabase Sync fails.** The `SUPABASE_URL` host no longer resolves in DNS, from CI or locally. The same project backs analyst login in the console. The project needs to be restored or recreated in the Supabase dashboard, and the secrets updated. Until then, sync fails every night; with deploys now queued, that no longer blocks the public site.
 - Nightly events are still coded with the v2 prompt and Haiku.
+- Nightly-run follow-up: `tests/test_published_contract.py` now allows `public_classification` and `public_ai_generated`. The publisher has always written them and the dashboard reads them, but they were missing from the test allowlist; bot commits skip CI, so the first fresh publish exposed the gap. Note that `run_council.py` sets `ai_generated: True` on its template-written analysis, so the site shows "AI-assisted interpretation" even when no model wrote the text.
 
 ### Nightly Pipeline Fix: Rebuild Key, Opt-In Council Synthesis, Blocked Feeds
 

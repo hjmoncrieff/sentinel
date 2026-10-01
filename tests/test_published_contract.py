@@ -21,6 +21,7 @@ TAXONOMY_CODES = {
 PUBLISHER_FIELDS = {
     "linked_reports", "provenance_summary", "provenance_timeline",
     "public_analysis", "public_risk_level", "public_takeaways",
+    "public_classification", "public_ai_generated",
 }
 # Internal workflow fields that must never reach the public layer.
 PRIVATE_FIELDS = {
