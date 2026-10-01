@@ -75,6 +75,7 @@ except ImportError:
 # ── Config ─────────────────────────────────────────────────────────────────────
 
 DAYS_BACK      = 2          # RSS / ACLED lookback window
+CATCHUP_MAX_DAYS = 10       # widest automatic window after missed runs
 MAX_ACLED_ROWS = 100
 CLASSIFY_BATCH = 8          # articles per Claude classification call
 CLUSTER_BATCH  = 20         # max candidates per clustering call
@@ -470,6 +471,18 @@ def _fetch_rss_items(url: str, *, limit: int = 20) -> list[dict]:
 
 
 # ── Load / save ────────────────────────────────────────────────────────────────
+
+def lookback_days(now: datetime | None = None) -> int:
+    """Lookback for a routine run: DAYS_BACK, widened to cover the time since the
+    store was last saved (a missed or failed nightly run), capped at CATCHUP_MAX_DAYS."""
+    now = now or datetime.now(timezone.utc)
+    try:
+        updated = datetime.fromisoformat(json.loads(DATA_FILE.read_text(encoding="utf-8"))["updated"])
+    except (OSError, ValueError, KeyError, TypeError):
+        return DAYS_BACK
+    gap = (now - updated).total_seconds() / 86400
+    return max(DAYS_BACK, min(CATCHUP_MAX_DAYS, int(gap) + 1))
+
 
 def load_existing() -> dict:
     """Returns a dict keyed by event ID."""
@@ -1431,6 +1444,7 @@ def main() -> None:
     args = parser.parse_args()
 
     backfill = args.backfill or (args.since is not None)
+    days_back = DAYS_BACK
 
     if args.since:
         try:
@@ -1440,7 +1454,10 @@ def main() -> None:
     elif backfill:
         cutoff = datetime.now(timezone.utc) - timedelta(days=365 * args.years)
     else:
-        cutoff = datetime.now(timezone.utc) - timedelta(days=DAYS_BACK)
+        days_back = lookback_days()
+        if days_back > DAYS_BACK:
+            log.info(f"Catch-up lookback: {days_back} days since the last saved run")
+        cutoff = datetime.now(timezone.utc) - timedelta(days=days_back)
 
     started_at = datetime.now(timezone.utc)
     log.info("=== SENTINEL pipeline starting ===")
@@ -1528,7 +1545,7 @@ def main() -> None:
     acled_key   = os.environ.get("ACLED_API_KEY", "")
     acled_email = os.environ.get("ACLED_EMAIL", "")
     if acled_key and acled_email:
-        rows = fetch_acled(acled_key, acled_email, DAYS_BACK)
+        rows = fetch_acled(acled_key, acled_email, days_back)
         for row in rows:
             new_events.append(acled_to_event(row))
     else:

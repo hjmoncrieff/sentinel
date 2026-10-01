@@ -16,9 +16,13 @@ permissions:
   pages: write
   id-token: write
 
+# Queue rather than cancel. The pipeline and Supabase Sync both trigger a deploy
+# moments apart; with cancel-in-progress, a triggered run whose jobs were then
+# skipped (sync failed) still cancelled the real deploy (2026-10-01). Every
+# deploy checks out the latest main, so a replaced pending run loses nothing.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:

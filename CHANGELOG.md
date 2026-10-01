@@ -11,6 +11,26 @@ Each major change entry should include:
 
 ## 2026-10-01
 
+### Nightly Run Hardening: Catch-Up Lookback, Deploy Queueing, Alert Auto-Close
+
+Affected areas:
+- `scripts/pipeline_core.py`, `tests/test_pipeline_core.py`
+- `.github/workflows/fetch_events.yml`, `.github/workflows/pages.yml`
+
+What changed:
+- **Catch-up lookback.** A routine run now looks back `lookback_days()`. That is the 2-day default, widened to cover the time since `data/events.json` was last saved, up to `CATCHUP_MAX_DAYS = 10`. Previously a missed or failed night dropped that day's news for good, which is how the July–September gap opened. ACLED uses the same window. Backfill and `--since` runs are unchanged.
+- **Deploys queue instead of cancelling.** The pipeline and Supabase Sync each trigger a deploy moments apart. On 2026-10-01 the sync-triggered run, whose jobs were skipped because sync failed, cancelled the pipeline's real deploy, so the refreshed data never reached the site. Pages concurrency now uses `cancel-in-progress: false`.
+- **Daily pipeline job.** It now has `timeout-minutes: 60` (a normal run takes about 5–7 minutes). A new "Close failure alert" step closes the open "Daily SENTINEL Pipeline is failing" issue after a successful run.
+
+Validation completed:
+- Dispatched run 36867221852 of the fixed pipeline succeeded: 30 new events, synthesis skipped, data committed
+- `python -m pytest -q` on HEAD plus this change (75 passed) and on the full working tree (92 passed)
+- Both workflow files parsed with `yaml.safe_load`
+
+Remaining risks / follow-up:
+- **Supabase Sync fails.** The `SUPABASE_URL` host no longer resolves in DNS, from CI or locally. The same project backs analyst login in the console. The project needs to be restored or recreated in the Supabase dashboard, and the secrets updated. Until then, sync fails every night; with deploys now queued, that no longer blocks the public site.
+- Nightly events are still coded with the v2 prompt and Haiku.
+
 ### Nightly Pipeline Fix: Rebuild Key, Opt-In Council Synthesis, Blocked Feeds
 
 Affected areas:

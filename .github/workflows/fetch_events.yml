@@ -14,6 +14,8 @@ concurrency:
 jobs:
   pipeline:
     runs-on: ubuntu-latest
+    # A normal run takes about 7 minutes; a catch-up run after missed nights is longer.
+    timeout-minutes: 60
     permissions:
       contents: write
       issues: write
@@ -145,6 +147,17 @@ jobs:
           git diff --staged --quiet || git commit -m "chore: daily pipeline refresh $(date -u +'%Y-%m-%d') [skip ci]"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push
+
+      - name: Close failure alert
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          existing=$(gh issue list --label pipeline-failure --state open --search 'in:title "Daily SENTINEL Pipeline is failing"' --json number -q '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue close "$existing" --comment "Recovered: run succeeded on $(date -u +'%Y-%m-%d %H:%M UTC'): $RUN_URL"
+          fi
 
       - name: Alert on failure
         if: failure()

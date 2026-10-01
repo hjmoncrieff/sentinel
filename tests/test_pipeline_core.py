@@ -82,3 +82,17 @@ def test_deterministic_sampling_goes_through_extra_body():
     src = inspect.getsource(pc)
     assert "temperature=0" not in src
     assert pc.DETERMINISTIC == {"temperature": 0}
+
+
+def test_lookback_widens_after_missed_runs(tmp_path, monkeypatch):
+    from datetime import datetime, timezone
+    store = tmp_path / "events.json"
+    monkeypatch.setattr(pc, "DATA_FILE", store)
+    now = datetime(2026, 10, 1, 7, tzinfo=timezone.utc)
+    assert pc.lookback_days(now) == pc.DAYS_BACK  # no store yet
+    store.write_text('{"updated": "2026-09-30T07:30:00+00:00", "events": []}')
+    assert pc.lookback_days(now) == pc.DAYS_BACK
+    store.write_text('{"updated": "2026-09-25T07:00:00+00:00", "events": []}')
+    assert pc.lookback_days(now) == 7
+    store.write_text('{"updated": "2026-07-14T07:00:00+00:00", "events": []}')
+    assert pc.lookback_days(now) == pc.CATCHUP_MAX_DAYS
