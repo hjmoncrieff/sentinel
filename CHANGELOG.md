@@ -9,6 +9,30 @@ Each major change entry should include:
 - validation completed
 - remaining risks or follow-up
 
+## 2026-10-01
+
+### Nightly Pipeline Fix: Rebuild Key, Opt-In Council Synthesis, Blocked Feeds
+
+Affected areas:
+- `.github/workflows/fetch_events.yml`
+- `scripts/rss_sources.py`
+
+What changed:
+- The "Rebuild Downstream Layers" step now receives `ANTHROPIC_API_KEY`. Every nightly run since 2026-09-29 had failed at `run_council_synthesis.py` with "ANTHROPIC_API_KEY not set", after the pipeline itself had finished, so nothing was committed.
+- Council synthesis (Sonnet) and `validate_council_quality.py` now run only when the repository variable `RUN_COUNCIL_SYNTHESIS` is `true`. `data/review/council_analyses.json` is gitignored and is rebuilt from scratch on every CI run. With the key set and no gate, each night would re-synthesise every high- and medium-salience event (about 1,130 Sonnet calls). Without synthesis, published events keep the template-written analysis from `run_council.py`.
+- Americas Quarterly and TalCual now come in through Google News `site:` searches, like NACLA. Americas Quarterly's own feed returns 403 to automated clients. TalCual's feed returns 403 from GitHub Actions runners. Both now use `policy="public_metadata"`. The Americas Quarterly WordPress archive endpoint is kept for backfills.
+
+Validation completed:
+- `gh run view 36721628941 --log-failed` (the cause of the failure)
+- `python -c "import yaml; yaml.safe_load(open('.github/workflows/fetch_events.yml'))"`
+- Both new feed URLs fetched and parsed locally: Americas Quarterly 28 entries, TalCual 100 entries
+- `python -m pytest -q` (91 passed)
+
+Remaining risks / follow-up:
+- Council synthesis stays off in CI until its cost is measured and approved. Turning it on needs synthesis results that persist between runs, for example in Supabase or a tracked cache, so it does not re-run every event every night.
+- About 41% of events are rated high salience under the v2/Haiku classifier; codebook v3 targets 10–15%. This is addressed by moving the nightly classifier to v3.
+- The next successful nightly run commits `data/events.json`. Local uncommitted backfill work must be rebased onto it.
+
 ## 2026-09-29
 
 ### Classifier SDK Break Fixed; Derived country_year Committed For CI

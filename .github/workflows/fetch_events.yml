@@ -91,6 +91,12 @@ jobs:
           PY
 
       - name: Rebuild Downstream Layers
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Sonnet council synthesis is opt-in: council_analyses.json is not kept
+          # between runs, so each run would re-synthesise every high/medium event.
+          # Set the repo variable RUN_COUNCIL_SYNTHESIS=true once the cost is approved.
+          RUN_COUNCIL_SYNTHESIS: ${{ vars.RUN_COUNCIL_SYNTHESIS }}
         run: |
           python scripts/qa/run_qa.py
           python scripts/qa/run_registry_qa.py
@@ -101,8 +107,12 @@ jobs:
           python scripts/pipeline/code_actors.py
           python scripts/review/build_review_queue.py
           python scripts/analysis/run_council.py
-          python scripts/analysis/run_council_synthesis.py
-          python scripts/analysis/validate_council_quality.py
+          if [ "$RUN_COUNCIL_SYNTHESIS" = "true" ]; then
+            python scripts/analysis/run_council_synthesis.py
+            python scripts/analysis/validate_council_quality.py
+          else
+            echo "- Council synthesis skipped (RUN_COUNCIL_SYNTHESIS not true)" >> "$GITHUB_STEP_SUMMARY"
+          fi
           python scripts/publish/publish_dashboard_data.py
           python - <<'PY'
           import json, os
