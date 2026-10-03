@@ -1,7 +1,530 @@
 {
-  "updated": "2026-10-02T13:44:51.201030+00:00",
-  "count": 1272,
+  "updated": "2026-10-03T12:23:45.889156+00:00",
+  "count": 1297,
   "events": [
+    {
+      "id": "4e7773121084",
+      "sentinel_id": "MEX_2026_10_4e7773",
+      "type": "oc",
+      "subtype": null,
+      "deed_type": "symptom",
+      "axis": "horizontal",
+      "actor": "military",
+      "target": "external",
+      "title": "Un deslinde tardío",
+      "summary": "General Carrillo's alleged knowledge of money laundering network linked to Sinaloa Cartel while serving as Security Secretary.",
+      "country": "Mexico",
+      "location": "Baja California",
+      "date": "2026-10-03",
+      "source": "Zeta Tijuana",
+      "sources": [
+        "Zeta Tijuana"
+      ],
+      "conf": "yellow",
+      "salience": "medium",
+      "coords": [
+        25.8,
+        -108.4
+      ],
+      "url": "https://zetatijuana.com/2026/10/un-deslinde-tardio/?utm_source=rss&utm_medium=rss&utm_campaign=un-deslinde-tardio",
+      "links": [
+        "https://zetatijuana.com/2026/10/un-deslinde-tardio/?utm_source=rss&utm_medium=rss&utm_campaign=un-deslinde-tardio"
+      ],
+      "source_article_ids": [
+        "ee0900977c9f5146"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "ee0900977c9f5146",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "Zeta Tijuana",
+          "url": "https://zetatijuana.com/2026/10/un-deslinde-tardio/?utm_source=rss&utm_medium=rss&utm_campaign=un-deslinde-tardio",
+          "link_domain": "zetatijuana.com",
+          "headline": "Un deslinde tardío",
+          "source_type": "investigative_security",
+          "source_method": "rss",
+          "source_tier": 1,
+          "source_role": "detection",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.9,
+          "linked_at": "2026-10-03T12:20:47.793868+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "0c4d5c853ed5",
+      "sentinel_id": "BRA_2026_10_0c4d5c",
+      "type": "other",
+      "subtype": null,
+      "deed_type": "precursor",
+      "axis": "horizontal",
+      "actor": "civil_society",
+      "target": "executive",
+      "title": "Brazil’s neck-and-neck election offers test for growing pro-Trump Latin American bloc",
+      "summary": "Brazilian election framed as test of democracy against far-right coup-linked candidate; civil-military significance given Bolsonaro family's coup history.",
+      "country": "Brazil",
+      "location": "Rio de Janeiro",
+      "date": "2026-10-03",
+      "source": "The Guardian LatAm · Foreign Policy",
+      "sources": [
+        "The Guardian LatAm",
+        "Foreign Policy"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        -22.91,
+        -43.17
+      ],
+      "url": "https://www.theguardian.com/world/2026/oct/03/brazil-election-lula-bolsonaro-trump",
+      "links": [
+        "https://www.theguardian.com/world/2026/oct/03/brazil-election-lula-bolsonaro-trump",
+        "https://www.theguardian.com/world/2026/oct/02/brazil-lula-stop-fascism-bolsonaro-son",
+        "http://foreignpolicy.com/2026/10/02/brazil-election-president-lula-bolsonaro-military-women-economy/"
+      ],
+      "source_article_ids": [
+        "f55d0ab590959714",
+        "4b82710350e1fd78",
+        "5394627a1efe8efc"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "f55d0ab590959714",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "The Guardian LatAm",
+          "url": "https://www.theguardian.com/world/2026/oct/03/brazil-election-lula-bolsonaro-trump",
+          "link_domain": "theguardian.com",
+          "headline": "Brazil’s neck-and-neck election offers test for growing pro-Trump Latin American bloc",
+          "source_type": "general_news",
+          "source_method": "rss",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.78,
+          "linked_at": "2026-10-03T12:20:38.320246+00:00"
+        },
+        {
+          "article_id": "4b82710350e1fd78",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "The Guardian LatAm",
+          "url": "https://www.theguardian.com/world/2026/oct/02/brazil-lula-stop-fascism-bolsonaro-son",
+          "link_domain": "theguardian.com",
+          "headline": "Brazil’s Lula says only he can stop rise of fascism under Bolsonaro’s son",
+          "source_type": "general_news",
+          "source_method": "rss",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.78,
+          "linked_at": "2026-10-03T12:20:38.320290+00:00"
+        },
+        {
+          "article_id": "5394627a1efe8efc",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "Foreign Policy",
+          "url": "http://foreignpolicy.com/2026/10/02/brazil-election-president-lula-bolsonaro-military-women-economy/",
+          "link_domain": "foreignpolicy.com",
+          "headline": "The Forces Shaping Brazil’s Election",
+          "source_type": "news_api",
+          "source_method": "newsapi",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_metadata",
+          "source_quality_weight": 0.68,
+          "linked_at": "2026-10-03T12:21:11.395016+00:00"
+        }
+      ],
+      "source_diversity": 2,
+      "trusted_source_count": 3,
+      "ai_analysis": "# Brazil's 2022 Election and Regional Political Risk\n\nBolsonaro's near-victory and refusal to concede created immediate risks of military intervention or street violence, threatening Brazil's democratic institutions at a moment when the country's largest economy and military anchor the region. A Bolsonaro win would have solidified an anti-US, pro-Trump bloc in Latin America (alongside Milei in Argentina and Bukele in Central America), fragmenting regional institutions like Mercosur and pushing Brazil toward China and Russia—directly reshaping hemispheric alignment. Lula's narrow victory instead preserved democratic continuity but left Brazil deeply polarized, with Bolsonaro's supporters controlling Congress and state governments, meaning Lula faces constant obstruction on economic policy and security decisions that affect everything from Amazon deforestation to drug trafficking routes.",
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "70187fdda19e",
+      "sentinel_id": "BRA_2026_10_70187f",
+      "type": "conflict",
+      "subtype": null,
+      "deed_type": "symptom",
+      "axis": "vertical",
+      "actor": "military",
+      "target": "population",
+      "title": "La mano dura acapara el debate en las elecciones de Brasil: “Aquí mueren 100 traficantes y entran 200”",
+      "summary": "Security policy debate in Brazilian elections following deadly police operations in Rio favelas; hard-line vs. reform approaches.",
+      "country": "Brazil",
+      "location": "Rio de Janeiro",
+      "date": "2026-10-03",
+      "source": "El País América",
+      "sources": [
+        "El País América"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        -22.91,
+        -43.17
+      ],
+      "url": "https://elpais.com/america/2026-10-03/brasil-vota-con-la-mano-dura-en-el-centro-del-debate-aqui-mueren-100-traficantes-y-entran-200.html",
+      "links": [
+        "https://elpais.com/america/2026-10-03/brasil-vota-con-la-mano-dura-en-el-centro-del-debate-aqui-mueren-100-traficantes-y-entran-200.html"
+      ],
+      "source_article_ids": [
+        "e9f9802b30094204"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "e9f9802b30094204",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "El País América",
+          "url": "https://elpais.com/america/2026-10-03/brasil-vota-con-la-mano-dura-en-el-centro-del-debate-aqui-mueren-100-traficantes-y-entran-200.html",
+          "link_domain": "elpais.com",
+          "headline": "La mano dura acapara el debate en las elecciones de Brasil: “Aquí mueren 100 traficantes y entran 200”",
+          "source_type": "general_news",
+          "source_method": "rss",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.8,
+          "linked_at": "2026-10-03T12:20:38.903327+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "09bd76c87ede",
+      "sentinel_id": "CHL_2026_10_09bd76",
+      "type": "aid",
+      "subtype": null,
+      "deed_type": null,
+      "axis": null,
+      "actor": "executive",
+      "target": "military",
+      "title": "Chile y Argentina se rearman en medio de roces diplomáticos y tensión política",
+      "summary": "Chile and Argentina prioritize military equipment modernization amid diplomatic tensions and budget constraints.",
+      "country": "Chile",
+      "location": "Chile and Argentina",
+      "date": "2026-10-03",
+      "source": "El País América",
+      "sources": [
+        "El País América"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        -22.91,
+        -43.17
+      ],
+      "url": "https://elpais.com/chile/2026-10-03/chile-y-argentina-se-rearman-en-medio-de-roces-diplomaticos-y-tension-politica.html",
+      "links": [
+        "https://elpais.com/chile/2026-10-03/chile-y-argentina-se-rearman-en-medio-de-roces-diplomaticos-y-tension-politica.html"
+      ],
+      "source_article_ids": [
+        "96ccc71b2bfc2781"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "96ccc71b2bfc2781",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "El País América",
+          "url": "https://elpais.com/chile/2026-10-03/chile-y-argentina-se-rearman-en-medio-de-roces-diplomaticos-y-tension-politica.html",
+          "link_domain": "elpais.com",
+          "headline": "Chile y Argentina se rearman en medio de roces diplomáticos y tensión política",
+          "source_type": "general_news",
+          "source_method": "rss",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.8,
+          "linked_at": "2026-10-03T12:20:38.903589+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "818b2bb5704f",
+      "sentinel_id": "PAN_2026_10_818b2b",
+      "type": "conflict",
+      "subtype": null,
+      "deed_type": "symptom",
+      "axis": "vertical",
+      "actor": "executive",
+      "target": "oc_group",
+      "title": "Presidente Abelardo De La Espriella entrega balance de operativos contra el crimen en el último día: neutralizado ‘Terry’ y 55 capturas",
+      "summary": "Panamanian president reports security operations against organized crime, including neutralization of criminal leader and drug seizures.",
+      "country": "Panama",
+      "location": "Panama",
+      "date": "2026-10-03",
+      "source": "El Tiempo Colombia",
+      "sources": [
+        "El Tiempo Colombia"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        -22.91,
+        -43.17
+      ],
+      "url": "https://www.eltiempo.com/politica/abelardo-de-la-espriella/presidente-abelardo-de-la-espriella-entrega-balance-de-operativos-contra-el-crimen-en-el-ultimo-dia-neutralizado-terry-y-55-capturas-3590961",
+      "links": [
+        "https://www.eltiempo.com/politica/abelardo-de-la-espriella/presidente-abelardo-de-la-espriella-entrega-balance-de-operativos-contra-el-crimen-en-el-ultimo-dia-neutralizado-terry-y-55-capturas-3590961"
+      ],
+      "source_article_ids": [
+        "2b73236e4d4db228"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "2b73236e4d4db228",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "El Tiempo Colombia",
+          "url": "https://www.eltiempo.com/politica/abelardo-de-la-espriella/presidente-abelardo-de-la-espriella-entrega-balance-de-operativos-contra-el-crimen-en-el-ultimo-dia-neutralizado-terry-y-55-capturas-3590961",
+          "link_domain": "eltiempo.com",
+          "headline": "Presidente Abelardo De La Espriella entrega balance de operativos contra el crimen en el último día: neutralizado ‘Terry’ y 55 capturas",
+          "source_type": "general_news",
+          "source_method": "rss",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.78,
+          "linked_at": "2026-10-03T12:20:43.495454+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": "# Political Risk and Security Significance for Panama\n\nPresident De La Espriella's announcement of killing a major criminal leader (\"Terry\") and making 55 arrests demonstrates the government's attempt to show it is winning against drug trafficking organizations that have destabilized Panama's Caribbean coast and transit routes—a critical concern since these groups directly threaten the Panama Canal's security and the country's international credibility as a transit hub. If these operations are sustained and actually disrupt trafficking networks rather than just producing headlines, they could reduce the violence that has made certain provinces ungovernable and restore investor confidence; conversely, if they prove to be temporary crackdowns followed by organizational reconstitution, they will deepen public cynicism and potentially trigger cartel retaliation that destabilizes the political system. The timing of this announcement on De La Espriella's last day in office suggests the security narrative will be central to how his successor is judged—meaning the next administration faces immediate pressure to either maintain momentum against organized crime or risk appearing weak, which could shift power dynamics between civilian government and security forces.",
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "eb8cf4afdf33",
+      "sentinel_id": "COL_2026_10_eb8cf4",
+      "type": "conflict",
+      "subtype": null,
+      "deed_type": null,
+      "axis": "vertical",
+      "actor": "executive",
+      "target": "oc_group",
+      "title": "Presidente Abelardo De La Espriella anuncia duro golpe a disidencias de alias Iván Mordisco en Nariño: reporta un muerto y $675 millones incautados",
+      "summary": "President De La Espriella announces operation against ELN dissident faction in Nariño with one killed and $675M seized.",
+      "country": "Colombia",
+      "location": "Nariño",
+      "date": "2026-10-03",
+      "source": "El Tiempo Colombia",
+      "sources": [
+        "El Tiempo Colombia"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        1.28,
+        -77.28
+      ],
+      "url": "https://www.eltiempo.com/politica/abelardo-de-la-espriella/presidente-abelardo-de-la-espriella-anuncia-duro-golpe-a-disidencias-de-alias-ivan-mordisco-en-narino-reportan-un-muerto-y-675-millones-incautados-3590914",
+      "links": [
+        "https://www.eltiempo.com/politica/abelardo-de-la-espriella/presidente-abelardo-de-la-espriella-anuncia-duro-golpe-a-disidencias-de-alias-ivan-mordisco-en-narino-reportan-un-muerto-y-675-millones-incautados-3590914"
+      ],
+      "source_article_ids": [
+        "3dbb27af29d4a5a4"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "3dbb27af29d4a5a4",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "El Tiempo Colombia",
+          "url": "https://www.eltiempo.com/politica/abelardo-de-la-espriella/presidente-abelardo-de-la-espriella-anuncia-duro-golpe-a-disidencias-de-alias-ivan-mordisco-en-narino-reportan-un-muerto-y-675-millones-incautados-3590914",
+          "link_domain": "eltiempo.com",
+          "headline": "Presidente Abelardo De La Espriella anuncia duro golpe a disidencias de alias Iván Mordisco en Nariño: reporta un muerto y $675 millones incautados",
+          "source_type": "general_news",
+          "source_method": "rss",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.78,
+          "linked_at": "2026-10-03T12:20:43.495522+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "552d05c29ba1",
+      "sentinel_id": "COL_2026_10_552d05",
+      "type": "reform",
+      "subtype": "structural",
+      "deed_type": null,
+      "axis": "horizontal",
+      "actor": "executive",
+      "target": "military",
+      "title": "Las megacárceles le costarán al país millones de pesos durante 30 años",
+      "summary": "Analysis of long-term fiscal costs of megaprisons construction and operation over 30-year period.",
+      "country": "Colombia",
+      "location": "Colombia",
+      "date": "2026-10-03",
+      "source": "La Silla Vacía",
+      "sources": [
+        "La Silla Vacía"
+      ],
+      "conf": "yellow",
+      "salience": "low",
+      "coords": [
+        4.6,
+        -74.1
+      ],
+      "url": "https://www.lasillavacia.com/red-de-expertos/red-social/las-megacarceles-le-costaran-al-pais-millones-de-pesos-durante-30-anos/",
+      "links": [
+        "https://www.lasillavacia.com/red-de-expertos/red-social/las-megacarceles-le-costaran-al-pais-millones-de-pesos-durante-30-anos/"
+      ],
+      "source_article_ids": [
+        "a1bb62275824b927"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "a1bb62275824b927",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "La Silla Vacía",
+          "url": "https://www.lasillavacia.com/red-de-expertos/red-social/las-megacarceles-le-costaran-al-pais-millones-de-pesos-durante-30-anos/",
+          "link_domain": "lasillavacia.com",
+          "headline": "Las megacárceles le costarán al país millones de pesos durante 30 años",
+          "source_type": "investigative_security",
+          "source_method": "rss",
+          "source_tier": 1,
+          "source_role": "detection",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.92,
+          "linked_at": "2026-10-03T12:20:44.006014+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "357ee1032062",
+      "sentinel_id": "VEN_2026_10_357ee1",
+      "type": "purge",
+      "subtype": null,
+      "deed_type": "symptom",
+      "axis": "vertical",
+      "actor": "executive",
+      "target": "military",
+      "title": "Un policía que fue crítico con el Gobierno murió preso, con golpes que el acta oficial no menciona. Nadie investigó (3/8)",
+      "summary": "Police officer detained and died in custody for criticizing government; death not officially investigated.",
+      "country": "Venezuela",
+      "location": "Venezuela",
+      "date": "2026-10-03",
+      "source": "Runrun.es",
+      "sources": [
+        "Runrun.es"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        10.48,
+        -66.88
+      ],
+      "url": "https://runrun.es/opinion/621687/preso-politico-edison-torre/",
+      "links": [
+        "https://runrun.es/opinion/621687/preso-politico-edison-torre/"
+      ],
+      "source_article_ids": [
+        "e8cba94595dcbd0f"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "e8cba94595dcbd0f",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "Runrun.es",
+          "url": "https://runrun.es/opinion/621687/preso-politico-edison-torre/",
+          "link_domain": "runrun.es",
+          "headline": "Un policía que fue crítico con el Gobierno murió preso, con golpes que el acta oficial no menciona. Nadie investigó (3/8)",
+          "source_type": "investigative_security",
+          "source_method": "rss",
+          "source_tier": 1,
+          "source_role": "detection",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.92,
+          "linked_at": "2026-10-03T12:20:49.889849+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": "# Why This Matters for Venezuela\n\nThe death of a police officer in custody for speaking against the government signals that Maduro's security forces are eliminating internal dissent through extrajudicial killing rather than formal prosecution—a shift that makes the police apparatus itself unreliable and turns it into a tool of political control rather than law enforcement. When security personnel die under suspicious circumstances without investigation, it terrifies remaining officers into silence, fracturing the institutional cohesion needed for any potential military or police challenge to the regime, while simultaneously demonstrating to the broader population that even armed state employees cannot speak freely. This consolidates Maduro's grip by ensuring that the one institution with weapons and training capacity becomes personally loyal to him rather than to constitutional order, making any future transition or negotiated settlement far more difficult.",
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "e4ce26fdda57",
+      "sentinel_id": "VEN_2026_10_e4ce26",
+      "type": "oc",
+      "subtype": null,
+      "deed_type": "symptom",
+      "axis": "vertical",
+      "actor": "external",
+      "target": "oc_group",
+      "title": "EE UU capturó a un venezolano acusado de liderar una red financiera del Tren de Aragua",
+      "summary": "US captures Venezuelan accused of leading Tren de Aragua financial network; transnational organized crime prosecution.",
+      "country": "Venezuela",
+      "location": "Nebraska, USA",
+      "date": "2026-10-03",
+      "source": "El Nacional Venezuela",
+      "sources": [
+        "El Nacional Venezuela"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        6.4,
+        -66.6
+      ],
+      "url": "https://www.elnacional.com/2026/10/ee-uu-capturo-a-un-venezolano-acusado-de-liderar-una-red-financiera-del-tren-de-aragua/",
+      "links": [
+        "https://www.elnacional.com/2026/10/ee-uu-capturo-a-un-venezolano-acusado-de-liderar-una-red-financiera-del-tren-de-aragua/"
+      ],
+      "source_article_ids": [
+        "c535fce0c4ba748b"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "c535fce0c4ba748b",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "El Nacional Venezuela",
+          "url": "https://www.elnacional.com/2026/10/ee-uu-capturo-a-un-venezolano-acusado-de-liderar-una-red-financiera-del-tren-de-aragua/",
+          "link_domain": "elnacional.com",
+          "headline": "EE UU capturó a un venezolano acusado de liderar una red financiera del Tren de Aragua",
+          "source_type": "general_news",
+          "source_method": "rss",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.76,
+          "linked_at": "2026-10-03T12:20:53.165398+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
     {
       "id": "bb79ec0a6a53",
       "sentinel_id": "HTI_2026_10_bb79ec",
@@ -524,6 +1047,727 @@
       "trusted_source_count": 1,
       "ai_analysis": null,
       "ingested_at": "2026-10-02T13:42:29.017894+00:00"
+    },
+    {
+      "id": "7471a871a017",
+      "sentinel_id": "MEX_2026_10_7471a8",
+      "type": "conflict",
+      "subtype": null,
+      "deed_type": null,
+      "axis": "vertical",
+      "actor": "civil_society",
+      "target": "population",
+      "title": "La conmoción por el ataque en una escuela de México en el que murió la subdirectora del centro y del que acusan a dos hermanos exalumnos",
+      "summary": "School shooting in Mexico resulting in death of subdirector and injuries to four others.",
+      "country": "Mexico",
+      "location": "Mexico",
+      "date": "2026-10-02",
+      "source": "BBC Mundo",
+      "sources": [
+        "BBC Mundo"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        23.6,
+        -102.5
+      ],
+      "url": "https://www.bbc.com/mundo/articles/cx7vp55l3rz2o?at_medium=RSS&at_campaign=rss",
+      "links": [
+        "https://www.bbc.com/mundo/articles/cx7vp55l3rz2o?at_medium=RSS&at_campaign=rss"
+      ],
+      "source_article_ids": [
+        "f13f8d9026ffa23d"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "f13f8d9026ffa23d",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "BBC Mundo",
+          "url": "https://www.bbc.com/mundo/articles/cx7vp55l3rz2o?at_medium=RSS&at_campaign=rss",
+          "link_domain": "bbc.com",
+          "headline": "La conmoción por el ataque en una escuela de México en el que murió la subdirectora del centro y del que acusan a dos hermanos exalumnos",
+          "source_type": "general_news",
+          "source_method": "rss",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.82,
+          "linked_at": "2026-10-03T12:20:37.830773+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "56dadcc0ba1a",
+      "sentinel_id": "MEX_2026_10_56dadc",
+      "type": "oc",
+      "subtype": null,
+      "deed_type": "destabilizing",
+      "axis": "vertical",
+      "actor": "oc_group",
+      "target": "population",
+      "title": "Dejan cabeza humana y cartulina con amenazas en tortería de Tijuana",
+      "summary": "Sinaloa Cartel cell leaves severed head and threats at Tijuana business.",
+      "country": "Mexico",
+      "location": "Tijuana",
+      "date": "2026-10-02",
+      "source": "Zeta Tijuana",
+      "sources": [
+        "Zeta Tijuana"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        32.51,
+        -117.03
+      ],
+      "url": "https://zetatijuana.com/2026/10/dejan-cabeza-humana-y-cartulina-con-amenazas-en-torteria-de-tijuana/?utm_source=rss&utm_medium=rss&utm_campaign=dejan-cabeza-humana-y-cartulina-con-amenazas-en-torteria-de-tijuana",
+      "links": [
+        "https://zetatijuana.com/2026/10/dejan-cabeza-humana-y-cartulina-con-amenazas-en-torteria-de-tijuana/?utm_source=rss&utm_medium=rss&utm_campaign=dejan-cabeza-humana-y-cartulina-con-amenazas-en-torteria-de-tijuana"
+      ],
+      "source_article_ids": [
+        "2ae8e123ce75861f"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "2ae8e123ce75861f",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "Zeta Tijuana",
+          "url": "https://zetatijuana.com/2026/10/dejan-cabeza-humana-y-cartulina-con-amenazas-en-torteria-de-tijuana/?utm_source=rss&utm_medium=rss&utm_campaign=dejan-cabeza-humana-y-cartulina-con-amenazas-en-torteria-de-tijuana",
+          "link_domain": "zetatijuana.com",
+          "headline": "Dejan cabeza humana y cartulina con amenazas en tortería de Tijuana",
+          "source_type": "investigative_security",
+          "source_method": "rss",
+          "source_tier": 1,
+          "source_role": "detection",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.9,
+          "linked_at": "2026-10-03T12:20:47.793999+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "ae82cbead2b7",
+      "sentinel_id": "BRA_2026_10_ae82cb",
+      "type": "protest",
+      "subtype": null,
+      "deed_type": "precursor",
+      "axis": "vertical",
+      "actor": "civil_society",
+      "target": "executive",
+      "title": "Election debate cancelled in Brazil, bomb scare outside Supreme Court",
+      "summary": "Election debate cancelled and bomb scare reported outside Brazilian Supreme Court amid presidential campaign tensions.",
+      "country": "Brazil",
+      "location": "Brasília",
+      "date": "2026-10-02",
+      "source": "Al Jazeera English",
+      "sources": [
+        "Al Jazeera English"
+      ],
+      "conf": "yellow",
+      "salience": "medium",
+      "coords": [
+        -15.78,
+        -47.93
+      ],
+      "url": "https://www.aljazeera.com/news/2026/10/2/election-debate-cancelled-in-brazil-bomb-scare-outside-supreme-court",
+      "links": [
+        "https://www.aljazeera.com/news/2026/10/2/election-debate-cancelled-in-brazil-bomb-scare-outside-supreme-court"
+      ],
+      "source_article_ids": [
+        "6223439523c5230f"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "6223439523c5230f",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "Al Jazeera English",
+          "url": "https://www.aljazeera.com/news/2026/10/2/election-debate-cancelled-in-brazil-bomb-scare-outside-supreme-court",
+          "link_domain": "aljazeera.com",
+          "headline": "Election debate cancelled in Brazil, bomb scare outside Supreme Court",
+          "source_type": "news_api",
+          "source_method": "newsapi",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_metadata",
+          "source_quality_weight": 0.68,
+          "linked_at": "2026-10-03T12:21:11.395681+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "ed819e736018",
+      "sentinel_id": "CHL_2026_10_ed819e",
+      "type": "protest",
+      "subtype": null,
+      "deed_type": "precursor",
+      "axis": "vertical",
+      "actor": "civil_society",
+      "target": "military",
+      "title": "Student protests in Chile turn to violent clashes with police",
+      "summary": "Riot police deployed tear gas and water cannons to disperse student protesters in Santiago.",
+      "country": "Chile",
+      "location": "Santiago",
+      "date": "2026-10-02",
+      "source": "Al Jazeera English",
+      "sources": [
+        "Al Jazeera English"
+      ],
+      "conf": "yellow",
+      "salience": "medium",
+      "coords": [
+        -33.46,
+        -70.65
+      ],
+      "url": "https://www.aljazeera.com/video/newsfeed/2026/10/2/student-protests-in-chile-turn-to-violent-clashes-with-police",
+      "links": [
+        "https://www.aljazeera.com/video/newsfeed/2026/10/2/student-protests-in-chile-turn-to-violent-clashes-with-police"
+      ],
+      "source_article_ids": [
+        "db41255680b4963a"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "db41255680b4963a",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "Al Jazeera English",
+          "url": "https://www.aljazeera.com/video/newsfeed/2026/10/2/student-protests-in-chile-turn-to-violent-clashes-with-police",
+          "link_domain": "aljazeera.com",
+          "headline": "Student protests in Chile turn to violent clashes with police",
+          "source_type": "news_api",
+          "source_method": "newsapi",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_metadata",
+          "source_quality_weight": 0.68,
+          "linked_at": "2026-10-03T12:21:11.395698+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "04a1a9b97574",
+      "sentinel_id": "COL_2026_10_04a1a9",
+      "type": "peace",
+      "subtype": null,
+      "deed_type": null,
+      "axis": "horizontal",
+      "actor": "executive",
+      "target": "military",
+      "title": "El pulso jurídico detrás del cierre de la Zona de Ubicación Temporal de Comandos de Frontera en Putumayo",
+      "summary": "Closure of temporary command zone for ex-combatants in Putumayo with legal dispute over timeline for resolving status.",
+      "country": "Colombia",
+      "location": "Putumayo",
+      "date": "2026-10-02",
+      "source": "El Tiempo Colombia",
+      "sources": [
+        "El Tiempo Colombia"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        0.43,
+        -76.64
+      ],
+      "url": "https://www.eltiempo.com/politica/proceso-de-paz/el-pulso-juridico-detras-del-cierre-de-la-zona-de-ubicacion-temporal-de-comandos-de-frontera-en-putumayo-3590856",
+      "links": [
+        "https://www.eltiempo.com/politica/proceso-de-paz/el-pulso-juridico-detras-del-cierre-de-la-zona-de-ubicacion-temporal-de-comandos-de-frontera-en-putumayo-3590856"
+      ],
+      "source_article_ids": [
+        "4fa4ad96c0fded1c"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "4fa4ad96c0fded1c",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "El Tiempo Colombia",
+          "url": "https://www.eltiempo.com/politica/proceso-de-paz/el-pulso-juridico-detras-del-cierre-de-la-zona-de-ubicacion-temporal-de-comandos-de-frontera-en-putumayo-3590856",
+          "link_domain": "eltiempo.com",
+          "headline": "El pulso jurídico detrás del cierre de la Zona de Ubicación Temporal de Comandos de Frontera en Putumayo",
+          "source_type": "general_news",
+          "source_method": "rss",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.78,
+          "linked_at": "2026-10-03T12:20:43.495601+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "eab1e5211924",
+      "sentinel_id": "COL_2026_10_eab1e5",
+      "type": "oc",
+      "subtype": null,
+      "deed_type": "symptom",
+      "axis": "horizontal",
+      "actor": "executive",
+      "target": "military",
+      "title": "Abelardo De La Espriella anunció medidas contra empresas de seguridad por presuntos nexos criminales y control de armas: 'Voy por todos'",
+      "summary": "President announces regulatory crackdown on private security firms suspected of criminal ties and illegal weapons control.",
+      "country": "Colombia",
+      "location": "Colombia",
+      "date": "2026-10-02",
+      "source": "El Tiempo Colombia",
+      "sources": [
+        "El Tiempo Colombia"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        -3.5,
+        -52.0
+      ],
+      "url": "https://www.eltiempo.com/politica/abelardo-de-la-espriella/abelardo-de-la-espriella-anuncio-medidas-sobre-licencias-de-empresas-de-seguridad-por-presuntos-nexos-criminales-y-control-de-armas-voy-por-todos-3590795",
+      "links": [
+        "https://www.eltiempo.com/politica/abelardo-de-la-espriella/abelardo-de-la-espriella-anuncio-medidas-sobre-licencias-de-empresas-de-seguridad-por-presuntos-nexos-criminales-y-control-de-armas-voy-por-todos-3590795"
+      ],
+      "source_article_ids": [
+        "41692e124910fb2b"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "41692e124910fb2b",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "El Tiempo Colombia",
+          "url": "https://www.eltiempo.com/politica/abelardo-de-la-espriella/abelardo-de-la-espriella-anuncio-medidas-sobre-licencias-de-empresas-de-seguridad-por-presuntos-nexos-criminales-y-control-de-armas-voy-por-todos-3590795",
+          "link_domain": "eltiempo.com",
+          "headline": "Abelardo De La Espriella anunció medidas contra empresas de seguridad por presuntos nexos criminales y control de armas: 'Voy por todos'",
+          "source_type": "general_news",
+          "source_method": "rss",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.78,
+          "linked_at": "2026-10-03T12:20:43.495636+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "a9174a8a33b4",
+      "sentinel_id": "COL_2026_10_a9174a",
+      "type": "aid",
+      "subtype": null,
+      "deed_type": null,
+      "axis": null,
+      "actor": "external",
+      "target": "military",
+      "title": "Colombia ya hizo el primer pago a Saab por los aviones Gripen",
+      "summary": "Colombia makes first payment to Saab for Gripen fighter aircraft acquisition.",
+      "country": "Colombia",
+      "location": null,
+      "date": "2026-10-02",
+      "source": "La Silla Vacía",
+      "sources": [
+        "La Silla Vacía"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        4.6,
+        -74.1
+      ],
+      "url": "https://www.lasillavacia.com/en-vivo/colombia-ya-hizo-el-primer-pago-a-saab-por-los-aviones-gripen/",
+      "links": [
+        "https://www.lasillavacia.com/en-vivo/colombia-ya-hizo-el-primer-pago-a-saab-por-los-aviones-gripen/"
+      ],
+      "source_article_ids": [
+        "81d1cc0a2f722df6"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "81d1cc0a2f722df6",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "La Silla Vacía",
+          "url": "https://www.lasillavacia.com/en-vivo/colombia-ya-hizo-el-primer-pago-a-saab-por-los-aviones-gripen/",
+          "link_domain": "lasillavacia.com",
+          "headline": "Colombia ya hizo el primer pago a Saab por los aviones Gripen",
+          "source_type": "investigative_security",
+          "source_method": "rss",
+          "source_tier": 1,
+          "source_role": "detection",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.92,
+          "linked_at": "2026-10-03T12:20:44.006108+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "2944e1f67d38",
+      "sentinel_id": "COL_2026_10_2944e1",
+      "type": "other",
+      "subtype": null,
+      "deed_type": null,
+      "axis": null,
+      "actor": null,
+      "target": null,
+      "title": "Seis cosas que no sabemos sobre el crimen y la seguridad en Colombia",
+      "summary": "Analytical piece on crime and security in Colombia involving security force actors and policy experts.",
+      "country": "Colombia",
+      "location": "Colombia",
+      "date": "2026-10-02",
+      "source": "La Silla Vacía",
+      "sources": [
+        "La Silla Vacía"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        -33.46,
+        -70.65
+      ],
+      "url": "https://www.lasillavacia.com/red-de-expertos/red-de-la-paz/seis-cosas-que-no-sabemos-sobre-el-crimen-y-la-seguridad-en-colombia/",
+      "links": [
+        "https://www.lasillavacia.com/red-de-expertos/red-de-la-paz/seis-cosas-que-no-sabemos-sobre-el-crimen-y-la-seguridad-en-colombia/"
+      ],
+      "source_article_ids": [
+        "334acbaf89cd2637"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "334acbaf89cd2637",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "La Silla Vacía",
+          "url": "https://www.lasillavacia.com/red-de-expertos/red-de-la-paz/seis-cosas-que-no-sabemos-sobre-el-crimen-y-la-seguridad-en-colombia/",
+          "link_domain": "lasillavacia.com",
+          "headline": "Seis cosas que no sabemos sobre el crimen y la seguridad en Colombia",
+          "source_type": "investigative_security",
+          "source_method": "rss",
+          "source_tier": 1,
+          "source_role": "detection",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.92,
+          "linked_at": "2026-10-03T12:20:44.006139+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "006528bed7f8",
+      "sentinel_id": "COL_2026_10_006528",
+      "type": "reform",
+      "subtype": "legal",
+      "deed_type": null,
+      "axis": "horizontal",
+      "actor": "judiciary",
+      "target": "military",
+      "title": "La JEP y la propuesta de una nueva instancia para militares",
+      "summary": "JEP proposes new institutional mechanism for military justice and accountability.",
+      "country": "Colombia",
+      "location": "Bogotá",
+      "date": "2026-10-02",
+      "source": "La Silla Vacía",
+      "sources": [
+        "La Silla Vacía"
+      ],
+      "conf": "yellow",
+      "salience": "medium",
+      "coords": [
+        4.71,
+        -74.07
+      ],
+      "url": "https://www.lasillavacia.com/red-de-expertos/red-de-derecho-constitucional/la-jep-y-la-propuesta-de-una-nueva-instancia-para-militares/",
+      "links": [
+        "https://www.lasillavacia.com/red-de-expertos/red-de-derecho-constitucional/la-jep-y-la-propuesta-de-una-nueva-instancia-para-militares/"
+      ],
+      "source_article_ids": [
+        "2c05a0f701f8a2f4"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "2c05a0f701f8a2f4",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "La Silla Vacía",
+          "url": "https://www.lasillavacia.com/red-de-expertos/red-de-derecho-constitucional/la-jep-y-la-propuesta-de-una-nueva-instancia-para-militares/",
+          "link_domain": "lasillavacia.com",
+          "headline": "La JEP y la propuesta de una nueva instancia para militares",
+          "source_type": "investigative_security",
+          "source_method": "rss",
+          "source_tier": 1,
+          "source_role": "detection",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.92,
+          "linked_at": "2026-10-03T12:20:44.006182+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "06466144f360",
+      "sentinel_id": "VEN_2026_10_064661",
+      "type": "purge",
+      "subtype": null,
+      "deed_type": "symptom",
+      "axis": "horizontal",
+      "actor": "judiciary",
+      "target": "military",
+      "title": "Condenan a diez personas del caso «Brazalete blanco»",
+      "summary": "Judge condemns military officers in 'Brazalete blanco' case; judicial accountability for alleged military misconduct.",
+      "country": "Venezuela",
+      "location": "Venezuela",
+      "date": "2026-10-02",
+      "source": "Runrun.es · Efecto Cocuyo",
+      "sources": [
+        "Runrun.es",
+        "Efecto Cocuyo"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        -3.5,
+        -52.0
+      ],
+      "url": "https://runrun.es/noticias/621661/condenan-a-diez-personas-del-caso-brazalete-blanco/",
+      "links": [
+        "https://runrun.es/noticias/621661/condenan-a-diez-personas-del-caso-brazalete-blanco/",
+        "https://efectococuyo.com/la-humanidad/absuelven-a-san-miguel-pero-juez-condena-a-militares-del-caso-brazalete-blanco/"
+      ],
+      "source_article_ids": [
+        "b6d78b12763e8915",
+        "091783012a67973c"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "b6d78b12763e8915",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "Runrun.es",
+          "url": "https://runrun.es/noticias/621661/condenan-a-diez-personas-del-caso-brazalete-blanco/",
+          "link_domain": "runrun.es",
+          "headline": "Condenan a diez personas del caso «Brazalete blanco»",
+          "source_type": "investigative_security",
+          "source_method": "rss",
+          "source_tier": 1,
+          "source_role": "detection",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.92,
+          "linked_at": "2026-10-03T12:20:49.889910+00:00"
+        },
+        {
+          "article_id": "091783012a67973c",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "Efecto Cocuyo",
+          "url": "https://efectococuyo.com/la-humanidad/absuelven-a-san-miguel-pero-juez-condena-a-militares-del-caso-brazalete-blanco/",
+          "link_domain": "efectococuyo.com",
+          "headline": "Juez condena a militares del caso “Brazalete blanco”",
+          "source_type": "investigative_security",
+          "source_method": "rss",
+          "source_tier": 1,
+          "source_role": "detection",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.92,
+          "linked_at": "2026-10-03T12:20:50.368778+00:00"
+        }
+      ],
+      "source_diversity": 2,
+      "trusted_source_count": 2,
+      "ai_analysis": "# Why This Matters for Venezuela\n\nThe conviction of ten military officers in the \"Brazalete blanco\" case signals that Venezuela's judiciary is willing to prosecute the armed forces—a rare break from the pattern where the military operates with near-total impunity under Maduro's rule. This matters because the Venezuelan military has been the regime's backbone, and any crack in that loyalty or protection could weaken Maduro's grip on power, especially if other officers fear legal consequences for following orders. If these convictions stick and inspire more prosecutions, it could push fence-sitting military commanders to reconsider their support for the government, though Maduro will likely use pardons or appeals to shield his closest allies and prevent the precedent from spreading.",
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "7c8ead4b6cc5",
+      "sentinel_id": "VEN_2026_10_7c8ead",
+      "type": "other",
+      "subtype": null,
+      "deed_type": "resistance",
+      "axis": "vertical",
+      "actor": "judiciary",
+      "target": "civil_society",
+      "title": "Rocío San Miguel reaparece tras recibir sentencia absolutoria: “Culmina un duro capítulo”",
+      "summary": "Human rights activist Rocío San Miguel acquitted of terrorism charges after two years, marking judicial pushback against repression.",
+      "country": "Venezuela",
+      "location": "Caracas",
+      "date": "2026-10-02",
+      "source": "Runrun.es",
+      "sources": [
+        "Runrun.es"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        10.48,
+        -66.88
+      ],
+      "url": "https://runrun.es/noticias/621631/tribunal-dicta-sentencia-absolutoria-a-favor-de-rocio-san-miguel/",
+      "links": [
+        "https://runrun.es/noticias/621631/tribunal-dicta-sentencia-absolutoria-a-favor-de-rocio-san-miguel/"
+      ],
+      "source_article_ids": [
+        "82a9afd8b842bc3c"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "82a9afd8b842bc3c",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "Runrun.es",
+          "url": "https://runrun.es/noticias/621631/tribunal-dicta-sentencia-absolutoria-a-favor-de-rocio-san-miguel/",
+          "link_domain": "runrun.es",
+          "headline": "Rocío San Miguel reaparece tras recibir sentencia absolutoria: “Culmina un duro capítulo”",
+          "source_type": "investigative_security",
+          "source_method": "rss",
+          "source_tier": 1,
+          "source_role": "detection",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.92,
+          "linked_at": "2026-10-03T12:20:49.889955+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "5f054b5d8db1",
+      "sentinel_id": "VEN_2026_10_5f054b",
+      "type": "protest",
+      "subtype": null,
+      "deed_type": "resistance",
+      "axis": "vertical",
+      "actor": "civil_society",
+      "target": "executive",
+      "title": "Un Mundo Sin Mordaza alerta sobre la persistencia del sistema represivo",
+      "summary": "Human rights NGO Un Mundo Sin Mordaza rejects government accusations and documents persistence of repressive system.",
+      "country": "Venezuela",
+      "location": "Venezuela",
+      "date": "2026-10-02",
+      "source": "Runrun.es",
+      "sources": [
+        "Runrun.es"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        6.4,
+        -66.6
+      ],
+      "url": "https://runrun.es/noticias/621619/un-mundo-sin-mordaza-alerta-sobre-la-persistencia-del-sistema-represivo/",
+      "links": [
+        "https://runrun.es/noticias/621619/un-mundo-sin-mordaza-alerta-sobre-la-persistencia-del-sistema-represivo/"
+      ],
+      "source_article_ids": [
+        "8a01bc52aa388057"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "8a01bc52aa388057",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "Runrun.es",
+          "url": "https://runrun.es/noticias/621619/un-mundo-sin-mordaza-alerta-sobre-la-persistencia-del-sistema-represivo/",
+          "link_domain": "runrun.es",
+          "headline": "Un Mundo Sin Mordaza alerta sobre la persistencia del sistema represivo",
+          "source_type": "investigative_security",
+          "source_method": "rss",
+          "source_tier": 1,
+          "source_role": "detection",
+          "source_policy": "public_fulltext",
+          "source_quality_weight": 0.92,
+          "linked_at": "2026-10-03T12:20:49.889971+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "de67358edd56",
+      "sentinel_id": "HTI_2026_10_de6735",
+      "type": "conflict",
+      "subtype": null,
+      "deed_type": "destabilizing",
+      "axis": "vertical",
+      "actor": "oc_group",
+      "target": "population",
+      "title": "More than 5,000 people killed or injured in Haiti due to gang violence this year, UN says",
+      "summary": "Over 5,000 killed or injured in Haiti by gang violence in one year, threatening state stability.",
+      "country": "Haiti",
+      "location": "Haiti",
+      "date": "2026-10-02",
+      "source": "BBC News",
+      "sources": [
+        "BBC News"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        18.9,
+        -72.3
+      ],
+      "url": "https://www.bbc.co.uk/news/articles/cmy0z00wr14xo",
+      "links": [
+        "https://www.bbc.co.uk/news/articles/cmy0z00wr14xo"
+      ],
+      "source_article_ids": [
+        "3acd979fd732a9c5"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "3acd979fd732a9c5",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "BBC News",
+          "url": "https://www.bbc.co.uk/news/articles/cmy0z00wr14xo",
+          "link_domain": "bbc.co.uk",
+          "headline": "More than 5,000 people killed or injured in Haiti due to gang violence this year, UN says",
+          "source_type": "news_api",
+          "source_method": "newsapi",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_metadata",
+          "source_quality_weight": 0.68,
+          "linked_at": "2026-10-03T12:21:11.395904+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": "# Why This Matters for Haiti's Political Risk\n\nGang violence at this scale is destroying Haiti's state capacity to govern: when 5,000+ people die in a year in a country of 11 million, gangs control more territory and enforce more rules than police do, making the government irrelevant to ordinary Haitians and impossible for international donors to support. This violence directly fuels migration crises and regional instability—desperate Haitian families flee to the Dominican Republic and U.S., creating pressure on neighboring countries and drawing in foreign military intervention, which then becomes a flashpoint for nationalist backlash against the government that invited it. Without reversing gang territorial control in the next 1-2 years, Haiti risks becoming a failed state where no elected government can actually rule, forcing either permanent foreign occupation or complete state collapse.",
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
     },
     {
       "id": "276329bde10d",
@@ -1623,6 +2867,168 @@
       "trusted_source_count": 2,
       "ai_analysis": null,
       "ingested_at": "2026-10-02T13:42:29.017894+00:00"
+    },
+    {
+      "id": "4f4ce42b6d5c",
+      "sentinel_id": "MEX_2026_10_4f4ce4",
+      "type": "reform",
+      "subtype": "structural",
+      "deed_type": "symptom",
+      "axis": "vertical",
+      "actor": "executive",
+      "target": "population",
+      "title": "After 2 years in office, how has Claudia Sheinbaum changed Mexico?",
+      "summary": "After two years, President Sheinbaum reports lower homicide rates and improved social benefits, but violence and corruption persist.",
+      "country": "Mexico",
+      "location": "Mexico",
+      "date": "2026-10-01",
+      "source": "DW (English)",
+      "sources": [
+        "DW (English)"
+      ],
+      "conf": "green",
+      "salience": "medium",
+      "coords": [
+        23.6,
+        -102.5
+      ],
+      "url": "https://www.dw.com/en/after-2-years-in-office-how-has-claudia-sheinbaum-changed-mexico/a-79506055",
+      "links": [
+        "https://www.dw.com/en/after-2-years-in-office-how-has-claudia-sheinbaum-changed-mexico/a-79506055"
+      ],
+      "source_article_ids": [
+        "c233b2a58cbc9846"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "c233b2a58cbc9846",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "DW (English)",
+          "url": "https://www.dw.com/en/after-2-years-in-office-how-has-claudia-sheinbaum-changed-mexico/a-79506055",
+          "link_domain": "dw.com",
+          "headline": "After 2 years in office, how has Claudia Sheinbaum changed Mexico?",
+          "source_type": "news_api",
+          "source_method": "newsapi",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_metadata",
+          "source_quality_weight": 0.68,
+          "linked_at": "2026-10-03T12:21:11.395964+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": null,
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "cc1d3e33ae76",
+      "sentinel_id": "BOL_2026_10_cc1d3e",
+      "type": "coop",
+      "subtype": null,
+      "deed_type": null,
+      "axis": null,
+      "actor": "external",
+      "target": "military",
+      "title": "EXCLUSIVE: Trump’s new security alliance faces first real-world test deep in South America as troops deploy",
+      "summary": "Bolivia deploys forces amid blockade and unrest as part of Trump's Shield of the Americas security alliance.",
+      "country": "Bolivia",
+      "location": "Bolivia",
+      "date": "2026-10-01",
+      "source": "Fox News",
+      "sources": [
+        "Fox News"
+      ],
+      "conf": "yellow",
+      "salience": "high",
+      "coords": [
+        -16.3,
+        -63.6
+      ],
+      "url": "https://www.foxnews.com/world/exclusive-trumps-new-security-alliance-faces-first-real-world-test-deep-south-america-troops-deploy",
+      "links": [
+        "https://www.foxnews.com/world/exclusive-trumps-new-security-alliance-faces-first-real-world-test-deep-south-america-troops-deploy"
+      ],
+      "source_article_ids": [
+        "0f5b61e4e4fe9a46"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "0f5b61e4e4fe9a46",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "Fox News",
+          "url": "https://www.foxnews.com/world/exclusive-trumps-new-security-alliance-faces-first-real-world-test-deep-south-america-troops-deploy",
+          "link_domain": "foxnews.com",
+          "headline": "EXCLUSIVE: Trump’s new security alliance faces first real-world test deep in South America as troops deploy",
+          "source_type": "news_api",
+          "source_method": "newsapi",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_metadata",
+          "source_quality_weight": 0.68,
+          "linked_at": "2026-10-03T12:21:11.395816+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": "# Bolivia's Security Deployment and Political Risk\n\nBolivia's military deployment under Trump's Shield of the Americas alliance matters because it signals the government is willing to use armed forces to break civilian blockades—a move that could escalate confrontations with coca farmers and indigenous groups who have historically paralyzed the country through road shutdowns. If these troops successfully suppress the blockade, it validates the new U.S. security partnership and encourages harder-line responses to future protests; if they fail or trigger violence, it could trigger a backlash that destabilizes President Luis Arce's already-fragile coalition and invite comparisons to the 2019 military coup. The real test is whether this external security backing emboldens the government to crack down on opposition movements that previously forced policy reversals, fundamentally shifting Bolivia's pattern of negotiated concessions to coercive control.",
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
+    },
+    {
+      "id": "a8fc74f0b821",
+      "sentinel_id": "HTI_2026_10_a8fc74",
+      "type": "conflict",
+      "subtype": null,
+      "deed_type": "destabilizing",
+      "axis": "vertical",
+      "actor": "oc_group",
+      "target": "population",
+      "title": "Haiti struggles with rise in kidnappings as general election looms",
+      "summary": "Haiti experiences rising kidnappings by gangs ahead of general election, destabilizing security environment.",
+      "country": "Haiti",
+      "location": "Haiti",
+      "date": "2026-10-01",
+      "source": "Abcnews.com",
+      "sources": [
+        "Abcnews.com"
+      ],
+      "conf": "green",
+      "salience": "high",
+      "coords": [
+        18.9,
+        -72.3
+      ],
+      "url": "https://abcnews.com/International/wireStory/haiti-struggles-rise-kidnappings-general-election-looms-136923483",
+      "links": [
+        "https://abcnews.com/International/wireStory/haiti-struggles-rise-kidnappings-general-election-looms-136923483"
+      ],
+      "source_article_ids": [
+        "c5dd4e28061d75e3"
+      ],
+      "linked_reports": [
+        {
+          "article_id": "c5dd4e28061d75e3",
+          "article_rank": 1,
+          "report_role": "primary",
+          "source_name": "Abcnews.com",
+          "url": "https://abcnews.com/International/wireStory/haiti-struggles-rise-kidnappings-general-election-looms-136923483",
+          "link_domain": "abcnews.com",
+          "headline": "Haiti struggles with rise in kidnappings as general election looms",
+          "source_type": "news_api",
+          "source_method": "newsapi",
+          "source_tier": 2,
+          "source_role": "verification",
+          "source_policy": "public_metadata",
+          "source_quality_weight": 0.68,
+          "linked_at": "2026-10-03T12:21:11.395948+00:00"
+        }
+      ],
+      "source_diversity": 1,
+      "trusted_source_count": 1,
+      "ai_analysis": "# Why This Matters for Haiti\n\nRising kidnappings before elections directly threaten Haiti's ability to hold a credible vote—gangs can prevent candidates from campaigning in their territories, intimidate voters away from polling stations, and create chaos that gives armed groups leverage to demand concessions from whoever wins power. When gangs control the streets through kidnapping, they effectively become kingmakers, forcing future governments to negotiate with criminal organizations rather than govern through legitimate institutions, which deepens the cycle of state collapse that has plagued Haiti since 2004. The timing is critical: if the election proceeds amid widespread insecurity, the winner will inherit a government with no real authority outside Port-au-Prince, making it nearly impossible to rebuild state capacity or attract the international investment Haiti desperately needs.",
+      "ingested_at": "2026-10-03T12:21:12.611111+00:00"
     },
     {
       "id": "6b8c07f0d847",
