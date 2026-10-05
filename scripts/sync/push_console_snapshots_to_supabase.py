@@ -22,6 +22,25 @@ SNAPSHOTS: dict[str, Path] = {
 }
 
 
+# Trace fields the React console does not read. They are about 40% of the council file,
+# and the full 17 MB payload exceeded Supabase's statement timeout from CI (2026-10-05).
+# The local data/review/council_analyses.json keeps them.
+COUNCIL_EVENT_TRACE_KEYS = ("upstream_worker_outputs", "worker_trace", "analysis_activation")
+COUNCIL_LENS_TRACE_KEYS = ("knowledge_trace",)
+
+
+def slim_council(payload: dict) -> dict:
+    events = []
+    for event in payload.get("events", []):
+        row = {k: v for k, v in event.items() if k not in COUNCIL_EVENT_TRACE_KEYS}
+        row["analyses"] = {
+            lens: ({k: v for k, v in block.items() if k not in COUNCIL_LENS_TRACE_KEYS} if isinstance(block, dict) else block)
+            for lens, block in (event.get("analyses") or {}).items()
+        }
+        events.append(row)
+    return {**payload, "events": events}
+
+
 def main() -> None:
     sync_run_id = start_sync_run("push_console_snapshots", {"snapshot_keys": sorted(SNAPSHOTS)})
     pushed = 0
@@ -31,6 +50,8 @@ def main() -> None:
                 print(f"Skip {snapshot_key}: {path.relative_to(ROOT)} missing")
                 continue
             payload = load_json(path)
+            if snapshot_key == "council_analyses":
+                payload = slim_council(payload)
             upsert_console_snapshot(snapshot_key, path, payload)
             pushed += 1
             print(f"Pushed {snapshot_key} from {path.relative_to(ROOT)}")

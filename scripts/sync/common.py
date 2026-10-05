@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import time
 import os
 import urllib.error
 import urllib.parse
@@ -16,6 +17,10 @@ from typing import Any
 ROOT = Path(__file__).resolve().parent.parent.parent
 ENV_PATHS = [ROOT / ".env", ROOT / ".env.local"]
 _ENV_LOADED = False
+
+
+RETRY_ATTEMPTS = 3
+RETRY_PAUSE_SECONDS = 15
 
 
 def load_local_env() -> None:
@@ -116,16 +121,23 @@ def postgrest_request(
         headers["Prefer"] = prefer
     if payload is not None:
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
-    request = urllib.request.Request(url, data=body, headers=headers, method=method.upper())
-    try:
-        with urllib.request.urlopen(request) as response:
-            raw = response.read().decode("utf-8")
-            if not raw:
-                return {}
-            return json.loads(raw)
-    except urllib.error.HTTPError as exc:
-        detail = exc.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"Supabase request failed ({exc.code}) for {url}: {detail}") from exc
+    for attempt in range(RETRY_ATTEMPTS):
+        request = urllib.request.Request(url, data=body, headers=headers, method=method.upper())
+        try:
+            with urllib.request.urlopen(request) as response:
+                raw = response.read().decode("utf-8")
+                if not raw:
+                    return {}
+                return json.loads(raw)
+        except urllib.error.HTTPError as exc:
+            detail = exc.read().decode("utf-8", errors="replace")
+            # 5xx covers statement timeouts (57014) on large snapshot writes and a
+            # project that is still waking up; both usually pass on a second try.
+            if exc.code >= 500 and attempt < RETRY_ATTEMPTS - 1:
+                time.sleep(RETRY_PAUSE_SECONDS * (attempt + 1))
+                continue
+            raise RuntimeError(f"Supabase request failed ({exc.code}) for {url}: {detail}") from exc
+    raise RuntimeError(f"Supabase request failed for {url}")
 
 
 def start_sync_run(sync_type: str, metadata: dict[str, Any] | None = None) -> str | None:
