@@ -33,13 +33,13 @@ This baseline remains intact for now. Phase 1 adds new layers around it without 
 4. Duplicate detection
     Reports are clustered into likely event groups using deterministic and semantic rules.
 5. Event classification
-    Events are coded to a controlled taxonomy with rule references.
+    Reports pass a headline relevance gate (Claude Haiku 4.5), then each kept report is coded against codebook v3 (Claude Sonnet 5.5). See `docs/codebook-v3.md`.
 6. Actor coding
     Primary, secondary, and additional actors are extracted and normalized.
 7. QA and review
     Flags are generated and routed to a credentialed analyst interface.
 8. Council analysis
-    Multiple analytic agents produce distinct interpretations over reviewed events.
+    Multiple analytic agents produce distinct interpretations over reviewed events. The default text is rule-based; optional model-written synthesis (Claude Sonnet 5.5) is opt-in and labelled as AI-generated.
 9. Country monitoring and private modeling
     Structural baselines, event pulse, calibration, and later country-month panels are built in private analytical layers.
 10. Publication

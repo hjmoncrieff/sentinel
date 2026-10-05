@@ -2,6 +2,8 @@
 
 _Generated from `config/taxonomy/event_types.json` on 2026-04-03._
 
+> **Note (2026-10-05):** new events are coded with codebook v3 (`docs/codebook-v3.md`). The hierarchy below is the v2 legacy layer, which the dashboard still reads and which every v3 event maps back to.
+
 This is the current SENTINEL event hierarchy:
 
 - `Type`: broad analytical domain

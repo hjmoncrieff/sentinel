@@ -42,7 +42,16 @@ This is the operator reference for the public website at
    each address to the distribution list.
 3. **Contact.** The site offers the feedback form (Formspree) and GitHub issues. To publish a
    dedicated email address, add it to the privacy, terms, and About contact sections.
-4. **Custom domain.** If the site moves off `/sentinel/`, update:
+4. **Model-written event analysis (off by default).** Published events carry a rule-based
+   interpretation, labelled "Automated rule-based interpretation". To replace it with
+   model-written synthesis (Claude Sonnet 5.5, labelled "AI-assisted interpretation") for
+   high- and medium-salience events, set the repository variable
+   `RUN_COUNCIL_SYNTHESIS=true`. Measured cost on 2026-10-05: about $0.0085 per event. Each
+   run synthesises at most 150 events (`--max-events`), newest high-salience first, and
+   saved results are restored from Supabase on every rebuild, so each event is paid for
+   once. Clearing the existing archive of about 1,400 qualifying events takes roughly ten
+   nightly runs and about $12 in total.
+5. **Custom domain.** If the site moves off `/sentinel/`, update:
    - `<base href>` in `404.html`
    - every canonical and `og:url` URL
    - `sitemap.xml`, `robots.txt`, and `SENTINEL_SITE.url`

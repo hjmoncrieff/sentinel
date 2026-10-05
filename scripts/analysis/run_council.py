@@ -1191,7 +1191,7 @@ def cmr_analysis(event: dict, knowledge: dict, guidance: dict, context: dict, pl
         "confidence": 0.62 if event.get("salience") == "high" else 0.54,
         "analyst_weight": plan.get("cmr", {}).get("weight", 0),
         "activation_reason": plan.get("cmr", {}).get("reason"),
-        "ai_generated": True,
+        "ai_generated": False,  # rule-based template; run_council_synthesis.py sets True when a model writes it
         "knowledge_trace": {
             "role_domains": role_domains,
             "relationship_types": relationship_types,
@@ -1245,7 +1245,7 @@ def political_risk_analysis(event: dict, knowledge: dict, guidance: dict, contex
         "confidence": 0.64 if event.get("salience") == "high" else 0.55,
         "analyst_weight": plan.get("political_risk", {}).get("weight", 0),
         "activation_reason": plan.get("political_risk", {}).get("reason"),
-        "ai_generated": True,
+        "ai_generated": False,  # rule-based template; run_council_synthesis.py sets True when a model writes it
         "knowledge_trace": {
             "relationship_types": relationship_types,
             "guidance_priorities": role_info.get("priorities", [])[:3],
@@ -1298,7 +1298,7 @@ def regional_security_analysis(event: dict, knowledge: dict, guidance: dict, con
         "confidence": 0.61 if event.get("salience") == "high" else 0.53,
         "analyst_weight": plan.get("regional_security", {}).get("weight", 0),
         "activation_reason": plan.get("regional_security", {}).get("reason"),
-        "ai_generated": True,
+        "ai_generated": False,  # rule-based template; run_council_synthesis.py sets True when a model writes it
         "knowledge_trace": {
             "interaction_types": interaction_types,
             "guidance_priorities": role_info.get("priorities", [])[:3],
@@ -1344,7 +1344,7 @@ def international_analysis(event: dict, guidance: dict, context: dict, plan: dic
         "confidence": 0.58 if event.get("salience") == "high" else 0.5,
         "analyst_weight": plan.get("international", {}).get("weight", 0),
         "activation_reason": plan.get("international", {}).get("reason"),
-        "ai_generated": True,
+        "ai_generated": False,  # rule-based template; run_council_synthesis.py sets True when a model writes it
         "knowledge_trace": {
             "guidance_priorities": role_info.get("priorities", [])[:3],
             "visible_external_actors": actors[:4],
@@ -1390,7 +1390,7 @@ def economist_analysis(event: dict, guidance: dict, context: dict, plan: dict) -
         "confidence": 0.56 if event.get("salience") == "high" else 0.49,
         "analyst_weight": plan.get("economist", {}).get("weight", 0),
         "activation_reason": plan.get("economist", {}).get("reason"),
-        "ai_generated": True,
+        "ai_generated": False,  # rule-based template; run_council_synthesis.py sets True when a model writes it
         "knowledge_trace": {
             "guidance_priorities": role_info.get("priorities", [])[:3],
             "subtype": event.get("event_subtype"),
@@ -1462,7 +1462,7 @@ def synthesis(event: dict, analyses: dict[str, dict], guidance: dict, knowledge:
             2,
         ),
         "active_lens_count": len(analyses),
-        "ai_generated": True,
+        "ai_generated": False,  # rule-based template; run_council_synthesis.py sets True when a model writes it
         "knowledge_trace": {
             "guidance_priorities": role_info.get("priorities", [])[:3],
             "interpretive_rules": knowledge.get("interpretive_rules", [])[:3],

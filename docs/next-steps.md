@@ -4,6 +4,18 @@ This document tracks the highest-value follow-up work after the current
 AI-first dashboard, analyst console, review workflow, provenance, and actor
 registry milestones.
 
+## 0. Open Items (2026-10-05)
+
+- decide whether to turn on model-written synthesis (`RUN_COUNCIL_SYNTHESIS`; see
+  `docs/public-site.md`)
+- build a human-adjudicated gold set for codebook v3; current model comparisons are
+  agreement figures only (`docs/codebook-v3.md`)
+- recode pre-October-2026 events with codebook v3 so salience and types are comparable
+  across the archive
+- build the public redesign from the approved mockups (front page, live feed, country
+  pages, methodology/codebook page)
+- price each pipeline stage at its own model's rate in the private cost log
+
 ## 1. Public Event Quality
 
 - strengthen `Why It Matters` so synthesis is consistently country-specific,

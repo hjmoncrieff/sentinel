@@ -39,7 +39,21 @@ ANALYST_KNOWLEDGE_PATH = ROOT / "config" / "agents" / "analyst_knowledge.json"
 
 SYNTHESIS_MODEL = model_for("council_synthesis_role")
 SYNTHESIS_SALIENCE = {"high", "medium"}
-MAX_TOKENS = 600   # one paragraph ~200 tokens; two paragraphs ~400 tokens; JSON overhead ~50
+MAX_TOKENS = 1500  # Sonnet 5.5 writes 500-700 tokens here; 600 truncated the JSON mid-string (2026-10-05)
+OUTPUT_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "synthesis": {"type": "string"},
+        "risk_level": {"type": "string", "enum": ["high", "medium", "low"]},
+        "watchpoint": {"type": "string"},
+    },
+    "required": ["synthesis", "risk_level", "watchpoint"],
+    "additionalProperties": False,
+}
+DEFAULT_MAX_EVENTS = 150  # per-run ceiling, so a lost cache cannot trigger a full re-synthesis
+# Sonnet 5.5 rejects {"type": "disabled"}; "between_tools" turns extended thinking off,
+# which this short single-paragraph task does not need.
+MODEL_EXTRA: dict[str, dict] = {"claude-sonnet-5-5": {"thinking": {"type": "between_tools"}}}
 RETRY_SLEEP = 5.0       # seconds between retries on rate-limit
 INTER_CALL_SLEEP = 0.3  # polite pause between API calls
 
@@ -224,6 +238,19 @@ Salience: {salience}
 """
 
 
+def apply_llm_synthesis(analyses: dict, llm: dict) -> None:
+    """Store an LLM synthesis block and upgrade the public analysis text with it."""
+    analyses["llm_synthesis"] = llm
+    synthesis_block = analyses.setdefault("synthesis", {})
+    if llm.get("synthesis"):
+        watchpoint_suffix = f"\n\n**Watch:** {llm['watchpoint']}" if llm.get("watchpoint") else ""
+        synthesis_block["public_analysis"] = llm["synthesis"] + watchpoint_suffix
+        synthesis_block["risk_level"] = llm.get("risk_level") or synthesis_block.get("risk_level")
+        synthesis_block["llm_upgraded"] = True
+        synthesis_block["llm_model"] = llm.get("model")
+        synthesis_block["ai_generated"] = True
+
+
 # ── API call ───────────────────────────────────────────────────────────────────
 
 def call_sonnet(
@@ -249,8 +276,16 @@ def call_sonnet(
                     }
                 ],
                 messages=[{"role": "user", "content": user_message}],
+                output_config={"format": {"type": "json_schema", "schema": OUTPUT_SCHEMA}},
+                **MODEL_EXTRA.get(SYNTHESIS_MODEL, {}),
             )
-            raw_text = response.content[0].text.strip()
+            if response.stop_reason == "max_tokens":
+                return {"ok": False, "error": "output truncated at max_tokens", "model": SYNTHESIS_MODEL,
+                        "generated_at": datetime.now(UTC).isoformat()}
+            if response.stop_reason == "refusal":
+                return {"ok": False, "error": "model refused", "model": SYNTHESIS_MODEL,
+                        "generated_at": datetime.now(UTC).isoformat()}
+            raw_text = next(b.text for b in response.content if b.type == "text").strip()
 
             # Strip accidental markdown code fences
             raw_text = re.sub(r"^```(?:json)?\s*", "", raw_text, flags=re.IGNORECASE)
@@ -317,6 +352,8 @@ def main() -> None:
     parser.add_argument("--force", action="store_true", help="Re-generate even if llm_synthesis already present")
     parser.add_argument("--dry-run", action="store_true", help="Print stats but do not call the API or write files")
     parser.add_argument("--country", metavar="NAME", help="Restrict to a single country (for testing)")
+    parser.add_argument("--max-events", type=int, default=DEFAULT_MAX_EVENTS,
+                        help=f"Most events to synthesise in one run, newest high-salience first (default {DEFAULT_MAX_EVENTS}; 0 = no limit)")
     args = parser.parse_args()
 
     api_key = os.environ.get("ANTHROPIC_API_KEY")
@@ -366,6 +403,13 @@ def main() -> None:
     print(f"  Low-salience (skipped): {skipped_low}")
     print(f"  Already synthesised (skipping unless --force): {already_done}")
     print(f"  Qualifying for Sonnet synthesis: {qualifying}")
+    if args.max_events and qualifying > args.max_events:
+        high = [e for e in candidates if str(e.get("salience")).lower() == "high"]
+        rest = [e for e in candidates if str(e.get("salience")).lower() != "high"]
+        newest_first = lambda rows: sorted(rows, key=lambda e: str(e.get("event_date") or ""), reverse=True)
+        candidates = (newest_first(high) + newest_first(rest))[:args.max_events]
+        print(f"  Capped at --max-events {args.max_events} (newest high-salience first); {qualifying - len(candidates)} left for later runs")
+        qualifying = len(candidates)
 
     if args.dry_run:
         print("Dry run — exiting without API calls.")
@@ -420,8 +464,7 @@ def main() -> None:
                 live = entry_by_id.get(event_id, entry)
                 analyses = live.setdefault("analyses", {})
 
-                # Store full tracking block
-                analyses["llm_synthesis"] = {
+                apply_llm_synthesis(analyses, {
                     "model": result["model"],
                     "synthesis": result["synthesis"],
                     "risk_level": result["risk_level"],
@@ -432,21 +475,7 @@ def main() -> None:
                     "cache_written_tokens": result["cache_written_tokens"],
                     "cache_hit": result["cache_hit"],
                     "generated_at": result["generated_at"],
-                }
-
-                # Upgrade synthesis.public_analysis with LLM text
-                # (this is what publish_dashboard_data.py reads)
-                synthesis_block = analyses.setdefault("synthesis", {})
-                if result["synthesis"]:
-                    watchpoint_suffix = (
-                        f"\n\n**Watch:** {result['watchpoint']}"
-                        if result["watchpoint"]
-                        else ""
-                    )
-                    synthesis_block["public_analysis"] = result["synthesis"] + watchpoint_suffix
-                    synthesis_block["risk_level"] = result["risk_level"]
-                    synthesis_block["llm_upgraded"] = True
-                    synthesis_block["llm_model"] = result["model"]
+                })
 
             else:
                 errors += 1

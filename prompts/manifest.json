@@ -36,14 +36,14 @@
     },
     "council_framework": {
       "consumer": "scripts/analysis/run_council_synthesis.py::build_country_system_prompt",
-      "model": "claude-sonnet-4-6",
+      "model": "claude-sonnet-5-5",
       "role": "system (cached)",
       "placeholders": [],
       "purpose": "Shared CMR framework, glossaries, evidence tiers, and interpretive rules for the synthesis analyst."
     },
     "council_synthesis_role": {
       "consumer": "scripts/analysis/run_council_synthesis.py::build_country_system_prompt",
-      "model": "claude-sonnet-4-6",
+      "model": "claude-sonnet-5-5",
       "role": "system (cached)",
       "placeholders": [],
       "purpose": "Synthesis-analyst role instructions and JSON output contract."

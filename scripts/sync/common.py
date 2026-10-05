@@ -185,7 +185,9 @@ def upsert_console_snapshot(snapshot_key: str, source_path: Path, payload: dict[
         "console_snapshots",
         payload=[row],
         query={"on_conflict": "snapshot_key"},
-        prefer="resolution=merge-duplicates,return=representation",
+        # return=minimal: the payload can be tens of MB, and echoing it back made the
+        # council_analyses upsert exceed the statement timeout (2026-10-05).
+        prefer="resolution=merge-duplicates,return=minimal",
     )
 
 

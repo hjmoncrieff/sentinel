@@ -19,6 +19,7 @@ from __future__ import annotations
 import argparse
 import glob
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -60,6 +61,8 @@ def main() -> None:
     parser.add_argument("--geolocation", action="store_true")
     parser.add_argument("--excerpts", action="store_true")
     parser.add_argument("--stale-dea", action="store_true")
+    parser.add_argument("--countries", action="store_true",
+                        help="Normalise country values outside the monitored list (v2-era codings such as 'A|B' or 'Multiple')")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -71,6 +74,19 @@ def main() -> None:
         events = [e for e in events if not (e.get("source") == "DEA" and e.get("date", "") < "2026-01-01"
                                              and (e.get("ingested_at") or "").startswith("2026-09-29"))]
         report["stale_dea_removed"] = before - len(events)
+    if args.countries:
+        import codebook
+        valid = set(codebook.countries())
+        changed = 0
+        for e in events:
+            raw = e.get("country")
+            if raw in valid or raw == "Regional":
+                continue
+            named = [c for c in valid if re.search(rf"\b{re.escape(c)}\b", str(raw or ""))]
+            # One monitored country named: use it. Several, or none: a regional event.
+            e["country_raw"], e["country"] = raw, (named[0] if len(named) == 1 else "Regional")
+            changed += 1
+        report["countries_normalised"] = changed
     if args.geolocation:
         fixed = 0
         for e in events:

@@ -10,7 +10,8 @@ These modules import each other by bare name, so they stay together at this leve
 
 | Script | Role |
 |---|---|
-| `run_pipeline.py` | ★ Entry point for the daily monitoring run (`--gdelt`, `--since`, `--from-staging`) |
+| `run_pipeline.py` | ★ Entry point for the daily monitoring run (`--gdelt`, `--since`, `--from-staging`, `--classifier v2\|v3`) |
+| `rebuild_downstream.py` | ★ Rebuilds every layer derived from `data/events.json`, in order (`--through review\|publish`); both workflows call it |
 | `pipeline_core.py` | Collect → pre-filter → classify → cluster → `data/events.json` |
 | `ingest_rss.py`, `ingest_newsapi.py`, `ingest_gdelt.py` | Source connectors |
 | `rss_sources.py` | Curated feed list |
@@ -19,7 +20,8 @@ These modules import each other by bare name, so they stay together at this leve
 | `historical_ingest.py` | Deep-backfill planner and resumable runner (`--run`); connectors: GDELT, WordPress archives, Google News date windows |
 | `enrich_ledes.py` | Resolves Google News links and stores publisher ledes for staged articles (`_ledes.json`) |
 | `codebook.py` | Loads codebook v3; renders prompt definitions, the structured-output schema and validation |
-| `classify_v3.py` | Two-pass v3 classifier: headline gate, then per-article coding (Batch API) |
+| `classify_v3.py` | Two-pass v3 classifier: headline gate, then per-article coding (concurrent requests with a cached codebook, or the Batch API) |
+| `apply_v3_codes.py` | Turns v3 codings of staged articles into clustered events in `data/events.json` |
 | `ingest_gdelt_events.py` | Standalone GDELT event-table staging |
 | `query_lexicon.py` | Builds pre-filter terms, NewsAPI queries, and Google News feed terms from `config/queries/event_query_lexicon.json` |
 | `extract_article_text.py` | Full-text extraction for sources marked `fetch_full_text` |
@@ -33,7 +35,7 @@ These modules import each other by bare name, so they stay together at this leve
 | `pipeline/` | Canonical events, actor coding, duplicate detection, actor registry |
 | `qa/` | Event and registry QA reports |
 | `review/` | Review queue, analyst and registry edits, local analyst server, gold layer, v3 gold set (`sample_gold_set.py`, `gold_v3.py`) |
-| `analysis/` | Country monitors, council, risk-model datasets, benchmarks, validation |
+| `analysis/` | Country monitors, council (rule-based), optional Sonnet synthesis with `restore_council_synthesis.py` carrying saved results forward, risk-model datasets, benchmarks, validation |
 | `publish/` | Public-safe outputs → `data/published/` |
 | `sync/` | Local ↔ Supabase sync |
 | `structural/` | Slow-moving structural data (World Bank, V-Dem, ACLED index, Greenbook, EUSANCT, financial crises) → `data/cleaned/`, then `build_country_year.py` merges them |

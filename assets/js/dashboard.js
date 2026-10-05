@@ -3069,6 +3069,8 @@ function getPublicTransparencyText(ev, linkedReports){
   }
   if(ev.council?.analyses?.synthesis?.ai_generated){
     parts.push('AI-assisted interpretation');
+  } else if(ev.council?.analyses?.synthesis?.public_analysis){
+    parts.push('Automated rule-based interpretation');
   }
   const sourceType = ev.public_review?.provenance_summary?.source_type;
   if(sourceType){

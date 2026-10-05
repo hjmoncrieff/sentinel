@@ -11,6 +11,32 @@ Each major change entry should include:
 
 ## 2026-10-05
 
+### Synthesis Made Affordable And Persistent; Honest AI Label; Codebook Note
+
+Affected areas:
+- `scripts/analysis/run_council_synthesis.py`, `scripts/analysis/restore_council_synthesis.py` (new), `scripts/analysis/run_council.py`
+- `scripts/rebuild_downstream.py`, `scripts/sync/common.py`, `scripts/pipeline/repair_event_store.py`
+- `prompts/manifest.json`, `assets/js/dashboard.js`, `.github/workflows/fetch_events.yml`
+- `docs/codebook-v3.md` (new), `docs/architecture.md`, `docs/public-site.md`, `docs/next-steps.md`, `docs/event-taxonomy-reference.md`, `scripts/README.md`
+
+What changed:
+- **Synthesis model.** Council synthesis moved from Sonnet 4.6 ($3/$15 per million tokens) to Sonnet 5.5 ($2/$10). Replies now use a JSON schema, and `MAX_TOKENS` rose from 600 to 1500: at 600, 13 of 20 Sonnet 5.5 replies were cut off mid-JSON.
+- **Cost bounded.** `--max-events` (default 150) caps one run, newest high-salience first.
+- **Synthesis persists.** `restore_council_synthesis.py` copies saved `llm_synthesis` blocks from the Supabase `council_analyses` snapshot into the freshly built council file on every rebuild. In the sync job it runs with `--strict`, so the job stops instead of pushing a copy that would erase the saved synthesis. The pipeline workflow's rebuild step now receives the Supabase secrets for this read.
+- **Honest label.** `run_council.py` marked its rule-based template text `ai_generated: True`. It is now `False`; only model-written synthesis sets it. The dashboard shows "AI-assisted interpretation" for model text and "Automated rule-based interpretation" for template text.
+- **Snapshot upserts** use `return=minimal`. Echoing the 18 MB council snapshot back made the upsert exceed Supabase's statement timeout in sync run 37330962973.
+- **Country values.** `repair_event_store.py --countries` normalises v2-era country values outside the monitored list ("A|B", "Multiple", "Spain"): one monitored country named keeps it, otherwise "Regional"; the original is kept in `country_raw`. 39 events changed.
+- `docs/codebook-v3.md` documents the codebook, the classification steps and the model comparison.
+
+Validation completed:
+- `python scripts/analysis/run_council_synthesis.py --country Cuba`: 20 of 20 events synthesised after the fix (7 on the first pass, 13 on the retry); about $0.0085 per event at Sonnet 5.5 rates
+- Round trip: council snapshot pushed (18 s), `run_council.py` rebuilt from scratch, `restore_council_synthesis.py --strict` restored 20 events, `publish_dashboard_data.py` published 20 events with `public_ai_generated: true` and the rest `false`
+- `python -m pytest -q` (98 passed)
+
+Remaining risks / follow-up:
+- Synthesis stays off in CI until the owner sets `RUN_COUNCIL_SYNTHESIS=true`. The 20 Cuba sample syntheses are published and labelled.
+- Restore matches on event id only. An event that gains new reports keeps its earlier synthesis until `--force` is used.
+
 ### Nightly Classifier Moved To Codebook v3; Supabase Sync Repaired; Shared Rebuild Script
 
 Affected areas:

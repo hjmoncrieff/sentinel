@@ -99,6 +99,10 @@ jobs:
           # between runs, so each run would re-synthesise every high/medium event.
           # Set the repo variable RUN_COUNCIL_SYNTHESIS=true once the cost is approved.
           RUN_COUNCIL_SYNTHESIS: ${{ vars.RUN_COUNCIL_SYNTHESIS }}
+          # Read-only use: restore saved synthesis from the council_analyses snapshot.
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           python scripts/rebuild_downstream.py
           if [ "$RUN_COUNCIL_SYNTHESIS" != "true" ]; then
