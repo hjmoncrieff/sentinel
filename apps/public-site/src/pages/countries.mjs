@@ -151,12 +151,20 @@ const firstSentences = (t, n = 2) => (t || '').split(/(?<=[.!?])\s+(?=[A-Z"“])
   if (out.length && /\b(?:[A-Z]\.)+$/.test(out[out.length - 1])) out[out.length - 1] += ' ' + part; else out.push(part);
   return out;
 }, []).slice(0, n).join(' ').trim();
-// Where the reference data stands: analyst-reviewed, refreshed automatically, or neither.
-const refState = c => c.reviewed
-  ? `<span class="mono ref-ok">Reviewed ${esc(fmtDate(c.reviewed))}</span>`
-  : c.auto_updated
-    ? `<span class="mono ref-auto">Auto-updated ${esc(fmtDate(c.auto_updated))}</span>`
-    : '<span class="stale-flag">Not yet reviewed</span>';
+// Where the reference data stands. A proposed change never shows its new values here:
+// the page keeps the current ones and says which are under review, until an analyst decides.
+const underReview = c => `<span class="stale-flag">Under review · change detected ${esc(fmtDate(c.proposed.date, {day: 'numeric', month: 'short'}))}</span>`;
+const refState = c => c.proposed
+  ? underReview(c)
+  : c.reviewed
+    ? `<span class="mono ref-ok">Reviewed ${esc(fmtDate(c.reviewed))}${c.reviewed_by ? ` · ${esc(c.reviewed_by)}` : ''}</span>`
+    : c.auto_updated
+      ? `<span class="mono ref-auto">Auto-updated ${esc(fmtDate(c.auto_updated))} · awaiting review</span>`
+      : '<span class="stale-flag">Not yet reviewed</span>';
+const proposedOfficial = (c, post) => (c.proposed?.record?.officials || []).find(o => o.post === post && o.name && o.source_url);
+const leaderChanged = c => { const p = proposedOfficial(c, 'head_of_government') || proposedOfficial(c, 'head_of_state'); return !!(p && p.name !== c.head_of_government); };
+const electionChanged = c => { const e = c.proposed?.record?.next_election; return !!(e?.date && e.date !== c.election?.date); };
+const flag = on => on ? ' <span class="stale-flag">Under review</span>' : '';
 const official = (c, post) => (c.officials || []).find(o => o.post === post);
 const since = o => o?.since ? ` <span class="prec">since ${esc(/^\d{4}-\d{2}$/.test(o.since) ? fmtDate(o.since + '-01', {month: 'short', year: 'numeric'}) : o.since)}</span>` : '';
 const named = o => o?.name ? `${esc(o.name)}${since(o)}` : '<span class="unconf">Not confirmed</span>';
@@ -169,7 +177,7 @@ function positions(c) {
   return `<dl class="positions officials">${c.officials.map(o => `
     <dt>${esc(o.title)}</dt>
     <dd>${named(o)}${o.source_url ? ` <a class="src-link" href="${esc(o.source_url)}" target="_blank" rel="noopener" aria-label="Source for ${esc(o.title)}">source ↗</a>` : ''}${o.note ? `<small>${esc(o.note)}</small>` : ''}</dd>`).join('')}</dl>
-    <p class="note">Checked with web search by Claude on ${esc(fmtDate(c.auto_updated))}; each name links to the page that supports it. Not yet reviewed by an analyst.</p>`;
+    <p class="note">${c.reviewed ? `Researched with web search by Claude; reviewed by ${esc(c.reviewed_by || 'an analyst')} on ${esc(fmtDate(c.reviewed))}.` : `Researched with web search by Claude on ${esc(fmtDate(c.auto_updated))}; each name links to the page that supports it. Awaiting analyst review.`}</p>`;
 }
 
 export function renderCountry(c, model, ctx) {
@@ -181,16 +189,17 @@ export function renderCountry(c, model, ctx) {
     <section class="c-head">
       <div><div class="kicker">${c.iso3} · ${esc(c.subregion)} · Country monitor${c.in_depth ? ' · <span style="color:var(--amber)">In-depth</span>' : ''}</div><h1 style="margin-top:8px">${esc(c.name)}</h1>
         <p style="margin:14px 0 0;color:var(--ink-2);max-width:62ch">${esc(c.auto_updated ? c.note : firstSentences(c.note))}</p>
-        ${c.auto_updated ? `<p class="mono ref-auto" style="margin:8px 0 0">AI-assisted summary · ${esc(fmtDate(c.auto_updated))}</p>` : ''}</div>
+        ${c.auto_updated ? `<p class="mono ref-auto" style="margin:8px 0 0">AI-assisted summary · ${esc(fmtDate(c.auto_updated))}</p>` : ''}
+        ${c.proposed ? `<p class="note" style="margin:8px 0 0">New reporting suggests some of the reference details on this page have changed. They are shown as last confirmed until an analyst reviews the update.</p>` : ''}</div>
       <dl class="facts">
         <dt>CMR status</dt><dd>${chip(c)}</dd>
-        <dt>${esc(official(c, 'head_of_state')?.title?.replace(/ \(.*\)$/, '') || 'Government')}</dt><dd>${official(c, 'head_of_state') ? named(official(c, 'head_of_state')) : esc(c.head_of_government || '—')}</dd>
+        <dt>${esc(official(c, 'head_of_state')?.title?.replace(/ \(.*\)$/, '') || 'Government')}</dt><dd>${official(c, 'head_of_state') ? named(official(c, 'head_of_state')) : esc(c.head_of_government || '—')}${flag(leaderChanged(c))}</dd>
         ${official(c, 'head_of_government') ? `<dt>${esc(official(c, 'head_of_government').title)}</dt><dd>${named(official(c, 'head_of_government'))}</dd>` : ''}
         ${official(c, 'vice_president') ? `<dt>Vice President</dt><dd>${named(official(c, 'vice_president'))}</dd>` : ''}
         ${official(c, 'defence_minister') ? `<dt>Defence minister</dt><dd>${named(official(c, 'defence_minister'))}</dd>` : ''}
         <dt>Regime</dt><dd>${esc(c.regime || '—')}</dd>
         <dt>Armed forces</dt><dd>${esc(c.branches || '—')}</dd>
-        <dt>Next election</dt><dd>${electionText(c.election)}</dd>
+        <dt>Next election</dt><dd>${electionText(c.election)}${flag(electionChanged(c))}</dd>
         ${c.last_election ? `<dt>Last election</dt><dd>${electionText(c.last_election)}</dd>` : ''}
         <dt>Reference data</dt><dd>${refState(c)}</dd>
       </dl>

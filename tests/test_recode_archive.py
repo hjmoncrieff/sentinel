@@ -79,7 +79,14 @@ def test_reference_refresh_selection_and_merge():
         {"post": "navy_commander", "name": "", "title": "Commander of the Navy", "since": "", "source_url": "", "note": "Not confirmed."},
     ], "next_election": {"type": "Presidential", "date": "2030-05", "note": "", "source_url": "https://example.org/e"},
         "last_election": {"type": "", "date": "", "note": "", "source_url": ""}, "summary_note": "New note.", "watch_note": "Watch.", "changes": []}
-    changes = rr.merge(country, record, today, "claude-sonnet-5-5")
+    # Research is stored as a proposal: nothing the public page shows has changed yet.
+    changes = rr.propose(country, record, today, "claude-sonnet-5-5", "test")
+    assert country["head_of_government"] == "Gustavo Petro" and "officials" not in country and country["note"] == "old"
+    assert country["proposed"]["changes"] == changes and country["auto_checked"] == "2026-10-05"
+    assert rr.apply_proposal(country, "HM", today) == changes
+    assert "proposed" not in country and country["reviewed"] == "2026-10-05" and country["reviewed_by"] == "HM"
+    # Researching again and finding the same facts makes no new proposal.
+    assert rr.propose(country, record, today, "claude-sonnet-5-5", "test") == [] and "proposed" not in country
     by_post = {o["post"]: o for o in country["officials"]}
     assert country["head_of_government"] == "Abelardo de la Espriella" and country["auto_updated"] == "2026-10-05"
     assert by_post["defence_minister"]["name"] is None  # a name without a source is never published

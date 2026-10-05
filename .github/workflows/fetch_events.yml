@@ -133,8 +133,9 @@ jobs:
 
       # Country officeholders, commanders and elections, researched with web search.
       # Runs for countries whose recent events signal a change, plus the entries not
-      # checked in 30 days; at most three a night (about $0.25 each). A failure here
-      # must not block the data refresh.
+      # checked in 30 days; at most three a night (about $0.25 each). Findings are
+      # stored as proposals: the site keeps the current values, marked "Under review",
+      # until an analyst approves them. A failure here must not block the data refresh.
       - name: Refresh country reference
         continue-on-error: true
         env:

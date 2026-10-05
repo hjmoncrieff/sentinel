@@ -4,8 +4,8 @@ Keep the public site's country reference current.
 
 For each selected country, Claude researches the current officeholders, service
 commanders and elections with web search and records them, each with a source
-URL. The result is merged into apps/public-site/reference/countries.json and
-every change is appended to apps/public-site/reference/changes.json.
+URL. The result is stored as a proposal in apps/public-site/reference/countries.json;
+every proposal and decision is appended to apps/public-site/reference/changes.json.
 
 Which countries are refreshed:
   --countries "Colombia,Peru"   exactly these
@@ -16,16 +16,26 @@ Which countries are refreshed:
 --triggered and --stale-days combine; --max-countries caps one run's cost.
 
 The nightly workflow runs `--triggered --stale-days 30 --max-countries 3`, so a
-change in the news is picked up the same night and every entry is re-checked at
+change in the news is proposed the same night and every entry is re-checked at
 least monthly.
 
-What is and is not overwritten:
-  - officials, head of government, elections, the summary note and the watch
-    note are replaced with the researched, sourced values;
-  - a post the research could not confirm keeps no name (never a guess, never
-    the old value carried over) and is shown as unconfirmed;
+Nothing researched is published directly. Each run stores a proposal on the
+country's entry (`proposed`), and the public page keeps showing the current
+values, marked "Under review", until an analyst approves or dismisses it:
+
+  python3 scripts/reference/review_reference.py list
+  python3 scripts/reference/review_reference.py approve Colombia --reviewer HM
+  python3 scripts/reference/review_reference.py dismiss Colombia --reviewer HM
+
+When research finds nothing different from the current entry, no proposal is
+made and only the "last checked" date moves.
+
+What a proposal can change, once approved:
+  - officials, head of government, elections, the summary note and the watch note;
+  - a post the research could not confirm carries no name (never a guess, never
+    the old value carried over);
   - cmr_status / cmr_class, military roles and in-depth monitor content are
-    analytical judgements and are never touched;
+    analytical judgements and are never part of a proposal;
   - a country whose entry has "locked": true is skipped (an analyst owns it).
 
 Usage:
@@ -138,6 +148,11 @@ def triggered_countries(events: list[dict], today: date, window: int = TRIGGER_W
     return hits
 
 
+def last_checked(country: dict) -> str:
+    """Date of the last research on a country, whether or not it led to a change."""
+    return max(country.get("auto_checked") or "", country.get("auto_updated") or "")
+
+
 def select(countries: list[dict], args, events: list[dict], today: date) -> list[tuple[dict, str]]:
     by_name = {c["name"]: c for c in countries}
     picked: dict[str, str] = {}
@@ -151,13 +166,13 @@ def select(countries: list[dict], args, events: list[dict], today: date) -> list
     if args.triggered:
         recent = (today - timedelta(days=TRIGGER_COOLDOWN_DAYS)).isoformat()
         for name, headline in triggered_countries(events, today).items():
-            if name in by_name and (by_name[name].get("auto_updated") or "") < recent:
+            if name in by_name and last_checked(by_name[name]) < recent:
                 picked.setdefault(name, f"event: {headline[:90]}")
     if args.stale_days is not None:
         cutoff = (today - timedelta(days=args.stale_days)).isoformat()
-        stale = sorted((c for c in countries if (c.get("auto_updated") or "") < cutoff), key=lambda c: c.get("auto_updated") or "")
+        stale = sorted((c for c in countries if last_checked(c) < cutoff), key=last_checked)
         for c in stale:
-            picked.setdefault(c["name"], f"not refreshed since {c.get('auto_updated') or 'ever'}")
+            picked.setdefault(c["name"], f"not checked since {last_checked(c) or 'ever'}")
     rows = [(by_name[n], why) for n, why in picked.items() if not by_name[n].get("locked")]
     return rows[: args.max_countries] if args.max_countries else rows
 
@@ -246,6 +261,40 @@ def merge(country: dict, record: dict, today: date, model: str) -> list[str]:
     return changed + [c for c in record.get("changes") or [] if c not in changed]
 
 
+COMPARED = ("head_of_government",)
+
+
+def _facts(country: dict) -> dict:
+    """The publishable facts of an entry, for telling whether research found anything new."""
+    return {
+        "leader": country.get("head_of_government"),
+        "officials": {o["post"]: o.get("name") for o in country.get("officials") or []},
+        "next_election": ((country.get("election") or {}).get("type"), (country.get("election") or {}).get("date")),
+    }
+
+
+def propose(country: dict, record: dict, today: date, model: str, trigger: str) -> list[str]:
+    """Store researched values as a proposal awaiting analyst review. Returns the differences found;
+    an empty list means the entry already matches and no proposal was stored."""
+    import copy
+    candidate = copy.deepcopy({k: v for k, v in country.items() if k != "proposed"})
+    changes = merge(candidate, record, today, model)
+    country["auto_checked"] = today.isoformat()
+    if country.get("officials") and _facts(candidate) == _facts(country):
+        country.pop("proposed", None)
+        return []
+    country["proposed"] = {"date": today.isoformat(), "trigger": trigger, "model": model, "record": record, "changes": changes}
+    return changes
+
+
+def apply_proposal(country: dict, reviewer: str, today: date) -> list[str]:
+    """Approve a stored proposal: publish its values and record who reviewed them."""
+    proposal = country.pop("proposed")
+    changes = merge(country, proposal["record"], date.fromisoformat(proposal["date"]), proposal["model"])
+    country["reviewed"], country["reviewed_by"] = today.isoformat(), reviewer
+    return changes
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--countries")
@@ -290,16 +339,17 @@ def main() -> None:
             print(f"  {country['name']}: no record returned; left unchanged")
             failed += 1
             continue
-        changes = merge(country, record, today, model)
-        confirmed = sum(1 for o in country["officials"] if o["name"])
-        print(f"  {country['name']}: {confirmed}/{len(country['officials'])} posts confirmed, {usage['searches']} searches"
-              + (f"; changes: {'; '.join(changes)}" if changes else "; no changes"))
-        log["changes"].append({"date": today.isoformat(), "country": country["name"], "trigger": why, "model": model, "changes": changes})
+        changes = propose(country, record, today, model, why)
+        confirmed = sum(1 for o in record.get("officials") or [] if o.get("name") and o.get("source_url"))
+        print(f"  {country['name']}: {confirmed}/{len(record.get('officials') or [])} posts confirmed, {usage['searches']} searches"
+              + (f"; proposed for review: {'; '.join(changes)}" if changes else "; matches the current entry"))
+        if changes:
+            log["changes"].append({"date": today.isoformat(), "country": country["name"], "action": "proposed", "trigger": why, "model": model, "changes": changes})
         done += 1
         # Save after each country so an interrupted run keeps its work.
         REFERENCE.write_text(json.dumps(reference, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         CHANGES.write_text(json.dumps(log, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    print(f"Refreshed {done} countries, {failed} failed. Usage: {json.dumps(totals)}")
+    print(f"Researched {done} countries, {failed} failed. Usage: {json.dumps(totals)}")
 
 
 if __name__ == "__main__":

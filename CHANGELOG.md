@@ -11,6 +11,26 @@ Each major change entry should include:
 
 ## 2026-10-05
 
+### Reference Updates Now Wait For Analyst Review
+
+Affected areas:
+- `scripts/reference/refresh_country_reference.py`, `scripts/reference/review_reference.py` (new), `scripts/reference/README.md`
+- `apps/public-site/src/pages/countries.mjs`, `apps/public-site/README.md`, `.github/workflows/fetch_events.yml`, `tests/test_recode_archive.py`
+
+What changed:
+- **Owner decision (country-page review, 2026-10-05):** flag changes automatically, keep showing the old value until an analyst reviews it. This replaces the automatic publishing shipped earlier the same day.
+- The refresh job now stores its findings as `proposed` on the country entry and moves only `auto_checked`. When the research matches the current entry, no proposal is stored.
+- `review_reference.py` is the review step: `list`, `show`, `approve --reviewer`, `dismiss --reviewer`. Approval publishes the proposal and records reviewer and date; both decisions are logged.
+- Country pages show "Under review · change detected <date>" on the reference status and on the fields a proposal would change (head of state, next election, key positions). Proposed values are never rendered.
+
+Validation completed:
+- `python -m pytest -q` (108 passed): a proposal leaves every published field unchanged, approval applies it, and repeating the same research makes no new proposal
+- Throwaway build with a sample proposal on Venezuela: four "Under review" markers, proposed name absent from the page
+
+Remaining risks / follow-up:
+- Colombia was refreshed before this decision and shows the new values, labelled "Auto-updated · awaiting review". It needs an owner sign-off (set `reviewed`) or a revert.
+- The review step is a command for now. A review queue in the analyst console (Supabase table, console screen, sync of decisions) is the next piece.
+
 ### Country Reference Refreshed Automatically, With Sources
 
 Affected areas:

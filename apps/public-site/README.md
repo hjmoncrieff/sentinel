@@ -22,7 +22,8 @@ public-safe layer), plus the two folders below.
 | `src/pages/` | Page templates: `front`, `feed`, `countries` (index and country monitor), `maps`, `layout` |
 | `src/client/` | Browser modules: live feed, map interaction, table and timeline behaviour |
 | `src/styles/site.css` | The design tokens and all styles |
-| `reference/countries.json` | Hand-maintained country reference: profile, key positions, elections, watch notes, military roles, in-depth monitor content. Set `reviewed` to a date when an entry is checked; pages show "Not yet reviewed" until then |
+| `reference/countries.json` | Country reference: profile, officials, elections, watch notes, military roles, in-depth monitor content. `scripts/reference/refresh_country_reference.py` proposes updates (`proposed`); `scripts/reference/review_reference.py approve` publishes them and sets `reviewed`. Pages show "Under review" while a proposal is pending |
+| `reference/changes.json` | Log of every proposal and review decision |
 | `reference/americas-topo.json` | Map geometry (world-atlas 110m) |
 | `content/weekly.json` | Optional editor-approved weekly note (see below) |
 
