@@ -16,7 +16,10 @@ These modules import each other by bare name, so they stay together at this leve
 | `rss_sources.py` | Curated feed list |
 | `normalize_articles.py` | Shared article-record schema |
 | `prompt_library.py` | Loads the versioned prompts and model IDs in `prompts/` |
-| `historical_ingest.py` | Deep-backfill planner and resumable runner (`--run`) |
+| `historical_ingest.py` | Deep-backfill planner and resumable runner (`--run`); connectors: GDELT, WordPress archives, Google News date windows |
+| `enrich_ledes.py` | Resolves Google News links and stores publisher ledes for staged articles (`_ledes.json`) |
+| `codebook.py` | Loads codebook v3; renders prompt definitions, the structured-output schema and validation |
+| `classify_v3.py` | Two-pass v3 classifier: headline gate, then per-article coding (Batch API) |
 | `ingest_gdelt_events.py` | Standalone GDELT event-table staging |
 | `query_lexicon.py` | Builds pre-filter terms, NewsAPI queries, and Google News feed terms from `config/queries/event_query_lexicon.json` |
 | `extract_article_text.py` | Full-text extraction for sources marked `fetch_full_text` |
@@ -29,7 +32,7 @@ These modules import each other by bare name, so they stay together at this leve
 |---|---|
 | `pipeline/` | Canonical events, actor coding, duplicate detection, actor registry |
 | `qa/` | Event and registry QA reports |
-| `review/` | Review queue, analyst and registry edits, local analyst server, gold layer |
+| `review/` | Review queue, analyst and registry edits, local analyst server, gold layer, v3 gold set (`sample_gold_set.py`, `gold_v3.py`) |
 | `analysis/` | Country monitors, council, risk-model datasets, benchmarks, validation |
 | `publish/` | Public-safe outputs → `data/published/` |
 | `sync/` | Local ↔ Supabase sync |

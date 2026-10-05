@@ -834,7 +834,7 @@ def canonicalize_event(
             {
                 "event_type": event.get("type", "other"),
                 "raw_confidence": event.get("conf"),
-                "classification_model": CLASSIFICATION_MODEL,
+                "classification_model": (event.get("v3") or {}).get("coded_by") or CLASSIFICATION_MODEL,
             },
         ),
         timeline_entry(
@@ -909,7 +909,7 @@ def canonicalize_event(
         "provenance": {
             "source_type": event.get("source_type"),
             "ingested_at": ingested_at,
-            "classification_model": CLASSIFICATION_MODEL,
+            "classification_model": (event.get("v3") or {}).get("coded_by") or CLASSIFICATION_MODEL,
             "merge_strategy": merge_strategy,
             "source_event_id": event.get("sentinel_id"),
             "deed_type": event.get("deed_type"),

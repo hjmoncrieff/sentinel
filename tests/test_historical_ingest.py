@@ -112,3 +112,36 @@ def test_real_manifest_is_runnable_for_known_sources():
     ids = {s["source_id"] for s in runnable}
     assert {"gdelt_api", "insight_crime_archive", "americas_quarterly_archive", "nacla_archive"} <= ids
     assert all(s["reason"] for s in skipped)
+
+
+def test_week_windows_cover_range_without_overlap():
+    from datetime import datetime, timezone
+
+    start = datetime(2026, 8, 1, tzinfo=timezone.utc)
+    end = datetime(2026, 9, 1, tzinfo=timezone.utc)
+    windows = hi.week_windows(start, end)
+    assert windows[0][0] == start and windows[-1][1] == end
+    assert all(a[1] == b[0] for a, b in zip(windows, windows[1:]))
+    assert all((w[1] - w[0]).days <= 7 for w in windows)
+
+
+def test_google_news_backfill_queries_are_short_and_windowed():
+    # Regression (2026-09-29): Google ignores after:/before: on long OR queries,
+    # so backfill queries must drop the live feeds' topic terms.
+    from datetime import datetime, timezone
+
+    from ingest_rss import google_news_backfill_feeds, google_news_window_url
+
+    feeds = [
+        {"name": "Small", "url": "https://news.google.com/rss/search?q=site:nacla.org+(army+OR+police)&hl=en-US&gl=US&ceid=US:en"},
+        {"name": "Wire", "url": "https://news.google.com/rss/search?q=site:apnews.com+(army+OR+coup)&hl=en-US&gl=US&ceid=US:en"},
+        {"name": "Wire dup", "url": "https://news.google.com/rss/search?q=site:apnews.com+(election)&hl=en-US&gl=US&ceid=US:en"},
+    ]
+    queries = google_news_backfill_feeds(feeds, ["Haiti", "El Salvador"])
+    urls = [q["url"] for q in queries]
+    assert "https://news.google.com/rss/search?q=site:nacla.org&hl=en-US&gl=US&ceid=US:en" in urls
+    assert any("site:apnews.com+%22El+Salvador%22" in u for u in urls)
+    assert len(urls) == 3 and not any("OR" in u for u in urls)
+
+    windowed = google_news_window_url(urls[0], datetime(2026, 8, 1), datetime(2026, 8, 8))
+    assert "site:nacla.org+after:2026-08-01+before:2026-08-08&hl=" in windowed

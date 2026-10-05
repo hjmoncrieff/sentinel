@@ -154,3 +154,37 @@ can:
 - Supabase Edge Functions own authenticated analyst write actions
 - GitHub Actions runs the sync/export cycle automatically for public release
 - GitHub Pages serves only the public dashboard layer
+
+## Restoring A Removed Project
+
+Supabase pauses free-tier projects after a period of inactivity, and a project
+left paused long enough can no longer be restored. Either way its
+`https://<ref>.supabase.co` address stops resolving. When that happens:
+
+- analyst login in the console fails;
+- the nightly "Supabase Sync" workflow skips itself with a warning and opens the
+  issue "Supabase project is unreachable";
+- the public site and the nightly data pipeline keep working.
+
+To recover:
+
+1. Open the Supabase dashboard. If the project is listed as paused, choose
+   **Restore**. The address and keys stay the same, and nothing else is needed.
+2. If it cannot be restored, create a new project, then from the repo root:
+
+   ```bash
+   supabase login
+   supabase link          # pick the new project
+   supabase db push       # applies supabase/migrations/
+   supabase functions deploy review-action
+   ```
+
+3. Put the new URL and public `anon` key in `apps/analyst-console/supabase-config.js`.
+4. Update `SUPABASE_URL` and `SUPABASE_SECRET_KEY` in the local `.env` and in the
+   GitHub repository secrets.
+5. Recreate the analyst accounts in the dashboard (Authentication → Users).
+   Analyst edits, review decisions and audit logs that lived only in the old
+   project are not recoverable from this repository.
+6. Run `make supabase-cycle` locally, then dispatch the "Supabase Sync" workflow
+   and close the tracking issue.
+

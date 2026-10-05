@@ -25,6 +25,7 @@ Optional env vars:
 """
 
 import hashlib
+import html
 import json
 import logging
 import os
@@ -76,6 +77,10 @@ except ImportError:
 
 DAYS_BACK      = 2          # RSS / ACLED lookback window
 CATCHUP_MAX_DAYS = 10       # widest automatic window after missed runs
+CLASSIFIER     = "v3"       # "v3": codebook v3 (headline gate + per-article coding); "v2": legacy batch prompt
+V3_CODE_WORKERS   = 4       # concurrent coding requests
+V3_LEDE_LIMIT     = 60      # most headline-only articles to fetch opening text for per run
+V3_LEDE_INTERVAL  = 2.0     # seconds between Google News link decodes
 MAX_ACLED_ROWS = 100
 CLASSIFY_BATCH = 8          # articles per Claude classification call
 CLUSTER_BATCH  = 20         # max candidates per clustering call
@@ -138,7 +143,7 @@ PLACE_COORDS: dict[str, list[float]] = {
     # Colombia
     "bogotá": [4.71, -74.07], "bogota": [4.71, -74.07], "medellín": [6.25, -75.56],
     "medellin": [6.25, -75.56], "cali": [3.44, -76.52], "cartagena": [10.39, -75.51],
-    "barranquilla": [10.97, -74.80], "cúcuta": [7.89, -72.51], "cucuta": [7.89, -72.51],
+    "barranquilla": [10.97, -74.80], "santa marta": [11.24, -74.20], "tumaco": [1.81, -78.76], "cúcuta": [7.89, -72.51], "cucuta": [7.89, -72.51],
     "bucaramanga": [7.13, -73.13], "catatumbo": [8.8, -73.0], "urabá": [8.0, -76.5],
     "uraba": [8.0, -76.5], "cauca": [2.7, -76.8], "nariño": [1.28, -77.28],
     "narino": [1.28, -77.28], "putumayo": [0.43, -76.64], "chocó": [5.7, -76.7],
@@ -163,11 +168,11 @@ PLACE_COORDS: dict[str, list[float]] = {
     # Brazil
     "brasília": [-15.78, -47.93], "brasilia": [-15.78, -47.93],
     "são paulo": [-23.55, -46.63], "sao paulo": [-23.55, -46.63],
-    "rio de janeiro": [-22.91, -43.17], "rio": [-22.91, -43.17],
+    "rio de janeiro": [-22.91, -43.17],
     "manaus": [-3.10, -60.02], "belém": [-1.46, -48.50], "belem": [-1.46, -48.50],
     "salvador": [-12.97, -38.50], "recife": [-8.06, -34.88],
     "fortaleza": [-3.72, -38.54], "porto alegre": [-30.03, -51.23],
-    "amazonas": [-3.1, -60.0], "pará": [-3.5, -52.0], "para": [-3.5, -52.0],
+    "amazonas": [-3.1, -60.0], "pará": [-3.5, -52.0],
     # El Salvador
     "san salvador": [13.69, -89.19], "soyapango": [13.71, -89.15],
     "santa ana": [13.99, -89.56], "san miguel": [13.48, -88.18],
@@ -241,22 +246,47 @@ PLACE_COUNTRY: dict[str, str] = {
 }
 
 
+_PLACE_PATTERNS: list[tuple[str, "re.Pattern[str]", list[float]]] | None = None
+MULTI_COUNTRY_LABELS = {"Regional", "Multiple"}
+
+
+def _place_owner(place: str, coords: list[float]) -> str | None:
+    """Country a place belongs to: explicit PLACE_COUNTRY, else the nearest country centroid."""
+    if place in PLACE_COUNTRY:
+        return PLACE_COUNTRY[place]
+    best, best_d = None, float("inf")
+    for name, (lat, lon) in COUNTRY_CENTROIDS.items():
+        d = (lat - coords[0]) ** 2 + (lon - coords[1]) ** 2
+        if d < best_d:
+            best, best_d = name, d
+    return best
+
+
+def _place_patterns() -> list[tuple[str, "re.Pattern[str]", list[float]]]:
+    global _PLACE_PATTERNS
+    if _PLACE_PATTERNS is None:
+        _PLACE_PATTERNS = [
+            (place.lower(), re.compile(rf"(?<!\w){re.escape(place.lower())}(?!\w)"), coords)
+            for place, coords in sorted(PLACE_COORDS.items(), key=lambda x: -len(x[0]))
+        ]
+    return _PLACE_PATTERNS
+
+
 def geolocate(text: str, country: str) -> list[float]:
     """Try to find specific coords from text, fall back to country centroid.
 
-    Country-aware: if a place name is registered in PLACE_COUNTRY and that
-    country does NOT match the event's country, skip it so we don't assign
-    e.g. the Brazilian city of Salvador to an El Salvador event.
+    Places match on whole words only, longest name first, and a place is used only
+    when it belongs to the event's country (explicitly via PLACE_COUNTRY, otherwise
+    by nearest country centroid). Regression 2026-09-29: substring matching put 14%
+    of events in Brazil ("para" inside Spanish text, "rio" inside "Río").
     """
     text_lower = text.lower()
-    # Longest match first to avoid sub-string shadowing (e.g. "lima" in "lima beans")
-    for place, coords in sorted(PLACE_COORDS.items(), key=lambda x: -len(x[0])):
-        if place.lower() in text_lower:
-            place_ctry = PLACE_COUNTRY.get(place.lower())
-            # Skip if this place is explicitly assigned to a DIFFERENT country
-            if place_ctry is not None and place_ctry != country:
-                continue
-            return coords
+    for place, pattern, coords in _place_patterns():
+        if not pattern.search(text_lower):
+            continue
+        if country not in MULTI_COUNTRY_LABELS and _place_owner(place, coords) != country:
+            continue
+        return coords
     return COUNTRY_CENTROIDS.get(country, [0.0, 0.0])
 
 
@@ -433,6 +463,73 @@ def dedupe_ingested_articles(articles: list[dict]) -> list[dict]:
     return deduped
 
 
+_SOURCE_META_FIELDS = {"source_tier": "tier", "source_role": "role", "source_policy": "policy",
+                       "source_quality_weight": "quality_weight", "source_languages": "languages"}
+
+
+def fill_source_metadata(articles: list[dict]) -> None:
+    """Fill missing tier/role/policy from the curated feed list, matched by source name.
+
+    Archive and historical connectors build records without feed metadata, which
+    left InSight Crime and other archive items with a null tier (fixed 2026-09-29).
+    """
+    from rss_sources import RSS_FEEDS
+    by_name = {f["name"].lower(): f for f in RSS_FEEDS}
+    for article in articles:
+        feed = by_name.get((article.get("source") or "").lower())
+        if not feed:
+            continue
+        for field, key in _SOURCE_META_FIELDS.items():
+            if article.get(field) in (None, "", []) and feed.get(key) not in (None, "", []):
+                article[field] = feed[key]
+
+
+ACTOR_ROLES = {"executive", "military", "judiciary", "legislature", "civil_society", "external", "oc_group"}
+TARGET_ROLES = ACTOR_ROLES | {"population"}
+
+
+def coded_role(value: str | None, allowed: set[str]) -> str | None:
+    """Keep one valid actor/target code; the model sometimes returns "military|external"."""
+    for part in re.split(r"[|,/]", value or ""):
+        part = part.strip().lower()
+        if part in allowed:
+            return part
+    return None
+
+
+CONTENT_TYPES = {"event", "analysis", "profile"}
+# Google News appends " - Publisher" to every headline ("... - Revista Semana").
+_GNEWS_SUFFIX = re.compile(r"\s+[-–|]\s+[^-–|]{2,60}$")
+
+
+def clean_headline(title: str, source_method: str | None = None) -> str:
+    """Strip the publisher suffix that Google News adds to headlines."""
+    title = (title or "").strip()
+    if source_method and "google_news" in source_method:
+        stripped = _GNEWS_SUFFIX.sub("", title)
+        if len(stripped) >= 20:
+            return stripped
+    return title
+
+
+REPORT_EXCERPT_CHARS = 1200
+
+
+def report_excerpt(text: str | None) -> str | None:
+    """Plain-text excerpt of a source's description, kept on each linked report.
+
+    Stored so event records can show what each source said (added 2026-09-29;
+    before this only the headline was kept). The public layer trims it further.
+    """
+    if not text:
+        return None
+    clean = re.sub(r"<[^>]+>", " ", html.unescape(text))
+    clean = re.sub(r"\s+", " ", clean).strip()
+    if len(clean) <= REPORT_EXCERPT_CHARS:
+        return clean or None
+    return clean[:REPORT_EXCERPT_CHARS].rsplit(" ", 1)[0] + "…"
+
+
 def _matches_latam_scope(text: str) -> bool:
     lowered = normalize_text(text or "")
     return any(token in lowered for token in LATAM_MATCH_TOKENS)
@@ -558,15 +655,22 @@ def save_events(existing: dict, new_events: list[dict]) -> int:
     return added
 
 
+def _before_cutoff(date_str: str | None, cutoff: datetime | None) -> bool:
+    """True when an item's YYYY-MM-DD date falls before the run's lookback cutoff."""
+    return bool(cutoff and date_str and date_str[:10] < cutoff.strftime("%Y-%m-%d"))
+
+
 # ── DSCA ───────────────────────────────────────────────────────────────────────
 
-def fetch_dsca() -> list[dict]:
-    """Fetch DSCA Major Arms Sales items from the official RSS feed."""
+def fetch_dsca(cutoff: datetime | None = None) -> list[dict]:
+    """Fetch DSCA Major Arms Sales items from the official RSS feed, on or after cutoff."""
     url = "https://www.dsca.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=700&Site=1509&isdashboardselected=0&max=25"
     try:
         items = []
         for entry in _fetch_rss_items(url, limit=25):
             combined_text = f"{entry['title']} {entry['description']}"
+            if _before_cutoff(entry.get("date"), cutoff):
+                continue
             if _matches_latam_scope(combined_text):
                 items.append(make_article_record(
                     title=entry["title"],
@@ -593,8 +697,12 @@ def fetch_dsca() -> list[dict]:
 
 # ── DEA ────────────────────────────────────────────────────────────────────────
 
-def fetch_dea() -> list[dict]:
-    """Use Google News discovery for DEA official releases when direct fetch is blocked."""
+def fetch_dea(cutoff: datetime | None = None) -> list[dict]:
+    """Use Google News discovery for DEA official releases when direct fetch is blocked.
+
+    Google News returns releases from any year, so items before cutoff are dropped
+    (regression 2026-09-29: 2016-2024 releases were being stored as new events).
+    """
     url = gnews_site_feed(
         "dea.gov",
         "drug+OR+cartel+OR+extradition+OR+trafficking+OR+fentanyl+OR+operation+OR+sanctions+OR+Latin+America+OR+Mexico+OR+Colombia+OR+Venezuela+OR+Brazil+OR+Ecuador+OR+Peru+OR+Haiti"
@@ -603,6 +711,8 @@ def fetch_dea() -> list[dict]:
         items = []
         for entry in _fetch_rss_items(url, limit=25):
             combined_text = f"{entry['title']} {entry['description']}"
+            if _before_cutoff(entry.get("date"), cutoff):
+                continue
             if _matches_latam_scope(combined_text):
                 items.append(make_article_record(
                     title=entry["title"],
@@ -757,6 +867,25 @@ def _article_relevance_score(article: dict) -> float:
     article["retrieval_query_labels"] = [QUERY_FAMILY_LABELS.get(family, family) for family in article["retrieval_query_families"]]
     article["retrieval_negative_hits"] = negative_hits
     return round(score, 3)
+
+
+def scope_filter_backfill(articles: list[dict]) -> list[dict]:
+    """Backfill-only gate: region-wide sources must name a Latin American country.
+
+    Date-windowed Google News queries against wires (site:reuters.com Haiti) return
+    many global stories that mention the country only in the body. Articles from
+    country-specific feeds are Latin American by construction and pass untouched.
+    Measured 2026-09-29: 12,532 pre-filtered backfill articles -> ~3,000.
+    """
+    from rss_sources import RSS_FEEDS
+    national = {f["name"] for f in RSS_FEEDS if f.get("countries") and f["countries"] != ["Regional"]}
+    kept = [
+        a for a in articles
+        if a.get("source") in national
+        or _matches_latam_scope(f"{a.get('title', '')} {a.get('description', '')}")
+    ]
+    log.info(f"Backfill scope gate: {len(articles)} → {len(kept)} articles name a LatAm country or come from a national feed")
+    return kept
 
 
 def pre_filter(articles: list[dict]) -> list[dict]:
@@ -1152,8 +1281,8 @@ def _merge_cluster(events: list[dict]) -> dict:
     return _recompute_event_confidence(merged)
 
 
-def classify_articles(client: anthropic.Anthropic, articles: list[dict], existing_events: dict[str, dict]) -> list[dict]:
-    """Classify, deduplicate, and cluster a list of raw articles into event records."""
+def _fresh_articles(articles: list[dict], existing_events: dict[str, dict]) -> list[dict]:
+    """Articles not already linked to a stored event (by article id, URL, or title+date)."""
     existing_article_ids = {
         article_id
         for event in existing_events.values()
@@ -1180,6 +1309,107 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
             seen_titles.add(key)
             fresh.append(a)
     log.info(f"Dedup: {len(articles)} → {len(fresh)} fresh articles")
+    return fresh
+
+
+def _cluster_candidates(client: anthropic.Anthropic, candidates: list[dict]) -> list[dict]:
+    """Semantic clustering per country: merge reports of the same incident."""
+    by_country: dict[str, list] = defaultdict(list)
+    for ev in candidates:
+        by_country[ev["country"]].append(ev)
+
+    merged_events: list[dict] = []
+    for country, evs in by_country.items():
+        if len(evs) <= 1:
+            merged_events.extend(evs)
+            continue
+        for i in range(0, len(evs), CLUSTER_BATCH):
+            chunk = evs[i:i + CLUSTER_BATCH]
+            clusters = _cluster_events(client, chunk)
+            for cluster_idxs in clusters:
+                group = [chunk[j] for j in cluster_idxs if j < len(chunk)]
+                if group:
+                    merged_events.append(_merge_cluster(group))
+            time.sleep(0.3)
+
+    log.info(f"After clustering: {len(candidates)} → {len(merged_events)} events")
+    return merged_events
+
+
+def _record_usage_dict(stage: str, usage: dict | None, *, item_count: int = 0) -> None:
+    """record_anthropic_usage for the v3 classifier, which returns usage as a dict."""
+    usage = usage or {}
+    bucket = RUN_METRICS["anthropic"].setdefault(stage, {"requests": 0, "input_tokens": 0, "output_tokens": 0, "items": 0})
+    bucket["requests"] += 1
+    bucket["input_tokens"] += sum(int(usage.get(k) or 0) for k in ("input_tokens", "cache_read_input_tokens", "cache_creation_input_tokens"))
+    bucket["output_tokens"] += int(usage.get("output_tokens") or 0)
+    bucket["items"] += item_count
+
+
+def classify_articles_v3(client: anthropic.Anthropic, articles: list[dict], existing_events: dict[str, dict]) -> list[dict]:
+    """Codebook v3 path: headline gate, opening text for kept items, per-article coding, clustering.
+
+    Events keep the v2 fields the site reads and carry the full coding under `v3`.
+    """
+    import classify_v3
+    import enrich_ledes
+    from apply_v3_codes import to_event
+
+    fresh = _fresh_articles(articles, existing_events)
+    for a in fresh:
+        if not a.get("article_id"):
+            a["article_id"] = hashlib.sha1(f"{a.get('url') or a['title']}{a['date']}".encode()).hexdigest()[:16]
+    if not fresh:
+        return []
+
+    gate_model = model_for("relevance_gate")
+    decisions = classify_v3.gate(client, fresh, use_batch=False, model=gate_model)
+    gate_errors = sum(1 for d in decisions.values() if d.get("gate_error"))
+    if gate_errors == len(fresh):
+        raise RuntimeError(f"The headline gate failed for all {len(fresh)} articles; nothing was classified.")
+    _record_usage_dict("gate", None, item_count=len(fresh))
+    kept = [a for a in fresh if decisions[a["article_id"]]["relevant"]]
+    log.info(f"Headline gate ({gate_model}): {len(kept)}/{len(fresh)} kept" + (f"; {gate_errors} passed through on gate errors" if gate_errors else ""))
+    if not kept:
+        return []
+
+    # Opening text for kept items that arrived as a bare headline (mostly Google News).
+    headline_only = [a for a in kept if classify_v3.article_text(a).startswith("(headline only")][:V3_LEDE_LIMIT]
+    if headline_only:
+        enrich_ledes.GOOGLE_MIN_INTERVAL = V3_LEDE_INTERVAL
+        session, got = requests.Session(), 0
+        for a in headline_only:
+            entry = enrich_ledes.enrich_one(a, session)
+            if entry.get("status") == "ok":
+                a["description"], a["publisher_url"], got = entry["lede"], entry.get("publisher_url"), got + 1
+            elif entry.get("status") == "rate_limited":
+                log.warning("Text fetch rate-limited; coding the rest from headlines")
+                break
+        log.info(f"Opening text fetched for {got}/{len(headline_only)} headline-only articles")
+
+    code_model = model_for("code_event_v3")
+    coded = classify_v3.code(client, kept, code_model, use_batch=False, workers=V3_CODE_WORKERS)
+    errors = [r["error"] for r in coded.values() if "item" not in r]
+    if len(errors) == len(kept):
+        raise RuntimeError(f"All {len(kept)} coding requests failed; nothing was classified. Last error: {errors[-1]}")
+    if errors:
+        log.warning(f"{len(errors)}/{len(kept)} coding requests failed")
+
+    now = datetime.now(timezone.utc).isoformat()
+    candidates = []
+    for a in kept:
+        res = coded.get(a["article_id"]) or {}
+        _record_usage_dict("code", res.get("usage"), item_count=1)
+        item = res.get("item")
+        if item and item.get("relevant"):
+            candidates.append(to_event(a, item, now, coded_by=code_model))
+    log.info(f"Relevant after coding ({code_model}): {len(candidates)}")
+    return _cluster_candidates(client, candidates) if candidates else []
+
+
+def classify_articles(client: anthropic.Anthropic, articles: list[dict], existing_events: dict[str, dict]) -> list[dict]:
+    """Classify, deduplicate, and cluster a list of raw articles into event records (v2 prompt)."""
+    fresh = _fresh_articles(articles, existing_events)
 
     if not fresh:
         return []
@@ -1220,11 +1450,12 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
                 "sentinel_id": make_sentinel_id(country, date, iid),
                 "type":        ev_type,
                 "subtype":     r.get("subtype") or None,
+                "content_type": r.get("content") if r.get("content") in CONTENT_TYPES else "event",
                 "deed_type":   r.get("deed_type") or None,
                 "axis":        r.get("axis") or None,
-                "actor":       r.get("actor") or None,
-                "target":      r.get("target") or None,
-                "title":       article["title"],
+                "actor":       coded_role(r.get("actor"), ACTOR_ROLES),
+                "target":      coded_role(r.get("target"), TARGET_ROLES),
+                "title":       clean_headline(article["title"], article.get("source_method")),
                 "summary":     r.get("brief", "") or article.get("description", ""),
                 "country":     country,
                 "location":    location,
@@ -1246,6 +1477,7 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
                         "url": link,
                         "link_domain": article.get("source_domain"),
                         "headline": article.get("title"),
+                        "description": report_excerpt(article.get("description")),
                         "source_type": article.get("source_type"),
                         "source_method": article.get("source_method"),
                         "source_tier": article.get("source_tier"),
@@ -1274,27 +1506,7 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
     if not candidates:
         return []
 
-    # Semantic clustering per country
-    by_country: dict[str, list] = defaultdict(list)
-    for ev in candidates:
-        by_country[ev["country"]].append(ev)
-
-    merged_events: list[dict] = []
-    for country, evs in by_country.items():
-        if len(evs) <= 1:
-            merged_events.extend(evs)
-            continue
-        for i in range(0, len(evs), CLUSTER_BATCH):
-            chunk = evs[i:i + CLUSTER_BATCH]
-            clusters = _cluster_events(client, chunk)
-            for cluster_idxs in clusters:
-                group = [chunk[j] for j in cluster_idxs if j < len(chunk)]
-                if group:
-                    merged_events.append(_merge_cluster(group))
-            time.sleep(0.3)
-
-    log.info(f"After clustering: {len(candidates)} → {len(merged_events)} events")
-    return merged_events
+    return _cluster_candidates(client, candidates)
 
 
 # ── AI analysis ────────────────────────────────────────────────────────────────
@@ -1435,6 +1647,8 @@ def main() -> None:
                         help="Start date for historical fetch (YYYY-MM-DD). Implies --backfill.")
     parser.add_argument("--years",       type=int, default=5,
                         help="Years back when using --backfill without --since (default: 5)")
+    parser.add_argument("--classifier",  choices=("v2", "v3"), default=CLASSIFIER,
+                        help="v3: codebook v3 headline gate + per-article coding (default); v2: legacy batch prompt")
     parser.add_argument("--gdelt",       action="store_true",
                         help="Opt in to GDELT. Disabled by default for both normal and historical runs.")
     parser.add_argument("--from-staging", type=str, default=None, metavar="DIR",
@@ -1496,6 +1710,10 @@ def main() -> None:
                     log.warning(f"Bad JSON line in {jf.name}: {e}")
             log.info(f"  {jf.name}: {loaded} records")
         log.info(f"Total staging articles loaded: {len(all_articles)}")
+        from enrich_ledes import apply_ledes
+        applied = apply_ledes(all_articles, staging_dir)
+        if applied:
+            log.info(f"Applied publisher ledes to {applied} staged articles")
     elif backfill:
         # Historical mode: archive scrapers, with optional GDELT.
         if args.gdelt:
@@ -1528,18 +1746,21 @@ def main() -> None:
 
     if not args.from_staging:
         # DSCA arms sales
-        all_articles.extend(fetch_dsca())
+        all_articles.extend(fetch_dsca(cutoff))
         # DEA press releases
-        all_articles.extend(fetch_dea())
+        all_articles.extend(fetch_dea(cutoff))
 
     log.info(f"Total raw articles: {len(all_articles)}")
     all_articles = dedupe_ingested_articles(all_articles)
+    fill_source_metadata(all_articles)
 
     # ── 2. Pre-filter ─────────────────────────────────────────────────────────
     relevant = pre_filter(all_articles)
+    if args.from_staging:
+        relevant = scope_filter_backfill(relevant)
 
     # ── 3. Classify + cluster ─────────────────────────────────────────────────
-    new_events = classify_articles(client, relevant, existing)
+    new_events = (classify_articles_v3 if args.classifier == "v3" else classify_articles)(client, relevant, existing)
 
     # ── 4. ACLED (already structured — skip classification) ───────────────────
     acled_key   = os.environ.get("ACLED_API_KEY", "")

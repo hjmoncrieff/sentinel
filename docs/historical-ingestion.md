@@ -51,12 +51,22 @@ executes the ingest:
 5. The staged directory feeds straight into classification:
    `python3 scripts/run_pipeline.py --from-staging <run_dir>`.
 
-The runner currently supports two connectors:
+The runner currently supports three connectors:
 
 | `connector_type` | Implementation | Sources |
 |---|---|---|
 | `gdelt` | `ingest_gdelt.fetch_gdelt_range` | GDELT API |
-| `wordpress_archive` | `ingest_rss.fetch_wordpress_archive` (needs `endpoint`) | InSight Crime, Americas Quarterly, NACLA |
+| `wordpress_archive` | `ingest_rss.fetch_wordpress_archive` (needs `endpoint`; a list of endpoints is allowed) | InSight Crime, Americas Quarterly (`webexclusive` post type), NACLA |
+| `google_news_window` | `ingest_rss.google_news_backfill_feeds` + `fetch_google_news_window` | Every curated Google News feed in `rss_sources.py` |
+
+**Google News windows.** Plain RSS only returns recent items, so this connector re-issues
+each curated Google News feed with `after:`/`before:` operators, one week at a time.
+Google silently ignores the date operators when a query carries a long `OR` list, so the
+backfill drops the live feeds' topic terms. Small outlets get a bare `site:` query.
+High-volume wires (Reuters, AP, AFP, EFE) get one `site:` + country query per country,
+because a bare wire query returns global news capped at about 100 items. Relevance is left
+to the pipeline pre-filter. Coverage thins out for older periods, so treat this as a
+gap-filler for recent months.
 
 Sources that can't run are listed in the report under `skipped_sources`, each with a
 reason:

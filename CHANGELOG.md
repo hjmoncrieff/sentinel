@@ -9,6 +9,35 @@ Each major change entry should include:
 - validation completed
 - remaining risks or follow-up
 
+## 2026-10-05
+
+### Nightly Classifier Moved To Codebook v3; Supabase Sync Repaired; Shared Rebuild Script
+
+Affected areas:
+- `scripts/pipeline_core.py`, `scripts/apply_v3_codes.py`, `scripts/pipeline/build_canonical_events.py`
+- `scripts/rebuild_downstream.py` (new), `.github/workflows/fetch_events.yml`, `.github/workflows/supabase_sync.yml`
+- `docs/supabase-setup.md`, `tests/test_pipeline_core.py`, `tests/test_rebuild_downstream.py` (new)
+
+What changed:
+- **Nightly classification uses codebook v3.** `run_pipeline.py` now defaults to `--classifier v3`: a Haiku headline gate (25 headlines per request), opening text fetched for up to 60 kept headline-only articles, then one Sonnet 5.5 request per article against the cached codebook (`classify_articles_v3`). Events keep the v2 fields the site reads and carry the full coding under `v3`. `--classifier v2` keeps the old batch prompt as a fallback. Canonical provenance records the model that actually coded each event.
+- **Model decision.** Sonnet 5.5 was chosen over Haiku 4.5 on the 300-article gold set (2026-09-30): across the compared fields Haiku was the odd coder out 518 times, Sonnet 146, Opus 133. The owner skipped manual adjudication.
+- **One rebuild script.** `scripts/rebuild_downstream.py` holds the downstream order that both workflows and local runs use. Council synthesis stays opt-in through `RUN_COUNCIL_SYNTHESIS`.
+- **Supabase Sync repaired.** The project was restored by the owner on 2026-10-05 (same address and keys). Its first CI run exposed two bugs. (1) The job started from a checkout without `data/review/` (gitignored), so it rebuilt the review queue and published layer from an incomplete base and pushed both to Supabase; it now runs `rebuild_downstream.py --through review` first. (2) Its commit step failed on unstaged files; the pull now uses `--autostash`. The job also checks that the Supabase host resolves and, if not, skips with a warning and one tracking issue instead of failing every night.
+- `docs/supabase-setup.md` gained "Restoring A Removed Project".
+- The geolocation, cutoff, source-text and content-type fixes described under 2026-09-29 ship in this commit too, so nightly runs stop placing events by substring match.
+
+Validation completed:
+- `classify_articles_v3` run live on 40 staged articles (3 passed the gate, 2 events, all required fields present)
+- 438 Sonnet-coded backfill articles applied with `scripts/apply_v3_codes.py` (359 events after clustering), then `python scripts/rebuild_downstream.py`: 1,671 events assembled, 0 validation errors
+- `python -m pytest -q` (96 passed)
+- Supabase REST, auth settings and the `review-action` function answered with the existing keys; sync run 37329609603 completed the cycle and failed only at the commit step fixed here
+
+Remaining risks / follow-up:
+- Nightly cost rises: roughly 30–60 Sonnet requests a night at about $0.006–0.01 each, on top of the Haiku gate.
+- Sync run 37329609603 left incomplete `review_queue` and `published_events` snapshots in Supabase. They are overwritten by the next full cycle.
+- The pipeline's private cost log still prices every stage at Haiku rates, so it understates the coding stage.
+- The July 15 – September 29 backfill data lands in a separate commit.
+
 ## 2026-10-01
 
 ### Nightly Run Hardening: Catch-Up Lookback, Deploy Queueing, Alert Auto-Close
@@ -55,6 +84,63 @@ Remaining risks / follow-up:
 - The next successful nightly run commits `data/events.json`. Local uncommitted backfill work must be rebased onto it.
 
 ## 2026-09-29
+
+### Codebook v3, Two-Pass Classifier And Gold-Set Tooling
+
+Affected areas:
+- `config/taxonomy/codebook_v3.json` (new, approved), `scripts/codebook.py` (new)
+- `prompts/relevance_gate.md`, `prompts/code_event_v3_system.md`, `prompts/code_event_v3.md`, `prompts/manifest.json`
+- `scripts/classify_v3.py` (new), `scripts/review/sample_gold_set.py` (new), `scripts/review/gold_v3.py` (new)
+- `tests/test_codebook.py` (new)
+
+What changed:
+- **Codebook v3, approved by the owner.** 18 event types in six domains (control, governance, coercion, violence, external, political), each with a definition, include and exclude rules, subtypes and an example.
+  - `coop` is renamed `cooperation` and absorbs exercises; procurement stays its own type; emergency rule sits in the political domain.
+  - Coup follows the Colpus definition and purge the MPD definition.
+  - DEED type is required on every event, with 35 curated DEED v7 categories; axis is derived from the category.
+  - Actors are named and coded on the existing `actor_types.json` hierarchy, extended with intelligence, prison system, foreign military, insurgent, paramilitary, criminal and party groups.
+  - Salience targets about 10–15% high; the domestic-policing relevance boundary and `legacy_event_family` continuity are recorded; evidence tiers are deferred.
+- **One source of truth.** `scripts/codebook.py` renders the codebook into prompt text, builds the structured-output JSON schema, validates the rules the schema cannot express, and derives axis.
+- **Two-pass classifier (`scripts/classify_v3.py`).** Pass 1 screens headlines for relevance, 25 per request. Pass 2 codes one article per request with the codebook as a cached system prompt, returning evidence quotes. It runs through the Message Batches API.
+  - Model settings per model: Haiku 4.5 keeps temperature 0 through the raw body; Sonnet 5.5 turns thinking off with `between_tools`; Opus 5.5 runs at low effort.
+  - The nightly pipeline is unchanged until the head-to-head picks a model.
+- **Gold-set tooling.** A seeded, stratified sample of about 300 backfill articles (about 220 gate-kept, 80 gate-rejected), coded by Haiku 4.5, Sonnet 5.5 and Opus 5.5 (reference). Field-level disagreements plus a 10% spot check of full agreements go to a blinded review page; the owner's decisions become `data/gold/v3/gold.jsonl`, and each model is scored against it.
+
+Validation completed:
+- `python3 -m pytest` (90 passed).
+- Synchronous smoke test of `code_request` on one Americas Quarterly article with each model: all three accepted the schema and settings; `codebook.validate` caught Haiku leaving an analysis piece untyped and Sonnet placing a precursor-group DEED category under symptom. The prompt was tightened for both.
+
+Remaining risks / follow-up:
+- Gold-set coding, the owner's review and the head-to-head are in progress. The backfill (about 6,400 gated articles) is not yet classified.
+- Pipeline integration of v3 (canonical build, publish, console form, public methodology page) follows the model decision.
+
+### Backfill Connectors, Geolocation And Source Text
+
+Affected areas:
+- `scripts/ingest_rss.py`, `scripts/historical_ingest.py`, `config/historical_sources.json`, `scripts/rss_sources.py`, `docs/historical-ingestion.md`
+- `scripts/pipeline_core.py`, `scripts/enrich_ledes.py` (new), `requirements-ci.txt`, `prompts/classify_events.md`
+- `tests/test_pipeline_core.py`, `tests/test_historical_ingest.py`
+
+What changed:
+- **Historical connectors.**
+  - The WordPress archive connector crashed on every run (it passed `base` where the reader expects `archive_base`); it now passes the full source record and accepts several endpoints.
+  - Americas Quarterly publishes under the `webexclusive` post type, so its endpoint now points there.
+  - New `google_news_window` connector re-issues every curated Google News feed one week at a time with `after:`/`before:`. Google ignores the date operators on long OR queries, so small outlets get a bare `site:` query and wires get one `site:` + country query per country.
+- **Stale official releases.** DEA and DSCA scrapers ignored the lookback cutoff, so 2016–2024 DEA releases were stored as new events; both now drop items before the cutoff.
+- **Backfill scope gate.** Staged backfills keep only articles that name a Latin American country or come from a national feed (12,532 → 3,786 on July–August).
+- **Geolocation.** Place matching used substrings, so "para" and "Río" put 174 of 1,250 events (14%) in Brazil. Matching is now whole-word and country-owned (explicit owner or nearest centroid); Santa Marta and Tumaco were added.
+- **Source text.** Linked reports now keep a plain-text excerpt (up to 1,200 characters). `scripts/enrich_ledes.py` resolves Google News links to publisher pages and stores the publisher summary plus opening paragraphs for staged articles; it never bypasses paywalls or logins.
+- **Classifier inputs and outputs.** The v2 prompt now asks for a content type (event, analysis, profile) and English summaries; Google News publisher suffixes are stripped from headlines; invalid actor values such as `military|external` collapse to one code; archive records inherit tier, role and policy from the feed registry. `beautifulsoup4`, which full-text extraction silently depended on, is now a CI dependency.
+
+Validation completed:
+- `python3 -m pytest` (85 passed at this stage; 90 with the codebook tests).
+- Live connector checks: Americas Quarterly returned articles for all three months; the Google News windows returned 26,977 articles for 15 July–29 September; GDELT returned none (rate-limited).
+- Geolocation dry run against stored events: misplaced events 174 → 1.
+- Lede fetching: Americas Quarterly, NACLA and InSight Crime return full text; Reuters blocks automated requests (401); Google rate-limits link decoding after about 60 requests, so ledes are fetched only for gate-relevant articles at a slow rate.
+
+Remaining risks / follow-up:
+- The stored events still carry the old coordinates, excerpts and 7 stale DEA events; the repair runs with the backfill rebuild.
+- GDELT stays a coverage gap.
 
 ### Classifier SDK Break Fixed; Derived country_year Committed For CI
 

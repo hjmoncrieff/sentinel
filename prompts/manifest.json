@@ -7,21 +7,31 @@
       "consumer": "scripts/pipeline_core.py::_classify_batch",
       "model": "claude-haiku-4-5-20251001",
       "role": "user",
-      "placeholders": ["items"],
+      "placeholders": [
+        "items"
+      ],
       "purpose": "Batch-classify news items into the SENTINEL event taxonomy (one JSON line per item)."
     },
     "cluster_events": {
       "consumer": "scripts/pipeline_core.py::_cluster_events",
       "model": "claude-haiku-4-5-20251001",
       "role": "user",
-      "placeholders": ["items", "n"],
+      "placeholders": [
+        "items",
+        "n"
+      ],
       "purpose": "Group classified items that describe the same real-world incident."
     },
     "event_analysis": {
       "consumer": "scripts/pipeline_core.py::generate_analysis",
       "model": "claude-haiku-4-5-20251001",
       "role": "user",
-      "placeholders": ["country", "summary", "title", "type"],
+      "placeholders": [
+        "country",
+        "summary",
+        "title",
+        "type"
+      ],
       "purpose": "Two-to-three sentence 'why it matters' note for new high-salience events."
     },
     "council_framework": {
@@ -49,8 +59,47 @@
       "consumer": "scripts/analysis/validate_council_quality.py::build_judge_prompt",
       "model": "claude-haiku-4-5-20251001",
       "role": "user",
-      "placeholders": ["country", "event_date", "event_type", "headline", "salience", "summary", "synthesis_text", "watchpoint"],
+      "placeholders": [
+        "country",
+        "event_date",
+        "event_type",
+        "headline",
+        "salience",
+        "summary",
+        "synthesis_text",
+        "watchpoint"
+      ],
       "purpose": "Score a council synthesis on specificity, grounding, and calibration."
+    },
+    "relevance_gate": {
+      "consumer": "scripts/classify_v3.py::gate",
+      "model": "claude-haiku-4-5-20251001",
+      "role": "user",
+      "placeholders": [
+        "items"
+      ],
+      "purpose": "Pass 1 of codebook v3: headline-only relevance screen for batches of items (structured output)."
+    },
+    "code_event_v3_system": {
+      "consumer": "scripts/classify_v3.py::code",
+      "model": "claude-sonnet-5-5",
+      "role": "system (cached)",
+      "placeholders": [
+        "codebook"
+      ],
+      "purpose": "Pass 2 of codebook v3: coder instructions plus the rendered codebook. Sonnet 5.5 chosen 2026-09-30 after the three-coder comparison (see CHANGELOG)."
+    },
+    "code_event_v3": {
+      "consumer": "scripts/classify_v3.py::code",
+      "model": "claude-sonnet-5-5",
+      "role": "user",
+      "placeholders": [
+        "headline",
+        "published",
+        "source",
+        "text"
+      ],
+      "purpose": "Pass 2 of codebook v3: one article with its lede, coded to codebook.item_schema() (structured output). Sonnet 5.5 chosen 2026-09-30 after the three-coder comparison (see CHANGELOG)."
     }
   }
 }

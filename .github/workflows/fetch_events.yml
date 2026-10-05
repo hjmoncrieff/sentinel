@@ -100,22 +100,10 @@ jobs:
           # Set the repo variable RUN_COUNCIL_SYNTHESIS=true once the cost is approved.
           RUN_COUNCIL_SYNTHESIS: ${{ vars.RUN_COUNCIL_SYNTHESIS }}
         run: |
-          python scripts/qa/run_qa.py
-          python scripts/qa/run_registry_qa.py
-          python scripts/pipeline/detect_duplicates.py
-          python scripts/analysis/build_country_monitors.py
-          python scripts/analysis/validate_country_monitors.py
-          python scripts/pipeline/build_canonical_events.py
-          python scripts/pipeline/code_actors.py
-          python scripts/review/build_review_queue.py
-          python scripts/analysis/run_council.py
-          if [ "$RUN_COUNCIL_SYNTHESIS" = "true" ]; then
-            python scripts/analysis/run_council_synthesis.py
-            python scripts/analysis/validate_council_quality.py
-          else
+          python scripts/rebuild_downstream.py
+          if [ "$RUN_COUNCIL_SYNTHESIS" != "true" ]; then
             echo "- Council synthesis skipped (RUN_COUNCIL_SYNTHESIS not true)" >> "$GITHUB_STEP_SUMMARY"
           fi
-          python scripts/publish/publish_dashboard_data.py
           python - <<'PY'
           import json, os
           from datetime import date

@@ -43,12 +43,14 @@ import os
 import time
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Callable
 
 ROOT = Path(__file__).resolve().parent.parent
 MANIFEST_PATH = ROOT / "config" / "historical_sources.json"
+COUNTRIES_PATH = ROOT / "config" / "taxonomy" / "countries.json"
+NON_COUNTRY_LABELS = {"United States", "Regional", "Multiple"}
 STAGING_DIR = ROOT / "data" / "staging"
 HISTORICAL_DIR = STAGING_DIR / "historical"
 
@@ -214,6 +216,18 @@ def build_units(sources: list[dict], request: HistoricalRequest) -> list[Unit]:
 
 # ── Connectors ─────────────────────────────────────────────────────────────────
 
+GOOGLE_NEWS_PAUSE = 1.0  # seconds between Google News requests
+
+
+def week_windows(start: datetime, end: datetime, days: int = 7) -> list[tuple[datetime, datetime]]:
+    """Split [start, end) into windows of at most `days`; Google News caps each query at ~100 items."""
+    windows, cursor = [], start
+    while cursor < end:
+        nxt = min(cursor + timedelta(days=days), end)
+        windows.append((cursor, nxt))
+        cursor = nxt
+    return windows
+
 def default_connectors(conservative: bool = False) -> dict[str, Connector]:
     """Real network connectors, imported lazily so planning and tests stay offline."""
 
@@ -223,9 +237,26 @@ def default_connectors(conservative: bool = False) -> dict[str, Connector]:
 
     def wordpress(source: dict, start: datetime, end: datetime) -> list[dict]:
         from ingest_rss import fetch_wordpress_archive
-        return fetch_wordpress_archive({"name": source["label"], "base": source["endpoint"]}, start, end)
+        endpoints = source["endpoint"] if isinstance(source["endpoint"], list) else [source["endpoint"]]
+        return fetch_wordpress_archive(
+            {"name": source["label"], "archive_bases": endpoints, "category": "archive"}, start, end
+        )
 
-    return {"gdelt": gdelt, "wordpress_archive": wordpress}
+    def google_news(source: dict, start: datetime, end: datetime) -> list[dict]:
+        from ingest_rss import fetch_google_news_window, google_news_backfill_feeds, is_google_news_search
+        from rss_sources import RSS_FEEDS
+        countries = [c for c in json.loads(COUNTRIES_PATH.read_text(encoding="utf-8"))["countries"]
+                     if c not in NON_COUNTRY_LABELS]
+        feeds = google_news_backfill_feeds([f for f in RSS_FEEDS if is_google_news_search(f)], countries)
+        log.info(f"Google News: {len(feeds)} queries x {len(week_windows(start, end))} windows")
+        articles: list[dict] = []
+        for win_start, win_end in week_windows(start, end):
+            for feed in feeds:
+                articles.extend(fetch_google_news_window(feed, win_start, win_end))
+                time.sleep(GOOGLE_NEWS_PAUSE)
+        return articles
+
+    return {"gdelt": gdelt, "wordpress_archive": wordpress, "google_news_window": google_news}
 
 
 # ── Checkpoint + execution ─────────────────────────────────────────────────────

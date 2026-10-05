@@ -7,7 +7,8 @@
     "requires_manual_review": true,
     "runnable_connector_types": [
       "gdelt",
-      "wordpress_archive"
+      "wordpress_archive",
+      "google_news_window"
     ]
   },
   "source_groups": [
@@ -63,8 +64,8 @@
           "connector_type": "wordpress_archive",
           "historical_ready": true,
           "coverage_start": null,
-          "endpoint": "https://americasquarterly.org/wp-json/wp/v2/posts",
-          "notes": "Same WordPress REST endpoint the fast pipeline already uses for archive collection."
+          "endpoint": "https://americasquarterly.org/wp-json/wp/v2/webexclusive",
+          "notes": "AQ publishes articles under the custom 'webexclusive' post type; the default /posts endpoint only holds legacy 2015-2019 items (fixed 2026-09-29)."
         },
         {
           "source_id": "nacla_archive",
@@ -74,6 +75,21 @@
           "coverage_start": null,
           "endpoint": "https://nacla.org/wp-json/wp/v2/posts",
           "notes": "Same WordPress REST endpoint the fast pipeline already uses for archive collection."
+        }
+      ]
+    },
+    {
+      "group_id": "google_news_windows",
+      "label": "Google News Date-Windowed Search",
+      "priority": 2,
+      "sources": [
+        {
+          "source_id": "google_news_sites",
+          "label": "Google News (curated site feeds)",
+          "connector_type": "google_news_window",
+          "historical_ready": "partial",
+          "coverage_start": null,
+          "notes": "Re-issues every curated Google News site/topic feed in scripts/rss_sources.py with after:/before: operators, one week at a time (about 100 items per query). Best for recent gaps; Google's index thins out for older periods."
         }
       ]
     },

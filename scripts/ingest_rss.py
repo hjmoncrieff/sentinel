@@ -12,6 +12,7 @@ import logging
 import re
 import time
 from datetime import datetime, timezone
+from urllib.parse import parse_qs, quote_plus, urlsplit
 
 import feedparser
 import requests
@@ -90,6 +91,62 @@ def fetch_rss(feed: dict, cutoff: datetime) -> list[dict]:
         return []
 
 
+GOOGLE_NEWS_SEARCH = "https://news.google.com/rss/search?"
+GOOGLE_NEWS_WINDOW_LIMIT = 100  # Google News search RSS returns at most ~100 items
+# High-volume wires: a bare site: query returns global news capped at 100 items,
+# so backfills query them one country at a time instead.
+GOOGLE_NEWS_WIRE_SITES = ("reuters.com", "apnews.com", "afp.com", "efe.com")
+
+
+def is_google_news_search(feed: dict) -> bool:
+    return str(feed.get("url", "")).startswith(GOOGLE_NEWS_SEARCH)
+
+
+def google_news_window_url(url: str, start: datetime, end: datetime) -> str:
+    """Bound a Google News search feed to [start, end) with after:/before: operators."""
+    window = f"+after:{start:%Y-%m-%d}+before:{end:%Y-%m-%d}"
+    return url.replace("&hl=", f"{window}&hl=", 1) if "&hl=" in url else url + window
+
+
+def google_news_backfill_feeds(feeds: list[dict], countries: list[str]) -> list[dict]:
+    """Turn the curated Google News feeds into short, date-windowable backfill queries.
+
+    Google silently ignores after:/before: when the query carries a long OR list,
+    so the live feeds' topic terms are dropped: small outlets get one bare
+    site: query and wires get one site:+country query per country. Relevance is
+    left to the pipeline pre-filter.
+    """
+    queries: dict[str, dict] = {}
+    for feed in feeds:
+        params = parse_qs(urlsplit(feed["url"]).query)
+        site = (params.get("q", [""])[0].split()[0:1] or [""])[0].removeprefix("site:")
+        if not site or site in {q["site"] for q in queries.values()}:
+            continue
+        locale = "&".join(f"{k}={params[k][0]}" for k in ("hl", "gl", "ceid") if k in params)
+        terms = [quote_plus(f'"{c}"' if " " in c else c) for c in countries] if site in GOOGLE_NEWS_WIRE_SITES else [""]
+        for term in terms:
+            q = f"site:{site}" + (f"+{term}" if term else "")
+            queries[q] = {**feed, "site": site, "url": f"{GOOGLE_NEWS_SEARCH}q={q}&{locale}"}
+    return list(queries.values())
+
+
+def fetch_google_news_window(feed: dict, start: datetime, end: datetime) -> list[dict]:
+    """Fetch one Google News search query for a closed historical window.
+
+    Plain RSS only returns recent items, so backfills re-issue each query with
+    date operators and keep only items published inside [start, end).
+    """
+    windowed = {
+        **feed,
+        "url": google_news_window_url(feed["url"], start, end),
+        "fetch_limit": GOOGLE_NEWS_WINDOW_LIMIT,
+        "backfill_fetch_limit": GOOGLE_NEWS_WINDOW_LIMIT,
+        "fetch_full_text": False,
+    }
+    end_day = end.strftime("%Y-%m-%d")
+    return [a for a in fetch_rss(windowed, start) if a.get("date", "") < end_day]
+
+
 def fetch_wordpress_archive(source: dict, since_dt: datetime,
                             until_dt: datetime | None = None,
                             max_pages: int = 50) -> list[dict]:
@@ -99,8 +156,17 @@ def fetch_wordpress_archive(source: dict, since_dt: datetime,
     """
     if until_dt is None:
         until_dt = datetime.now(timezone.utc)
-    base = source["archive_base"]
     name = source["name"]
+    bases = source.get("archive_bases") or [source["archive_base"]]
+    articles: list[dict] = []
+    for base in bases:
+        articles.extend(_fetch_wordpress_endpoint(source, name, base, since_dt, until_dt, max_pages))
+    log.info(f"{name} archive total: {len(articles)} articles")
+    return articles
+
+
+def _fetch_wordpress_endpoint(source: dict, name: str, base: str, since_dt: datetime,
+                              until_dt: datetime, max_pages: int) -> list[dict]:
     since_str = since_dt.strftime("%Y-%m-%dT%H:%M:%S")
     until_str = until_dt.strftime("%Y-%m-%dT%H:%M:%S")
     articles: list[dict] = []
@@ -165,7 +231,6 @@ def fetch_wordpress_archive(source: dict, since_dt: datetime,
         except Exception as e:
             log.error(f"{name} archive page {page} failed: {e}")
             break
-    log.info(f"{name} archive total: {len(articles)} articles")
     return articles
 
 

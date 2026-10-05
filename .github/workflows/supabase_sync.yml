@@ -52,7 +52,40 @@ jobs:
             exit 1
           fi
 
+      # A removed or paused project no longer resolves in DNS. That needs the owner
+      # (see docs/supabase-setup.md, "Restoring A Removed Project"), not a nightly
+      # red run, so the sync is skipped with a warning and one tracking issue.
+      - name: Check Supabase is reachable
+        id: reach
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          host=$(python3 -c "import os,urllib.parse;print(urllib.parse.urlparse(os.environ['SUPABASE_URL']).hostname or '')")
+          if [ -n "$host" ] && getent hosts "$host" > /dev/null; then
+            echo "reachable=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "reachable=false" >> "$GITHUB_OUTPUT"
+          echo "::warning::Supabase project host does not resolve; sync skipped. Restore the project (docs/supabase-setup.md)."
+          echo "- ⚠️ Supabase host does not resolve; sync skipped" >> "$GITHUB_STEP_SUMMARY"
+          title="Supabase project is unreachable"
+          gh label create pipeline-failure --color B83232 --description "Automated workflow failure alert" --force
+          existing=$(gh issue list --label pipeline-failure --state open --search "in:title \"$title\"" --json number -q '.[0].number')
+          if [ -z "$existing" ]; then
+            gh issue create --title "$title" --label pipeline-failure --body "The host in SUPABASE_URL does not resolve in DNS, so the project was probably paused too long or deleted. Analyst login and the nightly sync are down; the public site is not affected. See docs/supabase-setup.md, section \"Restoring A Removed Project\". Close this issue once the sync runs again."
+          fi
+
+      # data/review/ (QA, duplicates, council analyses) is gitignored, so a fresh
+      # checkout has none of it. Without this step the cycle rebuilt the review
+      # queue and the published layer from an incomplete base and pushed both to
+      # Supabase (2026-10-05).
+      - name: Rebuild review layers
+        if: steps.reach.outputs.reachable == 'true'
+        run: python scripts/rebuild_downstream.py --through review
+
       - name: Run Supabase cycle
+        if: steps.reach.outputs.reachable == 'true'
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
@@ -61,12 +94,14 @@ jobs:
           python3 scripts/sync/run_supabase_cycle.py
 
       - name: Commit refreshed outputs
+        if: steps.reach.outputs.reachable == 'true'
         run: |
           git config user.name "sentinel-bot"
           git config user.email "sentinel-bot@users.noreply.github.com"
           git add config/actors/actor_registry.json data/published/ data/canonical/events_actor_coded.json
           git diff --staged --quiet || git commit -m "chore: sync Supabase workflow outputs $(date -u +'%Y-%m-%dT%H:%M:%SZ') [skip ci]"
-          git pull --rebase origin "${GITHUB_REF_NAME}"
+          # The cycle also rewrites tracked files that are not committed here.
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
           git push
 
       - name: Alert on failure

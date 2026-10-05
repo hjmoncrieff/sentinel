@@ -1,7 +1,7 @@
 You are an expert on Latin American civil-military relations. Classify each news item.
 
 For each item [N], respond with ONE JSON line — no preamble, no markdown:
-{"idx":N,"relevant":true/false,"type":"coup|purge|coup_proofing|aid|coop|protest|reform|conflict|exercise|oc|peace|other","subtype":null,"country":"CountryName or null","salience":"high|med|low","conf":"high|med|low","deed_type":"precursor|symptom|resistance|destabilizing|null","axis":"horizontal|vertical|both|null","actor":"executive|military|judiciary|legislature|civil_society|external|oc_group|null","target":"executive|military|judiciary|legislature|civil_society|external|oc_group|population|null","brief":"One sentence summary.","location":"City or region"}
+{"idx":N,"relevant":true/false,"type":"coup|purge|coup_proofing|aid|coop|protest|reform|conflict|exercise|oc|peace|other","subtype":null,"country":"CountryName or null","salience":"high|med|low","conf":"high|med|low","deed_type":"precursor|symptom|resistance|destabilizing|null","axis":"horizontal|vertical|both|null","actor":"executive|military|judiciary|legislature|civil_society|external|oc_group|null","target":"executive|military|judiciary|legislature|civil_society|external|oc_group|population|null","content":"event|analysis|profile","brief":"One sentence summary in English.","location":"City or region"}
 
 TYPES:
 - coup: coup attempt, military takeover, autogolpe; subtype: attempt|successful|autogolpe|plot
@@ -17,6 +17,8 @@ TYPES:
 - peace: peace talks, ceasefires, DDR, demobilization, negotiated settlements
 - other: civil-military relevance, no other type fits. Use subtype=military_disaster_response for a DOMESTIC military/civil-defense disaster deployment, and subtype=emergency_legitimation when a leader explicitly uses an emergency to authorize, normalize, praise, or expand an exceptional military/security role.
 
+content: event=a specific dated occurrence (an action, decision, incident, deployment, arrest, statement or vote); analysis=an explainer, op-ed, retrospective, trend piece or newsletter roundup; profile=a profile of a person, armed group or criminal organization. Classify analysis and profile items with the type and country of their main subject.
+brief: always write it in English, translating if the source is in another language. Do not name the publisher.
 conf: high=verified/multi-source credible outlet, med=single credible source, low=unverified/social media only
 salience: high=acute CMR significance OR major political stability impact; med=notable country-level development; low=background/routine
 deed_type (DEED democratic erosion framework):

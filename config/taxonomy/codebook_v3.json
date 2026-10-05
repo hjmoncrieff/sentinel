@@ -1,0 +1,1113 @@
+{
+  "version": "3.0",
+  "status": "approved by owner 2026-09-29",
+  "date": "2026-09-29",
+  "unit": {
+    "event": "A specific, dated occurrence involving the security sector or the civil-military balance in a tracked country: an action, decision, incident, deployment, arrest, statement, vote or ruling. One event = one incident; several reports of it are merged into the same record.",
+    "analysis": "An explainer, op-ed, retrospective, trend piece, podcast or newsletter roundup. Kept and coded for subject, but shown apart from events and never counted in event statistics.",
+    "profile": "A profile of a person, armed group or criminal organization. Coded like analysis.",
+    "relevance": "Relevant only if the item has a clear security-sector or civil-military dimension in a tracked Latin American or Caribbean country. Domestic policing is in scope only when it involves militarization, emergency powers, abuse by security forces, or an organized crime–state nexus. Pure crime reporting, weather, sport and general politics without a security dimension are out."
+  },
+  "domains": [
+    {
+      "code": "control",
+      "label": "Civil–military control",
+      "note": "The core of the monitor: who commands the coercive apparatus and on what terms.",
+      "types": [
+        {
+          "code": "coup",
+          "label": "Coup or coup plot",
+          "definition": "Concrete, observable and unconstitutional action by members of the ruling regime or of the military or security apparatus to oust the incumbent leader, or to prevent a presumptive leader from taking power (Colpus). A coup succeeds when the leader loses power and the new holders keep it for at least seven days, or the regime changes.",
+          "include": [
+            "Military coup attempts (at least one member of the coercive apparatus acts)",
+            "Non-military coup attempts by civilian regime insiders",
+            "Self-coups (autogolpes)",
+            "Plots uncovered by authorities, and officers' public calls to intervene. SENTINEL tracks these as warning signs; Colpus excludes them because no concrete action occurred."
+          ],
+          "exclude": [
+            "Trials for past coup attempts → accountability",
+            "Analysis of coup risk → content type analysis"
+          ],
+          "subtypes": [
+            "military_attempt",
+            "non_military_attempt",
+            "successful",
+            "autogolpe",
+            "plot",
+            "call_to_intervene"
+          ],
+          "example": "Bolivian army commander leads troops into Plaza Murillo and is arrested hours later."
+        },
+        {
+          "code": "purge",
+          "label": "Command change or purge",
+          "definition": "Elimination (dismissal, forced retirement, arrest, exile or killing) of individuals with legitimate access to armed force: officers of the military, police or paramilitary forces, and the civilian heads of the security apparatus such as defence and interior ministers (after the MPD dataset).",
+          "include": [
+            "Dismissal of service chiefs or high command",
+            "Mass forced retirements",
+            "Command reshuffles after a political crisis"
+          ],
+          "exclude": [
+            "Routine scheduled rotations (code only if salient; salience low)",
+            "Removal of civilian ministers without command changes → friction or other"
+          ],
+          "subtypes": [
+            "high_command_change",
+            "mass_dismissal",
+            "politically_motivated_removal",
+            "routine_rotation"
+          ],
+          "example": "Colombia's president removes 11 generals in a single week."
+        },
+        {
+          "code": "coup_proofing",
+          "label": "Coup-proofing",
+          "definition": "Deliberate strategies that insulate a ruler from military challenge.",
+          "include": [
+            "Parallel or counterbalancing forces outside the regular chain of command (see the State Security Forces dataset)",
+            "Loyalty-based promotions as a pattern",
+            "Economic co-optation of the officer corps",
+            "Surveillance or counter-intelligence aimed at officers"
+          ],
+          "exclude": [
+            "One-off appointments without a pattern → purge"
+          ],
+          "subtypes": [
+            "parallel_force",
+            "loyalty_promotion",
+            "economic_cooptation",
+            "officer_surveillance"
+          ],
+          "example": "(Illustrative) Government creates a presidential guard reporting directly to the executive, outside the army chain of command."
+        },
+        {
+          "code": "military_role",
+          "label": "Military role expansion",
+          "definition": "The armed forces take on, or are formally given, functions normally held by civilian or police authorities.",
+          "include": [
+            "Military assigned to public security, prisons, customs, ports or borders",
+            "Military control of civilian administration or state enterprises",
+            "Military logistics for elections",
+            "Domestic disaster deployment",
+            "Security reallocation for mega-events"
+          ],
+          "exclude": [
+            "Emergency decrees themselves → emergency_rule (the deployment they authorize is coded here as a secondary type)",
+            "Combat operations → conflict"
+          ],
+          "subtypes": [
+            "public_security",
+            "civil_administration",
+            "economic_enterprise",
+            "border_and_customs",
+            "disaster_response",
+            "election_logistics",
+            "mega_event_security"
+          ],
+          "example": "Congress approves the transfer of the National Guard to the Defence Ministry.",
+          "note": "Subtypes align with the analyst knowledge base's role domains: public security and governance tasks (external defence and political influence are covered by other types)."
+        },
+        {
+          "code": "friction",
+          "label": "Civil–military friction",
+          "definition": "Open disagreement or political signalling between civilian authorities and the armed forces, short of a coup.",
+          "include": [
+            "Officers' public statements on politics or elections",
+            "Insubordination or refusal of orders",
+            "Disputes over budgets, doctrine or command authority",
+            "Civilian leaders publicly disciplining or courting the military",
+            "Mutinies and defections of units or commanders (definitions follow the MMDD database)"
+          ],
+          "exclude": [
+            "Removals that follow → purge"
+          ],
+          "subtypes": [
+            "political_statement",
+            "insubordination",
+            "authority_dispute",
+            "courting",
+            "mutiny",
+            "defection"
+          ],
+          "example": "(Illustrative) The army commander publicly questions the election authority days before the vote."
+        }
+      ]
+    },
+    {
+      "code": "governance",
+      "label": "Security governance and accountability",
+      "note": "How the security sector is designed, funded, equipped and held to account.",
+      "types": [
+        {
+          "code": "reform",
+          "label": "Security sector reform",
+          "definition": "Changes to the laws, structure, doctrine, budget or civilian oversight of the security sector.",
+          "include": [
+            "Defence and police laws",
+            "Restructuring of forces or ministries",
+            "Budget decisions with institutional effect",
+            "New oversight bodies"
+          ],
+          "exclude": [
+            "Arms purchases → procurement",
+            "Trials → accountability"
+          ],
+          "subtypes": [
+            "legal",
+            "structural",
+            "budget",
+            "doctrine",
+            "oversight"
+          ],
+          "example": "(Illustrative) Senate passes a law placing military intelligence under civilian oversight."
+        },
+        {
+          "code": "accountability",
+          "label": "Accountability and justice",
+          "definition": "Investigations, prosecutions, rulings or sanctions concerning security personnel or security policy, including transitional justice.",
+          "include": [
+            "Criminal cases against officers or officials",
+            "Court rulings on security powers",
+            "Transitional justice bodies and their rollback",
+            "Foreign sanctions on security officials"
+          ],
+          "exclude": [
+            "Arrests of criminals by the forces → oc or conflict"
+          ],
+          "subtypes": [
+            "investigation",
+            "prosecution",
+            "ruling",
+            "transitional_justice",
+            "rollback",
+            "sanction"
+          ],
+          "example": "Colombia's Vice Minister of Defence is sent to trial for procedural fraud."
+        },
+        {
+          "code": "procurement",
+          "label": "Procurement and arms",
+          "definition": "Acquisition, sale or transfer of weapons systems, platforms or defence services.",
+          "include": [
+            "Contracts, purchases and deliveries",
+            "Arms transfers between states",
+            "Domestic defence-industrial decisions"
+          ],
+          "exclude": [
+            "Grant-funded equipment from a foreign government → aid"
+          ],
+          "subtypes": [
+            "contract",
+            "delivery",
+            "transfer",
+            "industry"
+          ],
+          "example": "Argentina signs for 24 F-16 fighters from Denmark."
+        }
+      ]
+    },
+    {
+      "code": "coercion",
+      "label": "Coercion and rights",
+      "note": "How the state's coercive power is used against its own population, and how society pushes back.",
+      "types": [
+        {
+          "code": "repression",
+          "label": "State repression",
+          "definition": "Use of state coercion against civilians or political opponents.",
+          "include": [
+            "Violent dispersal of protests",
+            "Arbitrary or political detention",
+            "Deaths in custody",
+            "Enforced disappearance",
+            "Extrajudicial killing",
+            "Surveillance of opponents or journalists",
+            "Internal military deployment against unarmed civilians that kills at least one noncombatant (M3 military repression; flag with subtype military_repression)"
+          ],
+          "exclude": [
+            "Combat with armed groups → conflict",
+            "Protests where forces do not act against civilians → protest"
+          ],
+          "subtypes": [
+            "protest_repression",
+            "political_detention",
+            "custodial_death",
+            "disappearance",
+            "extrajudicial_killing",
+            "surveillance",
+            "military_repression"
+          ],
+          "example": "Rights group reports the 60th death in state custody since April."
+        },
+        {
+          "code": "protest",
+          "label": "Protest and mobilization",
+          "definition": "Collective action concerning security policy, security forces or the civil-military order, or by security personnel themselves.",
+          "include": [
+            "Protests against militarization, abuses or emergency rule",
+            "Marches for political prisoners",
+            "Police or soldier strikes and protests"
+          ],
+          "exclude": [
+            "General economic protests with no security dimension (not relevant)"
+          ],
+          "subtypes": [
+            "against_security_policy",
+            "rights_mobilization",
+            "security_personnel_protest"
+          ],
+          "example": "Unions and prisoners' families march on Miraflores demanding releases and an election date."
+        }
+      ]
+    },
+    {
+      "code": "violence",
+      "label": "Armed violence and organized crime",
+      "note": "Decision rule: armed confrontation involving state forces is conflict; criminal-economy activity and crime–state collusion without combat is organized crime.",
+      "types": [
+        {
+          "code": "conflict",
+          "label": "Armed conflict",
+          "definition": "Armed confrontation or offensive operations between state forces and organized armed actors, or major attacks by those actors on the state.",
+          "include": [
+            "Combat with insurgents, dissidents, paramilitaries or armed criminal groups",
+            "Offensives and airstrikes",
+            "Attacks on soldiers, police or bases"
+          ],
+          "exclude": [
+            "Seizures and arrests without combat → oc",
+            "State violence against civilians → repression"
+          ],
+          "subtypes": [
+            "combat",
+            "offensive",
+            "attack_on_forces",
+            "armed_strike_or_lockdown"
+          ],
+          "example": "Army offensive against Los Pachenca leaves Santa Marta in a fragile calm."
+        },
+        {
+          "code": "oc",
+          "label": "Organized crime and the state",
+          "definition": "Criminal economies and organizations where they intersect with security forces or the state.",
+          "include": [
+            "Interdictions, seizures and arrests of criminal leaders",
+            "Extortion and criminal governance",
+            "Gang expansion and cross-border logistics",
+            "Collusion or corruption involving security forces",
+            "Negotiations, tacit pacts or truces between state actors and criminal groups",
+            "Terrorist or criminal designations",
+            "Kidnapping of elites or officials"
+          ],
+          "exclude": [
+            "Armed clashes → conflict",
+            "Crime stories with no state or security dimension (not relevant)"
+          ],
+          "subtypes": [
+            "interdiction",
+            "leader_arrest",
+            "extortion_and_governance",
+            "expansion_and_logistics",
+            "negotiation_or_truce",
+            "collusion",
+            "corruption_case",
+            "designation",
+            "elite_kidnapping"
+          ],
+          "example": "Shield of the Americas blacklists 24 criminal groups."
+        },
+        {
+          "code": "peace",
+          "label": "Peace process",
+          "definition": "Negotiation, ceasefire, disarmament or demobilization with armed groups.",
+          "include": [
+            "Talks, agreements and ceasefires",
+            "DDR milestones",
+            "Breakdowns of talks or ceasefires"
+          ],
+          "exclude": [
+            "Combat after a breakdown → conflict"
+          ],
+          "subtypes": [
+            "talks",
+            "ceasefire",
+            "agreement",
+            "ddr",
+            "breakdown"
+          ],
+          "example": "The Conquistadores de la Sierra announce the end of their armed strike."
+        }
+      ]
+    },
+    {
+      "code": "external",
+      "label": "External security relations",
+      "note": "Foreign governments and militaries acting on the region's security sector.",
+      "types": [
+        {
+          "code": "cooperation",
+          "label": "Security cooperation and foreign operations",
+          "definition": "Foreign military or security presence, joint operations and exercises, intelligence sharing, agreements, or direct foreign military action.",
+          "include": [
+            "Joint operations and basing",
+            "Bilateral or multinational exercises, drills and naval port visits",
+            "Security agreements",
+            "Intelligence sharing between governments or security services (agreements, joint centres, targeting support)",
+            "Direct foreign military operations",
+            "Foreign sanctions or designations aimed at a country's security sector"
+          ],
+          "exclude": [
+            "Foreign-funded intelligence training or equipment → aid",
+            "Funding and equipment grants → aid",
+            "Boundary inside the type: planned drills and visits are exercise_* or port_visit; real operations are joint_operation or direct_foreign_operation"
+          ],
+          "subtypes": [
+            "joint_operation",
+            "presence_or_basing",
+            "intelligence_sharing",
+            "agreement",
+            "direct_foreign_operation",
+            "external_pressure",
+            "exercise_bilateral",
+            "exercise_multinational",
+            "port_visit"
+          ],
+          "example": "US removes Venezuela from its drug-trafficking blacklist (external_pressure)."
+        },
+        {
+          "code": "aid",
+          "label": "Security assistance",
+          "definition": "Foreign funding, training or equipment for security forces.",
+          "include": [
+            "FMF, IMET, INCLE and similar programmes",
+            "Donated equipment",
+            "Training missions",
+            "Intelligence training or equipment provided by a foreign government"
+          ],
+          "exclude": [
+            "Purchases → procurement"
+          ],
+          "subtypes": [
+            "funding",
+            "training",
+            "equipment"
+          ],
+          "example": "Washington approves $461M in security assistance for Colombia."
+        }
+      ]
+    },
+    {
+      "code": "political",
+      "label": "Political context with a security dimension",
+      "note": "Political decisions and contests where the security dimension is explicit: exceptional powers and elections.",
+      "types": [
+        {
+          "code": "emergency_rule",
+          "label": "Emergency rule",
+          "definition": "Declarations, extensions or uses of exceptional powers that expand the role or authority of security forces.",
+          "include": [
+            "States of exception, siege or emergency",
+            "Suspension of constitutional guarantees",
+            "Emergency decrees authorizing deployments",
+            "Leaders explicitly using an emergency to justify an expanded security role"
+          ],
+          "exclude": [
+            "Purely humanitarian disaster declarations with no security role"
+          ],
+          "subtypes": [
+            "declaration",
+            "extension",
+            "guarantees_suspended",
+            "emergency_legitimation"
+          ],
+          "example": "Ecuador's president decrees a state of exception in eight provinces citing grave internal commotion."
+        },
+        {
+          "code": "electoral_security",
+          "label": "Elections and security",
+          "definition": "Elections where security forces, political violence or a security agenda are central.",
+          "include": [
+            "Violence against candidates or officials",
+            "Security-force role in voting",
+            "Campaigns defined by security policy",
+            "Post-election disputes involving security forces"
+          ],
+          "exclude": [
+            "Routine election news (not relevant)"
+          ],
+          "subtypes": [
+            "political_violence",
+            "security_role_in_vote",
+            "security_campaign",
+            "disputed_result"
+          ],
+          "example": "Crime dominates Brazil's campaign ahead of the 4 October first round."
+        },
+        {
+          "code": "other",
+          "label": "Other",
+          "definition": "Relevant but not captured above. Requires a one-line reason in coding_note. Target: under 5% of events.",
+          "include": [],
+          "exclude": [],
+          "subtypes": [],
+          "example": ""
+        }
+      ]
+    }
+  ],
+  "migration": [
+    [
+      "coup",
+      "coup",
+      ""
+    ],
+    [
+      "purge",
+      "purge",
+      ""
+    ],
+    [
+      "coup_proofing",
+      "coup_proofing",
+      ""
+    ],
+    [
+      "reform",
+      "reform",
+      "Trials move to accountability"
+    ],
+    [
+      "protest",
+      "protest or repression",
+      "Repression of protests moves to repression"
+    ],
+    [
+      "conflict",
+      "conflict, repression or oc",
+      "Custodial deaths and detentions move to repression; seizures to oc"
+    ],
+    [
+      "oc",
+      "oc or conflict",
+      "Armed clashes move to conflict"
+    ],
+    [
+      "peace",
+      "peace",
+      ""
+    ],
+    [
+      "aid",
+      "aid",
+      ""
+    ],
+    [
+      "coop",
+      "cooperation",
+      "Gains direct_foreign_operation and external_pressure"
+    ],
+    [
+      "exercise",
+      "cooperation · exercise_bilateral / exercise_multinational / port_visit",
+      ""
+    ],
+    [
+      "procurement",
+      "procurement",
+      ""
+    ],
+    [
+      "other · military_disaster_response",
+      "military_role · disaster_response",
+      ""
+    ],
+    [
+      "other · emergency_legitimation",
+      "emergency_rule · emergency_legitimation",
+      ""
+    ],
+    [
+      "other (remaining)",
+      "friction, accountability, electoral_security, military_role or other",
+      "Recoded; the remainder needs a reason"
+    ]
+  ],
+  "decisions": [
+    "Decided 29 Sep: exercise is a subtype of cooperation; procurement stays its own type (arms-flow and defence-industry analysis). 18 types.",
+    "Decided 29 Sep: keep DEED and axis, required on every event, coded independently of type (see Fields).",
+    "Decided 29 Sep: Colpus definition for coup and MPD definition for purge.",
+    "Decided 29 Sep: use only the 35 DEED categories most relevant to the monitor, to supplement the political dimension.",
+    "Decided 29 Sep: salience target of about 10–15% high.",
+    "Decided 29 Sep: domestic policing is in scope only with militarization, emergency powers, abuse by security forces, or an organized crime–state nexus.",
+    "Decided 29 Sep: every v3 record keeps its v2 family as legacy_event_family, so historical charts and the risk models keep working during the switch.",
+    "Deferred 29 Sep: evidence tiers (documented, credible, alleged) from the analyst knowledge base are not part of v3. Reconsider for a later version, for example to require documented or credible evidence before coding collusion or corruption. Corroboration, computed from source count and tier, covers source strength for now."
+  ],
+  "evidence_base": {
+    "events": 1295,
+    "other_share": 0.14,
+    "oc_plus_conflict_share": 0.5,
+    "high_salience_share": 0.4,
+    "high_confidence_share": 0.75,
+    "single_source_share": 0.63,
+    "subtype_filled": 0.1,
+    "deed_empty": 0.26,
+    "headline_only_backfill_share": 0.99
+  },
+  "actors": {
+    "intro": "Built on the existing actor taxonomy (config/taxonomy/actor_types.json): category → group → type, with roles. Today the classifier ignores it and picks from 7 flat codes; all 2,303 actor codings come from keyword rules, 87% at low confidence, and the 399-entry registry is mostly one generic placeholder per group per country. v3 has the classifier extract named actors and link them to the registry.",
+    "groups": [
+      [
+        "state_actor",
+        "military",
+        "state_security_force",
+        "Armed forces and their branches, defence ministry",
+        "FANB, SEDENA, Ejército de Colombia"
+      ],
+      [
+        "state_actor",
+        "police",
+        "state_security_force",
+        "National and local police, gendarmeries, national guards under civilian command",
+        "Policía Nacional del Perú, Carabineros"
+      ],
+      [
+        "state_actor",
+        "intelligence",
+        "state_security_force",
+        "Civilian or military intelligence services (new)",
+        "DGCIM, SEBIN, ABIN"
+      ],
+      [
+        "state_actor",
+        "prison_system",
+        "state_institution",
+        "Prison authorities and penitentiary ministries (new)",
+        "Ministerio del Poder Popular para el Servicio Penitenciario"
+      ],
+      [
+        "state_actor",
+        "executive",
+        "state_institution",
+        "Presidency, cabinet, governors",
+        "Presidency of Ecuador"
+      ],
+      [
+        "state_actor",
+        "legislature",
+        "state_institution",
+        "Congress, senate, assemblies",
+        "Brazilian Senate"
+      ],
+      [
+        "state_actor",
+        "judiciary",
+        "state_institution",
+        "Courts, prosecutors, electoral tribunals, JEP",
+        "Constitutional Court of Colombia"
+      ],
+      [
+        "state_actor",
+        "policy",
+        "state_institution",
+        "Other bureaucracies and regulators",
+        "Registraduría Nacional"
+      ],
+      [
+        "state_actor",
+        "foreign_government",
+        "foreign_government",
+        "Foreign governments and their agencies",
+        "US State Department, DEA"
+      ],
+      [
+        "state_actor",
+        "foreign_military",
+        "foreign_government",
+        "Foreign armed forces and commands (new; split from foreign_government)",
+        "US SOUTHCOM"
+      ],
+      [
+        "non_state_actor",
+        "international_org",
+        "international_org",
+        "Multilateral bodies and missions",
+        "OAS, UN, Haiti MSS"
+      ],
+      [
+        "non_state_actor",
+        "insurgent_group",
+        "armed_group",
+        "Guerrillas and dissident factions with political aims (new; split from armed_non_state_actor)",
+        "ELN, EMC"
+      ],
+      [
+        "non_state_actor",
+        "paramilitary_militia",
+        "armed_group",
+        "Paramilitaries, colectivos, self-defence groups (new)",
+        "Colectivos, Autodefensas Conquistadoras de la Sierra Nevada"
+      ],
+      [
+        "non_state_actor",
+        "criminal_org",
+        "organized_crime",
+        "Cartels, gangs and trafficking networks (new; split from armed_non_state_actor)",
+        "CJNG, Tren de Aragua, Los Pachenca"
+      ],
+      [
+        "non_state_actor",
+        "political_party",
+        "civic_actor",
+        "Parties and opposition movements (new)",
+        "Vente Venezuela"
+      ],
+      [
+        "non_state_actor",
+        "civil_society",
+        "civic_actor",
+        "NGOs, unions, rights groups, churches",
+        "Foro Penal, Un Mundo Sin Mordaza"
+      ],
+      [
+        "non_state_actor",
+        "economic_group",
+        "economic_actor",
+        "Firms and business associations",
+        "PDVSA partners, mining firms"
+      ],
+      [
+        "non_state_actor",
+        "media",
+        "media_actor",
+        "Outlets and journalists",
+        "El Faro"
+      ],
+      [
+        "non_state_actor",
+        "protesters",
+        "civilian_group",
+        "Protesters and the civilian population as a collective",
+        "Families of political prisoners"
+      ]
+    ],
+    "roles": [
+      "initiator",
+      "target",
+      "supporter",
+      "opponent",
+      "mediator",
+      "funder",
+      "security_partner",
+      "victim",
+      "other"
+    ],
+    "rules": [
+      "Name actors as the source does, then link them to the registry by name and alias; unmatched names go to a registry review queue instead of becoming generic placeholders.",
+      "Each actor gets one role. Every event needs at least one initiator unless the source names none.",
+      "Use the most specific unit named (the DGCIM, not 'the military'), with its parent kept in the registry so counts roll up.",
+      "A foreign government acting through its armed forces is foreign_military; through diplomacy, sanctions or aid it is foreign_government."
+    ],
+    "registry_growth": "Seed the registry with the named actors the monitor already tracks (FANB components, DGCIM, SEBIN, Guardia Nacional, ELN, EMC, Clan del Golfo, Los Pachenca, CJNG, Sinaloa factions, Tren de Aragua, MS-13, Barrio 18, colectivos) before classification, so the first run links rather than invents."
+  },
+  "deed": {
+    "intro": "SENTINEL codes each event's role in democratic erosion with the Democratic Erosion Event Dataset (DEED) and Autocratic Consolidation Event (ACE) codebook, v7 (Fall 2025). DEED supplements the political dimension: type says what happened, DEED says what it does to accountability. SENTINEL uses 35 of DEED's 84 categories, the ones that concern the security sector, civil–military relations and security-linked political change; categories about party systems, media markets, minorities, education and the economy are left out.",
+    "types": [
+      [
+        "precursor",
+        "A warning sign that can lead to erosion before any institutional change."
+      ],
+      [
+        "symptom",
+        "Erosion institutionalized."
+      ],
+      [
+        "resistance",
+        "Citizens or institutions pushing back against erosion."
+      ],
+      [
+        "destabilizing",
+        "An event that undermines the stability of an autocratic regime."
+      ],
+      [
+        "not_applicable",
+        "No bearing on democratic accountability. Must be chosen explicitly."
+      ]
+    ],
+    "groups": [
+      [
+        "precursor",
+        "3.1",
+        "Threats to horizontal accountability",
+        "horizontal"
+      ],
+      [
+        "precursor",
+        "3.2",
+        "Threats to vertical accountability",
+        "vertical"
+      ],
+      [
+        "precursor",
+        "3.3",
+        "Exogenous risk factors",
+        "exogenous"
+      ],
+      [
+        "symptom",
+        "4.1",
+        "Reduction in horizontal accountability",
+        "horizontal"
+      ],
+      [
+        "symptom",
+        "4.2",
+        "Reduction in vertical accountability",
+        "vertical"
+      ],
+      [
+        "destabilizing",
+        "5.1",
+        "Domestic factors",
+        "domestic"
+      ],
+      [
+        "destabilizing",
+        "5.2",
+        "Exogenous factors",
+        "exogenous"
+      ],
+      [
+        "resistance",
+        "6.1",
+        "Increase in horizontal accountability",
+        "horizontal"
+      ],
+      [
+        "resistance",
+        "6.2",
+        "Increase in vertical accountability",
+        "vertical"
+      ],
+      [
+        "resistance",
+        "6.3",
+        "Other",
+        "other"
+      ]
+    ],
+    "categories": {
+      "3.1.1": "Delegitimizing or Weakening the Judiciary",
+      "3.1.2": "Delegitimizing or Weakening the Legislature",
+      "3.1.8": "Rejecting Election Results",
+      "3.2.4": "Electoral Violence",
+      "3.2.5": "Increasing Control over Civil Society",
+      "3.2.6": "State-Conducted Violence or Abuse",
+      "3.2.12": "Rhetorical Attacks against Democracy or Accountability Institutions",
+      "3.2.18": "Vertical Corruption",
+      "3.2.20": "Increased Surveillance",
+      "3.3.1": "Non-state Violence",
+      "3.3.3": "External Inﬂuence or Invasion",
+      "4.1.1": "Reduction in Judicial Independence",
+      "4.1.2": "Reduction in Legislative Oversight",
+      "4.1.4": "Suspension of Laws or the Constitution",
+      "4.1.7": "Creation of Parallel Structures",
+      "4.1.8": "Purging of Elites",
+      "4.1.9": "Coup or Regime Collapse",
+      "4.2.1": "Repression of the Opposition",
+      "4.2.3": "Systemic Electoral Violence",
+      "4.2.4": "Curtailed Civil Liberties",
+      "4.2.5": "Media Repression",
+      "4.2.7": "Forced/Coerced Exile",
+      "4.2.12": "Militarization of Civilian Governance",
+      "5.1.1": "Elite Inﬁghting",
+      "5.1.2": "Non-state Violence",
+      "5.1.5": "Coup or Regime Collapse",
+      "5.1.6": "Civil War/Revolution",
+      "5.2.2": "External Inﬂuence or Invasion",
+      "6.1.1": "Check on Executive by Judiciary",
+      "6.1.2": "Check on Executive by Legislature",
+      "6.2.1": "Transfer of Power from Authoritarian Leaders",
+      "6.2.5": "Nonviolent Protest",
+      "6.2.6": "Violent Protest",
+      "6.3.1": "Pressure from Outside Actor",
+      "6.3.3": "State Attempts at Democratization or to Prevent Backsliding"
+    },
+    "rules": [
+      "DEED type is coded on every event (not_applicable allowed). DEED category is added when one of the listed categories fits; otherwise it stays empty.",
+      "The category must sit under the chosen DEED type.",
+      "Axis is derived from the category's group (horizontal, vertical); when no category applies, axis is coded directly.",
+      "DEED never decides the event type, and the event type never decides DEED."
+    ]
+  },
+  "foundations": [
+    [
+      "DEED / ACE Codebook v7 (Fall 2025)",
+      "data/raw/DEED_ACE_Codebook_v7_Fall2025_20251217.docx.pdf",
+      "DEED types and all 84 categories; axis; actor levels (central, state/local, civil society, external)."
+    ],
+    [
+      "Colpus coup dataset codebook (Chin, Wright and Carter 2021)",
+      "data/raw/Coup Latent Variable/Data/ColpusCodebook.pdf",
+      "Coup definition, military vs non-military attempts, the success rules."
+    ],
+    [
+      "Military Purges in Dictatorships (Sudduth 2020)",
+      "…/Data/purges_coding_variable.pdf",
+      "Purge definition and who counts as a purge target."
+    ],
+    [
+      "State Security Forces dataset (De Bruin 2020)",
+      "…/Literature, …/Data/StateSecurityForces.dta",
+      "Parallel and counterbalancing forces for coup-proofing."
+    ],
+    [
+      "Military Mutinies and Defections Database (Johnson 2021)",
+      "…/Literature",
+      "Mutiny and defection subtypes under friction."
+    ],
+    [
+      "Multidimensional Measures of Militarization, M3 (Bayer et al. 2023)",
+      "data/raw/M3-Codebook-V1.pdf",
+      "Military repression, veto power and impunity; crosswalk to militarization indicators."
+    ],
+    [
+      "V-Dem codebook v16",
+      "data/raw/codebook_v16.pdf",
+      "Crosswalk for the structural indicators on country pages."
+    ],
+    [
+      "Coup-proofing and civilian control literature (Jin; Kenwick; Sudduth; Böhmelt et al.; Albrecht)",
+      "data/raw/Coup Latent Variable/Literature",
+      "Concept definitions and the private latent-variable work."
+    ],
+    [
+      "Analyst knowledge base",
+      "config/agents/analyst_knowledge.json",
+      "Military role domains, civil–military relationship types, crime–state interaction types."
+    ],
+    [
+      "Process–episode–event schema",
+      "config/modeling/process_episode_event_schema.json",
+      "Episode grouping (the feed's story rows)."
+    ],
+    [
+      "Military role profiles",
+      "config/military_role_profiles.json",
+      "Country notes on what each military does."
+    ],
+    [
+      "Actor registries",
+      "config/actors/*.json",
+      "Registry seeding for named actors."
+    ],
+    [
+      "Query lexicon",
+      "config/queries/event_query_lexicon.json",
+      "Spanish and Portuguese term glossary."
+    ]
+  ],
+  "crosswalk": [
+    [
+      "coup",
+      "4.1.9 / 5.1.5 Coup or Regime Collapse",
+      "Colpus; M3 military leader and regime origin"
+    ],
+    [
+      "purge",
+      "4.1.8 Purging of Elites",
+      "MPD"
+    ],
+    [
+      "coup_proofing",
+      "4.1.7 Creation of Parallel Structures",
+      "SSF; Jin coup-proofing measure"
+    ],
+    [
+      "military_role",
+      "4.2.12 Militarization of Civilian Governance",
+      "M3 political militarization; role domains"
+    ],
+    [
+      "friction",
+      "3.2.12 Rhetorical Attacks…; 5.1.1 Elite Infighting",
+      "MMDD (mutiny, defection)"
+    ],
+    [
+      "reform",
+      "6.3.3 State Attempts at Democratization…; 4.1.x when reforms concentrate power",
+      "V-Dem military constraint indicators"
+    ],
+    [
+      "accountability",
+      "6.1.1 Check on Executive by Judiciary",
+      "M3 military impunity"
+    ],
+    [
+      "procurement",
+      "—",
+      "M3 material militarization (heavy weapons, expenditure)"
+    ],
+    [
+      "repression",
+      "4.2.1 Repression of the Opposition; 4.2.4 Curtailed Civil Liberties; 4.2.5 Media Repression; 3.2.6 State-Conducted Violence or Abuse",
+      "M3 military repression"
+    ],
+    [
+      "protest",
+      "6.2.5 Nonviolent Protest; 6.2.6 Violent Protest",
+      "—"
+    ],
+    [
+      "conflict",
+      "3.3.1 / 5.1.2 Non-state Violence; 5.1.6 Civil War/Revolution",
+      "ACLED event types"
+    ],
+    [
+      "oc",
+      "3.3.1 Non-state Violence; 3.2.18 Vertical Corruption",
+      "Crime–state interaction types"
+    ],
+    [
+      "peace",
+      "—",
+      "—"
+    ],
+    [
+      "cooperation",
+      "3.3.3 / 5.2.2 External Influence or Invasion; 6.3.1 Pressure from Outside Actor",
+      "—"
+    ],
+    [
+      "aid",
+      "—",
+      "M3 material militarization"
+    ],
+    [
+      "emergency_rule",
+      "4.1.4 Suspension of Laws or the Constitution",
+      "—"
+    ],
+    [
+      "electoral_security",
+      "3.2.4 / 4.2.3 Electoral Violence; 3.1.8 Rejecting Election Results",
+      "—"
+    ]
+  ],
+  "field_groups": [
+    {
+      "group": "Classification",
+      "fields": [
+        {
+          "name": "content_type",
+          "values": "event | analysis | profile",
+          "rule": "See unit of analysis."
+        },
+        {
+          "name": "type / subtype",
+          "values": "one type from the domains above; one subtype from its list or null",
+          "rule": "Pick the most specific type. Precedence when two fit: coup > emergency_rule > repression > conflict > oc > military_role > others."
+        },
+        {
+          "name": "secondary_types",
+          "values": "0–2 other type codes",
+          "rule": "For events that clearly belong to more than one category (for example, an emergency decree that deploys the army: emergency_rule + military_role)."
+        }
+      ]
+    },
+    {
+      "group": "Place and time",
+      "fields": [
+        {
+          "name": "country / secondary_countries",
+          "values": "one tracked country (or Regional); list of others",
+          "rule": "Primary = where the event happens. Replaces pipe-joined values like Colombia|Venezuela."
+        },
+        {
+          "name": "event_date / date_precision",
+          "values": "YYYY-MM-DD, YYYY-MM or null; day | month | unknown",
+          "rule": "When the event happened, taken from the text. Publication date is stored separately and never substituted."
+        },
+        {
+          "name": "location",
+          "values": "place, state or department, precision (place | admin1 | country)",
+          "rule": "Most specific place named. Geocoded against a gazetteer; unresolved places keep country precision."
+        }
+      ]
+    },
+    {
+      "group": "Actors",
+      "fields": [
+        {
+          "name": "actors[]",
+          "values": "up to 4 named actors, each with name, group, role and country",
+          "rule": "See section 4. Each actor also gets a level: central, subnational, civil society or external (DEED)."
+        }
+      ]
+    },
+    {
+      "group": "Signal quality",
+      "fields": [
+        {
+          "name": "salience",
+          "values": "high | medium | low",
+          "rule": "High: could shift the country's civil-military status or outlook (coup, top-command purge, new or extended emergency rule, state violence with 10+ victims, direct foreign military action, landmark reform or ruling). Medium: notable national development in a tracked category. Low: routine, local or background. Target about 10–15% high."
+        },
+        {
+          "name": "certainty",
+          "values": "high | medium | low",
+          "rule": "The coder's certainty that the coding is right, given the text. Separate from corroboration, which is computed from the number and tier of sources and never asked of the model."
+        }
+      ]
+    },
+    {
+      "group": "Democratic erosion",
+      "fields": [
+        {
+          "name": "deed_type",
+          "values": "precursor | symptom | resistance | destabilizing | not_applicable",
+          "rule": "Coded on every event; see section 5. Independent of type."
+        },
+        {
+          "name": "deed_category",
+          "values": "one of the 35 DEED v7 categories in section 5.2, or empty",
+          "rule": "Added when a listed category fits; must sit under the chosen DEED type."
+        },
+        {
+          "name": "axis",
+          "values": "horizontal | vertical | exogenous | domestic | not_applicable",
+          "rule": "Derived from the DEED category's group when there is one; coded directly otherwise."
+        }
+      ]
+    },
+    {
+      "group": "Text",
+      "fields": [
+        {
+          "name": "summary",
+          "values": "English, one sentence, at most 40 words",
+          "rule": "Neutral, no publisher names, translate if needed."
+        },
+        {
+          "name": "evidence",
+          "values": "1–2 short quotes from the source text",
+          "rule": "The phrases that support the type and the date. Shown to analysts; lets any code be checked in seconds."
+        }
+      ]
+    },
+    {
+      "group": "Links",
+      "fields": [
+        {
+          "name": "episode_id",
+          "values": "episode identifier or null",
+          "rule": "Links reports of one unfolding sequence (the feed's story rows), following the process–episode–event schema. Assigned after coding, not by the classifier."
+        },
+        {
+          "name": "relationship_signal",
+          "values": "subordinate | bargaining | tutelary_veto | partisan_pillar | fractured | praetorian | corruption_capture | null",
+          "rule": "Optional, high-salience events only: what the event shows about the civil–military relationship (analyst knowledge base). Kept separate from the military's role."
+        }
+      ]
+    }
+  ]
+}
