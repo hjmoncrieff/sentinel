@@ -215,10 +215,10 @@ export function renderCountry(c, model, ctx) {
         ${eventMix(c)}
       </div>
       <aside>
-        <div class="sec-head"><h2 style="font-size:22px">Key positions</h2>${refState(c)}</div>
+        <div class="sec-head"><h2>Key positions</h2>${refState(c)}</div>
         ${positions(c)}
-        ${c.watch ? `<div class="sec-head section" style="padding-top:10px"><h2 style="font-size:22px">${c.auto_updated ? 'Watch note' : 'Analyst watch note'}</h2>${c.auto_updated ? '<span class="mono ref-auto">AI-assisted</span>' : ''}</div><p style="font-size:14px;color:var(--ink-2);margin:0">${esc(c.watch)}</p>` : ''}
-        ${c.missions?.length ? `<div class="sec-head section" style="padding-top:10px"><h2 style="font-size:22px">Military roles</h2></div>
+        ${c.watch ? `<div class="sec-head section"><h2>${c.auto_updated ? 'Watch note' : 'Analyst watch note'}</h2>${c.auto_updated ? '<span class="mono ref-auto">AI-assisted</span>' : ''}</div><p style="font-size:14px;color:var(--ink-2);margin:0">${esc(c.watch)}</p>` : ''}
+        ${c.missions?.length ? `<div class="sec-head section"><h2>Military roles</h2></div>
         <ul class="missions">${c.missions.map(m => `<li><span>${esc(m.role)}</span><span class="mono ms-${esc(m.status)}">${esc(m.status)}</span></li>`).join('')}</ul>` : ''}
       </aside>
     </div>

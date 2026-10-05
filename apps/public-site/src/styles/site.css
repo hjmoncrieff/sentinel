@@ -120,6 +120,10 @@ table.status tr.row:hover td, table.status tr.row.hl td{background:var(--olive-2
 .section{padding-block:var(--s-7) 0}
 .sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-4);border-top:2px solid var(--ink);padding-top:10px;margin-bottom:var(--s-4);flex-wrap:wrap}
 .sec-head h2{font-size:26px}
+/* A heading that follows other content in the same column needs air above its rule. */
+.sec-head.section{padding-top:10px;margin-top:var(--s-7)}
+aside .sec-head.section{margin-top:var(--s-6)}
+aside .sec-head h2{font-size:22px}
 .sec-head a{font-family:var(--f-cond);font-size:14px;color:var(--amber);text-decoration:none;cursor:pointer}
 .changed{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:var(--s-6)}
 .story{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;padding-block:14px;border-bottom:1px solid var(--rule-2)}
