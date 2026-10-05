@@ -198,10 +198,8 @@ export function renderCountry(c, model, ctx) {
         ${official(c, 'vice_president') ? `<dt>Vice President</dt><dd>${named(official(c, 'vice_president'))}</dd>` : ''}
         ${official(c, 'defence_minister') ? `<dt>Defence minister</dt><dd>${named(official(c, 'defence_minister'))}</dd>` : ''}
         <dt>Regime</dt><dd>${esc(c.regime || '—')}</dd>
-        <dt>Armed forces</dt><dd>${esc(c.branches || '—')}</dd>
         <dt>Next election</dt><dd>${electionText(c.election)}${flag(electionChanged(c))}</dd>
         ${c.last_election ? `<dt>Last election</dt><dd>${electionText(c.last_election)}</dd>` : ''}
-        <dt>Reference data</dt><dd>${refState(c)}</dd>
       </dl>
     </section>
     ${c.structural.length ? `<section class="struct-strip" aria-label="Structural indicators">${c.structural.map(s => `
