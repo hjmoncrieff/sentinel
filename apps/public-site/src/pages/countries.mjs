@@ -195,6 +195,8 @@ export function renderCountry(c, model, ctx) {
         <dt>Reference data</dt><dd>${refState(c)}</dd>
       </dl>
     </section>
+    ${c.structural.length ? `<section class="struct-strip" aria-label="Structural indicators">${c.structural.map(s => `
+      <div class="sstat"><div class="l">${esc(s.label)}</div><div class="sstat-v"><span class="v">${esc(s.value)}</span>${lineSpark(s.series, 72, 24)}</div><div class="y">${s.year} · ${esc(s.source)}</div></div>`).join('')}</section>` : ''}
     ${outlookPanel(c)}
     ${c.in_depth ? inDepth(c, model) : ''}
     <div class="two section">
@@ -211,9 +213,6 @@ export function renderCountry(c, model, ctx) {
         ${c.watch ? `<div class="sec-head section" style="padding-top:10px"><h2 style="font-size:22px">${c.auto_updated ? 'Watch note' : 'Analyst watch note'}</h2>${c.auto_updated ? '<span class="mono ref-auto">AI-assisted</span>' : ''}</div><p style="font-size:14px;color:var(--ink-2);margin:0">${esc(c.watch)}</p>` : ''}
         ${c.missions?.length ? `<div class="sec-head section" style="padding-top:10px"><h2 style="font-size:22px">Military roles</h2></div>
         <ul class="missions">${c.missions.map(m => `<li><span>${esc(m.role)}</span><span class="mono ms-${esc(m.status)}">${esc(m.status)}</span></li>`).join('')}</ul>` : ''}
-        <div class="sec-head section" style="padding-top:10px"><h2 style="font-size:22px">Structural indicators</h2></div>
-        <div class="struct" style="grid-template-columns:1fr">${c.structural.map(s => `
-          <div class="scard"><div><div class="l">${esc(s.label)}</div><div class="v">${esc(s.value)}</div><div class="y">${s.year} · ${esc(s.source)}</div></div>${lineSpark(s.series)}</div>`).join('')}</div>
       </aside>
     </div>
   </div>`;
