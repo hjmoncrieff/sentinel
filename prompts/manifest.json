@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated": "2026-09-29",
+  "updated": "2026-10-05",
   "description": "Registry of SENTINEL LLM prompts. Each entry names the prompt file (prompts/<name>.md), its consumer, the model it is sent to, and the placeholders it requires. Tests enforce that placeholders here match the file.",
   "prompts": {
     "classify_events": {
@@ -100,6 +100,18 @@
         "text"
       ],
       "purpose": "Pass 2 of codebook v3: one article with its lede, coded to codebook.item_schema() (structured output). Sonnet 5.5 chosen 2026-09-30 after the three-coder comparison (see CHANGELOG)."
+    },
+    "reference_refresh": {
+      "consumer": "scripts/reference/refresh_country_reference.py::research",
+      "model": "claude-sonnet-5-5",
+      "role": "user",
+      "placeholders": [
+        "today",
+        "country",
+        "current",
+        "recent_events"
+      ],
+      "purpose": "Research a country's current officeholders, commanders and elections with web search, and record them with sources for the public reference file."
     }
   }
 }

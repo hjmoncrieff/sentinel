@@ -151,9 +151,26 @@ const firstSentences = (t, n = 2) => (t || '').split(/(?<=[.!?])\s+(?=[A-Z"“])
   if (out.length && /\b(?:[A-Z]\.)+$/.test(out[out.length - 1])) out[out.length - 1] += ' ' + part; else out.push(part);
   return out;
 }, []).slice(0, n).join(' ').trim();
-const staleFlag = c => c.reviewed
-  ? `<span class="mono" style="font-size:11px;color:var(--ink-3)">Reviewed ${esc(fmtDate(c.reviewed))}</span>`
-  : '<span class="stale-flag">Not yet reviewed</span>';
+// Where the reference data stands: analyst-reviewed, refreshed automatically, or neither.
+const refState = c => c.reviewed
+  ? `<span class="mono ref-ok">Reviewed ${esc(fmtDate(c.reviewed))}</span>`
+  : c.auto_updated
+    ? `<span class="mono ref-auto">Auto-updated ${esc(fmtDate(c.auto_updated))}</span>`
+    : '<span class="stale-flag">Not yet reviewed</span>';
+const official = (c, post) => (c.officials || []).find(o => o.post === post);
+const since = o => o?.since ? ` <span class="prec">since ${esc(/^\d{4}-\d{2}$/.test(o.since) ? fmtDate(o.since + '-01', {month: 'short', year: 'numeric'}) : o.since)}</span>` : '';
+const named = o => o?.name ? `${esc(o.name)}${since(o)}` : '<span class="unconf">Not confirmed</span>';
+const electionText = e => e ? `${esc(e.type || '')}${e.date ? `, ${esc(/^\d{4}-\d{2}-\d{2}$/.test(e.date) ? fmtDate(e.date) : /^\d{4}-\d{2}$/.test(e.date) ? fmtDate(e.date + '-01', {month: 'long', year: 'numeric'}) : e.date)}` : ''}` : '—';
+
+function positions(c) {
+  if (!(c.officials || []).length) {
+    return `<dl class="positions">${(c.positions || []).map(p => `<dt>${esc(p.t)}</dt><dd>${esc(p.n)}</dd>`).join('') || '<dt>—</dt><dd>Not recorded</dd>'}</dl>`;
+  }
+  return `<dl class="positions officials">${c.officials.map(o => `
+    <dt>${esc(o.title)}</dt>
+    <dd>${named(o)}${o.source_url ? ` <a class="src-link" href="${esc(o.source_url)}" target="_blank" rel="noopener" aria-label="Source for ${esc(o.title)}">source ↗</a>` : ''}${o.note ? `<small>${esc(o.note)}</small>` : ''}</dd>`).join('')}</dl>
+    <p class="note">Checked with web search by Claude on ${esc(fmtDate(c.auto_updated))}; each name links to the page that supports it. Not yet reviewed by an analyst.</p>`;
+}
 
 export function renderCountry(c, model, ctx) {
   const body = `
@@ -163,14 +180,19 @@ export function renderCountry(c, model, ctx) {
       <select id="c-pick">${model.countries.map(x => `<option value="${countryUrl(ctx, x)}" ${x.iso3 === c.iso3 ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</select></div>
     <section class="c-head">
       <div><div class="kicker">${c.iso3} · ${esc(c.subregion)} · Country monitor${c.in_depth ? ' · <span style="color:var(--amber)">In-depth</span>' : ''}</div><h1 style="margin-top:8px">${esc(c.name)}</h1>
-        <p style="margin:14px 0 0;color:var(--ink-2);max-width:62ch">${esc(firstSentences(c.note))}</p></div>
+        <p style="margin:14px 0 0;color:var(--ink-2);max-width:62ch">${esc(c.auto_updated ? c.note : firstSentences(c.note))}</p>
+        ${c.auto_updated ? `<p class="mono ref-auto" style="margin:8px 0 0">AI-assisted summary · ${esc(fmtDate(c.auto_updated))}</p>` : ''}</div>
       <dl class="facts">
         <dt>CMR status</dt><dd>${chip(c)}</dd>
-        <dt>Government</dt><dd>${esc(c.head_of_government || '—')}</dd>
+        <dt>${esc(official(c, 'head_of_state')?.title?.replace(/ \(.*\)$/, '') || 'Government')}</dt><dd>${official(c, 'head_of_state') ? named(official(c, 'head_of_state')) : esc(c.head_of_government || '—')}</dd>
+        ${official(c, 'head_of_government') ? `<dt>${esc(official(c, 'head_of_government').title)}</dt><dd>${named(official(c, 'head_of_government'))}</dd>` : ''}
+        ${official(c, 'vice_president') ? `<dt>Vice President</dt><dd>${named(official(c, 'vice_president'))}</dd>` : ''}
+        ${official(c, 'defence_minister') ? `<dt>Defence minister</dt><dd>${named(official(c, 'defence_minister'))}</dd>` : ''}
         <dt>Regime</dt><dd>${esc(c.regime || '—')}</dd>
         <dt>Armed forces</dt><dd>${esc(c.branches || '—')}</dd>
-        <dt>Next election</dt><dd>${esc(c.election ? `${c.election.type}, ${c.election.date}` : '—')}</dd>
-        <dt>Reference data</dt><dd>${staleFlag(c)}</dd>
+        <dt>Next election</dt><dd>${electionText(c.election)}</dd>
+        ${c.last_election ? `<dt>Last election</dt><dd>${electionText(c.last_election)}</dd>` : ''}
+        <dt>Reference data</dt><dd>${refState(c)}</dd>
       </dl>
     </section>
     ${outlookPanel(c)}
@@ -184,9 +206,9 @@ export function renderCountry(c, model, ctx) {
         ${eventMix(c)}
       </div>
       <aside>
-        <div class="sec-head"><h2 style="font-size:22px">Key positions</h2>${staleFlag(c)}</div>
-        <dl class="positions">${(c.positions || []).map(p => `<dt>${esc(p.t)}</dt><dd>${esc(p.n)}</dd>`).join('') || '<dt>—</dt><dd>Not recorded</dd>'}</dl>
-        ${c.watch ? `<div class="sec-head section" style="padding-top:10px"><h2 style="font-size:22px">Analyst watch note</h2></div><p style="font-size:14px;color:var(--ink-2);margin:0">${esc(c.watch)}</p>` : ''}
+        <div class="sec-head"><h2 style="font-size:22px">Key positions</h2>${refState(c)}</div>
+        ${positions(c)}
+        ${c.watch ? `<div class="sec-head section" style="padding-top:10px"><h2 style="font-size:22px">${c.auto_updated ? 'Watch note' : 'Analyst watch note'}</h2>${c.auto_updated ? '<span class="mono ref-auto">AI-assisted</span>' : ''}</div><p style="font-size:14px;color:var(--ink-2);margin:0">${esc(c.watch)}</p>` : ''}
         ${c.missions?.length ? `<div class="sec-head section" style="padding-top:10px"><h2 style="font-size:22px">Military roles</h2></div>
         <ul class="missions">${c.missions.map(m => `<li><span>${esc(m.role)}</span><span class="mono ms-${esc(m.status)}">${esc(m.status)}</span></li>`).join('')}</ul>` : ''}
         <div class="sec-head section" style="padding-top:10px"><h2 style="font-size:22px">Structural indicators</h2></div>

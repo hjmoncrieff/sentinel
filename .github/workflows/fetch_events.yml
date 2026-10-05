@@ -131,11 +131,21 @@ jobs:
               fh.write("\n".join(lines) + "\n")
           PY
 
+      # Country officeholders, commanders and elections, researched with web search.
+      # Runs for countries whose recent events signal a change, plus the entries not
+      # checked in 30 days; at most three a night (about $0.25 each). A failure here
+      # must not block the data refresh.
+      - name: Refresh country reference
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/reference/refresh_country_reference.py --triggered --stale-days 30 --max-countries 3
+
       - name: Commit updated data
         run: |
           git config user.name  "sentinel-bot"
           git config user.email "sentinel-bot@users.noreply.github.com"
-          git add data/
+          git add data/ apps/public-site/reference/
           git diff --staged --quiet || git commit -m "chore: daily pipeline refresh $(date -u +'%Y-%m-%d') [skip ci]"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push

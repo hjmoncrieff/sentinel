@@ -48,3 +48,42 @@ def test_protected_events_are_skipped():
     assert ra.skip_reason(_event(url="#", linked_reports=[]), set()) == "no_report_url"
     assert ra.skip_reason(_event(v3={"type": "purge"}), set()) == "already_v3"
     assert ra.skip_reason(_event(), set()) is None
+
+
+def test_reference_refresh_selection_and_merge():
+    import argparse
+    from datetime import date
+
+    sys.path.insert(0, str(ROOT / "scripts" / "reference"))
+    import refresh_country_reference as rr
+
+    today = date(2026, 10, 5)
+    events = [
+        {"country": "Colombia", "event_date": "2026-10-03", "headline": "De la Espriella sworn in as president", "event_type": "other"},
+        {"country": "Peru", "event_date": "2026-10-03", "headline": "Police seize cocaine shipment in Callao", "event_type": "oc"},
+        {"country": "Chile", "event_date": "2026-08-01", "headline": "New defence minister sworn in", "event_type": "other"},  # too old
+        {"country": "Haiti", "event_date": "2026-10-02", "headline": "Officers arrested over plot", "event_type": "coup"},
+    ]
+    assert set(rr.triggered_countries(events, today)) == {"Colombia", "Haiti"}
+
+    countries = [{"name": "Colombia", "auto_updated": "2026-10-04"}, {"name": "Haiti"}, {"name": "Peru", "auto_updated": "2026-08-01"},
+                 {"name": "Chile", "auto_updated": "2026-10-01", "locked": True}]
+    args = argparse.Namespace(countries=None, all=False, triggered=True, stale_days=30, max_countries=0)
+    picked = [c["name"] for c, _ in rr.select(countries, args, events, today)]
+    assert picked == ["Haiti", "Peru"]  # Colombia is in its cool-down; Chile is locked
+
+    country = {"name": "Colombia", "head_of_government": "Gustavo Petro", "election": {"date": "Mar/May 2026"}, "cmr_status": "Complex", "note": "old"}
+    record = {"officials": [
+        {"post": "head_of_state", "name": "Abelardo de la Espriella", "title": "President", "since": "2026-08", "source_url": "https://example.org/a", "note": ""},
+        {"post": "defence_minister", "name": "Unsourced Name", "title": "Minister of Defence", "since": "", "source_url": "", "note": ""},
+        {"post": "navy_commander", "name": "", "title": "Commander of the Navy", "since": "", "source_url": "", "note": "Not confirmed."},
+    ], "next_election": {"type": "Presidential", "date": "2030-05", "note": "", "source_url": "https://example.org/e"},
+        "last_election": {"type": "", "date": "", "note": "", "source_url": ""}, "summary_note": "New note.", "watch_note": "Watch.", "changes": []}
+    changes = rr.merge(country, record, today, "claude-sonnet-5-5")
+    by_post = {o["post"]: o for o in country["officials"]}
+    assert country["head_of_government"] == "Abelardo de la Espriella" and country["auto_updated"] == "2026-10-05"
+    assert by_post["defence_minister"]["name"] is None  # a name without a source is never published
+    assert by_post["navy_commander"]["name"] is None and by_post["navy_commander"]["note"] == "Not confirmed."
+    assert country["positions"] == [{"t": "President", "n": "Abelardo de la Espriella"}]
+    assert country["cmr_status"] == "Complex" and country["note"] == "New note." and "last_election" not in country
+    assert any("Gustavo Petro → Abelardo de la Espriella" in c for c in changes) and any("2030-05" in c for c in changes)

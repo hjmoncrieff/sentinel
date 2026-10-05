@@ -11,6 +11,30 @@ Each major change entry should include:
 
 ## 2026-10-05
 
+### Country Reference Refreshed Automatically, With Sources
+
+Affected areas:
+- `scripts/reference/refresh_country_reference.py` (new), `scripts/reference/README.md`, `prompts/reference_refresh.md`, `prompts/manifest.json`
+- `apps/public-site/reference/countries.json`, `apps/public-site/reference/changes.json` (new), `apps/public-site/src/pages/countries.mjs`, `src/styles/site.css`
+- `.github/workflows/fetch_events.yml`, `tests/test_recode_archive.py`
+
+What changed:
+- **Owner request (country-page review):** reference data must update itself, and pages should name the Vice President, Defence Minister and service commanders. The page for Colombia still listed Gustavo Petro.
+- **Refresh job.** For each selected country, Claude Sonnet 5.5 researches the current officeholders with web search (at most 10 searches) and records them through a strict tool schema: head of state, head of government where distinct, vice president, defence minister, armed-forces chief, army, navy and air-force commanders, police chief, the next and last national elections, a short summary note and a watch note. Every entry carries a source URL and the month the person took the post.
+- **Selection rule.** `--triggered` picks countries whose published events in the past 7 days signal a change of government, cabinet or command (coup or purge events, or headlines matching inauguration, election-result and command-change patterns), with a 5-day cool-down. `--stale-days 30` adds entries not checked in a month. The nightly workflow runs both, capped at three countries.
+- **Safeguards.** A name without a source is dropped and the post shown as "Not confirmed". Old values are never carried over unverified. `cmr_status`, military roles and in-depth monitor text are never changed. An entry with `"locked": true` is skipped. Each run appends to `changes.json`.
+- **Country page.** The facts block shows head of state, vice president and defence minister with "since" dates; Key positions lists every post with a source link; the summary and watch note are labelled AI-assisted with the date.
+
+Validation completed:
+- `python scripts/reference/refresh_country_reference.py --countries Colombia`: 8 of 8 posts confirmed with sources, 8 searches, about $0.25
+- `python -m pytest -q` (108 passed, including selection and merge rules)
+- Rebuilt site screenshotted in headless Chrome; review artifact republished
+
+Remaining risks / follow-up:
+- **The other 24 countries are not refreshed yet.** The Anthropic account ran out of credit during the run; all 24 requests were rejected and nothing was changed. Rerun `--stale-days 0` after topping up (about $6).
+- The research can be wrong where sources conflict or lag. Entries are labelled "Auto-updated", not reviewed; an analyst sets `reviewed` after checking.
+- The in-depth monitor briefs are hand-written and still mention the previous Colombian government.
+
 ### Public Site Redesign: First Build (Preview At /sentinel/next/)
 
 Affected areas:
