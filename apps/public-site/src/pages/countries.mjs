@@ -2,7 +2,8 @@
 
 import {esc, fmtDate, tColor, tLabel, chip, lvl, pips, dir, ago, daysBetween, sparkBars, lineSpark} from '../lib/html.mjs';
 import {layout} from './layout.mjs';
-import {boardMap, timeline} from './maps.mjs';
+import {boardMap, timeline, countryMap} from './maps.mjs';
+import {groupStories} from '../lib/model.mjs';
 
 const WEEKLY_MAX_AGE_DAYS = 10;
 const countryUrl = (ctx, c) => ctx.url(`countries/${c.iso3.toLowerCase()}/`);
@@ -88,8 +89,20 @@ export function renderCountries(model, ctx) {
 
 /* ───────────── Country monitor ───────────── */
 
-function outlookPanel(c) {
+// The coded events that count toward a reading, so a reader can check it against the record.
+function conEvidence(k, ctx, shown) {
+  if (!k.evidence.length) return '<div class="con-ev"><div class="kicker">Events · past 90 days</div><p>None coded to this reading. It rests on structural indicators.</p></div>';
+  // An event can count toward several readings; each column shows ones the others do not.
+  const fresh = k.evidence.filter(e => !shown.has(e.id));
+  const pick = (fresh.length >= 2 ? fresh : k.evidence).slice(0, 2);
+  for (const e of pick) shown.add(e.id);
+  return `<div class="con-ev"><div class="kicker">Events · past 90 days · ${k.evidence.length}</div>${pick.map(e => `
+    <a href="${ctx.url(`feed/?e=${e.id}`)}"><span class="mono">${fmtDate(e.date, {day: 'numeric', month: 'short'})}</span>${esc(e.title)}</a>`).join('')}</div>`;
+}
+
+function outlookPanel(c, ctx) {
   const o = c.outlook;
+  const shown = new Set();
   return `
   <section class="outlook instr" aria-label="90-day outlook">
     <div class="outlook-grid">
@@ -103,19 +116,32 @@ function outlookPanel(c) {
       <div class="ol-cons">${c.constructs.map(k => `
         <div class="con"><div class="kicker">${esc(k.code.replaceAll('_', ' '))}</div><h3>${esc(k.label)}</h3>
           <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">${lvl(k.level)}${dir(k.trend)}</div>
-          <ul>${k.drivers.map(d => `<li>${esc(d)}</li>`).join('')}</ul></div>`).join('')}
+          <ul>${k.drivers.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
+          ${conEvidence(k, ctx, shown)}</div>`).join('')}
       </div>
     </div>
     <div class="watch"><b>Watch</b><span>${o.watch.map(esc).join(' · ') || '—'}</span></div>
   </section>`;
 }
 
+// The in-depth text is written by hand. When the head of state or government took office after
+// it was written, or a change of leader is awaiting review, the section says it needs revision.
+function inDepthStale(c) {
+  const leader = official(c, 'head_of_state') || official(c, 'head_of_government');
+  const written = c.in_depth.text_as_of;
+  if (leader?.since && written && leader.since.slice(0, 7) > written.slice(0, 7)) {
+    return `Needs revision · written before the change of government in ${fmtDate(leader.since.slice(0, 7) + '-01', {month: 'short', year: 'numeric'})}`;
+  }
+  return leaderChanged(c) ? 'Needs revision · a change of government is under review' : null;
+}
+
 function inDepth(c, model) {
-  const sm = c.in_depth;
+  const sm = c.in_depth, stale = inDepthStale(c);
   const tl = timeline(c, model.events.filter(e => e.country === c.name && e.content_type === 'event'), model.asof);
   return `
     <section class="section" aria-labelledby="deep-h">
       <div class="sec-head"><h2 id="deep-h">In-depth monitor · ${esc(sm.subtitle)}</h2><span class="kicker">${esc((sm.meta || []).map(m => m.value.split('\n')[0]).join(' · '))}</span></div>
+      ${stale ? `<p class="deep-stale"><span class="stale-flag">${esc(stale)}</span> The text and key figures below were last edited ${esc(fmtDate(sm.text_as_of, {month: 'long', year: 'numeric'}))}. The timeline's coded events are current.</p>` : ''}
       <div class="sm-lede" style="padding-block:0 24px">
         <div class="prose"><p>${esc(sm.brief)}</p></div>
         <aside><div class="keydata">${(sm.key_data || []).map(k => `<div><b>${esc(k.value)}</b><span>${esc(k.name)}</span><small>${esc(k.sub)}</small></div>`).join('')}</div></aside>
@@ -128,22 +154,57 @@ function inDepth(c, model) {
     </section>`;
 }
 
-function eventMix(c) {
+// Monthly counts stacked by event family. Colours match the mix bars below, which act as the legend.
+function activityChart(c, model) {
+  const W = 720, H = 190, L = 30, B = 34, T = 8, order = c.type_mix.map(([t]) => t);
+  const peak = Math.max(1, ...c.months.map(m => m.total));
+  const step = [1, 2, 5, 10, 20, 25, 50, 100].find(s => peak / s <= 4) || 200, top = Math.ceil(peak / step) * step;
+  const y = v => T + (H - T - B) * (1 - v / top), slot = (W - L) / c.months.length, bw = slot * 0.62;
+  const grid = Array.from({length: top / step + 1}, (_, i) => i * step).map(v => `<line x1="${L}" x2="${W}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}" stroke="var(--rule-2)"/><text x="${L - 6}" y="${y(v).toFixed(1)}" dy=".32em" text-anchor="end">${v}</text>`).join('');
+  const bars = c.months.map((m, i) => {
+    const x = L + i * slot + (slot - bw) / 2, d = new Date(m.key + '-01T00:00:00Z');
+    let acc = 0;
+    const segs = [...order, ...Object.keys(m.by).filter(t => !order.includes(t))].filter(t => m.by[t]).map(t => { const y1 = y(acc + m.by[t]), h = y(acc) - y1; acc += m.by[t]; return `<rect x="${x.toFixed(1)}" y="${y1.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0, h - .6).toFixed(1)}" fill="${tColor(t)}"/>`; }).join('');
+    const label = d.toLocaleDateString('en-GB', {timeZone: 'UTC', month: 'short'});
+    return `<g><title>${esc(`${fmtDate(m.key + '-01', {month: 'long', year: 'numeric'})}: ${m.total} event${m.total === 1 ? '' : 's'}${m.total ? ' — ' + Object.entries(m.by).sort((a, b) => b[1] - a[1]).map(([t, n]) => `${tLabel(t)} ${n}`).join(', ') : ''}`)}</title><rect x="${(L + i * slot).toFixed(1)}" y="${T}" width="${slot.toFixed(1)}" height="${H - T - B}" fill="transparent"/>${segs}
+      ${m.total ? `<text class="n" x="${(x + bw / 2).toFixed(1)}" y="${(y(m.total) - 5).toFixed(1)}" text-anchor="middle">${m.total}</text>` : ''}
+      <text x="${(x + bw / 2).toFixed(1)}" y="${H - B + 16}" text-anchor="middle">${label}</text>${i === 0 || d.getUTCMonth() === 0 ? `<text class="yr" x="${(x + bw / 2).toFixed(1)}" y="${H - B + 30}" text-anchor="middle">${d.getUTCFullYear()}</text>` : ''}</g>`;
+  }).join('');
+  const partial = fmtDate(model.asof, {day: 'numeric', month: 'short'});
+  return `
+    <div class="act-chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(`Coded events per month, ${c.months[0].key} to ${c.months.at(-1).key}: ${c.months.map(m => m.total).join(', ')}`)}">${grid}${bars}</svg></div>
+    <p class="note">Events per month by type. The last month runs to ${partial}. Counts reflect how much was collected as well as what happened: daily collection and a backfill began in mid-2026, so earlier months are under-counted.</p>`;
+}
+
+function eventMix(c, model) {
   if (!c.type_mix.length) return '';
   const max = c.type_mix[0][1], total = c.type_mix.reduce((a, [, n]) => a + n, 0);
   return `
-    <div class="sec-head section"><h2>Event mix · past 12 months</h2><span class="kicker">${total} coded events</span></div>
+    <div class="sec-head section"><h2>Activity · past 12 months</h2><span class="kicker">${total} coded events</span></div>
+    ${activityChart(c, model)}
     <div class="mix" role="img" aria-label="${esc(c.type_mix.map(([t, n]) => `${tLabel(t)} ${n}`).join(', '))}">${c.type_mix.map(([t, n]) => `
       <div class="mix-row"><span class="mix-l">${esc(tLabel(t))}</span><span class="mix-bar"><span style="width:${(n / max * 100).toFixed(1)}%;background:${tColor(t)}"></span></span><span class="mix-n mono">${n}</span></div>`).join('')}
     </div>`;
 }
 
 function recentEvents(c, model, ctx, n = 8) {
-  const evs = model.events.filter(e => e.country === c.name).slice(0, n);
-  if (!evs.length) return '<p class="note">No coded events yet. Coverage for smaller countries depends on regional and wire reporting.</p>';
-  return `<div class="cevents">${evs.map(e => `
-    <div class="cev"><span class="d">${fmtDate(e.date, {day: 'numeric', month: 'short', year: e.date.slice(0, 4) === model.asof.slice(0, 4) ? undefined : '2-digit'})}</span><span class="b" style="background:${tColor(e.type)}"></span>
-      <div><a href="${ctx.url(`feed/?e=${e.id}`)}" style="text-decoration:none">${esc(e.title)}</a><small>${tLabel(e.type)} · ${e.sal} salience · ${e.n_sources} source${e.n_sources > 1 ? 's' : ''}${e.content_type !== 'event' ? ` · ${e.content_type}` : ''}</small></div></div>`).join('')}</div>`;
+  const stories = groupStories(model.events.filter(e => e.country === c.name).slice(0, 60)).slice(0, n);
+  if (!stories.length) return '<p class="note">No coded events yet. Coverage for smaller countries depends on regional and wire reporting.</p>';
+  const day = d => fmtDate(d, {day: 'numeric', month: 'short', year: d.slice(0, 4) === model.asof.slice(0, 4) ? undefined : '2-digit'});
+  return `<div class="cevents">${stories.map(({lead: e, others}) => `
+    <div class="cev"><span class="d">${day(e.date)}</span><span class="b" style="background:${tColor(e.type)}"></span>
+      <div><a href="${ctx.url(`feed/?e=${e.id}`)}" style="text-decoration:none">${esc(e.title)}</a><small>${tLabel(e.type)} · ${e.sal} salience · ${e.n_sources} source${e.n_sources > 1 ? 's' : ''}${e.content_type !== 'event' ? ` · ${e.content_type}` : ''}</small>
+        ${others.length ? `<details class="cev-more"><summary>${others.length} more record${others.length > 1 ? 's' : ''} of this story</summary><ul>${others.map(o => `<li><a href="${ctx.url(`feed/?e=${o.id}`)}">${esc(o.title)}</a> <span>${esc(o.sources[0]?.name || '')} · ${day(o.date)}</span></li>`).join('')}</ul></details>` : ''}</div></div>`).join('')}</div>`;
+}
+
+function locatedMap(c, model) {
+  const map = countryMap(c, model);
+  if (!map) return '';
+  const all = c.type_mix.reduce((a, [, n]) => a + n, 0);
+  return `
+    <div class="sec-head section"><h2>Where</h2><span class="kicker">Past 12 months</span></div>
+    <div class="cmap instr">${map.svg}</div>
+    <p class="note">${map.n} of ${all} events are placed at a town or region (${map.places} place${map.places === 1 ? '' : 's'}). Larger marks mean more events${map.high ? '; red marks include a high-salience event' : ''}. The rest are recorded at country level and not drawn.</p>`;
 }
 
 // Sentence split that does not break inside initialisms such as "U.S.".
@@ -203,21 +264,22 @@ export function renderCountry(c, model, ctx) {
       </dl>
     </section>
     ${c.structural.length ? `<section class="struct-strip" aria-label="Structural indicators">${c.structural.map(s => `
-      <div class="sstat"><div class="l">${esc(s.label)}</div><div class="sstat-v"><span class="v">${esc(s.value)}</span>${lineSpark(s.series, 72, 24)}</div><div class="y">${s.year} · ${esc(s.source)}</div></div>`).join('')}</section>` : ''}
-    ${outlookPanel(c)}
+      <div class="sstat"><div class="l">${esc(s.label)}</div><div class="sstat-v"><span class="v">${esc(s.value)}</span>${lineSpark(s.series, 72, 24)}</div><div class="y">${s.year} · ${esc(s.source)}</div>${s.median ? `<div class="y med">Region median ${esc(s.median)}</div>` : ''}</div>`).join('')}</section>` : ''}
+    ${outlookPanel(c, ctx)}
     ${c.in_depth ? inDepth(c, model) : ''}
     <div class="two section">
       <div>
         <div class="sec-head"><h2>Assessment</h2><span class="label-ai">Automated rule-based summary · not reviewed</span></div>
         <div class="prose"><p>${esc(c.outlook.summary || 'No model summary for this country yet.')}</p>${c.constructs.slice(0, 1).map(k => k.summary ? `<p>${esc(k.summary)}</p>` : '').join('')}</div>
+        ${eventMix(c, model)}
         <div class="sec-head section"><h2>Recent events</h2><a href="${ctx.url(`feed/?c=${encodeURIComponent(c.name)}&p=0`)}">All ${c.total} in the feed →</a></div>
         ${recentEvents(c, model, ctx)}
-        ${eventMix(c)}
       </div>
       <aside>
         <div class="sec-head"><h2>Key positions</h2>${refState(c)}</div>
         ${positions(c)}
         ${c.watch ? `<div class="sec-head section"><h2>${c.auto_updated ? 'Watch note' : 'Analyst watch note'}</h2>${c.auto_updated ? '<span class="mono ref-auto">AI-assisted</span>' : ''}</div><p style="font-size:14px;color:var(--ink-2);margin:0">${esc(c.watch)}</p>` : ''}
+        ${locatedMap(c, model)}
         ${c.missions?.length ? `<div class="sec-head section"><h2>Military roles</h2></div>
         <ul class="missions">${c.missions.map(m => `<li><span>${esc(m.role)}</span><span class="mono ms-${esc(m.status)}">${esc(m.status)}</span></li>`).join('')}</ul>` : ''}
       </aside>

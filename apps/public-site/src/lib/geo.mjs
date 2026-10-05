@@ -42,6 +42,16 @@ export function fitMercator(features, width, pad = 6) {
   return {project, width, height};
 }
 
+/** A Mercator projection that fits `features` inside a `width` × `maxHeight` box, centred. */
+export function fitBox(features, width, maxHeight, pad = 10) {
+  const [x0, y0, x1, y1] = lonLatBounds(features);
+  const dx = (x1 - x0) * Math.PI / 180, dy = y1 - y0;
+  const k = Math.min((width - 2 * pad) / dx, (maxHeight - 2 * pad) / dy);
+  const height = Math.ceil(dy * k + 2 * pad), ox = (width - dx * k) / 2;
+  const project = ([lon, lat]) => [ox + (lon - x0) * Math.PI / 180 * k, pad + (y1 - mercY(lat)) * k];
+  return {project, width, height};
+}
+
 const ringArea = pts => { let a = 0; for (let i = 0, n = pts.length; i < n; i++) { const [x1, y1] = pts[i], [x2, y2] = pts[(i + 1) % n]; a += x1 * y2 - x2 * y1; } return a / 2; };
 
 /** Project a feature: SVG path data, pixel area, centroid of its largest polygon, and bounds. */

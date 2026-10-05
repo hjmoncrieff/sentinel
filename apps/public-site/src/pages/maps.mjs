@@ -1,6 +1,6 @@
 // Region maps, drawn at build time as SVG. The browser only adds hover, pin and zoom.
 
-import {topoFeatures, fitMercator, shape, intersects} from '../lib/geo.mjs';
+import {topoFeatures, fitMercator, fitBox, shape, intersects} from '../lib/geo.mjs';
 import {esc, LEVELS, chip, lvl, tLabel, ago, fmtDate} from '../lib/html.mjs';
 
 const STATUS_FILL = {stable: 'var(--st-stable-i)', strained: 'var(--st-strained-i)', crisis: 'var(--st-crisis-i)', authoritarian: 'var(--st-auth-i)'};
@@ -112,6 +112,60 @@ export function boardMap(model, ctx) {
 }
 
 /** In-depth timeline: curated milestones by lane plus the country's coded events. */
+/** Country-page map: the country, its neighbours as backdrop, and one mark per place with located events. */
+export function countryMap(c, model) {
+  const all = topoFeatures(model.topology, 'countries');
+  const own = all.find(f => Number(f.id) === Number(c.num));
+  if (!own || !c.located.length) return null;
+  // Fit to the mainland: distant islands (Galápagos, Easter Island) would shrink it to nothing.
+  const span = poly => { let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity; for (const [x, y] of poly[0]) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; } return (x1 - x0) * (y1 - y0); };
+  const biggest = Math.max(...own.polygons.map(span));
+  const W = 400;
+  const proj = fitBox([{polygons: own.polygons.filter(p => span(p) >= biggest * 0.05)}], W, 380, 18);
+  const H = proj.height;
+  const backdrop = all.filter(f => f !== own).map(f => shape(f, proj.project)).filter(s => s.d && intersects(s.bounds, W, H, 0));
+  // A place coded outside the country's outline (a neighbour's town, a bad geocode) is not drawn.
+  // Coastal towns can fall just off the simplified outline, so points near its edge are kept.
+  const inside = ([lat, lon]) => own.polygons.some(poly => {
+    const ring = poly[0];
+    let hit = false;
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      const [xi, yi] = ring[i], [xj, yj] = ring[j];
+      if ((yi > lat) !== (yj > lat) && lon < (xj - xi) * (lat - yi) / (yj - yi) + xi) hit = !hit;
+    }
+    return hit || ring.some(([x, y]) => Math.hypot(x - lon, y - lat) < 0.35);
+  });
+  const located = c.located.filter(e => inside(e.coords));
+  if (!located.length) return null;
+  const places = new Map();
+  for (const e of located) {
+    const key = e.coords.map(v => v.toFixed(1)).join(',');
+    const p = places.get(key) || {n: 0, high: 0, names: {}, coords: e.coords};
+    p.n++; if (e.sal === 'high') p.high++;
+    if (e.location) p.names[e.location] = (p.names[e.location] || 0) + 1;
+    places.set(key, p);
+  }
+  const marks = [...places.values()].map(p => {
+    const [x, y] = proj.project([p.coords[1], p.coords[0]]);
+    const name = Object.entries(p.names).sort((a, b) => b[1] - a[1])[0]?.[0] || 'Located place';
+    return {...p, x, y, name, r: 3 + Math.sqrt(p.n) * 1.6};
+  }).filter(m => m.x >= 0 && m.x <= W && m.y >= 0 && m.y <= H).sort((a, b) => b.n - a.n);
+  const dots = [...marks].reverse().map(m => `<circle cx="${m.x.toFixed(1)}" cy="${m.y.toFixed(1)}" r="${m.r.toFixed(1)}" fill="${m.high ? 'var(--st-crisis-i)' : 'var(--i-amber)'}" fill-opacity=".8" stroke="var(--olive)" stroke-width="1"><title>${esc(`${m.name}: ${m.n} event${m.n === 1 ? '' : 's'}${m.high ? `, ${m.high} high salience` : ''}`)}</title></circle>`).join('');
+  // Name the busiest places, skipping any label that would sit on top of one already placed.
+  const placed = [];
+  const labels = marks.filter(m => m.name !== 'Located place').map(m => {
+    const left = m.x > W * 0.62, lx = m.x + (left ? -(m.r + 4) : m.r + 4), text = m.name.split(',')[0].slice(0, 22);
+    if (placed.length >= 5 || placed.some(q => Math.abs(q.y - m.y) < 12 && Math.abs(q.x - lx) < 90)) return '';
+    placed.push({x: lx, y: m.y});
+    return `<text x="${lx.toFixed(1)}" y="${m.y.toFixed(1)}" dy=".35em" text-anchor="${left ? 'end' : 'start'}" fill="var(--i-ink)" stroke="var(--olive)" stroke-width="3" paint-order="stroke" font-family="IBM Plex Sans Condensed, Arial Narrow, sans-serif" font-size="11.5">${esc(text)}</text>`;
+  }).join('');
+  const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(`Map of ${c.name} with ${located.length} located events from the past 12 months. Busiest places: ${marks.slice(0, 4).map(m => `${m.name.split(',')[0]} ${m.n}`).join(', ')}.`)}">
+    <g>${backdrop.map(s => `<path d="${s.d}" fill="var(--olive-2)" stroke="var(--olive)" stroke-width=".6"/>`).join('')}</g>
+    <path d="${shape(own, proj.project).d}" fill="var(--olive-3)" stroke="var(--i-faint)" stroke-width=".8"/>
+    <g>${dots}</g><g style="pointer-events:none">${labels}</g></svg>`;
+  return {svg, n: located.length, places: marks.length, high: marks.some(m => m.high)};
+}
+
 const LANES = [['military', 'Military', '--t-coup'], ['political', 'Political', '--t-protest'], ['peace', 'Peace process', '--t-peace'], ['reform', 'Reform', '--t-reform'], ['oc', 'Organized crime', '--t-oc'], ['intl', 'International', '--t-coop'], ['live', 'Coded events', '--i-amber']];
 export function timeline(c, events, asof) {
   const sm = c.in_depth;

@@ -522,3 +522,27 @@ a.rel{color:inherit;text-decoration:none}
 .sstat .y{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3)}
 @media (max-width:980px){.struct-strip{grid-template-columns:repeat(3,minmax(0,1fr))}.sstat{border-bottom:1px solid var(--rule-2)}.sstat:nth-child(3n){border-right:none}.sstat:nth-child(3n+1){padding-left:0}}
 @media (max-width:560px){.struct-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.sstat:nth-child(3n){border-right:1px solid var(--rule-2)}.sstat:nth-child(3n+1){padding-left:14px}.sstat:nth-child(2n){border-right:none}.sstat:nth-child(2n+1){padding-left:0}}
+
+/* ── Country page: evidence, activity chart, located-events map ── */
+.con-ev{padding-top:12px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.con-ev p{margin:0;font-size:12.5px;color:var(--i-faint)}
+.con-ev a{font-size:13px;line-height:1.4;color:var(--i-ink);text-decoration:none;display:block}
+.con-ev a:hover{text-decoration:underline}
+.con-ev a .mono{font-size:11px;color:var(--i-faint);margin-right:8px}
+.act-chart{overflow-x:auto}
+.act-chart svg{display:block;width:100%;min-width:480px;height:auto}
+.act-chart text{font-family:var(--f-mono);font-size:10.5px;fill:var(--ink-3)}
+.act-chart text.n{fill:var(--ink-2)}
+.act-chart text.yr{fill:var(--ink-2);font-weight:500}
+.act-chart+.note{margin:8px 0 var(--s-4)}
+.cmap{border-radius:3px;padding:6px}
+.cmap svg{display:block;width:100%;height:auto;max-height:400px}
+.cmap+.note{margin:8px 0 0}
+.cev-more{margin-top:6px;font-size:12.5px;color:var(--ink-3)}
+.cev-more summary{cursor:pointer;font-family:var(--f-cond);color:var(--amber);width:fit-content}
+.cev-more ul{margin:6px 0 0;padding-left:16px;display:flex;flex-direction:column;gap:4px}
+.cev-more li a{color:var(--ink-2)}
+.cev-more li span{font-family:var(--f-mono);font-size:11px;white-space:nowrap}
+.sstat .med{color:var(--ink-2)}
+.deep-stale{margin:0 0 var(--s-4);font-size:13px;color:var(--ink-3);max-width:80ch}
+.deep-stale .stale-flag{margin-right:8px}

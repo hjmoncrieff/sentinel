@@ -40,6 +40,7 @@ function toEvent(e) {
     deed: e.deed_type || null,
     actor: initiator?.actor_canonical_group || initiator?.actor_group || null,
     target: target?.actor_canonical_group || target?.actor_group || null,
+    constructs: e.event_construct_destinations || [],
     coding: e.public_coding || null,
     analysis: e.public_analysis || null,
     ai: !!e.public_ai_generated,
@@ -55,6 +56,17 @@ function countryModel(ref, monitor, dossier, events, asof) {
   const ps = monitor?.predictive_summary || {};
   const typeMix = {};
   for (const e of within(365)) if (e.content_type === 'event') typeMix[e.type] = (typeMix[e.type] || 0) + 1;
+  // Twelve calendar months ending with the "as of" month, counted by event family.
+  const months = [];
+  for (let i = 11; i >= 0; i--) {
+    const key = new Date(Date.UTC(+asof.slice(0, 4), +asof.slice(5, 7) - 1 - i, 1)).toISOString().slice(0, 7);
+    const by = {};
+    for (const e of mine) if (e.content_type === 'event' && e.date.startsWith(key)) by[e.type] = (by[e.type] || 0) + 1;
+    months.push({key, by, total: Object.values(by).reduce((a, b) => a + b, 0)});
+  }
+  const salRank = {high: 0, medium: 1, low: 2};
+  const evidence = code => within(90).filter(e => e.content_type === 'event' && e.constructs.includes(code))
+    .sort((a, b) => salRank[a.sal] - salRank[b.sal] || a.constructs.length - b.constructs.length || b.date.localeCompare(a.date));
   return {
     ...ref,
     outlook: {
@@ -67,10 +79,11 @@ function countryModel(ref, monitor, dossier, events, asof) {
     constructs: (monitor?.risk_constructs || []).map(k => ({
       code: k.code, label: k.label, level: k.level, trend: k.trend_label,
       drivers: (k.drivers || []).map(d => d.label), summary: k.summary_text, watch: k.watchpoints || [],
+      evidence: evidence(k.code),
     })),
     monitors: (monitor?.monitors || []).map(m => ({code: m.code, label: m.label, goal: m.goal, trend: m.trend_label, signal: m.dominant_recent_signal})),
     structural: (dossier?.public_structural_cards || []).map(s => ({
-      code: s.code, label: s.label, value: s.display_value, unit: s.unit, year: s.as_of_year,
+      code: s.code, label: s.label, value: s.display_value, num: s.current_value, unit: s.unit, year: s.as_of_year,
       series: s.trend_series || [], source: STRUCTURAL_SOURCE[s.code] || '',
     })),
     structural_as_of: dossier?.public_freshness?.structural_as_of_year || null,
@@ -80,6 +93,8 @@ function countryModel(ref, monitor, dossier, events, asof) {
     high30: within(30).filter(e => e.sal === 'high').length,
     n365: within(365).length,
     type_mix: Object.entries(typeMix).sort((a, b) => b[1] - a[1]),
+    months,
+    located: within(365).filter(e => e.content_type === 'event' && e.coords && e.precision === 'place'),
     last: mine[0]?.date || null,
     total: mine.length,
   };
@@ -101,6 +116,19 @@ export function loadModel(repoRoot, siteRoot) {
   const monitorBy = Object.fromEntries(monitors.map(m => [m.country, m]));
   const dossierBy = Object.fromEntries(dossiers.map(d => [d.country, d]));
   const countries = reference.countries.map(ref => countryModel(ref, monitorBy[ref.name], dossierBy[ref.name], events, asof));
+
+  // Regional median for each structural indicator, written the way the country's own value is.
+  const median = vals => { const v = [...vals].sort((a, b) => a - b), m = v.length >> 1; return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2; };
+  for (const code of new Set(countries.flatMap(c => c.structural.map(s => s.code)))) {
+    const cards = countries.map(c => c.structural.find(s => s.code === code)).filter(s => typeof s?.num === 'number');
+    if (cards.length < 5) continue;
+    const mid = median(cards.map(s => s.num));
+    for (const s of cards) {
+      const decimals = (String(s.value).match(/\.(\d+)/) || ['', ''])[1].length;
+      s.median = mid.toFixed(decimals) + (String(s.value).endsWith('%') ? '%' : '');
+      s.median_n = cards.length;
+    }
+  }
 
   const monthly = [];
   const start = new Date(asof.slice(0, 7) + '-01T00:00:00Z');
@@ -126,11 +154,36 @@ export function loadModel(repoRoot, siteRoot) {
   };
 }
 
+const STOP = new Set('para como sobre entre desde hasta contra tras ante este esta estos estas pero porque cuando donde quien that this with from have will after over into amid says said their about more than were been has had its his her the and for los las del una uno unos por con que sus son fue ser han mais das dos uma com nao nos nas pela pelo'.split(' '));
+const titleWords = t => new Set(t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/[^a-z0-9]+/).filter(w => w.length > 3 && !STOP.has(w)));
+
+/** Group records that report the same story: within three days of each other and sharing most
+ *  of their headline words. Deliberately strict, so two different incidents are never merged.
+ *  Each group leads with its highest-salience, best-sourced record. */
+export function groupStories(events) {
+  const groups = [];
+  for (const e of events) {
+    const words = titleWords(e.title);
+    const hit = groups.find(g => g.some(x => {
+      if (Math.abs(daysBetween(x.e.date, e.date)) > 3) return false;
+      let shared = 0;
+      for (const w of words) if (x.words.has(w)) shared++;
+      return shared >= 3 && shared / Math.min(words.size, x.words.size) >= 0.5;
+    }));
+    hit ? hit.push({e, words}) : groups.push([{e, words}]);
+  }
+  const rank = {high: 0, medium: 1, low: 2};
+  return groups.map(g => {
+    const [lead, ...others] = g.map(x => x.e).sort((a, b) => rank[a.sal] - rank[b.sal] || b.n_sources - a.n_sources);
+    return {lead, others, date: g[0].e.date};
+  });
+}
+
 // The slim event list the live feed loads in the browser.
 export function feedPayload(model) {
   return {
     asof: model.asof,
     countries: model.countries.map(c => ({name: c.name, iso3: c.iso3})),
-    events: model.events,
+    events: model.events.map(({constructs, ...e}) => e),
   };
 }

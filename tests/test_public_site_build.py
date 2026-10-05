@@ -53,3 +53,35 @@ def test_feed_data_is_public_and_complete(site):
 def test_build_only_modules_do_not_ship(site):
     shipped = {p.name for p in (site / "assets").rglob("*") if p.is_file()}
     assert "model.mjs" not in shipped and "geo.mjs" not in shipped
+
+
+def test_country_monitor_sections(site):
+    col = (site / "countries/col/index.html").read_text(encoding="utf-8")
+    for marker in ('class="act-chart"', 'class="con-ev"', "Region median"):
+        assert marker in col, marker
+    # The map needs place-level coordinates, which the published layer carries from 2026-10-05.
+    published = json.loads((ROOT / "data/published/events_public.json").read_text(encoding="utf-8"))["events"]
+    if any(e["country"] == "Colombia" and e.get("location_precision") == "place" for e in published):
+        assert 'class="cmap instr"' in col
+    # The in-depth text predates the August 2026 change of government.
+    assert "Needs revision" in col
+    assert "Needs revision" not in (site / "countries/slv/index.html").read_text(encoding="utf-8")
+    # A country with no events in the window gets no chart or map, and says so in each reading.
+    blz = (site / "countries/blz/index.html").read_text(encoding="utf-8")
+    assert 'class="act-chart"' not in blz and 'class="cmap' not in blz
+
+
+def test_story_grouping_is_strict():
+    script = """
+      import {groupStories} from './apps/public-site/src/lib/model.mjs';
+      const ev = (id, date, title, sal = 'medium') => ({id, date, title, sal, n_sources: 1});
+      const out = groupStories([
+        ev('a', '2026-09-30', "Mexico's National Guard debuts chihuahua dog recruit named Comando"),
+        ev('b', '2026-09-30', 'Comando the chihuahua adopted by the Mexican national guard', 'high'),
+        ev('c', '2026-09-29', 'National Guard deployed to Sinaloa after cartel clashes'),
+        ev('d', '2026-08-01', "Mexico's National Guard debuts chihuahua dog recruit named Comando"),
+      ]);
+      console.log(JSON.stringify(out.map(g => [g.lead.id, ...g.others.map(o => o.id)])));
+    """
+    result = subprocess.run(["node", "--input-type=module", "-e", script], check=True, cwd=ROOT, capture_output=True, text=True)
+    assert json.loads(result.stdout) == [["b", "a"], ["c"], ["d"]]

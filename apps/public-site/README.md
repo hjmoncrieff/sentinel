@@ -34,6 +34,15 @@ public-safe layer), plus the two folders below.
 - `/countries/` regional summary and situation board
 - `/countries/<iso3>/` one monitor per country; four carry an in-depth section with a timeline
 
+What a country monitor adds beyond the reference data, all computed at build time:
+
+- **Structural strip.** Each indicator shows the regional median (25 countries) beside the country's value.
+- **Events behind a reading.** Each risk reading lists coded events from the past 90 days that count toward it (`event_construct_destinations` in the published layer). Readings with none say they rest on structural indicators.
+- **Activity chart.** Events per month for 12 months, stacked by type. The note under it says that early months are under-counted, because daily collection began in mid-2026.
+- **Where.** A map of events coded to a town or region in the past 12 months. Country-level events are not drawn; a place outside the country's outline is dropped.
+- **Recent events.** Records of the same story are folded into one row (`groupStories` in `src/lib/model.mjs`: within three days, sharing at least three and at least half of their headline words).
+- **In-depth "needs revision".** `in_depth.text_as_of` in `reference/countries.json` is the date the hand-written text was last edited. When the head of state or government took office after it, or a change of leader is awaiting review, the section is flagged. Update `text_as_of` when the text is rewritten.
+
 Maps, charts and the timeline are drawn at build time as SVG, so pages are complete
 without scripts. Scripts add filtering and hover behaviour only.
 

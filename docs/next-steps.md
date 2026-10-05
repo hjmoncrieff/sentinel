@@ -106,6 +106,26 @@ registry milestones.
   or move toward a more templated editorial style
 - consider a lightweight public methodology panel for event interpretation
 
+### Country monitors: deferred (noted 2026-10-05)
+
+Done without the API on 2026-10-05: activity chart, events behind each reading, located-events
+map, regional medians, story grouping, in-depth "needs revision" flag. Still to do:
+
+- **Assessment text (needs API credit).** The section is rule-generated and close to
+  boilerplate. Replace it with a short Sonnet-written assessment grounded in the country's
+  last 90 days of coded events, citing them, with the AI label. Roughly one to two cents per
+  country per refresh. Decide first whether it publishes automatically or waits for review.
+- **Thin pages (needs API credit).** 24 countries still carry the old hand-entered positions,
+  some marked "[verify …]". Run `scripts/reference/refresh_country_reference.py --stale-days 0`
+  and review the proposals.
+- **US security assistance per country (needs newer data).** `data/cleaned/greenbook.json`
+  ends at fiscal 2019, too old to show as current. Refresh it from ForeignAssistance.gov
+  first, then add a small military/economic block that links to the US security page.
+- **Rewrite stale in-depth text.** Colombia's is flagged (written before August 2026).
+  Venezuela's is probably stale too but is not flagged until its officials are researched.
+- **Upstream duplicates.** Story grouping hides same-headline records on the page; several
+  are true duplicates that the pipeline's deduplication should have merged.
+
 ## 8. Provenance And Transparency
 
 - deepen event/article linkage earlier in the ingestion stack

@@ -11,6 +11,32 @@ Each major change entry should include:
 
 ## 2026-10-05
 
+### Country Monitors: Activity, Evidence, Map, Medians, Story Grouping
+
+Affected areas:
+- `apps/public-site/src/pages/countries.mjs`, `src/pages/maps.mjs`, `src/lib/model.mjs`, `src/lib/geo.mjs`, `src/styles/site.css`
+- `apps/public-site/reference/countries.json` (`in_depth.text_as_of`), `apps/public-site/README.md`, `docs/next-steps.md`, `tests/test_public_site_build.py`
+
+What changed:
+- **Owner request (2026-10-05):** do the country-profile improvements that need no API credit and note the rest.
+- Header: the "Armed forces" and "Reference data" rows were removed (owner comments on the review page); stacked section headings now have space above them.
+- Structural strip: each indicator shows the regional median.
+- Outlook panel: each reading lists coded events from the past 90 days that count toward it, or says it rests on structural indicators.
+- New "Activity" section: events per month for 12 months, stacked by type, with a note that early months are under-counted. The type-mix bars sit under it as the legend.
+- New "Where" map: events coded to a place in the past 12 months, sized by count. Places outside the country's outline are not drawn.
+- Recent events: records of the same story are folded into one row.
+- In-depth monitors: flagged "Needs revision" when the head of state or government took office after `in_depth.text_as_of`. Colombia is flagged.
+- Deferred work is listed in `docs/next-steps.md` (section 7): AI-written assessment, reference research for 24 countries, US assistance (Greenbook ends at fiscal 2019), stale in-depth text.
+
+Validation completed:
+- `python -m pytest -q`
+- `node apps/public-site/build.mjs`, then screenshots of Colombia (desktop and 500px), Chile and Belize
+
+Remaining risks / follow-up:
+- The activity chart reflects collection intensity as well as events; the note says so, but the chart will read as a trend until the backfill is finished.
+- The four `text_as_of` dates are the last edit of the old dashboard text (2026-06-10), not a per-country review date.
+- Story grouping is strict by design and misses same-story reports with different wording.
+
 ### Reference Updates Now Wait For Analyst Review
 
 Affected areas:
