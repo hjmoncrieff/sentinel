@@ -1,0 +1,1979 @@
+{
+ "description": "Hand-maintained country reference for the public site: profile, key positions, elections, watch notes and in-depth monitor content. Lifted from assets/js/dashboard.js on 2026-10-05. Set 'reviewed' (YYYY-MM-DD) when an entry is checked.",
+ "subregions": [
+  "Mexico",
+  "Central America",
+  "Caribbean",
+  "Andean",
+  "Brazil",
+  "Southern Cone"
+ ],
+ "countries": [
+  {
+   "name": "Mexico",
+   "iso3": "MEX",
+   "iso2": "MX",
+   "num": 484,
+   "subregion": "Mexico",
+   "capital": "Mexico City",
+   "regime": "Federal Republic",
+   "head_of_government": "Claudia Sheinbaum",
+   "cmr_status": "Strained",
+   "cmr_class": "strained",
+   "branches": "Army (SEDENA) · Navy (SEMAR) · Air Force",
+   "defence_spending_gdp": "0.6%",
+   "note": "Mexico has experienced significant militarization since 2006's Calderón drug war deployment. Under AMLO and now Sheinbaum, the armed forces control the National Guard, oversee infrastructure megaprojects (Tren Maya, Felipe Ángeles Airport), and run the customs agency. This expansion of military economic roles raises structural concerns for democratic civilian control and civil-military theory.",
+   "watch": "CJNG leader El Mencho killed Feb 22 by SEDENA with US intelligence; 12 US Green Berets authorized at Mexican bases Feb 27. Monitor CJNG successor dynamics and whether Sheinbaum's deepened US military cooperation becomes institutionalized — or triggers backlash from sovereignty-focused sectors of the officer corps.",
+   "election": {
+    "type": "No national election",
+    "date": "Until 2030",
+    "note": "Sheinbaum began 6-year term June 2024"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Claudia Sheinbaum"
+    },
+    {
+     "t": "Sec. of Defence (SEDENA)",
+     "n": "Gen. Ricardo Trevilla Trejo"
+    },
+    {
+     "t": "Sec. of Navy (SEMAR)",
+     "n": "Adm. Raymundo Morales Ángeles"
+    },
+    {
+     "t": "Nat. Guard Commander",
+     "n": "Gen. Crisóforo Lazo Vieyra"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Counter-narcotics / cartel suppression",
+     "status": "primary"
+    },
+    {
+     "role": "National Guard (domestic police substitute)",
+     "status": "expanded"
+    },
+    {
+     "role": "Border enforcement / migration containment",
+     "status": "expanded"
+    },
+    {
+     "role": "Infrastructure control (AIFA, ports, Tren Maya)",
+     "status": "controversial"
+    },
+    {
+     "role": "Intelligence (SEDENA mandate since Jul 2025)",
+     "status": "expanded"
+    }
+   ],
+   "stats": {
+    "spending": "$9.4B",
+    "personnel": "277K",
+    "usAid": "$332M"
+   },
+   "in_depth": {
+    "subtitle": "SEDENA Militarization · Cartel Wars · FTO Designations",
+    "brief": "Mexico presents the region's most complex civil-military case: deep structural militarization under a formally democratic civilian government that has not experienced a coup. The officer corps has not asserted political preferences but has been the consistent beneficiary of institutional expansion. The Sheinbaum administration has deepened the AMLO-era model: in July 2025, SEDENA was formally granted national security intelligence authority, and the National Guard was transferred to SEDENA command.",
+    "meta": [
+     {
+      "kicker": "Focus period",
+      "value": "2006 – present\nMilitarization arc"
+     },
+     {
+      "kicker": "Key dynamic",
+      "value": "Structural militarization under civilian rule"
+     }
+    ],
+    "timeline_start": 2016,
+    "milestones": [
+     {
+      "id": "mx-e1",
+      "date": "2019-01-01",
+      "cat": "reform",
+      "title": "AMLO creates National Guard — civilian name, military personnel",
+      "desc": "Constitutionally civilian in name only. Built from military cadre. Marks start of institutional re-militarization under new labels."
+     },
+     {
+      "id": "mx-e2",
+      "date": "2022-09-05",
+      "cat": "reform",
+      "title": "National Guard formally transferred to SEDENA",
+      "desc": "Military takes AIFA airport, Tren Maya, ports, customs. Mexico has no nationwide civilian police force."
+     },
+     {
+      "id": "mx-e3",
+      "date": "2024-06-01",
+      "cat": "political",
+      "title": "Sheinbaum takes office — deepens AMLO militarization model",
+      "desc": "New SEDENA / SEMAR chiefs appointed Sep 2024. Maintains and expands military institutional roles."
+     },
+     {
+      "id": "mx-e4",
+      "date": "2024-09-12",
+      "cat": "oc",
+      "title": "Sinaloa civil war begins — El Mayo transferred to US",
+      "desc": "Chapitos faction hands Zambada to US. Cartel splits: La Mayiza vs Chapitos. 2,197 homicides in Sinaloa state."
+     },
+     {
+      "id": "mx-e5",
+      "date": "2025-02-06",
+      "cat": "intl",
+      "title": "Trump designates 6 Mexican cartels as FTOs",
+      "desc": "Sovereignty crisis. Sheinbaum deploys 10K NG to border to preempt tariffs. DEA access restricted."
+     },
+     {
+      "id": "mx-e6",
+      "date": "2025-07-01",
+      "cat": "reform",
+      "title": "SEDENA granted national security intelligence authority",
+      "desc": "Legislative reform. Military now authorized to generate and act on national security intelligence without civilian co-lead."
+     },
+     {
+      "id": "mx-e7",
+      "date": "2026-02-22",
+      "cat": "military",
+      "title": "El Mencho (CJNG) killed in joint SEDENA/SEMAR operation",
+      "desc": "US JITC-CC intelligence and planning support. 25 National Guard members killed. Largest cartel takedown in years."
+     }
+    ],
+    "key_data": [
+     {
+      "name": "Active military",
+      "value": "~277K",
+      "sub": "SEDENA + SEMAR · 2025"
+     },
+     {
+      "name": "National Guard (SEDENA)",
+      "value": "~120K",
+      "sub": "formerly civilian mandate"
+     },
+     {
+      "name": "Homicides (2025)",
+      "value": "23,374",
+      "sub": "−30% vs 2024 · 17.5/100K"
+     },
+     {
+      "name": "Cartel HVTs to US",
+      "value": "93",
+      "sub": "transferred in 12 months"
+     }
+    ]
+   },
+   "reviewed": null
+  },
+  {
+   "name": "Belize",
+   "iso3": "BLZ",
+   "iso2": "BZ",
+   "num": 84,
+   "subregion": "Central America",
+   "capital": "Belmopan",
+   "regime": "Constitutional Monarchy",
+   "head_of_government": "John Briceño (PM)",
+   "cmr_status": "Stable",
+   "cmr_class": "stable",
+   "branches": "Belize Defence Force (BDF) · Belize Police Department",
+   "defence_spending_gdp": "1.5%",
+   "note": "Belize has stable civil-military relations under a parliamentary system. The BDF is small (~1,500 personnel) and focuses on the Guatemala border — Belize's territorial dispute with Guatemala, which historically did not recognize Belize's full sovereignty, drove a 2019 ICJ referral. The case is before the ICJ; no active armed friction. US SOUTHCOM and UK garrison support (historically) supplement BDF capacity. Narco-trafficking through Belize's coastline and cays is the primary security challenge.",
+   "watch": "Guatemala-Belize ICJ process is the primary strategic risk; watch for any escalation in territorial friction. BDF capacity-building and US SOUTHCOM engagement are the key CMR variables.",
+   "election": {
+    "type": "Parliamentary — Held",
+    "date": "2025",
+    "note": "Briceño PUP; election due 2025 — verify outcome"
+   },
+   "positions": [
+    {
+     "t": "Prime Minister",
+     "n": "John Briceño"
+    },
+    {
+     "t": "Min. of National Security",
+     "n": "Kareem Musa"
+    },
+    {
+     "t": "BDF Commander",
+     "n": "Brig. Gen. Azariel Loriá"
+    },
+    {
+     "t": "Police Commissioner",
+     "n": "Chester Williams"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Border security (Guatemala territorial claim)",
+     "status": "primary"
+    },
+    {
+     "role": "UK garrison support (historical)",
+     "status": "routine"
+    }
+   ],
+   "stats": {
+    "spending": "$26M",
+    "personnel": "1.5K",
+    "usAid": "$2M"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Costa Rica",
+   "iso3": "CRI",
+   "iso2": "CR",
+   "num": 188,
+   "subregion": "Central America",
+   "capital": "San José",
+   "regime": "Presidential Republic",
+   "head_of_government": "Rodrigo Chaves",
+   "cmr_status": "Stable",
+   "cmr_class": "stable",
+   "branches": "Public Force (police) — no military by constitution",
+   "defence_spending_gdp": "0.6%",
+   "note": "Costa Rica abolished its military in 1948 (Article 12, Constitution). The Public Force and border police perform all security functions. Rising organized crime activity from Central American and South American cartels, and gang expansion from neighboring countries, is straining the civilian police model. Political pressure to expand border military-style operations is increasing, though no constitutional change has occurred.",
+   "watch": "Rising gang violence and cartel expansion from Nicaragua and Panama — monitor whether political pressure to militarize the border erodes Costa Rica's constitutionally unarmed tradition and what the Feb 2026 election outcome means for security doctrine.",
+   "election": {
+    "type": "Presidential",
+    "date": "Feb 2026",
+    "note": "Chaves constitutionally limited to one term; elections held Feb 2026 — verify result"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Rodrigo Chaves"
+    },
+    {
+     "t": "Min. of Security",
+     "n": "Mario Zamora Cordero"
+    },
+    {
+     "t": "Public Force Director",
+     "n": "Luis Hernández Quesada"
+    }
+   ],
+   "missions": [
+    {
+     "role": "No standing army (1948 constitution)",
+     "status": "primary"
+    },
+    {
+     "role": "Border police / OIJ",
+     "status": "routine"
+    }
+   ],
+   "stats": {
+    "spending": "$310M",
+    "personnel": "9K (Public Force)",
+    "usAid": "$20M"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "El Salvador",
+   "iso3": "SLV",
+   "iso2": "SV",
+   "num": 222,
+   "subregion": "Central America",
+   "capital": "San Salvador",
+   "regime": "Presidential Republic",
+   "head_of_government": "Nayib Bukele",
+   "cmr_status": "Crisis",
+   "cmr_class": "crisis",
+   "branches": "Army · Navy · Air Force · National Police",
+   "defence_spending_gdp": "1.1%",
+   "note": "El Salvador under Nayib Bukele represents a significant democratic backsliding case. Following the 2021 Legislative Assembly takeover by Bukele's party, the Supreme Court was packed and constitutional term limits removed. Bukele has explicitly used the military as a personal political instrument, most notoriously in the February 2020 Legislative Assembly incident. The estado de excepción anti-gang crackdown (March 2022–present) has created mass detention conditions with minimal due process.",
+   "watch": "Estado de excepción hit 4 years March 27 (49th extension); 91,650+ detained, 504 deaths in custody, FAES military role in policing extended through Dec 2026. Watch for any judicial or international accountability mechanism and whether the US-Bukele alignment survives any shift in Washington's CECOT posture.",
+   "election": {
+    "type": "No national election",
+    "date": "Until 2030",
+    "note": "Bukele re-elected Feb 2024; second term through 2030"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Nayib Bukele"
+    },
+    {
+     "t": "Min. of Defence",
+     "n": "René Francis Merino Monroy"
+    },
+    {
+     "t": "Armed Forces Chief",
+     "n": "Gen. Francisco Merino Monroy"
+    },
+    {
+     "t": "Nat. Civil Police",
+     "n": "Mauricio Arriaza Chicas"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Régimen de Excepción mass arrests",
+     "status": "primary"
+    },
+    {
+     "role": "Prison security / CECOT operations",
+     "status": "primary"
+    },
+    {
+     "role": "Protest suppression (May 2025)",
+     "status": "controversial"
+    },
+    {
+     "role": "Joint patrol with National Police",
+     "status": "active"
+    }
+   ],
+   "stats": {
+    "spending": "$290M",
+    "personnel": "25K",
+    "usAid": "$46M"
+   },
+   "in_depth": {
+    "subtitle": "Régimen de Excepción · Civil-Military Fusion · CECOT",
+    "brief": "El Salvador represents a textbook case of democratic backsliding through civil-military fusion. Unlike classical coups, Bukele's consolidation proceeds via managed elections — enabled by judicial packing that reversed constitutional term limits — while using the military as a visible loyalty instrument and domestic enforcement mechanism. The February 2020 Legislative Assembly occupation was the defining inflection point.",
+    "meta": [
+     {
+      "kicker": "Focus period",
+      "value": "2020 – present\nBukele consolidation"
+     },
+     {
+      "kicker": "Key dynamic",
+      "value": "Civil-military fusion via Régimen"
+     }
+    ],
+    "timeline_start": 2016,
+    "milestones": [
+     {
+      "id": "sv-e1",
+      "date": "2019-06-01",
+      "cat": "political",
+      "title": "Bukele inaugurated — begins military-adjacent posture",
+      "desc": "Cabinet includes former military figures. Security policy emphasizes visibility of armed forces."
+     },
+     {
+      "id": "sv-e2",
+      "date": "2020-02-09",
+      "cat": "military",
+      "title": "Bukele enters Assembly with armed soldiers — loyalty oath",
+      "desc": "Officers publicly pledge loyalty to president. Constitutional crisis: military refuses to enforce legislative limits on executive."
+     },
+     {
+      "id": "sv-e3",
+      "date": "2021-05-01",
+      "cat": "political",
+      "title": "Bukele-controlled Assembly removes Supreme Court magistrates",
+      "desc": "Judicial packing removes institutional check. Plan announced to double army from 20K to 40K by 2026."
+     },
+     {
+      "id": "sv-e4",
+      "date": "2022-03-27",
+      "cat": "military",
+      "title": "Régimen de Excepción declared — mass arrest campaign",
+      "desc": "Following 80-homicide weekend. Military and police begin mass arrests. Suspension of due process rights."
+     },
+     {
+      "id": "sv-e5",
+      "date": "2023-02-01",
+      "cat": "military",
+      "title": "CECOT mega-prison opens — military operates security",
+      "desc": "Designed for 40,000 detainees. Military handles transport and perimeter. Military discipline applied to civilians."
+     },
+     {
+      "id": "sv-e6",
+      "date": "2024-02-04",
+      "cat": "political",
+      "title": "Bukele re-elected with 85% — second term begins June 2024",
+      "desc": "Despite constitutional ban on consecutive terms, reversed by packed court. No major military dissent recorded."
+     },
+     {
+      "id": "sv-e7",
+      "date": "2025-03-16",
+      "cat": "intl",
+      "title": "252 Venezuelan deportees arrive at CECOT under Trump deal",
+      "desc": "US pays $6M/year. Deportees later report systematic torture per HRW report (Nov 2025)."
+     },
+     {
+      "id": "sv-e8",
+      "date": "2025-05-12",
+      "cat": "military",
+      "title": "Military deployed to disperse peaceful protests",
+      "desc": "First post-civil war use of armed forces against civil society. Heinrich Böll Stiftung documents cases."
+     },
+     {
+      "id": "sv-e9",
+      "date": "2025-07-31",
+      "cat": "political",
+      "title": "Constitutional reform: indefinite re-election, 6-year terms",
+      "desc": "Assembly approves 57–3: abolishes runoffs, moves elections to 2027. Constitutional order restructured."
+     },
+     {
+      "id": "sv-e10",
+      "date": "2026-03-27",
+      "cat": "political",
+      "title": "GIPES presents to CIDH: 504 in-custody deaths under régimen",
+      "desc": "Findings of crimes against humanity submitted to Inter-American Commission. 48th régimen extension."
+     }
+    ],
+    "key_data": [
+     {
+      "name": "Régimen detentions",
+      "value": "85K+",
+      "sub": "total since Mar 2022"
+     },
+     {
+      "name": "In-custody deaths",
+      "value": "504",
+      "sub": "per GIPES · Mar 2026"
+     },
+     {
+      "name": "CECOT capacity",
+      "value": "40,000",
+      "sub": "mega-prison · opened 2023"
+     },
+     {
+      "name": "Homicide rate (2023)",
+      "value": "2.4/100K",
+      "sub": "vs 103/100K in 2015"
+     }
+    ]
+   },
+   "reviewed": null
+  },
+  {
+   "name": "Guatemala",
+   "iso3": "GTM",
+   "iso2": "GT",
+   "num": 320,
+   "subregion": "Central America",
+   "capital": "Guatemala City",
+   "regime": "Presidential Republic",
+   "head_of_government": "Bernardo Arévalo",
+   "cmr_status": "Strained",
+   "cmr_class": "strained",
+   "branches": "Army · Air Force · Navy",
+   "defence_spending_gdp": "0.4%",
+   "note": "Guatemala's military retains significant political influence, particularly via its intelligence apparatus and historical impunity for genocide-era crimes. President Arévalo, a democracy reformist, faced an extraordinary political-legal siege before and after his 2023 election, with actors tied to the military-prosecutor nexus. His government's survival and consolidation of civilian control is the central CMR story in Guatemala.",
+   "watch": "Arévalo's ability to subordinate military intelligence to civilian oversight — specifically the Directorate of Military Intelligence (DIM) — is the structural test of his government.",
+   "election": {
+    "type": "Presidential",
+    "date": "Jun 2027",
+    "note": "Arévalo reform agenda's durability depends on 2027 outcome"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Bernardo Arévalo de León"
+    },
+    {
+     "t": "Min. of National Defence",
+     "n": "Henry Skippy Barrientos"
+    },
+    {
+     "t": "Army Commander",
+     "n": "Gen. Marco Tulio Espinoza Jerez"
+    },
+    {
+     "t": "Nat. Civil Police",
+     "n": "David Pérez González"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Counter-narcotics / border security",
+     "status": "primary"
+    },
+    {
+     "role": "Internal security / Ixil area operations",
+     "status": "active"
+    },
+    {
+     "role": "Intelligence (DIM) — civilian oversight disputed",
+     "status": "controversial"
+    }
+   ],
+   "stats": {
+    "spending": "$340M",
+    "personnel": "22K",
+    "usAid": "$69M"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Honduras",
+   "iso3": "HND",
+   "iso2": "HN",
+   "num": 340,
+   "subregion": "Central America",
+   "capital": "Tegucigalpa",
+   "regime": "Presidential Republic",
+   "head_of_government": "Xiomara Castro",
+   "cmr_status": "Strained",
+   "cmr_class": "strained",
+   "branches": "Army · Navy · Air Force · National Police",
+   "defence_spending_gdp": "1.6%",
+   "note": "Honduras has historically exhibited high military institutional autonomy, rooted in its role as a U.S. Cold War platform. The Hernández government (2014–2022) is now facing U.S. drug trafficking charges, having allegedly collaborated with cartels. Under Castro, civil-military reform efforts face significant institutional resistance. The military's constitutional mandate for internal security functions as a structural prerogative.",
+   "watch": "The Hernández narco-state legacy and Castro's reform resistance define the civil-military landscape; November 2025 elections could return coup-era affiliated actors.",
+   "election": {
+    "type": "Presidential + Legislative — Held",
+    "date": "Nov 2025",
+    "note": "Castro re-election result — verify outcome and new cabinet [2026]"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "[verify — elections held Nov 2025]"
+    },
+    {
+     "t": "Sec. of Defence",
+     "n": "[verify — new government 2026]"
+    },
+    {
+     "t": "Armed Forces Cmdr",
+     "n": "Gen. Héctor Guillermo Escalante"
+    },
+    {
+     "t": "Nat. Police Director",
+     "n": "Gustavo Sánchez"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Internal security / anti-gang",
+     "status": "primary"
+    },
+    {
+     "role": "Border patrol",
+     "status": "routine"
+    },
+    {
+     "role": "US base hosting (Soto Cano / JTF-Bravo)",
+     "status": "active"
+    },
+    {
+     "role": "Documented narco-trafficking collusion",
+     "status": "controversial"
+    }
+   ],
+   "stats": {
+    "spending": "$410M",
+    "personnel": "15K",
+    "usAid": "$83M"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Nicaragua",
+   "iso3": "NIC",
+   "iso2": "NI",
+   "num": 558,
+   "subregion": "Central America",
+   "capital": "Managua",
+   "regime": "Authoritarian Presidential",
+   "head_of_government": "Daniel Ortega",
+   "cmr_status": "Authoritarian",
+   "cmr_class": "authoritarian",
+   "branches": "Army (EPS) · National Police",
+   "defence_spending_gdp": "0.6%",
+   "note": "Nicaragua under Ortega has constructed an authoritarian civil-military system modeled loosely on Cuba and Venezuela. The Sandinista People's Army (EPS) is institutionally subordinate to the party rather than civilian constitutional oversight. The 2018 suppression of the April uprising, in which over 300 were killed, involved coordinated military, police, and paramilitaries. Regular officer corps promotions reward loyalty over professionalism.",
+   "watch": "Economic deterioration and emigration are the key destabilizers; monitor for generational tensions in the EPS officer corps as post-Ortega succession dynamics begin.",
+   "election": {
+    "type": "Presidential",
+    "date": "Nov 2026",
+    "note": "Non-competitive; Ortega expected to continue; watch for health-related succession signals"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Daniel Ortega Saavedra"
+    },
+    {
+     "t": "Vice President",
+     "n": "Rosario Murillo"
+    },
+    {
+     "t": "Min. of Defence",
+     "n": "Martha Ruiz Sevilla"
+    },
+    {
+     "t": "EPS Commander",
+     "n": "Gen. Julio César Avilés Castillo"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Regime security / EPS political role",
+     "status": "primary"
+    },
+    {
+     "role": "Border patrol",
+     "status": "routine"
+    },
+    {
+     "role": "Civil society repression (2018–present)",
+     "status": "controversial"
+    }
+   ],
+   "stats": {
+    "spending": "$90M",
+    "personnel": "12K",
+    "usAid": "—"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Panama",
+   "iso3": "PAN",
+   "iso2": "PA",
+   "num": 591,
+   "subregion": "Central America",
+   "capital": "Panama City",
+   "regime": "Presidential Republic",
+   "head_of_government": "José Raúl Mulino",
+   "cmr_status": "Stable",
+   "cmr_class": "stable",
+   "branches": "National Security Forces — no standing army",
+   "defence_spending_gdp": "0.8%",
+   "note": "Panama abolished its military following the 1989 US intervention (Just Cause). Security functions are performed by civilian National Security Forces. Panama's core security challenge is the Darién Gap — a major migration and narco-trafficking corridor — which has driven increasing securitization of the border zone. President Mulino, a former security minister, has taken a hardline border management approach with US support. Canal sovereignty remains the primary strategic concern and a source of US-Panama security tension under Trump.",
+   "watch": "Darién Gap narco-migration crisis is securitizing the border zone absent a formal army; monitor civilian force capacity and US SOUTHCOM engagement under canal sovereignty tensions with Trump administration.",
+   "election": {
+    "type": "Presidential — Held",
+    "date": "May 2024",
+    "note": "Mulino elected; next presidential election 2029"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "José Raúl Mulino"
+    },
+    {
+     "t": "Min. of Security",
+     "n": "Frank Abrego"
+    },
+    {
+     "t": "Canal Authority Admin",
+     "n": "Ricaurte Vásquez Morales"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Canal security",
+     "status": "primary"
+    },
+    {
+     "role": "Counter-narcotics (no standing army)",
+     "status": "active"
+    },
+    {
+     "role": "Border patrol (Darién)",
+     "status": "active"
+    }
+   ],
+   "stats": {
+    "spending": "$450M",
+    "personnel": "12K (security forces)",
+    "usAid": "$15M"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Cuba",
+   "iso3": "CUB",
+   "iso2": "CU",
+   "num": 192,
+   "subregion": "Caribbean",
+   "capital": "Havana",
+   "regime": "One-party Socialist State",
+   "head_of_government": "Miguel Díaz-Canel",
+   "cmr_status": "Authoritarian",
+   "cmr_class": "authoritarian",
+   "branches": "FAR: Army · Navy · Air Defense · MTT",
+   "defence_spending_gdp": "est. 3.5%",
+   "note": "Cuba's Revolutionary Armed Forces (FAR) are the institutional backbone of the Cuban state, owning a major share of the economy through GAESA holding group (tourism, retail, remittances). The civil-military boundary is structurally fused — the party, state, and military are not meaningfully distinct at the senior command level. Post-Castro succession dynamics are a key CMR watch item.",
+   "watch": "Economic collapse and unprecedented 2021–2024 emigration are straining FAR institutional capacity — monitor for any public expressions of dissent within the officer corps.",
+   "election": {
+    "type": "National Assembly",
+    "date": "2028 (est.)",
+    "note": "Non-competitive; FAR institutional continuity the key variable"
+   },
+   "positions": [
+    {
+     "t": "President / First Sec.",
+     "n": "Miguel Díaz-Canel"
+    },
+    {
+     "t": "Min. of FAR (MINFAR)",
+     "n": "Gen. Álvaro López Miera"
+    },
+    {
+     "t": "Chief of General Staff",
+     "n": "Gen. Álvaro López Miera"
+    },
+    {
+     "t": "Min. of Interior",
+     "n": "Gen. Lázaro Alberto Álvarez"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Regime security / FAR political pillar",
+     "status": "primary"
+    },
+    {
+     "role": "GAESA economic empire (tourism, retail)",
+     "status": "primary"
+    },
+    {
+     "role": "Civil militia (MTT) mobilisation",
+     "status": "active"
+    },
+    {
+     "role": "Intelligence / counterintelligence (DGI)",
+     "status": "active"
+    }
+   ],
+   "stats": {
+    "spending": "~$1.8B",
+    "personnel": "49K",
+    "usAid": "—"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Dominican Republic",
+   "iso3": "DOM",
+   "iso2": "DO",
+   "num": 214,
+   "subregion": "Caribbean",
+   "capital": "Santo Domingo",
+   "regime": "Presidential Republic",
+   "head_of_government": "Luis Abinader",
+   "cmr_status": "Stable",
+   "cmr_class": "stable",
+   "branches": "Army · Navy · Air Force · National Police",
+   "defence_spending_gdp": "0.7%",
+   "note": "The Dominican Republic maintains one of the more stable civil-military relationships in the Caribbean. President Abinader (re-elected May 2024 with 57%) maintains a cooperative military posture focused on Haiti border security and counter-narcotics. The military's role in constructing a border wall and managing migrant flows has expanded its domestic infrastructure mission without triggering institutional autonomy concerns. No significant civilian control challenges.",
+   "watch": "Haiti border management and military role in wall construction — monitor whether the security-driven expansion of military domestic roles sets precedents for institutional autonomy beyond the current civilian oversight framework.",
+   "election": {
+    "type": "Presidential — Held",
+    "date": "May 2024",
+    "note": "Abinader re-elected with 57%; next presidential election 2028"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Luis Abinader"
+    },
+    {
+     "t": "Min. of Armed Forces",
+     "n": "Carlos Luciano Díaz Morfa"
+    },
+    {
+     "t": "Armed Forces Cmdr",
+     "n": "Gen. Carlos Fernández Onofre"
+    },
+    {
+     "t": "Nat. Police Director",
+     "n": "Eduardo Then"
+    }
+   ],
+   "missions": [
+    {
+     "role": "External defence",
+     "status": "primary"
+    },
+    {
+     "role": "Border security (Haiti)",
+     "status": "active"
+    },
+    {
+     "role": "Counter-narcotics",
+     "status": "active"
+    }
+   ],
+   "stats": {
+    "spending": "$730M",
+    "personnel": "56K",
+    "usAid": "$15M"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Guyana",
+   "iso3": "GUY",
+   "iso2": "GY",
+   "num": 328,
+   "subregion": "Caribbean",
+   "capital": "Georgetown",
+   "regime": "Presidential Republic",
+   "head_of_government": "Irfaan Ali",
+   "cmr_status": "Stable",
+   "cmr_class": "stable",
+   "branches": "Guyana Defence Force (GDF) · Guyana Police Force",
+   "defence_spending_gdp": "1.0%",
+   "note": "Guyana's security picture has been transformed by its emergence as a major oil producer (2019 ExxonMobil strike — 700K+ bpd by 2025). The Venezuela-Guyana Essequibo territorial dispute, revived by Maduro's 2023 referendum, drove significant defence investment and a US-Brazil security partnership framework. The GDF is small but receiving rapid equipment and training upgrades. Civil-military relations are stable under Ali; oil-sector protection is the emerging military mission.",
+   "watch": "Venezuela's Essequibo territorial claim and oil-sector security are driving the first significant GDF expansion in decades. US and Brazil security partnerships are reshaping the strategic posture; monitor for any Venezuelan provocation post-Rodríguez transition.",
+   "election": {
+    "type": "Presidential + Parliamentary — Held",
+    "date": "2025",
+    "note": "Ali PPP/C; next election by 2025 — verify outcome"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Irfaan Ali"
+    },
+    {
+     "t": "Min. of Home Affairs",
+     "n": "Robeson Benn"
+    },
+    {
+     "t": "GDF Commander",
+     "n": "Brig. Gen. Godfrey Bess"
+    },
+    {
+     "t": "Police Commissioner",
+     "n": "Clifton Hicken"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Border security (Venezuela territorial claim)",
+     "status": "primary"
+    },
+    {
+     "role": "Oil field protection",
+     "status": "active"
+    },
+    {
+     "role": "Counter-narcotics",
+     "status": "routine"
+    }
+   ],
+   "stats": {
+    "spending": "$250M",
+    "personnel": "4K",
+    "usAid": "$4M"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Haiti",
+   "iso3": "HTI",
+   "iso2": "HT",
+   "num": 332,
+   "subregion": "Caribbean",
+   "capital": "Port-au-Prince",
+   "regime": "Transitional (Council-led)",
+   "head_of_government": "Alix Didier Fils-Aimé (PM)",
+   "cmr_status": "Crisis",
+   "cmr_class": "crisis",
+   "branches": "HNP (police only) — no standing army",
+   "defence_spending_gdp": "0.2%",
+   "note": "Haiti has no functioning elected government since President Moïse's assassination (July 2021). An unelected Transitional Presidential Council has governed since April 2024. The Haitian National Police, severely degraded, operates alongside the US-backed Kenyan-led Multinational Security Support mission (MSS). Gang control of Port-au-Prince exceeded 85% of the capital by 2025. The Haitian Army (FAd'H), reconstituted in 2017, numbers fewer than 2,000 and is largely ineffective. Haiti is the hemisphere's most acute state fragility and security crisis, with CMR secondary to the question of whether any functional state structure can be re-established.",
+   "watch": "CRITICAL — MSS formally transitioned to Gang Suppression Force (GSF) March 17; 215 Kenyan police withdrew, Chad-led replacement force arriving summer 2026. Monitor GSF mandate execution, HNP reconstruction progress, and whether the Transitional Council produces a credible electoral timeline given gang control of 85%+ of Port-au-Prince.",
+   "election": {
+    "type": "Presidential (pending transition)",
+    "date": "TBD 2026",
+    "note": "No election scheduled; Transitional Presidential Council governing pending security stabilization and constitutional process. MSS mission progress is the key precondition."
+   },
+   "positions": [
+    {
+     "t": "Prime Minister",
+     "n": "Alix Didier Fils-Aimé"
+    },
+    {
+     "t": "Transitional Council",
+     "n": "Unelected (formed Apr 2024)"
+    },
+    {
+     "t": "HNP Director General",
+     "n": "Rameau Normil"
+    },
+    {
+     "t": "FAd'H Commander",
+     "n": "Gen. Jodel Lessage"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Gang containment / UN Gang Suppression Force (GSF, from Mar 2026)",
+     "status": "primary"
+    },
+    {
+     "role": "MSS transition / Kenyan withdrawal (Mar 17)",
+     "status": "active"
+    },
+    {
+     "role": "UN mission support (BINUH)",
+     "status": "active"
+    },
+    {
+     "role": "Civilian-military relations severely strained",
+     "status": "controversial"
+    }
+   ],
+   "stats": {
+    "spending": "$103M",
+    "personnel": "~10K (HNP)",
+    "usAid": "$187M"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Jamaica",
+   "iso3": "JAM",
+   "iso2": "JM",
+   "num": 388,
+   "subregion": "Caribbean",
+   "capital": "Kingston",
+   "regime": "Constitutional Monarchy",
+   "head_of_government": "Andrew Holness (PM)",
+   "cmr_status": "Strained",
+   "cmr_class": "strained",
+   "branches": "Jamaica Defence Force (JDF) · Jamaica Constabulary Force (JCF)",
+   "defence_spending_gdp": "1.5%",
+   "note": "Jamaica has the Caribbean's highest per-capita homicide rate among non-conflict states (41/100K in 2023). The Holness government has repeatedly declared Zones of Special Operations (ZOSOs) — joint military-police enforcement zones — normalizing military domestic security roles. Gang-state collusion in garrison communities (West Kingston, Spanish Town) is a long-standing structural issue. JDF capacity is increasing, with US and UK security cooperation.",
+   "watch": "Zone of Special Operations (ZOSO) normalization — monitor whether joint military-police operations become a permanent institutional feature and their effect on civil-military accountability and human rights norms.",
+   "election": {
+    "type": "Parliamentary — Held",
+    "date": "Sep 2024",
+    "note": "Holness JLP re-elected Sep 2024; next election by 2029"
+   },
+   "positions": [
+    {
+     "t": "Prime Minister",
+     "n": "Andrew Holness"
+    },
+    {
+     "t": "Min. of National Security",
+     "n": "Dr. Horace Chang"
+    },
+    {
+     "t": "JDF Commander",
+     "n": "Rear Adm. Antonette Wemyss-Gorman"
+    },
+    {
+     "t": "Police Commissioner",
+     "n": "Kevin Blake"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Anti-gang operations (JDF)",
+     "status": "primary"
+    },
+    {
+     "role": "Maritime patrol",
+     "status": "routine"
+    },
+    {
+     "role": "States of emergency (Zones of Special Operations)",
+     "status": "active"
+    }
+   ],
+   "stats": {
+    "spending": "$80M",
+    "personnel": "4K",
+    "usAid": "$3M"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Suriname",
+   "iso3": "SUR",
+   "iso2": "SR",
+   "num": 740,
+   "subregion": "Caribbean",
+   "capital": "Paramaribo",
+   "regime": "Presidential Republic",
+   "head_of_government": "Chan Santokhi",
+   "cmr_status": "Strained",
+   "cmr_class": "strained",
+   "branches": "Suriname National Army (SNL) · National Police",
+   "defence_spending_gdp": "1.2%",
+   "note": "Suriname's CMR history is defined by Dési Bouterse — a military coup leader (1980, 1990) who served as president 2010–2020 and was convicted for the 1982 December Murders of 15 political opponents. President Santokhi's government represents democratic transition, but the SNL retains institutional memory of direct rule. Suriname is a significant drug transit state — its ports and airfields are used by South American cocaine networks — with documented links between narco-trafficking interests and political actors.",
+   "watch": "The Bouterse legacy and the SNL's institutional memory of political rule — whether democratic consolidation under Santokhi is durable. The narco-transit network's political penetration is the key governance risk.",
+   "election": {
+    "type": "National Assembly — Held",
+    "date": "May 2025",
+    "note": "Santokhi VHP coalition; election held May 2025 — verify outcome"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Chan Santokhi"
+    },
+    {
+     "t": "Min. of Defence",
+     "n": "Krishna Matwali"
+    },
+    {
+     "t": "SNL Commander",
+     "n": "Kenneth Amoksi"
+    },
+    {
+     "t": "Police Chief",
+     "n": "Humphrey Cateau"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Border security",
+     "status": "primary"
+    },
+    {
+     "role": "Counter-narcotics",
+     "status": "routine"
+    }
+   ],
+   "stats": {
+    "spending": "$90M",
+    "personnel": "2K",
+    "usAid": "—"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Trinidad and Tobago",
+   "iso3": "TTO",
+   "iso2": "TT",
+   "num": 780,
+   "subregion": "Caribbean",
+   "capital": "Port of Spain",
+   "regime": "Parliamentary Republic",
+   "head_of_government": "Keith Rowley (PM)",
+   "cmr_status": "Strained",
+   "cmr_class": "strained",
+   "branches": "Trinidad and Tobago Defence Force (TTDF) · TTPS",
+   "defence_spending_gdp": "1.0%",
+   "note": "Trinidad and Tobago has one of the hemisphere's highest murder rates relative to income level, driven by gang activity linked to Venezuela's narco-trafficking networks. The TTDF plays an increasing domestic security role alongside the TTPS. T&T's proximity to post-Maduro Venezuela and its historic Tren de Aragua exposure make it a key Caribbean monitoring case for transnational security threats. SOUTHCOM's Eastern Caribbean counter-narcotics surge (Feb 2025) was partly driven by T&T corridor interdiction.",
+   "watch": "Post-Maduro Venezuela narco-trafficking export pressure on T&T's maritime corridor — key Caribbean SENTINEL monitoring point. Eastern Caribbean drug seizures up 34% Q1 2026; SOUTHCOM surge ongoing.",
+   "election": {
+    "type": "Parliamentary — Held",
+    "date": "Sep 2025",
+    "note": "Rowley PNM; election due by Sep 2025 — verify outcome"
+   },
+   "positions": [
+    {
+     "t": "Prime Minister",
+     "n": "Keith Rowley"
+    },
+    {
+     "t": "Nat. Security Min.",
+     "n": "Fitzgerald Hinds"
+    },
+    {
+     "t": "TTDF Commander",
+     "n": "Brig. Gen. Rodney Smart"
+    },
+    {
+     "t": "Police Commissioner",
+     "n": "Erla Harewood-Christopher"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Counter-narcotics / maritime patrol",
+     "status": "primary"
+    },
+    {
+     "role": "Gang suppression (TTPS/TDF)",
+     "status": "active"
+    }
+   ],
+   "stats": {
+    "spending": "$220M",
+    "personnel": "4K",
+    "usAid": "—"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Bolivia",
+   "iso3": "BOL",
+   "iso2": "BO",
+   "num": 68,
+   "subregion": "Andean",
+   "capital": "Sucre / La Paz",
+   "regime": "Presidential Republic",
+   "head_of_government": "Luis Arce",
+   "cmr_status": "Strained",
+   "cmr_class": "strained",
+   "branches": "Army · Navy (riverine) · Air Force",
+   "defence_spending_gdp": "1.5%",
+   "note": "Bolivia experienced a contested coup/resignation crisis in November 2019 when Evo Morales fled following military 'suggestions' he resign. The subsequent Arce government and the 2021 coup attempt against Arce himself highlight the persistent vulnerability of civilian control. The military's role in resource nationalization and coca policy creates structural conflict of interest.",
+   "watch": "The Arce-Morales split in MAS tests military neutrality; any faction that secures military backing in the succession contest will effectively control the state.",
+   "election": {
+    "type": "Presidential + Legislative — Held",
+    "date": "Aug 2025",
+    "note": "MAS split outcome — verify new president and military posture [2026]"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "[verify — elections held Aug 2025]"
+    },
+    {
+     "t": "Min. of Defence",
+     "n": "[verify — new government 2025]"
+    },
+    {
+     "t": "Armed Forces Cmdr",
+     "n": "Gen. José Wilson Sánchez"
+    },
+    {
+     "t": "Army Commander",
+     "n": "Gen. Marco Antonio Vizcarra"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Counter-narcotics (coca eradication)",
+     "status": "primary"
+    },
+    {
+     "role": "Border patrol (Chile, Brazil, Argentina)",
+     "status": "routine"
+    },
+    {
+     "role": "Internal political role (2019 crisis)",
+     "status": "controversial"
+    },
+    {
+     "role": "Resource security (lithium, gas)",
+     "status": "active"
+    }
+   ],
+   "stats": {
+    "spending": "$680M",
+    "personnel": "34K",
+    "usAid": "—"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Colombia",
+   "iso3": "COL",
+   "iso2": "CO",
+   "num": 170,
+   "subregion": "Andean",
+   "capital": "Bogotá",
+   "regime": "Presidential Republic",
+   "head_of_government": "Gustavo Petro",
+   "cmr_status": "Complex",
+   "cmr_class": "strained",
+   "branches": "Army · Navy · Air Force · Police (National)",
+   "defence_spending_gdp": "3.3%",
+   "note": "Colombia's civil-military environment is defined by its ongoing internal armed conflict and the Petro government's 'Total Peace' doctrine. The armed forces maintain strong institutional cohesion but face friction with a left-wing executive who was himself a former M-19 guerrilla. U.S. cooperation at $461M annually shapes doctrine, equipment, and counter-narcotics strategy.",
+   "watch": "Track ELN negotiation rounds and EMC escalation simultaneously; the tension between Petro's Total Peace doctrine and military operational doctrine is the defining friction point.",
+   "election": {
+    "type": "Presidential + Legislative",
+    "date": "Mar/May 2026",
+    "note": "Petro constitutionally barred from re-election; successor's CMR posture TBD"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Gustavo Petro"
+    },
+    {
+     "t": "Min. of Defence",
+     "n": "Iván Velásquez Gómez"
+    },
+    {
+     "t": "Armed Forces Cmdr",
+     "n": "Gen. Helder Giraldo Bonilla"
+    },
+    {
+     "t": "Army Commander",
+     "n": "Gen. Luis Ospina Gutiérrez"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Counter-insurgency (ELN, FARC-EMC)",
+     "status": "primary"
+    },
+    {
+     "role": "Counter-narcotics / Plan Colombia successor",
+     "status": "active"
+    },
+    {
+     "role": "DDR / Total Peace implementation",
+     "status": "active"
+    },
+    {
+     "role": "Border security (Venezuela, Ecuador)",
+     "status": "active"
+    },
+    {
+     "role": "US joint ops / JIATF-South",
+     "status": "active"
+    }
+   ],
+   "stats": {
+    "spending": "$14.1B",
+    "personnel": "295K",
+    "usAid": "$461M"
+   },
+   "in_depth": {
+    "subtitle": "Peace Process · Armed Conflict · CMR",
+    "brief": "Colombia's civil-military relations are defined by a decades-long counter-insurgency legacy and the unfinished 2016 FARC peace process. The armed forces retain significant operational autonomy acquired during 50+ years of internal conflict, which structurally constrains Petro's Total Peace agenda. Three simultaneous negotiation tracks — FARC-EMC, ELN, and paramilitary successor groups — create competing military command authorities and fragmented territorial control.",
+    "meta": [
+     {
+      "kicker": "Focus period",
+      "value": "2016 – present\nPost-agreement arc"
+     },
+     {
+      "kicker": "Key dynamic",
+      "value": "Peace process vs. military autonomy"
+     }
+    ],
+    "timeline_start": 2016,
+    "milestones": [
+     {
+      "id": "col-e1",
+      "date": "2016-11-24",
+      "cat": "peace",
+      "title": "Final FARC agreement signed",
+      "desc": "Revised agreement establishes JEP, requiring military officers to testify on false positives. Armed forces accept framework but resist accountability mechanisms."
+     },
+     {
+      "id": "col-e2",
+      "date": "2016-12-01",
+      "cat": "reform",
+      "title": "DDR begins for 13,000 FARC combatants",
+      "desc": "Military role shifts to territorial stabilisation. Doctrine gap exposed — counter-insurgency institutions ill-equipped for post-conflict consolidation."
+     },
+     {
+      "id": "col-e3",
+      "date": "2018-04-10",
+      "cat": "military",
+      "title": "Army accused of resuming false positives",
+      "desc": "HRW documents 5 new extrajudicial killings presented as combat kills. Defence Minister orders investigation."
+     },
+     {
+      "id": "col-e4",
+      "date": "2019-08-29",
+      "cat": "oc",
+      "title": "FARC-EMC declared; Márquez resurfaces",
+      "desc": "Key FARC commanders return to armed conflict, citing non-compliance with 2016 agreement. Creates new armed actor outside the peace framework."
+     },
+     {
+      "id": "col-e5",
+      "date": "2019-11-15",
+      "cat": "military",
+      "title": "Army airstrike kills 8 minors in Caquetá",
+      "desc": "Bombing of a FARC-EMC camp. Defence Minister resigns. Military operating autonomously in borderline legal territory."
+     },
+     {
+      "id": "col-e6",
+      "date": "2020-03-22",
+      "cat": "intl",
+      "title": "SOUTHCOM joint ops expand under COVID",
+      "desc": "US-Colombia counter-narcotics operations expand. Military given expanded police powers in 7 departments."
+     },
+     {
+      "id": "col-e7",
+      "date": "2021-05-01",
+      "cat": "political",
+      "title": "National Strike — military deployed against protests",
+      "desc": "Mass protests met with live fire. Military tasked with civilian policing, triggering ICC preliminary examination."
+     },
+     {
+      "id": "col-e8",
+      "date": "2022-08-07",
+      "cat": "political",
+      "title": "Petro inaugurated; Velásquez named Defence Minister",
+      "desc": "First civilian critic of military in the post. Three generals and army commander retire within 30 days."
+     },
+     {
+      "id": "col-e9",
+      "date": "2022-10-13",
+      "cat": "military",
+      "title": "11 generals removed — deepest purge since 1957",
+      "desc": "Rotation accelerates promotion of officers with professional rather than counter-insurgency profiles."
+     },
+     {
+      "id": "col-e10",
+      "date": "2023-02-20",
+      "cat": "peace",
+      "title": "ELN peace talks open in Havana",
+      "desc": "Fifth round of talks. Military High Command publicly expresses reservations about ceasefire scope."
+     },
+     {
+      "id": "col-e11",
+      "date": "2023-10-05",
+      "cat": "intl",
+      "title": "US suspends $90M FMF over human rights",
+      "desc": "Leahy Law restrictions on three army brigades. SOUTHCOM ops continue separately, creating parallel US-military channels."
+     },
+     {
+      "id": "col-e12",
+      "date": "2024-02-08",
+      "cat": "peace",
+      "title": "FARC-EMC ceasefire collapses",
+      "desc": "Estado Mayor Central cites non-compliance. Southwest Command resumes full offensive posture after 14-month pause."
+     },
+     {
+      "id": "col-e13",
+      "date": "2025-01-15",
+      "cat": "peace",
+      "title": "ELN ceasefire collapses",
+      "desc": "Sixth round of Havana talks breaks down. Northern Command reauthorized for offensive operations."
+     },
+     {
+      "id": "col-e14",
+      "date": "2025-03-04",
+      "cat": "oc",
+      "title": "FARC-EMC fractures into two factions",
+      "desc": "EMC/Mordisco split creates ambiguity over negotiating partners. Army begins dual posture: ops vs Mordisco, talks with EMC."
+     }
+    ],
+    "key_data": [
+     {
+      "name": "FARC ex-combatants",
+      "value": "13,202",
+      "sub": "enrolled in DDR · 2016"
+     },
+     {
+      "name": "Reincorporated",
+      "value": "~3,900",
+      "sub": "civilian returnees · 2024"
+     },
+     {
+      "name": "FARC-EMC strength",
+      "value": "~4,800",
+      "sub": "active combatants · 2025"
+     },
+     {
+      "name": "Ex-combatant killings",
+      "value": "390+",
+      "sub": "since agreement · 2025"
+     }
+    ]
+   },
+   "reviewed": null
+  },
+  {
+   "name": "Ecuador",
+   "iso3": "ECU",
+   "iso2": "EC",
+   "num": 218,
+   "subregion": "Andean",
+   "capital": "Quito",
+   "regime": "Presidential Republic",
+   "head_of_government": "Daniel Noboa",
+   "cmr_status": "Crisis",
+   "cmr_class": "crisis",
+   "branches": "Army · Navy · Air Force · Police",
+   "defence_spending_gdp": "2.4%",
+   "note": "Ecuador declared an 'internal armed conflict' in January 2024 following the televised storming of TC Televisión by armed criminal groups. President Noboa militarized internal security, granting the armed forces an expanded domestic mandate. This represents a significant formal shift in civil-military roles and is one of the most important CMR developments in the region in recent years.",
+   "watch": "US-Ecuador joint military operation launched March 3 (Operation Southern Spear); IHL violation allegations against joint forces are live. Monitor whether US advisory embed becomes permanent, civilian judicial oversight of military operations, and ACHR proceedings over alleged torture and arbitrary detention.",
+   "election": {
+    "type": "Presidential — Held",
+    "date": "Feb 2025",
+    "note": "Noboa re-elected Feb 2025 (1st round); governing second term; next presidential 2029"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Daniel Noboa"
+    },
+    {
+     "t": "Min. of Defence",
+     "n": "Gian Carlo Loffredo Ridolfi"
+    },
+    {
+     "t": "Armed Forces Cmdr",
+     "n": "Gen. Víctor Zapata Álvarez"
+    },
+    {
+     "t": "Army Commander",
+     "n": "Gen. Pablo Romero Vega"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Internal armed conflict framework (Jan 2024–)",
+     "status": "primary"
+    },
+    {
+     "role": "Anti-gang prison operations",
+     "status": "active"
+    },
+    {
+     "role": "Border security (Colombia / Peru)",
+     "status": "active"
+    },
+    {
+     "role": "Maritime drug interdiction",
+     "status": "active"
+    }
+   ],
+   "stats": {
+    "spending": "$2.4B",
+    "personnel": "40K",
+    "usAid": "$138M"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Peru",
+   "iso3": "PER",
+   "iso2": "PE",
+   "num": 604,
+   "subregion": "Andean",
+   "capital": "Lima",
+   "regime": "Presidential Republic",
+   "head_of_government": "Dina Boluarte",
+   "cmr_status": "Strained",
+   "cmr_class": "strained",
+   "branches": "Army · Navy · Air Force · PNP",
+   "defence_spending_gdp": "1.2%",
+   "note": "Peru has experienced severe executive instability — six presidents in six years — creating growing military institutional influence by default. The Boluarte government, which came to power following Castillo's failed self-coup in December 2022, has relied heavily on the security forces to suppress protests. Illegal mining and narco-trafficking in the VRAEM continue to drive military domestic deployment.",
+   "watch": "VRAEM military operations are escalating while Boluarte faces active human rights proceedings; monitor whether the officer corps is insulated from or implicated in those cases.",
+   "election": {
+    "type": "Presidential + Legislative",
+    "date": "Apr 2026",
+    "note": "Boluarte eligible; executive instability context high — election cycle begins"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Dina Boluarte"
+    },
+    {
+     "t": "Min. of Defence",
+     "n": "Walter Astudillo Castillo"
+    },
+    {
+     "t": "Joint Command Chair",
+     "n": "Adm. Javier Enrique Moreno"
+    },
+    {
+     "t": "Army Commander",
+     "n": "Gen. Óscar Rubén Ugarte"
+    }
+   ],
+   "missions": [
+    {
+     "role": "VRAEM counter-narcotics / Sendero Luminoso",
+     "status": "primary"
+    },
+    {
+     "role": "Illegal mining crackdowns (La Pampa)",
+     "status": "active"
+    },
+    {
+     "role": "Border security",
+     "status": "routine"
+    },
+    {
+     "role": "Internal order support (Boluarte protests)",
+     "status": "controversial"
+    }
+   ],
+   "stats": {
+    "spending": "$2.9B",
+    "personnel": "95K",
+    "usAid": "$175M"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Venezuela",
+   "iso3": "VEN",
+   "iso2": "VE",
+   "num": 862,
+   "subregion": "Andean",
+   "capital": "Caracas",
+   "regime": "Transitional / Post-Maduro",
+   "head_of_government": "Delcy Rodríguez (acting)",
+   "cmr_status": "Crisis",
+   "cmr_class": "crisis",
+   "branches": "FANB: Army · Navy · Air Force · Guard · Militia",
+   "defence_spending_gdp": "est. 4%",
+   "note": "As of January 2026, Venezuela is in a post-Maduro transition following Operation Absolute Resolve (Jan 3, 2026), in which US special operations forces captured Nicolás Maduro in Caracas. Maduro was arraigned in New York on narco-terrorism charges Jan 5; Acting President Delcy Rodríguez was sworn in the same day. FANB cohesion is fragile — DGCIM detained 12+ officers suspected of cooperating with US forces (Jan 6). The constitutional six-month window requires elections by ~July 2026. Venezuela is the most critical CMR monitoring case in the hemisphere.",
+   "watch": "CRITICAL WATCH — Post-Operation Absolute Resolve (Jan 3, 2026): Monitor FANB cohesion under Acting President Rodríguez, progress of constitutionally-required elections (~Jul 2026), DGCIM officer purges, colectivo mobilisation, and international recognition dynamics. Maduro's arraignment in New York is live. The six-month transition window is the most consequential CMR crisis in the hemisphere.",
+   "election": {
+    "type": "Constitutional mandate — required by ~Jul 2026",
+    "date": "~Jul 2026 (presidential)",
+    "note": "Following Operation Absolute Resolve (Jan 3, 2026) and Maduro's capture, Acting President Delcy Rodríguez faces a constitutionally-required election within six months (~July 2026). Political landscape is fragmented: opposition-in-exile, Rodríguez-led Chavismo, and international pressure all converging. Electoral conditions under military fragility remain highly uncertain."
+   },
+   "positions": [
+    {
+     "t": "Acting President",
+     "n": "Delcy Rodríguez"
+    },
+    {
+     "t": "Former President",
+     "n": "Nicolás Maduro (US custody)"
+    },
+    {
+     "t": "Min. of Defence",
+     "n": "Gen. Vladimir Padrino López"
+    },
+    {
+     "t": "CEOFANB Commander",
+     "n": "Gen. Domingo Hernández Lárez"
+    },
+    {
+     "t": "DGCIM Director",
+     "n": "Gen. Iván Hernández Dala"
+    }
+   ],
+   "missions": [
+    {
+     "role": "Internal regime security / coup-proofing",
+     "status": "primary"
+    },
+    {
+     "role": "Colectivo coordination (pre-Jan 2026)",
+     "status": "controversial"
+    },
+    {
+     "role": "Illicit mining protection (Arco Minero)",
+     "status": "controversial"
+    },
+    {
+     "role": "Tren de Aragua-FANB nexus (documented)",
+     "status": "controversial"
+    },
+    {
+     "role": "Transition / loyalty posture (post-Jan 2026)",
+     "status": "active"
+    }
+   ],
+   "stats": {
+    "spending": "$3.2B",
+    "personnel": "123K",
+    "usAid": "—"
+   },
+   "in_depth": {
+    "subtitle": "FANB Structure · Authoritarian CMR · Succession",
+    "brief": "Venezuela represents the region's most advanced case of civil-military fusion. The Bolivarian Armed Forces (FANB) are structurally integrated into the economy, intelligence architecture, and political legitimation of the regime. The January 2026 Operation Absolute Resolve — the arrest of President Maduro by opposition forces and his transfer to US custody — creates an acute succession crisis with no precedent in SENTINEL's monitoring period.",
+    "meta": [
+     {
+      "kicker": "Focus period",
+      "value": "2013 – present\nMaduro era & beyond"
+     },
+     {
+      "kicker": "Key dynamic",
+      "value": "Military as regime pillar · succession crisis"
+     }
+    ],
+    "timeline_start": 2016,
+    "milestones": [
+     {
+      "id": "ven-e1",
+      "date": "2017-04-19",
+      "cat": "military",
+      "title": "Military loyalty oath to Maduro — officer corps public pledge",
+      "desc": "Following mass protests. Padrino López leads ceremony. Marks militarization of regime survival strategy."
+     },
+     {
+      "id": "ven-e2",
+      "date": "2018-05-20",
+      "cat": "political",
+      "title": "Maduro re-elected — international non-recognition",
+      "desc": "FANB provides electoral security. US, EU, Lima Group reject results."
+     },
+     {
+      "id": "ven-e3",
+      "date": "2019-01-23",
+      "cat": "political",
+      "title": "Guaidó declares interim presidency — coup attempt fails",
+      "desc": "Military refuses to back Guaidó despite US recognition. Padrino remains loyal. Marks limits of opposition strategy."
+     },
+     {
+      "id": "ven-e4",
+      "date": "2020-03-01",
+      "cat": "oc",
+      "title": "FANB-colectivo-Tren de Aragua integration documented",
+      "desc": "US Treasury sanctions FANB generals with direct cartel ties. Military economic enterprises (CAMIMPEG) expand."
+     },
+     {
+      "id": "ven-e5",
+      "date": "2023-07-28",
+      "cat": "political",
+      "title": "Maduro claims re-election amid mass fraud allegations",
+      "desc": "Results disputed internationally. Armed forces maintain loyalty. Opposition candidate Edmundo González wins by independent tally."
+     },
+     {
+      "id": "ven-e6",
+      "date": "2025-01-10",
+      "cat": "political",
+      "title": "Maduro transferred to US custody — Operation Absolute Resolve",
+      "desc": "Opposition coalition seizes Caracas, arrests Maduro. Rodríguez sworn in as President. FANB High Command remains in place."
+     },
+     {
+      "id": "ven-e7",
+      "date": "2025-03-17",
+      "cat": "political",
+      "title": "Maduro federal detention hearing in New York",
+      "desc": "First appearance before US judge. Charges include narco-terrorism. FANB generals monitor Rodríguez closely."
+     }
+    ],
+    "key_data": [
+     {
+      "name": "FANB active personnel",
+      "value": "~160K",
+      "sub": "army, navy, air, NG · 2024"
+     },
+     {
+      "name": "FANB generals",
+      "value": "2,000+",
+      "sub": "coup-proofing legacy"
+     },
+     {
+      "name": "Colectivos",
+      "value": "~15K",
+      "sub": "armed pro-regime militias"
+     },
+     {
+      "name": "GDP contraction (2014–23)",
+      "value": "−80%",
+      "sub": "constant USD"
+     }
+    ]
+   },
+   "reviewed": null
+  },
+  {
+   "name": "Brazil",
+   "iso3": "BRA",
+   "iso2": "BR",
+   "num": 76,
+   "subregion": "Brazil",
+   "capital": "Brasília",
+   "regime": "Federal Republic",
+   "head_of_government": "Luiz Inácio Lula da Silva",
+   "cmr_status": "Stable",
+   "cmr_class": "stable",
+   "branches": "Army · Navy · Air Force · EMFA",
+   "defence_spending_gdp": "1.3%",
+   "note": "Brazil maintains the strongest formal civilian control architecture in South America. The 1988 constitution subordinates the armed forces to civilian authority, though institutional memory of the 1964–1985 military government remains. Ongoing debates center on the military's expanded role under Bolsonaro (2019–2022) and subsequent normalization efforts under Lula. The Escola Superior de Guerra and defense ministry reforms are key SSR indicators to watch.",
+   "watch": "Monitor civil-military normalization after Bolsonaro-era politicization; Army Commander Paiva's posture heading into the 2026 election cycle is the key CMR indicator.",
+   "election": {
+    "type": "Presidential + Legislative",
+    "date": "Oct 2026",
+    "note": "Lula eligible for re-election; military posture a central campaign issue"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Luiz Inácio Lula da Silva"
+    },
+    {
+     "t": "Min. of Defence",
+     "n": "José Múcio Monteiro"
+    },
+    {
+     "t": "Army Commander",
+     "n": "Gen. Tomás Paiva"
+    },
+    {
+     "t": "Navy Commander",
+     "n": "Adm. Marcos Sampaio Olsen"
+    }
+   ],
+   "missions": [
+    {
+     "role": "External defence / sovereignty",
+     "status": "primary"
+    },
+    {
+     "role": "Amazon border patrol (Operação Ágata)",
+     "status": "active"
+    },
+    {
+     "role": "UN peacekeeping (MINUSTAH legacy, MONUSCO)",
+     "status": "active"
+    },
+    {
+     "role": "Domestic security (favela ops, Bolsonaro era)",
+     "status": "controversial"
+    },
+    {
+     "role": "Infrastructure / strategic projects",
+     "status": "routine"
+    }
+   ],
+   "stats": {
+    "spending": "$29.4B",
+    "personnel": "366K",
+    "usAid": "$102M"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Argentina",
+   "iso3": "ARG",
+   "iso2": "AR",
+   "num": 32,
+   "subregion": "Southern Cone",
+   "capital": "Buenos Aires",
+   "regime": "Federal Republic",
+   "head_of_government": "Javier Milei",
+   "cmr_status": "Stable",
+   "cmr_class": "stable",
+   "branches": "Army · Navy · Air Force · GNA · PNA",
+   "defence_spending_gdp": "0.5%",
+   "note": "Argentina's military has been under firm civilian control since the restoration of democracy in 1983, shaped by the accountability process for Dirty War crimes (1976–1983). The Milei government has proposed deep cuts to defense spending as part of its austerity program. Argentina's defense posture is defensive and regionally cooperative; UNASUR-era multilateral frameworks remain a reference point.",
+   "watch": "Milei's defense budget cuts and his relationship with a historically politicized officer corps; 2025 midterms will determine whether austerity reforms proceed.",
+   "election": {
+    "type": "Legislative midterms — Held",
+    "date": "Oct 2025",
+    "note": "Milei's La Libertad Avanza coalition tested in midterms; presidential election Oct 2027"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Javier Milei"
+    },
+    {
+     "t": "Min. of Defence",
+     "n": "Luis Petri"
+    },
+    {
+     "t": "Joint General Staff",
+     "n": "Gen. Xavier Julián Isaac"
+    },
+    {
+     "t": "Army Commander",
+     "n": "Gen. Carlos Vittori"
+    }
+   ],
+   "missions": [
+    {
+     "role": "External defence / sovereignty (Malvinas)",
+     "status": "primary"
+    },
+    {
+     "role": "UN peacekeeping (UNFICYP, MINUSTAH)",
+     "status": "active"
+    },
+    {
+     "role": "Antarctic territorial presence",
+     "status": "routine"
+    },
+    {
+     "role": "Disaster relief / civil emergency",
+     "status": "routine"
+    }
+   ],
+   "stats": {
+    "spending": "$4.7B",
+    "personnel": "75K",
+    "usAid": "—"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Chile",
+   "iso3": "CHL",
+   "iso2": "CL",
+   "num": 152,
+   "subregion": "Southern Cone",
+   "capital": "Santiago",
+   "regime": "Presidential Republic",
+   "head_of_government": "Gabriel Boric",
+   "cmr_status": "Stable",
+   "cmr_class": "stable",
+   "branches": "Army · Navy · Air Force · Carabineros",
+   "defence_spending_gdp": "2.0%",
+   "note": "Chile has the most professionalized armed forces in South America outside Brazil. Civilian control is robust following the post-Pinochet transition, though the 2019 social uprising and the security forces' human rights abuses during it created ongoing civil-military tension. The Boric government is pursuing accountability for human rights violations while maintaining a cooperative relationship with the institution.",
+   "watch": "The post-November 2025 election government took office March 11, 2026 — the new administration's stance on Pinochet-era accountability, the military's 2019 human rights liability, and defence budget direction are the key early CMR indicators to track.",
+   "election": {
+    "type": "Presidential + Parliamentary — Held",
+    "date": "Nov 2025 (runoff Dec)",
+    "note": "Boric term ended Mar 2026 — verify new government composition [2026]"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "[verify — Boric term ended Mar 11, 2026]"
+    },
+    {
+     "t": "Min. of National Defence",
+     "n": "[verify — new cabinet Mar 2026]"
+    },
+    {
+     "t": "Army Commander",
+     "n": "Gen. Javier Iturriaga del Campo"
+    },
+    {
+     "t": "Joint Chiefs Chair",
+     "n": "Gen. Rodrigo Álvarez Valdés"
+    }
+   ],
+   "missions": [
+    {
+     "role": "External defence / sovereignty",
+     "status": "primary"
+    },
+    {
+     "role": "UN peacekeeping",
+     "status": "active"
+    },
+    {
+     "role": "Northern border security (migration)",
+     "status": "active"
+    },
+    {
+     "role": "2019 social uprising response",
+     "status": "controversial"
+    }
+   ],
+   "stats": {
+    "spending": "$6.5B",
+    "personnel": "80K",
+    "usAid": "—"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Paraguay",
+   "iso3": "PRY",
+   "iso2": "PY",
+   "num": 600,
+   "subregion": "Southern Cone",
+   "capital": "Asunción",
+   "regime": "Presidential Republic",
+   "head_of_government": "Santiago Peña",
+   "cmr_status": "Stable",
+   "cmr_class": "stable",
+   "branches": "Army · Navy · Air Force",
+   "defence_spending_gdp": "1.5%",
+   "note": "Paraguay's military maintains moderate institutional autonomy under a formally democratic system, but the Colorado Party's 75-year near-continuous rule has created a party-military patron-client network. The eastern border region (Triple Frontera) involves military and police forces in anti-narcotics and smuggling operations, with documented corruption concerns. Paraguay has no international conflict history in the modern era.",
+   "watch": "EPP guerrilla activity in the north and Triple Frontera OC operations are the primary drivers of military domestic deployment — and documented corruption.",
+   "election": {
+    "type": "Presidential + Legislative",
+    "date": "Apr 2028",
+    "note": "Colorado Party dominance expected to continue"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Santiago Peña Palacios"
+    },
+    {
+     "t": "Min. of Defence",
+     "n": "Óscar González Daher Jr."
+    },
+    {
+     "t": "Armed Forces Cmdr",
+     "n": "Gen. Carlos Chaparro Bejarano"
+    },
+    {
+     "t": "Nat. Police",
+     "n": "Comm. César Cattebeke"
+    }
+   ],
+   "missions": [
+    {
+     "role": "EPP counter-guerrilla (north)",
+     "status": "primary"
+    },
+    {
+     "role": "Triple Frontera OC interdiction",
+     "status": "active"
+    },
+    {
+     "role": "Border patrol (Brazil, Argentina, Bolivia)",
+     "status": "routine"
+    }
+   ],
+   "stats": {
+    "spending": "$520M",
+    "personnel": "14K",
+    "usAid": "—"
+   },
+   "in_depth": null,
+   "reviewed": null
+  },
+  {
+   "name": "Uruguay",
+   "iso3": "URY",
+   "iso2": "UY",
+   "num": 858,
+   "subregion": "Southern Cone",
+   "capital": "Montevideo",
+   "regime": "Presidential Republic",
+   "head_of_government": "Yamandú Orsi",
+   "cmr_status": "Stable",
+   "cmr_class": "stable",
+   "branches": "Army · Navy · Air Force",
+   "defence_spending_gdp": "2.0%",
+   "note": "Uruguay is consistently the strongest CMR case in Latin America on all civilian control metrics: lowest military spending, no internal deployment, robust accountability for dictatorship-era crimes, and professional civil-military relations. The small armed forces have a UN peacekeeping-heavy focus. Uruguay serves as a benchmark case for democratic civilian control in CMR comparative research.",
+   "watch": "Benchmark case for civilian control — watch for any changes to peacekeeping commitments under Orsi and whether the defense reform agenda continues.",
+   "election": {
+    "type": "Departmental elections — Held",
+    "date": "May 2025",
+    "note": "Frente Amplio performed well in departmentals; Orsi national term secure through 2030"
+   },
+   "positions": [
+    {
+     "t": "President",
+     "n": "Yamandú Orsi (since Mar 2025)"
+    },
+    {
+     "t": "Min. of National Defence",
+     "n": "José Bayardi"
+    },
+    {
+     "t": "Army Commander",
+     "n": "Gen. Gerardo Fregossi Ferreira"
+    },
+    {
+     "t": "Joint Defence Staff",
+     "n": "Gen. José González Torterolo"
+    }
+   ],
+   "missions": [
+    {
+     "role": "UN peacekeeping (major contributor)",
+     "status": "primary"
+    },
+    {
+     "role": "External defence",
+     "status": "routine"
+    },
+    {
+     "role": "Disaster relief",
+     "status": "routine"
+    }
+   ],
+   "stats": {
+    "spending": "$1.1B",
+    "personnel": "22K",
+    "usAid": "—"
+   },
+   "in_depth": null,
+   "reviewed": null
+  }
+ ]
+}

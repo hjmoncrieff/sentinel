@@ -117,6 +117,50 @@ def lede_from_html(html: str) -> str:
     return text[:LEDE_CHARS].rsplit(" ", 1)[0] + "…"
 
 
+# A bot-challenge or block page returned with HTTP 200. Its text must never be stored
+# as an article's opening (14 NACLA pages were, 2026-10-05).
+CHALLENGE_PAGE = re.compile(
+    r"making sure you're not a bot|made us think that you are a bot|just a moment\.\.\.|checking your browser"
+    r"|verify you are (a )?human|are you a robot|enable javascript and cookies to continue",
+    re.IGNORECASE,
+)
+
+
+def is_challenge_page(text: str) -> bool:
+    return bool(CHALLENGE_PAGE.search(text[:600]))
+
+
+def _wordpress_apis() -> dict[str, str]:
+    """Publisher domain → its public WordPress REST endpoint, for sources that list one."""
+    from urllib.parse import urlparse
+    from rss_sources import ARCHIVE_SOURCES
+    return {urlparse(src["archive_base"]).netloc.removeprefix("www."): src["archive_base"] for src in ARCHIVE_SOURCES}
+
+
+def lede_from_wordpress_api(publisher_url: str, session: requests.Session) -> str | None:
+    """Opening text from the publisher's own REST API (the endpoint the archive connector
+    uses), looked up by the post's slug. None when the source has no such endpoint."""
+    from urllib.parse import urlparse
+    from ingest_rss import USER_AGENT
+    parsed = urlparse(publisher_url)
+    endpoint = _wordpress_apis().get(parsed.netloc.removeprefix("www."))
+    slug = next((part for part in reversed(parsed.path.split("/")) if part), "")
+    if not endpoint or not slug:
+        return None
+    resp = session.get(endpoint, params={"slug": slug, "_fields": "excerpt,content"},
+                       headers={"User-Agent": USER_AGENT}, timeout=TIMEOUT)
+    if resp.status_code != 200 or "json" not in resp.headers.get("content-type", ""):
+        return None
+    posts = resp.json()
+    if not isinstance(posts, list) or not posts:
+        return None
+    html = (posts[0].get("content") or {}).get("rendered") or (posts[0].get("excerpt") or {}).get("rendered") or ""
+    text = re.sub(r"\s+", " ", BeautifulSoup(html, "html.parser").get_text(" ")).strip()
+    if len(text) < 80:
+        return None
+    return text if len(text) <= LEDE_CHARS else text[:LEDE_CHARS].rsplit(" ", 1)[0] + "…"
+
+
 def enrich_one(article: dict, session: requests.Session) -> dict:
     url = article.get("url") or ""
     publisher_url, status = url, "ok"
@@ -126,7 +170,11 @@ def enrich_one(article: dict, session: requests.Session) -> dict:
             if status != "ok":
                 return {"status": status}
         page = session.get(publisher_url, headers=BROWSER_UA, timeout=TIMEOUT, allow_redirects=True)
-        if page.status_code in (401, 402, 403, 451):
+        blocked = page.status_code in (401, 402, 403, 451) or (page.status_code < 400 and is_challenge_page(lede_from_html(page.text)))
+        if blocked:
+            lede = lede_from_wordpress_api(publisher_url, session)
+            if lede:
+                return {"status": "ok", "publisher_url": publisher_url, "lede": lede, "via": "wordpress_api"}
             return {"status": "blocked", "publisher_url": publisher_url, "http": page.status_code}
         if page.status_code == 429:
             return {"status": "rate_limited", "publisher_url": publisher_url}

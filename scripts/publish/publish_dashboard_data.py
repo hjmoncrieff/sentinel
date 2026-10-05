@@ -517,8 +517,10 @@ def augment_timeline_for_publication(
     return sorted(unique, key=stage_sort_key)
 
 
-def public_linked_reports(event: dict) -> list[dict]:
+def public_linked_reports(event: dict, store_event: dict | None = None) -> list[dict]:
     reports = ((event.get("provenance") or {}).get("linked_reports") or [])[:6]
+    # Source tier and collection method live on the event store's report records.
+    store_reports = {r.get("article_id"): r for r in ((store_event or {}).get("linked_reports") or [])}
     return [
         {
             "article_id": row.get("article_id"),
@@ -529,9 +531,48 @@ def public_linked_reports(event: dict) -> list[dict]:
             "link_domain": row.get("link_domain"),
             "headline": row.get("headline"),
             "description": row.get("description"),
+            "source_tier": (store_reports.get(row.get("article_id")) or {}).get("source_tier"),
+            "source_method": (store_reports.get(row.get("article_id")) or {}).get("source_method"),
         }
         for row in reports
     ]
+
+
+EVENT_STORE_IN = ROOT / "data" / "events.json"
+# Fields of the codebook v3 coding that are safe and useful to publish. Evidence quotes
+# are short excerpts from the cited reports.
+PUBLIC_CODING_FIELDS = (
+    "type", "subtype", "secondary_types", "content_type", "date_precision", "event_date", "publication_date",
+    "location_place", "location_admin1", "certainty", "deed_category", "relationship_signal", "evidence",
+    "codebook_version", "coded_by", "recoded_at",
+)
+
+
+def load_event_store() -> dict[str, dict]:
+    if not EVENT_STORE_IN.exists():
+        return {}
+    return {e.get("id"): e for e in json.loads(EVENT_STORE_IN.read_text(encoding="utf-8")).get("events", [])}
+
+
+def public_coding(store_event: dict | None) -> dict | None:
+    """The public part of an event's codebook v3 coding; None for events coded before v3."""
+    v3 = (store_event or {}).get("v3")
+    if not v3:
+        return None
+    coding = {k: v3.get(k) for k in PUBLIC_CODING_FIELDS if v3.get(k) not in (None, [], "")}
+    coding["actors"] = [{k: a.get(k) for k in ("name", "group", "role") if a.get(k)} for a in (v3.get("actors") or [])][:8]
+    return coding
+
+
+def location_precision(event: dict, centroids: dict[str, list[float]]) -> str | None:
+    """'place' when the point is a located place, 'country' when it is the country's centroid."""
+    lat, lon = event.get("latitude"), event.get("longitude")
+    if lat is None or lon is None:
+        return None
+    centroid = centroids.get(event.get("country"))
+    if centroid and abs(lat - centroid[0]) < 0.01 and abs(lon - centroid[1]) < 0.01:
+        return "country"
+    return "place"
 
 
 def main() -> None:
@@ -551,6 +592,9 @@ def main() -> None:
     qa_flags_by_event: dict[str, list[dict]] = {}
     for flag in qa.get("flags", []):
         qa_flags_by_event.setdefault(flag.get("event_id"), []).append(flag)
+
+    store = load_event_store()
+    centroids = json.loads((ROOT / "config" / "taxonomy" / "country_centroids.json").read_text(encoding="utf-8"))["centroids"]
 
     public_events = []
     withheld = []
@@ -596,7 +640,11 @@ def main() -> None:
         row["public_category_rank"] = public_category_rank
         row["event_signal_families"] = signal_families
         row["event_signal_labels"] = [SIGNAL_PUBLIC_LABELS.get(item, item.replace("_", " ").title()) for item in signal_families]
-        row["linked_reports"] = public_linked_reports(event)
+        store_event = store.get(event.get("event_id"))
+        row["linked_reports"] = public_linked_reports(event, store_event)
+        row["content_type"] = (store_event or {}).get("content_type") or "event"
+        row["location_precision"] = location_precision(event, centroids)
+        row["public_coding"] = public_coding(store_event)
         row["provenance_timeline"] = [
             {
                 "stage": item.get("stage"),

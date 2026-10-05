@@ -11,6 +11,31 @@ Each major change entry should include:
 
 ## 2026-10-05
 
+### Public Site Redesign: First Build (Preview At /sentinel/next/)
+
+Affected areas:
+- `apps/public-site/` (new): `build.mjs`, `src/`, `reference/`, `README.md`
+- `scripts/publish/publish_dashboard_data.py`, `config/taxonomy/country_centroids.json` (new), `scripts/pipeline_core.py`
+- `.github/workflows/pages.yml`, `tests/test_public_site_build.py` (new), `tests/test_published_contract.py`
+
+What changed:
+- **New static site** built from the approved mockup (v12): front page, live feed, countries index and 25 country monitor pages. It deploys as a preview under `/sentinel/next/`; the current dashboard is untouched. The build is plain Node with no dependencies. Maps, charts and timelines are drawn at build time as SVG; browser scripts add filtering and hover behaviour only. This departs from the earlier "Vite" decision: nothing needs bundling yet, and assets are cache-busted with a content hash.
+- **Reference data moved to a file.** Country profiles, key positions, elections, watch notes, military roles and in-depth monitor content were lifted from `assets/js/dashboard.js` into `apps/public-site/reference/countries.json`. Each entry has a `reviewed` date; pages show "Not yet reviewed" until it is set.
+- **Publisher additions** for the new pages: `content_type`, `location_precision` (place or country centroid), `public_coding` (the public part of the codebook v3 coding, including evidence quotes), and source tier and collection method on linked reports.
+- Country centroids moved from `pipeline_core.py` to `config/taxonomy/country_centroids.json` so the publisher can read them without importing the pipeline.
+- Weekly lede, watch calendar and regional brief render from an editor-approved `content/weekly.json` when present. Without it, the pages show summaries computed from coded events, labelled as automatic.
+
+Validation completed:
+- `node apps/public-site/build.mjs` (28 pages, 1,632 events, `feed.json` 2.6 MB)
+- Pages served locally and screenshotted in headless Chrome: front, feed, countries, Colombia monitor
+- `python -m pytest -q` (107 passed, including four build tests)
+
+Remaining risks / follow-up:
+- The reference data is stale in places (for example Colombia still lists Gustavo Petro and a 2026 election as upcoming). It needs an owner review; nothing on the pages claims it is current.
+- The country monitor page is under owner review (artifact). Organized crime, US security, About and the methodology page still link to the current dashboard.
+- Story clustering in the feed, the scenario approval queue and event permalink pages are not built yet.
+- `feed.json` ships the whole archive in one file; split it by period if it grows much past 5 MB.
+
 ### Synthesis Made Affordable And Persistent; Honest AI Label; Codebook Note
 
 Affected areas:

@@ -99,33 +99,9 @@ LATAM_COUNTRIES = [
     "Trinidad and Tobago", "Guyana", "Suriname",
 ]
 
-COUNTRY_CENTROIDS: dict[str, list[float]] = {
-    "Brazil":               [-14.2, -51.9],
-    "Colombia":             [  4.6, -74.1],
-    "Mexico":               [ 23.6, -102.5],
-    "Venezuela":            [  6.4, -66.6],
-    "Argentina":            [-38.4, -63.6],
-    "Peru":                 [ -9.2, -75.0],
-    "Chile":                [-35.7, -71.5],
-    "Ecuador":              [ -1.8, -78.2],
-    "Bolivia":              [-16.3, -63.6],
-    "Honduras":             [ 15.2, -86.2],
-    "Nicaragua":            [ 12.9, -85.2],
-    "Guatemala":            [ 15.8, -90.2],
-    "El Salvador":          [ 13.8, -88.9],
-    "Paraguay":             [-23.4, -58.4],
-    "Uruguay":              [-32.5, -55.8],
-    "Cuba":                 [ 21.5, -79.5],
-    "Haiti":                [ 18.9, -72.3],
-    "Dominican Republic":   [ 18.7, -70.2],
-    "Panama":               [  8.5, -80.8],
-    "Costa Rica":           [  9.7, -83.8],
-    "Jamaica":              [ 18.1, -77.3],
-    "Trinidad and Tobago":  [ 10.7, -61.2],
-    "Guyana":               [  4.9, -59.0],
-    "Suriname":             [  3.9, -56.0],
-    "Regional":             [ -5.0, -60.0],
-}
+COUNTRY_CENTROIDS: dict[str, list[float]] = json.loads(
+    (Path(__file__).parent.parent / "config" / "taxonomy" / "country_centroids.json").read_text(encoding="utf-8")
+)["centroids"]
 
 # ── Country code lookups ──────────────────────────────────────────────────────
 # ISO 3166-1 alpha-3

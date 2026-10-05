@@ -58,13 +58,15 @@ jobs:
           mkdir _site
           rsync -a ./ _site/ \
             --exclude .git --exclude .github --exclude node_modules --exclude dist \
-            --exclude _site --exclude 'apps/analyst-console/src' \
+            --exclude _site --exclude 'apps/analyst-console/src' --exclude 'apps/public-site' \
             --exclude .storybook --exclude tests --exclude templates
           # Built console replaces the Vite source entry.
           rsync -a dist/apps/analyst-console/ _site/apps/analyst-console/
+          # Redesigned site, as a preview next to the current dashboard.
+          node apps/public-site/build.mjs --out _site/next --base /sentinel/next/ --legacy /sentinel/
           # Defence in depth: never publish private workflow layers.
           rm -rf _site/data/review _site/data/gold _site/data/modeling _site/data/staging
-          test -f _site/index.html && test -f _site/apps/analyst-console/index.html
+          test -f _site/index.html && test -f _site/apps/analyst-console/index.html && test -f _site/next/index.html
           echo "Site files: $(find _site -type f | wc -l)"
 
       - name: Upload Pages artifact

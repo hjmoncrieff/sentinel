@@ -145,3 +145,11 @@ def test_google_news_backfill_queries_are_short_and_windowed():
 
     windowed = google_news_window_url(urls[0], datetime(2026, 8, 1), datetime(2026, 8, 8))
     assert "site:nacla.org+after:2026-08-01+before:2026-08-08&hl=" in windowed
+
+
+def test_bot_challenge_pages_are_not_article_text():
+    import enrich_ledes as el
+
+    assert el.is_challenge_page("Making sure you're not a bot! Loading... You are seeing this because the administrator")
+    assert el.is_challenge_page("...but your activity and behavior on this site made us think that you are a bot.")
+    assert not el.is_challenge_page("The president removed the army chief on Thursday after a public dispute over the budget.")
