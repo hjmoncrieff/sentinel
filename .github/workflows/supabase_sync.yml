@@ -82,6 +82,12 @@ jobs:
       # Supabase (2026-10-05).
       - name: Rebuild review layers
         if: steps.reach.outputs.reachable == 'true'
+        env:
+          # restore_council_synthesis.py reads the saved synthesis back before the
+          # cycle pushes council analyses; without these it would be erased.
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: python scripts/rebuild_downstream.py --through review
 
       - name: Run Supabase cycle

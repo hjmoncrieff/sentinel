@@ -9,8 +9,8 @@ console snapshot (pushed by the sync cycle). This step copies each event's saved
 `llm_synthesis` block back in, so run_council_synthesis.py only pays for events
 that have never been synthesised.
 
-Without Supabase credentials it does nothing. With --strict, a failed fetch is
-an error: the sync cycle pushes council analyses back to Supabase, and pushing a
+Without Supabase credentials it does nothing. With --strict, missing credentials
+or a failed fetch is an error: the sync cycle pushes council analyses back to Supabase, and pushing a
 copy without the saved synthesis would erase it there.
 
 Usage:
@@ -57,6 +57,8 @@ def main() -> None:
     from common import fetch_console_snapshots, load_local_env
     load_local_env()
     if not os.environ.get("SUPABASE_URL"):
+        if args.strict:
+            raise SystemExit("ERROR: --strict needs SUPABASE_URL; refusing to continue without restoring saved synthesis.")
         print("Supabase not configured; no saved synthesis to restore.")
         return
     try:
