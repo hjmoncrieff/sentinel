@@ -11,6 +11,41 @@ Each major change entry should include:
 
 ## 2026-10-05
 
+### Record Pages, Methodology, Topic Pages, Review Queue, Data Repairs
+
+Affected areas:
+- Pipeline: `scripts/pipeline_core.py`, `scripts/apply_v3_codes.py`, `scripts/pipeline/repair_event_store.py`, `scripts/rebuild_downstream.py`, `config/taxonomy/places.json` (new), `config/taxonomy/country_centroids.json`, `config/queries/event_query_lexicon.json`
+- Structural: `scripts/structural/fetch_us_assistance.py` (new), `data/cleaned/us_assistance.json` (new)
+- Publisher: `scripts/publish/publish_dashboard_data.py` (`merged_ids`)
+- Public site: `apps/public-site/src/pages/event.mjs`, `about.mjs`, `topics.mjs` (new), `layout.mjs`, `maps.mjs`, `countries.mjs`, `src/lib/model.mjs`, `src/lib/html.mjs`, `src/client/feed.js`, `build.mjs`
+- Console and sync: `supabase/migrations/20261006090000_content_reviews.sql` (new), `apps/analyst-console/src/features/actions/content-review-panel.tsx` and `src/lib/api/content-reviews.ts` (new), `scripts/reference/review_reference.py`, `scripts/sync/pull_content_reviews_from_supabase.py` (new), `scripts/sync/push_console_snapshots_to_supabase.py`, `scripts/sync/run_supabase_cycle.py`, `.github/workflows/supabase_sync.yml`
+- Data: `data/events.json`, `data/canonical/`, `data/published/`
+
+What changed:
+- **Owner request (2026-10-05):** do every listed improvement that needs no API credit, except the data download.
+- **Duplicates.** Events with an identical headline, dates within three days and the same country (or one "Regional") are folded into one; the kept record lists the folded ids under `merged_ids`. The rule runs on every pipeline save. 111 records were folded (1,671 → 1,560).
+- **Places.** A supplementary list of about 340 regions and cities. The event's location field is searched first; names that are also common words or gang names match there only. 114 events moved from the country centre to a place. Belize had no centre point and its event sat at 0°, 0°; fixed.
+- **Keywords.** 72 terms for the July 2026 audit blind spots: mega-event security, kidnappings of and attacks on senior officials, cross-border gang logistics, transitional-justice rollback.
+- **US assistance.** A current series (fiscal 2001–2026) by funding account from ForeignAssistance.gov, grouped as military, counternarcotics and law enforcement, and other. Shown on country pages and the US security page. The Greenbook file is unchanged.
+- **Rebuild.** `events_with_edits.json` is regenerated on every rebuild. A stale local copy had been feeding 105 removed events back into the locally built published layer; CI was not affected because it never has that file.
+- **Site.** One page per record with a citation; a methodology page with the codebook generated from the codebook file; organized-crime and US-security pages; story folding in the live feed; navigation no longer points at the old dashboard for these sections.
+- **Review queue.** The console has a Reference tab listing proposed reference changes and automatic updates awaiting sign-off. Decisions are rows in `content_reviews`; the sync applies them through the same code as the command line. `kind = 'scenario'` is reserved; nothing writes scenarios yet.
+
+Validation completed:
+- `python -m pytest -q` (116 passed)
+- `python scripts/pipeline/repair_event_store.py --duplicates --dry-run` and `--places --dry-run`, examples read before applying
+- `python scripts/rebuild_downstream.py` (1,521 published, 39 withheld, 0 validation errors; 20 saved syntheses restored)
+- `node apps/public-site/build.mjs` (1,552 pages); screenshots of the record, About, organized-crime, US-security, feed and country pages, desktop and 500px
+- Console, in a copy outside Dropbox: `pnpm install --frozen-lockfile`, `pnpm analyst-console:typecheck`, `pnpm analyst-console:test` (41 passed), `pnpm analyst-console:build`
+
+Remaining risks / follow-up:
+- The migration has to be applied to the Supabase project before the Reference tab works; until then the tab shows the load error.
+- The console screen was type-checked and built but not exercised against the live database.
+- Folding removes event ids. Analyst edits stored in Supabase against a folded id no longer match a record; locally edited events were protected, and none was affected.
+- Place coordinates in `places.json` are approximate and were written by hand.
+- Fiscal 2026 assistance is incomplete, and fiscal 2025 may still be revised upward.
+- Record-page addresses will change once when the site leaves `/next/`.
+
 ### Country Monitors: Activity, Evidence, Map, Medians, Story Grouping
 
 Affected areas:

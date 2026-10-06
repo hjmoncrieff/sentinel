@@ -6,6 +6,7 @@ const tabs: Array<{ key: ConsoleWorkspace; label: string }> = [
   { key: "release", label: "Release" },
   { key: "audit", label: "Audit" },
   { key: "registry", label: "Registry" },
+  { key: "reference", label: "Reference" },
 ];
 
 type WorkspaceTabBarProps = {

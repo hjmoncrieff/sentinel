@@ -3,9 +3,15 @@
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
-from common import ROOT, finish_sync_run, load_json, start_sync_run, upsert_console_snapshot
+from common import ROOT, finish_sync_run, load_json, now_iso, start_sync_run, upsert_console_snapshot
+
+sys.path.insert(0, str(ROOT / "scripts" / "reference"))
+from review_reference import review_items  # noqa: E402
+
+REFERENCE_PATH = ROOT / "apps" / "public-site" / "reference" / "countries.json"
 
 
 SNAPSHOTS: dict[str, Path] = {
@@ -55,6 +61,11 @@ def main() -> None:
             upsert_console_snapshot(snapshot_key, path, payload)
             pushed += 1
             print(f"Pushed {snapshot_key} from {path.relative_to(ROOT)}")
+        # What the console's review queue shows: reference changes awaiting an analyst.
+        items = review_items(load_json(REFERENCE_PATH))
+        upsert_console_snapshot("content_review_items", REFERENCE_PATH, {"generated_at": now_iso(), "items": items})
+        pushed += 1
+        print(f"Pushed content_review_items ({len(items)} awaiting review)")
         finish_sync_run(sync_run_id, status="completed", rows_processed=pushed)
         print(f"Completed Supabase snapshot push. Snapshots pushed: {pushed}")
     except Exception as exc:  # noqa: BLE001

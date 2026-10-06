@@ -104,7 +104,7 @@ jobs:
         run: |
           git config user.name "sentinel-bot"
           git config user.email "sentinel-bot@users.noreply.github.com"
-          git add config/actors/actor_registry.json data/published/ data/canonical/events_actor_coded.json
+          git add config/actors/actor_registry.json data/published/ data/canonical/events_actor_coded.json apps/public-site/reference/
           git diff --staged --quiet || git commit -m "chore: sync Supabase workflow outputs $(date -u +'%Y-%m-%dT%H:%M:%SZ') [skip ci]"
           # The cycle also rewrites tracked files that are not committed here.
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}"

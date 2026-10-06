@@ -94,3 +94,30 @@ def test_reference_refresh_selection_and_merge():
     assert country["positions"] == [{"t": "President", "n": "Abelardo de la Espriella"}]
     assert country["cmr_status"] == "Complex" and country["note"] == "New note." and "last_election" not in country
     assert any("Gustavo Petro → Abelardo de la Espriella" in c for c in changes) and any("2030-05" in c for c in changes)
+
+
+def test_console_decisions_apply_once_and_only_to_the_matching_item():
+    import copy
+    from datetime import date
+    sys.path.insert(0, str(ROOT / "scripts" / "sync"))
+    sys.path.insert(0, str(ROOT / "scripts" / "reference"))
+    import review_reference as rr
+    from pull_content_reviews_from_supabase import apply_rows
+
+    reference = {"countries": [
+        {"name": "Colombia", "officials": [{"post": "head_of_state", "title": "President", "name": "A"}], "auto_updated": "2026-10-05"},
+        {"name": "Chile", "officials": []},
+    ]}
+    items = rr.review_items(reference)
+    assert [(i["subject"], i["mode"]) for i in items] == [("Colombia", "signoff")]
+    key = items[0]["item_key"]
+    row = {"kind": "reference_proposal", "subject": "Colombia", "item_key": key, "decision": "approve", "reviewer_name": "HM"}
+    log = {"changes": []}
+    ref = copy.deepcopy(reference)
+    handled = apply_rows([row, dict(row), {**row, "subject": "Chile"}, {**row, "kind": "scenario"}], ref, log, date(2026, 10, 6))
+    assert [note for _, note in handled] == ["signed_off", "superseded: no longer awaiting review", "superseded: no longer awaiting review"]
+    colombia = ref["countries"][0]
+    assert colombia["reviewed"] == "2026-10-06" and colombia["reviewed_by"] == "HM"
+    assert rr.review_items(ref) == [] and len(log["changes"]) == 1
+    # A sign-off cannot be dismissed.
+    assert apply_rows([{**row, "decision": "dismiss"}], copy.deepcopy(reference), {"changes": []}, date(2026, 10, 6))[0][1].startswith("ignored")

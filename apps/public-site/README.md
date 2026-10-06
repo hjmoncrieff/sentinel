@@ -33,6 +33,9 @@ public-safe layer), plus the two folders below.
 - `/feed/` live feed: every published event, filtered in the browser; state lives in the URL (`?e=<id>&c=<country>&p=<days>`)
 - `/countries/` regional summary and situation board
 - `/countries/<iso3>/` one monitor per country; four carry an in-depth section with a timeline
+- `/events/<id>/` one page per record, with sources, coding, provenance and a citation. The id of a folded duplicate forwards to the record that replaced it
+- `/organized-crime/` and `/us-security/` topic monitors, computed from published events, the risk-model readings and `data/cleaned/us_assistance.json`
+- `/about/` methodology, labels and limitations; the codebook tables are generated from `config/taxonomy/codebook_v3.json`
 
 What a country monitor adds beyond the reference data, all computed at build time:
 
@@ -40,6 +43,7 @@ What a country monitor adds beyond the reference data, all computed at build tim
 - **Events behind a reading.** Each risk reading lists coded events from the past 90 days that count toward it (`event_construct_destinations` in the published layer). Readings with none say they rest on structural indicators.
 - **Activity chart.** Events per month for 12 months, stacked by type. The note under it says that early months are under-counted, because collection was irregular before October 2026.
 - **Where.** A map of events coded to a town or region in the past 12 months. Country-level events are not drawn; a place outside the country's outline is dropped.
+- **US assistance.** Obligations for twelve fiscal years in three groups (see `scripts/structural/fetch_us_assistance.py`).
 - **Recent events.** Records of the same story are folded into one row (`groupStories` in `src/lib/model.mjs`: within three days, sharing at least three and at least half of their headline words).
 - **In-depth "needs revision".** `in_depth.text_as_of` in `reference/countries.json` is the date the hand-written text was last edited. When the head of state or government took office after it, or a change of leader is awaiting review, the section is flagged. Update `text_as_of` when the text is rewritten.
 

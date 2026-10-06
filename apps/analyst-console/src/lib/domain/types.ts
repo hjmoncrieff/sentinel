@@ -11,7 +11,41 @@ export type QueueWorklist =
   | "registry"
   | "duplicates";
 export type QueueSort = "priority" | "most-recent";
-export type ConsoleWorkspace = "review" | "release" | "audit" | "registry";
+export type ConsoleWorkspace = "review" | "release" | "audit" | "registry" | "reference";
+
+/** One thing awaiting an analyst's decision before it is published. */
+export type ContentReviewItem = {
+  kind: "reference_proposal" | "scenario";
+  mode: "proposal" | "signoff";
+  subject: string;
+  item_key: string;
+  date?: string | null;
+  trigger: string;
+  summary: string[];
+  rows: Array<{
+    field: string;
+    current?: string | null;
+    proposed?: string | null;
+    source_url?: string | null;
+    changed: boolean;
+  }>;
+  note?: string | null;
+  watch?: string | null;
+};
+
+export type ContentReviewDecision = {
+  content_review_id: string;
+  kind: ContentReviewItem["kind"];
+  subject: string;
+  item_key: string;
+  decision: "approve" | "dismiss";
+  comment?: string | null;
+  reviewer_name: string;
+  reviewer_role: string;
+  created_at: string;
+  applied_at?: string | null;
+  applied_note?: string | null;
+};
 export type CenterPanelTab = "briefing" | "ai-analysis" | "country-brief" | "data";
 
 export type QueueRecommendedAction = {

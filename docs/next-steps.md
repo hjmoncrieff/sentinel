@@ -12,8 +12,8 @@ registry milestones.
   agreement figures only (`docs/codebook-v3.md`)
 - recode pre-October-2026 events with codebook v3 so salience and types are comparable
   across the archive
-- build the public redesign from the approved mockups (front page, live feed, country
-  pages, methodology/codebook page)
+- approve the redesigned site section by section and move it from `/next/` to the root;
+  record-page addresses change once when that happens
 - price each pipeline stage at its own model's rate in the private cost log
 
 ## 1. Public Event Quality
@@ -109,7 +109,9 @@ registry milestones.
 ### Country monitors: deferred (noted 2026-10-05)
 
 Done without the API on 2026-10-05: activity chart, events behind each reading, located-events
-map, regional medians, story grouping, in-depth "needs revision" flag. Still to do:
+map, regional medians, story grouping, in-depth "needs revision" flag, US assistance block,
+record pages, methodology page, topic pages, duplicate folding, the reference review queue in
+the console. Still to do:
 
 - **Assessment text (needs API credit).** The section is rule-generated and close to
   boilerplate. Replace it with a short Sonnet-written assessment grounded in the country's
@@ -118,13 +120,19 @@ map, regional medians, story grouping, in-depth "needs revision" flag. Still to 
 - **Thin pages (needs API credit).** 24 countries still carry the old hand-entered positions,
   some marked "[verify …]". Run `scripts/reference/refresh_country_reference.py --stale-days 0`
   and review the proposals.
-- **US security assistance per country (needs newer data).** `data/cleaned/greenbook.json`
-  ends at fiscal 2019, too old to show as current. Refresh it from ForeignAssistance.gov
-  first, then add a small military/economic block that links to the US security page.
 - **Rewrite stale in-depth text.** Colombia's is flagged (written before August 2026).
   Venezuela's is probably stale too but is not flagged until its officials are researched.
-- **Upstream duplicates.** Story grouping hides same-headline records on the page; several
-  are true duplicates that the pipeline's deduplication should have merged.
+- **Scenario approval (needs API credit).** The console's review queue and the
+  `content_reviews` table accept `kind = 'scenario'`, but nothing writes scenarios yet.
+  Build the generator, add its items to `review_items`, and a handler in
+  `scripts/sync/pull_content_reviews_from_supabase.py`.
+- **Topic-page essays.** The organized-crime and US-security pages are computed from data;
+  the long hand-written essays are still on the old dashboard and need revision before
+  they move.
+- **Named armed groups.** Group names come from v3-coded events only and spelling variants
+  are not merged; the "groups named most often" list appears once there are five.
+- **Place list.** `config/taxonomy/places.json` holds about 340 approximate points written
+  by hand. Check them against a gazetteer, and add towns as they appear in events.
 
 ## 8. Provenance And Transparency
 

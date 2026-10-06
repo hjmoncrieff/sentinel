@@ -65,6 +65,10 @@ const AuditPanel = lazy(async () => ({
 const RegistryPanel = lazy(async () => ({
   default: (await import("@/features/actions/registry-panel")).RegistryPanel,
 }));
+const ContentReviewPanel = lazy(async () => ({
+  default: (await import("@/features/actions/content-review-panel"))
+    .ContentReviewPanel,
+}));
 const ReleasePanel = lazy(async () => ({
   default: (await import("@/features/actions/release-panel")).ReleasePanel,
 }));
@@ -677,6 +681,13 @@ export function App() {
             editHistory={eventEdits}
             item={selectedItem}
             loadError={auditError}
+          />
+        );
+      case "reference":
+        return (
+          <ContentReviewPanel
+            canDecide={publishAllowed}
+            profile={session.profile}
           />
         );
       case "registry":
