@@ -5,6 +5,9 @@ import {esc, fmtDate} from '../lib/html.mjs';
 const NAV = [
   ['feed', 'Live feed', 'feed/'],
   ['countries', 'Countries', 'countries/'],
+  ['oc', 'Organized crime', 'organized-crime/'],
+  ['us', 'US security', 'us-security/'],
+  ['about', 'About', 'about/'],
 ];
 
 export function layout(ctx, {title, description, nav = '', body, scripts = [], bodyClass = '', app = false}) {
@@ -33,9 +36,6 @@ export function layout(ctx, {title, description, nav = '', body, scripts = [], b
     <a class="wordmark" href="${url('')}"><span class="wm">SENTINEL<i>·</i></span><span class="tag">Civil–military monitor · Latin America &amp; the Caribbean</span></a>
     <nav class="site-nav" aria-label="Site">
       ${NAV.map(([key, label, href]) => `<a href="${url(href)}"${nav === key ? ' aria-current="page"' : ''}>${label}</a>`).join('\n      ')}
-      <a href="${legacy}#transnational">Organized crime</a>
-      <a href="${legacy}#us">US security</a>
-      <a href="${legacy}#about">About</a>
       <a class="console-link nav-login" href="${legacy}apps/analyst-console/" title="Invite-only workspace for SENTINEL analysts">
         <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
         Analyst login</a>
@@ -49,7 +49,7 @@ export function layout(ctx, {title, description, nav = '', body, scripts = [], b
 ${app ? '' : `<footer class="site-foot" id="site-foot">
   <div class="wrap">
     <span>SENTINEL · Public event layer compiled from open-source reporting. Machine-coded records are labeled as such.</span>
-    <span><a href="${legacy}#about">About</a> · <a href="${legacy}privacy.html">Privacy</a> · <a href="${legacy}terms.html">Terms</a> · <a href="https://github.com/hjmoncrieff/sentinel">Source</a></span>
+    <span><a href="${url('about/')}">About and methodology</a> · <a href="${legacy}privacy.html">Privacy</a> · <a href="${legacy}terms.html">Terms</a> · <a href="https://github.com/hjmoncrieff/sentinel">Source</a></span>
   </div>
 </footer>`}
 ${scripts.map(s => `<script type="module" src="${ctx.asset(`client/${s}`)}"></script>`).join('\n')}

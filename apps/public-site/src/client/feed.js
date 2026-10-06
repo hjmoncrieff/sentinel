@@ -14,6 +14,8 @@ let D = null, ISO = {}, shown = PAGE_SIZE;
 function readState() {
   Object.assign(F, DEFAULTS);
   new URLSearchParams(location.search).forEach((v, k) => { if (KEYS[k]) F[KEYS[k]] = KEYS[k] === 'period' ? +v : v; });
+  // A link to a record that was merged into another opens the record that replaced it.
+  if (D?.aliases?.[F.sel]) F.sel = D.aliases[F.sel];
 }
 function writeState() {
   const q = new URLSearchParams();
@@ -41,13 +43,17 @@ function syncControls() {
 }
 
 function draw(scrollToSel) {
-  const items = D.events.filter(matches);
+  const all = D.events.filter(matches), inView = new Set(all.map(e => e.id));
+  // Records of one story fold under its lead record, unless the lead is filtered out
+  // or the folded record is the one selected.
+  const items = all.filter(e => !e.story || !inView.has(e.story) || e.id === F.sel);
+  const folded = all.length - items.length;
   // A deep link to a record outside the current filters still opens it.
   const linked = F.sel && !items.some(e => e.id === F.sel) ? D.events.find(e => e.id === F.sel) : null;
   if (!F.sel || (!linked && !items.some(e => e.id === F.sel))) F.sel = items[0]?.id || null;
   const hidden = D.events.filter(e => (!F.period || days(e.date) <= F.period) && e.content_type !== 'event').length;
   const countries = new Set(items.map(e => e.country)).size, high = items.filter(e => e.sal === 'high').length;
-  $('#f-count').textContent = `${items.length.toLocaleString('en')} record${items.length === 1 ? '' : 's'}`;
+  $('#f-count').textContent = `${items.length.toLocaleString('en')} record${items.length === 1 ? '' : 's'}${folded ? ` · ${folded} more of the same stories` : ''}`;
   $('#f-sum').textContent = `${F.country === 'all' ? `${countries} countries` : F.country} · ${F.period ? `${F.period} days` : 'all dates'} · ${high} high${F.content === 'event' && hidden ? ` · ${hidden} analysis hidden` : ''}`;
   const active = ['country', 'type', 'sal', 'conf', 'rev', 'period', 'content'].filter(k => F[k] !== DEFAULTS[k]).length;
   $('#f-active').hidden = !active; $('#f-active').textContent = active;
@@ -75,7 +81,7 @@ function row(e) {
       <span class="iso">${iso(e.country)}</span>
       <div>${e.content_type !== 'event' ? `<span class="ctype">${esc(e.content_type)}</span>` : ''}
         <div class="hd">${esc(e.title)}</div><div class="sm">${esc(e.summary)}</div>
-        <div class="tags"><span>${tLabel(e.type)}</span><span>${e.n_sources} source${e.n_sources > 1 ? 's' : ''}</span>${e.precision === 'country' ? '<span>country-level location</span>' : ''}<span class="ai-tag">${e.reviewed ? 'Analyst-reviewed' : 'Machine-coded · unreviewed'}</span></div></div>
+        <div class="tags"><span>${tLabel(e.type)}</span><span>${e.n_sources} source${e.n_sources > 1 ? 's' : ''}</span>${e.story_n ? `<span class="more-n">+${e.story_n} more record${e.story_n > 1 ? 's' : ''}</span>` : ''}${e.precision === 'country' ? '<span>country-level location</span>' : ''}<span class="ai-tag">${e.reviewed ? 'Analyst-reviewed' : 'Machine-coded · unreviewed'}</span></div></div>
       <div class="right"><span class="sal ${e.sal}">${e.sal}</span><span class="corr ${cl}" title="${cw}">${cw}</span></div>
     </div>`;
 }
@@ -96,6 +102,8 @@ function detail(e) {
   const el = $('#f-detail');
   if (!e) { el.innerHTML = '<p style="color:var(--i-dim)">Select an event to see its sources and coding.</p>'; return; }
   const k = e.coding, rel = related(e);
+  const lead = e.story || (e.story_n ? e.id : null);
+  const story = lead ? D.events.filter(x => x.id !== e.id && (x.id === lead || x.story === lead)) : [];
   const dated = k?.date_precision === 'day' ? 'day reported' : k?.date_precision === 'month' ? 'month reported; shown by publication date' : k ? 'dated by publication' : null;
   el.innerHTML = `
     <div>
@@ -123,6 +131,8 @@ function detail(e) {
         ${s.headline && s.headline !== e.title ? `<span class="src-h">${esc(s.headline)}</span>` : ''}
         ${s.excerpt ? `<blockquote class="src-x">${esc(s.excerpt)}</blockquote>` : '<span class="src-none">No excerpt stored for this report.</span>'}
         <span class="m" style="grid-column:1/-1">${esc(METHOD[s.method] || pretty(s.method))}${s.method ? ' · ' : ''}<a href="${esc(s.url)}" target="_blank" rel="noopener" style="color:var(--i-amber)">Read at source ↗</a></span></div>`).join('')}</div>
+    ${story.length ? `<div><div class="panel-title" style="margin-bottom:4px"><span>Other records of this story</span><span class="mono">${story.length}</span></div>
+      ${story.map(x => `<a class="rel" href="?e=${x.id}" data-id="${x.id}"><span class="m">${fmtDate(x.date, {day: 'numeric', month: 'short'})}</span><span>${esc(x.title)}<small>${esc(x.sources[0]?.name || '')} · ${tLabel(x.type)}</small></span></a>`).join('')}</div>` : ''}
     <div><div class="panel-title" style="margin-bottom:4px"><span>Related coverage</span><span class="mono">${esc(e.country)} · ±30 days</span></div>
       ${rel.length ? rel.map(x => `<a class="rel" href="?e=${x.id}" data-id="${x.id}"><span class="m">${fmtDate(x.date, {day: 'numeric', month: 'short'})}</span><span>${esc(x.title)}<small>${tLabel(x.type)} · ${x.n_sources} source${x.n_sources > 1 ? 's' : ''}</small></span></a>`).join('')
         : '<p style="margin:4px 0 0;font-size:13px;color:var(--i-faint)">No closely related events within a month.</p>'}</div>
@@ -135,7 +145,7 @@ function detail(e) {
         <li class="${e.reviewed ? 'done' : 'pend'}"><i></i>Analyst review<span class="m">${e.reviewed ? 'reviewed' : 'not reviewed'}</span></li>
         <li class="done"><i></i>Published to the public layer<span class="m">nightly</span></li>
       </ul></div>
-    <p class="mono" style="font-size:11px;color:var(--i-faint);margin:0">Permalink · <a href="?e=${e.id}" style="color:inherit">${esc(location.origin + location.pathname)}?e=${esc(e.id)}</a></p>`;
+    <p class="mono" style="font-size:11px;color:var(--i-faint);margin:0">Permanent page, with citation · <a href="${page.dataset.base}events/${esc(e.id)}/" style="color:var(--i-amber)">${esc(location.origin + page.dataset.base)}events/${esc(e.id)}/</a></p>`;
   el.scrollTop = 0;
 }
 
@@ -151,6 +161,7 @@ async function start() {
     return;
   }
   ISO = Object.fromEntries(D.countries.map(c => [c.name, c.iso3]));
+  if (D.aliases?.[F.sel]) F.sel = D.aliases[F.sel];
   try { localStorage.setItem('sentinel.feed.lastVisit', D.asof); } catch { /* storage is optional */ }
   draw(true);
 

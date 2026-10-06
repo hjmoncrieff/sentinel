@@ -645,6 +645,9 @@ def main() -> None:
         row["content_type"] = (store_event or {}).get("content_type") or "event"
         row["location_precision"] = location_precision(event, centroids)
         row["public_coding"] = public_coding(store_event)
+        # Ids of duplicate records folded into this one, so old links can be redirected.
+        if (store_event or {}).get("merged_ids"):
+            row["merged_ids"] = store_event["merged_ids"]
         row["provenance_timeline"] = [
             {
                 "stage": item.get("stage"),

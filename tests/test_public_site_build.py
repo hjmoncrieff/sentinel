@@ -25,7 +25,8 @@ def site(tmp_path_factory) -> Path:
 def test_every_page_is_built(site):
     reference = json.loads((ROOT / "apps/public-site/reference/countries.json").read_text(encoding="utf-8"))["countries"]
     assert len(reference) == 25
-    for rel in ["index.html", "feed/index.html", "countries/index.html", *[f"countries/{c['iso3'].lower()}/index.html" for c in reference]]:
+    topic_pages = ["about/index.html", "organized-crime/index.html", "us-security/index.html"]
+    for rel in ["index.html", "feed/index.html", "countries/index.html", *topic_pages, *[f"countries/{c['iso3'].lower()}/index.html" for c in reference]]:
         html = (site / rel).read_text(encoding="utf-8")
         assert "<title>" in html and 'name="description"' in html, rel
         assert "undefined" not in re.sub(r"<script.*?</script>", "", html, flags=re.S), rel
@@ -85,3 +86,24 @@ def test_story_grouping_is_strict():
     """
     result = subprocess.run(["node", "--input-type=module", "-e", script], check=True, cwd=ROOT, capture_output=True, text=True)
     assert json.loads(result.stdout) == [["b", "a"], ["c"], ["d"]]
+
+
+def test_every_event_has_a_record_page_and_old_ids_forward(site):
+    feed = json.loads((site / "data/feed.json").read_text(encoding="utf-8"))
+    for event in feed["events"][:50] + feed["events"][-50:]:
+        html = (site / "events" / event["id"] / "index.html").read_text(encoding="utf-8")
+        assert "Cite this record" in html and event["id"] in html
+        assert "undefined" not in html
+    for old, target in feed["aliases"].items():
+        stub = (site / "events" / old / "index.html").read_text(encoding="utf-8")
+        assert f"/x/events/{target}/" in stub and 'http-equiv="refresh"' in stub
+    ids = {e["id"] for e in feed["events"]}
+    assert all(e.get("story") in ids for e in feed["events"] if e.get("story"))
+
+
+def test_about_page_lists_the_whole_codebook(site):
+    html = (site / "about/index.html").read_text(encoding="utf-8")
+    codebook = json.loads((ROOT / "config/taxonomy/codebook_v3.json").read_text(encoding="utf-8"))
+    for domain in codebook["domains"]:
+        for kind in domain["types"]:
+            assert f'>{kind["code"]}<' in html, kind["code"]

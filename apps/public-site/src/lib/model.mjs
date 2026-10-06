@@ -41,6 +41,7 @@ function toEvent(e) {
     actor: initiator?.actor_canonical_group || initiator?.actor_group || null,
     target: target?.actor_canonical_group || target?.actor_group || null,
     constructs: e.event_construct_destinations || [],
+    merged: e.merged_ids || [],
     coding: e.public_coding || null,
     analysis: e.public_analysis || null,
     ai: !!e.public_ai_generated,
@@ -109,6 +110,7 @@ export function loadModel(repoRoot, siteRoot) {
   const topology = readJson(path.join(siteRoot, 'reference', 'americas-topo.json'));
   const weekly = readOptional(path.join(siteRoot, 'content', 'weekly.json'));
   // Structural layer (public): US assistance by funding account, from ForeignAssistance.gov.
+  const codebook = readJson(path.join(repoRoot, 'config', 'taxonomy', 'codebook_v3.json'));
   const assistance = readOptional(path.join(repoRoot, 'data', 'cleaned', 'us_assistance.json'));
   const assistanceBy = Object.fromEntries((assistance?.countries || []).map(c => [c.country, c]));
 
@@ -134,6 +136,18 @@ export function loadModel(repoRoot, siteRoot) {
     }
   }
 
+  // Records of one story point at its lead record, so the feed can fold them.
+  for (const name of new Set(events.map(e => e.country))) {
+    for (const g of groupStories(events.filter(e => e.country === name))) {
+      if (!g.others.length) continue;
+      g.lead.story_n = g.others.length;
+      for (const o of g.others) o.story = g.lead.id;
+    }
+  }
+  // Old ids of folded duplicates, pointing at the record that replaced them.
+  const aliases = {};
+  for (const e of events) for (const old of e.merged) aliases[old] = e.id;
+
   const monthly = [];
   const start = new Date(asof.slice(0, 7) + '-01T00:00:00Z');
   for (let i = 23; i >= 0; i--) {
@@ -152,6 +166,8 @@ export function loadModel(repoRoot, siteRoot) {
     topology,
     weekly,
     assistance,
+    codebook,
+    aliases,
     monthly,
     sources_total: new Set(events.flatMap(e => e.sources.map(s => s.name))).size,
     first_date: events[events.length - 1]?.date || asof,
@@ -189,6 +205,7 @@ export function feedPayload(model) {
   return {
     asof: model.asof,
     countries: model.countries.map(c => ({name: c.name, iso3: c.iso3})),
-    events: model.events.map(({constructs, ...e}) => e),
+    aliases: model.aliases,
+    events: model.events.map(({constructs, merged, ...e}) => e),
   };
 }

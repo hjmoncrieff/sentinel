@@ -4,6 +4,7 @@ import {esc, fmtDate, tColor, tLabel, chip, lvl, pips, dir, ago, daysBetween, sp
 import {layout} from './layout.mjs';
 import {boardMap, timeline, countryMap} from './maps.mjs';
 import {groupStories} from '../lib/model.mjs';
+import {eventUrl} from './event.mjs';
 
 const WEEKLY_MAX_AGE_DAYS = 10;
 const countryUrl = (ctx, c) => ctx.url(`countries/${c.iso3.toLowerCase()}/`);
@@ -97,7 +98,7 @@ function conEvidence(k, ctx, shown) {
   const pick = (fresh.length >= 2 ? fresh : k.evidence).slice(0, 2);
   for (const e of pick) shown.add(e.id);
   return `<div class="con-ev"><div class="kicker">Events · past 90 days · ${k.evidence.length}</div>${pick.map(e => `
-    <a href="${ctx.url(`feed/?e=${e.id}`)}"><span class="mono">${fmtDate(e.date, {day: 'numeric', month: 'short'})}</span>${esc(e.title)}</a>`).join('')}</div>`;
+    <a href="${eventUrl(ctx, e.id)}"><span class="mono">${fmtDate(e.date, {day: 'numeric', month: 'short'})}</span>${esc(e.title)}</a>`).join('')}</div>`;
 }
 
 function outlookPanel(c, ctx) {
@@ -173,7 +174,7 @@ function activityChart(c, model) {
   const partial = fmtDate(model.asof, {day: 'numeric', month: 'short'});
   return `
     <div class="act-chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(`Coded events per month, ${c.months[0].key} to ${c.months.at(-1).key}: ${c.months.map(m => m.total).join(', ')}`)}">${grid}${bars}</svg></div>
-    <p class="note">Events per month by type. The last month runs to ${partial}. Counts reflect how much was collected as well as what happened: daily collection and a backfill began in mid-2026, so earlier months are under-counted.</p>`;
+    <p class="note">Events per month by type. The last month runs to ${partial}. Counts reflect how much was collected as well as what happened: collection started in March 2026 and was irregular until October 2026, and earlier dates come from archive searches.</p>`;
 }
 
 function eventMix(c, model) {
@@ -193,8 +194,8 @@ function recentEvents(c, model, ctx, n = 8) {
   const day = d => fmtDate(d, {day: 'numeric', month: 'short', year: d.slice(0, 4) === model.asof.slice(0, 4) ? undefined : '2-digit'});
   return `<div class="cevents">${stories.map(({lead: e, others}) => `
     <div class="cev"><span class="d">${day(e.date)}</span><span class="b" style="background:${tColor(e.type)}"></span>
-      <div><a href="${ctx.url(`feed/?e=${e.id}`)}" style="text-decoration:none">${esc(e.title)}</a><small>${tLabel(e.type)} · ${e.sal} salience · ${e.n_sources} source${e.n_sources > 1 ? 's' : ''}${e.content_type !== 'event' ? ` · ${e.content_type}` : ''}</small>
-        ${others.length ? `<details class="cev-more"><summary>${others.length} more record${others.length > 1 ? 's' : ''} of this story</summary><ul>${others.map(o => `<li><a href="${ctx.url(`feed/?e=${o.id}`)}">${esc(o.title)}</a> <span>${esc(o.sources[0]?.name || '')} · ${day(o.date)}</span></li>`).join('')}</ul></details>` : ''}</div></div>`).join('')}</div>`;
+      <div><a href="${eventUrl(ctx, e.id)}" style="text-decoration:none">${esc(e.title)}</a><small>${tLabel(e.type)} · ${e.sal} salience · ${e.n_sources} source${e.n_sources > 1 ? 's' : ''}${e.content_type !== 'event' ? ` · ${e.content_type}` : ''}</small>
+        ${others.length ? `<details class="cev-more"><summary>${others.length} more record${others.length > 1 ? 's' : ''} of this story</summary><ul>${others.map(o => `<li><a href="${eventUrl(ctx, o.id)}">${esc(o.title)}</a> <span>${esc(o.sources[0]?.name || '')} · ${day(o.date)}</span></li>`).join('')}</ul></details>` : ''}</div></div>`).join('')}</div>`;
 }
 
 // US assistance obligations for the last twelve fiscal years, with the latest complete year spelled out.

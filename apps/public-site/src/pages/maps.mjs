@@ -112,6 +112,32 @@ export function boardMap(model, ctx) {
 }
 
 /** In-depth timeline: curated milestones by lane plus the country's coded events. */
+/** Topic-page map: the region in neutral fill with one mark per place that has located events. */
+export function regionMap(model, events, label) {
+  const W = 520;
+  const {proj, trackedShapes, backdrop} = project(model, W, 8);
+  const places = new Map();
+  for (const e of events) {
+    if (!e.coords || e.precision !== 'place') continue;
+    const key = e.coords.map(v => v.toFixed(1)).join(',');
+    const p = places.get(key) || {n: 0, high: 0, names: {}, coords: e.coords, country: e.country};
+    p.n++; if (e.sal === 'high') p.high++;
+    if (e.location) p.names[e.location] = (p.names[e.location] || 0) + 1;
+    places.set(key, p);
+  }
+  const marks = [...places.values()].map(p => {
+    const [x, y] = proj.project([p.coords[1], p.coords[0]]);
+    return {...p, x, y, r: 2.6 + Math.sqrt(p.n) * 1.5, name: Object.entries(p.names).sort((a, b) => b[1] - a[1])[0]?.[0] || p.country};
+  }).sort((a, b) => a.n - b.n);
+  const dots = marks.map(m => `<circle cx="${m.x.toFixed(1)}" cy="${m.y.toFixed(1)}" r="${m.r.toFixed(1)}" fill="${m.high ? 'var(--st-crisis-i)' : 'var(--i-amber)'}" fill-opacity=".8" stroke="var(--olive)" stroke-width=".8"><title>${esc(`${m.name} (${m.country}): ${m.n} event${m.n === 1 ? '' : 's'}${m.high ? `, ${m.high} high salience` : ''}`)}</title></circle>`).join('');
+  const n = marks.reduce((a, m) => a + m.n, 0);
+  const svg = `<svg viewBox="0 0 ${W} ${proj.height}" role="img" aria-label="${esc(`${label}: ${n} located events at ${marks.length} places`)}">
+    <g>${backdrop.map(s => `<path d="${s.d}" fill="var(--olive-2)" stroke="var(--olive)" stroke-width=".5"/>`).join('')}</g>
+    <g>${trackedShapes.map(s => `<path d="${s.d}" fill="var(--olive-3)" stroke="var(--i-faint)" stroke-opacity=".5" stroke-width=".5"/>`).join('')}</g>
+    <g>${dots}</g></svg>`;
+  return {svg, n, places: marks.length};
+}
+
 /** Country-page map: the country, its neighbours as backdrop, and one mark per place with located events. */
 export function countryMap(c, model) {
   const all = topoFeatures(model.topology, 'countries');
