@@ -62,3 +62,23 @@ export function lineSpark(series, w = 84, h = 26) {
   const last = pts[pts.length - 1];
   return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><path d="${d}L${last[0].toFixed(1)},${h}L2,${h}Z" fill="var(--amber-soft)"/><path d="${d}" fill="none" stroke="var(--ink-2)" stroke-width="1.2"/><circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2.4" fill="var(--amber)"/></svg>`;
 }
+
+export const usd = v => { const a = Math.abs(v); return (v < 0 ? '−' : '') + (a >= 1e9 ? `$${(a / 1e9).toFixed(a >= 1e10 ? 0 : 1)}bn` : a >= 1e6 ? `$${Math.round(a / 1e6)}m` : a >= 1e3 ? `$${Math.round(a / 1e3)}k` : `$${Math.round(a)}`); };
+export const AID_GROUPS = [['military', 'Military', 'var(--t-aid)'], ['counternarcotics', 'Counternarcotics and law enforcement', 'var(--t-purge)'], ['other', 'Economic and humanitarian', 'var(--ink-3)']];
+
+/** Stacked bars of US assistance by fiscal year. `series` rows carry one number per group. */
+export function aidBars(series, partial = [], W = 420, H = 150) {
+  const L = 46, B = 20, T = 6;
+  const tot = p => AID_GROUPS.reduce((a, [g]) => a + Math.max(0, p[g] || 0), 0);
+  const peak = Math.max(1, ...series.map(tot));
+  const mag = 10 ** Math.floor(Math.log10(peak)), step = [1, 2, 2.5, 5, 10].map(k => k * mag).find(s => peak / s <= 3) || mag * 10, top = Math.ceil(peak / step) * step;
+  const y = v => T + (H - T - B) * (1 - v / top), slot = (W - L) / series.length, bw = slot * 0.66;
+  const grid = Array.from({length: Math.round(top / step) + 1}, (_, i) => i * step).map(v => `<line x1="${L}" x2="${W}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}" stroke="var(--rule-2)"/><text x="${L - 5}" y="${y(v).toFixed(1)}" dy=".32em" text-anchor="end">${v ? usd(v) : '0'}</text>`).join('');
+  const bars = series.map((p, i) => {
+    const x = L + i * slot + (slot - bw) / 2, part = partial.includes(p.year);
+    let acc = 0;
+    const segs = AID_GROUPS.map(([g, , color]) => { const v = Math.max(0, p[g] || 0); if (!v) return ''; const y1 = y(acc + v), h = y(acc) - y1; acc += v; return `<rect x="${x.toFixed(1)}" y="${y1.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0, h - .5).toFixed(1)}" fill="${color}"${part ? ' fill-opacity=".45"' : ''}/>`; }).join('');
+    return `<g><title>${esc(`FY${p.year}${part ? ' (incomplete)' : ''}: ${usd(tot(p))} — ${AID_GROUPS.map(([g, label]) => `${label.toLowerCase()} ${usd(Math.max(0, p[g] || 0))}`).join(', ')}`)}</title><rect x="${(L + i * slot).toFixed(1)}" y="${T}" width="${slot.toFixed(1)}" height="${H - T - B}" fill="transparent"/>${segs}${i % 2 === (series.length - 1) % 2 ? `<text x="${(x + bw / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle">’${String(p.year).slice(2)}</text>` : ''}</g>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(`US assistance by fiscal year, ${series[0].year} to ${series.at(-1).year}: ${series.map(p => usd(tot(p))).join(', ')}`)}">${grid}${bars}</svg>`;
+}

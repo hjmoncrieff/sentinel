@@ -1,6 +1,6 @@
 // Countries index (regional brief + situation board) and the per-country monitor page.
 
-import {esc, fmtDate, tColor, tLabel, chip, lvl, pips, dir, ago, daysBetween, sparkBars, lineSpark} from '../lib/html.mjs';
+import {esc, fmtDate, tColor, tLabel, chip, lvl, pips, dir, ago, daysBetween, sparkBars, lineSpark, usd, aidBars, AID_GROUPS} from '../lib/html.mjs';
 import {layout} from './layout.mjs';
 import {boardMap, timeline, countryMap} from './maps.mjs';
 import {groupStories} from '../lib/model.mjs';
@@ -197,6 +197,20 @@ function recentEvents(c, model, ctx, n = 8) {
         ${others.length ? `<details class="cev-more"><summary>${others.length} more record${others.length > 1 ? 's' : ''} of this story</summary><ul>${others.map(o => `<li><a href="${ctx.url(`feed/?e=${o.id}`)}">${esc(o.title)}</a> <span>${esc(o.sources[0]?.name || '')} · ${day(o.date)}</span></li>`).join('')}</ul></details>` : ''}</div></div>`).join('')}</div>`;
 }
 
+// US assistance obligations for the last twelve fiscal years, with the latest complete year spelled out.
+function usAssistance(c) {
+  const a = c.us_assistance;
+  if (!a) return '';
+  const series = a.series.slice(-12);
+  if (!series.some(p => p.total > 0)) return '';
+  const full = [...series].reverse().find(p => !a.partial_years.includes(p.year));
+  return `
+    <div class="sec-head section"><h2>US assistance</h2><span class="kicker">FY${series[0].year}–${series.at(-1).year}</span></div>
+    <div class="aid-chart">${aidBars(series, a.partial_years)}</div>
+    <div class="aid-legend">${AID_GROUPS.map(([g, label, color]) => `<span><i style="background:${color}"></i>${label} <b class="mono">${usd(Math.max(0, full[g]))}</b></span>`).join('')}</div>
+    <p class="note">Obligations in constant dollars; figures beside the legend are fiscal ${full.year}. ${a.partial_years.length ? `Fiscal ${a.partial_years.join(' and ')} (lighter) is incomplete. ` : ''}Grouped by funding account by SENTINEL. Source: ForeignAssistance.gov.</p>`;
+}
+
 function locatedMap(c, model) {
   const map = countryMap(c, model);
   if (!map) return '';
@@ -282,6 +296,7 @@ export function renderCountry(c, model, ctx) {
         ${locatedMap(c, model)}
         ${c.missions?.length ? `<div class="sec-head section"><h2>Military roles</h2></div>
         <ul class="missions">${c.missions.map(m => `<li><span>${esc(m.role)}</span><span class="mono ms-${esc(m.status)}">${esc(m.status)}</span></li>`).join('')}</ul>` : ''}
+        ${usAssistance(c)}
       </aside>
     </div>
   </div>`;

@@ -1,5 +1,5 @@
-// Build-time data model. Reads only data/published/ (the public-safe layer) and the
-// site's own reference and content files.
+// Build-time data model. Reads only public layers: data/published/, the structural file
+// data/cleaned/us_assistance.json, and the site's own reference and content files.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -108,6 +108,9 @@ export function loadModel(repoRoot, siteRoot) {
   const reference = readJson(path.join(siteRoot, 'reference', 'countries.json'));
   const topology = readJson(path.join(siteRoot, 'reference', 'americas-topo.json'));
   const weekly = readOptional(path.join(siteRoot, 'content', 'weekly.json'));
+  // Structural layer (public): US assistance by funding account, from ForeignAssistance.gov.
+  const assistance = readOptional(path.join(repoRoot, 'data', 'cleaned', 'us_assistance.json'));
+  const assistanceBy = Object.fromEntries((assistance?.countries || []).map(c => [c.country, c]));
 
   const events = eventsFile.events.map(toEvent).filter(e => e.id && e.date)
     .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
@@ -116,6 +119,7 @@ export function loadModel(repoRoot, siteRoot) {
   const monitorBy = Object.fromEntries(monitors.map(m => [m.country, m]));
   const dossierBy = Object.fromEntries(dossiers.map(d => [d.country, d]));
   const countries = reference.countries.map(ref => countryModel(ref, monitorBy[ref.name], dossierBy[ref.name], events, asof));
+  for (const c of countries) c.us_assistance = assistanceBy[c.name] ? {...assistanceBy[c.name], partial_years: assistance.partial_years, groups: assistance.groups} : null;
 
   // Regional median for each structural indicator, written the way the country's own value is.
   const median = vals => { const v = [...vals].sort((a, b) => a - b), m = v.length >> 1; return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2; };
@@ -147,6 +151,7 @@ export function loadModel(repoRoot, siteRoot) {
     subregions: reference.subregions,
     topology,
     weekly,
+    assistance,
     monthly,
     sources_total: new Set(events.flatMap(e => e.sources.map(s => s.name))).size,
     first_date: events[events.length - 1]?.date || asof,

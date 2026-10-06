@@ -36,6 +36,9 @@ REVIEW_STEPS = [
     "scripts/pipeline/build_canonical_events.py",
     "scripts/pipeline/code_actors.py",
     "scripts/review/build_review_queue.py",
+    # Rebuilt every time: a stale events_with_edits.json feeds removed events back into the
+    # council, the monitors and the published layer (found 2026-10-05).
+    "scripts/review/apply_analyst_edits.py",
     "scripts/analysis/run_council.py",
     "scripts/analysis/restore_council_synthesis.py",
 ]

@@ -1,0 +1,5222 @@
+{
+ "updated": "2026-10-06T00:18:28+00:00",
+ "source": "ForeignAssistance.gov, obligations by funding account",
+ "source_url": "https://s3.amazonaws.com/files.explorer.devtechlab.com/us_foreign_aid_funding.csv",
+ "note": "Constant US dollars. Grouping by funding account is SENTINEL's (see scripts/structural/fetch_us_assistance.py); the Greenbook counts narcotics-control funding as economic assistance.",
+ "groups": {
+  "military": "Military assistance",
+  "counternarcotics": "Counternarcotics and law enforcement",
+  "other": "Economic and humanitarian"
+ },
+ "first_year": 2001,
+ "last_year": 2026,
+ "partial_years": [
+  2026
+ ],
+ "countries": [
+  {
+   "country": "Brazil",
+   "series": [
+    {
+     "year": 2001,
+     "military": 33509850,
+     "counternarcotics": 3457308,
+     "other": 31055230,
+     "total": 68022388
+    },
+    {
+     "year": 2002,
+     "military": 2200530,
+     "counternarcotics": 10211279,
+     "other": 30425272,
+     "total": 42837081
+    },
+    {
+     "year": 2003,
+     "military": 2140719,
+     "counternarcotics": 10018964,
+     "other": 56256978,
+     "total": 68416661
+    },
+    {
+     "year": 2004,
+     "military": 1090486,
+     "counternarcotics": 600617,
+     "other": 40046969,
+     "total": 41738072
+    },
+    {
+     "year": 2005,
+     "military": 1026645,
+     "counternarcotics": 25129734,
+     "other": 46280439,
+     "total": 72436818
+    },
+    {
+     "year": 2006,
+     "military": 1481558,
+     "counternarcotics": 25987866,
+     "other": 31187616,
+     "total": 58657040
+    },
+    {
+     "year": 2007,
+     "military": 1134704,
+     "counternarcotics": 2189475,
+     "other": 27115453,
+     "total": 30439632
+    },
+    {
+     "year": 2008,
+     "military": 3171273,
+     "counternarcotics": 9310067,
+     "other": 41873777,
+     "total": 54355117
+    },
+    {
+     "year": 2009,
+     "military": 1386672,
+     "counternarcotics": 8939689,
+     "other": 51666542,
+     "total": 61992903
+    },
+    {
+     "year": 2010,
+     "military": 2082936,
+     "counternarcotics": 4791726,
+     "other": 39487912,
+     "total": 46362574
+    },
+    {
+     "year": 2011,
+     "military": 4852269,
+     "counternarcotics": 5136931,
+     "other": 54781017,
+     "total": 64770217
+    },
+    {
+     "year": 2012,
+     "military": 2064735,
+     "counternarcotics": 6495996,
+     "other": 25621350,
+     "total": 34182081
+    },
+    {
+     "year": 2013,
+     "military": 1977580,
+     "counternarcotics": 4002941,
+     "other": 29997285,
+     "total": 35977806
+    },
+    {
+     "year": 2014,
+     "military": 3345095,
+     "counternarcotics": 2856575,
+     "other": 22947176,
+     "total": 29148846
+    },
+    {
+     "year": 2015,
+     "military": 1512840,
+     "counternarcotics": 4232078,
+     "other": 16725561,
+     "total": 22470479
+    },
+    {
+     "year": 2016,
+     "military": 4412965,
+     "counternarcotics": 441856,
+     "other": 16677314,
+     "total": 21532135
+    },
+    {
+     "year": 2017,
+     "military": 3509560,
+     "counternarcotics": 207413,
+     "other": 34033113,
+     "total": 37750086
+    },
+    {
+     "year": 2018,
+     "military": 10166461,
+     "counternarcotics": 1244632,
+     "other": 29622748,
+     "total": 41033841
+    },
+    {
+     "year": 2019,
+     "military": 14992103,
+     "counternarcotics": 801666,
+     "other": 83081895,
+     "total": 98875664
+    },
+    {
+     "year": 2020,
+     "military": 2116461,
+     "counternarcotics": 1463882,
+     "other": 105939130,
+     "total": 109519473
+    },
+    {
+     "year": 2021,
+     "military": 744250,
+     "counternarcotics": 3795204,
+     "other": 69226644,
+     "total": 73766098
+    },
+    {
+     "year": 2022,
+     "military": 859220,
+     "counternarcotics": 6534663,
+     "other": 55798968,
+     "total": 63192851
+    },
+    {
+     "year": 2023,
+     "military": 2517120,
+     "counternarcotics": 6993143,
+     "other": 52231802,
+     "total": 61742065
+    },
+    {
+     "year": 2024,
+     "military": 1847421,
+     "counternarcotics": 13655148,
+     "other": 45389932,
+     "total": 60892501
+    },
+    {
+     "year": 2025,
+     "military": 1000000,
+     "counternarcotics": 8881481,
+     "other": 17609688,
+     "total": 27491169
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 1435,
+     "other": -64091,
+     "total": -62656
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "Department of State, Andean Counterdrug Programs",
+     "total": 93008333
+    },
+    {
+     "account": "Excess Defense Articles",
+     "total": 67573568
+    },
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 40822773
+    },
+    {
+     "account": "Nonproliferation, Anti-Terrorism, Demining and Related Programs",
+     "total": 33550663
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 16846516
+    }
+   ]
+  },
+  {
+   "country": "Colombia",
+   "series": [
+    {
+     "year": 2001,
+     "military": 336457327,
+     "counternarcotics": 82975393,
+     "other": 37474803,
+     "total": 456907523
+    },
+    {
+     "year": 2002,
+     "military": 204775283,
+     "counternarcotics": 636332857,
+     "other": 68196494,
+     "total": 909304634
+    },
+    {
+     "year": 2003,
+     "military": 328145601,
+     "counternarcotics": 780143292,
+     "other": 37571888,
+     "total": 1145860781
+    },
+    {
+     "year": 2004,
+     "military": 460418692,
+     "counternarcotics": 544865517,
+     "other": 19486382,
+     "total": 1024770591
+    },
+    {
+     "year": 2005,
+     "military": 406367926,
+     "counternarcotics": 676732206,
+     "other": 22770846,
+     "total": 1105870978
+    },
+    {
+     "year": 2006,
+     "military": 358487619,
+     "counternarcotics": 1491055729,
+     "other": 23296805,
+     "total": 1872840153
+    },
+    {
+     "year": 2007,
+     "military": 323728841,
+     "counternarcotics": 192471661,
+     "other": 48685758,
+     "total": 564886260
+    },
+    {
+     "year": 2008,
+     "military": 253947266,
+     "counternarcotics": 639425549,
+     "other": 151610046,
+     "total": 1044982861
+    },
+    {
+     "year": 2009,
+     "military": 267550167,
+     "counternarcotics": 630590481,
+     "other": 350452859,
+     "total": 1248593507
+    },
+    {
+     "year": 2010,
+     "military": 266665952,
+     "counternarcotics": 584938535,
+     "other": 287327199,
+     "total": 1138931686
+    },
+    {
+     "year": 2011,
+     "military": 227144121,
+     "counternarcotics": 71952349,
+     "other": 257918513,
+     "total": 557014983
+    },
+    {
+     "year": 2012,
+     "military": 140172671,
+     "counternarcotics": 470367189,
+     "other": 351703614,
+     "total": 962243474
+    },
+    {
+     "year": 2013,
+     "military": 124736283,
+     "counternarcotics": 12819439,
+     "other": 205722585,
+     "total": 343278307
+    },
+    {
+     "year": 2014,
+     "military": 102099312,
+     "counternarcotics": 355465174,
+     "other": 292356326,
+     "total": 749920812
+    },
+    {
+     "year": 2015,
+     "military": 103013127,
+     "counternarcotics": 749798026,
+     "other": 254057689,
+     "total": 1106868842
+    },
+    {
+     "year": 2016,
+     "military": 133309958,
+     "counternarcotics": 16897144,
+     "other": 271574257,
+     "total": 421781359
+    },
+    {
+     "year": 2017,
+     "military": 144417559,
+     "counternarcotics": 227552117,
+     "other": 295262768,
+     "total": 667232444
+    },
+    {
+     "year": 2018,
+     "military": 123603727,
+     "counternarcotics": 204385617,
+     "other": 336517776,
+     "total": 664507120
+    },
+    {
+     "year": 2019,
+     "military": 104977479,
+     "counternarcotics": 338246577,
+     "other": 544197826,
+     "total": 987421882
+    },
+    {
+     "year": 2020,
+     "military": 97994214,
+     "counternarcotics": 355159557,
+     "other": 556522975,
+     "total": 1009676746
+    },
+    {
+     "year": 2021,
+     "military": 77822214,
+     "counternarcotics": 238574447,
+     "other": 603259839,
+     "total": 919656500
+    },
+    {
+     "year": 2022,
+     "military": 56127996,
+     "counternarcotics": 240252006,
+     "other": 460593631,
+     "total": 756973633
+    },
+    {
+     "year": 2023,
+     "military": 49687394,
+     "counternarcotics": 238111419,
+     "other": 494516031,
+     "total": 782314844
+    },
+    {
+     "year": 2024,
+     "military": 42068096,
+     "counternarcotics": 201883892,
+     "other": 357969986,
+     "total": 601921974
+    },
+    {
+     "year": 2025,
+     "military": 44848692,
+     "counternarcotics": 111044354,
+     "other": 234520698,
+     "total": 390413744
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": -1190365,
+     "other": 35901051,
+     "total": 34710686
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "Department of State, Andean Counterdrug Programs",
+     "total": 6086563120
+    },
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 3775486814
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 2956247492
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 1590075680
+    },
+    {
+     "account": "Nonproliferation, Anti-Terrorism, Demining and Related Programs",
+     "total": 228800228
+    }
+   ]
+  },
+  {
+   "country": "Mexico",
+   "series": [
+    {
+     "year": 2001,
+     "military": 39383579,
+     "counternarcotics": 17286540,
+     "other": 38064679,
+     "total": 94734798
+    },
+    {
+     "year": 2002,
+     "military": 32757783,
+     "counternarcotics": 62969553,
+     "other": 56130694,
+     "total": 151858030
+    },
+    {
+     "year": 2003,
+     "military": 25355489,
+     "counternarcotics": 20037927,
+     "other": 62542662,
+     "total": 107936078
+    },
+    {
+     "year": 2004,
+     "military": 17881364,
+     "counternarcotics": 62487374,
+     "other": 77547425,
+     "total": 157916163
+    },
+    {
+     "year": 2005,
+     "military": 17231501,
+     "counternarcotics": 66808666,
+     "other": 80858343,
+     "total": 164898510
+    },
+    {
+     "year": 2006,
+     "military": 23248355,
+     "counternarcotics": 182987044,
+     "other": 77080876,
+     "total": 283316275
+    },
+    {
+     "year": 2007,
+     "military": 23208495,
+     "counternarcotics": 55366054,
+     "other": 59819621,
+     "total": 138394170
+    },
+    {
+     "year": 2008,
+     "military": 18300189,
+     "counternarcotics": 5479136,
+     "other": 117041704,
+     "total": 140821029
+    },
+    {
+     "year": 2009,
+     "military": 98384332,
+     "counternarcotics": 510748239,
+     "other": 114669360,
+     "total": 723801931
+    },
+    {
+     "year": 2010,
+     "military": 137602780,
+     "counternarcotics": 768808053,
+     "other": 122998003,
+     "total": 1029408836
+    },
+    {
+     "year": 2011,
+     "military": 132352555,
+     "counternarcotics": 363443952,
+     "other": 104856740,
+     "total": 600653247
+    },
+    {
+     "year": 2012,
+     "military": 127533527,
+     "counternarcotics": 47773123,
+     "other": 120541250,
+     "total": 295847900
+    },
+    {
+     "year": 2013,
+     "military": 97374640,
+     "counternarcotics": 335680205,
+     "other": 135107379,
+     "total": 568162224
+    },
+    {
+     "year": 2014,
+     "military": 68192232,
+     "counternarcotics": 307381238,
+     "other": 66830743,
+     "total": 442404213
+    },
+    {
+     "year": 2015,
+     "military": 66591523,
+     "counternarcotics": 607353782,
+     "other": 90332024,
+     "total": 764277329
+    },
+    {
+     "year": 2016,
+     "military": 18706954,
+     "counternarcotics": 5710685,
+     "other": 96214211,
+     "total": 120631850
+    },
+    {
+     "year": 2017,
+     "military": 65857585,
+     "counternarcotics": 216136406,
+     "other": 110134342,
+     "total": 392128333
+    },
+    {
+     "year": 2018,
+     "military": 43177609,
+     "counternarcotics": 167769553,
+     "other": 85957086,
+     "total": 296904248
+    },
+    {
+     "year": 2019,
+     "military": 247695312,
+     "counternarcotics": 126317142,
+     "other": 173023397,
+     "total": 547035851
+    },
+    {
+     "year": 2020,
+     "military": 31103615,
+     "counternarcotics": 138847636,
+     "other": 177010277,
+     "total": 346961528
+    },
+    {
+     "year": 2021,
+     "military": 12887651,
+     "counternarcotics": 68993995,
+     "other": 153002045,
+     "total": 234883691
+    },
+    {
+     "year": 2022,
+     "military": 4230899,
+     "counternarcotics": 56421743,
+     "other": 197637608,
+     "total": 258290250
+    },
+    {
+     "year": 2023,
+     "military": 16147741,
+     "counternarcotics": 103623123,
+     "other": 146012482,
+     "total": 265783346
+    },
+    {
+     "year": 2024,
+     "military": 12040330,
+     "counternarcotics": 105533542,
+     "other": 148644157,
+     "total": 266218029
+    },
+    {
+     "year": 2025,
+     "military": 1819638,
+     "counternarcotics": 44792480,
+     "other": 17267219,
+     "total": 63879337
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": -2138039,
+     "other": 22982227,
+     "total": 20844188
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 4379699525
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 897635281
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 342161477
+    },
+    {
+     "account": "Department of Defense, Operation and Maintenance, Defense-Wide",
+     "total": 82945889
+    },
+    {
+     "account": "Nonproliferation, Anti-Terrorism, Demining and Related Programs",
+     "total": 66919627
+    }
+   ]
+  },
+  {
+   "country": "Venezuela",
+   "series": [
+    {
+     "year": 2001,
+     "military": 13021951,
+     "counternarcotics": 2074385,
+     "other": 5424986,
+     "total": 20521322
+    },
+    {
+     "year": 2002,
+     "military": 11603417,
+     "counternarcotics": 8509399,
+     "other": 6875401,
+     "total": 26988217
+    },
+    {
+     "year": 2003,
+     "military": 10534940,
+     "counternarcotics": 3464892,
+     "other": 13369407,
+     "total": 27369239
+    },
+    {
+     "year": 2004,
+     "military": 1996780,
+     "counternarcotics": 8616227,
+     "other": 10075738,
+     "total": 20688745
+    },
+    {
+     "year": 2005,
+     "military": 1221217,
+     "counternarcotics": 852180,
+     "other": 13265113,
+     "total": 15338510
+    },
+    {
+     "year": 2006,
+     "military": 805894,
+     "counternarcotics": 1639139,
+     "other": 12846040,
+     "total": 15291073
+    },
+    {
+     "year": 2007,
+     "military": 788776,
+     "counternarcotics": 648946,
+     "other": 10525698,
+     "total": 11963420
+    },
+    {
+     "year": 2008,
+     "military": 788801,
+     "counternarcotics": 521002,
+     "other": 26559449,
+     "total": 27869252
+    },
+    {
+     "year": 2009,
+     "military": 786600,
+     "counternarcotics": 515728,
+     "other": 8115535,
+     "total": 9417863
+    },
+    {
+     "year": 2010,
+     "military": 471635,
+     "counternarcotics": 171624,
+     "other": 14442658,
+     "total": 15085917
+    },
+    {
+     "year": 2011,
+     "military": 463760,
+     "counternarcotics": 536553,
+     "other": 4925550,
+     "total": 5925863
+    },
+    {
+     "year": 2012,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 12405408,
+     "total": 12405408
+    },
+    {
+     "year": 2013,
+     "military": 0,
+     "counternarcotics": -11359,
+     "other": 8484165,
+     "total": 8472806
+    },
+    {
+     "year": 2014,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 10776828,
+     "total": 10776828
+    },
+    {
+     "year": 2015,
+     "military": 0,
+     "counternarcotics": 157761,
+     "other": 11994746,
+     "total": 12152507
+    },
+    {
+     "year": 2016,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 13567366,
+     "total": 13567366
+    },
+    {
+     "year": 2017,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 18654454,
+     "total": 18654454
+    },
+    {
+     "year": 2018,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 32270924,
+     "total": 32270924
+    },
+    {
+     "year": 2019,
+     "military": 2061357,
+     "counternarcotics": 0,
+     "other": 91636615,
+     "total": 93697972
+    },
+    {
+     "year": 2020,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 203118357,
+     "total": 203118357
+    },
+    {
+     "year": 2021,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 238117612,
+     "total": 238117612
+    },
+    {
+     "year": 2022,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 230558162,
+     "total": 230558162
+    },
+    {
+     "year": 2023,
+     "military": 0,
+     "counternarcotics": 2894073,
+     "other": 216833616,
+     "total": 219727689
+    },
+    {
+     "year": 2024,
+     "military": -7184,
+     "counternarcotics": 0,
+     "other": 216510310,
+     "total": 216503126
+    },
+    {
+     "year": 2025,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 29164514,
+     "total": 29164514
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 84902541,
+     "total": 84902541
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 39653942
+    },
+    {
+     "account": "Department of State, Andean Counterdrug Programs",
+     "total": 24977832
+    },
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 5123711
+    },
+    {
+     "account": "International Military Education and Training",
+     "total": 2829829
+    },
+    {
+     "account": "Department of Defense, Overseas Humanitarian, Disaster, and Civic Aid",
+     "total": 2054173
+    }
+   ]
+  },
+  {
+   "country": "Argentina",
+   "series": [
+    {
+     "year": 2001,
+     "military": 3645731,
+     "counternarcotics": 0,
+     "other": 3598619,
+     "total": 7244350
+    },
+    {
+     "year": 2002,
+     "military": 4748245,
+     "counternarcotics": 0,
+     "other": 598951,
+     "total": 5347196
+    },
+    {
+     "year": 2003,
+     "military": 8018703,
+     "counternarcotics": 0,
+     "other": 1094759,
+     "total": 9113462
+    },
+    {
+     "year": 2004,
+     "military": 2141852,
+     "counternarcotics": 167892,
+     "other": 2875117,
+     "total": 5184861
+    },
+    {
+     "year": 2005,
+     "military": 2048544,
+     "counternarcotics": 295418,
+     "other": 1172538,
+     "total": 3516500
+    },
+    {
+     "year": 2006,
+     "military": 1951918,
+     "counternarcotics": 798491,
+     "other": 2339933,
+     "total": 5090342
+    },
+    {
+     "year": 2007,
+     "military": 2042765,
+     "counternarcotics": 223346,
+     "other": 11569136,
+     "total": 13835247
+    },
+    {
+     "year": 2008,
+     "military": 1941328,
+     "counternarcotics": 515733,
+     "other": 3770669,
+     "total": 6227730
+    },
+    {
+     "year": 2009,
+     "military": 1963609,
+     "counternarcotics": 965380,
+     "other": 3043126,
+     "total": 5972115
+    },
+    {
+     "year": 2010,
+     "military": 2279127,
+     "counternarcotics": 2383764,
+     "other": 5723563,
+     "total": 10386454
+    },
+    {
+     "year": 2011,
+     "military": 975935,
+     "counternarcotics": 564728,
+     "other": 24040093,
+     "total": 25580756
+    },
+    {
+     "year": 2012,
+     "military": 1412850,
+     "counternarcotics": 774691,
+     "other": 6748574,
+     "total": 8936115
+    },
+    {
+     "year": 2013,
+     "military": 671066,
+     "counternarcotics": -107135,
+     "other": 2500257,
+     "total": 3064188
+    },
+    {
+     "year": 2014,
+     "military": 464659,
+     "counternarcotics": 52501,
+     "other": 2809496,
+     "total": 3326656
+    },
+    {
+     "year": 2015,
+     "military": 442765,
+     "counternarcotics": 246326,
+     "other": 1764021,
+     "total": 2453112
+    },
+    {
+     "year": 2016,
+     "military": 503768,
+     "counternarcotics": 1966055,
+     "other": 728961,
+     "total": 3198784
+    },
+    {
+     "year": 2017,
+     "military": 683280,
+     "counternarcotics": 0,
+     "other": 6101374,
+     "total": 6784654
+    },
+    {
+     "year": 2018,
+     "military": 810466,
+     "counternarcotics": 251073,
+     "other": 5090800,
+     "total": 6152339
+    },
+    {
+     "year": 2019,
+     "military": 5563877,
+     "counternarcotics": 3150208,
+     "other": 16466723,
+     "total": 25180808
+    },
+    {
+     "year": 2020,
+     "military": 1057141,
+     "counternarcotics": 4671496,
+     "other": 9547266,
+     "total": 15275903
+    },
+    {
+     "year": 2021,
+     "military": 1496859,
+     "counternarcotics": 814776,
+     "other": 4355808,
+     "total": 6667443
+    },
+    {
+     "year": 2022,
+     "military": 1129146,
+     "counternarcotics": 6114036,
+     "other": 2420142,
+     "total": 9663324
+    },
+    {
+     "year": 2023,
+     "military": 1671366,
+     "counternarcotics": 2447442,
+     "other": 2847600,
+     "total": 6966408
+    },
+    {
+     "year": 2024,
+     "military": 2523227,
+     "counternarcotics": 2765049,
+     "other": 1252260,
+     "total": 6540536
+    },
+    {
+     "year": 2025,
+     "military": 2140400,
+     "counternarcotics": -27058,
+     "other": 194217,
+     "total": 2307559
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 92,
+     "other": 58976,
+     "total": 59068
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "International Military Education and Training",
+     "total": 25822723
+    },
+    {
+     "account": "Nonproliferation, Anti-Terrorism, Demining and Related Programs",
+     "total": 15596064
+    },
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 13438240
+    },
+    {
+     "account": "Excess Defense Articles",
+     "total": 7800625
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 7600973
+    }
+   ]
+  },
+  {
+   "country": "Peru",
+   "series": [
+    {
+     "year": 2001,
+     "military": 19896808,
+     "counternarcotics": 84463764,
+     "other": 257851392,
+     "total": 362211964
+    },
+    {
+     "year": 2002,
+     "military": 22636067,
+     "counternarcotics": 242900794,
+     "other": 195533721,
+     "total": 461070582
+    },
+    {
+     "year": 2003,
+     "military": 17266014,
+     "counternarcotics": 213824719,
+     "other": 144662827,
+     "total": 375753560
+    },
+    {
+     "year": 2004,
+     "military": 14852780,
+     "counternarcotics": 132383282,
+     "other": 171824948,
+     "total": 319061010
+    },
+    {
+     "year": 2005,
+     "military": 11484504,
+     "counternarcotics": 99307023,
+     "other": 95226592,
+     "total": 206018119
+    },
+    {
+     "year": 2006,
+     "military": 18288890,
+     "counternarcotics": 309367873,
+     "other": 121400976,
+     "total": 449057739
+    },
+    {
+     "year": 2007,
+     "military": 11970305,
+     "counternarcotics": 83501499,
+     "other": 53182825,
+     "total": 148654629
+    },
+    {
+     "year": 2008,
+     "military": 16361744,
+     "counternarcotics": 55490607,
+     "other": 116816715,
+     "total": 188669066
+    },
+    {
+     "year": 2009,
+     "military": 14974326,
+     "counternarcotics": 54576737,
+     "other": 90896861,
+     "total": 160447924
+    },
+    {
+     "year": 2010,
+     "military": 34469505,
+     "counternarcotics": 109660678,
+     "other": 147509765,
+     "total": 291639948
+    },
+    {
+     "year": 2011,
+     "military": 20391293,
+     "counternarcotics": 53342444,
+     "other": 175955824,
+     "total": 249689561
+    },
+    {
+     "year": 2012,
+     "military": 9858523,
+     "counternarcotics": 45468705,
+     "other": 95755222,
+     "total": 151082450
+    },
+    {
+     "year": 2013,
+     "military": 10536663,
+     "counternarcotics": 29894060,
+     "other": 129385140,
+     "total": 169815863
+    },
+    {
+     "year": 2014,
+     "military": 10888325,
+     "counternarcotics": 78115650,
+     "other": 130369328,
+     "total": 219373303
+    },
+    {
+     "year": 2015,
+     "military": 12393154,
+     "counternarcotics": 276854310,
+     "other": 112112905,
+     "total": 401360369
+    },
+    {
+     "year": 2016,
+     "military": 23663959,
+     "counternarcotics": 4805099,
+     "other": 99353953,
+     "total": 127823011
+    },
+    {
+     "year": 2017,
+     "military": 24815159,
+     "counternarcotics": 60994251,
+     "other": 71639643,
+     "total": 157449053
+    },
+    {
+     "year": 2018,
+     "military": 12190815,
+     "counternarcotics": 45685267,
+     "other": 104359996,
+     "total": 162236078
+    },
+    {
+     "year": 2019,
+     "military": 15379665,
+     "counternarcotics": 67574339,
+     "other": 142433121,
+     "total": 225387125
+    },
+    {
+     "year": 2020,
+     "military": 5866345,
+     "counternarcotics": 50717861,
+     "other": 216895858,
+     "total": 273480064
+    },
+    {
+     "year": 2021,
+     "military": 1314051,
+     "counternarcotics": 33161001,
+     "other": 209462061,
+     "total": 243937113
+    },
+    {
+     "year": 2022,
+     "military": 8173854,
+     "counternarcotics": 41764887,
+     "other": 228578405,
+     "total": 278517146
+    },
+    {
+     "year": 2023,
+     "military": 4739888,
+     "counternarcotics": 50584099,
+     "other": 148550147,
+     "total": 203874134
+    },
+    {
+     "year": 2024,
+     "military": 2290497,
+     "counternarcotics": 51089957,
+     "other": 129169921,
+     "total": 182550375
+    },
+    {
+     "year": 2025,
+     "military": 6627388,
+     "counternarcotics": 24908866,
+     "other": 50888522,
+     "total": 82424776
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 1072898,
+     "other": 1044646,
+     "total": 2117544
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "Department of State, Andean Counterdrug Programs",
+     "total": 1421202950
+    },
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 849356754
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 247768336
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 46269576
+    },
+    {
+     "account": "Nonproliferation, Anti-Terrorism, Demining and Related Programs",
+     "total": 30950966
+    }
+   ]
+  },
+  {
+   "country": "Chile",
+   "series": [
+    {
+     "year": 2001,
+     "military": 4278649,
+     "counternarcotics": 112363,
+     "other": 1583133,
+     "total": 5974145
+    },
+    {
+     "year": 2002,
+     "military": 2283922,
+     "counternarcotics": 0,
+     "other": 624914,
+     "total": 2908836
+    },
+    {
+     "year": 2003,
+     "military": 4077718,
+     "counternarcotics": 0,
+     "other": 1318799,
+     "total": 5396517
+    },
+    {
+     "year": 2004,
+     "military": 2665089,
+     "counternarcotics": 815012,
+     "other": 1829973,
+     "total": 5310074
+    },
+    {
+     "year": 2005,
+     "military": 2412378,
+     "counternarcotics": 173614,
+     "other": 3084074,
+     "total": 5670066
+    },
+    {
+     "year": 2006,
+     "military": 2114322,
+     "counternarcotics": 268886,
+     "other": 1238463,
+     "total": 3621671
+    },
+    {
+     "year": 2007,
+     "military": 1941373,
+     "counternarcotics": 181539,
+     "other": 1398363,
+     "total": 3521275
+    },
+    {
+     "year": 2008,
+     "military": 1021059,
+     "counternarcotics": 638352,
+     "other": 3192977,
+     "total": 4852388
+    },
+    {
+     "year": 2009,
+     "military": 29688236,
+     "counternarcotics": 688341,
+     "other": 7391284,
+     "total": 37767861
+    },
+    {
+     "year": 2010,
+     "military": 4875474,
+     "counternarcotics": 666984,
+     "other": 35029396,
+     "total": 40571854
+    },
+    {
+     "year": 2011,
+     "military": 2959685,
+     "counternarcotics": 859126,
+     "other": 1808891,
+     "total": 5627702
+    },
+    {
+     "year": 2012,
+     "military": 1300303,
+     "counternarcotics": 1164133,
+     "other": 1967757,
+     "total": 4432193
+    },
+    {
+     "year": 2013,
+     "military": 1008661,
+     "counternarcotics": 314214,
+     "other": 9165126,
+     "total": 10488001
+    },
+    {
+     "year": 2014,
+     "military": 1078591,
+     "counternarcotics": 302505,
+     "other": 3913634,
+     "total": 5294730
+    },
+    {
+     "year": 2015,
+     "military": 1785155,
+     "counternarcotics": 83878,
+     "other": 1685547,
+     "total": 3554580
+    },
+    {
+     "year": 2016,
+     "military": 1164826,
+     "counternarcotics": 373239,
+     "other": 2146608,
+     "total": 3684673
+    },
+    {
+     "year": 2017,
+     "military": 673494,
+     "counternarcotics": 59138,
+     "other": 1137370,
+     "total": 1870002
+    },
+    {
+     "year": 2018,
+     "military": 892545,
+     "counternarcotics": 238678,
+     "other": 711615,
+     "total": 1842838
+    },
+    {
+     "year": 2019,
+     "military": 622722,
+     "counternarcotics": 13527,
+     "other": 2208719,
+     "total": 2844968
+    },
+    {
+     "year": 2020,
+     "military": 676836,
+     "counternarcotics": 0,
+     "other": 11377352,
+     "total": 12054188
+    },
+    {
+     "year": 2021,
+     "military": 14615336,
+     "counternarcotics": 0,
+     "other": 1015461,
+     "total": 15630797
+    },
+    {
+     "year": 2022,
+     "military": 13689823,
+     "counternarcotics": 0,
+     "other": 1782415,
+     "total": 15472238
+    },
+    {
+     "year": 2023,
+     "military": 456753,
+     "counternarcotics": 0,
+     "other": 2696409,
+     "total": 3153162
+    },
+    {
+     "year": 2024,
+     "military": 667124,
+     "counternarcotics": 118389,
+     "other": 2562223,
+     "total": 3347736
+    },
+    {
+     "year": 2025,
+     "military": 650000,
+     "counternarcotics": 68086,
+     "other": 171574,
+     "total": 889660
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": -227,
+     "total": -227
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "Excess Defense Articles",
+     "total": 59475982
+    },
+    {
+     "account": "International Military Education and Training",
+     "total": 20697880
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 8976759
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 6436617
+    },
+    {
+     "account": "Nonproliferation, Anti-Terrorism, Demining and Related Programs",
+     "total": 5147399
+    }
+   ]
+  },
+  {
+   "country": "Ecuador",
+   "series": [
+    {
+     "year": 2001,
+     "military": 35141484,
+     "counternarcotics": 5467733,
+     "other": 70991229,
+     "total": 111600446
+    },
+    {
+     "year": 2002,
+     "military": 43936545,
+     "counternarcotics": 43159672,
+     "other": 66187861,
+     "total": 153284078
+    },
+    {
+     "year": 2003,
+     "military": 39560264,
+     "counternarcotics": 51590983,
+     "other": 35897602,
+     "total": 127048849
+    },
+    {
+     "year": 2004,
+     "military": 29152981,
+     "counternarcotics": 28703026,
+     "other": 79211556,
+     "total": 137067563
+    },
+    {
+     "year": 2005,
+     "military": 33354099,
+     "counternarcotics": 24992633,
+     "other": 50430520,
+     "total": 108777252
+    },
+    {
+     "year": 2006,
+     "military": 36409246,
+     "counternarcotics": 23456437,
+     "other": 43699912,
+     "total": 103565595
+    },
+    {
+     "year": 2007,
+     "military": 32517241,
+     "counternarcotics": 13911060,
+     "other": 21917452,
+     "total": 68345753
+    },
+    {
+     "year": 2008,
+     "military": 30028496,
+     "counternarcotics": 446253,
+     "other": 42170970,
+     "total": 72645719
+    },
+    {
+     "year": 2009,
+     "military": 30294524,
+     "counternarcotics": 647145,
+     "other": 52200629,
+     "total": 83142298
+    },
+    {
+     "year": 2010,
+     "military": 21789831,
+     "counternarcotics": 12047833,
+     "other": 47154751,
+     "total": 80992415
+    },
+    {
+     "year": 2011,
+     "military": 10169056,
+     "counternarcotics": 9997435,
+     "other": 66949652,
+     "total": 87116143
+    },
+    {
+     "year": 2012,
+     "military": 6954304,
+     "counternarcotics": 7159820,
+     "other": 27744383,
+     "total": 41858507
+    },
+    {
+     "year": 2013,
+     "military": 5267995,
+     "counternarcotics": 5710357,
+     "other": 54674652,
+     "total": 65653004
+    },
+    {
+     "year": 2014,
+     "military": 276931,
+     "counternarcotics": 6226559,
+     "other": 23967819,
+     "total": 30471309
+    },
+    {
+     "year": 2015,
+     "military": 4309,
+     "counternarcotics": 18954450,
+     "other": 27042631,
+     "total": 46001390
+    },
+    {
+     "year": 2016,
+     "military": 1281155,
+     "counternarcotics": 342496,
+     "other": 32818718,
+     "total": 34442369
+    },
+    {
+     "year": 2017,
+     "military": 0,
+     "counternarcotics": 1044319,
+     "other": 22135194,
+     "total": 23179513
+    },
+    {
+     "year": 2018,
+     "military": 362727,
+     "counternarcotics": 1697503,
+     "other": 98358478,
+     "total": 100418708
+    },
+    {
+     "year": 2019,
+     "military": 230065,
+     "counternarcotics": 9942434,
+     "other": 89033021,
+     "total": 99205520
+    },
+    {
+     "year": 2020,
+     "military": 1248047,
+     "counternarcotics": 17407299,
+     "other": 160378965,
+     "total": 179034311
+    },
+    {
+     "year": 2021,
+     "military": 18286445,
+     "counternarcotics": 11224466,
+     "other": 85330328,
+     "total": 114841239
+    },
+    {
+     "year": 2022,
+     "military": 180290608,
+     "counternarcotics": 13351645,
+     "other": 75008726,
+     "total": 268650979
+    },
+    {
+     "year": 2023,
+     "military": 164839112,
+     "counternarcotics": 11553944,
+     "other": 83781408,
+     "total": 260174464
+    },
+    {
+     "year": 2024,
+     "military": 2753705,
+     "counternarcotics": 15277725,
+     "other": 122725578,
+     "total": 140757008
+    },
+    {
+     "year": 2025,
+     "military": 4457648,
+     "counternarcotics": 11884884,
+     "other": 43362783,
+     "total": 59705315
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 450266,
+     "other": 7346335,
+     "total": 7796601
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 370128185
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 337885671
+    },
+    {
+     "account": "Department of State, Andean Counterdrug Programs",
+     "total": 211922991
+    },
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 114980826
+    },
+    {
+     "account": "Nonproliferation, Anti-Terrorism, Demining and Related Programs",
+     "total": 19744560
+    }
+   ]
+  },
+  {
+   "country": "Bolivia",
+   "series": [
+    {
+     "year": 2001,
+     "military": 11652856,
+     "counternarcotics": 78480893,
+     "other": 259783851,
+     "total": 349917600
+    },
+    {
+     "year": 2002,
+     "military": 10509107,
+     "counternarcotics": 159295949,
+     "other": 165594586,
+     "total": 335399642
+    },
+    {
+     "year": 2003,
+     "military": 12468091,
+     "counternarcotics": 151498417,
+     "other": 215004311,
+     "total": 378970819
+    },
+    {
+     "year": 2004,
+     "military": 15120103,
+     "counternarcotics": 83791642,
+     "other": 132708984,
+     "total": 231620729
+    },
+    {
+     "year": 2005,
+     "military": 8864898,
+     "counternarcotics": 78929669,
+     "other": 121032836,
+     "total": 208827403
+    },
+    {
+     "year": 2006,
+     "military": 6039608,
+     "counternarcotics": 163444134,
+     "other": 112783655,
+     "total": 282267397
+    },
+    {
+     "year": 2007,
+     "military": 2976174,
+     "counternarcotics": 95525514,
+     "other": 110353543,
+     "total": 208855231
+    },
+    {
+     "year": 2008,
+     "military": 2322582,
+     "counternarcotics": 50234528,
+     "other": 140843501,
+     "total": 193400611
+    },
+    {
+     "year": 2009,
+     "military": 897939,
+     "counternarcotics": 50994217,
+     "other": 68132171,
+     "total": 120024327
+    },
+    {
+     "year": 2010,
+     "military": 1241447,
+     "counternarcotics": 39437969,
+     "other": 90772969,
+     "total": 131452385
+    },
+    {
+     "year": 2011,
+     "military": 614811,
+     "counternarcotics": 28467455,
+     "other": 93291130,
+     "total": 122373396
+    },
+    {
+     "year": 2012,
+     "military": 454736,
+     "counternarcotics": 21850630,
+     "other": 33933902,
+     "total": 56239268
+    },
+    {
+     "year": 2013,
+     "military": 247592,
+     "counternarcotics": 3537792,
+     "other": 254138,
+     "total": 4039522
+    },
+    {
+     "year": 2014,
+     "military": 1,
+     "counternarcotics": 5582351,
+     "other": 3893656,
+     "total": 9476008
+    },
+    {
+     "year": 2015,
+     "military": 0,
+     "counternarcotics": 72374440,
+     "other": 1485440,
+     "total": 73859880
+    },
+    {
+     "year": 2016,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 1817854,
+     "total": 1817854
+    },
+    {
+     "year": 2017,
+     "military": 0,
+     "counternarcotics": 817004,
+     "other": 2146985,
+     "total": 2963989
+    },
+    {
+     "year": 2018,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 2340517,
+     "total": 2340517
+    },
+    {
+     "year": 2019,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 3921059,
+     "total": 3921059
+    },
+    {
+     "year": 2020,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 18684417,
+     "total": 18684417
+    },
+    {
+     "year": 2021,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 10377321,
+     "total": 10377321
+    },
+    {
+     "year": 2022,
+     "military": 0,
+     "counternarcotics": 440425,
+     "other": 4477239,
+     "total": 4917664
+    },
+    {
+     "year": 2023,
+     "military": 0,
+     "counternarcotics": 526195,
+     "other": 2457210,
+     "total": 2983405
+    },
+    {
+     "year": 2024,
+     "military": 0,
+     "counternarcotics": 513173,
+     "other": 1639179,
+     "total": 2152352
+    },
+    {
+     "year": 2025,
+     "military": 0,
+     "counternarcotics": 2451183,
+     "other": 793000,
+     "total": 3244183
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 126030,
+     "total": 126030
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "Department of State, Andean Counterdrug Programs",
+     "total": 933585357
+    },
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 154559322
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 54233110
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 11686878
+    },
+    {
+     "account": "International Military Education and Training",
+     "total": 6585128
+    }
+   ]
+  },
+  {
+   "country": "Honduras",
+   "series": [
+    {
+     "year": 2001,
+     "military": 2145260,
+     "counternarcotics": 1356993,
+     "other": 86841439,
+     "total": 90343692
+    },
+    {
+     "year": 2002,
+     "military": 2824105,
+     "counternarcotics": 0,
+     "other": 50437249,
+     "total": 53261354
+    },
+    {
+     "year": 2003,
+     "military": 3201560,
+     "counternarcotics": 0,
+     "other": 146820539,
+     "total": 150022099
+    },
+    {
+     "year": 2004,
+     "military": 7745875,
+     "counternarcotics": 4692170,
+     "other": 92196413,
+     "total": 104634458
+    },
+    {
+     "year": 2005,
+     "military": 5403934,
+     "counternarcotics": 155430,
+     "other": 454613309,
+     "total": 460172673
+    },
+    {
+     "year": 2006,
+     "military": 4285514,
+     "counternarcotics": 238932,
+     "other": 119446879,
+     "total": 123971325
+    },
+    {
+     "year": 2007,
+     "military": 5451350,
+     "counternarcotics": 774946,
+     "other": 87030879,
+     "total": 93257175
+    },
+    {
+     "year": 2008,
+     "military": 8199151,
+     "counternarcotics": 8028354,
+     "other": 88778977,
+     "total": 105006482
+    },
+    {
+     "year": 2009,
+     "military": 5985773,
+     "counternarcotics": 2823315,
+     "other": 54285213,
+     "total": 63094301
+    },
+    {
+     "year": 2010,
+     "military": 6663101,
+     "counternarcotics": 5610440,
+     "other": 44653016,
+     "total": 56926557
+    },
+    {
+     "year": 2011,
+     "military": 14718463,
+     "counternarcotics": 154417,
+     "other": 117418567,
+     "total": 132291447
+    },
+    {
+     "year": 2012,
+     "military": 14227428,
+     "counternarcotics": 1144541,
+     "other": 79879986,
+     "total": 95251955
+    },
+    {
+     "year": 2013,
+     "military": 11950293,
+     "counternarcotics": 2033534,
+     "other": 125242932,
+     "total": 139226759
+    },
+    {
+     "year": 2014,
+     "military": 16212674,
+     "counternarcotics": 25135,
+     "other": 112062735,
+     "total": 128300544
+    },
+    {
+     "year": 2015,
+     "military": 29254510,
+     "counternarcotics": 0,
+     "other": 146737973,
+     "total": 175992483
+    },
+    {
+     "year": 2016,
+     "military": 24745999,
+     "counternarcotics": 0,
+     "other": 142154883,
+     "total": 166900882
+    },
+    {
+     "year": 2017,
+     "military": 26039656,
+     "counternarcotics": 437784,
+     "other": 206148293,
+     "total": 232625733
+    },
+    {
+     "year": 2018,
+     "military": 12649830,
+     "counternarcotics": 865283,
+     "other": 140328292,
+     "total": 153843405
+    },
+    {
+     "year": 2019,
+     "military": 8858272,
+     "counternarcotics": 407578,
+     "other": 78143233,
+     "total": 87409083
+    },
+    {
+     "year": 2020,
+     "military": 4902847,
+     "counternarcotics": 1277554,
+     "other": 148024007,
+     "total": 154204408
+    },
+    {
+     "year": 2021,
+     "military": 439522,
+     "counternarcotics": 36372530,
+     "other": 225824321,
+     "total": 262636373
+    },
+    {
+     "year": 2022,
+     "military": 408852,
+     "counternarcotics": 33810500,
+     "other": 191337089,
+     "total": 225556441
+    },
+    {
+     "year": 2023,
+     "military": 424968,
+     "counternarcotics": 35440203,
+     "other": 168192535,
+     "total": 204057706
+    },
+    {
+     "year": 2024,
+     "military": 1508616,
+     "counternarcotics": 27451465,
+     "other": 169624119,
+     "total": 198584200
+    },
+    {
+     "year": 2025,
+     "military": 320000,
+     "counternarcotics": 10305206,
+     "other": 131823604,
+     "total": 142448810
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 275505,
+     "other": 3989889,
+     "total": 4265394
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 165933705
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 120166305
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 57511793
+    },
+    {
+     "account": "International Military Education and Training",
+     "total": 24731641
+    },
+    {
+     "account": "Department of Defense, Operation and Maintenance, Defense-Wide",
+     "total": 10400779
+    }
+   ]
+  },
+  {
+   "country": "Nicaragua",
+   "series": [
+    {
+     "year": 2001,
+     "military": 582557,
+     "counternarcotics": 2036354,
+     "other": 111664232,
+     "total": 114283143
+    },
+    {
+     "year": 2002,
+     "military": 1809098,
+     "counternarcotics": 0,
+     "other": 87816484,
+     "total": 89625582
+    },
+    {
+     "year": 2003,
+     "military": 3008003,
+     "counternarcotics": 0,
+     "other": 89665676,
+     "total": 92673679
+    },
+    {
+     "year": 2004,
+     "military": 3191588,
+     "counternarcotics": 3893020,
+     "other": 65927462,
+     "total": 73012070
+    },
+    {
+     "year": 2005,
+     "military": 1985268,
+     "counternarcotics": 4249281,
+     "other": 134517554,
+     "total": 140752103
+    },
+    {
+     "year": 2006,
+     "military": 3434904,
+     "counternarcotics": 2665885,
+     "other": 392210461,
+     "total": 398311250
+    },
+    {
+     "year": 2007,
+     "military": 6931981,
+     "counternarcotics": 2398677,
+     "other": 99456525,
+     "total": 108787183
+    },
+    {
+     "year": 2008,
+     "military": 6284117,
+     "counternarcotics": 1931563,
+     "other": 96440112,
+     "total": 104655792
+    },
+    {
+     "year": 2009,
+     "military": 9270027,
+     "counternarcotics": 1741651,
+     "other": 53559161,
+     "total": 64570839
+    },
+    {
+     "year": 2010,
+     "military": 4710263,
+     "counternarcotics": 901816,
+     "other": -26434537,
+     "total": -20822458
+    },
+    {
+     "year": 2011,
+     "military": 5830662,
+     "counternarcotics": 285267,
+     "other": 88778570,
+     "total": 94894499
+    },
+    {
+     "year": 2012,
+     "military": 7513413,
+     "counternarcotics": 765620,
+     "other": 38936464,
+     "total": 47215497
+    },
+    {
+     "year": 2013,
+     "military": 783588,
+     "counternarcotics": 0,
+     "other": 60144574,
+     "total": 60928162
+    },
+    {
+     "year": 2014,
+     "military": 3303204,
+     "counternarcotics": 0,
+     "other": 75751163,
+     "total": 79054367
+    },
+    {
+     "year": 2015,
+     "military": 9855476,
+     "counternarcotics": 0,
+     "other": 51882508,
+     "total": 61737984
+    },
+    {
+     "year": 2016,
+     "military": 3154519,
+     "counternarcotics": 0,
+     "other": 37914992,
+     "total": 41069511
+    },
+    {
+     "year": 2017,
+     "military": 3969932,
+     "counternarcotics": 0,
+     "other": 52879608,
+     "total": 56849540
+    },
+    {
+     "year": 2018,
+     "military": 91811,
+     "counternarcotics": 0,
+     "other": 39986328,
+     "total": 40078139
+    },
+    {
+     "year": 2019,
+     "military": 254355,
+     "counternarcotics": 0,
+     "other": 56066193,
+     "total": 56320548
+    },
+    {
+     "year": 2020,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 36663446,
+     "total": 36663446
+    },
+    {
+     "year": 2021,
+     "military": 0,
+     "counternarcotics": 1114849,
+     "other": 43243777,
+     "total": 44358626
+    },
+    {
+     "year": 2022,
+     "military": 0,
+     "counternarcotics": 767052,
+     "other": 25453155,
+     "total": 26220207
+    },
+    {
+     "year": 2023,
+     "military": 0,
+     "counternarcotics": 78465,
+     "other": 63983650,
+     "total": 64062115
+    },
+    {
+     "year": 2024,
+     "military": 0,
+     "counternarcotics": -100890,
+     "other": 29004954,
+     "total": 28904064
+    },
+    {
+     "year": 2025,
+     "military": 0,
+     "counternarcotics": 54152,
+     "other": 5045604,
+     "total": 5099756
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": -1,
+     "other": 5166380,
+     "total": 5166379
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 53162985
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 12252882
+    },
+    {
+     "account": "Nonproliferation, Anti-Terrorism, Demining and Related Programs",
+     "total": 10743239
+    },
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 10082940
+    },
+    {
+     "account": "International Military Education and Training",
+     "total": 9501510
+    }
+   ]
+  },
+  {
+   "country": "Guatemala",
+   "series": [
+    {
+     "year": 2001,
+     "military": 2503091,
+     "counternarcotics": 5185962,
+     "other": 127385724,
+     "total": 135074777
+    },
+    {
+     "year": 2002,
+     "military": 1878875,
+     "counternarcotics": 5956579,
+     "other": 145705745,
+     "total": 153541199
+    },
+    {
+     "year": 2003,
+     "military": 1922644,
+     "counternarcotics": 4174568,
+     "other": 152734264,
+     "total": 158831476
+    },
+    {
+     "year": 2004,
+     "military": 2213573,
+     "counternarcotics": 11176379,
+     "other": 96833762,
+     "total": 110223714
+    },
+    {
+     "year": 2005,
+     "military": 2581242,
+     "counternarcotics": 6179092,
+     "other": 84246635,
+     "total": 93006969
+    },
+    {
+     "year": 2006,
+     "military": 9340281,
+     "counternarcotics": 11094477,
+     "other": 137678050,
+     "total": 158112808
+    },
+    {
+     "year": 2007,
+     "military": 3475682,
+     "counternarcotics": 4672052,
+     "other": 111611540,
+     "total": 119759274
+    },
+    {
+     "year": 2008,
+     "military": 4336946,
+     "counternarcotics": 34004280,
+     "other": 115602842,
+     "total": 153944068
+    },
+    {
+     "year": 2009,
+     "military": 4697302,
+     "counternarcotics": 35147116,
+     "other": 150513060,
+     "total": 190357478
+    },
+    {
+     "year": 2010,
+     "military": 13290364,
+     "counternarcotics": 37319414,
+     "other": 171362173,
+     "total": 221971951
+    },
+    {
+     "year": 2011,
+     "military": 28355572,
+     "counternarcotics": 12367320,
+     "other": 167276495,
+     "total": 207999387
+    },
+    {
+     "year": 2012,
+     "military": 18611650,
+     "counternarcotics": 14738330,
+     "other": 163118203,
+     "total": 196468183
+    },
+    {
+     "year": 2013,
+     "military": 13604905,
+     "counternarcotics": -13649010,
+     "other": 164031931,
+     "total": 163987826
+    },
+    {
+     "year": 2014,
+     "military": 21762606,
+     "counternarcotics": 17715225,
+     "other": 177254157,
+     "total": 216731988
+    },
+    {
+     "year": 2015,
+     "military": 31075390,
+     "counternarcotics": 105420,
+     "other": 150893642,
+     "total": 182074452
+    },
+    {
+     "year": 2016,
+     "military": 44213014,
+     "counternarcotics": 375631,
+     "other": 343430403,
+     "total": 388019048
+    },
+    {
+     "year": 2017,
+     "military": 42717573,
+     "counternarcotics": 449960,
+     "other": 288605993,
+     "total": 331773526
+    },
+    {
+     "year": 2018,
+     "military": 30077243,
+     "counternarcotics": 20155139,
+     "other": 253888991,
+     "total": 304121373
+    },
+    {
+     "year": 2019,
+     "military": 6020098,
+     "counternarcotics": 5378795,
+     "other": 182761515,
+     "total": 194160408
+    },
+    {
+     "year": 2020,
+     "military": 11805230,
+     "counternarcotics": 3163410,
+     "other": 140239595,
+     "total": 155208235
+    },
+    {
+     "year": 2021,
+     "military": 442071,
+     "counternarcotics": 31197101,
+     "other": 318110538,
+     "total": 349749710
+    },
+    {
+     "year": 2022,
+     "military": 420265,
+     "counternarcotics": 24807135,
+     "other": 244990931,
+     "total": 270218331
+    },
+    {
+     "year": 2023,
+     "military": 482396,
+     "counternarcotics": 26425864,
+     "other": 215374601,
+     "total": 242282861
+    },
+    {
+     "year": 2024,
+     "military": 1970582,
+     "counternarcotics": 29099545,
+     "other": 248080784,
+     "total": 279150911
+    },
+    {
+     "year": 2025,
+     "military": 770290,
+     "counternarcotics": 10061764,
+     "other": 90240179,
+     "total": 101072233
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 3929469,
+     "other": 2431220,
+     "total": 6360689
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 296595605
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 206509397
+    },
+    {
+     "account": "Department of Defense, Operation and Maintenance, Defense-Wide",
+     "total": 45516626
+    },
+    {
+     "account": "Department of State, Andean Counterdrug Programs",
+     "total": 42538169
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 19827433
+    }
+   ]
+  },
+  {
+   "country": "El Salvador",
+   "series": [
+    {
+     "year": 2001,
+     "military": 15492720,
+     "counternarcotics": 1139183,
+     "other": 220134658,
+     "total": 236766561
+    },
+    {
+     "year": 2002,
+     "military": 5380044,
+     "counternarcotics": 0,
+     "other": 213525541,
+     "total": 218905585
+    },
+    {
+     "year": 2003,
+     "military": 7714603,
+     "counternarcotics": 83491,
+     "other": 144200062,
+     "total": 151998156
+    },
+    {
+     "year": 2004,
+     "military": 21002860,
+     "counternarcotics": 433927,
+     "other": 100100171,
+     "total": 121536958
+    },
+    {
+     "year": 2005,
+     "military": 15589502,
+     "counternarcotics": 1534820,
+     "other": 50694228,
+     "total": 67818550
+    },
+    {
+     "year": 2006,
+     "military": 27216540,
+     "counternarcotics": 1901748,
+     "other": 69571216,
+     "total": 98689504
+    },
+    {
+     "year": 2007,
+     "military": 15179086,
+     "counternarcotics": 2182120,
+     "other": 754010777,
+     "total": 771371983
+    },
+    {
+     "year": 2008,
+     "military": 12233723,
+     "counternarcotics": 15057548,
+     "other": 78236921,
+     "total": 105528192
+    },
+    {
+     "year": 2009,
+     "military": 17746041,
+     "counternarcotics": 4506437,
+     "other": 49388496,
+     "total": 71640974
+    },
+    {
+     "year": 2010,
+     "military": 9103486,
+     "counternarcotics": 5335198,
+     "other": 74621663,
+     "total": 89060347
+    },
+    {
+     "year": 2011,
+     "military": 14826932,
+     "counternarcotics": 845997,
+     "other": 106076384,
+     "total": 121749313
+    },
+    {
+     "year": 2012,
+     "military": 13748382,
+     "counternarcotics": 97721,
+     "other": 73757903,
+     "total": 87604006
+    },
+    {
+     "year": 2013,
+     "military": 13970189,
+     "counternarcotics": -706050,
+     "other": 81407277,
+     "total": 94671416
+    },
+    {
+     "year": 2014,
+     "military": 6414695,
+     "counternarcotics": 38334,
+     "other": 105567695,
+     "total": 112020724
+    },
+    {
+     "year": 2015,
+     "military": 11347800,
+     "counternarcotics": 0,
+     "other": 425242505,
+     "total": 436590305
+    },
+    {
+     "year": 2016,
+     "military": 13891498,
+     "counternarcotics": 573284,
+     "other": 83767557,
+     "total": 98232339
+    },
+    {
+     "year": 2017,
+     "military": 12042705,
+     "counternarcotics": -51434,
+     "other": 139669069,
+     "total": 151660340
+    },
+    {
+     "year": 2018,
+     "military": 8539515,
+     "counternarcotics": 384861,
+     "other": 111235423,
+     "total": 120159799
+    },
+    {
+     "year": 2019,
+     "military": 15234055,
+     "counternarcotics": 308771,
+     "other": 93691572,
+     "total": 109234398
+    },
+    {
+     "year": 2020,
+     "military": 3325032,
+     "counternarcotics": 2559984,
+     "other": 107716274,
+     "total": 113601290
+    },
+    {
+     "year": 2021,
+     "military": 5617194,
+     "counternarcotics": 17820173,
+     "other": 123362179,
+     "total": 146799546
+    },
+    {
+     "year": 2022,
+     "military": 440337,
+     "counternarcotics": 29722082,
+     "other": 143240589,
+     "total": 173403008
+    },
+    {
+     "year": 2023,
+     "military": 336096,
+     "counternarcotics": 25786045,
+     "other": 150571543,
+     "total": 176693684
+    },
+    {
+     "year": 2024,
+     "military": 11961751,
+     "counternarcotics": 38420641,
+     "other": 182973262,
+     "total": 233355654
+    },
+    {
+     "year": 2025,
+     "military": 800000,
+     "counternarcotics": 11537934,
+     "other": 126383687,
+     "total": 138721621
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 1283517,
+     "other": 1392896,
+     "total": 2676413
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 151920401
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 104371811
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 96685372
+    },
+    {
+     "account": "International Military Education and Training",
+     "total": 36451647
+    },
+    {
+     "account": "Peace Keeping Operations",
+     "total": 15815150
+    }
+   ]
+  },
+  {
+   "country": "Paraguay",
+   "series": [
+    {
+     "year": 2001,
+     "military": 1967208,
+     "counternarcotics": 691462,
+     "other": 24542517,
+     "total": 27201187
+    },
+    {
+     "year": 2002,
+     "military": 1204931,
+     "counternarcotics": 0,
+     "other": 23730706,
+     "total": 24935637
+    },
+    {
+     "year": 2003,
+     "military": 1394306,
+     "counternarcotics": 0,
+     "other": 22037552,
+     "total": 23431858
+    },
+    {
+     "year": 2004,
+     "military": 554208,
+     "counternarcotics": 1700307,
+     "other": 28195119,
+     "total": 30449634
+    },
+    {
+     "year": 2005,
+     "military": 771961,
+     "counternarcotics": 2362680,
+     "other": 18089274,
+     "total": 21223915
+    },
+    {
+     "year": 2006,
+     "military": 1861523,
+     "counternarcotics": 2065791,
+     "other": 51258246,
+     "total": 55185560
+    },
+    {
+     "year": 2007,
+     "military": 2479648,
+     "counternarcotics": 1828308,
+     "other": 24973377,
+     "total": 29281333
+    },
+    {
+     "year": 2008,
+     "military": 3726355,
+     "counternarcotics": 829427,
+     "other": 37222095,
+     "total": 41777877
+    },
+    {
+     "year": 2009,
+     "military": 2401734,
+     "counternarcotics": 553086,
+     "other": 55287431,
+     "total": 58242251
+    },
+    {
+     "year": 2010,
+     "military": 3732942,
+     "counternarcotics": 1126552,
+     "other": 68731282,
+     "total": 73590776
+    },
+    {
+     "year": 2011,
+     "military": 1771694,
+     "counternarcotics": 4238435,
+     "other": 28818211,
+     "total": 34828340
+    },
+    {
+     "year": 2012,
+     "military": 1523241,
+     "counternarcotics": 3061640,
+     "other": 27841238,
+     "total": 32426119
+    },
+    {
+     "year": 2013,
+     "military": 1103572,
+     "counternarcotics": 892819,
+     "other": 18443114,
+     "total": 20439505
+    },
+    {
+     "year": 2014,
+     "military": 973677,
+     "counternarcotics": 908757,
+     "other": 24835276,
+     "total": 26717710
+    },
+    {
+     "year": 2015,
+     "military": 671978,
+     "counternarcotics": 283381,
+     "other": 24581249,
+     "total": 25536608
+    },
+    {
+     "year": 2016,
+     "military": 736736,
+     "counternarcotics": 335283,
+     "other": 27662747,
+     "total": 28734766
+    },
+    {
+     "year": 2017,
+     "military": 739602,
+     "counternarcotics": 2998220,
+     "other": 15962161,
+     "total": 19699983
+    },
+    {
+     "year": 2018,
+     "military": 1614214,
+     "counternarcotics": 377304,
+     "other": 20082018,
+     "total": 22073536
+    },
+    {
+     "year": 2019,
+     "military": 2394133,
+     "counternarcotics": 2278361,
+     "other": 43831149,
+     "total": 48503643
+    },
+    {
+     "year": 2020,
+     "military": 406670,
+     "counternarcotics": 1917456,
+     "other": 21527741,
+     "total": 23851867
+    },
+    {
+     "year": 2021,
+     "military": 455365,
+     "counternarcotics": 3275777,
+     "other": 10100687,
+     "total": 13831829
+    },
+    {
+     "year": 2022,
+     "military": 377268,
+     "counternarcotics": 2722462,
+     "other": 24945031,
+     "total": 28044761
+    },
+    {
+     "year": 2023,
+     "military": 718867,
+     "counternarcotics": 3149716,
+     "other": 16017048,
+     "total": 19885631
+    },
+    {
+     "year": 2024,
+     "military": 513173,
+     "counternarcotics": 2414912,
+     "other": 21033107,
+     "total": 23961192
+    },
+    {
+     "year": 2025,
+     "military": 500000,
+     "counternarcotics": 3804790,
+     "other": 6897804,
+     "total": 11202594
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 17302,
+     "other": 1422053,
+     "total": 1439355
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "Nonproliferation, Anti-Terrorism, Demining and Related Programs",
+     "total": 23726654
+    },
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 20107574
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 16406836
+    },
+    {
+     "account": "International Military Education and Training",
+     "total": 11254084
+    },
+    {
+     "account": "Department of Defense, Operation and Maintenance, Defense-Wide",
+     "total": 3476411
+    }
+   ]
+  },
+  {
+   "country": "Uruguay",
+   "series": [
+    {
+     "year": 2001,
+     "military": 1111524,
+     "counternarcotics": 155579,
+     "other": 53319,
+     "total": 1320422
+    },
+    {
+     "year": 2002,
+     "military": 2908513,
+     "counternarcotics": 0,
+     "other": 193014,
+     "total": 3101527
+    },
+    {
+     "year": 2003,
+     "military": 3531685,
+     "counternarcotics": 0,
+     "other": 59989,
+     "total": 3591674
+    },
+    {
+     "year": 2004,
+     "military": 254284,
+     "counternarcotics": 312721,
+     "other": 450935,
+     "total": 1017940
+    },
+    {
+     "year": 2005,
+     "military": 355925,
+     "counternarcotics": 15897,
+     "other": 946522,
+     "total": 1318344
+    },
+    {
+     "year": 2006,
+     "military": 369240,
+     "counternarcotics": 0,
+     "other": 0,
+     "total": 369240
+    },
+    {
+     "year": 2007,
+     "military": 405571,
+     "counternarcotics": 74553,
+     "other": 771098,
+     "total": 1251222
+    },
+    {
+     "year": 2008,
+     "military": 515642,
+     "counternarcotics": 4382,
+     "other": 956846,
+     "total": 1476870
+    },
+    {
+     "year": 2009,
+     "military": 806843,
+     "counternarcotics": 0,
+     "other": 1405630,
+     "total": 2212473
+    },
+    {
+     "year": 2010,
+     "military": 1624203,
+     "counternarcotics": 50174,
+     "other": 755944,
+     "total": 2430321
+    },
+    {
+     "year": 2011,
+     "military": 1580311,
+     "counternarcotics": 49187,
+     "other": 1980142,
+     "total": 3609640
+    },
+    {
+     "year": 2012,
+     "military": 975733,
+     "counternarcotics": 95654,
+     "other": 697690,
+     "total": 1769077
+    },
+    {
+     "year": 2013,
+     "military": 578879,
+     "counternarcotics": -4857,
+     "other": 648980,
+     "total": 1223002
+    },
+    {
+     "year": 2014,
+     "military": 1188856,
+     "counternarcotics": 180705,
+     "other": 621943,
+     "total": 1991504
+    },
+    {
+     "year": 2015,
+     "military": 921868,
+     "counternarcotics": 619344,
+     "other": 1403136,
+     "total": 2944348
+    },
+    {
+     "year": 2016,
+     "military": 652343,
+     "counternarcotics": 0,
+     "other": 441672,
+     "total": 1094015
+    },
+    {
+     "year": 2017,
+     "military": 653663,
+     "counternarcotics": 0,
+     "other": -74053,
+     "total": 579610
+    },
+    {
+     "year": 2018,
+     "military": 538078,
+     "counternarcotics": 1221,
+     "other": 220320,
+     "total": 759619
+    },
+    {
+     "year": 2019,
+     "military": 500759,
+     "counternarcotics": 0,
+     "other": 921804,
+     "total": 1422563
+    },
+    {
+     "year": 2020,
+     "military": 449347,
+     "counternarcotics": 0,
+     "other": 1938029,
+     "total": 2387376
+    },
+    {
+     "year": 2021,
+     "military": 444941,
+     "counternarcotics": 0,
+     "other": 1166445,
+     "total": 1611386
+    },
+    {
+     "year": 2022,
+     "military": 20617165,
+     "counternarcotics": 0,
+     "other": 921943,
+     "total": 21539108
+    },
+    {
+     "year": 2023,
+     "military": 15001960,
+     "counternarcotics": 33279,
+     "other": 38202,
+     "total": 15073441
+    },
+    {
+     "year": 2024,
+     "military": 819640,
+     "counternarcotics": 164864,
+     "other": 552195,
+     "total": 1536699
+    },
+    {
+     "year": 2025,
+     "military": 379600,
+     "counternarcotics": 2508352,
+     "other": 0,
+     "total": 2887952
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 0,
+     "total": 0
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "Peace Keeping Operations",
+     "total": 19761149
+    },
+    {
+     "account": "International Military Education and Training",
+     "total": 12725717
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 10972732
+    },
+    {
+     "account": "Excess Defense Articles",
+     "total": 9760915
+    },
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 4261055
+    }
+   ]
+  },
+  {
+   "country": "Cuba",
+   "series": [
+    {
+     "year": 2001,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 6213128,
+     "total": 6213128
+    },
+    {
+     "year": 2002,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 13729525,
+     "total": 13729525
+    },
+    {
+     "year": 2003,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 12517188,
+     "total": 12517188
+    },
+    {
+     "year": 2004,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 15221974,
+     "total": 15221974
+    },
+    {
+     "year": 2005,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 24179107,
+     "total": 24179107
+    },
+    {
+     "year": 2006,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 26852072,
+     "total": 26852072
+    },
+    {
+     "year": 2007,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 18031444,
+     "total": 18031444
+    },
+    {
+     "year": 2008,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 49515754,
+     "total": 49515754
+    },
+    {
+     "year": 2009,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 29420385,
+     "total": 29420385
+    },
+    {
+     "year": 2010,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 21302931,
+     "total": 21302931
+    },
+    {
+     "year": 2011,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 19579372,
+     "total": 19579372
+    },
+    {
+     "year": 2012,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 16233009,
+     "total": 16233009
+    },
+    {
+     "year": 2013,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 17786592,
+     "total": 17786592
+    },
+    {
+     "year": 2014,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 8597386,
+     "total": 8597386
+    },
+    {
+     "year": 2015,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 7613222,
+     "total": 7613222
+    },
+    {
+     "year": 2016,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 18441044,
+     "total": 18441044
+    },
+    {
+     "year": 2017,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 18262407,
+     "total": 18262407
+    },
+    {
+     "year": 2018,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 14961079,
+     "total": 14961079
+    },
+    {
+     "year": 2019,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 18341683,
+     "total": 18341683
+    },
+    {
+     "year": 2020,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 14490347,
+     "total": 14490347
+    },
+    {
+     "year": 2021,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 15700580,
+     "total": 15700580
+    },
+    {
+     "year": 2022,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 7496772,
+     "total": 7496772
+    },
+    {
+     "year": 2023,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 10018722,
+     "total": 10018722
+    },
+    {
+     "year": 2024,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 7804440,
+     "total": 7804440
+    },
+    {
+     "year": 2025,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 9218713,
+     "total": 9218713
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 0,
+     "other": 186361,
+     "total": 186361
+    }
+   ],
+   "top_security_accounts": []
+  },
+  {
+   "country": "Haiti",
+   "series": [
+    {
+     "year": 2001,
+     "military": 5056313,
+     "counternarcotics": 62232,
+     "other": 137867188,
+     "total": 142985733
+    },
+    {
+     "year": 2002,
+     "military": 1109625,
+     "counternarcotics": 0,
+     "other": 103251738,
+     "total": 104361363
+    },
+    {
+     "year": 2003,
+     "military": 973509,
+     "counternarcotics": 0,
+     "other": 137329548,
+     "total": 138303057
+    },
+    {
+     "year": 2004,
+     "military": 1093746,
+     "counternarcotics": 2976336,
+     "other": 205821106,
+     "total": 209891188
+    },
+    {
+     "year": 2005,
+     "military": 851056,
+     "counternarcotics": 7034709,
+     "other": 360968417,
+     "total": 368854182
+    },
+    {
+     "year": 2006,
+     "military": 2000945,
+     "counternarcotics": 17614811,
+     "other": 257198234,
+     "total": 276813990
+    },
+    {
+     "year": 2007,
+     "military": 1929444,
+     "counternarcotics": 6317310,
+     "other": 272692368,
+     "total": 280939122
+    },
+    {
+     "year": 2008,
+     "military": 1836154,
+     "counternarcotics": 41263895,
+     "other": 378012359,
+     "total": 421112408
+    },
+    {
+     "year": 2009,
+     "military": 4534520,
+     "counternarcotics": 27711332,
+     "other": 530705813,
+     "total": 562951665
+    },
+    {
+     "year": 2010,
+     "military": 606682360,
+     "counternarcotics": 30858317,
+     "other": 1321373090,
+     "total": 1958913767
+    },
+    {
+     "year": 2011,
+     "military": 47418796,
+     "counternarcotics": 128029876,
+     "other": 650511733,
+     "total": 825960405
+    },
+    {
+     "year": 2012,
+     "military": 302628,
+     "counternarcotics": 133689932,
+     "other": 523336710,
+     "total": 657329270
+    },
+    {
+     "year": 2013,
+     "military": -25123453,
+     "counternarcotics": 15783573,
+     "other": 476170988,
+     "total": 466831108
+    },
+    {
+     "year": 2014,
+     "military": 2086969,
+     "counternarcotics": 31836243,
+     "other": 424146920,
+     "total": 458070132
+    },
+    {
+     "year": 2015,
+     "military": -11256247,
+     "counternarcotics": 22562487,
+     "other": 637299179,
+     "total": 648605419
+    },
+    {
+     "year": 2016,
+     "military": 759541,
+     "counternarcotics": 1442064,
+     "other": 491491776,
+     "total": 493693381
+    },
+    {
+     "year": 2017,
+     "military": 22786814,
+     "counternarcotics": 7257267,
+     "other": 366024786,
+     "total": 396068867
+    },
+    {
+     "year": 2018,
+     "military": 6449240,
+     "counternarcotics": 10669983,
+     "other": 314180002,
+     "total": 331299225
+    },
+    {
+     "year": 2019,
+     "military": 534264,
+     "counternarcotics": 14074781,
+     "other": 347234888,
+     "total": 361843933
+    },
+    {
+     "year": 2020,
+     "military": 195417,
+     "counternarcotics": 27981260,
+     "other": 301978582,
+     "total": 330155259
+    },
+    {
+     "year": 2021,
+     "military": 34731,
+     "counternarcotics": 10642425,
+     "other": 335649454,
+     "total": 346326610
+    },
+    {
+     "year": 2022,
+     "military": -97132,
+     "counternarcotics": 33249090,
+     "other": 307266604,
+     "total": 340418562
+    },
+    {
+     "year": 2023,
+     "military": 65989,
+     "counternarcotics": 35400565,
+     "other": 425131720,
+     "total": 460598274
+    },
+    {
+     "year": 2024,
+     "military": 3079036,
+     "counternarcotics": 120380457,
+     "other": 483210829,
+     "total": 606670322
+    },
+    {
+     "year": 2025,
+     "military": 5804794,
+     "counternarcotics": 78611966,
+     "other": 252563386,
+     "total": 336980146
+    },
+    {
+     "year": 2026,
+     "military": -820926,
+     "counternarcotics": 2588899,
+     "other": 63313117,
+     "total": 65081090
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 807723470
+    },
+    {
+     "account": "Department of Defense, Overseas Humanitarian, Disaster, and Civic Aid",
+     "total": 624308300
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 29767212
+    },
+    {
+     "account": "Peace Keeping Operations",
+     "total": 8223099
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 7149085
+    }
+   ]
+  },
+  {
+   "country": "Dominican Republic",
+   "series": [
+    {
+     "year": 2001,
+     "military": 3108120,
+     "counternarcotics": 140021,
+     "other": 75618320,
+     "total": 78866461
+    },
+    {
+     "year": 2002,
+     "military": 8843782,
+     "counternarcotics": 0,
+     "other": 42596417,
+     "total": 51440199
+    },
+    {
+     "year": 2003,
+     "military": 3020718,
+     "counternarcotics": 0,
+     "other": 60020602,
+     "total": 63041320
+    },
+    {
+     "year": 2004,
+     "military": 6868921,
+     "counternarcotics": 1727260,
+     "other": 54256367,
+     "total": 62852548
+    },
+    {
+     "year": 2005,
+     "military": 4940285,
+     "counternarcotics": 4293837,
+     "other": 42343723,
+     "total": 51577845
+    },
+    {
+     "year": 2006,
+     "military": 6919043,
+     "counternarcotics": 3516087,
+     "other": 59742115,
+     "total": 70177245
+    },
+    {
+     "year": 2007,
+     "military": 4328574,
+     "counternarcotics": 2038070,
+     "other": 63751851,
+     "total": 70118495
+    },
+    {
+     "year": 2008,
+     "military": 3657701,
+     "counternarcotics": 1379743,
+     "other": 55611787,
+     "total": 60649231
+    },
+    {
+     "year": 2009,
+     "military": 3221592,
+     "counternarcotics": 18977548,
+     "other": 71782073,
+     "total": 93981213
+    },
+    {
+     "year": 2010,
+     "military": 11268434,
+     "counternarcotics": 11376851,
+     "other": 96587209,
+     "total": 119232494
+    },
+    {
+     "year": 2011,
+     "military": 12361193,
+     "counternarcotics": 1313592,
+     "other": 88561605,
+     "total": 102236390
+    },
+    {
+     "year": 2012,
+     "military": 11413759,
+     "counternarcotics": 667644,
+     "other": 104600391,
+     "total": 116681794
+    },
+    {
+     "year": 2013,
+     "military": 2566129,
+     "counternarcotics": 840369,
+     "other": 74765604,
+     "total": 78172102
+    },
+    {
+     "year": 2014,
+     "military": 9783879,
+     "counternarcotics": 1837986,
+     "other": 55215250,
+     "total": 66837115
+    },
+    {
+     "year": 2015,
+     "military": 6036101,
+     "counternarcotics": 542510,
+     "other": 135379700,
+     "total": 141958311
+    },
+    {
+     "year": 2016,
+     "military": 9888124,
+     "counternarcotics": 512551,
+     "other": 62570098,
+     "total": 72970773
+    },
+    {
+     "year": 2017,
+     "military": 7974278,
+     "counternarcotics": 802559,
+     "other": 70524344,
+     "total": 79301181
+    },
+    {
+     "year": 2018,
+     "military": 4095098,
+     "counternarcotics": 1917962,
+     "other": 65558240,
+     "total": 71571300
+    },
+    {
+     "year": 2019,
+     "military": 6219274,
+     "counternarcotics": 1553634,
+     "other": 62395038,
+     "total": 70167946
+    },
+    {
+     "year": 2020,
+     "military": 12367766,
+     "counternarcotics": 1066660,
+     "other": 77525058,
+     "total": 90959484
+    },
+    {
+     "year": 2021,
+     "military": 3410420,
+     "counternarcotics": 5670375,
+     "other": 49968324,
+     "total": 59049119
+    },
+    {
+     "year": 2022,
+     "military": 1612288,
+     "counternarcotics": 8285147,
+     "other": 85319988,
+     "total": 95217423
+    },
+    {
+     "year": 2023,
+     "military": 3326524,
+     "counternarcotics": 11776740,
+     "other": 74034502,
+     "total": 89137766
+    },
+    {
+     "year": 2024,
+     "military": 2375988,
+     "counternarcotics": 21321806,
+     "other": 86989446,
+     "total": 110687240
+    },
+    {
+     "year": 2025,
+     "military": 2750000,
+     "counternarcotics": 6641654,
+     "other": 46687531,
+     "total": 56079185
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 270339,
+     "other": 601958,
+     "total": 872297
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 104112565
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 53584539
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 51016827
+    },
+    {
+     "account": "International Military Education and Training",
+     "total": 24692379
+    },
+    {
+     "account": "Department of Defense, Operation and Maintenance, Defense-Wide",
+     "total": 13783892
+    }
+   ]
+  },
+  {
+   "country": "Panama",
+   "series": [
+    {
+     "year": 2001,
+     "military": 12836985,
+     "counternarcotics": 2356155,
+     "other": 14782131,
+     "total": 29975271
+    },
+    {
+     "year": 2002,
+     "military": 2716889,
+     "counternarcotics": 8509399,
+     "other": 13754868,
+     "total": 24981156
+    },
+    {
+     "year": 2003,
+     "military": 6301928,
+     "counternarcotics": 7514223,
+     "other": 27243359,
+     "total": 41059510
+    },
+    {
+     "year": 2004,
+     "military": 6944392,
+     "counternarcotics": 10178145,
+     "other": 19771034,
+     "total": 36893571
+    },
+    {
+     "year": 2005,
+     "military": 4522616,
+     "counternarcotics": 9235996,
+     "other": 18525107,
+     "total": 32283719
+    },
+    {
+     "year": 2006,
+     "military": 7913020,
+     "counternarcotics": 24566959,
+     "other": 18774447,
+     "total": 51254426
+    },
+    {
+     "year": 2007,
+     "military": 6173027,
+     "counternarcotics": 5231521,
+     "other": 32130184,
+     "total": 43534732
+    },
+    {
+     "year": 2008,
+     "military": 6344008,
+     "counternarcotics": 7001887,
+     "other": 11485635,
+     "total": 24831530
+    },
+    {
+     "year": 2009,
+     "military": 7631758,
+     "counternarcotics": 6996763,
+     "other": 24646632,
+     "total": 39275153
+    },
+    {
+     "year": 2010,
+     "military": 11243266,
+     "counternarcotics": 12606649,
+     "other": 28004463,
+     "total": 51854378
+    },
+    {
+     "year": 2011,
+     "military": 15563008,
+     "counternarcotics": 355083,
+     "other": 27712500,
+     "total": 43630591
+    },
+    {
+     "year": 2012,
+     "military": 10231314,
+     "counternarcotics": 2193237,
+     "other": 17794165,
+     "total": 30218716
+    },
+    {
+     "year": 2013,
+     "military": 7260783,
+     "counternarcotics": 2593163,
+     "other": 8326926,
+     "total": 18180872
+    },
+    {
+     "year": 2014,
+     "military": 6110049,
+     "counternarcotics": 3076653,
+     "other": 8581977,
+     "total": 17768679
+    },
+    {
+     "year": 2015,
+     "military": 11208071,
+     "counternarcotics": 4457708,
+     "other": 11097172,
+     "total": 26762951
+    },
+    {
+     "year": 2016,
+     "military": 18345040,
+     "counternarcotics": 2595874,
+     "other": 13727407,
+     "total": 34668321
+    },
+    {
+     "year": 2017,
+     "military": 20560547,
+     "counternarcotics": 2603876,
+     "other": 10863524,
+     "total": 34027947
+    },
+    {
+     "year": 2018,
+     "military": 11501163,
+     "counternarcotics": 1285365,
+     "other": 12339575,
+     "total": 25126103
+    },
+    {
+     "year": 2019,
+     "military": 16498572,
+     "counternarcotics": 1511266,
+     "other": 14156707,
+     "total": 32166545
+    },
+    {
+     "year": 2020,
+     "military": 26459892,
+     "counternarcotics": 2304133,
+     "other": 14959683,
+     "total": 43723708
+    },
+    {
+     "year": 2021,
+     "military": 11879342,
+     "counternarcotics": 57233221,
+     "other": 12452351,
+     "total": 81564914
+    },
+    {
+     "year": 2022,
+     "military": 10707828,
+     "counternarcotics": 40739767,
+     "other": 15650834,
+     "total": 67098429
+    },
+    {
+     "year": 2023,
+     "military": 5813022,
+     "counternarcotics": 51109224,
+     "other": 20826822,
+     "total": 77749068
+    },
+    {
+     "year": 2024,
+     "military": 4754751,
+     "counternarcotics": 43319170,
+     "other": 26546999,
+     "total": 74620920
+    },
+    {
+     "year": 2025,
+     "military": 725000,
+     "counternarcotics": 15561741,
+     "other": 7647705,
+     "total": 23934446
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 2016656,
+     "other": 3682414,
+     "total": 5699070
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 210225155
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 105615181
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 87807961
+    },
+    {
+     "account": "Department of State, Andean Counterdrug Programs",
+     "total": 84090643
+    },
+    {
+     "account": "Nonproliferation, Anti-Terrorism, Demining and Related Programs",
+     "total": 32838036
+    }
+   ]
+  },
+  {
+   "country": "Costa Rica",
+   "series": [
+    {
+     "year": 2001,
+     "military": 3018229,
+     "counternarcotics": 1472813,
+     "other": 1800759,
+     "total": 6291801
+    },
+    {
+     "year": 2002,
+     "military": 2231165,
+     "counternarcotics": 0,
+     "other": 3510239,
+     "total": 5741404
+    },
+    {
+     "year": 2003,
+     "military": 2524779,
+     "counternarcotics": 0,
+     "other": 4545459,
+     "total": 7070238
+    },
+    {
+     "year": 2004,
+     "military": 1434421,
+     "counternarcotics": 421942,
+     "other": 5526809,
+     "total": 7383172
+    },
+    {
+     "year": 2005,
+     "military": 1173761,
+     "counternarcotics": 705090,
+     "other": 6723899,
+     "total": 8602750
+    },
+    {
+     "year": 2006,
+     "military": 954509,
+     "counternarcotics": 249007,
+     "other": 7054907,
+     "total": 8258423
+    },
+    {
+     "year": 2007,
+     "military": 1338980,
+     "counternarcotics": 155897,
+     "other": 9424519,
+     "total": 10919396
+    },
+    {
+     "year": 2008,
+     "military": 3832990,
+     "counternarcotics": 6946,
+     "other": 9167907,
+     "total": 13007843
+    },
+    {
+     "year": 2009,
+     "military": 4271355,
+     "counternarcotics": 361489,
+     "other": 8447333,
+     "total": 13080177
+    },
+    {
+     "year": 2010,
+     "military": 3288544,
+     "counternarcotics": 3280586,
+     "other": 9586853,
+     "total": 16155983
+    },
+    {
+     "year": 2011,
+     "military": 4858242,
+     "counternarcotics": 369539,
+     "other": 9855412,
+     "total": 15083193
+    },
+    {
+     "year": 2012,
+     "military": 6273062,
+     "counternarcotics": 531934,
+     "other": 10116934,
+     "total": 16921930
+    },
+    {
+     "year": 2013,
+     "military": 4996009,
+     "counternarcotics": 0,
+     "other": 9471741,
+     "total": 14467750
+    },
+    {
+     "year": 2014,
+     "military": 2713881,
+     "counternarcotics": 31858,
+     "other": 13836589,
+     "total": 16582328
+    },
+    {
+     "year": 2015,
+     "military": 5516928,
+     "counternarcotics": 0,
+     "other": 13987049,
+     "total": 19503977
+    },
+    {
+     "year": 2016,
+     "military": 4467716,
+     "counternarcotics": 525701,
+     "other": 16377009,
+     "total": 21370426
+    },
+    {
+     "year": 2017,
+     "military": 12567719,
+     "counternarcotics": 0,
+     "other": 12767273,
+     "total": 25334992
+    },
+    {
+     "year": 2018,
+     "military": 24737573,
+     "counternarcotics": 0,
+     "other": 19845417,
+     "total": 44582990
+    },
+    {
+     "year": 2019,
+     "military": 24018332,
+     "counternarcotics": 0,
+     "other": 21054618,
+     "total": 45072950
+    },
+    {
+     "year": 2020,
+     "military": 1644078,
+     "counternarcotics": 18285606,
+     "other": 20510652,
+     "total": 40440336
+    },
+    {
+     "year": 2021,
+     "military": 11261057,
+     "counternarcotics": 23369353,
+     "other": 16446264,
+     "total": 51076674
+    },
+    {
+     "year": 2022,
+     "military": 9010317,
+     "counternarcotics": 24016765,
+     "other": 16630603,
+     "total": 49657685
+    },
+    {
+     "year": 2023,
+     "military": 8664214,
+     "counternarcotics": 32273704,
+     "other": 49409028,
+     "total": 90346946
+    },
+    {
+     "year": 2024,
+     "military": 11258048,
+     "counternarcotics": 27276844,
+     "other": 18007504,
+     "total": 56542396
+    },
+    {
+     "year": 2025,
+     "military": 9100000,
+     "counternarcotics": 28215242,
+     "other": 43383828,
+     "total": 80699070
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 150670,
+     "other": 2242758,
+     "total": 2393428
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 159668681
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 93412253
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 35137636
+    },
+    {
+     "account": "Department of Defense, Operation and Maintenance, Defense-Wide",
+     "total": 13356437
+    },
+    {
+     "account": "International Military Education and Training",
+     "total": 12284770
+    }
+   ]
+  },
+  {
+   "country": "Jamaica",
+   "series": [
+    {
+     "year": 2001,
+     "military": 2795233,
+     "counternarcotics": 401048,
+     "other": 47262840,
+     "total": 50459121
+    },
+    {
+     "year": 2002,
+     "military": 2797891,
+     "counternarcotics": 2637914,
+     "other": 37314388,
+     "total": 42750193
+    },
+    {
+     "year": 2003,
+     "military": 2950585,
+     "counternarcotics": 2003793,
+     "other": 36896683,
+     "total": 41851061
+    },
+    {
+     "year": 2004,
+     "military": 2934043,
+     "counternarcotics": 6699571,
+     "other": 49522803,
+     "total": 59156417
+    },
+    {
+     "year": 2005,
+     "military": 4328044,
+     "counternarcotics": 3231047,
+     "other": 93778702,
+     "total": 101337793
+    },
+    {
+     "year": 2006,
+     "military": 4270013,
+     "counternarcotics": 9128917,
+     "other": 48099196,
+     "total": 61498126
+    },
+    {
+     "year": 2007,
+     "military": 3427968,
+     "counternarcotics": 1315897,
+     "other": 45445087,
+     "total": 50188952
+    },
+    {
+     "year": 2008,
+     "military": 2860134,
+     "counternarcotics": 2958633,
+     "other": 29341869,
+     "total": 35160636
+    },
+    {
+     "year": 2009,
+     "military": 3360933,
+     "counternarcotics": 299006,
+     "other": 33444801,
+     "total": 37104740
+    },
+    {
+     "year": 2010,
+     "military": 4208156,
+     "counternarcotics": 1814931,
+     "other": 33247553,
+     "total": 39270640
+    },
+    {
+     "year": 2011,
+     "military": 5658461,
+     "counternarcotics": 339762,
+     "other": 44786994,
+     "total": 50785217
+    },
+    {
+     "year": 2012,
+     "military": 6056225,
+     "counternarcotics": 649539,
+     "other": 33476486,
+     "total": 40182250
+    },
+    {
+     "year": 2013,
+     "military": 1255368,
+     "counternarcotics": -1913941,
+     "other": 43174317,
+     "total": 42515744
+    },
+    {
+     "year": 2014,
+     "military": 4647873,
+     "counternarcotics": 779589,
+     "other": 39594651,
+     "total": 45022113
+    },
+    {
+     "year": 2015,
+     "military": 6678100,
+     "counternarcotics": 871194,
+     "other": 33274946,
+     "total": 40824240
+    },
+    {
+     "year": 2016,
+     "military": 2328896,
+     "counternarcotics": 561340,
+     "other": 31917127,
+     "total": 34807363
+    },
+    {
+     "year": 2017,
+     "military": 4719437,
+     "counternarcotics": -19704,
+     "other": 50368751,
+     "total": 55068484
+    },
+    {
+     "year": 2018,
+     "military": 1480599,
+     "counternarcotics": 5659558,
+     "other": 31379570,
+     "total": 38519727
+    },
+    {
+     "year": 2019,
+     "military": 3224226,
+     "counternarcotics": 568986,
+     "other": 26100591,
+     "total": 29893803
+    },
+    {
+     "year": 2020,
+     "military": 5193758,
+     "counternarcotics": 0,
+     "other": 28072428,
+     "total": 33266186
+    },
+    {
+     "year": 2021,
+     "military": 1590069,
+     "counternarcotics": 4826556,
+     "other": 34661923,
+     "total": 41078548
+    },
+    {
+     "year": 2022,
+     "military": 1426995,
+     "counternarcotics": 3822660,
+     "other": 66927881,
+     "total": 72177536
+    },
+    {
+     "year": 2023,
+     "military": 1443111,
+     "counternarcotics": 2227254,
+     "other": 32968917,
+     "total": 36639282
+    },
+    {
+     "year": 2024,
+     "military": 769759,
+     "counternarcotics": 6976479,
+     "other": 42186480,
+     "total": 49932718
+    },
+    {
+     "year": 2025,
+     "military": 1150000,
+     "counternarcotics": 1820694,
+     "other": 21340086,
+     "total": 24310780
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 22539,
+     "other": 17715034,
+     "total": 17737573
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 52527538
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 30233717
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 23607745
+    },
+    {
+     "account": "International Military Education and Training",
+     "total": 22103457
+    },
+    {
+     "account": "Nonproliferation, Anti-Terrorism, Demining and Related Programs",
+     "total": 5155724
+    }
+   ]
+  },
+  {
+   "country": "Trinidad and Tobago",
+   "series": [
+    {
+     "year": 2001,
+     "military": 1685437,
+     "counternarcotics": 1728654,
+     "other": 0,
+     "total": 3414091
+    },
+    {
+     "year": 2002,
+     "military": 1198123,
+     "counternarcotics": 0,
+     "other": 0,
+     "total": 1198123
+    },
+    {
+     "year": 2003,
+     "military": 1172219,
+     "counternarcotics": 0,
+     "other": 41746,
+     "total": 1213965
+    },
+    {
+     "year": 2004,
+     "military": 241244,
+     "counternarcotics": 2799031,
+     "other": 996191,
+     "total": 4036466
+    },
+    {
+     "year": 2005,
+     "military": 183499,
+     "counternarcotics": 219958,
+     "other": 104643,
+     "total": 508100
+    },
+    {
+     "year": 2006,
+     "military": 165469,
+     "counternarcotics": 49800,
+     "other": 11376,
+     "total": 226645
+    },
+    {
+     "year": 2007,
+     "military": 321203,
+     "counternarcotics": 2009930,
+     "other": 8648,
+     "total": 2339781
+    },
+    {
+     "year": 2008,
+     "military": 340003,
+     "counternarcotics": 511023,
+     "other": 570525,
+     "total": 1421551
+    },
+    {
+     "year": 2009,
+     "military": 943845,
+     "counternarcotics": 871056,
+     "other": 249,
+     "total": 1815150
+    },
+    {
+     "year": 2010,
+     "military": 1475116,
+     "counternarcotics": -42324,
+     "other": 548979,
+     "total": 1981771
+    },
+    {
+     "year": 2011,
+     "military": 1284116,
+     "counternarcotics": 243007,
+     "other": 84877,
+     "total": 1612000
+    },
+    {
+     "year": 2012,
+     "military": 1184172,
+     "counternarcotics": 494726,
+     "other": 0,
+     "total": 1678898
+    },
+    {
+     "year": 2013,
+     "military": 841307,
+     "counternarcotics": 141813,
+     "other": 166750,
+     "total": 1149870
+    },
+    {
+     "year": 2014,
+     "military": 663558,
+     "counternarcotics": 727372,
+     "other": 33285,
+     "total": 1424215
+    },
+    {
+     "year": 2015,
+     "military": 1187153,
+     "counternarcotics": 734540,
+     "other": 4130,
+     "total": 1925823
+    },
+    {
+     "year": 2016,
+     "military": 828829,
+     "counternarcotics": 680011,
+     "other": 291887,
+     "total": 1800727
+    },
+    {
+     "year": 2017,
+     "military": 2169678,
+     "counternarcotics": -136960,
+     "other": 8799,
+     "total": 2041517
+    },
+    {
+     "year": 2018,
+     "military": 648021,
+     "counternarcotics": 0,
+     "other": 3184906,
+     "total": 3832927
+    },
+    {
+     "year": 2019,
+     "military": 2518490,
+     "counternarcotics": -1296,
+     "other": 4957532,
+     "total": 7474726
+    },
+    {
+     "year": 2020,
+     "military": 2579745,
+     "counternarcotics": -106546,
+     "other": 4548836,
+     "total": 7022035
+    },
+    {
+     "year": 2021,
+     "military": 1366800,
+     "counternarcotics": 631878,
+     "other": 1226046,
+     "total": 3224724
+    },
+    {
+     "year": 2022,
+     "military": 873619,
+     "counternarcotics": 4195682,
+     "other": 5619151,
+     "total": 10688452
+    },
+    {
+     "year": 2023,
+     "military": 354992,
+     "counternarcotics": 1723794,
+     "other": 3431155,
+     "total": 5509941
+    },
+    {
+     "year": 2024,
+     "military": 359221,
+     "counternarcotics": 1284658,
+     "other": 3227166,
+     "total": 4871045
+    },
+    {
+     "year": 2025,
+     "military": 850000,
+     "counternarcotics": 189703,
+     "other": 889917,
+     "total": 1929620
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": -30572,
+     "other": -3197,
+     "total": -33769
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 13450363
+    },
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 10312955
+    },
+    {
+     "account": "Nonproliferation, Anti-Terrorism, Demining and Related Programs",
+     "total": 8605983
+    },
+    {
+     "account": "International Military Education and Training",
+     "total": 6595288
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 3213498
+    }
+   ]
+  },
+  {
+   "country": "Guyana",
+   "series": [
+    {
+     "year": 2001,
+     "military": 1334272,
+     "counternarcotics": 138292,
+     "other": 28557839,
+     "total": 30030403
+    },
+    {
+     "year": 2002,
+     "military": 886680,
+     "counternarcotics": 0,
+     "other": 10591601,
+     "total": 11478281
+    },
+    {
+     "year": 2003,
+     "military": 1178898,
+     "counternarcotics": 0,
+     "other": 19150757,
+     "total": 20329655
+    },
+    {
+     "year": 2004,
+     "military": 749811,
+     "counternarcotics": 65712,
+     "other": 34086274,
+     "total": 34901797
+    },
+    {
+     "year": 2005,
+     "military": 806763,
+     "counternarcotics": 165362,
+     "other": 35045806,
+     "total": 36017931
+    },
+    {
+     "year": 2006,
+     "military": 629701,
+     "counternarcotics": 0,
+     "other": 33254775,
+     "total": 33884476
+    },
+    {
+     "year": 2007,
+     "military": 645633,
+     "counternarcotics": 0,
+     "other": 34237232,
+     "total": 34882865
+    },
+    {
+     "year": 2008,
+     "military": 391479,
+     "counternarcotics": 0,
+     "other": 48702067,
+     "total": 49093546
+    },
+    {
+     "year": 2009,
+     "military": 626099,
+     "counternarcotics": 0,
+     "other": 34500929,
+     "total": 35127028
+    },
+    {
+     "year": 2010,
+     "military": 3510743,
+     "counternarcotics": 0,
+     "other": 23769030,
+     "total": 27279773
+    },
+    {
+     "year": 2011,
+     "military": 1183292,
+     "counternarcotics": 0,
+     "other": 23595104,
+     "total": 24778396
+    },
+    {
+     "year": 2012,
+     "military": 1137888,
+     "counternarcotics": 0,
+     "other": 16206571,
+     "total": 17344459
+    },
+    {
+     "year": 2013,
+     "military": 1013554,
+     "counternarcotics": 0,
+     "other": 15178001,
+     "total": 16191555
+    },
+    {
+     "year": 2014,
+     "military": 841999,
+     "counternarcotics": 665700,
+     "other": 8677626,
+     "total": 10185325
+    },
+    {
+     "year": 2015,
+     "military": 968623,
+     "counternarcotics": 0,
+     "other": 8516732,
+     "total": 9485355
+    },
+    {
+     "year": 2016,
+     "military": 826867,
+     "counternarcotics": 0,
+     "other": 13133796,
+     "total": 13960663
+    },
+    {
+     "year": 2017,
+     "military": 356151,
+     "counternarcotics": 0,
+     "other": 6538837,
+     "total": 6894988
+    },
+    {
+     "year": 2018,
+     "military": 434843,
+     "counternarcotics": 0,
+     "other": 5433644,
+     "total": 5868487
+    },
+    {
+     "year": 2019,
+     "military": 1206932,
+     "counternarcotics": 0,
+     "other": 4667139,
+     "total": 5874071
+    },
+    {
+     "year": 2020,
+     "military": 205678,
+     "counternarcotics": 0,
+     "other": 9327958,
+     "total": 9533636
+    },
+    {
+     "year": 2021,
+     "military": 217181,
+     "counternarcotics": -203536,
+     "other": 2620686,
+     "total": 2634331
+    },
+    {
+     "year": 2022,
+     "military": 208339,
+     "counternarcotics": 423721,
+     "other": 4989803,
+     "total": 5621863
+    },
+    {
+     "year": 2023,
+     "military": 434976,
+     "counternarcotics": 100835,
+     "other": 2961385,
+     "total": 3497196
+    },
+    {
+     "year": 2024,
+     "military": 1100915,
+     "counternarcotics": 119446,
+     "other": 2761612,
+     "total": 3981973
+    },
+    {
+     "year": 2025,
+     "military": 550000,
+     "counternarcotics": 219473,
+     "other": 2299117,
+     "total": 3068590
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": -552,
+     "other": 698404,
+     "total": 697852
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 9643029
+    },
+    {
+     "account": "International Military Education and Training",
+     "total": 9590271
+    },
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 1694453
+    },
+    {
+     "account": "Excess Defense Articles",
+     "total": 749987
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 551162
+    }
+   ]
+  },
+  {
+   "country": "Suriname",
+   "series": [
+    {
+     "year": 2001,
+     "military": 222996,
+     "counternarcotics": 121006,
+     "other": 1286119,
+     "total": 1630121
+    },
+    {
+     "year": 2002,
+     "military": 541197,
+     "counternarcotics": 0,
+     "other": 1468808,
+     "total": 2010005
+    },
+    {
+     "year": 2003,
+     "military": 2214705,
+     "counternarcotics": 0,
+     "other": 1902900,
+     "total": 4117605
+    },
+    {
+     "year": 2004,
+     "military": 578659,
+     "counternarcotics": 0,
+     "other": 1973496,
+     "total": 2552155
+    },
+    {
+     "year": 2005,
+     "military": 487221,
+     "counternarcotics": 237283,
+     "other": 1583076,
+     "total": 2307580
+    },
+    {
+     "year": 2006,
+     "military": 582205,
+     "counternarcotics": 0,
+     "other": 2083846,
+     "total": 2666051
+    },
+    {
+     "year": 2007,
+     "military": 521710,
+     "counternarcotics": 74553,
+     "other": 1926461,
+     "total": 2522724
+    },
+    {
+     "year": 2008,
+     "military": 338892,
+     "counternarcotics": 10174,
+     "other": 1967425,
+     "total": 2316491
+    },
+    {
+     "year": 2009,
+     "military": 912156,
+     "counternarcotics": 0,
+     "other": 2747312,
+     "total": 3659468
+    },
+    {
+     "year": 2010,
+     "military": 2154637,
+     "counternarcotics": 0,
+     "other": 2080043,
+     "total": 4234680
+    },
+    {
+     "year": 2011,
+     "military": 3723505,
+     "counternarcotics": 0,
+     "other": 2016906,
+     "total": 5740411
+    },
+    {
+     "year": 2012,
+     "military": 594094,
+     "counternarcotics": 0,
+     "other": 1761612,
+     "total": 2355706
+    },
+    {
+     "year": 2013,
+     "military": 695469,
+     "counternarcotics": 0,
+     "other": 613025,
+     "total": 1308494
+    },
+    {
+     "year": 2014,
+     "military": 970516,
+     "counternarcotics": 0,
+     "other": -7577,
+     "total": 962939
+    },
+    {
+     "year": 2015,
+     "military": 287594,
+     "counternarcotics": 0,
+     "other": -1,
+     "total": 287593
+    },
+    {
+     "year": 2016,
+     "military": 304173,
+     "counternarcotics": 0,
+     "other": 0,
+     "total": 304173
+    },
+    {
+     "year": 2017,
+     "military": 345839,
+     "counternarcotics": 0,
+     "other": 25712,
+     "total": 371551
+    },
+    {
+     "year": 2018,
+     "military": 243880,
+     "counternarcotics": 0,
+     "other": 410731,
+     "total": 654611
+    },
+    {
+     "year": 2019,
+     "military": 239918,
+     "counternarcotics": 0,
+     "other": 466451,
+     "total": 706369
+    },
+    {
+     "year": 2020,
+     "military": 196156,
+     "counternarcotics": 0,
+     "other": 0,
+     "total": 196156
+    },
+    {
+     "year": 2021,
+     "military": 161246,
+     "counternarcotics": 1641,
+     "other": 499509,
+     "total": 662396
+    },
+    {
+     "year": 2022,
+     "military": 178202,
+     "counternarcotics": 34466,
+     "other": 385284,
+     "total": 597952
+    },
+    {
+     "year": 2023,
+     "military": 254731,
+     "counternarcotics": 136363,
+     "other": 158,
+     "total": 391252
+    },
+    {
+     "year": 2024,
+     "military": 261718,
+     "counternarcotics": 88582,
+     "other": 1936667,
+     "total": 2286967
+    },
+    {
+     "year": 2025,
+     "military": 255000,
+     "counternarcotics": 317143,
+     "other": 300,
+     "total": 572443
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 10343,
+     "other": 0,
+     "total": 10343
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "International Military Education and Training",
+     "total": 6355350
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 6206344
+    },
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 2618306
+    },
+    {
+     "account": "Excess Defense Articles",
+     "total": 1533415
+    },
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 1031554
+    }
+   ]
+  },
+  {
+   "country": "Belize",
+   "series": [
+    {
+     "year": 2001,
+     "military": 1457256,
+     "counternarcotics": 70875,
+     "other": 3120359,
+     "total": 4648490
+    },
+    {
+     "year": 2002,
+     "military": 1363206,
+     "counternarcotics": 0,
+     "other": 3211255,
+     "total": 4574461
+    },
+    {
+     "year": 2003,
+     "military": 1247361,
+     "counternarcotics": 0,
+     "other": 2915537,
+     "total": 4162898
+    },
+    {
+     "year": 2004,
+     "military": 1136393,
+     "counternarcotics": 386491,
+     "other": 2834612,
+     "total": 4357496
+    },
+    {
+     "year": 2005,
+     "military": 1910919,
+     "counternarcotics": 368515,
+     "other": 2687022,
+     "total": 4966456
+    },
+    {
+     "year": 2006,
+     "military": 1185859,
+     "counternarcotics": 396014,
+     "other": 2531495,
+     "total": 4113368
+    },
+    {
+     "year": 2007,
+     "military": 5488627,
+     "counternarcotics": 286755,
+     "other": 2957551,
+     "total": 8732933
+    },
+    {
+     "year": 2008,
+     "military": 2624955,
+     "counternarcotics": 167936,
+     "other": 2679605,
+     "total": 5472496
+    },
+    {
+     "year": 2009,
+     "military": 7009051,
+     "counternarcotics": 0,
+     "other": 3522926,
+     "total": 10531977
+    },
+    {
+     "year": 2010,
+     "military": 7392773,
+     "counternarcotics": 3426913,
+     "other": 4322112,
+     "total": 15141798
+    },
+    {
+     "year": 2011,
+     "military": 19200933,
+     "counternarcotics": 53014,
+     "other": 2732522,
+     "total": 21986469
+    },
+    {
+     "year": 2012,
+     "military": 8455211,
+     "counternarcotics": 123020,
+     "other": 2010326,
+     "total": 10588557
+    },
+    {
+     "year": 2013,
+     "military": 6889512,
+     "counternarcotics": 0,
+     "other": 1549734,
+     "total": 8439246
+    },
+    {
+     "year": 2014,
+     "military": 10879729,
+     "counternarcotics": 0,
+     "other": 1939262,
+     "total": 12818991
+    },
+    {
+     "year": 2015,
+     "military": 7527261,
+     "counternarcotics": 0,
+     "other": 3073432,
+     "total": 10600693
+    },
+    {
+     "year": 2016,
+     "military": 7249811,
+     "counternarcotics": 0,
+     "other": 6010765,
+     "total": 13260576
+    },
+    {
+     "year": 2017,
+     "military": 8449907,
+     "counternarcotics": 0,
+     "other": 4854349,
+     "total": 13304256
+    },
+    {
+     "year": 2018,
+     "military": 4377861,
+     "counternarcotics": 0,
+     "other": 3391921,
+     "total": 7769782
+    },
+    {
+     "year": 2019,
+     "military": 9870711,
+     "counternarcotics": 0,
+     "other": 4257924,
+     "total": 14128635
+    },
+    {
+     "year": 2020,
+     "military": 5208185,
+     "counternarcotics": 0,
+     "other": 5273754,
+     "total": 10481939
+    },
+    {
+     "year": 2021,
+     "military": 6751927,
+     "counternarcotics": 5111742,
+     "other": 3664754,
+     "total": 15528423
+    },
+    {
+     "year": 2022,
+     "military": 1369972,
+     "counternarcotics": 3088237,
+     "other": 7319873,
+     "total": 11778082
+    },
+    {
+     "year": 2023,
+     "military": 1547509,
+     "counternarcotics": 2050667,
+     "other": 17429027,
+     "total": 21027203
+    },
+    {
+     "year": 2024,
+     "military": 3130353,
+     "counternarcotics": 1888592,
+     "other": 16449299,
+     "total": 21468244
+    },
+    {
+     "year": 2025,
+     "military": 250000,
+     "counternarcotics": 1626691,
+     "other": 1635599,
+     "total": 3512290
+    },
+    {
+     "year": 2026,
+     "military": 0,
+     "counternarcotics": 8234,
+     "other": 378343,
+     "total": 386577
+    }
+   ],
+   "top_security_accounts": [
+    {
+     "account": "Department of Defense, Drug Interdiction and Counter-Drug Activities",
+     "total": 69019350
+    },
+    {
+     "account": "Foreign Military Financing Program",
+     "total": 38751449
+    },
+    {
+     "account": "International Narcotics Control and Law Enforcement",
+     "total": 18527938
+    },
+    {
+     "account": "Department of Defense, Operation and Maintenance, Defense-Wide",
+     "total": 11084116
+    },
+    {
+     "account": "International Military Education and Training",
+     "total": 8613419
+    }
+   ]
+  }
+ ]
+}

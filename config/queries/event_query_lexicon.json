@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "updated": "2026-09-29",
+  "updated": "2026-10-05",
   "status": "design_ready_not_yet_wired",
   "owner": "SENTINEL retrieval pipeline",
   "purpose": "Central multilingual query lexicon for article discovery, retrieval filtering, and future source-specific query assembly across civil-military relations, democratic erosion, armed conflict, and transnational security in Latin America and the Caribbean.",
@@ -703,9 +703,9 @@
       "include_term_sets": ["policing_internal_security", "organized_crime_and_illicit_order", "border_and_sovereignty"],
       "include_actor_sets": ["organized_crime_networks"],
       "high_signal_terms": {
-        "en": ["cartel leadership", "trafficking corridor", "drug seizure", "extradition", "money laundering", "criminal governance", "prison gang", "narco-politics"],
-        "es": ["lider de cartel", "corredor de trafico", "incautacion", "extradicion", "lavado de activos", "gobierno criminal", "pandilla carcelaria", "narco-politica"],
-        "pt": ["lider de cartel", "corredor de trafico", "apreensao", "extradicao", "lavagem de dinheiro", "governanca criminal", "faccao prisional", "narcopolitica"]
+        "en": ["cartel leadership", "trafficking corridor", "drug seizure", "extradition", "money laundering", "criminal governance", "prison gang", "narco-politics", "cross-border gang", "gang alliance", "arms trafficking route", "weapons smuggling route", "gang logistics", "cross-border arms"],
+        "es": ["lider de cartel", "corredor de trafico", "incautacion", "extradicion", "lavado de activos", "gobierno criminal", "pandilla carcelaria", "narco-politica", "bandas transfronterizas", "alianza entre bandas", "alianza criminal", "ruta de trafico de armas", "trafico transfronterizo", "contrabando de armas", "logistica criminal"],
+        "pt": ["lider de cartel", "corredor de trafico", "apreensao", "extradicao", "lavagem de dinheiro", "governanca criminal", "faccao prisional", "narcopolitica", "alianca entre faccoes", "rota de trafico de armas", "trafico transfronteirico", "contrabando de armas"]
       },
       "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle", "consumer_arms_and_hobbies"],
       "notes": "This family is central for Mexico, Brazil, Ecuador, Haiti, Venezuela, Colombia, and Central America."
@@ -718,9 +718,9 @@
       "include_term_sets": ["organized_crime_and_illicit_order", "criminal_violence_patterns", "illicit_economies_and_extraction", "criminal_governance_and_capture", "human_rights_and_abuses"],
       "include_actor_sets": ["organized_crime_networks"],
       "high_signal_terms": {
-        "en": ["prison control", "massacre", "extortion economy", "illegal mining", "fuel theft", "gold trafficking", "criminal governance", "co-opted officials", "territorial tax", "migrant extortion"],
-        "es": ["control carcelario", "masacre", "economia de la extorsion", "mineria ilegal", "robo de combustible", "trafico de oro", "gobierno criminal", "funcionarios cooptados", "cobro de piso", "extorsion a migrantes"],
-        "pt": ["controle prisional", "massacre", "economia da extorsao", "garimpo ilegal", "roubo de combustivel", "trafico de ouro", "governanca criminal", "autoridades cooptadas", "taxa de protecao", "extorsao de migrantes"]
+        "en": ["prison control", "massacre", "extortion economy", "illegal mining", "fuel theft", "gold trafficking", "criminal governance", "co-opted officials", "territorial tax", "migrant extortion", "police chief kidnapped", "general kidnapped", "colonel kidnapped", "attack on police chief", "attack on security minister", "police commander killed", "prosecutor kidnapped", "assassination attempt on prosecutor"],
+        "es": ["control carcelario", "masacre", "economia de la extorsion", "mineria ilegal", "robo de combustible", "trafico de oro", "gobierno criminal", "funcionarios cooptados", "cobro de piso", "extorsion a migrantes", "secuestro de general", "secuestran a coronel", "secuestro de fiscal", "secuestro de alcalde", "atentado contra jefe policial", "atentado contra el ministro", "atentado contra fiscal", "asesinan a comandante"],
+        "pt": ["controle prisional", "massacre", "economia da extorsao", "garimpo ilegal", "roubo de combustivel", "trafico de ouro", "governanca criminal", "autoridades cooptadas", "taxa de protecao", "extorsao de migrantes", "sequestro de general", "sequestro de promotor", "atentado contra delegado", "atentado contra comandante"]
       },
       "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle", "consumer_arms_and_hobbies"],
       "notes": "This family is designed to catch cases where criminal power is expressed through violent control or extraction economies even when military terms are absent."
@@ -776,9 +776,9 @@
       "include_term_sets": ["peace_process_and_ddr", "armed_conflict_and_territorial_control", "defense_bureaucracy"],
       "include_actor_sets": ["armed_groups_and_insurgents"],
       "high_signal_terms": {
-        "en": ["ceasefire", "peace talks", "negotiation table", "disarmament", "demobilization", "reintegration", "verification mission"],
-        "es": ["cese al fuego", "dialogos de paz", "mesa de negociacion", "desarme", "desmovilizacion", "reintegracion", "mision de verificacion"],
-        "pt": ["cessar-fogo", "negociacoes de paz", "mesa de negociacao", "desarmamento", "desmobilizacao", "reintegracao", "missao de verificacao"]
+        "en": ["ceasefire", "peace talks", "negotiation table", "disarmament", "demobilization", "reintegration", "verification mission", "transitional justice", "peace tribunal", "amnesty law", "truth commission", "impunity law", "military jurisdiction", "crimes against humanity"],
+        "es": ["cese al fuego", "dialogos de paz", "mesa de negociacion", "desarme", "desmovilizacion", "reintegracion", "mision de verificacion", "justicia transicional", "tribunal de paz", "jurisdiccion especial para la paz", "ley de amnistia", "comision de la verdad", "ley de impunidad", "fuero militar", "lesa humanidad"],
+        "pt": ["cessar-fogo", "negociacoes de paz", "mesa de negociacao", "desarmamento", "desmobilizacao", "reintegracao", "missao de verificacao", "justica de transicao", "lei de anistia", "comissao da verdade", "crimes contra a humanidade"]
       },
       "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle"],
       "notes": "Peace-process retrieval should stay active even when day-to-day event counts are low."
@@ -818,9 +818,9 @@
       "default_layers": ["prefilter", "discovery", "enrichment"],
       "include_term_sets": ["state_forces", "contention_and_exception"],
       "high_signal_terms": {
-        "en": ["military deployment", "disaster response", "search and rescue", "humanitarian aid", "airlift", "civil defense", "emergency decree", "restore order", "state of calamity", "earthquake", "hurricane", "flood", "landslide", "wildfire"],
-        "es": ["despliegue militar", "respuesta de emergencia", "busqueda y rescate", "ayuda humanitaria", "puente aereo", "defensa civil", "decreto de emergencia", "restablecer el orden", "estado de calamidad", "terremoto", "huracan", "inundacion", "deslizamiento", "incendio forestal"],
-        "pt": ["mobilizacao militar", "resposta de emergencia", "busca e resgate", "ajuda humanitaria", "ponte aerea", "defesa civil", "decreto de emergencia", "restaurar a ordem", "estado de calamidade", "terremoto", "furacao", "enchente", "deslizamento", "incendio florestal"]
+        "en": ["military deployment", "disaster response", "search and rescue", "humanitarian aid", "airlift", "civil defense", "emergency decree", "restore order", "state of calamity", "earthquake", "hurricane", "flood", "landslide", "wildfire", "world cup security", "summit security", "olympic security", "troops redeployed", "troop reallocation", "security forces reassigned"],
+        "es": ["despliegue militar", "respuesta de emergencia", "busqueda y rescate", "ayuda humanitaria", "puente aereo", "defensa civil", "decreto de emergencia", "restablecer el orden", "estado de calamidad", "terremoto", "huracan", "inundacion", "deslizamiento", "incendio forestal", "seguridad del mundial", "seguridad de la cumbre", "despliegue por la cumbre", "redistribucion de tropas", "traslado de tropas", "reasignacion de efectivos"],
+        "pt": ["mobilizacao militar", "resposta de emergencia", "busca e resgate", "ajuda humanitaria", "ponte aerea", "defesa civil", "decreto de emergencia", "restaurar a ordem", "estado de calamidade", "terremoto", "furacao", "enchente", "deslizamento", "incendio florestal", "seguranca da copa", "seguranca da cupula", "remanejamento de tropas", "deslocamento de tropas"]
       },
       "exclude_sets": ["sports_and_gaming", "entertainment_and_lifestyle", "generic_public_safety_noise"],
       "notes": "Added 2026-09-29 from the 2026-07-15 coverage audit. Disasters and emergencies matter when military, police, civil-defense, or foreign security forces take a response role, or when leaders use the emergency to legitimize an exceptional security role. Recall-oriented at intake; the classifier drops purely humanitarian or weather stories."

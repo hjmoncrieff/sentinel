@@ -222,7 +222,10 @@ PLACE_COUNTRY: dict[str, str] = {
 }
 
 
-_PLACE_PATTERNS: list[tuple[str, "re.Pattern[str]", list[float]]] | None = None
+_PLACE_PATTERNS: list | None = None
+# States that criminal groups are named after ("Sinaloa Cartel", "Jalisco New Generation"):
+# matched in an event's location field only, never in a headline.
+CARTEL_NAMESAKES = {"sinaloa", "jalisco"}
 MULTI_COUNTRY_LABELS = {"Regional", "Multiple"}
 
 
@@ -238,31 +241,54 @@ def _place_owner(place: str, coords: list[float]) -> str | None:
     return best
 
 
-def _place_patterns() -> list[tuple[str, "re.Pattern[str]", list[float]]]:
+def _unaccented(text: str) -> str:
+    return "".join(ch for ch in unicodedata.normalize("NFD", text) if unicodedata.category(ch) != "Mn")
+
+
+def _place_patterns() -> list[tuple[str, "re.Pattern[str]", list[float], str | None, bool]]:
+    """(name, pattern, coords, owning country, location_only), longest name first.
+
+    PLACE_COORDS is the original list; config/taxonomy/places.json adds regions and
+    cities per country, so one name can exist in several countries ("Bolívar").
+    """
     global _PLACE_PATTERNS
     if _PLACE_PATTERNS is None:
+        entries = [(place.lower(), coords, _place_owner(place.lower(), coords), place.lower() in CARTEL_NAMESAKES)
+                   for place, coords in PLACE_COORDS.items()]
+        extra = json.loads((Path(__file__).resolve().parent.parent / "config" / "taxonomy" / "places.json").read_text(encoding="utf-8"))
+        for country, places in extra["places"].items():
+            restricted = set(extra.get("location_only", {}).get(country, []))
+            for name, coords in places.items():
+                for spelling in {name, _unaccented(name)}:
+                    entries.append((spelling, coords, country, name in restricted))
         _PLACE_PATTERNS = [
-            (place.lower(), re.compile(rf"(?<!\w){re.escape(place.lower())}(?!\w)"), coords)
-            for place, coords in sorted(PLACE_COORDS.items(), key=lambda x: -len(x[0]))
+            (place, re.compile(rf"(?<!\w){re.escape(place)}(?!\w)"), coords, owner, location_only)
+            for place, coords, owner, location_only in sorted(entries, key=lambda x: -len(x[0]))
         ]
     return _PLACE_PATTERNS
 
 
-def geolocate(text: str, country: str) -> list[float]:
-    """Try to find specific coords from text, fall back to country centroid.
+def geolocate(text: str, country: str, location: str = "") -> list[float]:
+    """Try to find specific coords, fall back to country centroid.
 
-    Places match on whole words only, longest name first, and a place is used only
-    when it belongs to the event's country (explicitly via PLACE_COUNTRY, otherwise
-    by nearest country centroid). Regression 2026-09-29: substring matching put 14%
-    of events in Brazil ("para" inside Spanish text, "rio" inside "Río").
+    `location` is the event's own place field and is searched first, against every
+    known place. `text` (headline, summary) is searched next, skipping names that are
+    also common words. Places match on whole words only, longest name first, and a
+    place is used only when it belongs to the event's country. Regression 2026-09-29:
+    substring matching put 14% of events in Brazil ("para" inside Spanish text, "rio"
+    inside "Río").
     """
-    text_lower = text.lower()
-    for place, pattern, coords in _place_patterns():
-        if not pattern.search(text_lower):
+    for haystack, is_location in ((location, True), (text, False)):
+        lowered = (haystack or "").lower()
+        if not lowered:
             continue
-        if country not in MULTI_COUNTRY_LABELS and _place_owner(place, coords) != country:
-            continue
-        return coords
+        for _place, pattern, coords, owner, location_only in _place_patterns():
+            if location_only and not is_location:
+                continue
+            if country not in MULTI_COUNTRY_LABELS and owner != country:
+                continue
+            if pattern.search(lowered):
+                return coords
     return COUNTRY_CENTROIDS.get(country, [0.0, 0.0])
 
 
@@ -570,6 +596,83 @@ def load_existing() -> dict:
         return {}
 
 
+DUPLICATE_WINDOW_DAYS = 3
+DUPLICATE_MIN_TITLE = 25
+
+
+def _title_key(title: str) -> str:
+    text = unicodedata.normalize("NFD", (title or "").lower())
+    text = "".join(ch for ch in text if unicodedata.category(ch) != "Mn")
+    return re.sub(r"[^a-z0-9]+", " ", text).strip()
+
+
+def _days_apart(a: str, b: str) -> int:
+    try:
+        return abs((datetime.fromisoformat(a[:10]) - datetime.fromisoformat(b[:10])).days)
+    except (TypeError, ValueError):
+        return 10**6
+
+
+def fold_duplicate_events(events: list[dict], protected: set[str] | None = None) -> tuple[list[dict], int]:
+    """Merge stored events that are the same report filed twice.
+
+    The event id includes country and type, so one article coded two ways (or reached
+    through two Google News links) becomes two events. Two events are folded when their
+    headlines are identical after normalisation, their dates are within
+    DUPLICATE_WINDOW_DAYS, and their countries match (or one is "Regional"). Short
+    headlines are left alone: a title like "Shining Path" is a page name, not a report.
+
+    The kept record is the v3-coded one, then the one naming a country, then the better
+    sourced. It takes the other's reports, sources and links, and lists the folded ids
+    under `merged_ids` so old links can be redirected. Ids in `protected` (events with a
+    saved analyst edit) are always the kept record.
+    """
+    protected = protected or set()
+    sal_rank = {"high": 0, "medium": 1, "low": 2}
+    by_title: dict[str, list[dict]] = {}
+    for ev in events:
+        key = _title_key(ev.get("title", ""))
+        if len(key) >= DUPLICATE_MIN_TITLE:
+            by_title.setdefault(key, []).append(ev)
+
+    def preference(ev: dict):
+        return (0 if ev.get("id") in protected else 1, 0 if ev.get("v3") else 1, 1 if ev.get("country") == "Regional" else 0,
+                -len(ev.get("linked_reports") or []), sal_rank.get(ev.get("salience", "low"), 2),
+                ev.get("ingested_at") or "", ev.get("id", ""))
+
+    dropped: set[str] = set()
+    for group in by_title.values():
+        if len(group) < 2:
+            continue
+        kept: list[dict] = []
+        for ev in sorted(group, key=preference):
+            match = next((k for k in kept
+                          if _days_apart(k.get("date", ""), ev.get("date", "")) <= DUPLICATE_WINDOW_DAYS
+                          and (k.get("country") == ev.get("country") or "Regional" in (k.get("country"), ev.get("country")))), None)
+            if match is None or ev.get("id") in protected:
+                kept.append(ev)
+                continue
+            sources = [x for e in (match, ev) for x in (e.get("sources") or ([e["source"]] if e.get("source") else [])) if x]
+            match["sources"] = list(dict.fromkeys(sources))
+            match["source"] = " · ".join(match["sources"])
+            links = [x for e in (match, ev) for x in (e.get("links") or ([e["url"]] if e.get("url") else [])) if x and x != "#"]
+            match["links"] = list(dict.fromkeys(links))
+            reports, seen = [], set()
+            for report in (match.get("linked_reports") or []) + (ev.get("linked_reports") or []):
+                keys = {k for k in (report.get("article_id"), (report.get("url") or "").split("?")[0]) if k}
+                if keys & seen:
+                    continue
+                seen |= keys
+                reports.append(report)
+            match["linked_reports"] = reports
+            match["source_article_ids"] = list(dict.fromkeys(
+                x for e in (match, ev) for x in (e.get("source_article_ids") or []) if x))
+            match["merged_ids"] = list(dict.fromkeys((match.get("merged_ids") or []) + [ev["id"]] + (ev.get("merged_ids") or [])))
+            _recompute_event_confidence(match)
+            dropped.add(ev["id"])
+    return [ev for ev in events if ev["id"] not in dropped], len(dropped)
+
+
 def save_events(existing: dict, new_events: list[dict]) -> int:
     """Merge new_events into existing, upgrading records when the same ID is seen."""
     added = 0
@@ -616,7 +719,10 @@ def save_events(existing: dict, new_events: list[dict]) -> int:
                     report_map[key] = report
             existing[eid]["linked_reports"] = [report_map[key] for key in ordered_keys]
 
-    all_events = sorted(existing.values(), key=lambda e: e.get("date", ""), reverse=True)[:MAX_EVENTS]
+    folded_events, folded = fold_duplicate_events(list(existing.values()))
+    if folded:
+        log.info(f"Folded {folded} duplicate event(s) with identical headlines")
+    all_events = sorted(folded_events, key=lambda e: e.get("date", ""), reverse=True)[:MAX_EVENTS]
 
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
     DATA_FILE.write_text(
@@ -1416,8 +1522,7 @@ def classify_articles(client: anthropic.Anthropic, articles: list[dict], existin
             if article.get("coords"):
                 coords = article["coords"]
             else:
-                location_text = f"{location} {article['title']} {article.get('description', '')}".strip()
-                coords = geolocate(location_text, country)
+                coords = geolocate(f"{article['title']} {article.get('description', '')}", country, location or "")
             _conf_map = {"high": "green", "med": "yellow", "low": "red"}
             _sal_map  = {"high": "high", "med": "medium", "low": "low"}
             iid = stable_id(country, ev_type, date, article.get("url") or article["title"])

@@ -209,3 +209,54 @@ def test_v3_nightly_path_aborts_when_every_coding_request_fails(monkeypatch):
     monkeypatch.setattr(classify_v3, "code", lambda client, arts, model, use_batch, workers: {"a1": {"error": "APIError: boom"}})
     with pytest.raises(RuntimeError, match="coding requests failed"):
         pc.classify_articles_v3(object(), articles, {})
+
+
+def test_fold_duplicate_events_merges_same_report_only():
+    def ev(eid, title, date, country="Haiti", **extra):
+        return {"id": eid, "title": title, "date": date, "country": country, "salience": "medium", "source": "S",
+                "linked_reports": [{"article_id": "a-" + eid, "url": f"https://x.test/{eid}", "source_name": "S"}], **extra}
+
+    title = "More than 5,000 people killed or injured in Haiti due to gang violence this year"
+    events = [
+        ev("old", title, "2026-10-02"),
+        ev("new", title.upper() + "!", "2026-10-03", v3={"relevant": True}),
+        ev("regional", title, "2026-10-02", country="Regional"),
+        ev("later", title, "2026-11-20"),
+        ev("elsewhere", title, "2026-10-02", country="Cuba"),
+        ev("page1", "Shining Path", "2026-08-05"),
+        ev("page2", "Shining Path", "2026-08-05"),
+    ]
+    kept, folded = pc.fold_duplicate_events(events)
+    assert folded == 2
+    assert [e["id"] for e in kept] == ["new", "later", "elsewhere", "page1", "page2"]
+    new = kept[0]
+    assert set(new["merged_ids"]) == {"old", "regional"}
+    assert len(new["linked_reports"]) == 3
+
+    kept, folded = pc.fold_duplicate_events([ev("old", title, "2026-10-02"), ev("new", title, "2026-10-02", v3={})], protected={"old"})
+    assert folded == 1 and [e["id"] for e in kept] == ["old"]
+
+
+def test_geolocate_uses_location_field_and_guards_common_words():
+    centre = pc.COUNTRY_CENTROIDS
+    assert pc.geolocate("", "Colombia", "Meta") == [3.5, -73.0]
+    # "meta" is also the Spanish word for goal: never matched in a headline.
+    assert pc.geolocate("El gobierno fija una meta de seguridad", "Colombia") == centre["Colombia"]
+    # One name, two countries.
+    assert pc.geolocate("", "Venezuela", "Bolívar") == [6.5, -63.5]
+    assert pc.geolocate("", "Colombia", "Bolivar") == [8.7, -74.5]
+    # A gang named after a state does not place the event there.
+    assert pc.geolocate("Tren de Aragua factions persist", "Venezuela") == centre["Venezuela"]
+    assert pc.geolocate("US sanctions Sinaloa Cartel financiers", "Mexico") == centre["Mexico"]
+    assert pc.geolocate("Clashes in Zacatecas leave five dead", "Mexico") == [22.77, -102.58]
+    # A place in another country is ignored.
+    assert pc.geolocate("", "Chile", "Madrid") == centre["Chile"]
+
+
+def test_prefilter_covers_july_audit_blind_spots():
+    terms = {t for family in pc.PREFILTER_TERM_MAP.values() for t in family}
+    for term in ("secuestran a coronel", "ley de amnistia", "justicia transicional", "alianza entre bandas",
+                 "remanejamento de tropas", "world cup security"):
+        assert term in terms, term
+    headline = {"title": "Secuestran a coronel del Ejército en Arauca, Colombia", "description": ""}
+    assert pc._article_relevance_score(headline) > 0

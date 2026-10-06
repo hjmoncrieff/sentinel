@@ -7,6 +7,11 @@ One-off repairs to data/events.json after the 2026-09-29 fixes.
                   Events with a plausible location keep it.
   --excerpts      Attach stored source excerpts to linked reports that lack one,
                   using the article records in data/staging/.
+  --duplicates    Fold events that are the same report filed twice (identical headline,
+                  dates within three days, same country). See fold_duplicate_events.
+  --places        Re-locate events that sit on their country's centre point, using the
+                  place list (config/taxonomy/places.json). An event that names no
+                  known place stays where it is.
   --stale-dea     Remove DEA releases dated before 2026-01-01 that were ingested
                   on 2026-09-29 (the scraper ignored its lookback cutoff).
 
@@ -63,6 +68,8 @@ def main() -> None:
     parser.add_argument("--stale-dea", action="store_true")
     parser.add_argument("--countries", action="store_true",
                         help="Normalise country values outside the monitored list (v2-era codings such as 'A|B' or 'Multiple')")
+    parser.add_argument("--duplicates", action="store_true")
+    parser.add_argument("--places", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -87,14 +94,34 @@ def main() -> None:
             e["country_raw"], e["country"] = raw, (named[0] if len(named) == 1 else "Regional")
             changed += 1
         report["countries_normalised"] = changed
+    if args.duplicates:
+        edits_path = ROOT / "data" / "review" / "edits.local.json"
+        edits = json.loads(edits_path.read_text(encoding="utf-8")).get("edits", []) if edits_path.exists() else []
+        events, report["duplicates_folded"] = pc.fold_duplicate_events(events, {e["event_id"] for e in edits if e.get("event_id")})
     if args.geolocation:
         fixed = 0
         for e in events:
             if misplaced(e):
-                e["coords"] = pc.geolocate(f"{e.get('location') or ''} {e.get('title', '')} {e.get('summary') or ''}", e["country"])
+                e["coords"] = pc.geolocate(f"{e.get('title', '')} {e.get('summary') or ''}", e["country"], e.get("location") or "")
                 fixed += 1
         report["geolocation_fixed"] = fixed
         report["still_misplaced"] = sum(misplaced(e) for e in events)
+    if args.places:
+        located, examples = 0, []
+        for e in events:
+            centre = pc.COUNTRY_CENTROIDS.get(e.get("country"))
+            coords = e.get("coords")
+            if not centre or not coords or abs(coords[0] - centre[0]) > 0.01 or abs(coords[1] - centre[1]) > 0.01:
+                continue
+            found = pc.geolocate(e.get("title", ""), e["country"], e.get("location") or "")
+            if found != centre:
+                e["coords"] = found
+                located += 1
+                if len(examples) < 400:
+                    examples.append([e["country"], e.get("location"), e.get("title", "")[:70], found])
+        report["places_located"] = located
+        if args.dry_run:
+            report["examples"] = examples
     if args.excerpts:
         texts = staged_descriptions()
         added = 0
