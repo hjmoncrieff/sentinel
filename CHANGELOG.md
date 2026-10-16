@@ -9,6 +9,30 @@ Each major change entry should include:
 - validation completed
 - remaining risks or follow-up
 
+## 2026-10-15
+
+### Country Reference Data Refresh (web-searched, no API credits)
+
+Affected areas:
+- Dashboard: `assets/js/dashboard.js` (`COUNTRY_POSITIONS`, `COUNTRY_ELECTIONS`, `COUNTRY_PROFILES`, `COUNTRY_WATCH`, `SPECIAL_MONITOR_MILESTONES` for Venezuela and Colombia)
+
+What changed:
+- **Owner request (2026-10-15):** refresh country profiles by web search, without the pipeline's Claude API.
+- **New governments:** Colombia (De la Espriella, Aug 2026), Peru (Keiko Fujimori, Jul 2026), Chile (Kast, Mar 2026), Bolivia (Paz, Nov 2025), Honduras (Asfura, Jan 2026), Costa Rica (Laura Fernández, May 2026), Trinidad and Tobago (Persad-Bissessar, May 2025), Suriname (Geerlings-Simons, Jul 2025). Defence ministers and high commands updated where sources confirmed them.
+- **Leadership changes under existing governments:** Venezuela (Padrino replaced by González López; new CEOFANB), Argentina (Lt. Gen. Presti as defence minister; new Joint Staff and Army chiefs), Paraguay, Uruguay (Sandra Lazo; Bayardi was wrong), Guatemala (Sáenz Ramos), Guyana (Walrond), Jamaica (new Ministry of Defence in OPM), Belize (minister on leave), Nicaragua (co-presidency).
+- **Elections:** every "verify outcome" placeholder resolved; Brazil runoff (Oct 25) with first-round figures; Venezuela with no date set; Haiti postponed indefinitely (Oct 6).
+- **Corrections:** the Venezuela monitor had Maduro's capture dated 2025-01-10 and attributed to "opposition forces"; corrected to the 2026-01-03 US operation and 2026-01-05 arraignment. The 2024 Venezuelan election had been dated 2023.
+
+Validation completed:
+- `node --check assets/js/dashboard.js`
+- Each change traced to a dated news or official source found by web search on 2026-10-15.
+
+Remaining risks / follow-up:
+- Entries still marked `[verify]`: Venezuela DGCIM director, Ecuador Army commander, Honduras police director, Suriname SNL commander and police chief, Belize defence minister after the 90-day leave.
+- Not refreshed: `COUNTRY_STATS` (spending, personnel, US aid), `COUNTRY_MISSIONS`, and the positions of Mexico, Cuba, El Salvador, the Dominican Republic, and Panama (no change found or not searched).
+- Brazil first-round figures come from Wikipedia, not the TSE. Update the Brazil entries after the Oct 25 runoff.
+- CMR status classes were not changed. Argentina (a military defence minister) and Peru are candidates for review.
+
 ## 2026-10-05
 
 ### Record Pages, Methodology, Topic Pages, Review Queue, Data Repairs
