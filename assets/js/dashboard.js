@@ -4367,7 +4367,7 @@ const COUNTRY_ELECTIONS = {
   "Chile":       {type:"Presidential + Parliamentary — Held",date:"Nov 2025 (runoff Dec)",note:"José Antonio Kast won; took office Mar 11, 2026. Next presidential Nov 2029"},
   "Argentina":   {type:"Legislative midterms — Held",date:"Oct 2025",      note:"Midterms held; presidential election Oct 2027"},
   "Peru":        {type:"Presidential + Legislative — Held",date:"Apr 2026 (runoff Jun 7)",note:"Keiko Fujimori beat Roberto Sánchez with ~50.1% (margin <50K votes); took office Jul 28, 2026 as Peru's ninth president in a decade. Next 2031"},
-  "Ecuador":     {type:"Presidential — Held",        date:"Feb 2025",       note:"Noboa re-elected Feb 2025 (1st round); governing second term; next presidential 2029"},
+  "Ecuador":     {type:"Presidential — Held",        date:"Apr 2025",       note:"Noboa re-elected in the Apr 13, 2025 runoff (first round Feb 9); governing second term; next presidential 2029"},
   "Bolivia":     {type:"Presidential + Legislative — Held",date:"Aug 2025 (runoff Oct)", note:"Rodrigo Paz Pereira won, ending ~20 years of MAS rule; took office Nov 2025. Next 2030"},
   "Cuba":        {type:"National Assembly",          date:"2028 (est.)",    note:"Non-competitive; FAR institutional continuity the key variable"},
   "Honduras":    {type:"Presidential + Legislative — Held",date:"Nov 2025", note:"Nasry Asfura (National Party) won; took office Jan 27, 2026. Next Nov 2029"},

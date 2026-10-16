@@ -9,6 +9,28 @@ Each major change entry should include:
 - validation completed
 - remaining risks or follow-up
 
+## 2026-10-16
+
+### Redesigned Site Country Reference Brought in Line
+
+Affected areas:
+- `apps/public-site/reference/countries.json`, `apps/public-site/reference/changes.json`
+- `assets/js/dashboard.js` (Ecuador election note)
+
+What changed:
+- The 2026-10-15 refresh had only touched the old dashboard; the redesigned site (`/sentinel/next/`) keeps its own reference file, and 22 of its 25 countries were stale.
+- The same web-searched findings were stored as proposals through `refresh_country_reference.propose()` (no API calls; model recorded as "manual web search"). That covered 19 countries; Mexico, Cuba, El Salvador, the Dominican Republic and Panama were not re-checked. Every name carries a source URL. All 19 proposals were approved, and Colombia's pre-review automatic update was signed off, by reviewer HM through `review_reference.py`.
+- Posts with no source in this pass carry no name, by design. For example, Haiti's HNP and FAd'H chiefs and Guyana's GDF chief no longer show a name.
+- Ecuador: Noboa won the Apr 13, 2025 runoff, not the first round; corrected in both places.
+
+Validation completed:
+- `python3 scripts/reference/review_reference.py list` (0 pending)
+- `python3 -m pytest -q` (116 passed)
+- `node apps/public-site/build.mjs --base /sentinel/next/ --legacy /sentinel/ --out <scratch>` (1,552 pages; Peru page shows Keiko Fujimori, no "Under review")
+
+Remaining risks / follow-up:
+- The nightly `--triggered --stale-days 30` refresh will re-research these countries with the API on its normal schedule and may propose further changes.
+
 ## 2026-10-15
 
 ### Country Reference Data Refresh (web-searched, no API credits)
