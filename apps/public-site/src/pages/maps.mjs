@@ -13,8 +13,39 @@ function project(model, width, pad) {
   const proj = fitMercator(tracked, width, pad);
   const trackedShapes = tracked.map(f => ({c: f.c, ...shape(f, proj.project)}));
   const backdrop = all.filter(f => !byNum[String(Number(f.id))]).map(f => shape(f, proj.project))
-    .filter(s => s.d && intersects(s.bounds, proj.width, proj.height));
+    // Shapes that cross the antimeridian (Fiji, Russia) project as a band across the whole map.
+    .filter(s => s.d && intersects(s.bounds, proj.width, proj.height) && s.bounds[2] - s.bounds[0] < proj.width * 1.5);
   return {proj, trackedShapes, backdrop};
+}
+
+// Zoom presets: a viewBox around each subregion group, kept at the full map's aspect ratio.
+export const ZOOM_LABELS = [['all', 'All'], ['north', 'Mexico & Central America'], ['Caribbean', 'Caribbean'], ['Andean', 'Andes'], ['south', 'Brazil & Southern Cone']];
+function zoomPresets(trackedShapes, W, H) {
+  const groups = {all: () => true, north: c => ['Mexico', 'Central America'].includes(c.subregion), Caribbean: c => c.subregion === 'Caribbean', Andean: c => c.subregion === 'Andean', south: c => ['Brazil', 'Southern Cone'].includes(c.subregion)};
+  const zooms = {};
+  for (const [key, test] of Object.entries(groups)) {
+    if (key === 'all') { zooms.all = [0, 0, W, H]; continue; }
+    const bs = trackedShapes.filter(s => test(s.c)).map(s => s.bounds);
+    const [x0, y0, x1, y1] = [Math.min(...bs.map(b => b[0])), Math.min(...bs.map(b => b[1])), Math.max(...bs.map(b => b[2])), Math.max(...bs.map(b => b[3]))];
+    let w = (x1 - x0) * 1.12, h = (y1 - y0) * 1.12;
+    if (w / h > W / H) h = w * H / W; else w = h * W / H;
+    zooms[key] = [(x0 + x1) / 2 - w / 2, (y0 + y1) / 2 - h / 2, w, h].map(v => +v.toFixed(1));
+  }
+  return zooms;
+}
+
+/** Live-feed map, the "country pressure surface": the base map is drawn here; the browser adds
+ *  one bubble per country for the events in view, dots for events placed at a town, and the
+ *  selected record, using the same projection (data-proj). */
+export function feedMap(model) {
+  const W = 560;
+  const {proj, trackedShapes, backdrop} = project(model, W, 8);
+  const H = proj.height;
+  const centroids = Object.fromEntries(trackedShapes.map(s => [s.c.name, s.centroid.map(v => +v.toFixed(1))]));
+  return `<svg id="fm" viewBox="0 0 ${W} ${H}" data-w="${W}" data-h="${H}" data-proj='${JSON.stringify(proj.params)}' data-centroids='${esc(JSON.stringify(centroids))}' data-zooms='${JSON.stringify(zoomPresets(trackedShapes, W, H))}' role="group" aria-label="Map of the events in view, by country">
+    <g>${backdrop.map(s => `<path d="${s.d}" fill="var(--olive-2)" stroke="var(--olive)" stroke-width=".5"/>`).join('')}</g>
+    <g id="fm-countries">${trackedShapes.map(s => `<path class="fm-c" d="${s.d}" data-name="${esc(s.c.name)}" fill="var(--olive-3)" stroke="var(--i-faint)" stroke-opacity=".55" stroke-width=".6"><title>${esc(s.c.name)}</title></path>`).join('')}</g>
+    <g id="fm-dots"></g><g id="fm-bubbles"></g><g id="fm-sel" style="pointer-events:none"></g></svg>`;
 }
 
 /** Front-page map: status / outlook / activity layers, located events, per-country count stacks. */
@@ -51,17 +82,7 @@ export function heroMap(model, events, ctx) {
   const labels = trackedShapes.filter(s => s.area > 900)
     .map(s => `<text x="${s.centroid[0].toFixed(1)}" y="${(s.centroid[1] + 12).toFixed(1)}" text-anchor="middle" fill="var(--olive)" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="500">${s.c.iso3}</text>`).join('');
 
-  // Zoom presets: a viewBox around each subregion group, kept at the full map's aspect ratio.
-  const groups = {all: () => true, north: c => ['Mexico', 'Central America'].includes(c.subregion), Caribbean: c => c.subregion === 'Caribbean', Andean: c => c.subregion === 'Andean', south: c => ['Brazil', 'Southern Cone'].includes(c.subregion)};
-  const zooms = {};
-  for (const [key, test] of Object.entries(groups)) {
-    if (key === 'all') { zooms.all = [0, 0, W, H]; continue; }
-    const bs = trackedShapes.filter(s => test(s.c)).map(s => s.bounds);
-    let [x0, y0, x1, y1] = [Math.min(...bs.map(b => b[0])), Math.min(...bs.map(b => b[1])), Math.max(...bs.map(b => b[2])), Math.max(...bs.map(b => b[3]))];
-    let w = (x1 - x0) * 1.12, h = (y1 - y0) * 1.12;
-    if (w / h > W / H) h = w * H / W; else w = h * W / H;
-    zooms[key] = [(x0 + x1) / 2 - w / 2, (y0 + y1) / 2 - h / 2, w, h].map(v => +v.toFixed(1));
-  }
+  const zooms = zoomPresets(trackedShapes, W, H);
 
   const cards = Object.fromEntries(model.countries.map(c => {
     const evs = events.filter(e => e.country === c.name);
@@ -149,7 +170,7 @@ export function countryMap(c, model) {
   const W = 400;
   const proj = fitBox([{polygons: own.polygons.filter(p => span(p) >= biggest * 0.05)}], W, 380, 18);
   const H = proj.height;
-  const backdrop = all.filter(f => f !== own).map(f => shape(f, proj.project)).filter(s => s.d && intersects(s.bounds, W, H, 0));
+  const backdrop = all.filter(f => f !== own).map(f => shape(f, proj.project)).filter(s => s.d && intersects(s.bounds, W, H, 0) && s.bounds[2] - s.bounds[0] < W * 1.5);
   // A place coded outside the country's outline (a neighbour's town, a bad geocode) is not drawn.
   // Coastal towns can fall just off the simplified outline, so points near its edge are kept.
   const inside = ([lat, lon]) => own.polygons.some(poly => {

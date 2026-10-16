@@ -56,6 +56,8 @@ function switchTab(id){
   // Organized crime and US security moved to their own pages as well.
   if(id==='transnational'){ location.href = 'organized-crime/'; return; }
   if(id==='us'){ location.href = 'us-security/'; return; }
+  // The live feed replaced the Events tab.
+  if(id==='events'){ location.href = 'feed/'; return; }
   if(id==='timeline'){
     activateTabUI('explore');
     exInitDots();

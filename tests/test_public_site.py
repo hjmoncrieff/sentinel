@@ -40,7 +40,7 @@ def test_no_img_without_alt():
 def generated_pages() -> set[str]:
     """Pages apps/public-site/build.mjs writes into the live site at deploy time (--live)."""
     reference = json.loads((ROOT / "apps" / "public-site" / "reference" / "countries.json").read_text(encoding="utf-8"))
-    pages = {"countries/", "organized-crime/", "us-security/"}
+    pages = {"countries/", "organized-crime/", "us-security/", "feed/"}
     return pages | {f"countries/{c['iso3'].lower()}/" for c in reference["countries"]}
 
 

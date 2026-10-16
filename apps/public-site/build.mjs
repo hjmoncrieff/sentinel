@@ -86,7 +86,7 @@ for (const f of ['model.mjs', 'geo.mjs']) fs.rmSync(path.join(out, 'assets', 'li
 // Promoted sections: the same pages, served from the live site. Their own links (countries/…)
 // stay on the live site; links into sections not promoted yet (feed, records) go to the preview.
 // Sections served from the live site; everything else stays in the preview until promoted.
-const PROMOTED = ['countries/', 'organized-crime/', 'us-security/'];
+const PROMOTED = ['countries/', 'organized-crime/', 'us-security/', 'feed/', 'events/'];
 if (liveOut) {
   const promoted = p => p === '' || PROMOTED.some(prefix => p.startsWith(prefix));
   const liveCtx = {...ctx, live: liveBase, url: p => (promoted(p) ? liveBase : base) + p};
@@ -95,7 +95,10 @@ if (liveOut) {
   for (const c of model.countries) writeLive(`countries/${c.iso3.toLowerCase()}/index.html`, renderCountry(c, model, liveCtx));
   writeLive('organized-crime/index.html', renderOrganizedCrime(model, liveCtx));
   writeLive('us-security/index.html', renderUsSecurity(model, liveCtx));
-  console.log(`Live: ${3 + model.countries.length} pages (${PROMOTED.join(', ')}) → ${path.relative(repoRoot, liveOut)} (base ${liveBase})`);
+  writeLive('feed/index.html', renderFeed(model, liveCtx));
+  for (const e of model.events) writeLive(`events/${e.id}/index.html`, renderEvent(e, model, liveCtx));
+  for (const [old, target] of Object.entries(model.aliases)) writeLive(`events/${old}/index.html`, renderEventRedirect(target, liveCtx));
+  console.log(`Live: ${4 + model.countries.length + model.events.length} pages (${PROMOTED.join(', ')}) → ${path.relative(repoRoot, liveOut)} (base ${liveBase})`);
 }
 
 const pages = 6 + model.countries.length + model.events.length;

@@ -1,4 +1,5 @@
-// Live feed: filter, stream and detail pane. State lives in the URL so any view can be shared.
+// Live feed: filter, stream, and a right pane that shows the map until a record is picked.
+// State lives in the URL so any view can be shared.
 
 import {esc, fmtDate, tLabel, tColor, corroboration, plainActor, daysBetween, ago} from '../lib/html.mjs';
 
@@ -9,7 +10,7 @@ const PAGE_SIZE = 150;
 const DEFAULTS = {country: 'all', type: 'all', sal: 'all', conf: 'all', period: 90, content: 'event', rev: 'all', sel: null};
 const KEYS = {c: 'country', t: 'type', s: 'sal', k: 'conf', p: 'period', ct: 'content', r: 'rev', e: 'sel'};
 const F = {...DEFAULTS};
-let D = null, ISO = {}, shown = PAGE_SIZE;
+let D = null, ISO = {}, shown = PAGE_SIZE, view = 'map';
 
 function readState() {
   Object.assign(F, DEFAULTS);
@@ -50,7 +51,9 @@ function draw(scrollToSel) {
   const folded = all.length - items.length;
   // A deep link to a record outside the current filters still opens it.
   const linked = F.sel && !items.some(e => e.id === F.sel) ? D.events.find(e => e.id === F.sel) : null;
-  if (!F.sel || (!linked && !items.some(e => e.id === F.sel))) F.sel = items[0]?.id || null;
+  // Nothing is selected until the reader picks a record (or a link names one): the map shows instead.
+  if (F.sel && !D.events.some(e => e.id === F.sel)) F.sel = null;
+  if (!F.sel) view = 'map';
   const hidden = D.events.filter(e => (!F.period || days(e.date) <= F.period) && e.content_type !== 'event').length;
   const countries = new Set(items.map(e => e.country)).size, high = items.filter(e => e.sal === 'high').length;
   $('#f-count').textContent = `${items.length.toLocaleString('en')} record${items.length === 1 ? '' : 's'}${folded ? ` · ${folded} more of the same stories` : ''}`;
@@ -68,7 +71,9 @@ function draw(scrollToSel) {
   if (items.length > shown) html += `<button type="button" class="more" id="f-more">Show ${Math.min(PAGE_SIZE, items.length - shown)} more of ${(items.length - shown).toLocaleString('en')}</button>`;
   $('#f-list').innerHTML = html || '<p style="padding:24px;color:var(--i-dim)">Nothing matches these filters. Widen the period or clear a filter.</p>';
   writeState();
+  drawMap(items);
   detail(D.events.find(e => e.id === F.sel));
+  showView();
   if (scrollToSel) $('#f-list .ev[aria-selected="true"]')?.scrollIntoView({block: 'nearest'});
 }
 
@@ -99,8 +104,8 @@ const METHOD = {rss: 'RSS feed', google_news_rss: 'Google News search', google_n
 const pretty = v => String(v || '').replaceAll('_', ' ');
 
 function detail(e) {
-  const el = $('#f-detail');
-  if (!e) { el.innerHTML = '<p style="color:var(--i-dim)">Select an event to see its sources and coding.</p>'; return; }
+  const el = $('#f-rec');
+  if (!e) { el.innerHTML = ''; return; }
   const k = e.coding, rel = related(e);
   const lead = e.story || (e.story_n ? e.id : null);
   const story = lead ? D.events.filter(x => x.id !== e.id && (x.id === lead || x.story === lead)) : [];
@@ -146,10 +151,78 @@ function detail(e) {
         <li class="done"><i></i>Published to the public layer<span class="m">nightly</span></li>
       </ul></div>
     <p class="mono" style="font-size:11px;color:var(--i-faint);margin:0">Permanent page, with citation · <a href="${page.dataset.base}events/${esc(e.id)}/" style="color:var(--i-amber)">${esc(location.origin + page.dataset.base)}events/${esc(e.id)}/</a></p>`;
-  el.scrollTop = 0;
+  $('#f-detail').scrollTop = 0;
 }
 
-function select(id, scroll) { F.sel = id; draw(scroll); }
+function select(id, scroll) { F.sel = id; view = 'record'; draw(scroll); }
+
+/* ── Map pane ── */
+
+const svgNS = 'http://www.w3.org/2000/svg';
+const fm = $('#fm');
+const P = fm ? JSON.parse(fm.dataset.proj) : null;
+const CENTROID = fm ? JSON.parse(fm.dataset.centroids) : {};
+const mercY = lat => Math.log(Math.tan(Math.PI / 4 + (Math.max(-85, Math.min(85, lat)) * Math.PI / 180) / 2));
+// The build's Mercator projection (lib/geo.mjs fitMercator), so dots land where the base map puts places.
+const projectXY = ([lat, lon]) => [P.pad + (lon - P.x0) * Math.PI / 180 * P.k, P.pad + (P.y1 - mercY(lat)) * P.k];
+const node = (tag, attrs, text) => { const n = document.createElementNS(svgNS, tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); if (text != null) n.textContent = text; return n; };
+
+function drawMap(items) {
+  if (!fm) return;
+  const events = items.filter(e => e.content_type === 'event');
+  const by = {};
+  for (const e of events) {
+    const c = (by[e.country] ||= {n: 0, high: 0, types: {}});
+    c.n++; if (e.sal === 'high') c.high++; c.types[e.type] = (c.types[e.type] || 0) + 1;
+  }
+  const max = Math.max(1, ...Object.values(by).map(c => c.n));
+  const bubbles = $('#fm-bubbles'), dots = $('#fm-dots'), sel = $('#fm-sel');
+  bubbles.replaceChildren(); dots.replaceChildren(); sel.replaceChildren();
+  fm.querySelectorAll('.fm-c').forEach(p => {
+    const name = p.dataset.name;
+    p.classList.toggle('on', F.country === name);
+    p.classList.toggle('dim', F.country !== 'all' && F.country !== name);
+    p.classList.toggle('has', !!by[name]);
+  });
+  for (const e of events) {
+    if (!e.coords || e.precision !== 'place') continue;
+    const [x, y] = projectXY(e.coords);
+    const dot = node('circle', {cx: x.toFixed(1), cy: y.toFixed(1), r: e.sal === 'high' ? 3.6 : 2.4, fill: tColor(e.type), stroke: 'var(--olive)', 'stroke-width': .8, class: 'fm-dot', 'data-id': e.id, tabindex: 0, role: 'button'});
+    dot.append(node('title', {}, `${e.location || e.country} · ${fmtDate(e.date, {day: 'numeric', month: 'short'})} · ${e.title}`));
+    dots.append(dot);
+  }
+  for (const [name, c] of Object.entries(by).sort((a, b) => b[1].n - a[1].n)) {
+    const at = CENTROID[name];
+    if (!at) continue;
+    const dom = Object.entries(c.types).sort((a, b) => b[1] - a[1])[0][0];
+    const r = 7 + Math.sqrt(c.n / max) * 15;
+    const g = node('g', {class: `fm-b${F.country === name ? ' on' : ''}`, transform: `translate(${at[0]},${at[1]})`, 'data-name': name, tabindex: 0, role: 'button', 'aria-label': `${name}: ${c.n} records in view. Filter the list to ${name}.`});
+    g.append(node('title', {}, `${name}: ${c.n} record${c.n === 1 ? '' : 's'} in view${c.high ? `, ${c.high} high salience` : ''}; mostly ${tLabel(dom).toLowerCase()}`));
+    g.append(node('circle', {r: r.toFixed(1), fill: tColor(dom), 'fill-opacity': .88, stroke: c.high ? 'var(--st-crisis-i)' : 'var(--olive)', 'stroke-width': c.high ? 1.6 : 1}));
+    g.append(node('text', {'text-anchor': 'middle', dy: '.35em'}, c.n));
+    bubbles.append(g);
+  }
+  const s = F.sel && D.events.find(e => e.id === F.sel);
+  if (s) {
+    const at = s.coords && s.precision === 'place' ? projectXY(s.coords) : CENTROID[s.country];
+    if (at) sel.append(node('circle', {cx: (+at[0]).toFixed(1), cy: (+at[1]).toFixed(1), r: 9, fill: 'none', stroke: 'var(--i-amber)', 'stroke-width': 2, class: 'fm-ring'}));
+  }
+  const period = F.period ? `past ${F.period} days` : 'all dates';
+  $('#f-maplbl').textContent = `${events.length.toLocaleString('en')} events · ${period}`;
+  $('#f-top').innerHTML = Object.entries(by).sort((a, b) => b[1].n - a[1].n).slice(0, 8).map(([name, c]) =>
+    `<li><button type="button" data-name="${esc(name)}" aria-pressed="${F.country === name}"><span>${esc(name)}</span><span class="bar"><i style="width:${(c.n / max * 100).toFixed(0)}%"></i></span><b class="mono">${c.n}</b></button></li>`).join('')
+    || '<li class="none">No events in view.</li>';
+}
+
+function showView() {
+  const rec = view === 'record' && F.sel;
+  $('#f-map').hidden = !!rec; $('#f-rec').hidden = !rec;
+  $('#t-map').setAttribute('aria-selected', String(!rec)); $('#t-rec').setAttribute('aria-selected', String(!!rec));
+  $('#t-rec').disabled = !F.sel;
+  $('#f-hint').hidden = !!F.sel;
+}
+
+const toggleCountry = name => { F.country = F.country === name ? 'all' : name; shown = PAGE_SIZE; syncControls(); draw(); };
 
 async function start() {
   readState();
@@ -163,6 +236,7 @@ async function start() {
   ISO = Object.fromEntries(D.countries.map(c => [c.name, c.iso3]));
   if (D.aliases?.[F.sel]) F.sel = D.aliases[F.sel];
   try { localStorage.setItem('sentinel.feed.lastVisit', D.asof); } catch { /* storage is optional */ }
+  if (F.sel) view = 'record';
   draw(true);
 
   const panel = $('#f-panel');
@@ -180,8 +254,27 @@ async function start() {
     const r = e.target.closest('.ev'); if (r) select(r.dataset.id);
   });
   $('#f-detail').addEventListener('click', e => {
-    const a = e.target.closest('a.rel'); if (!a) return;
-    e.preventDefault(); select(a.dataset.id, true);
+    const a = e.target.closest('a.rel');
+    if (a) { e.preventDefault(); select(a.dataset.id, true); return; }
+    const tab = e.target.closest('[data-view]');
+    if (tab && !tab.disabled) { view = tab.dataset.view; showView(); return; }
+    const zoom = e.target.closest('[data-zoom]');
+    if (zoom) {
+      fm.setAttribute('viewBox', JSON.parse(fm.dataset.zooms)[zoom.dataset.zoom].join(' '));
+      document.querySelectorAll('[data-zoom]').forEach(b => b.setAttribute('aria-pressed', String(b === zoom)));
+      return;
+    }
+    const dot = e.target.closest('.fm-dot');
+    if (dot) { select(dot.dataset.id, true); return; }
+    const place = e.target.closest('.fm-b, .fm-c, .fm-top button');
+    if (place) toggleCountry(place.dataset.name);
+  });
+  $('#f-detail').addEventListener('keydown', e => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const t = e.target.closest('.fm-dot, .fm-b');
+    if (!t) return;
+    e.preventDefault();
+    t.classList.contains('fm-dot') ? select(t.dataset.id, true) : toggleCountry(t.dataset.name);
   });
   document.addEventListener('keydown', ev => {
     if (ev.target.closest('input, select, textarea') || ev.metaKey || ev.ctrlKey || ev.altKey) return;
@@ -192,7 +285,7 @@ async function start() {
     select(rows[Math.min(rows.length - 1, Math.max(0, i + (ev.key === 'j' ? 1 : -1)))].dataset.id, true);
     ev.preventDefault();
   });
-  window.addEventListener('popstate', () => { readState(); syncControls(); draw(true); });
+  window.addEventListener('popstate', () => { readState(); view = F.sel ? 'record' : 'map'; syncControls(); draw(true); });
   const setChrome = () => document.documentElement.style.setProperty('--chrome', (page.getBoundingClientRect().top + window.scrollY) + 'px');
   setChrome(); window.addEventListener('resize', setChrome);
 }

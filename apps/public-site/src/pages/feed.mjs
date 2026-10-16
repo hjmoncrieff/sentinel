@@ -3,6 +3,7 @@
 
 import {esc, tLabel} from '../lib/html.mjs';
 import {layout} from './layout.mjs';
+import {feedMap, ZOOM_LABELS} from './maps.mjs';
 
 export function renderFeed(model, ctx) {
   const types = [...new Set(model.events.map(e => e.type))];
@@ -29,7 +30,23 @@ export function renderFeed(model, ctx) {
         </div>
       </aside>
       <section class="stream" aria-label="Event stream" id="f-stream"><div class="stream-head"><span id="f-count">Loading events…</span><span id="f-sum"></span></div><div id="f-list" role="listbox" aria-label="Events"></div></section>
-      <section class="detail" id="f-detail" aria-live="polite" tabindex="-1"><p style="color:var(--i-dim)">Select an event to see its sources and coding.</p></section>
+      <section class="detail" id="f-detail" tabindex="-1">
+        <div class="pane-tabs" role="tablist" aria-label="Right pane">
+          <button type="button" role="tab" id="t-map" data-view="map" aria-selected="true">Map</button>
+          <button type="button" role="tab" id="t-rec" data-view="record" aria-selected="false" disabled>Record</button>
+          <span class="pane-hint" id="f-hint">Select an event to open its record</span>
+        </div>
+        <div id="f-map" class="fmap" role="tabpanel" aria-labelledby="t-map">
+          <div class="panel-title"><span>Country pressure surface</span><span class="mono" id="f-maplbl"></span></div>
+          <div class="fm-zoom" role="group" aria-label="Zoom to a subregion">${ZOOM_LABELS.map(([k, l], i) => `<button type="button" data-zoom="${k}" aria-pressed="${i === 0}">${l}</button>`).join('')}</div>
+          <div class="fm-wrap">${feedMap(model)}</div>
+          <div class="map-legend fm-legend"><span><i class="lg-b"></i>Events in view, by country; colour is the most common type</span><span><i class="lg-d"></i>Event placed at a town or region</span><span><i class="lg-s"></i>Selected record</span></div>
+          <p class="fm-help">Click a country or its bubble to filter the list; click again to clear. Click a dot to open its record.</p>
+          <div class="panel-title" style="margin-top:6px"><span>Most active in view</span><span class="mono">records</span></div>
+          <ol class="fm-top" id="f-top"></ol>
+        </div>
+        <div id="f-rec" role="tabpanel" aria-labelledby="t-rec" aria-live="polite" hidden></div>
+      </section>
     </div>
     <noscript><p style="padding:24px">The live feed needs JavaScript to filter events. The <a href="${ctx.url('countries/')}">country monitors</a> list recent events without it.</p></noscript>
   </div>`;

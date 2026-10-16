@@ -39,7 +39,8 @@ export function fitMercator(features, width, pad = 6) {
   const k = (width - 2 * pad) / ((x1 - x0) * Math.PI / 180);
   const height = Math.ceil((y1 - y0) * k + 2 * pad);
   const project = ([lon, lat]) => [pad + (lon - x0) * Math.PI / 180 * k, pad + (y1 - mercY(lat)) * k];
-  return {project, width, height};
+  // The parameters let the browser place points with the same projection (see client/feed.js).
+  return {project, width, height, params: {x0, y1, k, pad}};
 }
 
 /** A Mercator projection that fits `features` inside a `width` × `maxHeight` box, centred. */

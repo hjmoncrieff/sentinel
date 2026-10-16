@@ -10,7 +10,7 @@ node apps/public-site/build.mjs --base /sentinel/next/ --legacy /sentinel/ --out
 cd dist/public-site && python3 -m http.server 8731    # preview locally
 ```
 
-**Promoted sections.** With `--live <dir>`, the build also writes the promoted sections (country monitors, organized crime, US security; `PROMOTED` in `build.mjs`) into the live site, with the current dashboard's sections as navigation and no preview banner. Links into sections not promoted yet (the feed, record pages) still go to the preview. The dashboard's Countries tab, its monitor cards and old `#profiles` links all lead there.
+**Promoted sections.** With `--live <dir>`, the build also writes the promoted sections (country monitors, organized crime, US security, the live feed and record pages; `PROMOTED` in `build.mjs`) into the live site, with the current dashboard's sections as navigation and no preview banner. Links into sections not promoted yet (the feed, record pages) still go to the preview. The dashboard's Countries tab, its monitor cards and old `#profiles` links all lead there.
 
 **Light and dark.** Pages follow the system setting until a visitor uses the switch in the header; the choice is stored as `sentinel-theme` in localStorage and shared with the dashboard (`src/client/theme.js`).
 
@@ -35,7 +35,7 @@ public-safe layer), plus the two folders below.
 ## Pages
 
 - `/` front page: weekly lede, region map, coverage figures, sections, in-depth monitors
-- `/feed/` live feed: every published event, filtered in the browser; state lives in the URL (`?e=<id>&c=<country>&p=<days>`)
+- `/feed/` live feed: every published event, filtered in the browser; state lives in the URL (`?e=<id>&c=<country>&p=<days>`). The right pane shows the country pressure map (bubbles by country for the events in view, dots for located events) until a record is picked; clicking a country filters the list
 - `/countries/` regional summary and situation board
 - `/countries/<iso3>/` one monitor per country; four carry an in-depth section with a timeline
 - `/events/<id>/` one page per record, with sources, coding, provenance and a citation. The id of a folded duplicate forwards to the record that replaced it

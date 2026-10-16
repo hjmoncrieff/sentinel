@@ -14,7 +14,7 @@ const NAV = [
 // The wordmark links to the overview, so it has no menu entry of its own.
 const LIVE_NAV = [
   ['explore', 'Explore', '#explore'],
-  ['events', 'Events', '#events'],
+  ['feed', 'Live feed', 'feed/'],
   ['countries', 'Countries', 'countries/'],
   ['oc', 'Organized crime', 'organized-crime/'],
   ['us', 'US–LatAm', 'us-security/'],

@@ -11,6 +11,29 @@ Each major change entry should include:
 
 ## 2026-10-16
 
+### Live Feed Replaces the Events Tab, with the Event Map
+
+Affected areas:
+- Public site: `src/pages/feed.mjs`, `src/client/feed.js`, `src/pages/maps.mjs` (`feedMap`, shared zoom presets), `src/lib/geo.mjs` (projection parameters), `src/pages/layout.mjs`, `src/styles/site.css`, `build.mjs` (`feed/` and `events/` promoted)
+- Dashboard: `assets/js/dashboard.js` (Events tab opens the feed)
+- Deployment and tests: `.github/workflows/pages.yml`, `sitemap.xml`, `tests/test_public_site.py`
+
+What changed:
+- **Owner request (2026-10-16):** use the new live feed in place of the Events tab, but keep the old event map.
+- **Map pane.** The feed's right pane shows a country pressure map until a record is picked: one bubble per country for the events in view, sized by count and coloured by the most common type, with a red ring if any are high salience. It adds dots for events placed at a town or region, plus subregion zoom and a "most active in view" list. Clicking a country, its bubble or its row filters the list; clicking again clears it. A dot opens its record, and the selected record is ringed on the map. Map and Record tabs switch between the two. A link that names a record (`?e=`) opens the record. The base map is built like the site's other maps; the browser places dots with the same Mercator parameters.
+- **Behaviour change:** the feed no longer selects the newest record on load.
+- **Fix:** Fiji, Russia and Antarctica cross the antimeridian and drew a thin band across every regional map. Background shapes wider than the map are now skipped.
+- **Live:** `/sentinel/feed/` and every record page `/sentinel/events/<id>/` are built into the live site. The dashboard's Events tab, "Open live feed" and old `#events` links open the feed.
+
+Validation completed:
+- `node --check` on the feed module; local build with `--live`
+- Headless Chrome screenshots of the feed in light and dark, filtered to one country (`?c=Colombia`), and with a record linked (`?e=`); `#events` confirmed to redirect
+- `python3 -m pytest -q` (116 passed)
+
+Remaining risks / follow-up:
+- The map pane needs a manual check on phones. Below 980px it stacks under the list, as the record pane did.
+- The dashboard's own event map and Events tab code are now unused.
+
 ### Organized Crime and US Security Pages Rebuilt and Promoted
 
 Affected areas:
