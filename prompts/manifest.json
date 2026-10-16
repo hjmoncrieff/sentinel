@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "updated": "2026-10-05",
+  "updated": "2026-10-16",
   "description": "Registry of SENTINEL LLM prompts. Each entry names the prompt file (prompts/<name>.md), its consumer, the model it is sent to, and the placeholders it requires. Tests enforce that placeholders here match the file.",
   "prompts": {
     "classify_events": {
       "consumer": "scripts/pipeline_core.py::_classify_batch",
-      "model": "claude-haiku-4-5-20251001",
+      "model": "claude-haiku-5-5",
       "role": "user",
       "placeholders": [
         "items"
@@ -14,7 +14,7 @@
     },
     "cluster_events": {
       "consumer": "scripts/pipeline_core.py::_cluster_events",
-      "model": "claude-haiku-4-5-20251001",
+      "model": "claude-haiku-5-5",
       "role": "user",
       "placeholders": [
         "items",
@@ -24,7 +24,7 @@
     },
     "event_analysis": {
       "consumer": "scripts/pipeline_core.py::generate_analysis",
-      "model": "claude-haiku-4-5-20251001",
+      "model": "claude-haiku-5-5",
       "role": "user",
       "placeholders": [
         "country",
@@ -50,14 +50,14 @@
     },
     "council_quality_judge_system": {
       "consumer": "scripts/analysis/validate_council_quality.py::call_judge",
-      "model": "claude-haiku-4-5-20251001",
+      "model": "claude-haiku-5-5",
       "role": "system",
       "placeholders": [],
       "purpose": "LLM-as-judge reviewer persona."
     },
     "council_quality_judge": {
       "consumer": "scripts/analysis/validate_council_quality.py::build_judge_prompt",
-      "model": "claude-haiku-4-5-20251001",
+      "model": "claude-haiku-5-5",
       "role": "user",
       "placeholders": [
         "country",
@@ -73,7 +73,7 @@
     },
     "relevance_gate": {
       "consumer": "scripts/classify_v3.py::gate",
-      "model": "claude-haiku-4-5-20251001",
+      "model": "claude-haiku-5-5",
       "role": "user",
       "placeholders": [
         "items"

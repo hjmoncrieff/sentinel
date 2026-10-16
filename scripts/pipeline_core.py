@@ -46,7 +46,7 @@ from ingest_gdelt import fetch_gdelt, fetch_gdelt_historical, normalize_gdelt
 from ingest_newsapi import fetch_newsapi, normalize_newsapi
 from ingest_rss import fetch_all_archives, fetch_rss
 from normalize_articles import canonicalize_url, make_article_record
-from prompt_library import model_for, render_prompt
+from prompt_library import first_text, model_for, quick_call_params, render_prompt
 from query_lexicon import (
     DEFAULT_PREFILTER_FAMILIES,
     get_prefilter_term_map,
@@ -344,14 +344,27 @@ FAMILY_PRIORITY_MULTIPLIER = {
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("sentinel")
 
+# Fallback estimate for a model missing from MODEL_PRICES_USD_PER_MTOK.
 ANTHROPIC_EST_INPUT_USD_PER_MTOK = float(os.environ.get("ANTHROPIC_EST_INPUT_USD_PER_MTOK", "1.0"))
 ANTHROPIC_EST_OUTPUT_USD_PER_MTOK = float(os.environ.get("ANTHROPIC_EST_OUTPUT_USD_PER_MTOK", "5.0"))
 
-# anthropic>=1 removed `temperature` from messages.create(); the API still honours it
-# for the Haiku 4.5 classifier, and classification depends on it being 0, so it is
-# sent through extra_body. Newer models (Opus 4.7+, Sonnet 5+) reject sampling params:
-# drop this when prompts/manifest.json moves to one of them.
-DETERMINISTIC = {"temperature": 0}
+# First-party list prices (input, output) per million tokens, checked 2026-10-16.
+# Haiku 5.5 is $0.10/$0.50 up to 100K-token prompts, which covers every SENTINEL call.
+MODEL_PRICES_USD_PER_MTOK: dict[str, tuple[float, float]] = {
+    "claude-haiku-4-5-20251001": (1.0, 5.0),
+    "claude-haiku-5-5": (0.10, 0.50),
+    "claude-sonnet-5-5": (2.0, 10.0),
+    "claude-opus-5-5": (4.0, 20.0),
+}
+
+# Usage stage -> prompt whose manifest model the stage calls.
+STAGE_PROMPTS = {
+    "classify": "classify_events",
+    "cluster": "cluster_events",
+    "analysis": "event_analysis",
+    "gate": "relevance_gate",
+    "code": "code_event_v3",
+}
 
 # Set when a classification batch fails; if every batch fails the run aborts instead
 # of silently publishing nothing (e.g. the SDK 1.x temperature break, 2026-09-29).
@@ -410,13 +423,20 @@ def record_anthropic_usage(stage: str, msg, *, item_count: int = 0) -> None:
     bucket["items"] += int(item_count or 0)
 
 
+def stage_prices(stage: str) -> tuple[float, float]:
+    """(input, output) USD per MTok for the model a usage stage calls."""
+    prompt = STAGE_PROMPTS.get(stage)
+    model = model_for(prompt) if prompt else None
+    return MODEL_PRICES_USD_PER_MTOK.get(model, (ANTHROPIC_EST_INPUT_USD_PER_MTOK, ANTHROPIC_EST_OUTPUT_USD_PER_MTOK))
+
+
 def estimate_anthropic_cost_usd() -> float:
-    usage = RUN_METRICS["anthropic"]
-    input_tokens = sum(int(bucket.get("input_tokens", 0)) for bucket in usage.values())
-    output_tokens = sum(int(bucket.get("output_tokens", 0)) for bucket in usage.values())
-    input_cost = (input_tokens / 1_000_000) * ANTHROPIC_EST_INPUT_USD_PER_MTOK
-    output_cost = (output_tokens / 1_000_000) * ANTHROPIC_EST_OUTPUT_USD_PER_MTOK
-    return round(input_cost + output_cost, 4)
+    total = 0.0
+    for stage, bucket in RUN_METRICS["anthropic"].items():
+        input_price, output_price = stage_prices(stage)
+        total += int(bucket.get("input_tokens", 0)) / 1_000_000 * input_price
+        total += int(bucket.get("output_tokens", 0)) / 1_000_000 * output_price
+    return round(total, 4)
 
 
 def _normalize_title_for_dedupe(title: str) -> str:
@@ -1206,7 +1226,7 @@ def write_private_run_cost_log(
         f"- events_added_to_store: `{added}`",
         f"- events_total_after_run: `{current_total}`",
         f"- estimated_model_cost_usd: `${estimated_cost:.4f}`",
-        f"- pricing_basis: `claude-haiku-4-5 estimated at ${ANTHROPIC_EST_INPUT_USD_PER_MTOK:.2f}/MTok input and ${ANTHROPIC_EST_OUTPUT_USD_PER_MTOK:.2f}/MTok output`",
+        "- pricing_basis: `per-stage list price of each stage's manifest model (MODEL_PRICES_USD_PER_MTOK)`",
         "",
         "### Anthropic Usage",
         "",
@@ -1244,12 +1264,12 @@ def _classify_batch(client: anthropic.Anthropic, items: list[dict]) -> list[dict
     try:
         msg = client.messages.create(
             model=model_for("classify_events"),
-            max_tokens=1200,
-            extra_body=DETERMINISTIC,
+            max_tokens=1600,
+            **quick_call_params(model_for("classify_events")),
             messages=[{"role": "user", "content": render_prompt("classify_events", items=texts)}],
         )
         record_anthropic_usage("classify", msg, item_count=len(items))
-        lines = msg.content[0].text.strip().split("\n")
+        lines = first_text(msg).strip().split("\n")
         return [json.loads(line) for line in lines if line.strip().startswith("{")]
     except Exception as e:
         log.error(f"Classification batch error: {e}")
@@ -1268,12 +1288,12 @@ def _cluster_events(client: anthropic.Anthropic, candidates: list[dict]) -> list
     try:
         msg = client.messages.create(
             model=model_for("cluster_events"),
-            max_tokens=500,
-            extra_body=DETERMINISTIC,
+            max_tokens=650,
+            **quick_call_params(model_for("cluster_events")),
             messages=[{"role": "user", "content": render_prompt("cluster_events", n=len(candidates), items=texts)}],
         )
         record_anthropic_usage("cluster", msg, item_count=len(candidates))
-        raw = msg.content[0].text.strip()
+        raw = first_text(msg).strip()
         start = raw.find("[")
         if start == -1:
             raise ValueError("No array in clustering response")
@@ -1599,8 +1619,8 @@ def generate_analysis(client: anthropic.Anthropic, ev: dict) -> str | None:
     try:
         msg = client.messages.create(
             model=model_for("event_analysis"),
-            max_tokens=250,
-            extra_body=DETERMINISTIC,
+            max_tokens=350,
+            **quick_call_params(model_for("event_analysis")),
             messages=[{"role": "user", "content": render_prompt(
                 "event_analysis",
                 country=ev.get("country", "the region"),
@@ -1610,7 +1630,7 @@ def generate_analysis(client: anthropic.Anthropic, ev: dict) -> str | None:
             )}],
         )
         record_anthropic_usage("analysis", msg, item_count=1)
-        return msg.content[0].text.strip()
+        return first_text(msg).strip()
     except Exception as e:
         log.error(f"Analysis error: {e}")
         return None

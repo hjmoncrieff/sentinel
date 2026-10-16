@@ -97,3 +97,6 @@ dist/
 storybook-static/
 test-results/
 playwright-report/
+
+# Local-only: mirrors docs into the private Obsidian vault (contains local vault path)
+scripts/sync_obsidian_docs.py

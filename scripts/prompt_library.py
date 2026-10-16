@@ -63,3 +63,23 @@ def render_prompt(name: str, **values: object) -> str:
 def model_for(name: str) -> str:
     """Model ID registered for a prompt in the manifest."""
     return prompt_spec(name)["model"]
+
+
+# Request settings for short, deterministic-style calls (classification, clustering,
+# judging). Haiku 4.5 honours temperature 0, sent through extra_body because
+# anthropic>=1 removed the keyword. Haiku 5.5 rejects sampling parameters and thinks
+# by default, so it runs with thinking off at low effort instead.
+_QUICK_CALL_PARAMS: dict[str, dict] = {
+    "claude-haiku-4-5-20251001": {"extra_body": {"temperature": 0}},
+    "claude-haiku-5-5": {"thinking": {"type": "disabled"}, "output_config": {"effort": "low"}},
+}
+
+
+def quick_call_params(model: str) -> dict:
+    """Extra messages.create kwargs for `model` on short structured calls."""
+    return dict(_QUICK_CALL_PARAMS.get(model, {}))
+
+
+def first_text(message) -> str:
+    """Text of the first text block; newer models can open a reply with thinking blocks."""
+    return next(b.text for b in message.content if b.type == "text")

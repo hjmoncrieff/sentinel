@@ -11,6 +11,31 @@ Each major change entry should include:
 
 ## 2026-10-16
 
+### Haiku 4.5 to Haiku 5.5 for the Gate, Clustering, Analysis and QA Judge; Per-Stage Cost Estimate
+
+Affected areas:
+- Models: `prompts/manifest.json` (six prompts), `prompts/README.md`
+- Code: `scripts/prompt_library.py` (`quick_call_params`, `first_text`), `scripts/pipeline_core.py`, `scripts/classify_v3.py`, `scripts/analysis/validate_council_quality.py`
+- Tests: `tests/test_pipeline_core.py`
+- Repo hygiene: `scripts/sync_obsidian_docs.py` untracked and gitignored (local-only tool that holds a private vault path); its line removed from `scripts/README.md`
+
+What changed:
+- **Owner request (2026-10-16):** move every Haiku 4.5 prompt to Haiku 5.5. List price falls from $1/$5 to $0.10/$0.50 per MTok (prompts under 100K tokens).
+- `relevance_gate`, `classify_events`, `cluster_events`, `event_analysis`, `council_quality_judge` and `council_quality_judge_system` now use `claude-haiku-5-5`. `classify_v3.GATE_MODEL` reads the manifest instead of hardcoding the ID.
+- Haiku 5.5 rejects sampling parameters, so `temperature 0` (the old `DETERMINISTIC`) is gone for these calls. They now send `thinking: disabled` at effort `low`, the closest equivalent; Haiku 4.5 keeps `temperature 0` if reselected. Replies are read by block type (`first_text`) because newer models can open with thinking blocks.
+- `max_tokens` raised about 30% (classify 1200 to 1600, cluster 500 to 650, analysis 250 to 350, judge 300 to 400, v3 gate settings 2600) because Haiku 5.5's tokenizer counts the same text as about 30% more tokens.
+- **Cost estimate fix.** `estimate_anthropic_cost_usd()` priced every stage, including Sonnet 5.5 coding, at Haiku 4.5 rates. It now prices each usage stage at the list price of that stage's manifest model (`MODEL_PRICES_USD_PER_MTOK`); the env-var rates remain the fallback for unknown models.
+- `scripts/review/gold_v3.py` still pins Haiku 4.5 so the gold head-to-head stays reproducible.
+
+Validation completed:
+- `~/.venvs/sentinel/bin/python -m pytest -q` (119 passed), including the new `test_quick_call_params_match_each_model` and `test_cost_estimate_prices_each_stage_by_its_model`.
+- No live API call was made (credit balance is the open blocker; spending needs owner approval).
+
+Remaining risks / follow-up:
+- **Output drift.** Gate, clustering and analysis outputs change with the model and with the loss of `temperature 0`. Compare the first nightly run's gate keep-rate and cluster counts against recent runs before trusting trends across the switch.
+- Haiku 5.5 runs safety classifiers with no server-side fallback; a refused gate or classify batch is logged as a batch error. Watch `CLASSIFY_BATCH_FAILURES` in the first runs.
+- If a smoke test shows `thinking: disabled` misbehaving with JSON output, switch these calls to structured outputs (`output_config.format`) as the gate already does.
+
 ### Degraded Pipeline Mode, Root Deploy, Hover Cards on Countries and Feed, Lighter Feed
 
 Affected areas:

@@ -36,13 +36,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from prompt_library import load_prompt, model_for, render_prompt  # noqa: E402
+from prompt_library import first_text, load_prompt, model_for, quick_call_params, render_prompt  # noqa: E402
 
 COUNCIL_PATH  = ROOT / "data" / "review" / "council_analyses.json"
 QUALITY_PATH  = ROOT / "data" / "review" / "council_quality_scores.json"
 
 JUDGE_MODEL     = model_for("council_quality_judge")
-MAX_TOKENS      = 300
+MAX_TOKENS      = 400
 INTER_CALL_SLEEP = 0.25
 RETRY_SLEEP      = 5.0
 REVIEW_THRESHOLD = 3          # flag any dimension scoring ≤ this
@@ -94,8 +94,9 @@ def call_judge(
                 max_tokens=MAX_TOKENS,
                 system=JUDGE_SYSTEM,
                 messages=[{"role": "user", "content": prompt}],
+                **quick_call_params(JUDGE_MODEL),
             )
-            raw = response.content[0].text.strip()
+            raw = first_text(response).strip()
             raw = re.sub(r"^```(?:json)?\s*", "", raw, flags=re.IGNORECASE)
             raw = re.sub(r"\s*```$", "", raw)
             parsed = json.loads(raw)

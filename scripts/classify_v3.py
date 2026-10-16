@@ -27,20 +27,21 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import codebook  # noqa: E402
-from prompt_library import render_prompt  # noqa: E402
+from prompt_library import model_for, render_prompt  # noqa: E402
 
 log = logging.getLogger("classify_v3")
 
-GATE_MODEL = "claude-haiku-4-5-20251001"
+GATE_MODEL = model_for("relevance_gate")
 GATE_BATCH = 25
 LEDE_CHARS = 1200
 
 # Request settings per model. Haiku 4.5 still honours temperature (sent through
-# extra_body under SDK 1.x); Sonnet 5.5 and Opus 5.5 reject sampling parameters.
-# Sonnet 5.5 turns extended thinking off with "between_tools"; Opus 5.5 always
-# thinks, so it runs at low effort.
+# extra_body under SDK 1.x); Haiku 5.5, Sonnet 5.5 and Opus 5.5 reject sampling
+# parameters. Haiku 5.5 turns thinking off with "disabled" (accepted at low effort);
+# Sonnet 5.5 with "between_tools"; Opus 5.5 always thinks, so it runs at low effort.
 MODEL_PARAMS: dict[str, dict] = {
     "claude-haiku-4-5-20251001": {"max_tokens": 2000, "body": {"temperature": 0}},
+    "claude-haiku-5-5": {"max_tokens": 2600, "body": {"thinking": {"type": "disabled"}}, "effort": "low"},
     "claude-sonnet-5-5": {"max_tokens": 2000, "body": {"thinking": {"type": "between_tools"}}},
     "claude-opus-5-5": {"max_tokens": 8000, "body": {}, "effort": "low"},
 }

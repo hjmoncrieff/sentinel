@@ -39,7 +39,7 @@ from prompt_library import render_prompt, load_prompt, model_for
 
 render_prompt("cluster_events", n=len(items), items=text)
 load_prompt("council_framework")          # no placeholders
-model_for("classify_events")              # "claude-haiku-4-5-20251001"
+model_for("classify_events")              # "claude-haiku-5-5"
 ```
 
 ## Changing a prompt

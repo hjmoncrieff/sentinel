@@ -75,13 +75,27 @@ def test_classify_aborts_when_every_batch_fails():
         pc.classify_articles(_FailingClient(), articles, {})
 
 
-def test_deterministic_sampling_goes_through_extra_body():
+def test_quick_call_params_match_each_model():
     # anthropic>=1 removed the `temperature` keyword; it must not reappear as one.
+    # Haiku 5.5 rejects sampling parameters, so it must never receive temperature.
     import inspect
 
-    src = inspect.getsource(pc)
-    assert "temperature=0" not in src
-    assert pc.DETERMINISTIC == {"temperature": 0}
+    from prompt_library import quick_call_params
+
+    assert "temperature=0" not in inspect.getsource(pc)
+    assert quick_call_params("claude-haiku-4-5-20251001") == {"extra_body": {"temperature": 0}}
+    haiku55 = quick_call_params("claude-haiku-5-5")
+    assert "extra_body" not in haiku55 and "temperature" not in str(haiku55)
+    assert haiku55["thinking"] == {"type": "disabled"} and haiku55["output_config"]["effort"] == "low"
+
+
+def test_cost_estimate_prices_each_stage_by_its_model(monkeypatch):
+    monkeypatch.setitem(pc.RUN_METRICS, "anthropic", {
+        "code": {"input_tokens": 1_000_000, "output_tokens": 0},
+        "classify": {"input_tokens": 1_000_000, "output_tokens": 0},
+    })
+    expected = sum(pc.stage_prices(s)[0] for s in ("code", "classify"))
+    assert pc.estimate_anthropic_cost_usd() == round(expected, 4)
 
 
 def test_official_scrapers_drop_items_before_cutoff():

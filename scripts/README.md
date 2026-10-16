@@ -26,7 +26,6 @@ These modules import each other by bare name, so they stay together at this leve
 | `query_lexicon.py` | Builds pre-filter terms, NewsAPI queries, and Google News feed terms from `config/queries/event_query_lexicon.json` |
 | `extract_article_text.py` | Full-text extraction for sources marked `fetch_full_text` |
 | `generate_clean_events.py` | Research export: `data/cleaned/events_clean.json` / `events.csv` |
-| `sync_obsidian_docs.py` | Local tool: mirrors the docs into an Obsidian vault |
 
 ## Stage folders
 
