@@ -1,3 +1,22 @@
+// ── THEME ──────────────────────────────────────────────────
+// Map and chart colours that follow the light / dark theme. Switching the theme
+// reloads the page (site.js), so reading it once at load is enough.
+const IS_DARK = document.documentElement.dataset.theme === 'dark'
+  || (!document.documentElement.dataset.theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+const THEME_C = IS_DARK ? {
+  land:'#2a3126', landAlt:'#262c22', low:'#323a2c', stroke:'#4f5946', strokeHover:'#c9c3b3', axis:'#4f5946',
+  dotRing:'#161a14', bubble:'rgba(29,34,26,0.92)', focus:'rgba(44,52,38,0.98)', unfocus:'rgba(32,38,28,0.80)', tick:'#98927f',
+  ocean1:'#1a1f17', ocean2:'#161a14', badgeText:'#ece7da', label:'rgba(236,231,218,0.6)', label2:'rgba(236,231,218,0.62)',
+} : {
+  land:'#e8e4dc', landAlt:'#e0d8cc', low:'#f1f0e1', stroke:'#b8b2a4', strokeHover:'#54504a', axis:'#c8bfb0',
+  dotRing:'#fffdf7', bubble:'rgba(255,251,244,0.92)', focus:'rgba(246,239,224,0.98)', unfocus:'rgba(247,244,237,0.80)', tick:'#6a6560',
+  ocean1:'#fbf8f2', ocean2:'#f3ecdf', badgeText:'#1f2920', label:'rgba(28,26,23,0.55)', label2:'rgba(49,44,39,0.62)',
+};
+if (IS_DARK && window.Chart) {
+  Chart.defaults.color = '#c9c3b3';
+  Chart.defaults.borderColor = 'rgba(236,231,218,0.12)';
+}
+
 // ── TAB SWITCHING ───────────────────────────────────────────
 function activateTabUI(id){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===id));
@@ -23,7 +42,17 @@ function runTabSideEffects(id){
   }
 }
 
+// Country profiles moved to their own pages (countries/…), built from the same reference
+// data as the redesigned site. Every route into the old Countries tab now goes there.
+const COUNTRY_ISO3 = {"Mexico": "MEX", "Belize": "BLZ", "Costa Rica": "CRI", "El Salvador": "SLV", "Guatemala": "GTM", "Honduras": "HND", "Nicaragua": "NIC", "Panama": "PAN", "Cuba": "CUB", "Dominican Republic": "DOM", "Guyana": "GUY", "Haiti": "HTI", "Jamaica": "JAM", "Suriname": "SUR", "Trinidad and Tobago": "TTO", "Bolivia": "BOL", "Colombia": "COL", "Ecuador": "ECU", "Peru": "PER", "Venezuela": "VEN", "Brazil": "BRA", "Argentina": "ARG", "Chile": "CHL", "Paraguay": "PRY", "Uruguay": "URY"};
+function countryPageUrl(name){
+  const iso = name && COUNTRY_ISO3[name];
+  return 'countries/' + (iso ? iso.toLowerCase() + '/' : '');
+}
+function goCountry(name){ location.href = countryPageUrl(name); }
+
 function switchTab(id){
+  if(id==='profiles'){ goCountry(); return; }
   if(id==='timeline'){
     activateTabUI('explore');
     exInitDots();
@@ -748,7 +777,7 @@ function cpInitRadar(name, safeId) {
           grid: { color: '#1e2230' },
           angleLines: { color: '#1e2230' },
           pointLabels: {
-            color: '#6a6560',
+            color: THEME_C.tick,
             font: { size: 9, family: "'DM Mono', monospace" },
           },
         },
@@ -1911,7 +1940,7 @@ function renderEventMarkerMap(evs){
     .attr('d', path)
     .attr('fill', feature=>{
       const country = COUNTRY_NAMES_MAP[+feature.id];
-      return focusCountries.includes(country) ? 'rgba(246,239,224,0.98)' : 'rgba(247,244,237,0.80)';
+      return focusCountries.includes(country) ? THEME_C.focus : THEME_C.unfocus;
     })
     .attr('stroke', feature=>{
       const country = COUNTRY_NAMES_MAP[+feature.id];
@@ -2006,7 +2035,7 @@ function renderEventMarkerMap(evs){
       .attr('width', 80)
       .attr('height', 36)
       .attr('rx', 16)
-      .attr('fill', 'rgba(255,251,244,0.92)')
+      .attr('fill', THEME_C.bubble)
       .attr('stroke', `${TC_HEX[dominantType] || '#6a6560'}55`)
       .attr('stroke-width', stack.selectedCount ? 2.2 : 1.2);
     stackGroup.append('text')
@@ -3692,7 +3721,7 @@ function selectEvent(ev){
           <div class="detail-country-name">${escapeHtml(countryLabel)}</div>
           <div class="detail-country-actions">
             ${countryTags.map(renderCountryTagHtml).join('')}
-            ${primaryProfileCountry ? `<a class="detail-profile-link" href="#" onclick="event.preventDefault();switchTab('profiles');setTimeout(()=>showCountryProfile('${escapeHtml(primaryProfileCountry).replace(/&#39;/g,"\\'")}'),80)">View country profile ↗</a>` : ''}
+            ${primaryProfileCountry ? `<a class="detail-profile-link" href="#" onclick="event.preventDefault();goCountry('${escapeHtml(primaryProfileCountry).replace(/&#39;/g,"\\'")}')">View country profile ↗</a>` : ''}
           </div>
         </div>
         ${(monitorEntry || predictiveSummary) ? `
@@ -4765,6 +4794,7 @@ function renderCountryPredictiveOutlook(name){
 
 // ── COUNTRY PROFILE RENDERER ──────────────────────────────────
 function showCountryProfile(name) {
+  return goCountry(name);
   document.querySelectorAll('.cp-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.country === name);
   });
@@ -4929,6 +4959,7 @@ const SM_CAT_LABEL = {
 };
 
 function showCountryProfileGeneric(name) {
+  return goCountry(name);
   // Show the standard profile view even for special countries (bypasses SM auto-redirect)
   document.querySelectorAll('.cp-btn').forEach(b => b.classList.toggle('active', b.dataset.country === name));
   const regional   = document.getElementById('cp-regional');
@@ -5137,13 +5168,13 @@ function smBuildSvg(smId, events) {
   // Axis line
   svg.appendChild(ns('line', {
     x1: PAD_L, y1: AXIS_Y, x2: SVG_W - PAD_R, y2: AXIS_Y,
-    stroke: '#c8bfb0', 'stroke-width': '1.5',
+    stroke: THEME_C.axis, 'stroke-width': '1.5',
   }));
 
   // Year ticks + labels
   for (let yr = START; yr <= END; yr++) {
     const x = dateToX(`${yr}-01-01`);
-    svg.appendChild(ns('line', { x1: x, y1: AXIS_Y - 3, x2: x, y2: AXIS_Y + 5, stroke: '#c8bfb0', 'stroke-width': '1' }));
+    svg.appendChild(ns('line', { x1: x, y1: AXIS_Y - 3, x2: x, y2: AXIS_Y + 5, stroke: THEME_C.axis, 'stroke-width': '1' }));
     const lbl = ns('text', {
       x, y: AXIS_Y + 18,
       'text-anchor': 'middle', fill: '#8a8278',
@@ -5374,7 +5405,7 @@ function renderCpStaticMap(){
     .attr('cy', d => proj([d.coords[1], d.coords[0]])?.[1] ?? -999)
     .attr('r', d => d.salience === 'high' ? 5.2 : d.salience === 'medium' ? 4.4 : 3.8)
     .attr('fill', d => TC_HEX[d.type] || '#6a6560')
-    .attr('stroke', '#fffdf7')
+    .attr('stroke', THEME_C.dotRing)
     .attr('stroke-width', 1.2)
     .attr('opacity', 0.9)
     .append('title')
@@ -5530,7 +5561,7 @@ function getMilitarizationColor(score){
   if(score >= 50) return '#8e9a58';
   if(score >= 35) return '#a8ae72';
   if(score >= 20) return '#c9cc9b';
-  return '#f1f0e1';
+  return THEME_C.low;
 }
 
 function renderCpRegionalMap(){
@@ -5572,14 +5603,14 @@ function renderCpRegionalMap(){
     .attr('fill', d => {
       const name = COUNTRY_NAMES_MAP[+d.id];
       const score = name ? layerConfig.score(name) : 0;
-      return visibleIds.has(+d.id) ? getMilitarizationColor(score || 0) : '#e8e4dc';
+      return visibleIds.has(+d.id) ? getMilitarizationColor(score || 0) : THEME_C.land;
     })
-    .attr('stroke','#b8b2a4')
+    .attr('stroke',THEME_C.stroke)
     .attr('stroke-width',0.8)
     .style('cursor', d => visibleIds.has(+d.id) ? 'pointer' : 'default')
     .on('mouseover', function(evt, d) {
       if(!visibleIds.has(+d.id)) return;
-      d3.select(this).attr('stroke','#54504a').attr('stroke-width',2);
+      d3.select(this).attr('stroke',THEME_C.strokeHover).attr('stroke-width',2);
       const countryName = COUNTRY_NAMES_MAP[+d.id];
       const metric = metrics.get(countryName);
       const topTypeLabel = metric?.dominantRecentSignal ? (TYPE_LABEL[metric.dominantRecentSignal] || metric.dominantRecentSignal) : 'No dominant live signal';
@@ -5603,7 +5634,7 @@ function renderCpRegionalMap(){
              .style('top',  (evt.clientY - rect.top  - 12) + 'px');
     })
     .on('mouseout', function() {
-      d3.select(this).attr('stroke','#b8b2a4').attr('stroke-width',0.8);
+      d3.select(this).attr('stroke',THEME_C.stroke).attr('stroke-width',0.8);
       tooltip.style('display','none');
     })
     .on('click', function(evt, d) {
@@ -5620,7 +5651,7 @@ function renderCpRegionalMap(){
     .text(d => d[1][0])
     .attr('font-family','DM Mono,monospace')
     .attr('font-size','8.5px')
-    .attr('fill','rgba(28,26,23,0.55)')
+    .attr('fill',THEME_C.label)
     .attr('text-anchor','middle');
 }
 
@@ -5776,8 +5807,8 @@ async function initExploreMap(){
     .attr('id','ov-ocean-gradient')
     .attr('x1','0%').attr('y1','0%')
     .attr('x2','0%').attr('y2','100%');
-  gradient.append('stop').attr('offset','0%').attr('stop-color','#fbf8f2');
-  gradient.append('stop').attr('offset','100%').attr('stop-color','#f3ecdf');
+  gradient.append('stop').attr('offset','0%').attr('stop-color',THEME_C.ocean1);
+  gradient.append('stop').attr('offset','100%').attr('stop-color',THEME_C.ocean2);
   ovSvg.append('rect')
     .attr('x',0).attr('y',0)
     .attr('width',w).attr('height',h)
@@ -5874,7 +5905,7 @@ async function initExploreMap(){
           .attr('font-family','DM Mono,monospace')
           .attr('font-size','8px')
           .attr('letter-spacing','0.55px')
-          .attr('fill','rgba(49,44,39,0.62)')
+          .attr('fill',THEME_C.label2)
           .attr('text-anchor','middle');
       });
   }
@@ -5923,7 +5954,7 @@ async function initExploreMap(){
         .attr('transform', `translate(${x},${y - 18})`);
       group.append('circle')
         .attr('r', 15)
-        .attr('fill', 'rgba(255,251,244,0.92)')
+        .attr('fill', THEME_C.bubble)
         .attr('stroke', accent)
         .attr('stroke-width', layer === 'events' ? 2.4 : 2.1);
       if(layer !== 'events'){
@@ -5938,7 +5969,7 @@ async function initExploreMap(){
       group.append('text')
         .attr('text-anchor','middle')
         .attr('dy','0.32em')
-        .attr('fill', layer === 'events' ? accent : '#1f2920')
+        .attr('fill', layer === 'events' ? accent : THEME_C.badgeText)
         .text(badge);
     });
   }
@@ -5948,10 +5979,10 @@ async function initExploreMap(){
     if (!ltEl) return;
     if(['overall_risk','regime_vulnerability','militarization','security_fragmentation'].includes(layer)){
       const labels = {
-        overall_risk:['Lower risk','#f1f0e1','Guarded','#a8ae72','Elevated','#556b2f'],
-        regime_vulnerability:['Stable','#f1f0e1','Stressed','#a8ae72','Vulnerable','#556b2f'],
-        militarization:['Low','#f1f0e1','Moderate','#a8ae72','High','#556b2f'],
-        security_fragmentation:['Low','#f1f0e1','Fragmented','#a8ae72','High','#556b2f']
+        overall_risk:['Lower risk',THEME_C.low,'Guarded','#a8ae72','Elevated','#556b2f'],
+        regime_vulnerability:['Stable',THEME_C.low,'Stressed','#a8ae72','Vulnerable','#556b2f'],
+        militarization:['Low',THEME_C.low,'Moderate','#a8ae72','High','#556b2f'],
+        security_fragmentation:['Low',THEME_C.low,'Fragmented','#a8ae72','High','#556b2f']
       }[layer];
       ltEl.innerHTML = `
         <div class="ov-legend-row">
@@ -6007,7 +6038,7 @@ async function initExploreMap(){
       const scores = {};
       Object.keys(COUNTRY_PROFILES).forEach(n => { scores[n] = cfg.score(n) || 0; });
       addPaths(
-        n => n && scores[n] != null ? getMilitarizationColor(scores[n]) : '#e0d8cc',
+        n => n && scores[n] != null ? getMilitarizationColor(scores[n]) : THEME_C.landAlt,
         n => {
           const trend = getAnalyticalTrend(n, layer);
           return {
@@ -6025,14 +6056,14 @@ async function initExploreMap(){
     }
     if (layer === 'cmr') {
       const CMR_COLOR = { Authoritarian:'#8a1a1a', Crisis:'#b83232', Strained:'#c46e12', Stable:'#1a6e52' };
-      addPaths(n => n ? (CMR_COLOR[COUNTRY_PROFILES[n]?.cmrStatus] || '#c0b89a') : '#e0d8cc');
+      addPaths(n => n ? (CMR_COLOR[COUNTRY_PROFILES[n]?.cmrStatus] || '#c0b89a') : THEME_C.landAlt);
       renderOverviewSignalOverlay(layer);
       renderOverviewLabels();
       updateLegend(layer);
     } else if (layer === 'events') {
       const counts = eventCounts();
       const maxC = Math.max(1, ...Object.values(counts));
-      const scale = d3.scaleSequential().domain([0,maxC]).interpolator(d3.interpolate('#f0ebe0','#b87010'));
+      const scale = d3.scaleSequential().domain([0,maxC]).interpolator(d3.interpolate(THEME_C.low,'#b87010'));
       addPaths(n => scale(n ? counts[n]||0 : 0));
       renderOverviewSignalOverlay(layer);
       renderOverviewLabels();
@@ -6041,7 +6072,7 @@ async function initExploreMap(){
       const gbC = window.greenbookData ? (window.greenbookData.countries || []) : [];
       const byName = {}; gbC.forEach(c => { byName[c.country] = c.total_military || 0; });
       const maxA = Math.max(1, ...Object.values(byName));
-      const scale = d3.scaleSequential().domain([0,maxA]).interpolator(d3.interpolate('#f0ebe0','#1a538f'));
+      const scale = d3.scaleSequential().domain([0,maxA]).interpolator(d3.interpolate(THEME_C.low,'#1a538f'));
       addPaths(n => scale(n ? byName[n]||0 : 0));
       renderOverviewSignalOverlay(layer);
       renderOverviewLabels();
@@ -6050,7 +6081,7 @@ async function initExploreMap(){
       const vdC = window.vdemData ? (window.vdemData.countries || []) : [];
       const byName = {}; vdC.forEach(c => { byName[c.country] = c.mil_exec != null ? c.mil_exec : 0; });
       const maxV = Math.max(0.01, ...Object.values(byName));
-      const scale = d3.scaleSequential().domain([0,maxV]).interpolator(d3.interpolate('#f0ebe0','#a84000'));
+      const scale = d3.scaleSequential().domain([0,maxV]).interpolator(d3.interpolate(THEME_C.low,'#a84000'));
       addPaths(n => scale(n ? byName[n]||0 : 0));
       renderOverviewSignalOverlay(layer);
       renderOverviewLabels();
@@ -6315,8 +6346,7 @@ function showOvPopup(evt,d){
   popup.querySelector('.ov-view-profile').onclick=function(){
     const country=this.dataset.country;
     popup.style.display='none';
-    switchTab('profiles');
-    setTimeout(()=>showCountryProfile(country),100);
+    goCountry(country);
   };
 }
 
@@ -6402,10 +6432,10 @@ async function initSecurityMap() {
       const score = pressureByCountry[name]?.score || 0;
       return score ? colorScale(score) : '#ece7df';
     })
-    .attr('stroke','#b8b2a4').attr('stroke-width',0.8)
+    .attr('stroke',THEME_C.stroke).attr('stroke-width',0.8)
     .style('cursor','pointer')
     .on('mouseover', function(evt, d) {
-      d3.select(this).attr('stroke','#54504a').attr('stroke-width',2);
+      d3.select(this).attr('stroke',THEME_C.strokeHover).attr('stroke-width',2);
       const name = COUNTRY_NAMES_MAP[+d.id];
       if (!name) return;
       const item = pressureByCountry[name] || { score:0, ocEvents:0, acledLevel:'n/a' };
@@ -6424,7 +6454,7 @@ async function initSecurityMap() {
              .style('top',  (evt.clientY - rect.top  - 12) + 'px');
     })
     .on('mouseout', function() {
-      d3.select(this).attr('stroke','#b8b2a4').attr('stroke-width',0.8);
+      d3.select(this).attr('stroke',THEME_C.stroke).attr('stroke-width',0.8);
       tooltip.style('display','none');
     });
 
@@ -6435,7 +6465,7 @@ async function initSecurityMap() {
     .attr('y', d => proj(d[1][1])[1])
     .text(d => d[1][0])
     .attr('font-family','DM Mono,monospace').attr('font-size','8.5px')
-    .attr('fill','rgba(28,26,23,0.55)').attr('text-anchor','middle');
+    .attr('fill',THEME_C.label).attr('text-anchor','middle');
 }
 
 // ── US COOPERATION LIVE EVENTS ────────────────────────────
@@ -6503,10 +6533,10 @@ async function initUsCoopMap() {
 
   function fillColor(d) {
     const name = COUNTRY_NAMES_MAP[+d.id];
-    if (!name) return '#e8e4dc';
+    if (!name) return THEME_C.land;
     if (SANCTIONED.has(name)) return '#c9b8a4';
     const aid = US_AID_M[name];
-    if (!aid) return '#e8e4dc';
+    if (!aid) return THEME_C.land;
     return colorScale(aid);
   }
 
@@ -6516,10 +6546,10 @@ async function initUsCoopMap() {
     .data(latamFeat).enter().append('path')
     .attr('d', path)
     .attr('fill', fillColor)
-    .attr('stroke','#b8b2a4').attr('stroke-width',0.8)
+    .attr('stroke',THEME_C.stroke).attr('stroke-width',0.8)
     .style('cursor','pointer')
     .on('mouseover', function(evt, d) {
-      d3.select(this).attr('stroke','#54504a').attr('stroke-width',2);
+      d3.select(this).attr('stroke',THEME_C.strokeHover).attr('stroke-width',2);
       const name = COUNTRY_NAMES_MAP[+d.id];
       if (!name) return;
       const aid = US_AID_M[name];
@@ -6543,7 +6573,7 @@ async function initUsCoopMap() {
              .style('top',  (evt.clientY - rect.top  - 12) + 'px');
     })
     .on('mouseout', function() {
-      d3.select(this).attr('stroke','#b8b2a4').attr('stroke-width',0.8);
+      d3.select(this).attr('stroke',THEME_C.stroke).attr('stroke-width',0.8);
       tooltip.style('display','none');
     });
 
@@ -6555,7 +6585,7 @@ async function initUsCoopMap() {
     .attr('y', d => proj(d[1][1])[1])
     .text(d => d[1][0])
     .attr('font-family','DM Mono,monospace').attr('font-size','8.5px')
-    .attr('fill','rgba(28,26,23,0.55)').attr('text-anchor','middle')
+    .attr('fill',THEME_C.label).attr('text-anchor','middle')
     .attr('pointer-events','none');
 }
 
@@ -6751,7 +6781,7 @@ function runSearch(q){
         <div style="font-size:12.5px;color:var(--text);line-height:1.4">${ev.title}</div>
       </div>`;
     }
-    return `<div class="s-item" onclick="closeSearch();switchTab('profiles');setTimeout(()=>showCountryProfile('${r.name}'),100)">
+    return `<div class="s-item" onclick="closeSearch();goCountry('${r.name}')">
       <div style="font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;">Country Profile</div>
       <div style="font-size:12.5px;color:var(--text)">${r.name}</div>
     </div>`;

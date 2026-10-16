@@ -62,11 +62,12 @@ jobs:
             --exclude .storybook --exclude tests --exclude templates
           # Built console replaces the Vite source entry.
           rsync -a dist/apps/analyst-console/ _site/apps/analyst-console/
-          # Redesigned site, as a preview next to the current dashboard.
-          node apps/public-site/build.mjs --out _site/next --base /sentinel/next/ --legacy /sentinel/
+          # Redesigned site, as a preview next to the current dashboard. Promoted sections
+          # (the country monitors) are also written into the live site at /sentinel/countries/.
+          node apps/public-site/build.mjs --out _site/next --base /sentinel/next/ --legacy /sentinel/ --live _site --live-base /sentinel/
           # Defence in depth: never publish private workflow layers.
           rm -rf _site/data/review _site/data/gold _site/data/modeling _site/data/staging
-          test -f _site/index.html && test -f _site/apps/analyst-console/index.html && test -f _site/next/index.html
+          test -f _site/index.html && test -f _site/apps/analyst-console/index.html && test -f _site/next/index.html && test -f _site/countries/col/index.html
           echo "Site files: $(find _site -type f | wc -l)"
 
       - name: Upload Pages artifact

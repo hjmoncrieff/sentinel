@@ -87,6 +87,31 @@
     else if (consent !== 'denied') showBanner();
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
+  // Light / dark theme, shared with the country pages through localStorage
+  // ('sentinel-theme'); without a stored choice the system setting applies. The
+  // dashboard draws its charts and maps once, so switching reloads the page.
+  function initTheme() {
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    var root = document.documentElement;
+    var media = window.matchMedia('(prefers-color-scheme: dark)');
+    var current = function () { return root.getAttribute('data-theme') || (media.matches ? 'dark' : 'light'); };
+    var label = function () {
+      var mode = current();
+      btn.setAttribute('data-mode', mode);
+      btn.setAttribute('aria-label', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    };
+    btn.addEventListener('click', function () {
+      var next = current() === 'dark' ? 'light' : 'dark';
+      try { window.localStorage.setItem('sentinel-theme', next); } catch (e) { /* storage blocked */ }
+      root.setAttribute('data-theme', next);
+      window.location.reload();
+    });
+    if (media.addEventListener) media.addEventListener('change', label);
+    label();
+  }
+
+  function start() { init(); initTheme(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
 })();

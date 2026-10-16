@@ -32,9 +32,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
-<link rel="stylesheet" href="assets/css/dashboard.css?v=20260929-site-launch">
-<link rel="stylesheet" href="assets/css/site.css?v=20260929-site-launch">
-<script src="assets/js/site.js?v=20260929-site-launch" defer></script>
+<meta name="color-scheme" content="light dark">
+<script>try{var t=localStorage.getItem('sentinel-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="assets/css/dashboard.css?v=20261016-theme">
+<link rel="stylesheet" href="assets/css/site.css?v=20261016-theme">
+<script src="assets/js/site.js?v=20261016-theme" defer></script>
 
 </head>
 <body>
@@ -58,6 +60,10 @@
       <span class="header-freshness-value" id="header-freshness-value">Loading…</span>
     </div>
     <button class="nav-search-btn" id="search-btn" onclick="openSearch()" title="Search (⌘K)">⌕</button>
+    <button class="nav-search-btn theme-btn" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch light / dark mode">
+      <svg class="i-moon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.8A5.6 5.6 0 0 1 6.2 2.5a5.6 5.6 0 1 0 7.3 7.3Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+      <svg class="i-sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+    </button>
     <a class="login-btn" id="analyst-login-link" href="./apps/analyst-console/" title="Analyst Console">Analyst Console</a>
     <button class="mobile-menu-btn" type="button" onclick="openMobileNav()" aria-label="Open navigation menu">
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -82,7 +88,7 @@
   <div class="mobile-nav-links">
     <button class="mobile-nav-link" onclick="switchTab('explore');closeMobileNav()">Explore</button>
     <button class="mobile-nav-link" onclick="switchTab('events');closeMobileNav()">Events</button>
-    <button class="mobile-nav-link" onclick="switchTab('profiles');closeMobileNav()">Countries</button>
+    <button class="mobile-nav-link" onclick="goCountry();closeMobileNav()">Countries</button>
     <button class="mobile-nav-link" onclick="switchTab('transnational');closeMobileNav()">Organized Crime</button>
     <button class="mobile-nav-link" onclick="switchTab('us');closeMobileNav()">US–LATAM</button>
     <button class="mobile-nav-link" onclick="switchTab('about');closeMobileNav()">About</button>
@@ -141,7 +147,7 @@
         <div class="ov-card-title">Events</div>
         <div class="ov-card-desc">Classified event feed · risk bubbles · filter by type, country &amp; salience</div>
       </a>
-      <a class="ov-card" href="#" onclick="event.preventDefault();switchTab('profiles')">
+      <a class="ov-card" href="#" onclick="event.preventDefault();goCountry()">
         <div class="ov-card-eyebrow">25 countries</div>
         <div class="ov-card-title">Country Profiles</div>
         <div class="ov-card-desc">CMR status · spending · personnel · elections · deep monitors</div>
@@ -164,22 +170,22 @@
     <div class="ov-sec-kicker">Special Monitors &amp; Focus</div>
     <div class="ov-sec-heading">Deep analytical coverage</div>
     <div class="ov-monitors">
-      <a class="ov-monitor-card" href="#" style="border-left-color:var(--coup)" onclick="event.preventDefault();switchTab('profiles');setTimeout(()=>showCountryProfile('Venezuela'),80)">
+      <a class="ov-monitor-card" href="#" style="border-left-color:var(--coup)" onclick="event.preventDefault();goCountry('Venezuela')">
         <div class="ov-mc-dot" style="background:var(--coup)"></div>
         <div><div class="ov-mc-country">Venezuela</div><div class="ov-mc-sub">Crisis — Transition · Post-Op. Absolute Resolve · FANB cohesion fragile · elections ~Jul 2026</div></div>
         <div class="ov-mc-arrow">›</div>
       </a>
-      <a class="ov-monitor-card" href="#" style="border-left-color:var(--purge)" onclick="event.preventDefault();switchTab('profiles');setTimeout(()=>showCountryProfile('Colombia'),80)">
+      <a class="ov-monitor-card" href="#" style="border-left-color:var(--purge)" onclick="event.preventDefault();goCountry('Colombia')">
         <div class="ov-mc-dot" style="background:var(--purge)"></div>
         <div><div class="ov-mc-country">Colombia</div><div class="ov-mc-sub">Complex · Total Peace doctrine · Petro vs. military · ELN negotiations · DDR in progress</div></div>
         <div class="ov-mc-arrow">›</div>
       </a>
-      <a class="ov-monitor-card" href="#" style="border-left-color:var(--coup)" onclick="event.preventDefault();switchTab('profiles');setTimeout(()=>showCountryProfile('El Salvador'),80)">
+      <a class="ov-monitor-card" href="#" style="border-left-color:var(--coup)" onclick="event.preventDefault();goCountry('El Salvador')">
         <div class="ov-mc-dot" style="background:var(--coup)"></div>
         <div><div class="ov-mc-country">El Salvador</div><div class="ov-mc-sub">Crisis — Fusion · 48 régimen renewals · indefinite re-election · CECOT deportation hub</div></div>
         <div class="ov-mc-arrow">›</div>
       </a>
-      <a class="ov-monitor-card" href="#" style="border-left-color:var(--purge)" onclick="event.preventDefault();switchTab('profiles');setTimeout(()=>showCountryProfile('Mexico'),80)">
+      <a class="ov-monitor-card" href="#" style="border-left-color:var(--purge)" onclick="event.preventDefault();goCountry('Mexico')">
         <div class="ov-mc-dot" style="background:var(--purge)"></div>
         <div><div class="ov-mc-country">Mexico</div><div class="ov-mc-sub">Strained · Sinaloa civil war · SEDENA intelligence mandate · FTO designations</div></div>
         <div class="ov-mc-arrow">›</div>
@@ -1263,25 +1269,25 @@
         <div class="tab-focus-body">
           <div class="tab-focus-copy">Use this section to see where illicit economies are not just producing violence but reshaping police, military, and executive behavior. Then jump into the country profiles to see how those same fronts register in the national monitor layer.</div>
           <div class="oc-front-grid">
-            <button class="oc-front-card" type="button" onclick="switchTab('profiles');setTimeout(()=>showCountryProfile('Mexico'),80)">
+            <button class="oc-front-card" type="button" onclick="goCountry('Mexico')">
               <div class="oc-front-label">Frontline</div>
               <div class="oc-front-country">Mexico</div>
               <div class="oc-front-copy">Cartel fragmentation, military delegation, and the heaviest sustained collision between OC pressure and state force.</div>
               <div class="oc-front-meta">Open country brief</div>
             </button>
-            <button class="oc-front-card" type="button" onclick="switchTab('profiles');setTimeout(()=>showCountryProfile('Ecuador'),80)">
+            <button class="oc-front-card" type="button" onclick="goCountry('Ecuador')">
               <div class="oc-front-label">Frontline</div>
               <div class="oc-front-country">Ecuador</div>
               <div class="oc-front-copy">The clearest case of criminal violence translating into an internal armed conflict frame and expanded military role.</div>
               <div class="oc-front-meta">Open country brief</div>
             </button>
-            <button class="oc-front-card" type="button" onclick="switchTab('profiles');setTimeout(()=>showCountryProfile('Haiti'),80)">
+            <button class="oc-front-card" type="button" onclick="goCountry('Haiti')">
               <div class="oc-front-label">Frontline</div>
               <div class="oc-front-country">Haiti</div>
               <div class="oc-front-copy">Gang territorial control, state hollowing, and the sharpest policing collapse in the hemisphere.</div>
               <div class="oc-front-meta">Open country brief</div>
             </button>
-            <button class="oc-front-card" type="button" onclick="switchTab('profiles');setTimeout(()=>showCountryProfile('Venezuela'),80)">
+            <button class="oc-front-card" type="button" onclick="goCountry('Venezuela')">
               <div class="oc-front-label">Frontline</div>
               <div class="oc-front-country">Venezuela</div>
               <div class="oc-front-copy">Criminal governance, cross-border networks, and the political uses of irregular coercive actors.</div>
@@ -1683,7 +1689,7 @@
   </div>
 </div>
 
-<script src="assets/js/dashboard.js?v=20260929-site-launch" defer></script>
+<script src="assets/js/dashboard.js?v=20261016-theme" defer></script>
 
 <!-- ── Feedback Button & Panel ────────────────────────── -->
 <button class="fb-btn" id="fb-trigger" onclick="toggleFeedback()" aria-label="Submit feedback or suggestion" aria-expanded="false" aria-controls="fb-panel">

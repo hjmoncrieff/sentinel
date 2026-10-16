@@ -11,6 +11,31 @@ Each major change entry should include:
 
 ## 2026-10-16
 
+### Country Monitors Promoted to the Live Site; Light and Dark Theme
+
+Affected areas:
+- Public site build: `apps/public-site/build.mjs` (`--live`, `--live-base`), `src/pages/layout.mjs`, `src/client/theme.js` (new), `src/styles/site.css`
+- Dashboard: `index.html`, `assets/js/dashboard.js`, `assets/js/site.js`, `assets/css/dashboard.css`, `assets/css/site.css`; static pages `404.html`, `privacy.html`, `terms.html`, `thank-you.html`
+- Tooling: `scripts/site/build_dark_theme.py` (new)
+- Deployment: `.github/workflows/pages.yml`; `sitemap.xml`; docs `docs/public-site.md`, `apps/public-site/README.md`
+
+What changed:
+- **Owner decision (2026-10-16):** serve the redesigned country monitors on the live site. Their navigation leads back to the dashboard, and the preview banner is removed on those pages. There is also a light and dark mode.
+- **Country monitors live.** The deploy writes the 25 country pages and the regional summary to `/sentinel/countries/`. Their header carries the dashboard's sections. Links into sections not promoted yet (the feed, record pages) still go to `/sentinel/next/`. The Countries tab, the overview and organized-crime monitor cards, event-detail profile links, search results, map clicks and old `#profiles` links all open these pages (`goCountry()`). The old in-page profile code is unreachable but not yet removed.
+- **Theme.** A sun/moon switch in the dashboard and country-page headers. Pages follow the system setting until the visitor chooses; the choice (`sentinel-theme`) is shared across the dashboard, the static pages and the country pages, and is applied before first paint. The dashboard reloads on switch so its charts and maps redraw.
+- **Dashboard dark palette.** `build_dark_theme.py` replaces 175 hard-coded colours in `dashboard.css` and 5 in `site.css` with variables. Their light values are the originals, and the dark values are written to a generated block. Light mode renders as before; checked by substituting the variables back and diffing against the original stylesheets, with only formatting differences. D3 map fills, labels, badges and the ocean gradient read from `THEME_C`; Chart.js defaults switch in dark mode.
+
+Validation completed:
+- `python3 scripts/site/build_dark_theme.py` run twice; the second run changed nothing
+- `node --check assets/js/dashboard.js assets/js/site.js`
+- `python3 -m pytest -q` (116 passed)
+- Local assembly of the deploy (`build.mjs --out <scratch>/sentinel/next --base /sentinel/next/ --legacy /sentinel/ --live <scratch>/sentinel --live-base /sentinel/`), served over HTTP, and headless Chrome screenshots of the Overview, Explore, Events, US–LatAm, OC and About tabs in dark mode, Overview, Explore and Events in light mode, Peru in light mode, and Colombia and the countries summary in dark mode. `#profiles` was confirmed to redirect to `countries/`.
+
+Remaining risks / follow-up:
+- Inline colours in some JS-built tooltips and legends were not converted; a few small swatches may look light in dark mode.
+- The dashboard's old profile renderer (`showCountryProfile` and its helpers, plus the `#profiles` panel markup) can be deleted in a cleanup pass.
+- Country pages still link record and feed views to the preview at `/sentinel/next/` until those sections are promoted.
+
 ### Redesigned Site Country Reference Brought in Line
 
 Affected areas:

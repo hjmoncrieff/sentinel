@@ -6,6 +6,9 @@
 // --base    URL prefix the built site is served under (for example /sentinel/next/).
 // --legacy  URL prefix of the current dashboard, for sections not rebuilt yet.
 // --origin  Scheme and host the site is served from; used in the citation on record pages.
+// --live    Output folder of the live site. Sections promoted out of the preview (the country
+//           monitors) are also written there, with the current dashboard's navigation.
+// --live-base  URL prefix of the live site (default: --legacy).
 //
 // Reads public layers only (data/published/, data/cleaned/us_assistance.json, the codebook). Writes pre-rendered pages, the stylesheet, the browser
 // modules and data/feed.json. No dependencies: Vite, when used, only bundles the output.
@@ -30,6 +33,8 @@ const out = path.resolve(repoRoot, arg('out', 'dist/public-site'));
 const base = withSlash(arg('base', '/'));
 const legacy = withSlash(arg('legacy', '/'));
 const origin = arg('origin', 'https://hjmoncrieff.github.io').replace(/\/$/, '');
+const liveOut = arg('live', null) && path.resolve(repoRoot, arg('live'));
+const liveBase = withSlash(arg('live-base', legacy));
 
 const model = loadModel(repoRoot, siteRoot);
 // Asset URLs carry a content hash so a deploy never serves a stale stylesheet or script.
@@ -77,6 +82,16 @@ copyDir(path.join(siteRoot, 'src', 'client'), path.join(out, 'assets', 'client')
 copyDir(path.join(siteRoot, 'src', 'lib'), path.join(out, 'assets', 'lib'));
 // Build-only modules must not ship to the browser.
 for (const f of ['model.mjs', 'geo.mjs']) fs.rmSync(path.join(out, 'assets', 'lib', f), {force: true});
+
+// Promoted sections: the same pages, served from the live site. Their own links (countries/…)
+// stay on the live site; links into sections not promoted yet (feed, records) go to the preview.
+if (liveOut) {
+  const liveCtx = {...ctx, live: liveBase, url: p => (p === '' || p.startsWith('countries/') ? liveBase : base) + p};
+  const writeLive = (rel, content) => { const file = path.join(liveOut, rel); fs.mkdirSync(path.dirname(file), {recursive: true}); fs.writeFileSync(file, content); };
+  writeLive('countries/index.html', renderCountries(model, liveCtx));
+  for (const c of model.countries) writeLive(`countries/${c.iso3.toLowerCase()}/index.html`, renderCountry(c, model, liveCtx));
+  console.log(`Live: ${1 + model.countries.length} country pages → ${path.relative(repoRoot, liveOut)}/countries (base ${liveBase})`);
+}
 
 const pages = 6 + model.countries.length + model.events.length;
 const feedKb = Math.round(fs.statSync(path.join(out, 'data', 'feed.json')).size / 1024);

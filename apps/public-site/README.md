@@ -6,9 +6,13 @@ repo root), which stays in place until the redesign is approved section by secti
 
 ```bash
 node apps/public-site/build.mjs                       # → dist/public-site/, served from /
-node apps/public-site/build.mjs --base /sentinel/next/ --legacy /sentinel/ --out _site/next
+node apps/public-site/build.mjs --base /sentinel/next/ --legacy /sentinel/ --out _site/next --live _site --live-base /sentinel/
 cd dist/public-site && python3 -m http.server 8731    # preview locally
 ```
+
+**Promoted sections.** With `--live <dir>`, the build also writes the country monitors into the live site (`/sentinel/countries/`), with the current dashboard's sections as navigation and no preview banner. Links into sections not promoted yet (the feed, record pages) still go to the preview. The dashboard's Countries tab, its monitor cards and old `#profiles` links all lead there.
+
+**Light and dark.** Pages follow the system setting until a visitor uses the switch in the header; the choice is stored as `sentinel-theme` in localStorage and shared with the dashboard (`src/client/theme.js`).
 
 The build needs Node 18+ and nothing else. It reads only `data/published/` (the
 public-safe layer), plus the two folders below.

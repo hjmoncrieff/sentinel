@@ -67,6 +67,11 @@ h1,h2,h3{font-family:var(--f-display);font-weight:500;text-wrap:balance;margin:0
 .console-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink-3) !important;text-decoration:none;border:none;border-left:1px solid var(--rule) !important;padding:2px 0 2px 16px !important;margin-left:4px}
 .console-link svg{width:13px;height:13px}
 .console-link:hover{color:var(--ink) !important}
+.theme-toggle{display:inline-grid;place-items:center;width:30px;height:30px;padding:0;border:1px solid var(--rule);border-radius:50%;background:transparent;color:var(--ink-2);cursor:pointer}
+.theme-toggle:hover{color:var(--ink);border-color:var(--ink-3)}
+.theme-toggle svg{width:15px;height:15px}
+.theme-toggle .i-sun,.theme-toggle[data-mode="dark"] .i-moon{display:none}
+.theme-toggle[data-mode="dark"] .i-sun{display:block}
 .fresh{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:12px;color:var(--ink-3)}
 .pulse{width:8px;height:8px;border-radius:50%;background:var(--st-stable);box-shadow:0 0 0 3px color-mix(in srgb,var(--st-stable) 25%,transparent)}
 @media (prefers-reduced-motion:no-preference){.pulse{animation:beat 2.4s ease-in-out infinite}@keyframes beat{50%{box-shadow:0 0 0 6px transparent}}}

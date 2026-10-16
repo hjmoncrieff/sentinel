@@ -8,7 +8,8 @@ This is the operator reference for the public website at
 
 | Page | Purpose |
 |---|---|
-| `index.html` | The dashboard. Tabs are deep-linkable, e.g. `#events`, `#profiles`, `#about` |
+| `index.html` | The dashboard. Tabs are deep-linkable, e.g. `#events`, `#about`. `#profiles` and every country link now open the country pages below |
+| `countries/`, `countries/<iso3>/` | Country monitors, built at deploy time by `apps/public-site/build.mjs --live` from `apps/public-site/reference/countries.json` (not in the repo) |
 | `404.html` | Custom not-found page. GitHub Pages serves it for any missing path |
 | `privacy.html` | Privacy policy. Includes a control to reset analytics consent |
 | `terms.html` | Terms of use, data limitations, and citation |
@@ -58,6 +59,12 @@ This is the operator reference for the public website at
 
    `robots.txt` only takes effect at a domain root, so it starts working once the site
    has its own domain.
+
+## Light and dark theme
+
+Every page follows the system setting until the visitor uses the switch in the header (sun/moon); the choice is stored in localStorage as `sentinel-theme` and shared by the dashboard, the static pages and the country pages. A small inline script in each page head applies it before the first paint. On the dashboard the switch reloads the page, because its charts and maps are drawn once with theme colours (`THEME_C` in `assets/js/dashboard.js`).
+
+The dashboard's dark palette is generated: `python3 scripts/site/build_dark_theme.py` replaces hard-coded colours in `assets/css/dashboard.css` and `assets/css/site.css` with variables whose light values are the originals, and writes their dark values in a block at the end of each file. Re-run it after editing either stylesheet; it is idempotent. Hand-written dark rules go in its `MANUAL_DARK` list, token values in `TOKENS_DARK`. Light text on the olive panels uses `--on-dark`, which is the same in both themes.
 
 ## Deployment
 
