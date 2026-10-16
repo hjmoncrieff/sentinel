@@ -28,7 +28,7 @@ Validation completed:
 - Each change traced to a dated news or official source found by web search on 2026-10-15.
 
 Remaining risks / follow-up:
-- Entries still marked `[verify]`: Venezuela DGCIM director, Ecuador Army commander, Honduras police director, Suriname SNL commander and police chief, Belize defence minister after the 90-day leave.
+- Second verification pass (2026-10-16) resolved the Venezuela DGCIM director, Ecuador Army commander, Honduras police director and Suriname SNL commander, and added the Hernández pardon and 2025 Jamaica murder figures. Still marked `[verify]`: Suriname police chief, Belize defence minister after the 90-day leave.
 - Not refreshed: `COUNTRY_STATS` (spending, personnel, US aid), `COUNTRY_MISSIONS`, and the positions of Mexico, Cuba, El Salvador, the Dominican Republic, and Panama (no change found or not searched).
 - Brazil first-round figures come from Wikipedia, not the TSE. Update the Brazil entries after the Oct 25 runoff.
 - CMR status classes were not changed. Argentina (a military defence minister) and Peru are candidates for review.
