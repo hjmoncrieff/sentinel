@@ -11,6 +11,70 @@ Each major change entry should include:
 
 ## 2026-10-16
 
+### Topic Pages: October 2026 Update and Hover Cards
+
+Affected areas:
+- Content: `apps/public-site/content/us-security.json`, `apps/public-site/content/organized-crime.json`
+- Public site: `src/pages/topics.mjs` (hover cards, year strip, milestones, group and country cards), `src/client/peek.js` and `src/client/topic.js` (new), `src/lib/model.mjs` (HTML entities decoded in headlines), `src/styles/site.css`
+
+What changed:
+- **Owner request (2026-10-16):**
+  - a comprehensive web-search update of the US–LatAm page;
+  - more dynamic pages, for example a hover menu over the US-related news and events;
+  - the same for organized crime.
+- **US content, researched by web search without API credits.** The campaign timeline now runs to October 2026, in two phases. New 2026 entries:
+  - Cuba oil order EO 14380;
+  - El Mencho killed with US intelligence support;
+  - joint US–Ecuador strikes;
+  - Shield of the Americas, recognition of Rodríguez, the embassy reopening and Padrino's removal;
+  - Niño Guerrero killed;
+  - Joint Task Force Western Hemisphere replacing Southern Spear;
+  - Colombia's new government and the $1bn package;
+  - border drone shoot-downs;
+  - the New York coalition meeting;
+  - the Haiti force launch;
+  - Jorge Rodríguez delisted.
+- **Other US content changes:**
+  - Haiti force strength corrected to about 1,100 by July 2026.
+  - Maduro's trial date (June 2027) added.
+  - New figures: 18 coalition partners and 300+ border drones downed.
+  - The access network adds Panama and the Tobago radar (removed in 2026).
+  - The assessment is rewritten.
+  - The FY2027 budget request is noted under the funding channels.
+  - 21 new numbered sources.
+- **OC content:**
+  - The designation paragraph and table now carry exact months.
+  - A new paragraph covers decapitation (El Mencho, Niño Guerrero).
+  - The Haiti frontline is updated.
+  - Nine dated milestones and a curated list of 20 named groups with aliases.
+- **Hover cards.** Hovering, tabbing to or tapping these opens a card:
+  - any event title on the topic pages (type, country, date, summary, coded actors, salience, sources, link to the record);
+  - a timeline milestone (what happened, the archive records around it, its sources);
+  - a country in "Where the events are" (US records, FY2025 security assistance, alignment trend, mix by kind of action);
+  - a named group (US terrorist-list status, where it appears, latest records).
+- **A year in one strip.** Each page now has a year strip: one lane per kind of action on the US page and per country on the OC page, a dot per record and a diamond per milestone. Chips filter the strip and the recent-events list together.
+- **Group list rebuilt.** "Groups in the record" on the OC page replaces "Groups named most often", which never rendered because coded actor names were too generic.
+- **Headlines.** HTML entities in feed headlines (`&#8217;`) are now decoded once in the model, on every page.
+
+Validation completed:
+- `node apps/public-site/build.mjs --out <scratch>/site/next --base /sentinel/next/ --legacy /sentinel/ --live <scratch>/site --live-base /sentinel/` built 1553 pages.
+- `node --check` passed on copies of `peek.js` and `topic.js`.
+- `~/.venvs/sentinel/bin/python -m pytest -q tests`: 116 passed.
+- Headless Chrome, driven through the DevTools protocol, checked the following in light and dark at 1360px and at 500px:
+  - hovering a dot, a milestone diamond and a timeline entry;
+  - tapping a milestone button;
+  - clicking a group name;
+  - filtering by chip.
+- Matched milestone and group records were spot-checked for relevance.
+
+Remaining risks / follow-up:
+- **Matching is by keyword.**
+  - Lanes come from keywords in headlines and summaries, so some records land in a neighbouring lane; humanitarian deployments, for example, count as deployments.
+  - Group counts are a floor.
+  - Milestones dated after the archive's last record (4 Oct 2026) show none.
+- **Facts from one source each:** the Ecuador ground-operations agreement of August 2026 was reported only by partisan outlets and was left out. The Clan del Golfo and PCC/CV designation days are shown to the month.
+- **Not tested on a real phone:** the cards were tested with mouse, keyboard and simulated taps only.
+
 ### Public Site Replaces the Dashboard: Editorial Front Page, Explore, About
 
 Affected areas:

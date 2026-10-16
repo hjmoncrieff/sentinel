@@ -24,7 +24,7 @@ public-safe layer), plus the two folders below.
 | `src/lib/geo.mjs` | Decodes the map topology and projects it to SVG paths (build only) |
 | `src/lib/html.mjs` | Rendering helpers shared by the build and the browser |
 | `src/pages/` | Page templates: `front`, `feed`, `countries` (index and country monitor), `maps`, `layout` |
-| `src/client/` | Browser modules: live feed, map interaction, table and timeline behaviour |
+| `src/client/` | Browser modules: live feed, map interaction, table and timeline behaviour, hover cards (`peek.js`) and the topic-page strip filter (`topic.js`) |
 | `src/styles/site.css` | The design tokens and all styles |
 | `reference/countries.json` | Country reference: profile, officials, elections, watch notes, military roles, in-depth monitor content. `scripts/reference/refresh_country_reference.py` proposes updates (`proposed`); `scripts/reference/review_reference.py approve` publishes them and sets `reviewed`. Pages show "Under review" while a proposal is pending |
 | `reference/changes.json` | Log of every proposal and review decision |

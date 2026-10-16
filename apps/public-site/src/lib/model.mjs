@@ -13,6 +13,10 @@ const STRUCTURAL_SOURCE = {
   wgi_rule_of_law: 'World Bank WGI', mil_exp_pct_gdp: 'World Bank WDI', inflation_consumer_prices_pct: 'World Bank WDI',
 };
 
+// Some feeds deliver headlines with HTML entities still encoded (&#8217;); pages escape text themselves.
+const NAMED = {amp: '&', quot: '"', apos: "'", lt: '<', gt: '>', nbsp: ' '};
+const unent = v => String(v || '').replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(+n)).replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16))).replace(/&(amp|quot|apos|lt|gt|nbsp);/g, (_, n) => NAMED[n]);
+
 function toEvent(e) {
   const sources = (e.linked_reports || []).map(r => ({
     name: r.source_name, url: r.url, headline: r.headline, excerpt: r.description || null,
@@ -29,8 +33,8 @@ function toEvent(e) {
     subtype: e.event_subtype || null,
     sal: e.salience || 'low',
     conf: e.confidence || 'medium',
-    title: (e.headline || '').trim(),
-    summary: e.summary || '',
+    title: unent(e.headline).trim(),
+    summary: unent(e.summary),
     location: e.subnational_location || null,
     coords: e.latitude != null && e.longitude != null ? [e.latitude, e.longitude] : null,
     precision: e.location_precision || 'country',

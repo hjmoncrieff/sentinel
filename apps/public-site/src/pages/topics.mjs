@@ -14,17 +14,100 @@ const within = (model, e, d) => { const n = daysBetween(model.asof, e.date); ret
 const SAL = {high: 0, medium: 1, low: 2};
 const COLLECTION_NOTE = 'Counts reflect how much was collected as well as what happened: collection started in March 2026 and was irregular until October 2026, and earlier dates come from archive searches.';
 
+/* ───────────── Hover cards ───────────── */
+
+// Each page collects the cards it needs as it renders; they ship once, as <template>s at the
+// foot of the page, and client/peek.js shows them on hover, keyboard focus or tap.
+const trim = (s, n) => s.length > n ? `${s.slice(0, n).replace(/\s+\S*$/, '')}…` : s;
+const shiftDay = (d, n) => new Date(Date.parse(`${d.length === 7 ? `${d}-01` : d}T00:00:00Z`) + n * 864e5).toISOString().slice(0, 10);
+const SAL_WORD = {high: 'High', medium: 'Medium', low: 'Low'};
+
+function peekBook(model, ctx) {
+  const cards = new Map();
+  const day = d => fmtDate(d, {day: 'numeric', month: 'short', year: 'numeric'});
+  const rec = e => `<li><a href="${eventUrl(ctx, e.id)}"><span class="mono">${fmtDate(e.date, {day: 'numeric', month: 'short', year: '2-digit'})} · ${esc(model.byName[e.country]?.iso3 || e.country)}</span>${esc(e.title)}</a></li>`;
+  const records = (list, total, empty) => list.length
+    ? `<div class="pk-sub">In the SENTINEL archive · ${total} record${total > 1 ? 's' : ''}</div><ul class="pk-recs">${list.map(rec).join('')}</ul>`
+    : `<div class="pk-sub">In the SENTINEL archive</div><p class="pk-none">${esc(empty)}</p>`;
+  return {
+    model, ctx, records,
+    event(e) {
+      const k = `e-${e.id}`;
+      if (!cards.has(k)) {
+        const actors = [...new Set((e.coding?.actors || []).map(a => a.name).filter(Boolean))].slice(0, 5);
+        cards.set(k, `<div class="pk-kick"><i class="pk-dot" style="background:${tColor(e.type)}"></i>${tLabel(e.type)} · ${esc(e.country)} · ${day(e.date)}</div>
+          <div class="pk-title">${esc(e.title)}</div>${e.summary && e.summary !== e.title ? `<p>${esc(trim(e.summary, 300))}</p>` : ''}
+          ${actors.length ? `<div class="pk-actors">${actors.map(a => `<span>${esc(a)}</span>`).join('')}</div>` : ''}
+          <div class="pk-foot"><span>${SAL_WORD[e.sal] || ''} salience · ${e.n_sources} source${e.n_sources > 1 ? 's' : ''}${e.sources[0] ? ` · ${esc(e.sources[0].name)}` : ''}</span><a href="${eventUrl(ctx, e.id)}">Open record →</a></div>`);
+      }
+      return ` data-peek="${k}"`;
+    },
+    add(k, html) { cards.set(k, html); return ` data-peek="${esc(k)}"`; },
+    html: () => `<div hidden>${[...cards].map(([k, h]) => `<template id="pk-${esc(k)}">${h}</template>`).join('')}</div>`,
+  };
+}
+
+// Records that bear on a dated milestone: matched by keywords (and country, when given) from two weeks before it on.
+function related(model, match, date) {
+  if (!match) return [];
+  const re = new RegExp(match.terms, match.cs ? '' : 'i'), from = shiftDay(date, -14);
+  return model.events.filter(e => e.content_type !== 'profile' && e.date >= from && (!match.countries || match.countries.includes(e.country))
+    && re.test(`${e.title} ${e.summary} ${(e.coding?.actors || []).map(a => a.name).join(' ')}`))
+    .sort((a, b) => SAL[a.sal] - SAL[b.sal] || b.date.localeCompare(a.date));
+}
+
+function milestoneCard(book, m, hits, label) {
+  return `<div class="pk-kick"><i class="pk-dot pk-ms"></i>Milestone · ${esc(label)}</div><div class="pk-title">${esc(m.title)}</div>
+    ${m.text ? `<p>${esc(trim(m.text, 260))}</p>` : ''}
+    ${book.records(hits.slice(0, 4), hits.length, (m.date.length > 7 ? m.date : `${m.date}-01`) > book.model.asof ? `This came after the latest records in the archive (${fmtDate(book.model.asof)}).` : 'No records in the archive match this milestone. Regular collection began in March 2026; earlier coverage comes from archive searches and is thin.')}
+    <div class="pk-foot"><span>Sources ${cite(m.sources)}</span>${m.match?.countries?.length === 1 ? `<a href="${countryUrl(book.ctx, book.model.byName[m.match.countries[0]])}">${esc(m.match.countries[0])} monitor →</a>` : ''}</div>`;
+}
+
+// A year of events on one strip per lane, with dated milestones above. Every dot and marker opens a card.
+function pulseStrip(model, ctx, book, events, lanes, milestones, {label, pick = 'a kind of event'}) {
+  const to = model.asof, from = shiftDay(to, -364), span = 364;
+  const W = 960, L = 178, R = 12, TOP = 30, LH = 30, B = 22, H = TOP + LH * lanes.length + B;
+  const x = d => L + (W - L - R) * Math.min(1, Math.max(0, (Date.parse(`${d}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 864e5 / span));
+  const hash = s => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+  const laneOf = e => lanes.find(l => l.test(e)) || lanes.at(-1);
+  const placed = events.filter(e => e.date >= from && e.date <= to).map(e => ({e, l: laneOf(e)}));
+  const counts = Object.fromEntries(lanes.map(l => [l.key, placed.filter(p => p.l === l).length]));
+  const months = Array.from({length: 12}, (_, i) => new Date(Date.UTC(+to.slice(0, 4), +to.slice(5, 7) - 12 + i, 1)).toISOString().slice(0, 10)).filter(d => d >= from);
+  const mLabel = d => `${new Date(`${d}T00:00:00Z`).toLocaleDateString('en-GB', {timeZone: 'UTC', month: 'short'})}${d.slice(5, 7) === '01' ? ` ${d.slice(0, 4)}` : ''}`;
+  // A month that starts too close to the right edge keeps its gridline but not its label.
+  const grid = months.map(d => `<line x1="${x(d).toFixed(1)}" x2="${x(d).toFixed(1)}" y1="${TOP - 4}" y2="${H - B}" stroke="var(--rule-2)"/>${x(d) > W - R - 34 ? '' : `<text x="${(x(d) + 3).toFixed(1)}" y="${H - 7}">${mLabel(d)}</text>`}`).join('');
+  const rows = lanes.map((l, i) => `<g class="pl-row" data-ln="${l.key}"><line x1="${L}" x2="${W - R}" y1="${TOP + LH * i + LH / 2}" y2="${TOP + LH * i + LH / 2}" stroke="var(--rule)"/>
+    <text class="pl-lbl" x="0" y="${TOP + LH * i + LH / 2}" dy=".32em">${esc(l.label)}</text><text x="${L - 8}" y="${TOP + LH * i + LH / 2}" dy=".32em" text-anchor="end">${counts[l.key]}</text></g>`).join('');
+  const dots = placed.sort((a, b) => SAL[b.e.sal] - SAL[a.e.sal]).map(({e, l}) => {
+    const i = lanes.indexOf(l), cy = TOP + LH * i + LH / 2 + ((hash(e.id) % 17) - 8) * .9, r = e.sal === 'high' ? 5 : e.sal === 'medium' ? 3.6 : 2.6;
+    return `<a class="pl-dot" data-ln="${l.key}" href="${eventUrl(ctx, e.id)}"${book.event(e)} aria-label="${esc(`${e.date}, ${e.country}: ${e.title}`)}"><circle cx="${x(e.date).toFixed(1)}" cy="${cy.toFixed(1)}" r="${r}" fill="${l.color}" fill-opacity="${e.sal === 'high' ? .95 : .6}"/></a>`;
+  }).join('');
+  let last = -99, tier = 0;
+  const marks = milestones.filter(m => m.key && m.at >= from && m.at <= to).sort((a, b) => a.at.localeCompare(b.at)).map(m => {
+    const mx = x(m.at); tier = mx - last < 14 ? (tier + 1) % 2 : 0; last = mx;
+    const my = 8 + tier * 10;
+    return `<g class="pl-ms" tabindex="0" role="button" aria-label="${esc(`Milestone: ${m.title}`)}" data-peek="${m.key}"><line x1="${mx.toFixed(1)}" x2="${mx.toFixed(1)}" y1="${my + 5}" y2="${H - B}" stroke="var(--amber)" stroke-dasharray="2 3" stroke-opacity=".55"/><circle cx="${mx.toFixed(1)}" cy="${my}" r="10" fill="transparent"/><path d="M${mx.toFixed(1)},${my - 5}l5,5l-5,5l-5,-5z" fill="var(--paper)" stroke="var(--amber)" stroke-width="1.5"/></g>`;
+  }).join('');
+  return `
+    <div class="pl-chips" role="group" aria-label="${esc(`Show ${pick}`)}">${lanes.map(l => `<button type="button" class="pl-chip" data-ln="${l.key}" aria-pressed="false"><i style="background:${l.color}"></i>${esc(l.label)} <b class="mono">${counts[l.key]}</b></button>`).join('')}</div>
+    <div class="plstrip tbl-scroll"><svg viewBox="0 0 ${W} ${H}" role="group" aria-label="${esc(label)}">${grid}${rows}${dots}${marks}</svg></div>
+    <p class="note">Each dot is one record, sized by salience; hover or tab to a dot for the record, or to a ◆ milestone for what happened and the records around it. Choose ${pick} to filter the strip and the list below. ${COLLECTION_NOTE}</p>`;
+}
+
 /* ───────────── Shared pieces ───────────── */
 
 // Events of one story fold under their lead record, as on the country monitors.
-function storyList(events, model, ctx, n) {
+// With a hover-card book, every title opens a preview; with lanes, rows carry their lane for the filter.
+function storyList(events, model, ctx, n, {book, lane, show} = {}) {
   const stories = groupStories(events).slice(0, n);
   if (!stories.length) return '<p class="note">No matching events in this period.</p>';
   const day = d => fmtDate(d, {day: 'numeric', month: 'short'});
-  return `<div class="cevents">${stories.map(({lead: e, others}) => `
-    <div class="cev"><span class="d">${day(e.date)}</span><span class="b" style="background:${tColor(e.type)}"></span>
-      <div><a href="${eventUrl(ctx, e.id)}" style="text-decoration:none">${esc(e.title)}</a><small>${esc(e.country)} · ${tLabel(e.type)} · ${e.sal} salience · ${e.n_sources} source${e.n_sources > 1 ? 's' : ''}</small>
-        ${others.length ? `<details class="cev-more"><summary>${others.length} more record${others.length > 1 ? 's' : ''} of this story</summary><ul>${others.map(o => `<li><a href="${eventUrl(ctx, o.id)}">${esc(o.title)}</a> <span>${esc(o.sources[0]?.name || '')} · ${day(o.date)}</span></li>`).join('')}</ul></details>` : ''}</div></div>`).join('')}</div>`;
+  const pk = e => book ? book.event(e) : '';
+  return `<div class="cevents"${lane ? ` data-show="${show || n}"` : ''}>${stories.map(({lead: e, others}, i) => `
+    <div class="cev"${lane ? ` data-ln="${lane(e).key}"` : ''}${show && i >= show ? ' hidden' : ''}><span class="d">${day(e.date)}</span><span class="b" style="background:${tColor(e.type)}"></span>
+      <div><a href="${eventUrl(ctx, e.id)}" style="text-decoration:none"${pk(e)}>${esc(e.title)}</a><small>${esc(e.country)} · ${tLabel(e.type)} · ${e.sal} salience · ${e.n_sources} source${e.n_sources > 1 ? 's' : ''}</small>
+        ${others.length ? `<details class="cev-more"><summary>${others.length} more record${others.length > 1 ? 's' : ''} of this story</summary><ul>${others.map(o => `<li><a href="${eventUrl(ctx, o.id)}"${pk(o)}>${esc(o.title)}</a> <span>${esc(o.sources[0]?.name || '')} · ${day(o.date)}</span></li>`).join('')}</ul></details>` : ''}</div></div>`).join('')}</div>
+    ${show && stories.length > show ? `<button type="button" class="btn btn-secondary pl-more" hidden>Show all</button>` : ''}`;
 }
 
 const monthsOf = (events, asof, n = 12) => Array.from({length: n}, (_, i) => {
@@ -61,7 +144,7 @@ function figureStrip(cards) {
 }
 
 // A region-wide reading of one risk construct, in the instrument register of the country outlook panel.
-function regionReading(model, ctx, code, {title, question}) {
+function regionReading(model, ctx, code, {title, question}, book) {
   const read = model.countries.map(c => ({c, k: c.constructs.find(k => k.code === code)})).filter(r => r.k?.level);
   const counts = LEVELS.map(l => [l, read.filter(r => r.k.level === l).length]);
   const top = read.filter(r => ['severe', 'high'].includes(r.k.level)).sort((a, b) => LEVELS.indexOf(b.k.level) - LEVELS.indexOf(a.k.level) || (b.k.trend === 'rising') - (a.k.trend === 'rising'));
@@ -83,7 +166,7 @@ function regionReading(model, ctx, code, {title, question}) {
         <div class="kicker" style="margin-bottom:8px">Severe and high</div>
         <ul class="rr-list">${top.map(r => `<li><a href="${countryUrl(ctx, r.c)}">${esc(r.c.name)}</a>${lvl(r.k.level)}${dir(r.k.trend)}</li>`).join('') || '<li>None at present.</li>'}</ul>
         ${evidence.length ? `<div class="con-ev"><div class="kicker">Events behind these readings · past 90 days</div>${evidence.map(({e, c}) => `
-          <a href="${eventUrl(ctx, e.id)}"><span class="mono">${fmtDate(e.date, {day: 'numeric', month: 'short'})} · ${esc(c.iso3)}</span>${esc(e.title)}</a>`).join('')}</div>` : ''}
+          <a href="${eventUrl(ctx, e.id)}"${book ? book.event(e) : ''}><span class="mono">${fmtDate(e.date, {day: 'numeric', month: 'short'})} · ${esc(c.iso3)}</span>${esc(e.title)}</a>`).join('')}</div>` : ''}
       </div>
     </div>
   </section>`;
@@ -136,12 +219,34 @@ export function renderOrganizedCrime(model, ctx) {
     const evs = year.filter(e => e.country === c.name), frag = c.constructs.find(k => k.code === 'security_fragmentation');
     return {c, n: evs.length, n30: evs.filter(e => within(model, e, 30)).length, high: evs.filter(e => e.sal === 'high').length, frag};
   }).filter(r => r.n || r.frag).sort((a, b) => b.n - a.n);
-  const groups = {};
-  for (const e of year) for (const a of e.coding?.actors || []) if (['criminal_org', 'insurgent_group', 'paramilitary_militia'].includes(a.group) && a.name) {
-    const g = (groups[a.name] ||= {n: 0, countries: new Set()}); g.n++; g.countries.add(e.country);
-  }
-  const named = Object.entries(groups).filter(([, g]) => g.n >= 2).sort((a, b) => b[1].n - a[1].n).slice(0, 12);
-  const coded = year.filter(e => e.coding).length;
+  const book = peekBook(model, ctx);
+  // One lane per country with the most events this year, the rest together.
+  const PALETTE = ['var(--t-oc)', 'var(--t-conflict)', 'var(--t-purge)', 'var(--t-cp)', 'var(--t-aid)'];
+  const top = Object.entries(year.reduce((a, e) => (a[e.country] = (a[e.country] || 0) + 1, a), {})).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([n]) => n);
+  const lanes = [...top.map((n, i) => ({key: model.byName[n]?.iso3 || `l${i}`, label: n, color: PALETTE[i], test: e => e.country === n})), {key: 'rest', label: 'Elsewhere', color: 'var(--t-other)', test: () => true}];
+  const ocLane = e => lanes.find(l => l.test(e));
+  const msLabel = m => fmtDate(m.date, m.precision === 'month' ? {month: 'long', year: 'numeric'} : {day: 'numeric', month: 'long', year: 'numeric'});
+  const ms = (content?.milestones || []).map((m, i) => {
+    const key = `m-${i}`, hits = related(model, m.match, m.date);
+    book.add(key, milestoneCard(book, m, hits, msLabel(m)));
+    return {key, hits, at: m.date, title: m.title, m};
+  });
+  // Named groups, found by name in headlines and summaries; each opens a card with its latest records.
+  const fto = content?.sections.find(sec => sec.id === 'gangs')?.table?.rows || [];
+  const pool = model.events.filter(e => e.content_type !== 'profile' && within(model, e, 365));
+  const named = (content?.groups || []).map(g => {
+    const re = new RegExp(g.terms, g.cs ? '' : 'i');
+    const evs = pool.filter(e => re.test(`${e.title} ${e.summary}`));
+    return {g, evs, where: [...new Set(evs.map(e => e.country))], listed: g.fto && fto.find(r => r[1].includes(g.fto))};
+  }).filter(r => r.evs.length).sort((a, b) => b.evs.length - a.evs.length).slice(0, 14);
+  const groupCard = ({g, evs, where, listed}) => {
+    const home = model.byName[g.country];
+    return book.add(`g-${g.name.replace(/[^\w]+/g, '-')}`, `<div class="pk-kick">${esc(g.kind)} · based in ${esc(g.country)}</div><div class="pk-title">${esc(g.name)}</div>
+      ${listed ? `<p class="pk-flag">On the US terrorist list since ${esc(listed[2])}.</p>` : ''}
+      ${where.length > 1 ? `<p>Named in records from ${esc(where.join(', '))}.</p>` : ''}
+      ${book.records(evs.slice(0, 4), evs.length, '')}
+      <div class="pk-foot"><span>Matched by name, past 12 months</span>${home ? `<a href="${countryUrl(ctx, home)}">${esc(home.name)} monitor →</a>` : ''}</div>`);
+  };
   const coca = content?.figures.find(f => f.series);
   const body = `
   <div class="wrap">
@@ -157,7 +262,12 @@ export function renderOrganizedCrime(model, ctx) {
       </dl>
     </section>
     ${content ? figureStrip(content.figures) : ''}
-    ${regionReading(model, ctx, 'security_fragmentation', {title: 'Security fragmentation across the region', question: 'Countries where the model reads criminal and armed-group pressure on the state as high or severe.'})}
+    ${regionReading(model, ctx, 'security_fragmentation', {title: 'Security fragmentation across the region', question: 'Countries where the model reads criminal and armed-group pressure on the state as high or severe.'}, book)}
+    <section class="section" aria-labelledby="pulse-h">
+      <div class="sec-head"><h2 id="pulse-h">A year of organized crime</h2><span class="kicker">${year.length} records · past 12 months</span></div>
+      ${pulseStrip(model, ctx, book, year, lanes, ms, {label: 'Organized-crime and armed-group events in the past 12 months by country, with milestones', pick: 'a country'})}
+      ${ms.length ? `<div class="pl-mslist"><span class="kicker">Milestones</span>${ms.map(x => `<button type="button" class="pk-btn" data-peek="${x.key}">◆ ${esc(x.title)} <span class="mono">${esc(fmtDate(x.at, {month: 'short', year: '2-digit'}))}</span></button>`).join('')}</div>` : ''}
+    </section>
     <div class="two section" style="padding-top:var(--s-6)">
       <div>
         <div class="sec-head"><h2>By country</h2><span class="kicker">Past 12 months</span></div>
@@ -169,16 +279,16 @@ export function renderOrganizedCrime(model, ctx) {
         <div class="sec-head section"><h2>Events per month</h2><span class="kicker">Region</span></div>
         <div class="act-chart">${monthBars(monthsOf(year, model.asof), 'var(--t-oc)')}</div>
         <div class="sec-head section"><h2>Past 30 days</h2><a href="${ctx.url('feed/?t=oc&p=30')}">Organized-crime events in the feed →</a></div>
-        ${storyList(recent, model, ctx, 12)}
+        ${storyList(recent, model, ctx, 60, {book, lane: ocLane, show: 12})}
       </div>
       <aside>
         <div class="sec-head"><h2>Where</h2><span class="kicker">Past 12 months</span></div>
         <div class="cmap instr">${map.svg}</div>
         <p class="note">${map.n} of ${year.length} events are placed at a town or region (${map.places} places). Red marks include a high-salience event. Country-level events are not drawn.</p>
         ${content ? `<div class="sec-head section"><h2>Frontlines</h2></div>${frontlines(content, model, ctx)}` : ''}
-        ${named.length >= 5 ? `<div class="sec-head section"><h2>Groups named most often</h2></div>
-        <ul class="missions">${named.map(([name, g]) => `<li><span>${esc(name)}<small class="grp-c">${esc([...g.countries].join(', '))}</small></span><span class="mono">${g.n}</span></li>`).join('')}</ul>
-        <p class="note">Names as written by the coder in ${coded} of ${year.length} events (those coded since October 2026). Spelling variants are not merged, so counts are a floor.</p>` : ''}
+        ${named.length ? `<div class="sec-head section"><h2>Groups in the record</h2><span class="kicker">Past 12 months</span></div>
+        <ul class="missions">${named.map(r => `<li><span><button type="button" class="pk-name"${groupCard(r)}>${esc(r.g.name)}</button><small class="grp-c">${esc(r.g.kind)} · ${esc(r.g.country)}${r.listed ? ' · US terrorist list' : ''}</small></span><span class="mono">${r.evs.length}</span></li>`).join('')}</ul>
+        <p class="note">Records of any kind that name each group in the headline or summary, including common aliases and leaders' names. Matching is by name, so a count is a floor, and a record can name more than one group. Select a group for its latest records.</p>` : ''}
       </aside>
     </div>
     ${content ? `
@@ -188,14 +298,24 @@ export function renderOrganizedCrime(model, ctx) {
       ${content.sections.slice(1).map(s => editorialSection(s)).join('')}
     </section>
     ${sourceList(content)}` : ''}
-  </div>`;
-  return layout(ctx, {title: 'Organized crime and the state', description: `Organized crime and armed-group events across ${model.countries.length} countries: ${year.length} in the past 12 months, with security-fragmentation readings, sourced background and US terrorist designations.`, nav: 'oc', body});
+  </div>
+  ${book.html()}`;
+  return layout(ctx, {title: 'Organized crime and the state', scripts: ['peek.js', 'topic.js'], description: `Organized crime and armed-group events across ${model.countries.length} countries: ${year.length} in the past 12 months, with security-fragmentation readings, sourced background and US terrorist designations.`, nav: 'oc', body});
 }
 
 /* ───────────── US security ───────────── */
 
 const US_WORDS = /(?<![\w])(US|U\.S\.|United States|EE\.? ?UU\.?|Estados Unidos|EUA|SOUTHCOM|Southern Command|Comando Sur|Pentagon|Pentágono|DEA|JIATF)(?![\w])/;
 const US_TYPES = new Set(['aid', 'coop', 'exercise', 'procurement']);
+// Kinds of US action, tested in order on the headline and summary; the first that matches wins.
+const US_LANES = [
+  {key: 'force', label: 'Strikes and deployments', color: 'var(--t-coup)', test: e => e.type !== 'exercise' && (e.coding?.subtype === 'direct_foreign_operation' || /\b(strikes?|airstrikes?|bomb\w*|raids?|deploy\w*|warships?|destroyers?|carriers?|troops|marines|Southern Spear)\b|ataque|bombarde|despliegue|desplieg|buques?|portaaviones|tropas|lanchas?/i.test(`${e.title} ${e.summary}`))},
+  {key: 'pressure', label: 'Sanctions and charges', color: 'var(--t-cp)', test: e => /sanction|sanci[oó]n|terroris|designat|designa|indict|charged|acusad|extradi|tariff|arancel|decertif|OFAC|recompensa|reward|\bvisas?\b/i.test(`${e.title} ${e.summary}`)},
+  {key: 'train', label: 'Training and exercises', color: 'var(--t-exercise)', test: e => e.type === 'exercise' || /exercise|ejercicio|training|entrenamiento|capacitaci|adiestramiento|\bdrills?\b|Tradewinds|PANAMAX|UNITAS|Southern Seas/i.test(`${e.title} ${e.summary}`)},
+  {key: 'aid', label: 'Aid, equipment and deals', color: 'var(--t-aid)', test: e => ['aid', 'procurement'].includes(e.type) || /\baid\b|assistance|ayuda|asistencia|donat|donaci|don[oó]\b|equipment|equipos?\b|entreg|agreement|acuerdo|memorand|million|millones|\$/i.test(`${e.title} ${e.summary}`)},
+  {key: 'talk', label: 'Diplomacy and coordination', color: 'var(--t-coop)', test: () => true},
+];
+const usLane = e => US_LANES.find(l => l.test(e));
 
 // Short names for the funding accounts that carry security assistance.
 const ACCOUNT = [
@@ -228,7 +348,7 @@ function channelTable(model, ctx, full) {
           <thead><tr><th>Channel</th><th class="num">FY${full - 1}</th><th class="num">FY${full}</th><th>Largest recipients, FY${full}</th></tr></thead>
           <tbody>${rows.map(r => { const [abbr, label] = accountName(r.account); const top = Object.entries(r.by).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([c, v]) => { const m = model.byName[c]; return `${m ? `<a href="${countryUrl(ctx, m)}">${esc(c)}</a>` : esc(c)} ${usd(v)}`; }).join(', '); return `<tr><td>${abbr ? `<b class="mono">${esc(abbr)}</b> ` : ''}${esc(label)}<small class="grp-c">${r.group === 'military' ? 'military' : 'counternarcotics'}</small></td><td class="num mono">${r.prev ? usd(r.prev) : '—'}</td><td class="num mono">${r.now ? usd(r.now) : '—'}</td><td style="font-size:13px">${top || '—'}</td></tr>`; }).join('')}</tbody>
         </table></div>
-        <p class="note">${esc(model.topics.us?.channels_note || '')} Obligations to the ${model.countries.length} monitored countries, constant dollars; Defense Department accounts are reported with a lag and may show nothing for the latest year. Source: ForeignAssistance.gov.</p>`;
+        <p class="note">${esc(model.topics.us?.channels_note || '')}${cite(model.topics.us?.channels_sources)} Obligations to the ${model.countries.length} monitored countries, constant dollars; Defense Department accounts are reported with a lag and may show nothing for the latest year. Source: ForeignAssistance.gov.</p>`;
 }
 
 // Long-run Greenbook history, economic and military obligations to the monitored countries.
@@ -272,9 +392,15 @@ function greenbookHistory(model, ctx) {
     </section>`;
 }
 
-function caribbean(content) {
+function caribbean(content, ms) {
   const k = content.caribbean;
-  const month = d => fmtDate(d + '-01', {month: 'short', year: 'numeric'});
+  const month = d => fmtDate(`${d.slice(0, 7)}-01`, {month: 'short', year: 'numeric'});
+  let phase = '';
+  const item = (t, i) => {
+    const m = ms[i], head = t.phase && t.phase !== phase ? `<li class="tl-phase">${esc(phase = t.phase)}</li>` : '';
+    return `${head}<li data-peek="${m.key}"><span class="mono">${month(t.date)}</span><div><b>${esc(t.title)}</b><p>${esc(t.text)}${cite(t.sources)}</p>
+      <button type="button" class="pk-btn" data-peek="${m.key}" aria-label="${esc(`${m.hits.length} archive record${m.hits.length === 1 ? '' : 's'} on ${t.title}`)}">◆ ${m.hits.length ? `${m.hits.length} record${m.hits.length > 1 ? 's' : ''}` : 'not in the archive'}</button></div></li>`;
+  };
   return `
     <section class="section ed focus" aria-labelledby="car-h">
       <div class="sec-head"><h2 id="car-h">${esc(k.title)}</h2><span class="kicker">${esc(k.kicker)}</span></div>
@@ -283,7 +409,7 @@ function caribbean(content) {
           <div class="prose">${para(k.intro)}</div>
           <div class="assess instr"><div class="panel-title"><span>SENTINEL assessment</span><span class="mono">analysis</span></div>${para(k.assessment)}</div>
         </div>
-        <ol class="ed-tl">${k.timeline.map(t => `<li><span class="mono">${month(t.date)}</span><div><b>${esc(t.title)}</b><p>${esc(t.text)}${cite(t.sources)}</p></div></li>`).join('')}</ol>
+        <ol class="ed-tl">${k.timeline.map(item).join('')}</ol>
       </div>
     </section>`;
 }
@@ -294,6 +420,12 @@ export function renderUsSecurity(model, ctx) {
   const isUs = e => e.content_type === 'event' && mentions(e) && (US_TYPES.has(e.type) || e.coding?.subtype === 'direct_foreign_operation' || (e.sal === 'high' && US_WORDS.test(e.title)));
   const year = model.events.filter(e => isUs(e) && within(model, e, 365));
   const recent = year.filter(e => within(model, e, 60)).sort((a, b) => SAL[a.sal] - SAL[b.sal] || b.date.localeCompare(a.date));
+  const book = peekBook(model, ctx);
+  const ms = (content?.caribbean.timeline || []).map((t, i) => {
+    const key = `m-${i}`, hits = related(model, t.match, t.date);
+    book.add(key, milestoneCard(book, t, hits, t.date.length > 7 ? fmtDate(t.date, {day: 'numeric', month: 'long', year: 'numeric'}) : fmtDate(`${t.date}-01`, {month: 'long', year: 'numeric'})));
+    return {key, hits, at: t.date.length > 7 ? t.date : `${t.date}-15`, title: t.title};
+  });
   const aid = model.assistance;
   let aidBlock = '', table = '', channels = '', cards = content ? [...content.figures] : [];
   if (aid) {
@@ -320,8 +452,20 @@ export function renderUsSecurity(model, ctx) {
         </table></div>
         <p class="note">Ranked by military plus counternarcotics obligations in fiscal ${full}. The last column is the same sum five years earlier.</p>`;
   }
-  const align = model.countries.map(c => ({c, m: c.monitors.find(m => m.code === 'external_security_alignment'), n: year.filter(e => e.country === c.name).length}))
-    .filter(r => r.n).sort((a, b) => b.n - a.n).slice(0, 12);
+  const align = model.countries.map(c => ({c, m: c.monitors.find(m => m.code === 'external_security_alignment'), evs: year.filter(e => e.country === c.name)}))
+    .filter(r => r.evs.length).sort((a, b) => b.evs.length - a.evs.length).slice(0, 12);
+  // Country cards: latest US-related records, the alignment monitor and the latest full year of security assistance.
+  const aidFull = aid ? [...aid.countries[0].series].reverse().find(p => !aid.partial_years.includes(p.year))?.year : null;
+  const countryCard = r => {
+    const a = aid?.countries.find(x => x.country === r.c.name)?.series.find(p => p.year === aidFull);
+    const sec = a ? Math.max(0, a.military) + Math.max(0, a.counternarcotics) : null;
+    const lanes = US_LANES.map(l => [l, r.evs.filter(e => usLane(e) === l).length]).filter(([, n]) => n);
+    return book.add(`c-${r.c.iso3}`, `<div class="pk-kick">${chip(r.c)} ${esc(r.c.subregion || '')}</div><div class="pk-title">${esc(r.c.name)} and the United States</div>
+      <dl class="pk-facts"><dt>US records, 12 months</dt><dd class="mono">${r.evs.length}</dd>${sec != null ? `<dt>US security assistance, FY${aidFull}</dt><dd class="mono">${usd(sec)}</dd>` : ''}${r.m?.trend ? `<dt>External alignment</dt><dd>${esc(r.m.trend)}</dd>` : ''}</dl>
+      <div class="pk-mix">${lanes.map(([l, n]) => `<span><i style="background:${l.color}"></i>${esc(l.label)} ${n}</span>`).join('')}</div>
+      ${book.records(r.evs.slice(0, 3), r.evs.length, '')}
+      <div class="pk-foot"><span></span><a href="${countryUrl(ctx, r.c)}">Country monitor →</a></div>`);
+  };
   const access = content?.access;
   const body = `
   <div class="wrap">
@@ -337,19 +481,23 @@ export function renderUsSecurity(model, ctx) {
       </dl>
     </section>
     ${cards.length ? figureStrip(cards) : ''}
-    ${content ? caribbean(content) : ''}
+    ${content ? caribbean(content, ms) : ''}
+    <section class="section" aria-labelledby="pulse-h">
+      <div class="sec-head"><h2 id="pulse-h">A year of US action</h2><span class="kicker">${year.length} records · past 12 months</span></div>
+      ${pulseStrip(model, ctx, book, year, US_LANES, ms, {label: `US-related events in the past 12 months by kind of action, with milestones`})}
+    </section>
     <div class="two section" style="padding-top:var(--s-6)">
       <div>
         ${aidBlock}${channels}${table}
-        <div class="sec-head section"><h2>Past 60 days</h2><a href="${ctx.url('feed/?t=coop&p=90')}">Security cooperation in the feed →</a></div>
-        ${storyList(recent, model, ctx, 14)}
+        <div class="sec-head section" id="us-recent"><h2>Past 60 days</h2><a href="${ctx.url('feed/?t=coop&p=90')}">Security cooperation in the feed →</a></div>
+        ${storyList(recent, model, ctx, 60, {book, lane: usLane, show: 14})}
       </div>
       <aside>
         <div class="sec-head"><h2>Events per month</h2><span class="kicker">Region</span></div>
         <div class="act-chart tight">${monthBars(monthsOf(year, model.asof), 'var(--t-coop)')}</div>
         <p class="note">${COLLECTION_NOTE}</p>
         <div class="sec-head section"><h2>Where the events are</h2><span class="kicker">Past 12 months</span></div>
-        <ul class="missions">${align.map(r => `<li><span><a href="${countryUrl(ctx, r.c)}" style="text-decoration:none">${esc(r.c.name)}</a>${r.m?.trend ? `<small class="grp-c">external alignment: ${esc(r.m.trend)}</small>` : ''}</span><span class="mono">${r.n}</span></li>`).join('')}</ul>
+        <ul class="missions">${align.map(r => `<li><span><a href="${countryUrl(ctx, r.c)}" style="text-decoration:none"${countryCard(r)}>${esc(r.c.name)}</a>${r.m?.trend ? `<small class="grp-c">external alignment: ${esc(r.m.trend)}</small>` : ''}</span><span class="mono">${r.evs.length}</span></li>`).join('')}</ul>
         <p class="note">Events involving the United States, by country. "External alignment" is the trend of the country monitor that tracks foreign security ties.</p>
         ${access ? `<div class="sec-head section"><h2>${esc(access.title)}</h2></div>
         <ul class="missions access">${access.rows.map(([site, where, role, status]) => `<li><span>${esc(site)}<small class="grp-c">${esc(where)} · ${esc(role)}</small></span><span class="mono ms-${/^Active|^React/.test(status) ? 'active' : 'routine'}">${esc(status)}</span></li>`).join('')}</ul>
@@ -358,6 +506,7 @@ export function renderUsSecurity(model, ctx) {
     </div>
     ${greenbookHistory(model, ctx)}
     ${content ? sourceList(content) : ''}
-  </div>`;
-  return layout(ctx, {title: 'US security in the region', description: `US security assistance, the 2025–26 Caribbean campaign and US-related security events across ${model.countries.length} countries in Latin America and the Caribbean.`, nav: 'us', body});
+  </div>
+  ${book.html()}`;
+  return layout(ctx, {title: 'US security in the region', scripts: ['peek.js', 'topic.js'], description: `US security assistance, the 2025–26 Caribbean campaign and US-related security events across ${model.countries.length} countries in Latin America and the Caribbean.`, nav: 'us', body});
 }
