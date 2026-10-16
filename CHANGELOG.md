@@ -11,6 +11,66 @@ Each major change entry should include:
 
 ## 2026-10-16
 
+### Degraded Pipeline Mode, Root Deploy, Hover Cards on Countries and Feed, Lighter Feed
+
+Affected areas:
+- Pipeline: `scripts/pipeline_core.py`, `scripts/publish/pending_headlines.py` (new), `.github/workflows/fetch_events.yml`, `tests/test_pending_headlines.py` (new)
+- Deploy: `.github/workflows/pages.yml`, `apps/public-site/build.mjs`, `404.html`, `scripts/dev/smoke_public_site.mjs`
+- Public site:
+  - `src/pages/headlines.mjs` and `src/pages/peek.mjs` (new);
+  - `src/pages/front.mjs`, `feed.mjs`, `countries.mjs`, `topics.mjs`;
+  - `src/client/feed.js`, `peek.js`;
+  - `src/lib/model.mjs`, `src/styles/site.css`.
+- Docs: `apps/public-site/README.md`, `docs/public-site.md`, `tests/test_public_site.py`, `tests/test_public_site_build.py`
+
+What changed:
+- **Owner request (2026-10-16):** do the recommended next steps, apart from the API credits: a pipeline fallback, retiring `/next/` and shrinking the deploy, hover cards on the country pages and feed, and the cheap fixes.
+- **Degraded mode.** The nightly run had failed since 6 October with "credit balance too low".
+  - When the model API refuses for account reasons (no credit, revoked key, disabled account), the run now publishes the keyword-filtered headlines it collected to `data/published/pending_headlines.json`. Each entry has the headline, link, source, date and a country guessed from the headline; no article text is included. The run then exits with code 3.
+  - The workflow treats code 3 as degraded:
+    - it skips the downstream rebuild and the country-reference refresh;
+    - it commits the list, so the site redeploys;
+    - it still comments on the failure issue, and does not close it.
+  - Other errors still fail the run.
+  - The headlines never enter `data/events.json`. The catch-up lookback codes the same articles when the API works again, and that run deletes the list.
+- **Site, while degraded:**
+  - a dashed "Collected, not yet coded" block on the front page;
+  - a notice on the feed;
+  - a new `headlines/` page listing everything waiting, by day.
+- **Deploy at the root.**
+  - `build.mjs --production` builds the site once into an empty `_site`. The workflow then copies in only the static pages, `assets/`, crawler files, `data/published/` and `config/actors/` (which the analyst console reads) and the console.
+  - The Pages artifact drops from about 154 MB to about 37 MB, and every page is built once instead of twice.
+  - `/sentinel/next/` is retired; `404.html` redirects its old links to the same page at the root.
+  - The `--live`/`PROMOTED` code is gone.
+  - The build refuses to empty a folder that is or contains the repository.
+- **Hover cards everywhere.** The card and strip code moved to `src/pages/peek.mjs`.
+  - Country pages: cards on every event link, and an "A year in <country>" strip by event type whose chips filter the recent-events list.
+  - Feed map: country bubbles show records in view, the type mix and the latest headlines; dots show the record. Clicks keep their filter and open behaviour.
+- **Lighter feed.** Interpretation, coding and source excerpts moved from `feed.json` to `data/feed-details/YYYY-MM.json`. The browser fetches a month's file when a record from it is opened. `feed.json` drops from 2.6 MB to 1.3 MB, or 457 KB to 330 KB gzipped.
+- **Fixes:**
+  - Feed date labels ("today", "D−n") count from the reader's date.
+  - Heading order is fixed on the front page and country pages.
+
+Validation completed:
+- `~/.venvs/sentinel/bin/python -m pytest -q tests`: 118 passed. New tests cover:
+  - the credit error and other account errors counting as unavailable, while ordinary errors do not;
+  - the country guess;
+  - the write and clear of the pending list;
+  - the feed-detail files covering every record with no private fields.
+- `node scripts/dev/smoke_public_site.mjs`: 48 page views, no script errors, failed requests or overflow.
+- A local copy of the new deploy (production build plus the copied files): a link crawl of 1,669 pages found no broken internal links, no preview banner, and the old `#tab` redirect present.
+- A temporary pending list was written to check the front block, the feed notice and the headlines page; it was deleted before committing.
+- Headless Chrome checks:
+  - country-page strip hovers, and the chip filter at 390px;
+  - feed bubble and dot cards;
+  - an opened feed record shows its interpretation and three evidence quotes after lazy loading.
+- The `/next/` redirect logic was checked with sample paths. The local server does not serve `404.html`, so the redirect itself was not exercised.
+
+Remaining risks / follow-up:
+- **Degraded path never run in CI.** It is tested with simulated SDK errors only, and will first run for real on the next nightly run if credits are still exhausted.
+- **Untested redirect.** The `/next/` redirect will first be exercised on GitHub Pages.
+- **No noindex on `headlines/`.** The page is indexable, and says nothing is waiting when coding is normal.
+
 ### Public Site Review: Old Dashboard Archived, Smoke Check, Stale-Data Warning
 
 Affected areas:

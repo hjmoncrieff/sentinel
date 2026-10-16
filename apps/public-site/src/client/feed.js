@@ -75,7 +75,9 @@ function draw(scrollToSel) {
   $('#f-list').innerHTML = html || '<p style="padding:24px;color:var(--i-dim)">Nothing matches these filters. Widen the period or clear a filter.</p>';
   writeState();
   drawMap(items);
-  detail(D.events.find(e => e.id === F.sel));
+  const open = D.events.find(e => e.id === F.sel);
+  detail(open);
+  if (open && !open.full) withDetail(open).then(e => { if (F.sel === e.id) detail(e); });
   showView();
   if (scrollToSel) $('#f-list .ev[aria-selected="true"]')?.scrollIntoView({block: 'nearest'});
 }
@@ -157,6 +159,20 @@ function detail(e) {
   $('#f-detail').scrollTop = 0;
 }
 
+// An opened record's interpretation, coding and source excerpts come from its month's detail file.
+const DETAIL = {};
+async function withDetail(e) {
+  const month = e.date.slice(0, 7);
+  DETAIL[month] ||= fetch(page.dataset.feed.replace(/feed\.json$/, `feed-details/${month}.json`)).then(r => (r.ok ? r.json() : {})).catch(() => ({}));
+  const d = (await DETAIL[month])[e.id];
+  if (d) {
+    e.analysis = d.analysis; e.coding = d.coding;
+    d.sources.forEach((s, i) => { if (e.sources[i]) Object.assign(e.sources[i], s); });
+  }
+  e.full = true;
+  return e;
+}
+
 function select(id, scroll) { F.sel = id; view = 'record'; draw(scroll); }
 
 /* ── Map pane ── */
@@ -181,6 +197,10 @@ function drawMap(items) {
   const max = Math.max(1, ...Object.values(by).map(c => c.n));
   const bubbles = $('#fm-bubbles'), dots = $('#fm-dots'), sel = $('#fm-sel');
   bubbles.replaceChildren(); dots.replaceChildren(); sel.replaceChildren();
+  // Hover cards (client/peek.js): one per dot and bubble, rebuilt with the map.
+  document.dispatchEvent(new Event('peek:hide'));
+  const cards = [];
+  const day = d => fmtDate(d, {day: 'numeric', month: 'short'});
   fm.querySelectorAll('.fm-c').forEach(p => {
     const name = p.dataset.name;
     p.classList.toggle('on', F.country === name);
@@ -190,8 +210,11 @@ function drawMap(items) {
   for (const e of events) {
     if (!e.coords || e.precision !== 'place') continue;
     const [x, y] = projectXY(e.coords);
-    const dot = node('circle', {cx: x.toFixed(1), cy: y.toFixed(1), r: e.sal === 'high' ? 3.6 : 2.4, fill: tColor(e.type), stroke: 'var(--olive)', 'stroke-width': .8, class: 'fm-dot', 'data-id': e.id, tabindex: 0, role: 'button'});
-    dot.append(node('title', {}, `${e.location || e.country} · ${fmtDate(e.date, {day: 'numeric', month: 'short'})} · ${e.title}`));
+    const dot = node('circle', {cx: x.toFixed(1), cy: y.toFixed(1), r: e.sal === 'high' ? 3.6 : 2.4, fill: tColor(e.type), stroke: 'var(--olive)', 'stroke-width': .8, class: 'fm-dot', 'data-id': e.id, tabindex: 0, role: 'button',
+      'aria-label': `${e.location || e.country}, ${day(e.date)}: ${e.title}. Open the record.`, 'data-peek': `fd-${e.id}`, 'data-peek-hover': ''});
+    cards.push([`fd-${e.id}`, `<div class="pk-kick"><i class="pk-dot" style="background:${tColor(e.type)}"></i>${esc(tLabel(e.type))} · ${esc(e.location || e.country)} · ${day(e.date)}</div>
+      <div class="pk-title">${esc(e.title)}</div>${e.summary && e.summary !== e.title ? `<p>${esc(e.summary.length > 240 ? `${e.summary.slice(0, 240).replace(/\s+\S*$/, '')}…` : e.summary)}</p>` : ''}
+      <div class="pk-foot"><span>${esc(e.sal)} salience · ${e.n_sources} source${e.n_sources > 1 ? 's' : ''}</span><span>Click to open the record</span></div>`]);
     dots.append(dot);
   }
   for (const [name, c] of Object.entries(by).sort((a, b) => b[1].n - a[1].n)) {
@@ -199,12 +222,22 @@ function drawMap(items) {
     if (!at) continue;
     const dom = Object.entries(c.types).sort((a, b) => b[1] - a[1])[0][0];
     const r = 7 + Math.sqrt(c.n / max) * 15;
-    const g = node('g', {class: `fm-b${F.country === name ? ' on' : ''}`, transform: `translate(${at[0]},${at[1]})`, 'data-name': name, tabindex: 0, role: 'button', 'aria-label': `${name}: ${c.n} records in view. Filter the list to ${name}.`});
-    g.append(node('title', {}, `${name}: ${c.n} record${c.n === 1 ? '' : 's'} in view${c.high ? `, ${c.high} high salience` : ''}; mostly ${tLabel(dom).toLowerCase()}`));
+    const g = node('g', {class: `fm-b${F.country === name ? ' on' : ''}`, transform: `translate(${at[0]},${at[1]})`, 'data-name': name, tabindex: 0, role: 'button', 'aria-label': `${name}: ${c.n} records in view. Filter the list to ${name}.`,
+      'data-peek': `fb-${ISO[name] || name.replace(/\W+/g, '-')}`, 'data-peek-hover': ''});
+    const latest = events.filter(e => e.country === name).slice(0, 3);
+    const mix = Object.entries(c.types).sort((a, b) => b[1] - a[1]).slice(0, 4);
+    cards.push([g.getAttribute('data-peek'), `<div class="pk-kick">${esc(ISO[name] || '')} · ${F.period ? `past ${F.period} days` : 'all dates'}</div><div class="pk-title">${esc(name)}</div>
+      <dl class="pk-facts"><dt>Records in view</dt><dd class="mono">${c.n}</dd>${c.high ? `<dt>High salience</dt><dd class="mono">${c.high}</dd>` : ''}</dl>
+      <div class="pk-mix">${mix.map(([t, n]) => `<span><i style="background:${tColor(t)}"></i>${esc(tLabel(t))} ${n}</span>`).join('')}</div>
+      <div class="pk-sub">Latest</div><ul class="pk-recs">${latest.map(e => `<li><span class="pk-rec"><span class="mono">${day(e.date)}</span>${esc(e.title)}</span></li>`).join('')}</ul>
+      <div class="pk-foot"><span></span><span>${F.country === name ? 'Click to clear the filter' : 'Click to filter the list'}</span></div>`]);
     g.append(node('circle', {r: r.toFixed(1), fill: tColor(dom), 'fill-opacity': .88, stroke: c.high ? 'var(--st-crisis-i)' : 'var(--olive)', 'stroke-width': c.high ? 1.6 : 1}));
     g.append(node('text', {'text-anchor': 'middle', dy: '.35em'}, c.n));
     bubbles.append(g);
   }
+  let store = $('#fm-cards');
+  if (!store) { store = document.createElement('div'); store.id = 'fm-cards'; store.hidden = true; document.body.append(store); }
+  store.innerHTML = cards.map(([k, h]) => `<template id="pk-${esc(k)}">${h}</template>`).join('');
   const s = F.sel && D.events.find(e => e.id === F.sel);
   if (s) {
     const at = s.coords && s.precision === 'place' ? projectXY(s.coords) : CENTROID[s.country];

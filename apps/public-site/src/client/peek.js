@@ -1,5 +1,7 @@
 // Hover cards. Any element with data-peek="key" shows <template id="pk-key"> beside it:
-// on mouse hover, on keyboard focus, or on tap for elements that are not links.
+// on mouse hover, on keyboard focus, or on tap for elements that are not links. Elements marked
+// data-peek-hover keep their own click behaviour (the feed map), so tapping them does not open a card.
+// A page that redraws its triggers dispatches 'peek:hide' on document to close an open card.
 // Every element sharing the key is marked while the card is open, so a timeline entry
 // and its marker on the strip light up together.
 
@@ -74,7 +76,7 @@ document.addEventListener('focusin', e => {
 document.addEventListener('click', e => {
   if (card.contains(e.target)) return;
   const el = trigger(e.target);
-  if (el && !el.closest('a')) {
+  if (el && !el.closest('a') && !el.hasAttribute('data-peek-hover')) {
     if (el.tagName === 'LI' && e.target.closest('a, button:not([data-peek])')) return;
     e.preventDefault();
     if (cur === el) hide(); else { hide(); show(el); }
@@ -90,3 +92,4 @@ document.addEventListener('keydown', e => {
   if (card.contains(document.activeElement) || document.activeElement === document.body) el.focus?.();
 });
 window.addEventListener('resize', hide);
+document.addEventListener('peek:hide', hide);

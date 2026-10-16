@@ -52,5 +52,5 @@ export function renderFeed(model, ctx) {
     </div>
     <noscript><p style="padding:24px">The live feed needs JavaScript to filter events. The <a href="${ctx.url('countries/')}">country monitors</a> list recent events without it.</p></noscript>
   </div>`;
-  return layout(ctx, {title: 'Live feed', description: 'Every coded civil–military and security event, with sources, coding and review state.', nav: 'feed', body, scripts: ['feed.js'], app: true});
+  return layout(ctx, {title: 'Live feed', description: 'Every coded civil–military and security event, with sources, coding and review state.', nav: 'feed', body, scripts: ['feed.js', 'peek.js'], app: true});
 }

@@ -121,7 +121,7 @@ export function renderFront(model, ctx) {
     <section class="fp-front" aria-labelledby="fp-lead-h">
       <div class="fp-main">
         ${leadStory(ed.lead, ed, model, ctx)}
-        <div class="fp-rule"><span class="kicker">Also ${ed.span}</span></div>
+        <div class="fp-rule"><h2 class="kicker">Also ${ed.span}</h2></div>
         ${alsoStories(ed.more, model, ctx)}
         <a class="fp-feedlink" href="${ctx.url('feed/')}">Every coded event, with its sources, in the live feed →</a>
       </div>

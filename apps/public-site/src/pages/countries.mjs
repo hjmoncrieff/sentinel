@@ -5,6 +5,7 @@ import {layout} from './layout.mjs';
 import {boardMap, timeline, countryMap} from './maps.mjs';
 import {groupStories} from '../lib/model.mjs';
 import {eventUrl} from './event.mjs';
+import {peekBook, pulseStrip} from './peek.mjs';
 
 const WEEKLY_MAX_AGE_DAYS = 10;
 const countryUrl = (ctx, c) => ctx.url(`countries/${c.iso3.toLowerCase()}/`);
@@ -91,21 +92,22 @@ export function renderCountries(model, ctx) {
 /* ───────────── Country monitor ───────────── */
 
 // The coded events that count toward a reading, so a reader can check it against the record.
-function conEvidence(k, ctx, shown) {
+function conEvidence(k, ctx, shown, book) {
   if (!k.evidence.length) return '<div class="con-ev"><div class="kicker">Events · past 90 days</div><p>None coded to this reading. It rests on structural indicators.</p></div>';
   // An event can count toward several readings; each column shows ones the others do not.
   const fresh = k.evidence.filter(e => !shown.has(e.id));
   const pick = (fresh.length >= 2 ? fresh : k.evidence).slice(0, 2);
   for (const e of pick) shown.add(e.id);
   return `<div class="con-ev"><div class="kicker">Events · past 90 days · ${k.evidence.length}</div>${pick.map(e => `
-    <a href="${eventUrl(ctx, e.id)}"><span class="mono">${fmtDate(e.date, {day: 'numeric', month: 'short'})}</span>${esc(e.title)}</a>`).join('')}</div>`;
+    <a href="${eventUrl(ctx, e.id)}"${book.event(e)}><span class="mono">${fmtDate(e.date, {day: 'numeric', month: 'short'})}</span>${esc(e.title)}</a>`).join('')}</div>`;
 }
 
-function outlookPanel(c, ctx) {
+function outlookPanel(c, ctx, book) {
   const o = c.outlook;
   const shown = new Set();
   return `
-  <section class="outlook instr" aria-label="90-day outlook">
+  <section class="outlook instr" aria-labelledby="ol-h">
+    <h2 class="visually-hidden" id="ol-h">90-day outlook</h2>
     <div class="outlook-grid">
       <div class="ol-main">
         <div class="panel-title"><span>90-day outlook</span><span class="mono">country risk model</span></div>
@@ -118,7 +120,7 @@ function outlookPanel(c, ctx) {
         <div class="con"><div class="kicker">${esc(k.code.replaceAll('_', ' '))}</div><h3>${esc(k.label)}</h3>
           <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">${lvl(k.level)}${dir(k.trend)}</div>
           <ul>${k.drivers.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
-          ${conEvidence(k, ctx, shown)}</div>`).join('')}
+          ${conEvidence(k, ctx, shown, book)}</div>`).join('')}
       </div>
     </div>
     <div class="watch"><b>Watch</b><span>${o.watch.map(esc).join(' · ') || '—'}</span></div>
@@ -188,14 +190,16 @@ function eventMix(c, model) {
     </div>`;
 }
 
-function recentEvents(c, model, ctx, n = 8) {
-  const stories = groupStories(model.events.filter(e => e.country === c.name).slice(0, 60)).slice(0, n);
+// The latest stories; with lanes, more are rendered and client/topic.js shows `show` of those matching the chosen lane.
+function recentEvents(c, model, ctx, book, {lane, n = 8, show} = {}) {
+  const stories = groupStories(model.events.filter(e => e.country === c.name).slice(0, 120)).slice(0, n);
   if (!stories.length) return '<p class="note">No coded events yet. Coverage for smaller countries depends on regional and wire reporting.</p>';
   const day = d => fmtDate(d, {day: 'numeric', month: 'short', year: d.slice(0, 4) === model.asof.slice(0, 4) ? undefined : '2-digit'});
-  return `<div class="cevents">${stories.map(({lead: e, others}) => `
-    <div class="cev"><span class="d">${day(e.date)}</span><span class="b" style="background:${tColor(e.type)}"></span>
-      <div><a href="${eventUrl(ctx, e.id)}" style="text-decoration:none">${esc(e.title)}</a><small>${tLabel(e.type)} · ${e.sal} salience · ${e.n_sources} source${e.n_sources > 1 ? 's' : ''}${e.content_type !== 'event' ? ` · ${e.content_type}` : ''}</small>
-        ${others.length ? `<details class="cev-more"><summary>${others.length} more record${others.length > 1 ? 's' : ''} of this story</summary><ul>${others.map(o => `<li><a href="${eventUrl(ctx, o.id)}">${esc(o.title)}</a> <span>${esc(o.sources[0]?.name || '')} · ${day(o.date)}</span></li>`).join('')}</ul></details>` : ''}</div></div>`).join('')}</div>`;
+  return `<div class="cevents"${lane ? ` data-show="${show}"` : ''}>${stories.map(({lead: e, others}, i) => `
+    <div class="cev"${lane ? ` data-ln="${lane(e).key}"` : ''}${show && i >= show ? ' hidden' : ''}><span class="d">${day(e.date)}</span><span class="b" style="background:${tColor(e.type)}"></span>
+      <div><a href="${eventUrl(ctx, e.id)}" style="text-decoration:none"${book.event(e)}>${esc(e.title)}</a><small>${tLabel(e.type)} · ${e.sal} salience · ${e.n_sources} source${e.n_sources > 1 ? 's' : ''}${e.content_type !== 'event' ? ` · ${e.content_type}` : ''}</small>
+        ${others.length ? `<details class="cev-more"><summary>${others.length} more record${others.length > 1 ? 's' : ''} of this story</summary><ul>${others.map(o => `<li><a href="${eventUrl(ctx, o.id)}"${book.event(o)}>${esc(o.title)}</a> <span>${esc(o.sources[0]?.name || '')} · ${day(o.date)}</span></li>`).join('')}</ul></details>` : ''}</div></div>`).join('')}</div>
+    ${show && stories.length > show ? '<button type="button" class="btn btn-secondary pl-more" hidden>Show all</button>' : ''}`;
 }
 
 // US assistance obligations for the last twelve fiscal years, with the latest complete year spelled out.
@@ -256,7 +260,17 @@ function positions(c) {
     <p class="note">${c.reviewed ? `Researched with web search by Claude; reviewed by ${esc(c.reviewed_by || 'an analyst')} on ${esc(fmtDate(c.reviewed))}.` : `Researched with web search by Claude on ${esc(fmtDate(c.auto_updated))}; each name links to the page that supports it. Awaiting analyst review.`}</p>`;
 }
 
+// One lane per kind of event this country has most of in the year, the rest together.
+function countryLanes(c) {
+  const year = c.n365 ? c.type_mix.map(([t]) => t) : [];
+  const top = year.filter(t => t !== 'other').slice(0, 4);
+  return [...top.map(t => ({key: t, label: tLabel(t), color: tColor(t), test: e => e.type === t})), {key: 'rest', label: top.length ? 'Everything else' : 'All events', color: 'var(--t-other)', test: () => true}];
+}
+
 export function renderCountry(c, model, ctx) {
+  const book = peekBook(model, ctx);
+  const lanes = countryLanes(c), lane = e => lanes.find(l => l.test(e));
+  const yearEvents = model.events.filter(e => e.country === c.name && e.content_type !== 'profile' && daysBetween(model.asof, e.date) <= 365);
   const body = `
   <div class="wrap">
     <div class="crumbs" style="padding-top:18px"><a href="${ctx.url('')}">Home</a><span>›</span><a href="${ctx.url('countries/')}">Countries</a><span>›</span>
@@ -280,7 +294,11 @@ export function renderCountry(c, model, ctx) {
     </section>
     ${c.structural.length ? `<section class="struct-strip" aria-label="Structural indicators">${c.structural.map(s => `
       <div class="sstat"><div class="l">${esc(s.label)}</div><div class="sstat-v"><span class="v">${esc(s.value)}</span>${lineSpark(s.series, 72, 24)}</div><div class="y">${s.year} · ${esc(s.source)}</div>${s.median ? `<div class="y med">Region median ${esc(s.median)}</div>` : ''}</div>`).join('')}</section>` : ''}
-    ${outlookPanel(c, ctx)}
+    ${outlookPanel(c, ctx, book)}
+    ${yearEvents.length >= 5 ? `<section class="section" aria-labelledby="pulse-h">
+      <div class="sec-head"><h2 id="pulse-h">A year in ${esc(c.name)}</h2><span class="kicker">${yearEvents.length} records · past 12 months</span></div>
+      ${pulseStrip(model, ctx, book, yearEvents, lanes, [], {label: `${c.name}: coded events in the past 12 months by kind`})}
+    </section>` : ''}
     ${c.in_depth ? inDepth(c, model) : ''}
     <div class="two section">
       <div>
@@ -288,7 +306,7 @@ export function renderCountry(c, model, ctx) {
         <div class="prose"><p>${esc(c.outlook.summary || 'No model summary for this country yet.')}</p>${c.constructs.slice(0, 1).map(k => k.summary ? `<p>${esc(k.summary)}</p>` : '').join('')}</div>
         ${eventMix(c, model)}
         <div class="sec-head section"><h2>Recent events</h2><a href="${ctx.url(`feed/?c=${encodeURIComponent(c.name)}&p=0`)}">All ${c.total} in the feed →</a></div>
-        ${recentEvents(c, model, ctx)}
+        ${recentEvents(c, model, ctx, book, {lane, n: 40, show: 8})}
       </div>
       <aside>
         <div class="sec-head"><h2>Key positions</h2>${refState(c)}</div>
@@ -300,10 +318,11 @@ export function renderCountry(c, model, ctx) {
         ${usAssistance(c)}
       </aside>
     </div>
-  </div>`;
+  </div>
+  ${book.html()}`;
   return layout(ctx, {
     title: `${c.name} · Country monitor`,
     description: `${c.name}: civil–military status ${c.cmr_status}, 90-day outlook ${c.outlook.level || 'not modeled'}, ${c.total} coded events.`,
-    nav: 'countries', body, scripts: ['country.js'],
+    nav: 'countries', body, scripts: ['country.js', 'peek.js', 'topic.js'],
   });
 }

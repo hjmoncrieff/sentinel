@@ -215,11 +215,29 @@ export function groupStories(events) {
 }
 
 // The slim event list the live feed loads in the browser.
+// The feed list ships everything the stream, filters and map need. What only an opened record
+// shows (interpretation, full coding, source excerpts and headlines) ships separately, one file
+// per month (feedDetails), and the browser fetches a month when a record from it is opened.
+const DETAIL_SOURCE_FIELDS = ['excerpt', 'headline'];
 export function feedPayload(model) {
   return {
     asof: model.asof,
     countries: model.countries.map(c => ({name: c.name, iso3: c.iso3})),
     aliases: model.aliases,
-    events: model.events.map(({constructs, merged, ...e}) => e),
+    events: model.events.map(({constructs, merged, analysis, coding, ...e}) => ({
+      ...e,
+      sources: e.sources.map(s => Object.fromEntries(Object.entries(s).filter(([k]) => !DETAIL_SOURCE_FIELDS.includes(k)))),
+    })),
   };
+}
+
+export function feedDetails(model) {
+  const months = {};
+  for (const e of model.events) {
+    (months[e.date.slice(0, 7)] ||= {})[e.id] = {
+      analysis: e.analysis, coding: e.coding,
+      sources: e.sources.map(s => Object.fromEntries(DETAIL_SOURCE_FIELDS.map(k => [k, s[k] ?? null]))),
+    };
+  }
+  return months;
 }

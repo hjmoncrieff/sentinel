@@ -49,6 +49,14 @@ def test_feed_data_is_public_and_complete(site):
     dates = [e["date"] for e in feed["events"]]
     assert dates == sorted(dates, reverse=True)
     assert all(e["sources"] for e in feed["events"])
+    # Record details ship per month and must cover every record, with no private fields either.
+    details = {}
+    for f in (site / "data/feed-details").glob("*.json"):
+        text = f.read_text(encoding="utf-8")
+        assert not any(field in text for field in PRIVATE_FIELDS), f.name
+        details.update(json.loads(text))
+    assert {e["id"] for e in feed["events"]} == set(details)
+    assert all("analysis" not in e and "coding" not in e for e in feed["events"])
 
 
 def test_build_only_modules_do_not_ship(site):
