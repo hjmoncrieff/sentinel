@@ -17,6 +17,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 <meta name="color-scheme" content="light dark">
+<script>
+// The site was previewed under /sentinel/next/ until 2026-10-16; old links go to the same page at the root.
+(function(){var p=location.pathname;if(p.indexOf('/sentinel/next/')===0)location.replace('/sentinel/'+p.slice(15)+location.search+location.hash);})();
+</script>
 <script>try{var t=localStorage.getItem('sentinel-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="stylesheet" href="assets/css/site.css">
 <script src="assets/js/site.js" defer></script>
@@ -24,15 +28,15 @@
 <body class="page">
 <header class="page-header">
   <a class="page-wordmark" href="./">SENTINEL<em>.</em></a>
-  <a class="page-header-link" href="./">Dashboard</a>
+  <a class="page-header-link" href="./">Home</a>
 </header>
 
 <main class="page-main">
   <p class="page-kicker">Error 404</p>
   <h1 class="page-title">This page is off the map.</h1>
-  <p class="page-lede">The address may be mistyped, or the page may have moved. The live event feed, country dossiers, and regional monitors are all on the dashboard.</p>
+  <p class="page-lede">The address may be mistyped, or the page may have moved. The live event feed, country monitors and topic pages are all linked from the front page.</p>
   <div class="page-actions">
-    <a class="page-btn page-btn-primary" href="./">Open the dashboard <span aria-hidden="true">→</span></a>
+    <a class="page-btn page-btn-primary" href="./">Go to the front page <span aria-hidden="true">→</span></a>
     <a class="page-btn page-btn-secondary" href="./feed/">Live event feed</a>
   </div>
 </main>

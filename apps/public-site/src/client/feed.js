@@ -25,6 +25,9 @@ function writeState() {
   if (next !== location.pathname + location.search) history.replaceState(null, '', next);
 }
 const days = d => daysBetween(D.asof, d);
+// "Today" and "D−n" labels count from the reader's date, not the newest record, so a feed that has
+// stopped updating does not call twelve-day-old events "today". Period filters still count from the data.
+const TODAY = new Date().toISOString().slice(0, 10);
 const iso = name => ISO[name] || (name === 'Regional' ? 'REG' : '—');
 
 // Per-viewer convenience only: mark what is new since the last visit.
@@ -65,7 +68,7 @@ function draw(scrollToSel) {
   if (linked) html += `<div class="new-div"><span>Linked record, outside the current filters</span></div>${row(linked)}`;
   for (const e of items.slice(0, shown)) {
     if (!dividerDone && LAST_VISIT && e.date <= LAST_VISIT && html) { html += `<div class="new-div"><span>Earlier than your last visit (${fmtDate(LAST_VISIT, {day: 'numeric', month: 'short'})})</span></div>`; dividerDone = true; }
-    if (e.date !== day) { day = e.date; html += `<div class="day-h">${fmtDate(e.date, {weekday: 'long', day: 'numeric', month: 'long', year: e.date.slice(0, 4) === D.asof.slice(0, 4) ? undefined : 'numeric'})}<span>${ago(D.asof, e.date)}</span></div>`; }
+    if (e.date !== day) { day = e.date; html += `<div class="day-h">${fmtDate(e.date, {weekday: 'long', day: 'numeric', month: 'long', year: e.date.slice(0, 4) === D.asof.slice(0, 4) ? undefined : 'numeric'})}<span>${ago(TODAY, e.date)}</span></div>`; }
     html += row(e);
   }
   if (items.length > shown) html += `<button type="button" class="more" id="f-more">Show ${Math.min(PAGE_SIZE, items.length - shown)} more of ${(items.length - shown).toLocaleString('en')}</button>`;
@@ -81,7 +84,7 @@ function row(e) {
   const [cl, cw] = corroboration(e);
   return `
     <div class="ev" role="option" tabindex="-1" data-id="${e.id}" aria-selected="${e.id === F.sel}">
-      <div class="when">${fmtDate(e.date, {day: '2-digit', month: 'short'})}<small>${ago(D.asof, e.date)}</small></div>
+      <div class="when">${fmtDate(e.date, {day: '2-digit', month: 'short'})}<small>${ago(TODAY, e.date)}</small></div>
       <span class="tb" style="background:${tColor(e.type)}"></span>
       <span class="iso">${iso(e.country)}</span>
       <div>${e.content_type !== 'event' ? `<span class="ctype">${esc(e.content_type)}</span>` : ''}

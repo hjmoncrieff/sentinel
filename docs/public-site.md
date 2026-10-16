@@ -8,8 +8,9 @@ This is the operator reference for the public website at
 
 | Page | Purpose |
 |---|---|
-| `/` | Front page, laid out as an edition. Built by `apps/public-site/build.mjs --live` and written over the repo's old dashboard `index.html` at deploy time. Old `#events`, `#profiles`, `#transnational`, `#us`, `#explore` and `#about` links redirect to the pages below |
+| `/` | Front page, laid out as an edition. Built by `apps/public-site/build.mjs --production` into the root of the deploy. Old `#events`, `#profiles`, `#transnational`, `#us`, `#explore` and `#about` links redirect to the pages below |
 | `feed/`, `events/<id>/` | Live feed with the event map, and one page per record |
+| `headlines/` | Headlines collected but not yet coded, while the model API is unavailable (`data/published/pending_headlines.json`); otherwise says nothing is waiting |
 | `countries/`, `countries/<iso3>/` | Country monitors, from `apps/public-site/reference/countries.json` |
 | `organized-crime/`, `us-security/` | Topic pages, with sourced background in `apps/public-site/content/` |
 | `explore/` | Risk readings, structural indicators, long-run comparison, coded activity |

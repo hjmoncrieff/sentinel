@@ -11,6 +11,7 @@ export function renderFeed(model, ctx) {
   const body = `
   <div class="instr feed-page" data-feed="${ctx.url('data/feed.json')}" data-base="${ctx.url('')}">
     <h1 class="visually-hidden">Live feed</h1>
+    ${model.pending ? `<div class="feed-pending" role="note">Coding is paused: ${model.pending.headlines.length} newer headlines have been collected but not yet coded. <a href="${ctx.url('headlines/')}">See them →</a></div>` : ''}
     <div class="feed-grid">
       <aside class="filters" aria-label="Feed filters" id="f-panel">
         <button class="f-rail" type="button" aria-controls="f-body" aria-expanded="false" id="f-toggle">

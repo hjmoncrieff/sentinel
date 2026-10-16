@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Smoke check for the public site in a real browser, with no dependencies beyond Node 22+ and a local
-// Chrome. It builds the site as the deploy does (live sections at /sentinel/, shared assets under
-// /sentinel/next/), serves it, and opens one page of each kind at desktop and phone width in light and
+// Chrome. It builds the site as the deploy does (the production build at /sentinel/ plus the repo's
+// static pages), serves it, and opens one page of each kind at desktop and phone width in light and
 // dark. It fails on script errors, failed requests and pages wider than the screen.
 //
 //   node scripts/dev/smoke_public_site.mjs            # build, check, report
@@ -17,15 +17,15 @@ const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..',
 const CHROME = process.env.CHROME || ['/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/google-chrome', '/usr/bin/chromium'].find(existsSync);
 if (!CHROME) { console.error('No Chrome found; set CHROME=/path/to/chrome.'); process.exit(2); }
 
-const PAGES = ['', 'feed/', 'countries/', 'countries/col/', 'countries/hti/', 'organized-crime/', 'us-security/', 'explore/', 'about/', 'privacy.html', '404.html'];
+const PAGES = ['', 'headlines/', 'feed/', 'countries/', 'countries/col/', 'countries/hti/', 'organized-crime/', 'us-security/', 'explore/', 'about/', 'privacy.html', '404.html'];
 const VIEWS = [{name: 'desktop', width: 1360, height: 900, mobile: false}, {name: 'phone', width: 390, height: 844, mobile: true}];
 const THEMES = ['light', 'dark'];
 
 // Build into a temporary copy of the deployed layout.
 const tmp = mkdtempSync(path.join(tmpdir(), 'sentinel-smoke-'));
 const site = path.join(tmp, 'sentinel');
+execFileSync(process.execPath, [path.join(ROOT, 'apps/public-site/build.mjs'), '--out', site, '--base', '/sentinel/', '--production'], {cwd: ROOT, stdio: 'ignore'});
 for (const f of ['assets', 'robots.txt', 'sitemap.xml', 'site.webmanifest', '404.html', 'privacy.html', 'terms.html', 'thank-you.html']) cpSync(path.join(ROOT, f), path.join(site, f), {recursive: true});
-execFileSync(process.execPath, [path.join(ROOT, 'apps/public-site/build.mjs'), '--out', path.join(site, 'next'), '--base', '/sentinel/next/', '--legacy', '/sentinel/', '--live', site, '--live-base', '/sentinel/'], {cwd: ROOT, stdio: 'ignore'});
 
 const TYPES = {'.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.webmanifest': 'application/manifest+json', '.txt': 'text/plain'};
 const server = createServer((req, res) => {

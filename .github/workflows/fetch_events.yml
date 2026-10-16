@@ -63,6 +63,7 @@ jobs:
         run: pip install -r requirements-ci.txt
 
       - name: Run pipeline
+        id: run
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           NEWSAPI_KEY:        ${{ secrets.NEWSAPI_KEY }}
@@ -76,7 +77,20 @@ jobs:
           SMTP_USER:          ${{ secrets.SMTP_USER }}
           SMTP_PASSWORD:      ${{ secrets.SMTP_PASSWORD }}
         run: |
+          # Exit 3 = degraded: the model API refused (e.g. no credit), so the run published the collected
+          # headlines as "not yet coded" (data/published/pending_headlines.json) and coded nothing. The
+          # data is still committed and deployed; the failure alert below is raised all the same.
+          set +e
           python scripts/run_pipeline.py
+          code=$?
+          set -e
+          if [ "$code" = "3" ]; then
+            echo "degraded=true" >> "$GITHUB_OUTPUT"
+            echo "## ⚠️ Degraded run: model API unavailable; uncoded headlines published, nothing coded" >> "$GITHUB_STEP_SUMMARY"
+            echo "::warning::Model API unavailable; published uncoded headlines only"
+          elif [ "$code" != "0" ]; then
+            exit "$code"
+          fi
           echo "## Ingest result" >> "$GITHUB_STEP_SUMMARY"
           python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json
@@ -93,6 +107,7 @@ jobs:
           PY
 
       - name: Rebuild Downstream Layers
+        if: steps.run.outputs.degraded != 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           # Sonnet council synthesis is opt-in: council_analyses.json is not kept
@@ -137,6 +152,7 @@ jobs:
       # stored as proposals: the site keeps the current values, marked "Under review",
       # until an analyst approves them. A failure here must not block the data refresh.
       - name: Refresh country reference
+        if: steps.run.outputs.degraded != 'true'
         continue-on-error: true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -152,7 +168,7 @@ jobs:
           git push
 
       - name: Close failure alert
-        if: success()
+        if: success() && steps.run.outputs.degraded != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
@@ -163,8 +179,9 @@ jobs:
           fi
 
       - name: Alert on failure
-        if: failure()
+        if: failure() || steps.run.outputs.degraded == 'true'
         env:
+          DEGRADED: ${{ steps.run.outputs.degraded }}
           GH_TOKEN: ${{ github.token }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
@@ -172,7 +189,11 @@ jobs:
           label="pipeline-failure"
           title="Daily SENTINEL Pipeline is failing"
           gh label create "$label" --color B83232 --description "Automated workflow failure alert" --force
-          body="Run failed on $(date -u +'%Y-%m-%d %H:%M UTC'): $RUN_URL"
+          if [ "$DEGRADED" = "true" ]; then
+            body="Degraded run on $(date -u +'%Y-%m-%d %H:%M UTC'): the model API was unavailable (check the Anthropic credit balance and key). Uncoded headlines were published; nothing was coded. $RUN_URL"
+          else
+            body="Run failed on $(date -u +'%Y-%m-%d %H:%M UTC'): $RUN_URL"
+          fi
           existing=$(gh issue list --label "$label" --state open --search "in:title \"$title\"" --json number -q '.[0].number')
           if [ -n "$existing" ]; then
             gh issue comment "$existing" --body "$body"

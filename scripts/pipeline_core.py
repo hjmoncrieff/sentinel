@@ -55,6 +55,9 @@ from query_lexicon import (
 )
 from rss_sources import RSS_FEEDS, gnews_site_feed
 
+# Exit code for a run that collected articles but could not code them (model API unavailable).
+EXIT_DEGRADED = 3
+
 # ── Load .env file if present (local development) ─────────────
 _env_path = Path(__file__).resolve().parent.parent / ".env"
 if _env_path.exists():
@@ -1841,7 +1844,20 @@ def main() -> None:
         relevant = scope_filter_backfill(relevant)
 
     # ── 3. Classify + cluster ─────────────────────────────────────────────────
-    new_events = (classify_articles_v3 if args.classifier == "v3" else classify_articles)(client, relevant, existing)
+    # If the model API refuses for account reasons (no credit, revoked key), publish the collected
+    # headlines as "not yet coded" and stop with EXIT_DEGRADED; the workflow commits that list and
+    # raises the alert. The catch-up lookback codes the same articles once the API works again.
+    sys.path.insert(0, str(Path(__file__).resolve().parent / "publish"))
+    import pending_headlines
+    try:
+        new_events = (classify_articles_v3 if args.classifier == "v3" else classify_articles)(client, relevant, existing)
+    except Exception as exc:
+        if not pending_headlines.is_api_unavailable(exc):
+            raise
+        fresh = _fresh_articles(relevant, existing)
+        written = pending_headlines.write_pending(fresh, reason=f"{type(exc).__name__}: {exc}"[:300])
+        log.error(f"Model API unavailable ({exc}); published {written} uncoded headlines to {pending_headlines.PENDING_FILE.name}")
+        sys.exit(EXIT_DEGRADED)
 
     # ── 4. ACLED (already structured — skip classification) ───────────────────
     acled_key   = os.environ.get("ACLED_API_KEY", "")
@@ -1867,6 +1883,8 @@ def main() -> None:
 
     # ── 7. Save ───────────────────────────────────────────────────────────────
     added = save_events(existing, new_events)
+    if pending_headlines.clear_pending():
+        log.info("Coding works again; removed the pending-headlines list")
     current_total = len(json.loads(DATA_FILE.read_text(encoding="utf-8")).get("events", []))
     log.info(f"Done. {added} new events added. Total stored: {current_total}")
     write_private_run_cost_log(

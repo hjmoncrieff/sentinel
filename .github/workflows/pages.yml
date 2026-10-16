@@ -55,20 +55,21 @@ jobs:
 
       - name: Assemble site
         run: |
-          mkdir _site
-          rsync -a ./ _site/ \
-            --exclude .git --exclude .github --exclude node_modules --exclude dist \
-            --exclude _site --exclude 'apps/analyst-console/src' --exclude 'apps/public-site' \
-            --exclude .storybook --exclude tests --exclude templates
-          # Built console replaces the Vite source entry.
+          # The public site is the root of the deploy. It is built first, into an empty folder.
+          node apps/public-site/build.mjs --out _site --base /sentinel/ --production
+          # Then only what the site and the analyst console load from the repo: the static pages and
+          # their assets, crawler files, the published layer and actor registry the console reads, and
+          # the console itself (the built app replaces the Vite source entry).
+          rsync -a assets 404.html privacy.html terms.html thank-you.html robots.txt sitemap.xml site.webmanifest _site/
+          mkdir -p _site/data _site/config
+          rsync -a data/published _site/data/
+          rsync -a config/actors _site/config/
+          rsync -a apps/analyst-console _site/apps/ --exclude src
           rsync -a dist/apps/analyst-console/ _site/apps/analyst-console/
-          # The public site. Every section is written into the live site (the front page replaces the
-          # repo's old dashboard index.html); /next/ keeps the shared assets and data/feed.json.
-          node apps/public-site/build.mjs --out _site/next --base /sentinel/next/ --legacy /sentinel/ --live _site --live-base /sentinel/
           # Defence in depth: never publish private workflow layers.
           rm -rf _site/data/review _site/data/gold _site/data/modeling _site/data/staging
-          test -f _site/index.html && test -f _site/apps/analyst-console/index.html && test -f _site/next/index.html && test -f _site/countries/col/index.html && test -f _site/organized-crime/index.html && test -f _site/us-security/index.html && test -f _site/feed/index.html && test -f _site/explore/index.html && test -f _site/about/index.html && grep -q fp-dateline _site/index.html
-          echo "Site files: $(find _site -type f | wc -l)"
+          test -f _site/index.html && grep -q fp-dateline _site/index.html && test -f _site/apps/analyst-console/index.html && test -f _site/countries/col/index.html && test -f _site/organized-crime/index.html && test -f _site/us-security/index.html && test -f _site/feed/index.html && test -f _site/explore/index.html && test -f _site/about/index.html && test -f _site/data/feed.json && test -f _site/privacy.html && test -f _site/assets/icons/favicon.svg
+          echo "Site files: $(find _site -type f | wc -l), $(du -sh _site | cut -f1)"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4

@@ -2,7 +2,7 @@
 
 import {esc, fmtDate} from '../lib/html.mjs';
 
-// The live site and the preview share one menu; ctx.url() points each entry at the right site.
+// One menu for every page; ctx.url() resolves each entry against the build's base path.
 const NAV = [
   ['feed', 'Live feed', 'feed/'],
   ['countries', 'Countries', 'countries/'],

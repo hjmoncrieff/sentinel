@@ -1,18 +1,20 @@
 # apps/public-site/
 
-The redesigned public site. Public. It is built as static files and currently deployed
-as a preview at `/sentinel/next/`, next to the existing dashboard (`index.html` at the
-repo root), which stays in place until the redesign is approved section by section.
+The public site. Public. It is built as static files and is the root of the GitHub Pages deploy
+(`/sentinel/`); `.github/workflows/pages.yml` builds it into an empty folder and then copies in the
+repo's static pages, the published layer and the analyst console.
 
 ```bash
-node apps/public-site/build.mjs                       # → dist/public-site/, served from /
-node apps/public-site/build.mjs --base /sentinel/next/ --legacy /sentinel/ --out _site/next --live _site --live-base /sentinel/
-cd dist/public-site && python3 -m http.server 8731    # preview locally
+node apps/public-site/build.mjs                                  # → dist/public-site/, served from /, preview banner
+node apps/public-site/build.mjs --out _site --base /sentinel/ --production   # what the deploy runs
+node scripts/dev/smoke_public_site.mjs                           # build, then check every kind of page in Chrome
 ```
 
-**Promoted sections.** With `--live <dir>`, the build also writes the promoted sections (country monitors, organized crime, US security, the live feed and record pages; `PROMOTED` in `build.mjs`) into the live site, with the current dashboard's sections as navigation and no preview banner. Links into sections not promoted yet (the feed, record pages) still go to the preview. The dashboard's Countries tab, its monitor cards and old `#profiles` links all lead there.
+`--production` removes the preview banner and `noindex`, and adds the redirect for old dashboard `#tab` links. The output folder is emptied first; the build refuses a folder that is or contains the repository. Until 2026-10-16 the site was previewed under `/sentinel/next/`; `404.html` redirects those links.
 
-**Light and dark.** Pages follow the system setting until a visitor uses the switch in the header; the choice is stored as `sentinel-theme` in localStorage and shared with the dashboard (`src/client/theme.js`).
+**Not yet coded.** When the model API is unavailable, the nightly run publishes the headlines it collected to `data/published/pending_headlines.json` (`scripts/publish/pending_headlines.py`). The front page and feed then point to `headlines/`, which lists them as reports, not events. The next normal run removes the file.
+
+**Light and dark.** Pages follow the system setting until a visitor uses the switch in the header; the choice is stored as `sentinel-theme` in localStorage and shared with the static pages (`src/client/theme.js`). If the data is more than 48 hours old, the header says "Updates paused since <date>".
 
 The build needs Node 18+ and nothing else. It reads only `data/published/` (the
 public-safe layer), plus the two folders below.

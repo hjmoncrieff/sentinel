@@ -6,6 +6,7 @@
 import {esc, fmtDate, tColor, tLabel, chip, lvl, daysBetween, corroboration} from '../lib/html.mjs';
 import {layout} from './layout.mjs';
 import {heroMap} from './maps.mjs';
+import {PENDING_NOTE, pendingItem} from './headlines.mjs';
 import {regionalBrief} from './countries.mjs';
 import {eventUrl} from './event.mjs';
 import {groupStories} from '../lib/model.mjs';
@@ -109,6 +110,13 @@ export function renderFront(model, ctx) {
       <span>${model.countries.length} countries · ${n(model.events.length)} coded events</span>
       <span class="fresh" data-published="${esc(ctx.published || '')}"><span class="pulse" aria-hidden="true"></span><span class="fresh-t">Updated nightly</span></span>
     </div>
+    ${model.pending ? `
+    <section class="fp-pending" aria-labelledby="fp-pend-h">
+      <div class="sec-head"><h2 id="fp-pend-h">Collected, not yet coded</h2><span class="kicker">${model.pending.headlines.length} headlines · coding paused</span></div>
+      <p class="note">${esc(PENDING_NOTE)}</p>
+      <ul class="pend-list cols">${model.pending.headlines.slice(0, 8).map(h => pendingItem(h, model)).join('')}</ul>
+      <a class="fp-feedlink" href="${ctx.url('headlines/')}">All ${model.pending.headlines.length} headlines waiting to be coded →</a>
+    </section>` : ''}
 
     <section class="fp-front" aria-labelledby="fp-lead-h">
       <div class="fp-main">

@@ -120,6 +120,9 @@ export function loadModel(repoRoot, siteRoot) {
   // Structural layer (public): the USAID Greenbook, fiscal 1946 onward, for the long-run aid history.
   const greenbook = readOptional(path.join(repoRoot, 'data', 'cleaned', 'greenbook.json'));
   // Hand-written topic content, each claim tied to a numbered source.
+  // Headlines collected while coding was unavailable (scripts/publish/pending_headlines.py). A list older
+  // than the published events is a leftover and is ignored.
+  const pendingFile = readOptional(path.join(published, 'pending_headlines.json'));
   const topics = {oc: readOptional(path.join(siteRoot, 'content', 'organized-crime.json')), us: readOptional(path.join(siteRoot, 'content', 'us-security.json'))};
 
   const events = eventsFile.events.map(toEvent).filter(e => e.id && e.date)
@@ -166,6 +169,7 @@ export function loadModel(repoRoot, siteRoot) {
   return {
     asof,
     generated_at: eventsFile.generated_at,
+    pending: pendingFile?.headlines?.length && pendingFile.generated_at > eventsFile.generated_at ? pendingFile : null,
     events,
     countries,
     byName: Object.fromEntries(countries.map(c => [c.name, c])),
