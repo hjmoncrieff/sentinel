@@ -24,6 +24,7 @@ import {renderFeed} from './src/pages/feed.mjs';
 import {renderEvent, renderEventRedirect} from './src/pages/event.mjs';
 import {renderAbout} from './src/pages/about.mjs';
 import {renderOrganizedCrime, renderUsSecurity} from './src/pages/topics.mjs';
+import {renderExplore} from './src/pages/explore.mjs';
 
 const siteRoot = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(siteRoot, '..', '..');
@@ -72,6 +73,7 @@ write('feed/index.html', renderFeed(model, ctx));
 write('countries/index.html', renderCountries(model, ctx));
 for (const c of model.countries) write(`countries/${c.iso3.toLowerCase()}/index.html`, renderCountry(c, model, ctx));
 write('about/index.html', renderAbout(model, ctx));
+write('explore/index.html', renderExplore(model, ctx));
 write('organized-crime/index.html', renderOrganizedCrime(model, ctx));
 write('us-security/index.html', renderUsSecurity(model, ctx));
 for (const e of model.events) write(`events/${e.id}/index.html`, renderEvent(e, model, ctx));
@@ -86,7 +88,7 @@ for (const f of ['model.mjs', 'geo.mjs']) fs.rmSync(path.join(out, 'assets', 'li
 // Promoted sections: the same pages, served from the live site. Their own links (countries/…)
 // stay on the live site; links into sections not promoted yet (feed, records) go to the preview.
 // Sections served from the live site; everything else stays in the preview until promoted.
-const PROMOTED = ['countries/', 'organized-crime/', 'us-security/', 'feed/', 'events/'];
+const PROMOTED = ['countries/', 'organized-crime/', 'us-security/', 'feed/', 'events/', 'explore/', 'about/'];
 if (liveOut) {
   const promoted = p => p === '' || PROMOTED.some(prefix => p.startsWith(prefix));
   const liveCtx = {...ctx, live: liveBase, url: p => (promoted(p) ? liveBase : base) + p};
@@ -95,12 +97,16 @@ if (liveOut) {
   for (const c of model.countries) writeLive(`countries/${c.iso3.toLowerCase()}/index.html`, renderCountry(c, model, liveCtx));
   writeLive('organized-crime/index.html', renderOrganizedCrime(model, liveCtx));
   writeLive('us-security/index.html', renderUsSecurity(model, liveCtx));
+  // The front page replaces the old dashboard at the site root.
+  writeLive('index.html', renderFront(model, liveCtx));
+  writeLive('explore/index.html', renderExplore(model, liveCtx));
+  writeLive('about/index.html', renderAbout(model, liveCtx));
   writeLive('feed/index.html', renderFeed(model, liveCtx));
   for (const e of model.events) writeLive(`events/${e.id}/index.html`, renderEvent(e, model, liveCtx));
   for (const [old, target] of Object.entries(model.aliases)) writeLive(`events/${old}/index.html`, renderEventRedirect(target, liveCtx));
-  console.log(`Live: ${4 + model.countries.length + model.events.length} pages (${PROMOTED.join(', ')}) → ${path.relative(repoRoot, liveOut)} (base ${liveBase})`);
+  console.log(`Live: ${7 + model.countries.length + model.events.length} pages (${PROMOTED.join(', ')}) → ${path.relative(repoRoot, liveOut)} (base ${liveBase})`);
 }
 
-const pages = 6 + model.countries.length + model.events.length;
+const pages = 7 + model.countries.length + model.events.length;
 const feedKb = Math.round(fs.statSync(path.join(out, 'data', 'feed.json')).size / 1024);
 console.log(`Built ${pages} pages → ${path.relative(repoRoot, out)} (base ${base}); ${model.events.length} events to ${model.asof}; feed.json ${feedKb} KB`);

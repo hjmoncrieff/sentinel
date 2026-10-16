@@ -78,7 +78,7 @@ function countryModel(ref, monitor, dossier, events, asof) {
       watch: ps.watchpoints || [],
     },
     constructs: (monitor?.risk_constructs || []).map(k => ({
-      code: k.code, label: k.label, level: k.level, trend: k.trend_label,
+      code: k.code, label: k.label, goal: k.goal, level: k.level, trend: k.trend_label,
       drivers: (k.drivers || []).map(d => d.label), summary: k.summary_text, watch: k.watchpoints || [],
       evidence: evidence(k.code),
     })),

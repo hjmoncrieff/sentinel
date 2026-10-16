@@ -8,8 +8,12 @@ This is the operator reference for the public website at
 
 | Page | Purpose |
 |---|---|
-| `index.html` | The dashboard. Tabs are deep-linkable, e.g. `#events`, `#about`. `#profiles` and every country link now open the country pages below |
-| `countries/`, `countries/<iso3>/` | Country monitors, built at deploy time by `apps/public-site/build.mjs --live` from `apps/public-site/reference/countries.json` (not in the repo) |
+| `/` | Front page, laid out as an edition. Built by `apps/public-site/build.mjs --live` and written over the repo's old dashboard `index.html` at deploy time. Old `#events`, `#profiles`, `#transnational`, `#us`, `#explore` and `#about` links redirect to the pages below |
+| `feed/`, `events/<id>/` | Live feed with the event map, and one page per record |
+| `countries/`, `countries/<iso3>/` | Country monitors, from `apps/public-site/reference/countries.json` |
+| `organized-crime/`, `us-security/` | Topic pages, with sourced background in `apps/public-site/content/` |
+| `explore/` | Risk readings, structural indicators, long-run comparison, coded activity |
+| `about/` | Method, codebook, sources and limitations |
 | `404.html` | Custom not-found page. GitHub Pages serves it for any missing path |
 | `privacy.html` | Privacy policy. Includes a control to reset analytics consent |
 | `terms.html` | Terms of use, data limitations, and citation |

@@ -6,11 +6,13 @@ import {layout} from './layout.mjs';
 
 const SECTIONS = [
   ['what', 'What SENTINEL is'],
+  ['lens', 'The research lens'],
   ['record', 'How a record is made'],
   ['codebook', 'The codebook'],
   ['fields', 'Salience, confidence and corroboration'],
   ['labels', 'What the labels mean'],
   ['monitors', 'Country monitors'],
+  ['sources', 'Sources and data'],
   ['limits', 'Limitations'],
   ['cite', 'Citing and reusing'],
 ];
@@ -23,6 +25,14 @@ export function renderAbout(model, ctx) {
   // Nine in ten records fall after this date; a few archive records go back much further.
   const bulkStart = model.events[Math.floor(model.events.length * 0.9)]?.date || model.first_date;
   const pct = n => `${Math.round(n / model.events.length * 100)}%`;
+  // One outlet can appear under its name and its domain ("InSight Crime", "insightcrime.org"): count them together.
+  const key = name => name.toLowerCase().replace(/\.(org|com|net)(\.[a-z]{2})?$/, '').replace(/[^a-z0-9]/g, '');
+  const sourceCounts = {}, display = {};
+  for (const e of model.events) for (const name of new Set(e.sources.map(x => x.name))) {
+    const k = key(name); sourceCounts[k] = (sourceCounts[k] || 0) + 1;
+    if (!display[k] || /[A-Z ]/.test(name) && !/[A-Z ]/.test(display[k])) display[k] = name;
+  }
+  const topSources = Object.entries(sourceCounts).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([k, n]) => [display[k], n]);
   const types = cb.domains.map(d => `
       <tr class="grp"><td colspan="3">${esc(d.label)}</td></tr>${d.types.map(t => `
       <tr><td><b>${esc(t.label)}</b><span class="mono code">${esc(t.code)}</span></td><td>${esc(t.definition)}</td><td>${esc((t.subtypes || []).map(s => s.replaceAll('_', ' ')).join(' · '))}</td></tr>`).join('')}`).join('');
@@ -47,6 +57,18 @@ export function renderAbout(model, ctx) {
         ${h('what')}
         <p>SENTINEL is a research monitor. Its subject is who commands the coercive apparatus of the state and on what terms: civilian control of the armed forces, coup-proofing, the military's institutional autonomy, security-sector reform, democratic backsliding with a security dimension, and the interaction of organized crime with state forces. It also follows foreign security cooperation, above all with the United States.</p>
         <p>It is built for people who need to check what they read: each record links to the reports behind it, shows how it was coded, and says whether a person has reviewed it. The code and the public data are in the <a href="https://github.com/hjmoncrieff/sentinel">project repository</a>.</p>
+
+        ${h('lens')}
+        <p>The event logic comes from comparative research on civil–military relations, democratic erosion and regional security. Each record is read for who is exercising coercive power, what role the armed forces are playing, how state and non-state armed actors interact, and whether the event widens or narrows civilian authority. Seven questions organize the monitor:</p>
+        <dl class="defs">
+          <dt>Civilian control</dt><dd>Shifts in the balance of authority between elected civilians and the military: dismissals of commanders, disputes over budget authority, changes of doctrine.</dd>
+          <dt>Coup-proofing</dt><dd>How incumbents guard against military defection: loyalty promotions, parallel security forces, economic co-optation of the officer corps.</dd>
+          <dt>Institutional autonomy</dt><dd>Military prerogatives beyond civilian reach: tutelary roles, constitutional mandates, vetoes over security policy.</dd>
+          <dt>Security-sector reform</dt><dd>Legislative, doctrinal and organizational change in the armed forces and police, including disarmament and reintegration and defence reviews.</dd>
+          <dt>Democratic backsliding</dt><dd>Erosion of institutions through force: the military used against domestic opponents, constitutional guarantees suspended, executive power concentrated through security decrees.</dd>
+          <dt>Transnational organized crime</dt><dd>Where cartels, gangs and criminal networks meet state security forces: counternarcotics deployments, criminal penetration of army and police units, illicit economies that fund armed groups.</dd>
+          <dt>US security cooperation</dt><dd>The channels of US military engagement, from grant funding and officer training to exercises, equipment and direct operations, and their effect on civil–military relations in the receiving country.</dd>
+        </dl>
 
         ${h('record')}
         <ol class="steps">
@@ -96,6 +118,12 @@ export function renderAbout(model, ctx) {
         <p><b>Structural indicators</b> are taken from V-Dem (version 16), the World Bank's Worldwide Governance Indicators and World Development Indicators. The year is shown beside each value; some lag by two years or more. The regional median is the median of the ${model.countries.length} monitored countries.</p>
         <p><b>Officeholders and commanders</b> are researched with web search by a language model, with a source for each name. A proposed change is not shown until an analyst approves it.</p>
         <p><b>US assistance</b> is obligations by funding account from ForeignAssistance.gov, in constant dollars. SENTINEL groups the accounts itself: military (Foreign Military Financing, IMET, peacekeeping, excess defense articles, all Defense Department accounts), counternarcotics and law enforcement (State Department narcotics control and anti-terrorism funding), and everything else. This differs from the official Greenbook, which counts narcotics control as economic aid.</p>
+
+        ${h('sources')}
+        <p><b>News.</b> The nightly run reads 49 configured feeds in nine groups: specialist outlets on security and organized crime (among them InSight Crime, CONNECTAS and Crisis Group), official sources (US Southern Command and the defence ministries of several countries), wire services (Reuters, AP, AFP, EFE), regional and national newspapers, policy journals (Americas Quarterly, NACLA), defence trade press (Infodefensa, Zona Militar) and human-rights monitors (Human Rights Watch, Amnesty International). Publisher archives fill earlier periods for InSight Crime, Americas Quarterly and NACLA. Google News searches restricted to named publishers and a news API add coverage; the API's current plan reaches back only 30 days. GDELT and ACLED event feeds can be switched on but are off in the nightly run.</p>
+        <p><b>Most cited in the archive.</b> ${topSources.map(([name, n]) => `${esc(name)} <span class="mono">${n}</span>`).join(' · ')}.</p>
+        <p><b>Structural data.</b> V-Dem (version 16) for democracy and military-constraint indices; the World Bank's World Development Indicators (military spending, inflation) and Worldwide Governance Indicators (rule of law); ForeignAssistance.gov for US assistance from fiscal 2001; the USAID Greenbook for US assistance from fiscal 1946 to 2019. The organized-crime page cites UNODC figures for coca and cocaine and lists its sources on the page.</p>
+        <p><b>Language models.</b> Claude Haiku 4.5 screens headlines, Claude Sonnet 5.5 codes reports, and Claude researches officeholders with web search. Every model-written text is labeled.</p>
 
         ${h('limits')}
         <ul>

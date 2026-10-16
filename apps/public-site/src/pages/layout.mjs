@@ -2,24 +2,16 @@
 
 import {esc, fmtDate} from '../lib/html.mjs';
 
+// The live site and the preview share one menu; ctx.url() points each entry at the right site.
 const NAV = [
   ['feed', 'Live feed', 'feed/'],
   ['countries', 'Countries', 'countries/'],
+  ['explore', 'Explore', 'explore/'],
   ['oc', 'Organized crime', 'organized-crime/'],
   ['us', 'US security', 'us-security/'],
   ['about', 'About', 'about/'],
 ];
 
-// Pages promoted to the live site (ctx.live) use the current dashboard's sections as navigation.
-// The wordmark links to the overview, so it has no menu entry of its own.
-const LIVE_NAV = [
-  ['explore', 'Explore', '#explore'],
-  ['feed', 'Live feed', 'feed/'],
-  ['countries', 'Countries', 'countries/'],
-  ['oc', 'Organized crime', 'organized-crime/'],
-  ['us', 'US–LatAm', 'us-security/'],
-  ['about', 'About', '#about'],
-];
 
 // Shared with the dashboard: an explicit choice is stored; without one the system setting applies.
 const THEME_BOOT = `<script>try{var t=localStorage.getItem('sentinel-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>`;
@@ -30,9 +22,9 @@ const THEME_BUTTON = `<button class="theme-toggle" id="theme-toggle" type="butto
 
 export function layout(ctx, {title, description, nav = '', body, scripts = [], bodyClass = '', app = false}) {
   const {url, legacy, asof, live} = ctx;
-  const navItems = live ? LIVE_NAV.map(([key, label, href]) => [key, label, live + href, true]) : NAV.map(([key, label, href]) => [key, label, url(href), false]);
-  const home = live || url('');
-  const aboutHref = live ? `${live}#about` : url('about/');
+  const navItems = NAV.map(([key, label, href]) => [key, label, url(href)]);
+  const home = url('');
+  const aboutHref = url('about/');
   const fullTitle = title ? `${title} · SENTINEL` : 'SENTINEL · Civil–military monitor for Latin America and the Caribbean';
   return `<!doctype html>
 <html lang="en">
@@ -51,7 +43,7 @@ ${live ? '' : '<meta name="robots" content="noindex, nofollow">\n'}${THEME_BOOT}
 </head>
 <body class="${bodyClass}${app ? ' app' : ''}">
 <a class="visually-hidden" href="#view">Skip to content</a>
-${live ? '' : `<div class="preview-bar" role="note"><div class="wrap">Preview of the redesigned SENTINEL. <a href="${legacy}">Return to the current site</a></div></div>
+${live ? '' : `<div class="preview-bar" role="note"><div class="wrap">Preview build of SENTINEL. <a href="${legacy}">Go to the live site</a></div></div>
 `}<header class="site-head" id="site-head">
   <div class="wrap">
     <a class="wordmark" href="${home}"><span class="wm">SENTINEL<i>·</i></span><span class="tag">Civil–military monitor · Latin America &amp; the Caribbean</span></a>

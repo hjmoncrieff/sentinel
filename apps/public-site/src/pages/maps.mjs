@@ -132,6 +132,22 @@ export function boardMap(model, ctx) {
     <g>${backdrop.map(s => `<path d="${s.d}" fill="var(--olive-3)" stroke="var(--olive)" stroke-width=".5"/>`).join('')}</g><g>${paths}</g><g>${labels}</g></svg>`;
 }
 
+/** Explore-page map: one fill per layer (status, outlook, each risk construct), switched in the browser. */
+export function exploreMap(model, ctx, layers) {
+  const W = 520;
+  const {proj, trackedShapes, backdrop} = project(model, W, 8);
+  const paths = trackedShapes.map(s => {
+    const c = s.c, fills = layers.map(([key, , fill]) => `data-${key}="${fill(c)}"`).join(' ');
+    return `<a href="${ctx.url(`countries/${c.iso3.toLowerCase()}/`)}" data-iso="${c.iso3}"><path class="xm-c" d="${s.d}" ${fills} fill="${layers[0][2](c)}" stroke="var(--olive)" stroke-width=".6"><title>${esc(c.name)}</title></path></a>`;
+  }).join('');
+  const labels = trackedShapes.filter(s => s.area > 900)
+    .map(s => `<text x="${s.centroid[0].toFixed(1)}" y="${s.centroid[1].toFixed(1)}" dy=".35em" text-anchor="middle" fill="var(--olive)" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="500" style="pointer-events:none">${s.c.iso3}</text>`).join('');
+  return `<svg id="xmap" viewBox="0 0 ${W} ${proj.height}" role="group" aria-label="Map of Latin America and the Caribbean; choose a layer above">
+    <g>${backdrop.map(s => `<path d="${s.d}" fill="var(--olive-2)" stroke="var(--olive)" stroke-width=".5"/>`).join('')}</g><g>${paths}</g><g>${labels}</g></svg>`;
+}
+export const levelFill = level => level ? `color-mix(in srgb, var(--st-crisis-i) ${12 + Math.max(0, LEVELS.indexOf(level)) * 21}%, var(--olive-3))` : 'var(--olive-3)';
+export const statusFill = c => STATUS_FILL[c.cmr_class] || 'var(--olive-3)';
+
 /** In-depth timeline: curated milestones by lane plus the country's coded events. */
 /** Topic-page map: the region in neutral fill with one mark per place that has located events. */
 export function regionMap(model, events, label) {

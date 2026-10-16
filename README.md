@@ -3,12 +3,16 @@
 SENTINEL is a research platform for tracking civil-military relations, political
 stability, and regional security events across Latin America and the Caribbean.
 It combines automated event ingestion with analyst review and publishes a
-public-facing static dashboard.
+public static site.
 
 ## Surfaces
 
-- `index.html`
-  Public dashboard served as a static site.
+- `apps/public-site/`
+  The public site: front page, live feed, country monitors, topic pages, Explore
+  and About. Built into static pages at deploy time (see its README).
+- `index.html`, `assets/js/dashboard.js`
+  The previous single-page dashboard. No longer served: the deploy replaces the
+  root page with the public site's front page, and old `#tab` links redirect.
 - `apps/analyst-console/`
   Private analyst workspace for review, QA, deduplication, and publication
   control.
@@ -19,7 +23,7 @@ public-facing static dashboard.
 - `supabase/`
   Supabase schema, RLS migration scaffolding, and local project config.
 - `data/published/`
-  Public-safe JSON outputs consumed by the dashboard.
+  Public-safe JSON outputs consumed by the public site.
 
 ## Repo Boundary
 
@@ -32,14 +36,14 @@ This repository is being prepared as a public codebase. The intended split is:
 
 See `docs/repo-boundaries.md` for the current boundary rules.
 
-## Running The Dashboard
+## Running The Site Locally
 
 ```bash
-pnpm install
-python3 -m http.server
+node apps/public-site/build.mjs --out dist/public-site
+cd dist/public-site && python3 -m http.server 8731
 ```
 
-Then open `http://127.0.0.1:8000/`.
+Then open `http://127.0.0.1:8731/`. The build needs Node 18+ and nothing else.
 
 ## Local Development Baseline
 

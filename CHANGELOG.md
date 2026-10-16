@@ -11,6 +11,44 @@ Each major change entry should include:
 
 ## 2026-10-16
 
+### Public Site Replaces the Dashboard: Editorial Front Page, Explore, About
+
+Affected areas:
+- Public site: `src/pages/front.mjs` (rewritten), `src/pages/explore.mjs` and `src/client/explore.js` (new), `src/pages/about.mjs`, `src/pages/maps.mjs` (`exploreMap`), `src/pages/countries.mjs` (exports `regionalBrief`), `src/pages/layout.mjs` (one menu), `src/lib/model.mjs` (construct goals), `src/styles/site.css`, `build.mjs` (front, explore and about promoted)
+- Static pages: `404.html`, `privacy.html`, `terms.html`, `thank-you.html` (links to `feed/` and `about/`)
+- Deployment, tests, docs: `.github/workflows/pages.yml`, `sitemap.xml`, `tests/test_public_site.py`, `README.md`, `docs/public-site.md`
+
+What changed:
+- **Owner request (2026-10-16):** convert the Overview, Explore and About tabs too. The front page should keep the country-monitor design but carry an editorial feel.
+- **The site root is now the new front page.** The deploy writes it over the repo's old dashboard `index.html`. Old `#events`, `#profiles`, `#transnational`, `#us`, `#explore` and `#about` links redirect to the new pages. The old dashboard files stay in the repo but are no longer served.
+- **Editorial front page:**
+  - a dateline under a double rule;
+  - a lead story with a large serif headline, an italic deck and an attribution line;
+  - four more stories in ruled columns, one per country, ranked by salience and sourcing with records of one story folded;
+  - the region map as a captioned figure, with a numbered "most active this week" list;
+  - the regional brief as a large serif paragraph;
+  - a Features row of three, each led by one sourced figure (5 of 25 countries at high or severe outlook; 21 groups on the US terrorist list; 238+ killed in boat strikes);
+  - the four in-depth monitors as columns with a pull quote;
+  - "By the numbers", "The Monday Brief" in a ruled box, and a colophon.
+  - An editor-approved weekly note replaces the automatic lead when one is current. Nothing on the page is written by hand for the day; every story links to its record.
+- **Explore**, replacing the old tab's five scenes:
+  - risk readings on a map with five layers (status, outlook and the three risk constructs, defined in the model's own words), plus a readings table;
+  - the six structural indicators for all 25 countries, sortable, with sparklines and regional medians;
+  - a long-run comparison chart for up to five countries;
+  - coded activity by month and type, and a country × type table.
+- **About** gains "The research lens" (the seven organizing questions) and "Sources and data". The new sources section is built from the configured feeds and from counts in the archive, with name variants merged. The old tab's catalogue described GDELT as running every four hours and ACLED nightly; both are off in the nightly run.
+- **One menu.** The live site and the preview share it: Live feed, Countries, Explore, Organized crime, US security, About.
+
+Validation completed:
+- Local build with `--live` into a scratch copy of the deploy; served over HTTP
+- Headless Chrome screenshots: front page in light and dark, Explore in light and dark, About; the front page, Explore and feed at 390px in iframes
+- `#events`, `#profiles`, `#explore`, `#about` and `#us` confirmed to redirect
+- `python3 -m pytest -q` (116 passed)
+
+Remaining risks / follow-up:
+- The old dashboard (`index.html`, `assets/js/dashboard.js`, `assets/css/dashboard.css`) is no longer served and could be removed or moved to `archive/`. It was left in place pending the owner's decision.
+- `/sentinel/next/` is still built because it hosts the shared assets and `data/feed.json`; it could be folded into the root later.
+
 ### Live Feed Replaces the Events Tab, with the Event Map
 
 Affected areas:

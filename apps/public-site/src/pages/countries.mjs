@@ -11,7 +11,7 @@ const countryUrl = (ctx, c) => ctx.url(`countries/${c.iso3.toLowerCase()}/`);
 
 // An editor-approved brief with numbered citations when one is current; otherwise a
 // plain factual line computed from the data, labelled as automatic.
-function regionalBrief(model, ctx) {
+export function regionalBrief(model, ctx) {
   const w = model.weekly;
   const recent = model.recent(30).filter(e => model.byName[e.country]);
   if (w?.brief?.paras?.length && w.approved_by && daysBetween(model.asof, w.week) <= WEEKLY_MAX_AGE_DAYS) {
