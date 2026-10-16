@@ -53,6 +53,9 @@ function goCountry(name){ location.href = countryPageUrl(name); }
 
 function switchTab(id){
   if(id==='profiles'){ goCountry(); return; }
+  // Organized crime and US security moved to their own pages as well.
+  if(id==='transnational'){ location.href = 'organized-crime/'; return; }
+  if(id==='us'){ location.href = 'us-security/'; return; }
   if(id==='timeline'){
     activateTabUI('explore');
     exInitDots();

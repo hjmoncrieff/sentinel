@@ -10,7 +10,7 @@ node apps/public-site/build.mjs --base /sentinel/next/ --legacy /sentinel/ --out
 cd dist/public-site && python3 -m http.server 8731    # preview locally
 ```
 
-**Promoted sections.** With `--live <dir>`, the build also writes the country monitors into the live site (`/sentinel/countries/`), with the current dashboard's sections as navigation and no preview banner. Links into sections not promoted yet (the feed, record pages) still go to the preview. The dashboard's Countries tab, its monitor cards and old `#profiles` links all lead there.
+**Promoted sections.** With `--live <dir>`, the build also writes the promoted sections (country monitors, organized crime, US security; `PROMOTED` in `build.mjs`) into the live site, with the current dashboard's sections as navigation and no preview banner. Links into sections not promoted yet (the feed, record pages) still go to the preview. The dashboard's Countries tab, its monitor cards and old `#profiles` links all lead there.
 
 **Light and dark.** Pages follow the system setting until a visitor uses the switch in the header; the choice is stored as `sentinel-theme` in localStorage and shared with the dashboard (`src/client/theme.js`).
 
@@ -30,6 +30,7 @@ public-safe layer), plus the two folders below.
 | `reference/changes.json` | Log of every proposal and review decision |
 | `reference/americas-topo.json` | Map geometry (world-atlas 110m) |
 | `content/weekly.json` | Optional editor-approved weekly note (see below) |
+| `content/organized-crime.json`, `content/us-security.json` | Hand-written background for the two topic pages: figures, essays, timeline and access table. Every claim carries a numbered source; `as_of` is the date the facts were last checked |
 
 ## Pages
 

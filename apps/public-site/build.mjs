@@ -6,8 +6,8 @@
 // --base    URL prefix the built site is served under (for example /sentinel/next/).
 // --legacy  URL prefix of the current dashboard, for sections not rebuilt yet.
 // --origin  Scheme and host the site is served from; used in the citation on record pages.
-// --live    Output folder of the live site. Sections promoted out of the preview (the country
-//           monitors) are also written there, with the current dashboard's navigation.
+// --live    Output folder of the live site. Sections promoted out of the preview (PROMOTED below)
+//           are also written there, with the current dashboard's navigation.
 // --live-base  URL prefix of the live site (default: --legacy).
 //
 // Reads public layers only (data/published/, data/cleaned/us_assistance.json, the codebook). Writes pre-rendered pages, the stylesheet, the browser
@@ -85,12 +85,17 @@ for (const f of ['model.mjs', 'geo.mjs']) fs.rmSync(path.join(out, 'assets', 'li
 
 // Promoted sections: the same pages, served from the live site. Their own links (countries/…)
 // stay on the live site; links into sections not promoted yet (feed, records) go to the preview.
+// Sections served from the live site; everything else stays in the preview until promoted.
+const PROMOTED = ['countries/', 'organized-crime/', 'us-security/'];
 if (liveOut) {
-  const liveCtx = {...ctx, live: liveBase, url: p => (p === '' || p.startsWith('countries/') ? liveBase : base) + p};
+  const promoted = p => p === '' || PROMOTED.some(prefix => p.startsWith(prefix));
+  const liveCtx = {...ctx, live: liveBase, url: p => (promoted(p) ? liveBase : base) + p};
   const writeLive = (rel, content) => { const file = path.join(liveOut, rel); fs.mkdirSync(path.dirname(file), {recursive: true}); fs.writeFileSync(file, content); };
   writeLive('countries/index.html', renderCountries(model, liveCtx));
   for (const c of model.countries) writeLive(`countries/${c.iso3.toLowerCase()}/index.html`, renderCountry(c, model, liveCtx));
-  console.log(`Live: ${1 + model.countries.length} country pages → ${path.relative(repoRoot, liveOut)}/countries (base ${liveBase})`);
+  writeLive('organized-crime/index.html', renderOrganizedCrime(model, liveCtx));
+  writeLive('us-security/index.html', renderUsSecurity(model, liveCtx));
+  console.log(`Live: ${3 + model.countries.length} pages (${PROMOTED.join(', ')}) → ${path.relative(repoRoot, liveOut)} (base ${liveBase})`);
 }
 
 const pages = 6 + model.countries.length + model.events.length;

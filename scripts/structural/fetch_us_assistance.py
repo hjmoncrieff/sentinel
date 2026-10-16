@@ -16,6 +16,9 @@ Each obligation is put in one of three groups by its funding account:
                     Andean Counterdrug Programs, and anti-terrorism/demining (NADR).
   other             Everything else: economic, development, health, humanitarian.
 
+Each country also lists its military and counternarcotics accounts by fiscal year
+(`security_accounts`), for program-channel tables.
+
 This is SENTINEL's grouping, not the Greenbook's: the Greenbook counts INCLE as
 economic assistance. Amounts are constant US dollars. The newest fiscal years are
 incomplete when the file is published; `partial_years` lists them.
@@ -61,6 +64,8 @@ def build(rows, countries: list[str], now: datetime) -> dict:
     wanted = set(countries)
     totals: dict[str, dict[int, dict[str, float]]] = {c: {} for c in countries}
     accounts: dict[str, dict[str, float]] = {c: {} for c in countries}
+    # Security accounts by year, for program-channel tables (FMF, IMET, INCLE, …).
+    by_year: dict[str, dict[str, dict]] = {c: {} for c in countries}
     for row in rows:
         country = row.get("Country Name")
         if country not in wanted or row.get("Transaction Type Name") != "Obligations":
@@ -76,6 +81,8 @@ def build(rows, countries: list[str], now: datetime) -> dict:
         bucket[group] += amount
         if group != "other":
             accounts[country][row["Funding Account Name"]] = accounts[country].get(row["Funding Account Name"], 0.0) + amount
+            entry = by_year[country].setdefault(row["Funding Account Name"], {"group": group, "years": {}})
+            entry["years"][year] = entry["years"].get(year, 0.0) + amount
     last_year = max((y for years in totals.values() for y in years), default=FIRST_YEAR)
     # The US fiscal year ends on 30 September and reporting lags by months, so the
     # current and the previous fiscal year are incomplete.
@@ -88,8 +95,12 @@ def build(rows, countries: list[str], now: datetime) -> dict:
         for point in series:
             point["total"] = sum(point[g] for g in GROUPS)
         top = sorted(accounts[country].items(), key=lambda kv: -kv[1])[:5]
+        security = [{"account": name, "group": e["group"],
+                     "years": {str(y): round(v) for y, v in sorted(e["years"].items()) if round(v)}}
+                    for name, e in sorted(by_year[country].items(), key=lambda kv: -sum(kv[1]["years"].values()))]
         out.append({"country": country, "series": series,
-                    "top_security_accounts": [{"account": name, "total": round(total)} for name, total in top]})
+                    "top_security_accounts": [{"account": name, "total": round(total)} for name, total in top],
+                    "security_accounts": [a for a in security if a["years"]]})
     return {
         "updated": now.isoformat(timespec="seconds"),
         "source": "ForeignAssistance.gov, obligations by funding account",

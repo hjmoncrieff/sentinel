@@ -1,5 +1,5 @@
-// Build-time data model. Reads only public layers: data/published/, the structural file
-// data/cleaned/us_assistance.json, and the site's own reference and content files.
+// Build-time data model. Reads only public layers: data/published/, the structural files
+// data/cleaned/us_assistance.json and greenbook.json, and the site's own reference and content files.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -113,6 +113,10 @@ export function loadModel(repoRoot, siteRoot) {
   const codebook = readJson(path.join(repoRoot, 'config', 'taxonomy', 'codebook_v3.json'));
   const assistance = readOptional(path.join(repoRoot, 'data', 'cleaned', 'us_assistance.json'));
   const assistanceBy = Object.fromEntries((assistance?.countries || []).map(c => [c.country, c]));
+  // Structural layer (public): the USAID Greenbook, fiscal 1946 onward, for the long-run aid history.
+  const greenbook = readOptional(path.join(repoRoot, 'data', 'cleaned', 'greenbook.json'));
+  // Hand-written topic content, each claim tied to a numbered source.
+  const topics = {oc: readOptional(path.join(siteRoot, 'content', 'organized-crime.json')), us: readOptional(path.join(siteRoot, 'content', 'us-security.json'))};
 
   const events = eventsFile.events.map(toEvent).filter(e => e.id && e.date)
     .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
@@ -166,6 +170,8 @@ export function loadModel(repoRoot, siteRoot) {
     topology,
     weekly,
     assistance,
+    greenbook,
+    topics,
     codebook,
     aliases,
     monthly,

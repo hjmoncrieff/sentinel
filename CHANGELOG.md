@@ -11,6 +11,40 @@ Each major change entry should include:
 
 ## 2026-10-16
 
+### Organized Crime and US Security Pages Rebuilt and Promoted
+
+Affected areas:
+- Public site: `apps/public-site/src/pages/topics.mjs` (rewritten), `src/lib/model.mjs`, `src/pages/layout.mjs`, `src/styles/site.css`, `build.mjs` (`PROMOTED`), `content/organized-crime.json` and `content/us-security.json` (new)
+- Structural data: `scripts/structural/fetch_us_assistance.py` (per-account yearly series), `data/cleaned/us_assistance.json` (re-fetched; country series unchanged)
+- Dashboard: `assets/js/dashboard.js` (OC and US–LATAM tabs open the new pages)
+- Deployment and tests: `.github/workflows/pages.yml`, `sitemap.xml`, `tests/test_public_site.py`
+
+What changed:
+- **Owner request (2026-10-16):** move the OC and US–LATAM tabs to the new design. Bring over the old tabs' content, revised and fact-checked, and give the topic pages the country monitors' newer elements.
+- **Live.** `/sentinel/organized-crime/` and `/sentinel/us-security/` are built into the live site. The dashboard's OC and US–LATAM tabs, and old `#transnational` and `#us` links, open them.
+- **Old content, revised.** The old tabs' essays, figures, frontlines, gang table, Caribbean timeline and access network now live in content files, with a numbered source for every claim. Facts were checked by web search on 2026-10-16. Corrections against the old tabs:
+  - **Coca:** the 2023 figure is 253,000 ha, not 214,000, and 2024 (261,000 ha) was added.
+  - **Hernández:** pardoned in December 2025.
+  - **Haiti:** "MSS gang control" is replaced by the Gang Suppression Force, and the share of the capital under gang control is ~70% (June 2026).
+  - **Terrorist list:** 21 groups as of Sept 2026, not 8.
+  - **Guantánamo:** about 500 people had passed through by June 2025, against the 30,000 the memorandum ordered for.
+  - **CECOT:** the detainees were returned to Venezuela in July 2025.
+  - **Unverifiable details** of the Caracas operation were dropped.
+- **Real data instead of hand-typed tables.** "Aid by program channel" now comes from ForeignAssistance.gov obligations by account. FY2025 INCLE was $348m and FMF $49m; the old tab showed $724M and $412M. The 1946–2019 history is computed from the Greenbook file and comes to $173bn, not $197B. The file has no data after FY2019.
+- **Country-monitor polish.** Both pages gain indicator cards with sparklines and sources, story grouping in the event lists, and a two-column editorial background with footnotes. The organized-crime page also gains a regional reading of security fragmentation in the instrument style, with the events behind it, plus frontline cards that show live status. The US page also gains a Caribbean timeline with an assessment.
+- **Fix:** the sitemap test now accepts pages the build generates. The previous push had failed the Tests workflow on it.
+
+Validation completed:
+- `python3 scripts/structural/fetch_us_assistance.py` (25 countries; country series compared with the previous file: unchanged)
+- `node apps/public-site/build.mjs --out <scratch>/sentinel/next --base /sentinel/next/ --legacy /sentinel/ --live <scratch>/sentinel --live-base /sentinel/`
+- Headless Chrome screenshots of both pages in light and dark; `#transnational` and `#us` confirmed to redirect
+- `python3 -m pytest -q` (116 passed)
+
+Remaining risks / follow-up:
+- The hand-written content needs re-checking as events move; `as_of` is shown on the page.
+- Defense Department accounts report with a lag, so FY2025 understates them.
+- The two Mexican and two Ecuadorian groups designated in 2026 are dated only "2026"; exact dates were not confirmed.
+
 ### Country Monitors Promoted to the Live Site; Light and Dark Theme
 
 Affected areas:

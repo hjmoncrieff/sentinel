@@ -16,8 +16,8 @@ const LIVE_NAV = [
   ['explore', 'Explore', '#explore'],
   ['events', 'Events', '#events'],
   ['countries', 'Countries', 'countries/'],
-  ['oc', 'Organized crime', '#transnational'],
-  ['us', 'US–LatAm', '#us'],
+  ['oc', 'Organized crime', 'organized-crime/'],
+  ['us', 'US–LatAm', 'us-security/'],
   ['about', 'About', '#about'],
 ];
 

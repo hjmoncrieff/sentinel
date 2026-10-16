@@ -37,13 +37,21 @@ def test_no_img_without_alt():
             assert re.search(r'\balt="', tag), (page, tag)
 
 
+def generated_pages() -> set[str]:
+    """Pages apps/public-site/build.mjs writes into the live site at deploy time (--live)."""
+    reference = json.loads((ROOT / "apps" / "public-site" / "reference" / "countries.json").read_text(encoding="utf-8"))
+    pages = {"countries/", "organized-crime/", "us-security/"}
+    return pages | {f"countries/{c['iso3'].lower()}/" for c in reference["countries"]}
+
+
 def test_sitemap_urls_resolve_to_files():
     ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
     locs = [el.text for el in ET.parse(ROOT / "sitemap.xml").getroot().findall("s:url/s:loc", ns)]
     assert locs and all(loc.startswith(SITE_URL) for loc in locs)
+    generated = generated_pages()
     for loc in locs:
         rel = loc.removeprefix(SITE_URL) or "index.html"
-        assert (ROOT / rel).is_file(), loc
+        assert (ROOT / rel).is_file() or rel in generated, loc
 
 
 def test_manifest_icons_exist():
