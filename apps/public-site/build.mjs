@@ -51,6 +51,7 @@ const ctx = {
   legacy,
   origin,
   asof: model.asof,
+  published: model.generated_at,
   formEndpoint: 'https://formspree.io/f/xkopdkwd',
 };
 

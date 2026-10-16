@@ -21,7 +21,7 @@ const THEME_BUTTON = `<button class="theme-toggle" id="theme-toggle" type="butto
       </button>`;
 
 export function layout(ctx, {title, description, nav = '', body, scripts = [], bodyClass = '', app = false}) {
-  const {url, legacy, asof, live} = ctx;
+  const {url, legacy, asof, live, published} = ctx;
   const navItems = NAV.map(([key, label, href]) => [key, label, url(href)]);
   const home = url('');
   const aboutHref = url('about/');
@@ -54,7 +54,7 @@ ${live ? '' : `<div class="preview-bar" role="note"><div class="wrap">Preview bu
         Analyst login</a>
     </nav>
     <div class="head-right">
-      <div class="fresh"><span class="pulse" aria-hidden="true"></span><span>Updated ${esc(fmtDate(asof))}</span></div>
+      <div class="fresh" data-published="${esc(published || '')}"><span class="pulse" aria-hidden="true"></span><span class="fresh-t">Updated ${esc(fmtDate(asof))}</span></div>
       ${THEME_BUTTON}
     </div>
   </div>

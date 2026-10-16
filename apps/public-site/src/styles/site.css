@@ -903,3 +903,6 @@ a[data-peek].pk-on{color:var(--amber)}
 @media (max-width:980px){.x-risk,.x-cmp{grid-template-columns:minmax(0,1fr)}}
 /* The intro and assessment stay in view beside the long campaign timeline on wide screens. */
 @media (min-width:981px){.focus-grid > div:first-child{position:sticky;top:var(--s-4)}}
+/* Data older than two days (client/theme.js): the live pulse turns amber and stops. */
+.fresh.stale{color:var(--st-strained)}
+.fresh.stale .pulse{background:var(--st-strained);box-shadow:none;animation:none}

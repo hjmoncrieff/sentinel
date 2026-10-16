@@ -10,6 +10,7 @@ export function renderFeed(model, ctx) {
   const chips = (key, opts, current) => opts.map(([v, l]) => `<button class="fchip" type="button" data-f="${key}" data-v="${v}" aria-pressed="${String(v) === String(current)}">${l}</button>`).join('');
   const body = `
   <div class="instr feed-page" data-feed="${ctx.url('data/feed.json')}" data-base="${ctx.url('')}">
+    <h1 class="visually-hidden">Live feed</h1>
     <div class="feed-grid">
       <aside class="filters" aria-label="Feed filters" id="f-panel">
         <button class="f-rail" type="button" aria-controls="f-body" aria-expanded="false" id="f-toggle">
@@ -18,14 +19,14 @@ export function renderFeed(model, ctx) {
         </button>
         <div class="f-body" id="f-body">
           <button class="f-close" type="button" id="f-close">Close filters</button>
-          <div class="fgroup"><div class="panel-title">Show</div><div class="fchips">${chips('content', [['event', 'Events'], ['analysis', 'Analysis & profiles'], ['all', 'Everything']], 'event')}</div></div>
-          <div class="fgroup"><div class="panel-title">Country</div>
+          <div class="fgroup" role="group" aria-label="Show"><div class="panel-title" aria-hidden="true">Show</div><div class="fchips">${chips('content', [['event', 'Events'], ['analysis', 'Analysis & profiles'], ['all', 'Everything']], 'event')}</div></div>
+          <div class="fgroup"><label class="panel-title" for="f-country">Country</label>
             <select class="fselect" id="f-country"><option value="all">All ${model.countries.length} countries</option>${model.countries.map(c => `<option value="${esc(c.name)}">${esc(c.name)}</option>`).join('')}<option value="Regional">Regional</option></select></div>
-          <div class="fgroup"><div class="panel-title">Period</div><div class="fchips">${chips('period', [[7, '7 days'], [30, '30 days'], [90, '90 days'], [365, '1 year'], [0, 'All']], 90)}</div></div>
-          <div class="fgroup"><div class="panel-title">Salience</div><div class="fchips">${chips('sal', [['all', 'All'], ['high', 'High'], ['medium', 'Medium'], ['low', 'Low']], 'all')}</div></div>
-          <div class="fgroup"><div class="panel-title">Coding confidence</div><div class="fchips">${chips('conf', [['all', 'All'], ['high', 'High'], ['medium', 'Medium'], ['low', 'Low']], 'all')}</div></div>
-          <div class="fgroup"><div class="panel-title">Event type</div><div class="fchips">${chips('type', [['all', 'All'], ...types.map(t => [t, tLabel(t)])], 'all')}</div></div>
-          <div class="fgroup"><div class="panel-title">Review state</div><div class="fchips">${chips('rev', [['all', 'All'], ['reviewed', 'Analyst-reviewed']], 'all')}</div></div>
+          <div class="fgroup" role="group" aria-label="Period"><div class="panel-title" aria-hidden="true">Period</div><div class="fchips">${chips('period', [[7, '7 days'], [30, '30 days'], [90, '90 days'], [365, '1 year'], [0, 'All']], 90)}</div></div>
+          <div class="fgroup" role="group" aria-label="Salience"><div class="panel-title" aria-hidden="true">Salience</div><div class="fchips">${chips('sal', [['all', 'All'], ['high', 'High'], ['medium', 'Medium'], ['low', 'Low']], 'all')}</div></div>
+          <div class="fgroup" role="group" aria-label="Coding confidence"><div class="panel-title" aria-hidden="true">Coding confidence</div><div class="fchips">${chips('conf', [['all', 'All'], ['high', 'High'], ['medium', 'Medium'], ['low', 'Low']], 'all')}</div></div>
+          <div class="fgroup" role="group" aria-label="Event type"><div class="panel-title" aria-hidden="true">Event type</div><div class="fchips">${chips('type', [['all', 'All'], ...types.map(t => [t, tLabel(t)])], 'all')}</div></div>
+          <div class="fgroup" role="group" aria-label="Review state"><div class="panel-title" aria-hidden="true">Review state</div><div class="fchips">${chips('rev', [['all', 'All'], ['reviewed', 'Analyst-reviewed']], 'all')}</div></div>
           <p style="margin:0;font-size:12px;color:var(--i-faint)">The address bar keeps your filters and selection, so any view can be shared or cited. Keys: j / k to move.</p>
         </div>
       </aside>

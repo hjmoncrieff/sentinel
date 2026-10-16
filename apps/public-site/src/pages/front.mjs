@@ -107,7 +107,7 @@ export function renderFront(model, ctx) {
       <span>${fmtDate(model.asof, {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'})}</span>
       <span>Week ${weekNo}</span>
       <span>${model.countries.length} countries · ${n(model.events.length)} coded events</span>
-      <span><span class="pulse" aria-hidden="true"></span>Updated nightly</span>
+      <span class="fresh" data-published="${esc(ctx.published || '')}"><span class="pulse" aria-hidden="true"></span><span class="fresh-t">Updated nightly</span></span>
     </div>
 
     <section class="fp-front" aria-labelledby="fp-lead-h">
