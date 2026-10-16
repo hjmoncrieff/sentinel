@@ -1,6 +1,6 @@
 /*
  * Shared public-site configuration, consent, and analytics for every page
- * (dashboard, 404, privacy, terms, thank-you). Load before page scripts.
+ * (404, privacy, terms, thank-you). Load before page scripts.
  *
  * Analytics stays OFF until `analytics.code` is set. When it is set, nothing
  * loads until the visitor accepts in the consent banner; the choice is kept in
@@ -88,8 +88,7 @@
   }
 
   // Light / dark theme, shared with the country pages through localStorage
-  // ('sentinel-theme'); without a stored choice the system setting applies. The
-  // dashboard draws its charts and maps once, so switching reloads the page.
+  // ('sentinel-theme'); without a stored choice the system setting applies.
   function initTheme() {
     var btn = document.getElementById('theme-toggle');
     if (!btn) return;
@@ -105,7 +104,7 @@
       var next = current() === 'dark' ? 'light' : 'dark';
       try { window.localStorage.setItem('sentinel-theme', next); } catch (e) { /* storage blocked */ }
       root.setAttribute('data-theme', next);
-      window.location.reload();
+      label();
     });
     if (media.addEventListener) media.addEventListener('change', label);
     label();

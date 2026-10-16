@@ -1,4 +1,4 @@
-.PHONY: serve js-install python-install lint-python format-python typecheck-python smoke-dashboard supabase-start supabase-stop supabase-status supabase-status-env supabase-db-reset supabase-db-push-local push-snapshots pull-registry export-published supabase-cycle
+.PHONY: serve js-install python-install lint-python format-python typecheck-python smoke-site supabase-start supabase-stop supabase-status supabase-status-env supabase-db-reset supabase-db-push-local push-snapshots pull-registry export-published supabase-cycle
 
 serve:
 	python3 -m http.server 8000
@@ -18,8 +18,8 @@ format-python:
 typecheck-python:
 	basedpyright scripts
 
-smoke-dashboard:
-	node scripts/dev/playwright_smoke_dashboard.mjs
+smoke-site:
+	node scripts/dev/smoke_public_site.mjs
 
 supabase-start:
 	supabase start

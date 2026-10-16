@@ -10,9 +10,6 @@ public static site.
 - `apps/public-site/`
   The public site: front page, live feed, country monitors, topic pages, Explore
   and About. Built into static pages at deploy time (see its README).
-- `index.html`, `assets/js/dashboard.js`
-  The previous single-page dashboard. No longer served: the deploy replaces the
-  root page with the public site's front page, and old `#tab` links redirect.
 - `apps/analyst-console/`
   Private analyst workspace for review, QA, deduplication, and publication
   control.
@@ -52,7 +49,7 @@ SENTINEL now assumes the local toolchain is managed with:
 - `mise` for runtime pinning
 - `uv` for Python package workflows
 - `pnpm` for Node/package scripts
-- `playwright` for dashboard smoke checks
+- `playwright` for analyst-console browser checks
 
 The repo pins:
 
@@ -66,7 +63,7 @@ pnpm install
 uv pip install -r requirements-ci.txt
 make lint-python
 make typecheck-python
-pnpm run smoke:dashboard
+pnpm run smoke:site
 make supabase-start
 make supabase-status
 make supabase-cycle

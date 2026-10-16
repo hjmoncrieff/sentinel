@@ -66,9 +66,9 @@ This is the operator reference for the public website at
 
 ## Light and dark theme
 
-Every page follows the system setting until the visitor uses the switch in the header (sun/moon); the choice is stored in localStorage as `sentinel-theme` and shared by the dashboard, the static pages and the country pages. A small inline script in each page head applies it before the first paint. On the dashboard the switch reloads the page, because its charts and maps are drawn once with theme colours (`THEME_C` in `assets/js/dashboard.js`).
+Every page follows the system setting until the visitor uses the switch in the header (sun/moon); the choice is stored in localStorage as `sentinel-theme` and shared by the public site and the static pages. A small inline script in each page head applies it before the first paint.
 
-The dashboard's dark palette is generated: `python3 scripts/site/build_dark_theme.py` replaces hard-coded colours in `assets/css/dashboard.css` and `assets/css/site.css` with variables whose light values are the originals, and writes their dark values in a block at the end of each file. Re-run it after editing either stylesheet; it is idempotent. Hand-written dark rules go in its `MANUAL_DARK` list, token values in `TOKENS_DARK`. Light text on the olive panels uses `--on-dark`, which is the same in both themes.
+The static pages' dark palette is generated: `python3 scripts/site/build_dark_theme.py` replaces hard-coded colours in `assets/css/site.css` with variables whose light values are the originals, and writes their dark values in a block at the end of the file. Re-run it after editing the stylesheet; it is idempotent. Hand-written dark rules go in its `MANUAL_DARK` list, token values in `TOKENS_DARK`. Light text on the olive panels uses `--on-dark`, which is the same in both themes.
 
 ## Deployment
 

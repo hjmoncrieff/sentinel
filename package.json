@@ -9,8 +9,7 @@
   "scripts": {
     "serve": "python3 -m http.server 8000",
     "playwright:install": "playwright install chromium",
-    "smoke:dashboard": "node scripts/dev/playwright_smoke_dashboard.mjs",
-    "dashboard:test:e2e": "playwright test -c playwright.dashboard.config.ts",
+    "smoke:site": "node scripts/dev/smoke_public_site.mjs",
     "lint:python": "ruff check scripts",
     "format:python": "ruff format scripts",
     "typecheck:python": "basedpyright scripts",
@@ -20,7 +19,7 @@
     "supabase:status:env": "supabase status -o env",
     "supabase:db:reset": "supabase db reset --local",
     "supabase:db:push:local": "supabase db push --local",
-    "test": "npm run smoke:dashboard",
+    "test": "npm run analyst-console:test",
     "analyst-console:dev": "vite --config vite.config.ts",
     "analyst-console:build": "vite build --config vite.config.ts",
     "analyst-console:preview": "vite preview --config vite.config.ts",

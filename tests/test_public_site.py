@@ -11,7 +11,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE_URL = "https://hjmoncrieff.github.io/sentinel/"
-PAGES = ["index.html", "404.html", "privacy.html", "terms.html", "thank-you.html"]
+PAGES = ["404.html", "privacy.html", "terms.html", "thank-you.html"]
 LOCAL_REF = re.compile(r'(?:href|src|content)="((?:assets/|site\.webmanifest|privacy\.html|terms\.html|thank-you\.html)[^"?#]*)')
 
 
@@ -40,7 +40,7 @@ def test_no_img_without_alt():
 def generated_pages() -> set[str]:
     """Pages apps/public-site/build.mjs writes into the live site at deploy time (--live)."""
     reference = json.loads((ROOT / "apps" / "public-site" / "reference" / "countries.json").read_text(encoding="utf-8"))
-    pages = {"countries/", "organized-crime/", "us-security/", "feed/", "explore/", "about/"}
+    pages = {"index.html", "countries/", "organized-crime/", "us-security/", "feed/", "explore/", "about/"}
     return pages | {f"countries/{c['iso3'].lower()}/" for c in reference["countries"]}
 
 
