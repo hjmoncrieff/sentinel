@@ -11,6 +11,39 @@ Each major change entry should include:
 
 ## 2026-10-16
 
+### Public Site Review: Old Dashboard Archived, Smoke Check, Stale-Data Warning
+
+Affected areas:
+- Removed from the repo, kept locally in `archive/old-dashboard-2026-10-16/`: `index.html`, `assets/js/dashboard.js`, `assets/css/dashboard.css`, `tests/public-dashboard/`, `scripts/dev/playwright_smoke_dashboard.mjs`, `playwright.dashboard.config.ts`
+- `scripts/dev/smoke_public_site.mjs` (new), `package.json` (`smoke:site`; `test` now runs the console tests), `Makefile` (`smoke-site`)
+- Public site: `src/styles/site.css`, `src/client/theme.js`, `src/pages/layout.mjs`, `src/pages/front.mjs`, `src/pages/feed.mjs`, `build.mjs`
+- `assets/js/site.js`, `scripts/site/build_dark_theme.py`, `tests/test_public_site.py`, `README.md`, `docs/public-site.md`
+
+What changed:
+- **Owner request (2026-10-16):** a 30-minute review of the public site: bugs, mobile and accessibility, performance and code quality. Move the old dashboard to `archive/`.
+- **Old dashboard archived.** The deploy already wrote the new front page as `index.html`, so nothing served changes. Its Playwright smoke tests are archived with it. On the static pages the theme switch no longer reloads the page.
+- **Browser smoke check.** `node scripts/dev/smoke_public_site.mjs` builds the site as the deploy does, serves it, and opens 11 kinds of page in local Chrome at 1360px and 390px, in light and dark. It fails on script errors, failed requests or sideways overflow.
+- **Phone overflow fixed.** The US security page was 636px wide on phones. Single-column grids used `1fr`, which cannot shrink below a chart's minimum width; all 32 now use `minmax(0,1fr)`.
+- **Stale-data warning.** The daily pipeline has failed since 6 October because the Anthropic API credit balance ran out (issue #3). Meanwhile the header kept a live pulse and the front page said "Updated nightly". The browser now compares the publish time with the clock, and after 48 hours both read "Updates paused since <date>" in amber.
+- **Feed accessibility.**
+  - The country select has a label.
+  - Chip rows are labelled groups.
+  - The page has an `h1`.
+
+Validation completed:
+- `node scripts/dev/smoke_public_site.mjs`: 44 page views, no script errors, failed requests or overflow (the first run found the phone overflow).
+- A link crawl of a local copy of the deploy (`git ls-files` plus the `--live` build), covering 3,331 pages: no broken internal links.
+- A static accessibility scan of 11 pages for labels, duplicate ids, alt text and headings.
+- `~/.venvs/sentinel/bin/python -m pytest -q tests`: 114 passed. The two fewer than before are the per-page checks for the archived `index.html`.
+
+Remaining risks / follow-up:
+- **Owner action:** add Anthropic API credits; until then no new events are published.
+- **Proposals not done:**
+  - Deploy only what the site needs: the Pages artifact is about 154 MB, 107 MB of it `data/` that no page loads; the console needs only `data/published/`.
+  - Fold `/next/` into the root, since every event page is built twice.
+  - Split record details out of `feed.json`: 2.6 MB, or 457 KB gzipped, of which analysis and source excerpts are about 30%.
+  - Fix two heading jumps (`h1` to `h3`) on the front and country pages.
+
 ### Topic Pages: October 2026 Update and Hover Cards
 
 Affected areas:
