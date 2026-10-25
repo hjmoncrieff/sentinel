@@ -191,13 +191,13 @@
           "code": "external_security_alignment",
           "goal": "Track how foreign cooperation, aid, exercises, and procurement may be changing the strategic posture of the state.",
           "label": "External Security Alignment",
-          "pulse_score": 37.23,
+          "pulse_score": 34.64,
           "trend_label": "easing",
           "baseline_mode": "neutral_fallback",
           "pulse_summary": {
-            "raw_pulse": 0.4657,
-            "event_count": 9,
-            "pulse_score": 37.23,
+            "raw_pulse": 0.4253,
+            "event_count": 8,
+            "pulse_score": 34.64,
             "trend_label": "easing",
             "window_days": 90,
             "short_window_raw": 0.0,
@@ -205,7 +205,7 @@
             "dominant_recent_signal": "reform"
           },
           "baseline_score": 50.0,
-          "composite_score": 46.17,
+          "composite_score": 45.39,
           "top_pulse_events": [
             {
               "event_id": "2abffccf0de5",
@@ -232,20 +232,20 @@
               "contribution": 0.079
             },
             {
-              "event_id": "89813538b769",
-              "salience": "low",
-              "confidence": "medium",
-              "event_date": "2026-07-26",
-              "event_type": "procurement",
-              "contribution": 0.0405
-            },
-            {
               "event_id": "1e7315243e04",
               "salience": "low",
               "confidence": "medium",
               "event_date": "2026-09-23",
               "event_type": "coop",
               "contribution": 0.038
+            },
+            {
+              "event_id": "eb182e563b9f",
+              "salience": "low",
+              "confidence": "high",
+              "event_date": "2026-08-14",
+              "event_type": "exercise",
+              "contribution": 0.0371
             }
           ],
           "baseline_components": [
@@ -285,14 +285,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "guarded",
-          "score": 32.52,
+          "score": 32.59,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -527,7 +527,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "low",
-          "score": 14.18,
+          "score": 14.24,
           "drivers": [
             {
               "code": "cmr_balance",
@@ -690,7 +690,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "guarded",
-          "score": 24.18,
+          "score": 24.35,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -877,9 +877,9 @@
         "leading_trend": "easing",
         "leading_construct": "regime_vulnerability",
         "overall_risk_level": "guarded",
-        "overall_risk_score": 24.94,
-        "raw_overall_risk_score": 25.48,
-        "regime_vulnerability_score": 32.52
+        "overall_risk_score": 25.06,
+        "raw_overall_risk_score": 25.59,
+        "regime_vulnerability_score": 32.59
       }
     },
     {
@@ -1074,14 +1074,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "guarded",
-          "score": 28.59,
+          "score": 28.65,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -1316,7 +1316,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "low",
-          "score": 17.42,
+          "score": 17.47,
           "drivers": [
             {
               "code": "cmr_balance",
@@ -1479,7 +1479,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "low",
-          "score": 7.96,
+          "score": 8.13,
           "drivers": [
             {
               "code": "security_governance_gap",
@@ -1666,9 +1666,9 @@
         "leading_trend": "stable",
         "leading_construct": "regime_vulnerability",
         "overall_risk_level": "low",
-        "overall_risk_score": 17.83,
-        "raw_overall_risk_score": 18.71,
-        "regime_vulnerability_score": 28.59
+        "overall_risk_score": 17.94,
+        "raw_overall_risk_score": 18.8,
+        "regime_vulnerability_score": 28.65
       }
     },
     {
@@ -1914,14 +1914,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "elevated",
-          "score": 49.88,
+          "score": 50.0,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -2156,7 +2156,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "severe",
-          "score": 78.55,
+          "score": 78.69,
           "drivers": [
             {
               "code": "military_domestic_coercion_role",
@@ -2319,7 +2319,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "guarded",
-          "score": 32.51,
+          "score": 32.68,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -2506,9 +2506,9 @@
         "leading_trend": "easing",
         "leading_construct": "militarization",
         "overall_risk_level": "elevated",
-        "overall_risk_score": 50.62,
-        "raw_overall_risk_score": 49.93,
-        "regime_vulnerability_score": 49.88
+        "overall_risk_score": 50.76,
+        "raw_overall_risk_score": 50.08,
+        "regime_vulnerability_score": 50.0
       }
     },
     {
@@ -2826,14 +2826,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "elevated",
-          "score": 51.71,
+          "score": 51.83,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -3068,7 +3068,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "elevated",
-          "score": 43.68,
+          "score": 43.77,
           "drivers": [
             {
               "code": "m3_impunity",
@@ -3231,7 +3231,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "severe",
-          "score": 77.08,
+          "score": 77.27,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -3418,9 +3418,9 @@
         "leading_trend": "easing",
         "leading_construct": "security_fragmentation",
         "overall_risk_level": "high",
-        "overall_risk_score": 60.23,
-        "raw_overall_risk_score": 59.08,
-        "regime_vulnerability_score": 51.71
+        "overall_risk_score": 60.35,
+        "raw_overall_risk_score": 59.22,
+        "regime_vulnerability_score": 51.83
       }
     },
     {
@@ -3430,21 +3430,21 @@
           "code": "cmr_balance",
           "goal": "Track the degree of military political influence, institutional autonomy, and stress in civilian control.",
           "label": "Civil-Military Stress",
-          "pulse_score": 28.22,
+          "pulse_score": 26.94,
           "trend_label": "easing",
           "baseline_mode": "observed",
           "pulse_summary": {
-            "raw_pulse": 0.3316,
+            "raw_pulse": 0.3139,
             "event_count": 6,
-            "pulse_score": 28.22,
+            "pulse_score": 26.94,
             "trend_label": "easing",
             "window_days": 90,
             "short_window_raw": 0.0,
-            "medium_window_raw": 0.2835,
+            "medium_window_raw": 0.2531,
             "dominant_recent_signal": "protest"
           },
           "baseline_score": 28.57,
-          "composite_score": 28.45,
+          "composite_score": 28.0,
           "top_pulse_events": [
             {
               "event_id": "ed819e736018",
@@ -3471,20 +3471,20 @@
               "contribution": 0.0304
             },
             {
-              "event_id": "a25f7e8ff458",
-              "salience": "low",
-              "confidence": "medium",
-              "event_date": "2026-09-24",
-              "event_type": "exercise",
-              "contribution": 0.0304
-            },
-            {
               "event_id": "cff69a715815",
               "salience": "medium",
               "confidence": "medium",
               "event_date": "2026-08-10",
               "event_type": "coop",
               "contribution": 0.0253
+            },
+            {
+              "event_id": "6aefebcb89cc",
+              "salience": "low",
+              "confidence": "medium",
+              "event_date": "2026-08-13",
+              "event_type": "reform",
+              "contribution": 0.0228
             }
           ],
           "baseline_components": [
@@ -3612,21 +3612,21 @@
           "code": "external_security_alignment",
           "goal": "Track how foreign cooperation, aid, exercises, and procurement may be changing the strategic posture of the state.",
           "label": "External Security Alignment",
-          "pulse_score": 40.48,
+          "pulse_score": 38.12,
           "trend_label": "easing",
           "baseline_mode": "neutral_fallback",
           "pulse_summary": {
-            "raw_pulse": 0.5189,
+            "raw_pulse": 0.4799,
             "event_count": 7,
-            "pulse_score": 40.48,
+            "pulse_score": 38.12,
             "trend_label": "easing",
             "window_days": 90,
             "short_window_raw": 0.0,
-            "medium_window_raw": 0.3443,
+            "medium_window_raw": 0.2774,
             "dominant_recent_signal": "aid"
           },
           "baseline_score": 50.0,
-          "composite_score": 47.14,
+          "composite_score": 46.44,
           "top_pulse_events": [
             {
               "event_id": "09bd76c87ede",
@@ -3653,18 +3653,18 @@
               "contribution": 0.0668
             },
             {
-              "event_id": "a25f7e8ff458",
-              "salience": "low",
-              "confidence": "medium",
-              "event_date": "2026-09-24",
-              "event_type": "exercise",
-              "contribution": 0.0668
-            },
-            {
               "event_id": "d953280b5497",
               "salience": "low",
               "confidence": "medium",
               "event_date": "2026-08-05",
+              "event_type": "procurement",
+              "contribution": 0.0405
+            },
+            {
+              "event_id": "4197ddc5d244",
+              "salience": "low",
+              "confidence": "medium",
+              "event_date": "2026-08-03",
               "event_type": "procurement",
               "contribution": 0.0405
             }
@@ -3706,14 +3706,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "guarded",
-          "score": 22.6,
+          "score": 22.46,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -3728,10 +3728,10 @@
               "code": "cmr_balance",
               "kind": "monitor_composite",
               "label": "Civil-Military Stress",
-              "score": 28.45,
+              "score": 28.0,
               "weight": 0.18,
               "trend_label": "easing",
-              "weighted_contribution": 5.12
+              "weighted_contribution": 5.04
             },
             {
               "code": "regime_shift_pressure",
@@ -3743,16 +3743,16 @@
               "weighted_contribution": 5.0
             }
           ],
-          "raw_score": 24.54,
+          "raw_score": 24.42,
           "components": [
             {
               "code": "cmr_balance",
               "kind": "monitor_composite",
               "label": "Civil-Military Stress",
-              "score": 28.45,
+              "score": 28.0,
               "weight": 0.18,
               "trend_label": "easing",
-              "weighted_contribution": 5.12
+              "weighted_contribution": 5.04
             },
             {
               "code": "security_pressure",
@@ -3767,10 +3767,10 @@
               "code": "cmr_balance",
               "kind": "monitor_pulse",
               "label": "Civil-Military Stress pulse",
-              "score": 28.22,
+              "score": 26.94,
               "weight": 0.06,
               "trend_label": "easing",
-              "weighted_contribution": 1.69
+              "weighted_contribution": 1.62
             },
             {
               "code": "security_pressure",
@@ -3948,25 +3948,25 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "low",
-          "score": 16.55,
+          "score": 16.34,
           "drivers": [
             {
               "code": "cmr_balance",
               "kind": "monitor_composite",
               "label": "Civil-Military Stress",
-              "score": 28.45,
+              "score": 28.0,
               "weight": 0.22,
               "trend_label": "easing",
-              "weighted_contribution": 6.26
+              "weighted_contribution": 6.16
             },
             {
               "code": "cmr_balance",
               "kind": "monitor_pulse",
               "label": "Civil-Military Stress pulse",
-              "score": 28.22,
+              "score": 26.94,
               "weight": 0.1,
               "trend_label": "easing",
-              "weighted_contribution": 2.82
+              "weighted_contribution": 2.69
             },
             {
               "code": "coup_recency_risk",
@@ -3978,25 +3978,25 @@
               "weighted_contribution": 0.32
             }
           ],
-          "raw_score": 7.29,
+          "raw_score": 7.11,
           "components": [
             {
               "code": "cmr_balance",
               "kind": "monitor_composite",
               "label": "Civil-Military Stress",
-              "score": 28.45,
+              "score": 28.0,
               "weight": 0.22,
               "trend_label": "easing",
-              "weighted_contribution": 6.26
+              "weighted_contribution": 6.16
             },
             {
               "code": "cmr_balance",
               "kind": "monitor_pulse",
               "label": "Civil-Military Stress pulse",
-              "score": 28.22,
+              "score": 26.94,
               "weight": 0.1,
               "trend_label": "easing",
-              "weighted_contribution": 2.82
+              "weighted_contribution": 2.69
             },
             {
               "code": "military_domestic_coercion_role",
@@ -4111,7 +4111,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "guarded",
-          "score": 26.13,
+          "score": 26.28,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -4141,7 +4141,7 @@
               "weighted_contribution": 5.79
             }
           ],
-          "raw_score": 34.14,
+          "raw_score": 34.12,
           "components": [
             {
               "code": "security_pressure",
@@ -4273,10 +4273,10 @@
               "code": "cmr_balance",
               "kind": "monitor_composite",
               "label": "Civil-Military Stress",
-              "score": 28.45,
+              "score": 28.0,
               "weight": 0.04,
               "trend_label": "easing",
-              "weighted_contribution": 1.14
+              "weighted_contribution": 1.12
             }
           ],
           "trend_label": "stable",
@@ -4298,9 +4298,9 @@
         "leading_trend": "stable",
         "leading_construct": "security_fragmentation",
         "overall_risk_level": "guarded",
-        "overall_risk_score": 21.86,
-        "raw_overall_risk_score": 22.54,
-        "regime_vulnerability_score": 22.6
+        "overall_risk_score": 21.81,
+        "raw_overall_risk_score": 22.49,
+        "regime_vulnerability_score": 22.46
       }
     },
     {
@@ -4424,21 +4424,21 @@
           "code": "security_pressure",
           "goal": "Track the intensity of conflict, organized crime, and coercive stress affecting the country security environment.",
           "label": "Security Pressure",
-          "pulse_score": 99.71,
+          "pulse_score": 99.67,
           "trend_label": "easing",
           "baseline_mode": "observed",
           "pulse_summary": {
-            "raw_pulse": 5.8504,
+            "raw_pulse": 5.7087,
             "event_count": 33,
-            "pulse_score": 99.71,
+            "pulse_score": 99.67,
             "trend_label": "easing",
             "window_days": 90,
             "short_window_raw": 0.0,
-            "medium_window_raw": 4.3975,
+            "medium_window_raw": 4.1545,
             "dominant_recent_signal": "conflict"
           },
           "baseline_score": 52.86,
-          "composite_score": 73.94,
+          "composite_score": 73.92,
           "top_pulse_events": [
             {
               "event_id": "7398b6551309",
@@ -4618,14 +4618,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "high",
-          "score": 60.68,
+          "score": 60.81,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -4655,7 +4655,7 @@
               "weighted_contribution": 7.28
             }
           ],
-          "raw_score": 50.53,
+          "raw_score": 50.52,
           "components": [
             {
               "code": "cmr_balance",
@@ -4670,10 +4670,10 @@
               "code": "security_pressure",
               "kind": "monitor_composite",
               "label": "Security Pressure",
-              "score": 73.94,
+              "score": 73.92,
               "weight": 0.08,
               "trend_label": "easing",
-              "weighted_contribution": 5.92
+              "weighted_contribution": 5.91
             },
             {
               "code": "cmr_balance",
@@ -4688,10 +4688,10 @@
               "code": "security_pressure",
               "kind": "monitor_pulse",
               "label": "Security Pressure pulse",
-              "score": 99.71,
+              "score": 99.67,
               "weight": 0.05,
               "trend_label": "easing",
-              "weighted_contribution": 4.99
+              "weighted_contribution": 4.98
             },
             {
               "code": "democratic_fragility",
@@ -4860,7 +4860,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "elevated",
-          "score": 41.88,
+          "score": 41.97,
           "drivers": [
             {
               "code": "military_domestic_coercion_role",
@@ -5023,7 +5023,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "severe",
-          "score": 82.44,
+          "score": 82.62,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -5038,37 +5038,37 @@
               "code": "security_pressure",
               "kind": "monitor_composite",
               "label": "Security Pressure",
-              "score": 73.94,
+              "score": 73.92,
               "weight": 0.24,
               "trend_label": "easing",
-              "weighted_contribution": 17.75
+              "weighted_contribution": 17.74
             },
             {
               "code": "security_pressure",
               "kind": "monitor_pulse",
               "label": "Security Pressure pulse",
-              "score": 99.71,
+              "score": 99.67,
               "weight": 0.16,
               "trend_label": "easing",
               "weighted_contribution": 15.95
             }
           ],
-          "raw_score": 74.15,
+          "raw_score": 74.14,
           "components": [
             {
               "code": "security_pressure",
               "kind": "monitor_composite",
               "label": "Security Pressure",
-              "score": 73.94,
+              "score": 73.92,
               "weight": 0.24,
               "trend_label": "easing",
-              "weighted_contribution": 17.75
+              "weighted_contribution": 17.74
             },
             {
               "code": "security_pressure",
               "kind": "monitor_pulse",
               "label": "Security Pressure pulse",
-              "score": 99.71,
+              "score": 99.67,
               "weight": 0.16,
               "trend_label": "easing",
               "weighted_contribution": 15.95
@@ -5210,9 +5210,9 @@
         "leading_trend": "easing",
         "leading_construct": "security_fragmentation",
         "overall_risk_level": "high",
-        "overall_risk_score": 65.8,
-        "raw_overall_risk_score": 64.38,
-        "regime_vulnerability_score": 60.68
+        "overall_risk_score": 65.91,
+        "raw_overall_risk_score": 64.52,
+        "regime_vulnerability_score": 60.81
       }
     },
     {
@@ -5450,7 +5450,7 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
@@ -5692,7 +5692,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "low",
-          "score": 10.27,
+          "score": 10.32,
           "drivers": [
             {
               "code": "military_governance_administration_role",
@@ -5855,7 +5855,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "low",
-          "score": 8.54,
+          "score": 8.71,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -6042,8 +6042,8 @@
         "leading_trend": "stable",
         "leading_construct": "militarization",
         "overall_risk_level": "low",
-        "overall_risk_score": 7.4,
-        "raw_overall_risk_score": 8.77,
+        "overall_risk_score": 7.48,
+        "raw_overall_risk_score": 8.84,
         "regime_vulnerability_score": 8.18
       }
     },
@@ -6054,21 +6054,21 @@
           "code": "cmr_balance",
           "goal": "Track the degree of military political influence, institutional autonomy, and stress in civilian control.",
           "label": "Civil-Military Stress",
-          "pulse_score": 32.62,
-          "trend_label": "easing",
+          "pulse_score": 29.3,
+          "trend_label": "stable",
           "baseline_mode": "observed",
           "pulse_summary": {
-            "raw_pulse": 0.3949,
-            "event_count": 12,
-            "pulse_score": 32.62,
-            "trend_label": "easing",
+            "raw_pulse": 0.3468,
+            "event_count": 11,
+            "pulse_score": 29.3,
+            "trend_label": "stable",
             "window_days": 90,
             "short_window_raw": 0.0,
-            "medium_window_raw": 0.1721,
+            "medium_window_raw": 0.1114,
             "dominant_recent_signal": "coop"
           },
           "baseline_score": 44.64,
-          "composite_score": 40.43,
+          "composite_score": 39.27,
           "top_pulse_events": [
             {
               "event_id": "8285c61f4fdc",
@@ -6077,14 +6077,6 @@
               "event_date": "2026-09-26",
               "event_type": "coop",
               "contribution": 0.081
-            },
-            {
-              "event_id": "5fbc9126a779",
-              "salience": "medium",
-              "confidence": "medium",
-              "event_date": "2026-09-24",
-              "event_type": "coop",
-              "contribution": 0.0607
             },
             {
               "event_id": "49daf3673acf",
@@ -6109,6 +6101,14 @@
               "event_date": "2026-08-20",
               "event_type": "coop",
               "contribution": 0.0338
+            },
+            {
+              "event_id": "450c43a692b2",
+              "salience": "low",
+              "confidence": "medium",
+              "event_date": "2026-08-02",
+              "event_type": "protest",
+              "contribution": 0.0329
             }
           ],
           "baseline_components": [
@@ -6236,21 +6236,21 @@
           "code": "external_security_alignment",
           "goal": "Track how foreign cooperation, aid, exercises, and procurement may be changing the strategic posture of the state.",
           "label": "External Security Alignment",
-          "pulse_score": 66.24,
+          "pulse_score": 61.0,
           "trend_label": "easing",
           "baseline_mode": "neutral_fallback",
           "pulse_summary": {
-            "raw_pulse": 1.0859,
-            "event_count": 11,
-            "pulse_score": 66.24,
+            "raw_pulse": 0.9416,
+            "event_count": 10,
+            "pulse_score": 61.0,
             "trend_label": "easing",
             "window_days": 90,
             "short_window_raw": 0.0,
-            "medium_window_raw": 0.5164,
+            "medium_window_raw": 0.3341,
             "dominant_recent_signal": "coop"
           },
           "baseline_score": 50.0,
-          "composite_score": 54.87,
+          "composite_score": 53.3,
           "top_pulse_events": [
             {
               "event_id": "8285c61f4fdc",
@@ -6259,14 +6259,6 @@
               "event_date": "2026-09-26",
               "event_type": "coop",
               "contribution": 0.243
-            },
-            {
-              "event_id": "5fbc9126a779",
-              "salience": "medium",
-              "confidence": "medium",
-              "event_date": "2026-09-24",
-              "event_type": "coop",
-              "contribution": 0.1822
             },
             {
               "event_id": "49daf3673acf",
@@ -6291,6 +6283,14 @@
               "event_date": "2026-08-20",
               "event_type": "coop",
               "contribution": 0.1012
+            },
+            {
+              "event_id": "d51c0b1f3ed8",
+              "salience": "low",
+              "confidence": "medium",
+              "event_date": "2026-09-25",
+              "event_type": "coop",
+              "contribution": 0.0911
             }
           ],
           "baseline_components": [
@@ -6330,14 +6330,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "high",
-          "score": 62.3,
+          "score": 62.0,
           "drivers": [
             {
               "code": "democratic_fragility",
@@ -6367,16 +6367,16 @@
               "weighted_contribution": 8.06
             }
           ],
-          "raw_score": 51.64,
+          "raw_score": 51.33,
           "components": [
             {
               "code": "cmr_balance",
               "kind": "monitor_composite",
               "label": "Civil-Military Stress",
-              "score": 40.43,
+              "score": 39.27,
               "weight": 0.18,
-              "trend_label": "easing",
-              "weighted_contribution": 7.28
+              "trend_label": "stable",
+              "weighted_contribution": 7.07
             },
             {
               "code": "security_pressure",
@@ -6391,10 +6391,10 @@
               "code": "cmr_balance",
               "kind": "monitor_pulse",
               "label": "Civil-Military Stress pulse",
-              "score": 32.62,
+              "score": 29.3,
               "weight": 0.06,
-              "trend_label": "easing",
-              "weighted_contribution": 1.96
+              "trend_label": "stable",
+              "weighted_contribution": 1.76
             },
             {
               "code": "security_pressure",
@@ -6559,20 +6559,20 @@
               "weighted_contribution": 0.67
             }
           ],
-          "trend_label": "easing",
+          "trend_label": "stable",
           "watchpoints": [
             "watch for whether coop starts affecting elite cohesion or executive authority",
             "watch for security-force intervention in politics, emergency powers, or abrupt command changes"
           ],
           "horizon_days": 90,
-          "summary_text": "Cuba shows elevated near-term regime vulnerability, but the immediate pressure has eased somewhat despite continued strain in democratic fragility, governance erosion, and weak civilian constraints on the military. The main implication is that Cuba's governing order remains vulnerable where democratic fragility is already weakening routine accountability."
+          "summary_text": "Cuba shows elevated near-term regime vulnerability, centered on democratic fragility, governance erosion, and weak civilian constraints on the military. The main implication is that Cuba's governing order remains vulnerable where democratic fragility is already weakening routine accountability."
         },
         {
           "code": "militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "high",
-          "score": 71.74,
+          "score": 71.16,
           "drivers": [
             {
               "code": "military_domestic_coercion_role",
@@ -6602,25 +6602,25 @@
               "weighted_contribution": 10.0
             }
           ],
-          "raw_score": 43.83,
+          "raw_score": 43.36,
           "components": [
             {
               "code": "cmr_balance",
               "kind": "monitor_composite",
               "label": "Civil-Military Stress",
-              "score": 40.43,
+              "score": 39.27,
               "weight": 0.22,
-              "trend_label": "easing",
-              "weighted_contribution": 8.89
+              "trend_label": "stable",
+              "weighted_contribution": 8.64
             },
             {
               "code": "cmr_balance",
               "kind": "monitor_pulse",
               "label": "Civil-Military Stress pulse",
-              "score": 32.62,
+              "score": 29.3,
               "weight": 0.1,
-              "trend_label": "easing",
-              "weighted_contribution": 3.26
+              "trend_label": "stable",
+              "weighted_contribution": 2.93
             },
             {
               "code": "military_domestic_coercion_role",
@@ -6722,20 +6722,20 @@
               "weighted_contribution": 0.0
             }
           ],
-          "trend_label": "easing",
+          "trend_label": "stable",
           "watchpoints": [
             "watch for the armed forces moving deeper into domestic security or administrative roles",
             "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
           ],
           "horizon_days": 60,
-          "summary_text": "Cuba currently sits at a elevated level of militarization, though the recent tempo has moderated even as military domestic-coercion role, military governance-administration role, and military veto power remain important. The key question is whether military domestic-coercion role becomes further normalized as an ordinary state function in Cuba."
+          "summary_text": "Cuba currently sits at a elevated level of militarization, with the strongest signal coming from military domestic-coercion role, military governance-administration role, and military veto power. The key question is whether military domestic-coercion role becomes further normalized as an ordinary state function in Cuba."
         },
         {
           "code": "security_fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "low",
-          "score": 12.19,
+          "score": 12.3,
           "drivers": [
             {
               "code": "territorial_state_capacity",
@@ -6765,7 +6765,7 @@
               "weighted_contribution": 4.0
             }
           ],
-          "raw_score": 24.23,
+          "raw_score": 24.19,
           "components": [
             {
               "code": "security_pressure",
@@ -6897,10 +6897,10 @@
               "code": "cmr_balance",
               "kind": "monitor_composite",
               "label": "Civil-Military Stress",
-              "score": 40.43,
+              "score": 39.27,
               "weight": 0.04,
-              "trend_label": "easing",
-              "weighted_contribution": 1.62
+              "trend_label": "stable",
+              "weighted_contribution": 1.57
             }
           ],
           "trend_label": "stable",
@@ -6917,14 +6917,14 @@
           "watch for the armed forces moving deeper into domestic security or administrative roles",
           "watch for new legal or operational mandates that normalize coercive institutions in civilian governance"
         ],
-        "summary_text": "Cuba currently sits in the elevated overall risk tier. The strongest near-term pressure comes from militarization, though it has eased somewhat recently, especially through military domestic-coercion role and military governance-administration role. A second layer of pressure comes from regime vulnerability, which remains easing over the next 90 days.",
+        "summary_text": "Cuba currently sits in the elevated overall risk tier. The strongest near-term pressure comes from militarization, especially through military domestic-coercion role and military governance-administration role. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "leading_label": "Militarization",
-        "leading_trend": "easing",
+        "leading_trend": "stable",
         "leading_construct": "militarization",
         "overall_risk_level": "elevated",
-        "overall_risk_score": 46.85,
-        "raw_overall_risk_score": 46.34,
-        "regime_vulnerability_score": 62.3
+        "overall_risk_score": 46.61,
+        "raw_overall_risk_score": 46.12,
+        "regime_vulnerability_score": 62.0
       }
     },
     {
@@ -7153,14 +7153,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "guarded",
-          "score": 23.35,
+          "score": 23.39,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -7395,7 +7395,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "guarded",
-          "score": 29.51,
+          "score": 29.59,
           "drivers": [
             {
               "code": "m3_impunity",
@@ -7558,7 +7558,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "low",
-          "score": 3.64,
+          "score": 3.81,
           "drivers": [
             {
               "code": "security_governance_gap",
@@ -7745,9 +7745,9 @@
         "leading_trend": "stable",
         "leading_construct": "militarization",
         "overall_risk_level": "low",
-        "overall_risk_score": 16.68,
-        "raw_overall_risk_score": 17.61,
-        "regime_vulnerability_score": 23.35
+        "overall_risk_score": 16.79,
+        "raw_overall_risk_score": 17.71,
+        "regime_vulnerability_score": 23.39
       }
     },
     {
@@ -7871,30 +7871,22 @@
           "code": "security_pressure",
           "goal": "Track the intensity of conflict, organized crime, and coercive stress affecting the country security environment.",
           "label": "Security Pressure",
-          "pulse_score": 44.92,
-          "trend_label": "easing",
+          "pulse_score": 37.42,
+          "trend_label": "stable",
           "baseline_mode": "observed",
           "pulse_summary": {
-            "raw_pulse": 0.5964,
+            "raw_pulse": 0.4688,
             "event_count": 5,
-            "pulse_score": 44.92,
-            "trend_label": "easing",
+            "pulse_score": 37.42,
+            "trend_label": "stable",
             "window_days": 90,
             "short_window_raw": 0.0,
-            "medium_window_raw": 0.3281,
+            "medium_window_raw": 0.1094,
             "dominant_recent_signal": "oc"
           },
           "baseline_score": 67.86,
-          "composite_score": 57.54,
+          "composite_score": 54.16,
           "top_pulse_events": [
-            {
-              "event_id": "a3c8a5f3ad31",
-              "salience": "medium",
-              "confidence": "medium",
-              "event_date": "2026-09-24",
-              "event_type": "oc",
-              "contribution": 0.2187
-            },
             {
               "event_id": "e80308251753",
               "salience": "medium",
@@ -7918,6 +7910,14 @@
               "event_date": "2026-09-08",
               "event_type": "conflict",
               "contribution": 0.1012
+            },
+            {
+              "event_id": "a3c8a5f3ad31",
+              "salience": "medium",
+              "confidence": "medium",
+              "event_date": "2026-09-24",
+              "event_type": "oc",
+              "contribution": 0.0911
             },
             {
               "event_id": "733c04044e15",
@@ -8065,14 +8065,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "elevated",
-          "score": 57.07,
+          "score": 56.49,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -8102,7 +8102,7 @@
               "weighted_contribution": 5.67
             }
           ],
-          "raw_score": 48.07,
+          "raw_score": 47.58,
           "components": [
             {
               "code": "cmr_balance",
@@ -8117,10 +8117,10 @@
               "code": "security_pressure",
               "kind": "monitor_composite",
               "label": "Security Pressure",
-              "score": 57.54,
+              "score": 54.16,
               "weight": 0.08,
-              "trend_label": "easing",
-              "weighted_contribution": 4.6
+              "trend_label": "stable",
+              "weighted_contribution": 4.33
             },
             {
               "code": "cmr_balance",
@@ -8135,10 +8135,10 @@
               "code": "security_pressure",
               "kind": "monitor_pulse",
               "label": "Security Pressure pulse",
-              "score": 44.92,
+              "score": 37.42,
               "weight": 0.05,
-              "trend_label": "easing",
-              "weighted_contribution": 2.25
+              "trend_label": "stable",
+              "weighted_contribution": 1.87
             },
             {
               "code": "democratic_fragility",
@@ -8294,20 +8294,20 @@
               "weighted_contribution": 0.06
             }
           ],
-          "trend_label": "easing",
+          "trend_label": "stable",
           "watchpoints": [
             "watch for whether coop starts affecting elite cohesion or executive authority",
             "watch for security-force intervention in politics, emergency powers, or abrupt command changes"
           ],
           "horizon_days": 90,
-          "summary_text": "Ecuador shows elevated near-term regime vulnerability, but the immediate pressure has eased somewhat despite continued strain in governance erosion, democratic fragility, and military domestic-coercion role. The main implication is that Ecuador's governing order remains vulnerable where governance erosion is already weakening routine accountability."
+          "summary_text": "Ecuador shows elevated near-term regime vulnerability, centered on governance erosion, democratic fragility, and military domestic-coercion role. The main implication is that Ecuador's governing order remains vulnerable where governance erosion is already weakening routine accountability."
         },
         {
           "code": "militarization",
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "guarded",
-          "score": 37.26,
+          "score": 37.34,
           "drivers": [
             {
               "code": "military_domestic_coercion_role",
@@ -8470,7 +8470,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "high",
-          "score": 68.5,
+          "score": 66.24,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -8485,10 +8485,10 @@
               "code": "security_pressure",
               "kind": "monitor_composite",
               "label": "Security Pressure",
-              "score": 57.54,
+              "score": 54.16,
               "weight": 0.24,
-              "trend_label": "easing",
-              "weighted_contribution": 13.81
+              "trend_label": "stable",
+              "weighted_contribution": 13.0
             },
             {
               "code": "territorial_fragmentation_signal",
@@ -8500,25 +8500,25 @@
               "weighted_contribution": 9.5
             }
           ],
-          "raw_score": 64.24,
+          "raw_score": 62.51,
           "components": [
             {
               "code": "security_pressure",
               "kind": "monitor_composite",
               "label": "Security Pressure",
-              "score": 57.54,
+              "score": 54.16,
               "weight": 0.24,
-              "trend_label": "easing",
-              "weighted_contribution": 13.81
+              "trend_label": "stable",
+              "weighted_contribution": 13.0
             },
             {
               "code": "security_pressure",
               "kind": "monitor_pulse",
               "label": "Security Pressure pulse",
-              "score": 44.92,
+              "score": 37.42,
               "weight": 0.16,
-              "trend_label": "easing",
-              "weighted_contribution": 7.19
+              "trend_label": "stable",
+              "weighted_contribution": 5.99
             },
             {
               "code": "criminality_baseline",
@@ -8638,13 +8638,13 @@
               "weighted_contribution": 1.09
             }
           ],
-          "trend_label": "easing",
+          "trend_label": "stable",
           "watchpoints": [
             "watch for criminal, insurgent, or protest dynamics spreading geographically or institutionally",
             "watch for evidence that state capacity is fragmenting across police, military, and local authorities"
           ],
           "horizon_days": 75,
-          "summary_text": "Ecuador faces a high level of security fragmentation, but the current pattern is less expansionary than before even though organized-crime actor density, Security Pressure, and territorial spread of coercive stress still matter. The practical risk is that organized-crime actor density keeps security stress in Ecuador dispersed rather than contained."
+          "summary_text": "Ecuador faces a high level of security fragmentation, shaped most by organized-crime actor density, Security Pressure, and territorial spread of coercive stress. The practical risk is that organized-crime actor density keeps security stress in Ecuador dispersed rather than contained."
         }
       ],
       "predictive_summary": {
@@ -8652,14 +8652,14 @@
           "watch for criminal, insurgent, or protest dynamics spreading geographically or institutionally",
           "watch for evidence that state capacity is fragmenting across police, military, and local authorities"
         ],
-        "summary_text": "Ecuador currently sits in the elevated overall risk tier. The strongest near-term pressure comes from security fragmentation, though it has eased somewhat recently, especially through organized-crime actor density and security pressure. A second layer of pressure comes from regime vulnerability, which remains easing over the next 90 days.",
+        "summary_text": "Ecuador currently sits in the elevated overall risk tier. The strongest near-term pressure comes from security fragmentation, especially through organized-crime actor density and security pressure. A second layer of pressure comes from regime vulnerability, which remains stable over the next 90 days.",
         "leading_label": "Security Fragmentation",
-        "leading_trend": "easing",
+        "leading_trend": "stable",
         "leading_construct": "security_fragmentation",
         "overall_risk_level": "elevated",
-        "overall_risk_score": 57.87,
-        "raw_overall_risk_score": 56.83,
-        "regime_vulnerability_score": 57.07
+        "overall_risk_score": 56.75,
+        "raw_overall_risk_score": 55.79,
+        "regime_vulnerability_score": 56.49
       }
     },
     {
@@ -8669,21 +8669,21 @@
           "code": "cmr_balance",
           "goal": "Track the degree of military political influence, institutional autonomy, and stress in civilian control.",
           "label": "Civil-Military Stress",
-          "pulse_score": 5.75,
+          "pulse_score": 4.86,
           "trend_label": "stable",
           "baseline_mode": "observed",
           "pulse_summary": {
-            "raw_pulse": 0.0592,
+            "raw_pulse": 0.0498,
             "event_count": 3,
-            "pulse_score": 5.75,
+            "pulse_score": 4.86,
             "trend_label": "stable",
             "window_days": 90,
             "short_window_raw": 0.0,
-            "medium_window_raw": 0.0466,
+            "medium_window_raw": 0.0304,
             "dominant_recent_signal": "coop"
           },
           "baseline_score": 59.53,
-          "composite_score": 40.71,
+          "composite_score": 40.4,
           "top_pulse_events": [
             {
               "event_id": "876ad731eb43",
@@ -8694,20 +8694,20 @@
               "contribution": 0.0304
             },
             {
-              "event_id": "9acf3efe08a0",
-              "salience": "low",
-              "confidence": "low",
-              "event_date": "2026-09-24",
-              "event_type": "exercise",
-              "contribution": 0.0162
-            },
-            {
               "event_id": "c747765ade1a",
               "salience": "low",
               "confidence": "medium",
               "event_date": "2026-07-31",
               "event_type": "coop",
               "contribution": 0.0127
+            },
+            {
+              "event_id": "9acf3efe08a0",
+              "salience": "low",
+              "confidence": "low",
+              "event_date": "2026-09-24",
+              "event_type": "exercise",
+              "contribution": 0.0067
             }
           ],
           "baseline_components": [
@@ -8826,21 +8826,21 @@
           "code": "external_security_alignment",
           "goal": "Track how foreign cooperation, aid, exercises, and procurement may be changing the strategic posture of the state.",
           "label": "External Security Alignment",
-          "pulse_score": 15.19,
+          "pulse_score": 13.41,
           "trend_label": "stable",
           "baseline_mode": "neutral_fallback",
           "pulse_summary": {
-            "raw_pulse": 0.1647,
+            "raw_pulse": 0.1439,
             "event_count": 3,
-            "pulse_score": 15.19,
+            "pulse_score": 13.41,
             "trend_label": "stable",
             "window_days": 90,
             "short_window_raw": 0.0,
-            "medium_window_raw": 0.1268,
+            "medium_window_raw": 0.0911,
             "dominant_recent_signal": "coop"
           },
           "baseline_score": 50.0,
-          "composite_score": 39.56,
+          "composite_score": 39.02,
           "top_pulse_events": [
             {
               "event_id": "876ad731eb43",
@@ -8864,7 +8864,7 @@
               "confidence": "low",
               "event_date": "2026-09-24",
               "event_type": "exercise",
-              "contribution": 0.0356
+              "contribution": 0.0149
             }
           ],
           "baseline_components": [
@@ -8904,7 +8904,7 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
@@ -8941,16 +8941,16 @@
               "weighted_contribution": 8.0
             }
           ],
-          "raw_score": 43.46,
+          "raw_score": 43.38,
           "components": [
             {
               "code": "cmr_balance",
               "kind": "monitor_composite",
               "label": "Civil-Military Stress",
-              "score": 40.71,
+              "score": 40.4,
               "weight": 0.18,
               "trend_label": "stable",
-              "weighted_contribution": 7.33
+              "weighted_contribution": 7.27
             },
             {
               "code": "security_pressure",
@@ -8965,10 +8965,10 @@
               "code": "cmr_balance",
               "kind": "monitor_pulse",
               "label": "Civil-Military Stress pulse",
-              "score": 5.75,
+              "score": 4.86,
               "weight": 0.06,
               "trend_label": "stable",
-              "weighted_contribution": 0.34
+              "weighted_contribution": 0.29
             },
             {
               "code": "security_pressure",
@@ -9146,7 +9146,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "elevated",
-          "score": 56.5,
+          "score": 56.43,
           "drivers": [
             {
               "code": "military_domestic_coercion_role",
@@ -9170,31 +9170,31 @@
               "code": "cmr_balance",
               "kind": "monitor_composite",
               "label": "Civil-Military Stress",
-              "score": 40.71,
+              "score": 40.4,
               "weight": 0.22,
               "trend_label": "stable",
-              "weighted_contribution": 8.96
+              "weighted_contribution": 8.89
             }
           ],
-          "raw_score": 33.74,
+          "raw_score": 33.62,
           "components": [
             {
               "code": "cmr_balance",
               "kind": "monitor_composite",
               "label": "Civil-Military Stress",
-              "score": 40.71,
+              "score": 40.4,
               "weight": 0.22,
               "trend_label": "stable",
-              "weighted_contribution": 8.96
+              "weighted_contribution": 8.89
             },
             {
               "code": "cmr_balance",
               "kind": "monitor_pulse",
               "label": "Civil-Military Stress pulse",
-              "score": 5.75,
+              "score": 4.86,
               "weight": 0.1,
               "trend_label": "stable",
-              "weighted_contribution": 0.58
+              "weighted_contribution": 0.49
             },
             {
               "code": "military_domestic_coercion_role",
@@ -9309,7 +9309,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "guarded",
-          "score": 32.16,
+          "score": 32.31,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -9339,7 +9339,7 @@
               "weighted_contribution": 7.29
             }
           ],
-          "raw_score": 38.42,
+          "raw_score": 38.41,
           "components": [
             {
               "code": "security_pressure",
@@ -9471,10 +9471,10 @@
               "code": "cmr_balance",
               "kind": "monitor_composite",
               "label": "Civil-Military Stress",
-              "score": 40.71,
+              "score": 40.4,
               "weight": 0.04,
               "trend_label": "stable",
-              "weighted_contribution": 1.63
+              "weighted_contribution": 1.62
             }
           ],
           "trend_label": "stable",
@@ -9496,8 +9496,8 @@
         "leading_trend": "stable",
         "leading_construct": "militarization",
         "overall_risk_level": "elevated",
-        "overall_risk_score": 45.59,
-        "raw_overall_risk_score": 45.14,
+        "overall_risk_score": 45.62,
+        "raw_overall_risk_score": 45.18,
         "regime_vulnerability_score": 50.32
       }
     },
@@ -9816,14 +9816,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "elevated",
-          "score": 58.03,
+          "score": 58.17,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -10058,7 +10058,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "high",
-          "score": 63.6,
+          "score": 63.72,
           "drivers": [
             {
               "code": "military_domestic_coercion_role",
@@ -10221,7 +10221,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "elevated",
-          "score": 45.23,
+          "score": 45.41,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -10408,9 +10408,9 @@
         "leading_trend": "stable",
         "leading_construct": "militarization",
         "overall_risk_level": "elevated",
-        "overall_risk_score": 55.58,
-        "raw_overall_risk_score": 54.65,
-        "regime_vulnerability_score": 58.03
+        "overall_risk_score": 55.71,
+        "raw_overall_risk_score": 54.8,
+        "regime_vulnerability_score": 58.17
       }
     },
     {
@@ -10623,14 +10623,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "guarded",
-          "score": 29.4,
+          "score": 29.46,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -10865,7 +10865,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "low",
-          "score": 19.8,
+          "score": 19.86,
           "drivers": [
             {
               "code": "military_governance_administration_role",
@@ -11215,9 +11215,9 @@
         "leading_trend": "stable",
         "leading_construct": "regime_vulnerability",
         "overall_risk_level": "low",
-        "overall_risk_score": 15.72,
-        "raw_overall_risk_score": 16.7,
-        "regime_vulnerability_score": 29.4
+        "overall_risk_score": 15.77,
+        "raw_overall_risk_score": 16.74,
+        "regime_vulnerability_score": 29.46
       }
     },
     {
@@ -11519,14 +11519,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "high",
-          "score": 67.01,
+          "score": 67.17,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -11761,7 +11761,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "guarded",
-          "score": 37.83,
+          "score": 37.92,
           "drivers": [
             {
               "code": "m3_impunity",
@@ -11924,7 +11924,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "severe",
-          "score": 75.29,
+          "score": 75.48,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -12111,9 +12111,9 @@
         "leading_trend": "easing",
         "leading_construct": "security_fragmentation",
         "overall_risk_level": "high",
-        "overall_risk_score": 64.94,
-        "raw_overall_risk_score": 63.57,
-        "regime_vulnerability_score": 67.01
+        "overall_risk_score": 65.08,
+        "raw_overall_risk_score": 63.73,
+        "regime_vulnerability_score": 67.17
       }
     },
     {
@@ -12335,14 +12335,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "elevated",
-          "score": 47.89,
+          "score": 48.0,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -12577,7 +12577,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "elevated",
-          "score": 50.07,
+          "score": 50.17,
           "drivers": [
             {
               "code": "m3_impunity",
@@ -12740,7 +12740,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "elevated",
-          "score": 43.42,
+          "score": 43.59,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -12927,9 +12927,9 @@
         "leading_trend": "stable",
         "leading_construct": "militarization",
         "overall_risk_level": "elevated",
-        "overall_risk_score": 47.29,
-        "raw_overall_risk_score": 46.76,
-        "regime_vulnerability_score": 47.89
+        "overall_risk_score": 47.41,
+        "raw_overall_risk_score": 46.89,
+        "regime_vulnerability_score": 48.0
       }
     },
     {
@@ -13124,14 +13124,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "guarded",
-          "score": 22.95,
+          "score": 22.99,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -13366,7 +13366,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "guarded",
-          "score": 30.07,
+          "score": 30.15,
           "drivers": [
             {
               "code": "military_domestic_coercion_role",
@@ -13529,7 +13529,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "low",
-          "score": 3.91,
+          "score": 4.07,
           "drivers": [
             {
               "code": "security_pressure",
@@ -13716,9 +13716,9 @@
         "leading_trend": "stable",
         "leading_construct": "militarization",
         "overall_risk_level": "low",
-        "overall_risk_score": 16.73,
-        "raw_overall_risk_score": 17.66,
-        "regime_vulnerability_score": 22.95
+        "overall_risk_score": 16.83,
+        "raw_overall_risk_score": 17.75,
+        "regime_vulnerability_score": 22.99
       }
     },
     {
@@ -14036,14 +14036,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "high",
-          "score": 66.35,
+          "score": 66.51,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -14278,7 +14278,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "severe",
-          "score": 85.58,
+          "score": 85.74,
           "drivers": [
             {
               "code": "military_domestic_coercion_role",
@@ -14441,7 +14441,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "severe",
-          "score": 90.56,
+          "score": 90.76,
           "drivers": [
             {
               "code": "security_pressure",
@@ -14628,9 +14628,9 @@
         "leading_trend": "easing",
         "leading_construct": "security_fragmentation",
         "overall_risk_level": "severe",
-        "overall_risk_score": 81.46,
-        "raw_overall_risk_score": 79.3,
-        "regime_vulnerability_score": 66.35
+        "overall_risk_score": 81.6,
+        "raw_overall_risk_score": 79.47,
+        "regime_vulnerability_score": 66.51
       }
     },
     {
@@ -14851,14 +14851,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "elevated",
-          "score": 55.52,
+          "score": 55.65,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -15093,7 +15093,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "high",
-          "score": 60.76,
+          "score": 60.88,
           "drivers": [
             {
               "code": "military_domestic_coercion_role",
@@ -15256,7 +15256,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "low",
-          "score": 16.11,
+          "score": 16.28,
           "drivers": [
             {
               "code": "security_pressure",
@@ -15443,9 +15443,9 @@
         "leading_trend": "stable",
         "leading_construct": "militarization",
         "overall_risk_level": "elevated",
-        "overall_risk_score": 42.81,
-        "raw_overall_risk_score": 42.49,
-        "regime_vulnerability_score": 55.52
+        "overall_risk_score": 42.94,
+        "raw_overall_risk_score": 42.63,
+        "regime_vulnerability_score": 55.65
       }
     },
     {
@@ -15739,14 +15739,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "guarded",
-          "score": 32.91,
+          "score": 32.98,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -15981,7 +15981,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "guarded",
-          "score": 33.14,
+          "score": 33.22,
           "drivers": [
             {
               "code": "military_governance_administration_role",
@@ -16144,7 +16144,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "guarded",
-          "score": 25.43,
+          "score": 25.6,
           "drivers": [
             {
               "code": "security_pressure",
@@ -16331,9 +16331,9 @@
         "leading_trend": "stable",
         "leading_construct": "militarization",
         "overall_risk_level": "guarded",
-        "overall_risk_score": 29.97,
-        "raw_overall_risk_score": 30.27,
-        "regime_vulnerability_score": 32.91
+        "overall_risk_score": 30.09,
+        "raw_overall_risk_score": 30.38,
+        "regime_vulnerability_score": 32.98
       }
     },
     {
@@ -16570,14 +16570,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "guarded",
-          "score": 31.17,
+          "score": 31.23,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -16812,7 +16812,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "guarded",
-          "score": 33.36,
+          "score": 33.44,
           "drivers": [
             {
               "code": "m3_impunity",
@@ -16974,8 +16974,8 @@
           "code": "security_fragmentation",
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
-          "level": "low",
-          "score": 20.0,
+          "level": "guarded",
+          "score": 20.17,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -17162,9 +17162,9 @@
         "leading_trend": "stable",
         "leading_construct": "militarization",
         "overall_risk_level": "guarded",
-        "overall_risk_score": 27.2,
-        "raw_overall_risk_score": 27.63,
-        "regime_vulnerability_score": 31.17
+        "overall_risk_score": 27.31,
+        "raw_overall_risk_score": 27.73,
+        "regime_vulnerability_score": 31.23
       }
     },
     {
@@ -17466,14 +17466,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "guarded",
-          "score": 38.94,
+          "score": 39.02,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -17708,7 +17708,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "guarded",
-          "score": 36.35,
+          "score": 36.44,
           "drivers": [
             {
               "code": "m3_impunity",
@@ -17871,7 +17871,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "guarded",
-          "score": 30.86,
+          "score": 31.03,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -18058,9 +18058,9 @@
         "leading_trend": "stable",
         "leading_construct": "regime_vulnerability",
         "overall_risk_level": "guarded",
-        "overall_risk_score": 35.42,
-        "raw_overall_risk_score": 35.46,
-        "regime_vulnerability_score": 38.94
+        "overall_risk_score": 35.55,
+        "raw_overall_risk_score": 35.58,
+        "regime_vulnerability_score": 39.02
       }
     },
     {
@@ -18255,14 +18255,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "guarded",
-          "score": 26.83,
+          "score": 26.88,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -18497,7 +18497,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "low",
-          "score": 13.9,
+          "score": 13.95,
           "drivers": [
             {
               "code": "military_domestic_coercion_role",
@@ -18660,7 +18660,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "low",
-          "score": 9.06,
+          "score": 9.23,
           "drivers": [
             {
               "code": "security_governance_gap",
@@ -18847,9 +18847,9 @@
         "leading_trend": "stable",
         "leading_construct": "regime_vulnerability",
         "overall_risk_level": "low",
-        "overall_risk_score": 16.66,
-        "raw_overall_risk_score": 17.59,
-        "regime_vulnerability_score": 26.83
+        "overall_risk_score": 16.76,
+        "raw_overall_risk_score": 17.68,
+        "regime_vulnerability_score": 26.88
       }
     },
     {
@@ -19044,14 +19044,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "guarded",
-          "score": 21.24,
+          "score": 21.27,
           "drivers": [
             {
               "code": "governance_erosion",
@@ -19286,7 +19286,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "guarded",
-          "score": 29.16,
+          "score": 29.24,
           "drivers": [
             {
               "code": "m3_impunity",
@@ -19636,9 +19636,9 @@
         "leading_trend": "stable",
         "leading_construct": "militarization",
         "overall_risk_level": "low",
-        "overall_risk_score": 14.3,
-        "raw_overall_risk_score": 15.34,
-        "regime_vulnerability_score": 21.24
+        "overall_risk_score": 14.34,
+        "raw_overall_risk_score": 15.37,
+        "regime_vulnerability_score": 21.27
       }
     },
     {
@@ -19867,14 +19867,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "low",
-          "score": 13.49,
+          "score": 13.5,
           "drivers": [
             {
               "code": "regime_shift_pressure",
@@ -20109,7 +20109,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "low",
-          "score": 15.81,
+          "score": 15.87,
           "drivers": [
             {
               "code": "m3_public_security_role",
@@ -20272,7 +20272,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "low",
-          "score": 17.15,
+          "score": 17.32,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -20459,9 +20459,9 @@
         "leading_trend": "stable",
         "leading_construct": "security_fragmentation",
         "overall_risk_level": "low",
-        "overall_risk_score": 14.27,
-        "raw_overall_risk_score": 15.32,
-        "regime_vulnerability_score": 13.49
+        "overall_risk_score": 14.37,
+        "raw_overall_risk_score": 15.4,
+        "regime_vulnerability_score": 13.5
       }
     },
     {
@@ -20779,14 +20779,14 @@
         "method": "anchor_country_affine_fit",
         "applied": true
       },
-      "generated_at": "2026-10-24T11:59:26.048150+00:00",
+      "generated_at": "2026-10-25T12:28:46.609336+00:00",
       "risk_constructs": [
         {
           "code": "regime_vulnerability",
           "goal": "Estimate the near-term vulnerability of the governing order to destabilizing pressure, elite-security rupture, or coercive contestation.",
           "label": "Regime Vulnerability",
           "level": "severe",
-          "score": 87.25,
+          "score": 87.48,
           "drivers": [
             {
               "code": "democratic_fragility",
@@ -21021,7 +21021,7 @@
           "goal": "Estimate how far coercive institutions are moving into politics, public security, and routine governance.",
           "label": "Militarization",
           "level": "severe",
-          "score": 89.78,
+          "score": 89.94,
           "drivers": [
             {
               "code": "cmr_balance",
@@ -21184,7 +21184,7 @@
           "goal": "Estimate whether conflict, organized crime, and uneven state capacity are fragmenting the coercive environment.",
           "label": "Security Fragmentation",
           "level": "severe",
-          "score": 81.2,
+          "score": 81.39,
           "drivers": [
             {
               "code": "oc_actor_density",
@@ -21371,9 +21371,9 @@
         "leading_trend": "easing",
         "leading_construct": "militarization",
         "overall_risk_level": "severe",
-        "overall_risk_score": 88.11,
-        "raw_overall_risk_score": 85.63,
-        "regime_vulnerability_score": 87.25
+        "overall_risk_score": 88.28,
+        "raw_overall_risk_score": 85.83,
+        "regime_vulnerability_score": 87.48
       }
     }
   ],
@@ -21381,23 +21381,23 @@
     "method": "anchor_country_affine_fit",
     "transforms": {
       "overall_risk": {
-        "slope": 1.050159,
-        "intercept": -1.813862,
+        "slope": 1.049367,
+        "intercept": -1.791408,
         "anchor_count": 15
       },
       "militarization": {
-        "slope": 1.510185,
-        "intercept": 5.544997,
+        "slope": 1.512327,
+        "intercept": 5.58561,
         "anchor_count": 12
       },
       "regime_vulnerability": {
-        "slope": 1.465066,
-        "intercept": -13.352657,
+        "slope": 1.469301,
+        "intercept": -13.418296,
         "anchor_count": 13
       },
       "security_fragmentation": {
-        "slope": 1.407395,
-        "intercept": -21.915506,
+        "slope": 1.40786,
+        "intercept": -21.761012,
         "anchor_count": 14
       }
     },
@@ -21466,7 +21466,7 @@
       }
     }
   },
-  "generated_at": "2026-10-24T11:59:26.306697+00:00",
+  "generated_at": "2026-10-25T12:28:46.790886+00:00",
   "source_files": {
     "acled_index": "data/cleaned/acled_index.json",
     "event_source": "data/canonical/events_actor_coded.json",
