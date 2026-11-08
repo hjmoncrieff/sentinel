@@ -1,13 +1,636 @@
 {
- "generated_at": "2026-11-07T13:51:04.115118+00:00",
- "reason": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CgogBh5cTRCfWTymXPU5G'}",
+ "generated_at": "2026-11-08T14:13:59.527545+00:00",
+ "reason": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cgqbjzb8pDWdwdXq16j5V'}",
  "note": "Collected and keyword-filtered, but not yet coded or checked. Countries are guessed from the headline.",
  "headlines": [
   {
    "title": "On Our Radar",
    "url": "https://www.crisisgroup.org/sco/global/our-radar",
    "source": "Crisis Group",
-   "date": "2026-11-07",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Ukraine - AP News",
+   "url": "https://news.google.com/rss/articles/CBMiREFVX3lxTFBoLUFxWVlhd0NHcHV5UjVHdVQtVjc0LUx3V08zeVNpdE5IS2Jtc3BFOUJnRktJVDdzczRIN1ZZaTNTbjd4?oc=5",
+   "source": "AP LatAm",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Evacuan las instalaciones de Caracol Televisión en Colombia ante una amenaza de atentado - EFE - Agencia de noticias",
+   "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNR3lPS2M0MlhBYThEZDlJcWNmWGU4R1YwU3Nzb2g5YXJiekpOTVhERU9CVXB6VFgtYTUxV19FWktDNFR3Yy1kdkxLdVhEbC1md0FfX2pnUFlKelpONjhoVWdDcTJLdUJhMkVmbTFybm9HSFRmdHg3UlctYjJYR29Ob0xFTmc?oc=5",
+   "source": "EFE",
+   "date": "2026-11-08",
+   "country": "Colombia"
+  },
+  {
+   "title": "Ana donó sus órganos al morir en España por eutanasia: ahora un grupo de abogados cristianos quiere prohibir que vuelva a suceder",
+   "url": "https://www.bbc.com/mundo/articles/cqe9eegxvny2o?at_medium=RSS&at_campaign=rss",
+   "source": "BBC Mundo",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Un juez de Paraguay ordena la prisión preventiva para el expresidente Peña por el caso Ueno Bank",
+   "url": "https://www.bbc.com/mundo/articles/c64g1nd9qvn0o?at_medium=RSS&at_campaign=rss",
+   "source": "BBC Mundo",
+   "date": "2026-11-08",
+   "country": "Paraguay"
+  },
+  {
+   "title": "Las águilas gigantes que cazaban niños y moldearon la evolución humana",
+   "url": "https://www.bbc.com/mundo/articles/cm62yxpxv5kqo?at_medium=RSS&at_campaign=rss",
+   "source": "BBC Mundo",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Qué se sabe del ataque que dejó al menos 6 muertos y decenas de heridos en Polonia",
+   "url": "https://www.bbc.com/mundo/articles/c6d091e7jzz7o?at_medium=RSS&at_campaign=rss",
+   "source": "BBC Mundo",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "La arriesgada misión para extraer de Polonia el cohete v2, el \"arma milagrosa\" de Hitler",
+   "url": "https://www.bbc.com/mundo/articles/c9dw1q8e4v3o?at_medium=RSS&at_campaign=rss",
+   "source": "BBC Mundo",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Crisis en Paraguay: Santiago Peña, en arresto domiciliario tras ser destituido por el Congreso en juicio político",
+   "url": "https://www.bbc.co.uk/mundo/live/c54g11vvvemkt?at_medium=RSS&at_campaign=rss",
+   "source": "BBC Mundo",
+   "date": "2026-11-08",
+   "country": "Paraguay"
+  },
+  {
+   "title": "Pope’s visit to Argentina sets up showdown with ‘hyper-capitalist’ Milei",
+   "url": "https://www.theguardian.com/world/2026/nov/08/popes-visit-to-argentina-sets-up-showdown-with-hyper-capitalist-milei",
+   "source": "The Guardian LatAm",
+   "date": "2026-11-08",
+   "country": "Argentina"
+  },
+  {
+   "title": "Banana producers in Latin America want better pay to cope with effects of climate crisis",
+   "url": "https://www.theguardian.com/business/2026/nov/08/banana-producers-in-latin-america-want-better-pay-to-cope-with-effects-of-climate-crisis",
+   "source": "The Guardian LatAm",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "León XIV pide colocar “a la persona antes que al algoritmo” frente a educadores de Uruguay",
+   "url": "https://elpais.com/america/2026-11-08/leon-xiv-pide-colocar-a-la-persona-antes-que-al-algoritmo-frente-a-educadores-de-uruguay.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": "Uruguay"
+  },
+  {
+   "title": "Trump cae derrotado en las urnas, pero aún es poderoso (e impredecible) en política exterior",
+   "url": "https://elpais.com/us/2026-11-08/trump-cae-derrotado-en-las-urnas-pero-aun-es-poderoso-e-impredecible-en-politica-exterior.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Entre la muerte MAGA y la radicalización del trumpismo: los republicanos buscan su sitio tras la debacle electoral",
+   "url": "https://elpais.com/us/2026-11-08/entre-la-muerte-maga-y-la-radicalizacion-del-trumpismo-los-republicanos-buscan-su-sitio-tras-la-debacle-electoral.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "“Parece un Kennedy”: Jon Ossoff, la estrella en ascenso del Partido Demócrata para 2028",
+   "url": "https://elpais.com/us/2026-11-08/parece-un-kennedy-jon-ossoff-la-estrella-en-ascenso-del-partido-democrata-para-2028.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Colombia pierde la guerra contra los drones",
+   "url": "https://elpais.com/america-colombia/2026-11-08/colombia-pierde-la-guerra-contra-los-drones.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": "Colombia"
+  },
+  {
+   "title": "La política de la crueldad",
+   "url": "https://elpais.com/opinion/2026-11-08/la-politica-de-la-crueldad.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Esta victoria no basta: ¿qué deben hacer ahora los demócratas?",
+   "url": "https://elpais.com/ideas/2026-11-08/la-victoria-no-basta-que-deben-hacer-ahora-los-democratas.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "El mundo tras la derrota de Trump",
+   "url": "https://elpais.com/opinion/2026-11-08/el-mundo-tras-la-derrota-de-trump.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Alberto Núñez Feijóo: “Hacer una coalición de Gobierno con Vox no depende de mí”",
+   "url": "https://elpais.com/espana/2026-11-08/alberto-nunez-feijoo-hacer-una-coalicion-de-gobierno-con-vox-no-depende-de-mi.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "El INE se enfrenta a su descomposición 36 años después de haber dado paso a la democracia en México",
+   "url": "https://elpais.com/mexico/2026-11-08/el-ine-se-enfrenta-a-su-descomposicion-36-anos-despues-de-haber-dado-paso-a-la-democracia-en-mexico.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": "Mexico"
+  },
+  {
+   "title": "Ángela de la Mora, la guardiana de la memoria trans en la frontera mexicana",
+   "url": "https://elpais.com/mexico/2026-11-08/angela-de-la-mora-la-guardiana-de-la-memoria-trans-en-la-frontera-mexicana.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Víctimas del cierre del banco Ueno en Paraguay: “Estos políticos son unos bandidos, han dejado a medio país sin dinero”",
+   "url": "https://elpais.com/america/2026-11-08/victimas-del-cierre-del-banco-ueno-en-paraguay-estos-politicos-son-unos-bandidos-han-dejado-a-medio-pais-sin-dinero.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": "Paraguay"
+  },
+  {
+   "title": "En Ecuador hasta lo básico se vuelve una batalla",
+   "url": "https://elpais.com/america/2026-11-08/en-ecuador-hasta-lo-basico-se-vuelve-una-batalla.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": "Ecuador"
+  },
+  {
+   "title": "Cuando las hijas dan a luz a sus propias madres: la épica africana de Harmonía Rosales",
+   "url": "https://elpais.com/america-futura/2026-11-07/cuando-las-hijas-dan-a-luz-a-sus-propias-madres-la-epica-africana-de-harmonia-rosales.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "La guerra por la herencia de Brigitte Bardot enfrenta a un marido desheredado y una fundación animalista",
+   "url": "https://elpais.com/gente/2026-11-08/la-guerra-por-la-herencia-de-brigitte-bardot-enfrenta-a-un-marido-desheredado-y-una-fundacion-animalista.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Las dudas sobre el revés a la ultraderecha: “No podemos decir con cada resultado electoral que la vida se reseteó”",
+   "url": "https://elpais.com/america-colombia/2026-11-08/las-dudas-sobre-el-reves-a-la-ultraderecha-no-podemos-decir-con-cada-resultado-electoral-que-la-vida-se-reseteo.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Detenidos por las pintas: decenas de menores en comisaría en Italia con el nuevo arresto preventivo en manifestaciones",
+   "url": "https://elpais.com/internacional/2026-11-08/detenidos-por-las-pintas-decenas-de-menores-en-comisaria-en-italia-con-el-nuevo-arresto-preventivo-en-manifestaciones.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Voces desde Taiz, la ciudad de Yemen asediada por los hutíes: “Estamos luchando por conseguir cada bocado”",
+   "url": "https://elpais.com/planeta-futuro/2026-11-08/voces-desde-taiz-la-ciudad-de-yemen-asediada-por-los-huties-estamos-luchando-por-conseguir-cada-bocado.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "¿Comprar en la caída o huir de la Bolsa? Cómo las gestoras capean el desplome de las tecnológicas",
+   "url": "https://cincodias.elpais.com/mercados-financieros/2026-11-08/comprar-en-la-caida-o-huir-de-la-bolsa-como-las-gestoras-capean-el-desplome-de-las-tecnologicas.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Sam Houser, el hombre invisible detrás del imperio de ‘Grand Theft Auto’",
+   "url": "https://cincodias.elpais.com/opinion/2026-11-08/sam-houser-el-hombre-invisible-detras-del-imperio-de-grand-theft-auto.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Santander desacelera en Bolsa, pero los analistas confían en las expectativas a futuro",
+   "url": "https://cincodias.elpais.com/mercados-financieros/2026-11-08/santander-desacelera-en-bolsa-pero-los-analistas-confian-en-las-expectativas-a-futuro.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Cumbre iberoamericana sin Lula",
+   "url": "https://elpais.com/opinion/2026-11-08/cumbre-iberoamericana-sin-lula.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "El Roto: cumbre",
+   "url": "https://elpais.com/opinion/2026-11-08/el-roto-cumbre.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Ay la IA",
+   "url": "https://elpais.com/eps/2026-11-08/ay-la-ia.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Un jersey con dos agujeros: cómo Nik Gallo hizo sexy la prenda más corriente del armario",
+   "url": "https://elpais.com/icon/2026-11-08/dos-agujeros-para-hacer-provocativo-un-jersey-nik-gallo-y-su-revolucion-de-una-prenda-clasica.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Cuando las flores se visten de verde",
+   "url": "https://elpais.com/estilo-de-vida/2026-11-08/cuando-las-flores-se-visten-de-verde.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "How the Democrats won back the US-Mexico border",
+   "url": "https://english.elpais.com/usa/2026-11-08/how-the-democrats-won-back-the-us-mexico-border.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": "Mexico"
+  },
+  {
+   "title": "The sea’s grip on the global economy: The chokepoints that can bring world trade to its knees",
+   "url": "https://english.elpais.com/economy-and-business/2026-11-08/the-seas-grip-on-the-global-economy-the-chokepoints-that-can-bring-world-trade-to-its-knees.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Saul Newman: ‘If you’re Elon Musk and you’ve bought everything, the only thing left to sell is a way to escape death’",
+   "url": "https://english.elpais.com/science-tech/2026-11-08/saul-newman-if-youre-elon-musk-and-youve-bought-everything-the-only-thing-left-to-sell-is-a-way-to-escape-death.html",
+   "source": "El País América",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Presidente Abelardo De la Espriella ordena proteger a Caracol Televisión, RCN y Semana tras alertas de atentado",
+   "url": "https://www.eltiempo.com/politica/abelardo-de-la-espriella/presidente-abelardo-de-la-espriella-ordena-proteger-a-caracol-television-rcn-y-semana-tras-alertas-de-atentado-3599364",
+   "source": "El Tiempo Colombia",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Dapre convoca a contratistas del anterior Gobierno para indagar por presunta red de explotación sexual en la Casa de Nariño/ En Secreto",
+   "url": "https://www.eltiempo.com/politica/gobierno/dapre-convoca-a-contratistas-del-anterior-gobierno-para-indagar-por-presunta-red-de-explotacion-sexual-en-la-casa-de-narino-en-secreto-3599342",
+   "source": "El Tiempo Colombia",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Los proyectos del gobierno de Abelardo De La Espriella que son una 'papa caliente' en la recta final del Congreso para este 2026",
+   "url": "https://www.eltiempo.com/politica/congreso/los-proyectos-del-gobierno-de-abelardo-de-la-espriella-que-son-una-papa-caliente-en-la-recta-final-del-congreso-para-este-3599265",
+   "source": "El Tiempo Colombia",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "¿Qué recomiendan exministros y exembajadores de Colombia para la relación con EE. UU. tras el triunfo demócrata en elecciones de mitad de mandato?",
+   "url": "https://www.eltiempo.com/politica/partidos-politicos/que-recomiendan-exministros-y-exembajadores-de-colombia-para-la-relacion-con-ee-uu-tras-el-triunfo-democrata-en-elecciones-de-mitad-de-mandato-3599241",
+   "source": "El Tiempo Colombia",
+   "date": "2026-11-08",
+   "country": "Colombia"
+  },
+  {
+   "title": "Retomar el diálogo bipartidista, la meta del gobierno de Abelardo De La Espriella en la relación con Estados Unidos",
+   "url": "https://www.eltiempo.com/politica/gobierno/retomar-el-dialogo-bipartidista-la-meta-del-gobierno-de-abelardo-de-la-espriella-en-la-relacion-con-estados-unidos-3599238",
+   "source": "El Tiempo Colombia",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "El impacto en Colombia del estilo del presidente Abelardo De La Espriella en sus primeros 100 días de gobierno",
+   "url": "https://www.eltiempo.com/politica/abelardo-de-la-espriella/el-impacto-en-colombia-del-estilo-del-presidente-abelardo-de-la-espriella-en-sus-primeros-100-dias-de-gobierno-3599231",
+   "source": "El Tiempo Colombia",
+   "date": "2026-11-08",
+   "country": "Colombia"
+  },
+  {
+   "title": "Caracol evacuó su sede en Bogotá por alerta de posible atentado",
+   "url": "https://www.lasillavacia.com/en-vivo/caracol-evacuo-su-sede-en-bogota-por-alerta-de-posible-atentado/",
+   "source": "La Silla Vacía",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Del rescate económico, al hundimiento económico",
+   "url": "https://www.lasillavacia.com/red-de-expertos/del-rescate-economico-al-hundimiento-economico/",
+   "source": "La Silla Vacía",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Putumayo: homicidios aumentan y gobierno arranca sin estrategia clara",
+   "url": "https://www.lasillavacia.com/silla-amazonia/putumayo-homicidios-aumentan-y-gobierno-arranca-sin-estrategia-clara/",
+   "source": "La Silla Vacía",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Punta Colonet, desaladora y reducción de edad para jubilación de policías, las “joyas” de Marina en su V Informe",
+   "url": "https://zetatijuana.com/2026/11/punta-colonet-desaladora-y-reduccion-de-edad-para-jubilacion-de-policias-las-joyas-de-marina-en-su-v-informe/?utm_source=rss&utm_medium=rss&utm_campaign=punta-colonet-desaladora-y-reduccion-de-edad-para-jubilacion-de-policias-las-joyas-de-marina-en-su-v-informe",
+   "source": "Zeta Tijuana",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Asesinan a exlanzador Enrique Quiñones en Mazatlán",
+   "url": "https://zetatijuana.com/2026/11/asesinan-a-exlanzador-enrique-quinones-en-mazatlan/?utm_source=rss&utm_medium=rss&utm_campaign=asesinan-a-exlanzador-enrique-quinones-en-mazatlan",
+   "source": "Zeta Tijuana",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "La Conversa | Javier Tarazona: “El tiempo nos está dando la razón”",
+   "url": "https://runrun.es/rr-es-plus/3x3/624857/javier-tarazona-el-tiempo-nos-esta-dando-la-razon/",
+   "source": "Runrun.es",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Socios del yerno de Trump se quedaron con un campo gasífero en Venezuela",
+   "url": "https://armando.info/socios-del-yerno-de-trump-se-quedaron-con-un-campo-gasifero-en-venezuela/?utm_source=rss&utm_medium=rss&utm_campaign=socios-del-yerno-de-trump-se-quedaron-con-un-campo-gasifero-en-venezuela",
+   "source": "Armando.info",
+   "date": "2026-11-08",
+   "country": "Venezuela"
+  },
+  {
+   "title": "Murió Omar Rojas, referente de la guaracha y la cultura en la Costa Oriental del Lago",
+   "url": "https://www.elnacional.com/2026/11/murio-omar-rojas-referente-de-la-guaracha-y-la-cultura-en-la-costa-oriental-del-lago/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Dinorah Figuera aseguró que se está a las puertas de nuevas excarcelaciones de presos políticos",
+   "url": "https://www.elnacional.com/2026/11/dinorah-figuera-solicito-la-liberacion-de-militares-encarcelados-por-motivos-politicos/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Asamblea Nacional aprobará el 10 de noviembre reforma de ley que permitirá inversión privada en sector eléctrico",
+   "url": "https://www.elnacional.com/2026/11/asamblea-nacional-aprobara-el-10-de-noviembre-reforma-de-ley-que-permitira-inversion-privada-en-sector-electrico/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Venezuela y Países Bajos acordaron fortalecer cooperación bilateral contra el narcotráfico",
+   "url": "https://www.elnacional.com/2026/11/venezuela-y-paises-bajos-acordaron-fortalecer-la-cooperacion-bilateral-contra-el-narcotrafico/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": "Venezuela"
+  },
+  {
+   "title": "Delcy Rodríguez calificó de \"extraordinaria\" reunión de Oliver Blanco con Marco Rubio en Washington",
+   "url": "https://www.elnacional.com/2026/11/delcy-rodriguez-califico-de-extraordinaria-la-reunion-de-oliver-blanco-con-marco-rubio-en-washington/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Mujer damnificada por terremotos en La Guaira se encadenó para exigir devolución de su vivienda alquilada en Miranda",
+   "url": "https://www.elnacional.com/2026/11/mujer-damnificada-por-los-terremotos-en-la-guaira-se-encadeno-para-exigir-la-devolucion-de-su-vivienda-alquilada-en-miranda/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Fundaredes denunció secuestro de un comerciante en Apure y señalan al ELN como los responsables",
+   "url": "https://www.elnacional.com/2026/11/fundaredes-denuncio-secuestro-de-un-comerciante-en-apure-y-senalo-al-eln-como-los-responsables/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "El Papa urge en Uruguay a que la educación escolar contribuya al buen uso de la IA",
+   "url": "https://www.elnacional.com/2026/11/el-papa-urge-en-uruguay-a-que-la-educacion-escolar-contribuya-al-buen-uso-de-la-ia/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": "Uruguay"
+  },
+  {
+   "title": "Trump dice que ofreció el puesto de portavoz a Dana White, empresario de artes marciales",
+   "url": "https://www.elnacional.com/2026/11/trump-dice-que-ofrecio-el-puesto-de-portavoz-a-dana-white-empresario-de-artes-marciales/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Evacuaron sede de Caracol Televisión por amenaza de atentado",
+   "url": "https://www.elnacional.com/2026/11/evacuaron-sede-de-caracol-television-por-amenaza-de-atentado/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "El daño irreversible que causan las bebidas energéticas más allá de la cafeína",
+   "url": "https://www.elnacional.com/2026/11/el-dano-irreversible-que-causan-las-bebidas-energeticas-mas-alla-de-la-cafeina/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Funvisis reportó 68 sismos en los últimos siete días y más de 2.300 desde los terremotos del 24 de junio",
+   "url": "https://www.elnacional.com/2026/11/funvisis-reporto-68-sismos-en-los-ultimos-siete-dias-y-mas-de-2-300-desde-los-terremotos-del-24-de-junio/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Colapso de cloaca dentro de tanque principal de Calicanto amenaza con crisis sanitaria a 17 sectores en Carora",
+   "url": "https://www.elnacional.com/2026/11/colapso-de-cloaca-dentro-de-tanque-principal-de-calicanto-amenaza-con-crisis-sanitaria-a-17-sectores-en-carora/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Detenidos cuatro hombres por asesinato de comerciante engañado con oferta de criptomonedas en Carabobo",
+   "url": "https://www.elnacional.com/2026/11/detenidos-cuatro-hombres-por-el-asesinato-de-un-comerciante-enganado-con-una-oferta-de-criptomonedas-en-carabobo/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Permitieron visitas de tres horas y contacto físico entre presos políticos de El Rodeo I y sus familiares",
+   "url": "https://www.elnacional.com/2026/11/presos-politicos-de-el-rodeo-i-tuvieron-tres-horas-de-contacto-con-sus-familiares/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Venezuela sumó su segunda victoria por nocaut en el Mundial de Béisbol U23 tras superar a Gran Bretaña",
+   "url": "https://www.elnacional.com/2026/11/venezuela-sumo-su-segunda-victoria-por-nocaut-en-el-mundial-u23-y-supero-a-gran-bretana/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": "Venezuela"
+  },
+  {
+   "title": "Diplomáticos peruanos exigen respuestas tras la muerte de un inmigrante bajo custodia del ICE",
+   "url": "https://www.elnacional.com/2026/11/diplomaticos-peruanos-exigen-respuestas-tras-la-muerte-de-un-inmigrante-bajo-custodia-del-ice/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Armando.Info: Socios del yerno de Trump se quedaron con un campo gasífero en Venezuela",
+   "url": "https://www.elnacional.com/2026/11/armando-info-socios-del-yerno-de-trump-se-quedaron-con-un-campo-gasifero-en-venezuela/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": "Venezuela"
+  },
+  {
+   "title": "Análisis de entorno: Plan de Reforma Militar (Venezuela 2027+)",
+   "url": "https://www.elnacional.com/2026/11/analisis-de-entorno-plan-de-reforma-militar-venezuela-2027/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": "Venezuela"
+  },
+  {
+   "title": "Tiburones blanqueó a las Águilas con jonrón de Simón Muzziotti y sólida labor de Stiven Cruz",
+   "url": "https://www.elnacional.com/2026/11/tiburones-blanqueo-a-las-aguilas-con-jonron-de-simon-muzziotti-y-solida-labor-de-stiven-cruz/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Magallanes arrolló a Cardenales en Barquisimeto y llegó a siete triunfos al hilo",
+   "url": "https://www.elnacional.com/2026/11/magallanes-arrollo-a-cardenales-en-barquisimeto-y-llego-a-siete-triunfos-al-hilo/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Venezolanos en España podrán apostillar documentos en línea a través del Saren",
+   "url": "https://www.elnacional.com/2026/11/venezolanos-en-espana-podran-apostillar-documentos-en-linea-a-traves-del-saren/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Trinidad y Tobago espera que elecciones de EE UU no afecten su cooperación con Venezuela",
+   "url": "https://www.elnacional.com/2026/11/trinidad-y-tobago-espera-que-elecciones-de-ee-uu-no-afecten-su-cooperacion-con-venezuela/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Reportaron asalto en unidad de transporte público entre San Martín y la avenida Baralt",
+   "url": "https://www.elnacional.com/2026/11/asaltaron-unidad-de-transporte-publico-entre-san-martin-y-la-avenida-baralt/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Juez envió a prisión preventiva a Santiago Peña por el caso del intervenido Ueno Bank",
+   "url": "https://www.elnacional.com/2026/11/juez-envio-a-prision-preventiva-a-santiago-pena-por-el-caso-del-intervenido-ueno-bank/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Matt Damon reveló el dramático problema de salud de su esposa argentina: “Sufrió un aneurisma cerebral” - La Nación",
+   "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxONXNKZGtLZkFlWW1ta1R6YmxxWDFaNk1QN1lNdjZyTDBaUEVpN2xoOG41U1c3VGhMbzhmYThJOWZCQ01wcDN2MWdKY1pNRmh1X0w0dmJuMmJCejhTXzVybU1CN3UwZ3FxWnc2d1daSGl5RkdRUUpRZkJfZlRCTHpWb2xCYzRnYTlPUzU2UWhKeGR3cFMtalZpLS1UTUVscnV2X0s0cm1UdmF0RDJpWGxpYWh4X0RCU2ZuQnJrY21NNnZ5QnRHejVhanY0Z2RpVHFqU3pmQ2xqZm4zNjlDdkFWdElWNGVESWozc2c?oc=5",
+   "source": "La Nación Argentina",
+   "date": "2026-11-08",
+   "country": "Argentina"
+  },
+  {
+   "title": "La inquietante ola de ciberataques que paraliza a Europa y pone a Rusia en el centro de las sospechas - La Nación",
+   "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPU0V1YWlOOWhrMGhwZ25hR1JVcGNMUVBGMVM3blpkZkxIWkwwNjV1WkczZWFOLVZ1eTF4SXhNLUVCVnMwc29lUjhMVmN4RHdGMDE4cFZEeThXTHJFRnNyb0Vfc3l2RHRiWloxeGdIX3YyQnpYTmF0RWVodC1VbFI5VFItSzRXQXBfTlhFOWpwYmlObnVJeTZJWXZSMjQ0a0ZXUEdBVzBYLVVRUmdaUXdKY1lwNEVlYXZCVFlYUjhIUFRWOWhXQUttUFhqNENMVjk3b3pqS3Z5NHY?oc=5",
+   "source": "La Nación Argentina",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "La SIDE informó que detuvo a una persona por “amenazas de muerte” contra el Papa - La Nación",
+   "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQSmFXRjYyUWh6MmtZcW5CTzNuWGpiOHBGYkJ2NF9SMm5aQ1ZqRzktZGx4MFpEWG1aYUNveW54SjNKSm43dHhSSnNRdlI1T2hmNGExY3JiQXR2VURIcDFQM3NYdjF0NEc1VndBbGU2NlBiclBVN1hTek9mT2ZSLW90WnFfTFdwQmpMdXp2ZXNmcVA1czdoR2d1NzIyY2I3cnlldTZHNDFFRURRT3dHTG9xX1dsWlhXWnc2bjZEZERxbGU0SFFtcUMw?oc=5",
+   "source": "La Nación Argentina",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "El papa León XIV llega a la Argentina, una visita histórica que moviliza al país - La Nación",
+   "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQTmxWMEREYzl0WERYTmx3djZUSjdXeFM1cWhaVjFYdTdmV0ZUSUM1X3dfNzAtbmlYR21YN2NHazJVY3lYWHNQckhzTXdfbU1KTTM2X2xUTk5IUlpfbm15SmhmTDM3ZVBCWXlfWlRvVWVBUjRNMXpFTWJKZlVwczY4dENlbTdmMVNpRHFpWUgyd2IyWGVmaVNGdV9KYW5vWFh5dmg1OWNVUGRhTDFCdWIzRGVRU0NVYkpWa2RjeUpvNXdOcjZtTUVTSg?oc=5",
+   "source": "La Nación Argentina",
+   "date": "2026-11-08",
+   "country": "Argentina"
+  },
+  {
+   "title": "Quaest: Fim da 6x1 e isenção da cesta básica lideram prioridades de eleitores para Lula 4",
+   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/quaest-fim-da-6x1-e-isencao-da-cesta-basica-lideram-prioridades-de-eleitores-para-lula-4.shtml",
+   "source": "Folha de S.Paulo",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "62% afirmam que Flávio errou ao fugir para os EUA, e 61% dizem que eleição foi justa, mostra pesquisa Quaest",
+   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/quaest-61-dizem-que-eleicoes-foram-limpas-e-justas-30-fraudadas.shtml",
+   "source": "Folha de S.Paulo",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Vereadora do PT questiona Nunes por eleição online dos conselhos participativos",
+   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/colunas/painel/2026/11/vereadora-do-pt-questiona-nunes-por-eleicao-online-dos-conselhos-participativos.shtml",
+   "source": "Folha de S.Paulo",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Lula planeja reformular gabinete pessoal, e Janja pode ganhar força em novo desenho",
+   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/lula-planeja-reformular-gabinete-pessoal-e-janja-pode-ganhar-forca-em-novo-desenho.shtml",
+   "source": "Folha de S.Paulo",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Brasilianista progressista, amigo de Hobsbawm, lembra como perdeu apoio do PT",
+   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/ilustrissima/2026/11/brasilianista-progressista-amigo-de-hobsbawm-lembra-como-perdeu-apoio-do-pt.shtml",
+   "source": "Folha de S.Paulo",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "A economia de Lula 4",
+   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/colunas/celso-rocha-de-barros/2026/11/a-economia-de-lula-4.shtml",
+   "source": "Folha de S.Paulo",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Ministros veem alívio com derrota de Flávio, mas dizem que só eleição do Senado vai definir futuro do STF",
+   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/ministros-veem-alivio-com-derrota-de-flavio-mas-dizem-que-so-eleicao-do-senado-vai-definir-futuro-do-stf.shtml",
+   "source": "Folha de S.Paulo",
+   "date": "2026-11-08",
+   "country": null
+  },
+  {
+   "title": "Debate sobre sistema eleitoral misto ignora experiência de quem já tentou",
+   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/debate-sobre-sistema-eleitoral-misto-ignora-experiencia-de-quem-ja-tentou.shtml",
+   "source": "Folha de S.Paulo",
+   "date": "2026-11-08",
    "country": null
   },
   {
@@ -16,6 +639,13 @@
    "source": "Reuters LatAm — Emergencies & Elections",
    "date": "2026-11-07",
    "country": "Haiti"
+  },
+  {
+   "title": "Russia pounds power facilities around Kyiv, damages major bridge - Reuters",
+   "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPVGhCNTc0bjdqTkxuZDdtOFpCZVd1TEdDQnpURXNYeGY1ZG9saHUyZGFBbTMzWF8zbzBmOHQyeERTMTlWaUo1eUVXdjAyUENTaEkwbGNsb2xteDdxWXFybS1GcjlKWWl4VU4xUGdVdk9wSE1PM3NSTktvYWRINUpESnp4bDJqMkhzR21ySDZKWVVBbzJ5NHpDeDJFNFh5MDdGcEpWbEkzU2dFWFZBVWhxR0pR?oc=5",
+   "source": "Reuters LatAm — Emergencies & Elections",
+   "date": "2026-11-07",
+   "country": null
   },
   {
    "title": "Auditoría Externa Internacional concluyó que la segunda vuelta presidencial (…) - Registraduría Nacional del Estado Civil",
@@ -39,25 +669,11 @@
    "country": null
   },
   {
-   "title": "Paraguay's president impeached and under house arrest after bank collapse",
+   "title": "Paraguay's former president charged after bank collapse",
    "url": "https://www.bbc.co.uk/news/articles/c68jzzvjgdy9o?at_medium=RSS&at_campaign=rss",
    "source": "BBC Americas",
    "date": "2026-11-07",
    "country": "Paraguay"
-  },
-  {
-   "title": "Espías, informantes y policía secreta: Hungría se enfrenta a su pasado al abrir los archivos de la era comunista",
-   "url": "https://www.bbc.com/mundo/articles/c6reyrrp39qqo?at_medium=RSS&at_campaign=rss",
-   "source": "BBC Mundo",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Casavalle, la barriada humilde de Montevideo que aguarda al papa León XIV estremecida por la violencia",
-   "url": "https://www.bbc.com/mundo/articles/cqgm00d1krkjo?at_medium=RSS&at_campaign=rss",
-   "source": "BBC Mundo",
-   "date": "2026-11-07",
-   "country": null
   },
   {
    "title": "\"Cuando hablamos del fin del mundo, todos piensan en meteoritos, virus o un supertsunami, pero pocos imaginan un choque ontológico\"",
@@ -67,15 +683,22 @@
    "country": null
   },
   {
-   "title": "Ueno Bank, el banco que se expandió durante la presidencia de Peña en Paraguay y colapsó en un día",
-   "url": "https://www.bbc.com/mundo/watch/cmje5q2gd2pdo?at_medium=RSS&at_campaign=rss",
+   "title": "Con la elección de Stephen Miller como jefe de gabinete, Trump se prepara para una batalla",
+   "url": "https://www.bbc.com/mundo/articles/cxzd669938y0o?at_medium=RSS&at_campaign=rss",
    "source": "BBC Mundo",
    "date": "2026-11-07",
-   "country": "Paraguay"
+   "country": null
   },
   {
-   "title": "Crisis en Paraguay: Santiago Peña, en arresto domiciliario tras ser destituido por el Congreso en juicio político",
-   "url": "https://www.bbc.co.uk/mundo/live/c54g11vvvemkt?at_medium=RSS&at_campaign=rss",
+   "title": "Cómo es Casavalle, la barriada humilde de Montevideo estremecida por la violencia que visitó el papa León XIV",
+   "url": "https://www.bbc.com/mundo/articles/cqgm00d1krkjo?at_medium=RSS&at_campaign=rss",
+   "source": "BBC Mundo",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Ueno Bank, el banco que se expandió durante la presidencia de Peña en Paraguay y colapsó en un día",
+   "url": "https://www.bbc.com/mundo/watch/cmje5q2gd2pdo?at_medium=RSS&at_campaign=rss",
    "source": "BBC Mundo",
    "date": "2026-11-07",
    "country": "Paraguay"
@@ -95,9 +718,9 @@
    "country": "Paraguay"
   },
   {
-   "title": "‘Potentially ugly’: taking war on gangs to Haiti poses risks for El Salvador’s leader",
-   "url": "https://www.theguardian.com/world/2026/nov/07/el-savador-war-on-gangs-haiti",
-   "source": "The Guardian LatAm",
+   "title": "Espías, informantes y policía secreta: Hungría se enfrenta a su pasado al abrir los archivos de la era comunista",
+   "url": "https://www.bbc.com/mundo/articles/c6reyrrp39qqo?at_medium=RSS&at_campaign=rss",
+   "source": "BBC Mundo",
    "date": "2026-11-07",
    "country": null
   },
@@ -109,6 +732,13 @@
    "country": "Paraguay"
   },
   {
+   "title": "‘Potentially ugly’: taking war on gangs to Haiti poses risks for El Salvador’s leader",
+   "url": "https://www.theguardian.com/world/2026/nov/07/el-savador-war-on-gangs-haiti",
+   "source": "The Guardian LatAm",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
    "title": "Ousted Paraguay president under house arrest after banking crisis leaves 60% of country unable to access accounts",
    "url": "https://www.theguardian.com/world/2026/nov/07/ousted-paraguay-president-under-house-arrest-after-banking-crisis-leaves-60-of-country-unable-to-access-accounts",
    "source": "The Guardian LatAm",
@@ -116,85 +746,22 @@
    "country": "Paraguay"
   },
   {
-   "title": "¿En qué creen los latinoamericanos? El catolicismo retrocede y suben los que no profesan ninguna religión",
-   "url": "https://elpais.com/america/2026-11-07/en-que-creen-los-latinoamericanos-el-catolicismo-retrocede-y-suben-los-que-no-profesan-ninguna-religion.html",
+   "title": "Al menos tres militares muertos y 16 heridos graves en un ataque con drones",
+   "url": "https://elpais.com/america-colombia/2026-11-07/al-menos-tres-militares-muertos-y-16-heridos-graves-en-un-ataque-con-drones.html",
    "source": "El País América",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "La visita de León XIV en Uruguay, en vivo | El Papa inicia el segundo día en América con una misa",
-   "url": "https://elpais.com/america/2026-11-07/la-visita-de-leon-xiv-en-uruguay-en-vivo-el-papa-arranca-su-segundo-dia-de-gira-sudamericana.html",
+   "title": "El presidente de Israel encarga formar Gobierno al líder opositor Gadi Eisenkot",
+   "url": "https://elpais.com/internacional/2026-11-07/el-presidente-de-israel-encarga-formar-gobierno-al-lider-opositor-gadi-eisenkot.html",
    "source": "El País América",
    "date": "2026-11-07",
-   "country": "Uruguay"
+   "country": null
   },
   {
    "title": "La ruina de PDVSA abre las puertas al capital privado en la nueva era del petróleo venezolano",
    "url": "https://elpais.com/america/2026-11-07/la-ruina-de-pdvsa-abre-las-puertas-al-capital-privado-en-la-nueva-era-del-petroleo-venezolano.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "El ascenso de Stephen Miller: de escritor de discursos de Trump a artífice de su plan de deportaciones masivas",
-   "url": "https://elpais.com/us/2026-11-07/el-ascenso-de-stephen-miller-de-escritor-de-discursos-de-trump-a-artifice-de-su-plan-de-deportaciones-masivas.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Trump afronta los dos últimos años de mandato como un octogenario desafiante obsesionado con las obras",
-   "url": "https://elpais.com/us/2026-11-07/trump-afronta-los-dos-ultimos-anos-de-mandato-como-un-octogenario-desafiante-obsesionado-con-las-obras.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Florida, de bastión a trinchera de los republicanos en Estados Unidos",
-   "url": "https://elpais.com/us/2026-11-07/florida-de-bastion-a-trinchera-de-los-republicanos-en-estados-unidos.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "La tumba equivocada: el mesero que descansó 30 años bajo el nombre del magistrado",
-   "url": "https://elpais.com/america-colombia/2026-11-07/la-tumba-equivocada-el-mesero-que-descanso-30-anos-bajo-el-nombre-del-magistrado.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Patricia Vargas, presidenta del Poder Judicial de Costa Rica: “No estoy dispuesta a ceder en nada que afecte la independencia judicial”",
-   "url": "https://elpais.com/america/2026-11-07/patricia-vargas-presidenta-del-poder-judicial-de-costa-rica-no-estoy-dispuesta-a-ceder-en-nada-que-afecte-la-independencia-judicial.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": "Costa Rica"
-  },
-  {
-   "title": "Asesinados en Guatemala un diputado y tres oficiales en un ataque armado",
-   "url": "https://elpais.com/america/2026-11-07/asesinado-en-guatemala-un-diputado-y-tres-oficiales-en-un-ataque-armado.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": "Guatemala"
-  },
-  {
-   "title": "Los ‘brókers’ del narco en México, un boyante negocio que avanza de la mano de las redes de lavado chinas",
-   "url": "https://elpais.com/mexico/2026-11-07/los-brokers-del-narco-en-mexico-un-boyante-negocio-que-avanza-de-la-mano-de-las-redes-de-lavado-chinas.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": "Mexico"
-  },
-  {
-   "title": "Branko Milanovic: “Esta derrota de Trump no tendrá gran impacto en la política hacia Asia o hacia Europa”",
-   "url": "https://elpais.com/economia/2026-11-07/branko-milanovic-esta-derrota-de-trump-no-tendra-gran-impacto-en-la-politica-hacia-asia-o-hacia-europa.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Tres escenarios de guerra golpean al comercio marítimo mundial",
-   "url": "https://elpais.com/internacional/2026-11-07/tres-escenarios-de-guerra-golpean-al-comercio-maritimo-mundial.html",
    "source": "El País América",
    "date": "2026-11-07",
    "country": null
@@ -207,11 +774,18 @@
    "country": null
   },
   {
-   "title": "La falta de seguridad obliga a la Reina a cancelar el viaje de cooperación a Bolivia",
-   "url": "https://elpais.com/espana/2026-11-07/la-falta-de-seguridad-obliga-a-la-reina-a-cancelar-el-viaje-de-cooperacion-a-bolivia.html",
+   "title": "Norris emerge en el aguacero del GP de Brasil",
+   "url": "https://elpais.com/deportes/formula-1/2026-11-07/norris-emerge-en-el-aguacero-del-gp-de-brasil.html",
    "source": "El País América",
    "date": "2026-11-07",
-   "country": "Bolivia"
+   "country": "Brazil"
+  },
+  {
+   "title": "El ascenso de Stephen Miller: de escritor de discursos de Trump a artífice de su plan de deportaciones masivas",
+   "url": "https://elpais.com/us/2026-11-07/el-ascenso-de-stephen-miller-de-escritor-de-discursos-de-trump-a-artifice-de-su-plan-de-deportaciones-masivas.html",
+   "source": "El País América",
+   "date": "2026-11-07",
+   "country": null
   },
   {
    "title": "En Argentina florecen los ‘finfluencers’, supuestos expertos que prometen hacerte rico: “Deja de ser una perrita y conviértete en un hombre-gorila”",
@@ -221,50 +795,8 @@
    "country": "Argentina"
   },
   {
-   "title": "El archivo suizo del nazi Mengele: pistas que no llevan a nada y un supuesto espía israelí",
-   "url": "https://elpais.com/internacional/2026-11-07/el-archivo-suizo-del-nazi-mengele-pistas-que-no-llevan-a-nada-y-un-supuesto-espia-israeli.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Mariska de Jong, campeona mundial de tatuajes médicos: “Grabar en la piel un pezón hiperrealista ayuda al paciente a recuperar la autoestima”",
-   "url": "https://elpais.com/estilo-de-vida/2026-11-07/mariska-de-jong-campeona-mundial-de-tatuajes-medicos-grabar-en-la-piel-un-pezon-hiperrealista-ayuda-al-paciente-a-recuperar-la-autoestima.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "El debut teatral de Javier Bardem con su maestro: “A mis 57 años, me estoy poniendo en un lugar de vulnerabilidad que me hace más fuerte”",
-   "url": "https://elpais.com/babelia/2026-11-07/el-debut-teatral-de-javier-bardem-con-su-maestro-a-mis-57-anos-me-estoy-poniendo-en-un-lugar-de-vulnerabilidad-que-me-hace-mas-fuerte.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Yusef Yabarín, líder de la principal lista árabe de Israel: “Al apoyar a Eisenkot, hemos elegido lo menos malo”",
-   "url": "https://elpais.com/internacional/2026-11-07/yusef-yabarin-lider-de-la-principal-lista-arabe-de-israel-al-apoyar-a-eisenkot-hemos-elegido-lo-menos-malo.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "¿Se mueven las encuestas desde la convocatoria y tras el accidente de tren?",
-   "url": "https://elpais.com/espana/2026-11-07/se-mueven-las-encuestas-que-ha-cambiado-desde-la-convocatoria-y-tras-el-accidente-de-tren.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Japón se une a la carrera global del gasto en defensa para hacer frente a la crisis de seguridad en Asia",
-   "url": "https://elpais.com/internacional/2026-11-07/japon-se-une-a-la-carrera-global-del-gasto-en-defensa-para-hacer-frente-a-la-crisis-de-seguridad-en-asia.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Un profesor buscado por la Audiencia Nacional recluta soldados y espías españoles para Rusia",
-   "url": "https://elpais.com/espana/2026-11-07/un-profesor-buscado-por-la-audiencia-nacional-recluta-soldados-y-espias-espanoles-para-rusia.html",
+   "title": "Al menos seis muertos y una quincena de heridos en un atentado en la plaza mayor de Cracovia",
+   "url": "https://elpais.com/internacional/2026-11-07/varios-muertos-y-heridos-en-un-atentado-en-la-plaza-mayor-de-cracovia.html",
    "source": "El País América",
    "date": "2026-11-07",
    "country": null
@@ -277,253 +809,85 @@
    "country": null
   },
   {
-   "title": "Un juez indemniza con 5,7 millones a los padres de Oliver, un niño que se quedó tetrapléjico por errores en el parto",
-   "url": "https://elpais.com/sociedad/2026-11-07/un-juez-indemniza-con-57-millones-a-los-padres-de-oliver-un-nino-que-se-quedo-tetraplejico-por-errores-en-el-parto.html",
+   "title": "Asesinados en Guatemala un diputado y tres oficiales en un ataque armado",
+   "url": "https://elpais.com/america/2026-11-07/asesinado-en-guatemala-un-diputado-y-tres-oficiales-en-un-ataque-armado.html",
    "source": "El País América",
+   "date": "2026-11-07",
+   "country": "Guatemala"
+  },
+  {
+   "title": "\"No solo hemos desarrollado nuestros propios agentes de inteligencia artificial, sino que también los hemos puesto a volar\": Saab impulsa el desarrollo del Gripen E con su agente de IA - Zona Militar",
+   "url": "https://news.google.com/rss/articles/CBMiwwJBVV95cUxQTlZMT0JWWHhQbmNLMmVoZ29oblk1MlNpVVVOQktManJaNTBLdFFwZkY5QkR5eG1kT25vT1hyX05yR0hKM2R4X0tRYXN1b0xGazJOYl9idm14N1NsVEVKcG4zOFFCOEo0bkxWM1ljRUN2NDlGSzhhTENkcHdlVWRTbzUwNXBJV2NQNi13UC1penhvdEdRZk9DSDZRY0FWSzRSMVByaFI1dlgxVjJuQTYyWmVOcW12QmdERUVsRy1mX1NKN3MydWJRQ2tQSDlMV2pqSnJHYmdDa21Md2dKSGJiUGFpa3gzRlNkWGNLWW9aMkVoN0h0V0pFcjRvM29oVHBTbkZTZUNWUmxCRnhPZWdiU21LMHo5QTNuVEpjYU5wUTdvN3ZXTnVxWjNkV1Y3V3dGODVWMlJXNmtnSHdrS3NMLXdsaw?oc=5",
+   "source": "Zona Militar",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "Francia, Brasil y la IA: cómo los algoritmos y la especulación amplifican las caídas del mercado",
-   "url": "https://cincodias.elpais.com/mercados-financieros/2026-11-07/francia-brasil-y-la-ia-como-los-algoritmos-y-la-especulacion-amplifican-las-caidas-del-mercado.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": "Brazil"
-  },
-  {
-   "title": "Los votantes de EE UU dieron un palo a la IA. La Bolsa tardó en entenderlo",
-   "url": "https://cincodias.elpais.com/opinion/2026-11-07/los-votantes-de-ee-uu-dieron-un-palo-a-la-ia-la-bolsa-tardo-en-entenderlo.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "No es ninguna broma",
-   "url": "https://elpais.com/opinion/2026-11-07/no-es-ninguna-broma.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Federica Montseny, feminista a su pesar",
-   "url": "https://elpais.com/opinion/2026-11-07/federica-montseny-feminista-a-su-pesar.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Migraciones bárbaras de genes y lenguas",
-   "url": "https://elpais.com/opinion/2026-11-07/migraciones-barbaras-de-genes-y-lenguas.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "En un campo de almendros",
-   "url": "https://elpais.com/opinion/2026-11-07/en-un-campo-de-almendros.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Tres versos",
-   "url": "https://elpais.com/opinion/2026-11-07/tres-versos.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Cómo acabar de una vez por todas con la nostalgia del franquismo",
-   "url": "https://elpais.com/eps/2026-11-07/como-acabar-de-una-vez-por-todas-con-la-nostalgia-del-franquismo.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "‘Pequeños profetas’, la joya televisiva que es un canto a la esperanza y la magia de lo mundano",
-   "url": "https://elpais.com/television/series/2026-11-07/pequenos-profetas-la-joya-televisiva-que-es-un-canto-a-la-esperanza-y-la-magia-de-lo-mundano.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Ni Shakira ni Rosalía: ‘Delirium Pepitatorum’, la enfermedad del entusiasmo que desató la bailarina Pepita de Oliva",
-   "url": "https://elpais.com/cultura/2026-11-07/ni-shakira-ni-rosalia-delirium-pepitatorum-la-enfermedad-del-entusiasmo-que-desato-la-bailarina-pepita-de-oliva.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "El inaudito caso de Los Romeos: la enrevesada batalla por el nombre del grupo español",
-   "url": "https://elpais.com/cultura/2026-11-07/el-inaudito-caso-de-los-romeos-la-enrevesada-batalla-por-el-nombre-del-grupo-espanol.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Mujer que disfruta del sexo, se muestra divertida y libre: la víctima perfecta del cine de terror",
-   "url": "https://elpais.com/smoda/2026-11-07/mujer-que-disfruta-del-sexo-se-muestra-divertida-y-libre-la-victima-perfecta-del-cine-de-terror.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Los seis libros de la semana: un cómic sobre la secretaria de Ramón y Cajal, una novela del Procés y un siglo de medios de comunicación en España",
-   "url": "https://elpais.com/babelia/2026-11-07/los-seis-libros-de-la-semana-un-comic-sobre-la-secretaria-de-ramon-y-cajal-una-novela-del-proces-y-un-siglo-de-medios-de-comunicacion-en-espana.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Eli Cortiñas, el museo como máquina de visiones",
-   "url": "https://elpais.com/babelia/2026-11-07/eli-cortinas-el-museo-como-maquina-de-visiones.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "‘Urkinaona’, la novela del Procés: propaganda, sueños rotos y porras",
-   "url": "https://elpais.com/babelia/2026-11-07/urkinaona-la-novela-del-proces-propaganda-suenos-rotos-y-porras.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "‘Variaciones Pombo’, el antojo literario de Hidrogenesse",
-   "url": "https://elpais.com/babelia/2026-11-07/variaciones-pombo-el-antojo-literario-de-hidrogenesse.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Casa Bosc, la espectacular cabaña prefabricada que encaja en cualquier sitio: “Llegas, la pones y listo”",
-   "url": "https://elpais.com/icon-design/2026-11-07/casa-bosc-la-espectacular-cabana-prefabricada-que-encaja-en-cualquier-sitio-llegas-la-pones-y-listo.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "El refugio del minimalismo",
-   "url": "https://elpais.com/eps/2026-11-07/el-refugio-del-minimalismo.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Correos, ‘whatsapps’, alertas, reuniones... por qué el nuevo lujo laboral es mantener la concentración más de una hora",
-   "url": "https://elpais.com/economia/negocios/2026-11-07/correos-whatsapps-alertas-reuniones-por-que-el-nuevo-lujo-laboral-es-mantener-la-concentracion-mas-de-una-hora.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Cómo viajar solo sin idealizarlo",
-   "url": "https://elpais.com/elviajero/guia-el-viajero/2026-11-07/como-viajar-solo-sin-idealizarlo.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Milo Quifes, revelación de ‘La bola negra’: “Estoy cansado de tener que salir del armario una y otra vez”",
-   "url": "https://elpais.com/icon/2026-11-07/milo-quifes-revelacion-de-la-bola-negra-estoy-cansado-de-tener-que-salir-del-armario-una-y-otra-vez.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Rafa Nadal, alumno de Florentino Pérez para aprender a ser presidente del Real Madrid",
-   "url": "https://elpais.com/deportes/futbol/2026-11-07/rafa-nadal-alumno-de-florentino-perez-para-aprender-a-ser-presidente-del-real-madrid.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "‘What’s next for migrants?’: The fight for immigration reform after Trump’s midterm defeat",
-   "url": "https://english.elpais.com/usa/2026-11-07/whats-next-for-migrants-the-fight-for-immigration-reform-after-trumps-midterm-defeat.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Why Puerto Rico can’t stop talking about electricity",
-   "url": "https://english.elpais.com/usa/2026-11-07/why-puerto-rico-cant-stop-talking-about-electricity.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "The day Lula took his first 'selfie'",
-   "url": "https://english.elpais.com/international/2026-11-07/the-day-lula-took-his-first-selfie.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Narges Mohammadi, 2023 Nobel Peace Prize winner: ‘Iranian society no longer tolerates the Islamic Republic’",
-   "url": "https://english.elpais.com/international/2026-11-07/narges-mohammadi-2023-nobel-peace-prize-winner-iranian-society-no-longer-tolerates-the-islamic-republic.html",
-   "source": "El País América",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Un informe alerta de una red vinculada a Rusia que recluta españoles para operaciones de inteligencia y ciberataques contra la seguridad nacional - Infodefensa",
-   "url": "https://news.google.com/rss/articles/CBMigwJBVV95cUxNdDZKRUFKT3NNOXlBQW9aNVRnN3NidzB1NkwwZThjSEp1eXlSLUdFN3pBQ05pVmJHSkQ1OXlsTE1vYzlsTjFkZWJuSkxhRXZRZEU4SV9JLXpQanFEcndtMVlTUzJmZUdPdThNeDJyMGNXenBzVlQ2cVFHXzdISWc0VUt1cTRtbEdyV0ZzX2c0QVRRRWJPTGRTZUR3OU9tUURIcm8tLVlUcFNTd1FGemNMSHllNWJseUtIOVl5cy1VTkZZdWl5WU9fNXBFYlc0UjNXQ2htUXVPaHhlc3d3Vi1zZUxWc0E4SXhKVG1rcjhpZVFMTzNhOUVYVHZ0SGlJa3lEVFRF?oc=5",
-   "source": "Infodefensa",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Misión de la ONU puso en marcha su mandato con el reto de mantener presupuesto y presencia territorial pese al nuevo recorte de funciones",
-   "url": "https://www.eltiempo.com/politica/proceso-de-paz/mision-de-la-onu-puso-en-marcha-su-mandato-con-el-reto-de-mantener-presupuesto-y-presencia-territorial-pese-al-nuevo-recorte-de-funciones-3599088",
+   "title": "Gobierno De La Espriella y comisiones económicas instalan mesas para negociar la ley de ajuste fiscal: lo que se sabe del encuentro en Barranquilla",
+   "url": "https://www.eltiempo.com/politica/congreso/gobierno-de-la-espriella-y-comisiones-economicas-instalan-mesas-para-negociar-la-ley-de-ajuste-fiscal-lo-que-se-sabe-del-encuentro-en-barranquilla-3599308",
    "source": "El Tiempo Colombia",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "Álvaro Uribe confirmó que su partido se reunirá con el gobierno de De La Espriella para presentarle reforma tributaria y de ajuste fiscal alternativa",
-   "url": "https://www.eltiempo.com/politica/partidos-politicos/alvaro-uribe-confirmo-que-su-partido-se-reunira-con-el-gobierno-de-de-la-espriella-para-presentarle-reforma-tributaria-y-de-ajuste-fiscal-alternativa-3598936",
+   "title": "Presidente Abelardo De La Espriella condena el atentado en Santa Rosa, sur de Bolívar, y anuncia acciones: 'Los vamos a perseguir con toda la fuerza'",
+   "url": "https://www.eltiempo.com/politica/abelardo-de-la-espriella/presidente-abelardo-de-la-espriella-condena-el-atentado-en-santa-rosa-del-sur-bolivar-y-anuncia-acciones-los-vamos-a-perseguir-con-toda-la-fuerza-3599281",
    "source": "El Tiempo Colombia",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "La derrota de Trump y las locales colombianas",
-   "url": "https://www.lasillavacia.com/red-de-expertos/la-derrota-de-trump-y-las-locales-colombianas/",
+   "title": "Expresidente Álvaro Uribe pide al gobierno De La Espriella una reforma tributaria 'disruptiva' y un 'Estado sustancialmente pequeño y sin corrupción'",
+   "url": "https://www.eltiempo.com/politica/partidos-politicos/expresidente-alvaro-uribe-pide-al-gobierno-de-la-espriella-una-reforma-tributaria-disruptiva-y-un-estado-sustancialmente-pequeno-y-sin-corrupcion-3599257",
+   "source": "El Tiempo Colombia",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Previo a cumbre en Barranquilla, Centro Democrático plantea cambios a la reforma tributaria y ley de ajuste fiscal de De La Espriella: ¿qué proponen?",
+   "url": "https://www.eltiempo.com/politica/partidos-politicos/previo-a-cumbre-en-barranquilla-centro-democratico-plantea-cambios-a-la-reforma-tributaria-y-ley-de-ajuste-fiscal-de-de-la-espriella-que-proponen-3599252",
+   "source": "El Tiempo Colombia",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Votantes sin dueño",
+   "url": "https://www.lasillavacia.com/opinion/votantes-sin-dueno/",
    "source": "La Silla Vacía",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "Agua pasó por aquí",
-   "url": "https://www.lasillavacia.com/opinion/agua-paso-por-aqui/",
+   "title": "Sin Abelardo, gobierno se reúne con congresistas para la tributaria",
+   "url": "https://www.lasillavacia.com/en-vivo/sin-abelardo-gobierno-se-reune-con-congresistas-para-la-tributaria/",
    "source": "La Silla Vacía",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "Las claves de lo que dijo Abelardo de la Espriella desde la Amazonía y otras noticias",
-   "url": "https://www.lasillavacia.com/en-vivo/las-claves-de-lo-que-dijo-abelardo-de-la-espriella-desde-la-amazonia-y-otras-noticias/",
+   "title": "¿Petro puede ser objeto de una declaratoria de indignidad por el Congreso?",
+   "url": "https://www.lasillavacia.com/opinion/el-expediente-del-expresidente-petro/",
    "source": "La Silla Vacía",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "Militarizar no es una estrategia de seguridad",
-   "url": "https://www.lasillavacia.com/red-de-expertos/red-de-la-paz/militarizar-no-es-una-estrategia-de-seguridad/",
+   "title": "Tres soldados muertos y 47 heridos por ataque con drones en Bolívar",
+   "url": "https://www.lasillavacia.com/en-vivo/tres-soldados-muertos-y-47-heridos-por-ataque-con-drones-en-bolivar/",
    "source": "La Silla Vacía",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "Duerma informado con las movidas de este 6 de noviembre de 2026",
-   "url": "https://www.lasillavacia.com/en-vivo/duerma-informado-con-las-movidas-de-este-6-de-noviembre-de-2026/",
+   "title": "Puerto López se endeuda en infraestructura pero toma agua no potable",
+   "url": "https://www.lasillavacia.com/red-de-expertos/red-social/puerto-lopez-se-endeuda-en-infraestructura-pero-toma-agua-no-potable/",
    "source": "La Silla Vacía",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "Demócrata Gregory Meeks cuestiona trinos del canciller Omar Bula",
-   "url": "https://www.lasillavacia.com/en-vivo/democrata-gregory-meeks-cuestiona-trinos-del-canciller-omar-bula/",
+   "title": "Uribismo propone en tributaria menos IVA y vender parte de Ecopetrol",
+   "url": "https://www.lasillavacia.com/en-vivo/uribismo-propone-en-tributaria-menos-iva-y-vender-parte-de-ecopetrol/",
    "source": "La Silla Vacía",
    "date": "2026-11-07",
    "country": null
@@ -536,72 +900,86 @@
    "country": null
   },
   {
-   "title": "“El problema es que Taddei es Morena”; secretario de Somos ante señalamientos de CSP",
-   "url": "https://zetatijuana.com/2026/11/el-problema-es-que-taddei-es-morena-secretario-de-somos-ante-senalamientos-de-csp/?utm_source=rss&utm_medium=rss&utm_campaign=el-problema-es-que-taddei-es-morena-secretario-de-somos-ante-senalamientos-de-csp",
+   "title": "Nunca Jamás desborda su rock norteño en Tijuana",
+   "url": "https://zetatijuana.com/2026/11/nunca-jamas-desborda-su-rock-norteno-en-tijuana/?utm_source=rss&utm_medium=rss&utm_campaign=nunca-jamas-desborda-su-rock-norteno-en-tijuana",
    "source": "Zeta Tijuana",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "Hallan cadáver dentro de un tambo en Ejido Matamoros; hay un detenido",
-   "url": "https://zetatijuana.com/2026/11/hallan-cadaver-dentro-de-un-tambo-en-ejido-matamoros-hay-un-detenido/?utm_source=rss&utm_medium=rss&utm_campaign=hallan-cadaver-dentro-de-un-tambo-en-ejido-matamoros-hay-un-detenido",
+   "title": "Hijo de Rey Misterio obtiene máscara de Extreme Tiger",
+   "url": "https://zetatijuana.com/2026/11/hijo-de-rey-misterio-obtiene-mascara-de-extreme-tiger/?utm_source=rss&utm_medium=rss&utm_campaign=hijo-de-rey-misterio-obtiene-mascara-de-extreme-tiger",
    "source": "Zeta Tijuana",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "“No temo ninguna represalia porque no dije mentiras”: Itzela Meza tras ser removida del cargo en la FESC",
-   "url": "https://zetatijuana.com/2026/11/no-temo-ninguna-represalia-porque-no-dije-mentiras-itzela-meza-tras-ser-removida-del-cargo-en-la-fesc/?utm_source=rss&utm_medium=rss&utm_campaign=no-temo-ninguna-represalia-porque-no-dije-mentiras-itzela-meza-tras-ser-removida-del-cargo-en-la-fesc",
+   "title": "Vinculan por tentativa de homicidio a sujeto que hirió a policía municipal de Tijuana",
+   "url": "https://zetatijuana.com/2026/11/vinculan-por-tentativa-de-homicidio-a-sujeto-que-hirio-a-policia-municipal-de-tijuana/?utm_source=rss&utm_medium=rss&utm_campaign=vinculan-por-tentativa-de-homicidio-a-sujeto-que-hirio-a-policia-municipal-de-tijuana",
    "source": "Zeta Tijuana",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "Candidatos a rectoría de UABC abordan presupuesto, seguridad y sobrecarga laboral de docentes",
-   "url": "https://zetatijuana.com/2026/11/candidatos-a-rectoria-de-uabc-abordan-presupuesto-seguridad-y-sobrecarga-laboral-de-docentes/?utm_source=rss&utm_medium=rss&utm_campaign=candidatos-a-rectoria-de-uabc-abordan-presupuesto-seguridad-y-sobrecarga-laboral-de-docentes",
+   "title": "Policías no están capacitados",
+   "url": "https://zetatijuana.com/2026/11/policias-no-estan-capacitados/?utm_source=rss&utm_medium=rss&utm_campaign=policias-no-estan-capacitados",
    "source": "Zeta Tijuana",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "Agentes de la FESC rinden homenaje y recuerdan a sus compañeros caídos",
-   "url": "https://zetatijuana.com/2026/11/agentes-de-la-fesc-rinden-homenaje-y-recuerdan-a-sus-companeros-caidos/?utm_source=rss&utm_medium=rss&utm_campaign=agentes-de-la-fesc-rinden-homenaje-y-recuerdan-a-sus-companeros-caidos",
+   "title": "Un muerto y una lesionada a balazos en Playas de Tijuana",
+   "url": "https://zetatijuana.com/2026/11/un-muerto-y-una-lesionada-a-balazos-en-playas-de-tijuana/?utm_source=rss&utm_medium=rss&utm_campaign=un-muerto-y-una-lesionada-a-balazos-en-playas-de-tijuana",
    "source": "Zeta Tijuana",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "Investigan a Vadhir Derbez por acusación de violación; obtiene amparo",
-   "url": "https://zetatijuana.com/2026/11/investigan-a-vadhir-derbez-por-acusacion-de-violacion-obtiene-amparo/?utm_source=rss&utm_medium=rss&utm_campaign=investigan-a-vadhir-derbez-por-acusacion-de-violacion-obtiene-amparo",
+   "title": "Realizan subasta para que más niños visiten el Museo El Trompo",
+   "url": "https://zetatijuana.com/2026/11/realizan-subasta-para-que-mas-ninos-visiten-el-museo-el-trompo/?utm_source=rss&utm_medium=rss&utm_campaign=realizan-subasta-para-que-mas-ninos-visiten-el-museo-el-trompo",
    "source": "Zeta Tijuana",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "Grábelos, oiga",
-   "url": "https://zetatijuana.com/2026/11/grabelos-oiga/?utm_source=rss&utm_medium=rss&utm_campaign=grabelos-oiga",
+   "title": "Papa León XIV inicia gira por Latinoamérica tras complicaciones de salud",
+   "url": "https://zetatijuana.com/2026/11/papa-leon-xiv-inicia-gira-por-latinoamerica-tras-complicaciones-de-salud/?utm_source=rss&utm_medium=rss&utm_campaign=papa-leon-xiv-inicia-gira-por-latinoamerica-tras-complicaciones-de-salud",
    "source": "Zeta Tijuana",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "Policía de Paraguay detiene a Santiago Peña en su domicilio tras destitución por el Senado",
-   "url": "https://zetatijuana.com/2026/11/policia-de-paraguay-detiene-a-santiago-pena-en-su-domicilio-tras-destitucion-por-el-senado/?utm_source=rss&utm_medium=rss&utm_campaign=policia-de-paraguay-detiene-a-santiago-pena-en-su-domicilio-tras-destitucion-por-el-senado",
-   "source": "Zeta Tijuana",
-   "date": "2026-11-07",
-   "country": "Paraguay"
-  },
-  {
-   "title": "Mon Laferte es golpeada en la cara durante concierto en Las Vegas",
-   "url": "https://zetatijuana.com/2026/11/mon-laferte-es-golpeada-en-la-cara-durante-concierto-en-las-vegas/?utm_source=rss&utm_medium=rss&utm_campaign=mon-laferte-es-golpeada-en-la-cara-durante-concierto-en-las-vegas",
+   "title": "Sin castigo por la muerte de Amparito; absuelven a dueñas de los perros",
+   "url": "https://zetatijuana.com/2026/11/sin-castigo-por-la-muerte-de-amparito-absuelven-a-duenas-de-los-perros/?utm_source=rss&utm_medium=rss&utm_campaign=sin-castigo-por-la-muerte-de-amparito-absuelven-a-duenas-de-los-perros",
    "source": "Zeta Tijuana",
    "date": "2026-11-07",
    "country": null
   },
   {
-   "title": "SSPC detiene en Alvarado a directora de Programas de Tres Valles y la remite a FGR",
-   "url": "https://zetatijuana.com/2026/11/sspc-detiene-en-alvarado-a-directora-de-programas-de-tres-valles-y-la-remite-a-fgr/?utm_source=rss&utm_medium=rss&utm_campaign=sspc-detiene-en-alvarado-a-directora-de-programas-de-tres-valles-y-la-remite-a-fgr",
-   "source": "Zeta Tijuana",
+   "title": "Sociedad civil documental al menos 198 casos de violencia contra la comunidad LGBTIQ+ en 2026",
+   "url": "https://runrun.es/inicio/624936/sociedad-civil-documental-al-menos-198-casos-de-violencia-contra-la-comunidad-lgbtiq-en-2026/",
+   "source": "Runrun.es",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Rubio habla de elecciones “idealmente” en 2027 y de una alianza militar “más estrecha” con Venezuela",
+   "url": "https://runrun.es/noticias/624923/rubio-habla-de-elecciones-idealmente-en-2027-y-de-una-alianza-militar-mas-estrecha-con-venezuela/",
+   "source": "Runrun.es",
+   "date": "2026-11-07",
+   "country": "Venezuela"
+  },
+  {
+   "title": "Deficiencia de los servicios públicos golpea gastos de empresas y familias",
+   "url": "https://runrun.es/rr-es-plus/624904/deficiencia-de-los-servicios-publicos-golpea-gastos-de-empresas-y-familias/",
+   "source": "Runrun.es",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "OVP denuncia que sismos agravaron el retardo procesal en La Guaira",
+   "url": "https://runrun.es/noticias/624910/ovp-denuncia-que-sismos-agravaron-el-retardo-procesal-en-la-guaira/",
+   "source": "Runrun.es",
    "date": "2026-11-07",
    "country": null
   },
@@ -609,6 +987,223 @@
    "title": "«No están solos»: Machado llevó un mensaje de libertad al Rodeo I",
    "url": "https://runrun.es/noticias/624866/no-estan-solos-machado-llevo-un-mensaje-de-libertad-al-rodeo-i/",
    "source": "Runrun.es",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Leandro Cedeño sacudió jonrón y Leones superó a Tigres para igualar el tercer puesto de la LVBP",
+   "url": "https://www.elnacional.com/2026/11/leandro-cedeno-sacudio-jonron-y-leones-supero-tigres-para-igualar-en-el-tercer-puesto-de-la-lvbp/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "El Real Madrid triunfa 3-0 ante el Valencia y acecha al liderato",
+   "url": "https://www.elnacional.com/2026/11/el-real-madrid-triunfa-3-0-ante-el-valencia-y-acecha-al-liderato/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Wilfredo Rodríguez hizo historia al ganar el primer oro de Venezuela en los Juegos Olímpicos Juveniles Dakar 2026",
+   "url": "https://www.elnacional.com/2026/11/wilfredo-rodriguez-hizo-historia-al-ganar-el-primer-oro-de-venezuela-en-los-juegos-olimpicos-juveniles-dakar-2026/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": "Venezuela"
+  },
+  {
+   "title": "Norris doma la lluvia y logra la pole para el GP de Brasil de Fórmula 1",
+   "url": "https://www.elnacional.com/2026/11/norris-doma-la-lluvia-y-logra-la-pole-para-el-gp-de-brasil-de-formula-1/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": "Brazil"
+  },
+  {
+   "title": "Excarcelaron al empresario camaronero zuliano José Enrique Rincón que estaba preso en El Rodeo I",
+   "url": "https://www.elnacional.com/2026/11/excarcelan-al-empresario-camaronero-zuliano-jose-enrique-rincon-que-estaba-preso-en-el-rodeo-i/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Cámara Hotelera de Nueva Esparta proyecta una ocupación superior al 90% para la temporada decembrina",
+   "url": "https://www.elnacional.com/2026/11/camara-hotelera-de-nueva-esparta-proyecta-una-ocupacion-superior-al-90-para-la-temporada-decembrina/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Reportan tres militares muertos por un ataque con drones bomba en Colombia",
+   "url": "https://www.elnacional.com/2026/11/reportan-tres-militares-muertos-por-un-ataque-con-drones-bomba-en-colombia/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": "Colombia"
+  },
+  {
+   "title": "Aeropuerto de Maiquetía registró una movilización de más de 140 mil pasajeros en octubre",
+   "url": "https://www.elnacional.com/2026/11/aeropuerto-de-maiquetia-registro-una-movilizacion-de-mas-de-140-mil-pasajeros-en-octubre/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Cancillería de Venezuela saludó a Pedro Alliana por su asunción como presidente de Paraguay",
+   "url": "https://www.elnacional.com/2026/11/venezuela-saludo-a-pedro-alliana-por-su-asuncion-como-presidente-de-paraguay/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Haitianos celebran en las calles que las pandillas permanecen escondidas gracias al apoyo de Bukele",
+   "url": "https://www.elnacional.com/2026/11/haitianos-celebran-en-la-calle-que-las-pandillas-permanecen-escondidas-gracias-al-apoyo-de-bukele/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "La Cruz Roja Venezolana y Española acuerdan trabajo por dos años para atención tras sismos",
+   "url": "https://www.elnacional.com/2026/11/la-cruz-roja-venezolana-y-espanola-acuerdan-trabajo-por-dos-anos-para-atencion-tras-sismos/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Gran Acuerdo Nacional: liderazgos políticos se concentran en Barquisimeto y transmiten mensaje de María Corina Machado",
+   "url": "https://www.elnacional.com/2026/11/gran-acuerdo-nacional-liderazgos-politicos-se-concentran-en-barquisimeto-y-transmiten-mensaje-de-maria-corina-machado/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Vente Venezuela entregó nueva motobomba a rescatistas de Residencias Caribe luego de que el gobierno se las quitara por foto con María Corina",
+   "url": "https://www.elnacional.com/2026/11/vente-venezuela-entrego-nueva-motobomba-a-rescatistas-de-residencias-caribe-luego-de-que-el-gobierno-se-las-quitara-por-foto-con-maria-corina/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": "Venezuela"
+  },
+  {
+   "title": "La inteligencia artificial busca reducir el costo de modernizar los sistemas heredados de la banca",
+   "url": "https://www.elnacional.com/2026/11/la-inteligencia-artificial-busca-reducir-el-costo-de-modernizar-los-sistemas-heredados-de-la-banca/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Lo que el euro digital podría significar para América Latina",
+   "url": "https://www.elnacional.com/2026/11/lo-que-el-euro-digital-podria-significar-para-america-latina/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Fórmula 1 renueva el GP de Brasil hasta 2035",
+   "url": "https://www.elnacional.com/2026/11/formula-1-renueva-el-gp-de-brasil-hasta-2035/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": "Brazil"
+  },
+  {
+   "title": "Restablecen operaciones del Sistema Alto Tocuyo tras falla en el tubo matriz que afectó a tres municipios larenses",
+   "url": "https://www.elnacional.com/2026/11/restablecen-operaciones-del-sistema-alto-tocuyo-tras-falla-en-el-tubo-matriz-que-afecto-a-tres-municipios-larenses/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Cubanos ven con esperanza la victoria demócrata en EE UU a la espera de cambios",
+   "url": "https://www.elnacional.com/2026/11/cubanos-ven-con-esperanza-la-victoria-democrata-en-ee-uu-a-la-espera-de-cambios/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Ingeniero advirtió que la industria petrolera absorbe el 13% de la demanda eléctrica nacional",
+   "url": "https://www.elnacional.com/2026/11/ingeniero-advirtio-que-la-industria-petrolera-absorbe-el-13-de-la-demanda-electrica-nacional/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Deslizamiento de tierra sobre una vivienda dejó tres menores de edad fallecidos y dos heridos en Antímano",
+   "url": "https://www.elnacional.com/2026/11/deslizamiento-de-tierra-sobre-una-vivienda-dejo-tres-menores-de-edad-fallecidos-y-dos-heridos-en-antimano/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "César Marcano: “La prioridad de los trabajadores es una respuesta concreta al planteamiento de los 1.200 dólares”",
+   "url": "https://www.elnacional.com/2026/11/cesar-marcano-la-prioridad-de-los-trabajadores-es-una-respuesta-concreta-al-planteamiento-de-los-1-200-dolares/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Detuvieron a hombre por presunta agresión sexual contra niña de 11 años en Zulia",
+   "url": "https://www.elnacional.com/2026/11/detuvieron-a-hombre-por-presunta-agresion-sexual-contra-nina-de-11-anos-en-zulia/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Lula da Silva expresó su respaldo al nuevo presidente de Paraguay y propuso fortalecer la agenda bilateral",
+   "url": "https://www.elnacional.com/2026/11/lula-da-silva-expreso-su-respaldo-al-nuevo-presidente-de-paraguay-y-propuso-fortalecer-la-agenda-bilateral/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": "Paraguay"
+  },
+  {
+   "title": "Trump confirmó nuevos ataques militares selectivos contra la defensa antiaérea de Irán",
+   "url": "https://www.elnacional.com/2026/11/trump-confirmo-nuevos-ataques-militares-selectivos-contra-la-defensa-antiaerea-de-iran/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Ángel Padrón sufrió una subluxación en el hombro izquierdo durante su apertura con Tiburones",
+   "url": "https://www.elnacional.com/2026/11/angel-padron-sufrio-una-subluxacion-en-el-hombro-izquierdo-durante-su-apertura-con-tiburones/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Zelenski advirtió a Trump que nuevo plan de seguridad para Europa es peligroso sin el compromiso ruso",
+   "url": "https://www.elnacional.com/2026/11/zelenski-advirtio-a-trump-que-nuevo-plan-de-seguridad-para-europa-es-peligroso-sin-el-compromiso-ruso/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Clara Vegas llega a Puerto Rico para su participación en el Miss Universo",
+   "url": "https://www.elnacional.com/2026/11/clara-vegas-llega-a-puerto-rico-para-su-participacion-en-el-miss-universo/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "OVP exigió auditoría desde Caracas para investigar denuncias sobre extorsión contra Circuito Judicial de La Guaira",
+   "url": "https://www.elnacional.com/2026/11/ovp-exigio-una-auditoria-desde-caracas-para-investigar-denuncias-contra-circuito-judicial-de-la-guaira/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Inameh prevé precipitaciones y actividad eléctrica en gran parte de Venezuela",
+   "url": "https://www.elnacional.com/2026/11/inameh-preve-precipitaciones-y-actividad-electrica-en-gran-parte-de-venezuela/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": "Venezuela"
+  },
+  {
+   "title": "Denuncian que cortes eléctricos de hasta seis horas generan pérdidas y afectan rutina de los habitantes de Anzoátegui",
+   "url": "https://www.elnacional.com/2026/11/denuncian-que-cortes-electricos-de-hasta-seis-horas-generan-perdidas-y-afectan-rutina-de-los-habitantes-de-anzoategui/",
+   "source": "El Nacional Venezuela",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Cámara de Turismo espera mayor llegada de visitantes extranjeros a Margarita por vuelos de Copa Airlines",
+   "url": "https://www.elnacional.com/2026/11/camara-de-turismo-preve-mayor-llegada-de-visitantes-extranjeros-a-margarita-por-vuelos-de-copa-airlines/",
+   "source": "El Nacional Venezuela",
    "date": "2026-11-07",
    "country": null
   },
@@ -683,95 +1278,11 @@
    "country": null
   },
   {
-   "title": "Venezuela registró 198 casos de violencia contra personas LGTBI desde enero hasta septiembre",
-   "url": "https://www.elnacional.com/2026/11/venezuela-registro-198-casos-de-violencia-contra-personas-lgtbi-desde-enero-hasta-septiembre/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-07",
-   "country": "Venezuela"
-  },
-  {
-   "title": "Tercer caso de envenenamiento masivo de animales en Margarita dejó tres perros muertos y dos en estado grave",
-   "url": "https://www.elnacional.com/2026/11/tercer-caso-de-envenenamiento-masivo-de-animales-en-margarita-dejo-tres-perros-muertos-y-dos-en-estado-grave/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Irán informa de otro petrolero incendiado por una mina en el estrecho de Ormuz",
-   "url": "https://www.elnacional.com/2026/11/iran-informa-de-otro-petrolero-incendiado-por-una-mina-en-el-estrecho-de-ormuz/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Cedice proyectó que inflación en Venezuela cerrará este 2026 entre 329% y 446%",
-   "url": "https://www.elnacional.com/2026/11/cedice-proyecto-que-inflacion-en-venezuela-cerrara-este-2026-entre-329-y-446/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-07",
-   "country": "Venezuela"
-  },
-  {
-   "title": "Delcy Rodríguez anunció escuela de formación y seguro de responsabilidad civil para motorizados",
-   "url": "https://www.elnacional.com/2026/11/delcy-rodriguez-anuncio-escuela-de-formacion-y-seguro-de-responsabilidad-civil-para-motorizados/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Nelson Mezerhane: Trabajo del Grupo IDEA no se acabará con alcanzar la democracia en Venezuela",
-   "url": "https://www.elnacional.com/2026/11/nelson-mezerhane-trabajo-del-grupo-idea-no-se-acabara-con-alcanzar-la-democracia-en-venezuela/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-07",
-   "country": "Venezuela"
-  },
-  {
-   "title": "Barrosa pegó el batazo decisivo en el undécimo para que Tiburones dejara en el terreno a los Tigres",
-   "url": "https://www.elnacional.com/2026/11/barrosa-pego-el-batazo-decisivo-en-el-undecimo-para-que-tiburones-dejara-en-el-terreno-a-los-tigres/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Magallanes extendió a seis su cadena de victorias con triunfo agónico ante Águilas en Maracaibo",
-   "url": "https://www.elnacional.com/2026/11/magallanes-extendio-a-seis-su-cadena-de-victorias-con-triunfo-agonico-ante-aguilas-en-maracaibo/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Leones barrió a Bravos en la doble tanda que se jugó en el Monumental",
-   "url": "https://www.elnacional.com/2026/11/leones-barrio-a-bravos-en-la-doble-tanda-que-se-jugo-en-el-monumental/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Detienen a migrante venezolano armado cerca de la Casa Blanca con intenciones de atentar contra Donald Trump",
-   "url": "https://www.elnacional.com/2026/11/detenido-venezolano-armado-casa-blanca-donald-trump/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Tamara Adrián formaliza su postulación a magistrada del TSJ",
-   "url": "https://www.elnacional.com/2026/11/tamara-adrian-formaliza-su-postulacion-a-magistrada-del-tsj/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-07",
-   "country": null
-  },
-  {
-   "title": "Matt Damon reveló el dramático problema de salud de su esposa argentina: “Sufrió un aneurisma cerebral” - La Nación",
-   "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxONXNKZGtLZkFlWW1ta1R6YmxxWDFaNk1QN1lNdjZyTDBaUEVpN2xoOG41U1c3VGhMbzhmYThJOWZCQ01wcDN2MWdKY1pNRmh1X0w0dmJuMmJCejhTXzVybU1CN3UwZ3FxWnc2d1daSGl5RkdRUUpRZkJfZlRCTHpWb2xCYzRnYTlPUzU2UWhKeGR3cFMtalZpLS1UTUVscnV2X0s0cm1UdmF0RDJpWGxpYWh4X0RCU2ZuQnJrY21NNnZ5QnRHejVhanY0Z2RpVHFqU3pmQ2xqZm4zNjlDdkFWdElWNGVESWozc2c?oc=5",
+   "title": "El expresidente Santiago Peña fue imputado por “lesión de confianza” y “administración en provecho propio” - La Nación",
+   "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNaWZvcXVkclJPMWU1aTVJOG1WZFhfM0t5ME01X0dkWEpaWHRCdTQzMVJEYnI2eTBCS3ZCbE9tUHBzZ2YtQzd5STc0T2hCQ1o0WWNQSWFZRW5mejZDSnhGVEppVUFzd3lkV3hqdzc5blFOZlZVRWVEQWtZRTFwbVJDenRXR0FVd2ZqTG5xZTlEbHlrWGFoSUtsaDJzVFd0dWxVal8yaW9UTjZ1bVhvNVF2OTUwYS1FTzUtN0lXNEU5ZWlsalB3UnBranFn?oc=5",
    "source": "La Nación Argentina",
    "date": "2026-11-07",
-   "country": "Argentina"
-  },
-  {
-   "title": "León XIV habló de su enfermedad y lanzó un fuerte reclamo en su primer discurso en Uruguay - La Nación",
-   "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQeU80LVNkemEyRlU0dUkwanRUUUQwdHdqUy1iSzVwajF4U2FnYzU4YzNYVHdiMDd5cVhEZEs4Z09jSlpHX21la2NiREhnc3FXc1pyRTVWMUNSN2hpMzQ3bjlLVjBxZ1ctaWFQdjRHZGtoNXVPM1l0V3ZCMC1fVnVtbGUyT0IzZHVQMWVtYVcxU3prN1dqeXJxX1RBRVcxSTA2TXFGMGpEZGZpVEZ5VWtMNlJWS015TGxCRU1GRTRCUFcxbVpjRHR5dklwQ0RUTEtvVjNOWHpsaw?oc=5",
-   "source": "La Nación Argentina",
-   "date": "2026-11-07",
-   "country": "Uruguay"
+   "country": null
   },
   {
    "title": "Cómo será el mega operativo integral de la Provincia por la misa del Papa León XIV en Luján - La Nación",
@@ -781,9 +1292,44 @@
    "country": null
   },
   {
-   "title": "Preparando la fiesta - La Nación",
-   "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE12ODVlZ0dRWlNxS1E2aHA4RjQ4cVowbWMyTXNQcWNBU2NWMDRhd2xvRkY1SkdDY1ZRR0lXcnBTSGNacjJoOHpybHAxWWs2U2dtTk82NF9GWXRXVFMwUWVzaV8wZXMwNWxGWWV5TUZZMkFXNHVmdXpMYg?oc=5",
-   "source": "La Nación Argentina",
+   "title": "Flávio Bolsonaro diz que Nunes Marques 'não sabe do que está falando' sobre a eleição",
+   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/flavio-bolsonaro-diz-que-nunes-marques-nao-sabe-do-que-esta-falando-sobre-a-eleicao.shtml",
+   "source": "Folha de S.Paulo",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Ministro do STJ decreta prisão de desembargadora condenada após Procuradoria relatar saída do país",
+   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/ministro-do-stj-decreta-prisao-de-desembargadora-condenada-apos-procuradoria-relatar-saida-do-pais.shtml",
+   "source": "Folha de S.Paulo",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Fundação Brumadinho leva à COP31 proposta para mineração segura de terras raras",
+   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/colunas/painel/2026/11/fundacao-brumadinho-leva-a-cop31-proposta-para-mineracao-segura-de-terras-raras.shtml",
+   "source": "Folha de S.Paulo",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Derrite critica disputa por gabinetes no Senado e diz que ela só ajuda Alcolumbre",
+   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/colunas/painel/2026/11/derrite-critica-disputa-por-gabinetes-no-senado-e-diz-que-ela-so-ajuda-alcolumbre.shtml",
+   "source": "Folha de S.Paulo",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Disputa no Senado impõe recuos à esquerda e à direita",
+   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/colunas/dora-kramer/2026/11/disputa-no-senado-impoe-recuos-a-esquerda-e-a-direita.shtml",
+   "source": "Folha de S.Paulo",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Três Poderes: Marinho é o vencedor da semana e advogado amigo de Flávio, o perdedor",
+   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/colunas/painel/2026/11/tres-poderes-marinho-e-o-vencedor-da-semana-e-advogado-amigo-de-flavio-o-perdedor.shtml",
+   "source": "Folha de S.Paulo",
    "date": "2026-11-07",
    "country": null
   },
@@ -809,6 +1355,97 @@
    "country": null
   },
   {
+   "title": "Oscar-winning director Sebastián Lelio found dead at 52 as actress wife pens heartbreaking tribute",
+   "url": "https://nypost.com/2026/11/07/world-news/oscar-winning-filmmaker-sebastian-lelio-found-dead-at-52/",
+   "source": "New York Post",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Crisis-hit Paraguay impeaches president over banking crisis and replaces him with vice president",
+   "url": "https://www.thejournal.ie/paraguay-president-impeached-7218630-Nov2026/",
+   "source": "TheJournal.ie",
+   "date": "2026-11-07",
+   "country": "Paraguay"
+  },
+  {
+   "title": "‘One less gang leader’: Haiti’s prime minister celebrates police operation",
+   "url": "https://www.aljazeera.com/news/2026/11/7/one-less-gang-leader-haitis-prime-minister-celebrates-police-operation",
+   "source": "Al Jazeera English",
+   "date": "2026-11-07",
+   "country": "Haiti"
+  },
+  {
+   "title": "Haitian gang reaches out to state disarmament group as gunfights persist",
+   "url": "https://abcnews.com/International/wireStory/powerful-haitian-gang-reaches-state-disarmament-group-gunfights-137932356",
+   "source": "Abcnews.com",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Donald Trump Trades His Best Angel For His Worst Devil In Chief Of Staff Swap",
+   "url": "https://www.huffpost.com/entry/donald-trump-susie-wiles-stephen-miller_n_6aee2b8ce4b037ca1034b0d9",
+   "source": "HuffPost",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Turning Point USA event at University of New Mexico ends with two arrests and a string of charges",
+   "url": "https://www.foxnews.com/us/turning-point-usa-event-university-new-mexico-ends-two-arrests-string-charges",
+   "source": "Fox News",
+   "date": "2026-11-07",
+   "country": "Mexico"
+  },
+  {
+   "title": "Meghan Markle's estrangement from father Thomas Markle: From royal wedding fallout to his arrest",
+   "url": "https://www.foxnews.com/entertainment/meghan-markle-estrangement-father-thomas-markle-royal-wedding-fallout-arrest",
+   "source": "Fox News",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "'Developing border areas into vibrant villages': Uttarakhand CM Dhami celebrates Diwali with Garhwal Rifles soldiers",
+   "url": "https://timesofindia.indiatimes.com/city/dehradun/developing-border-areas-into-vibrant-villages-uttarakhand-cm-dhami-celebrates-diwali-with-garhwal-rifles-soldiers/articleshow/135633161.cms",
+   "source": "The Times of India",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Rubio to visit France on first post-midterm foreign trip to face questions on Trump policies",
+   "url": "https://economictimes.indiatimes.com/news/international/world-news/rubio-to-visit-france-on-first-post-midterm-foreign-trip-to-face-questions-on-trump-policies/articleshow/135624263.cms",
+   "source": "The Times of India",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "What Stephen Miller has pushed for while in Trump administration",
+   "url": "https://www.cbsnews.com/news/stephen-miller-chief-of-staff-trump-immigration-policies/",
+   "source": "CBS News",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "Why are oil traders refusing to buy Russian diesel after Trump-Putin deal?",
+   "url": "https://www.aljazeera.com/news/2026/11/7/why-are-oil-traders-refusing-to-buy-russian-diesel-after-trump-putin-deal",
+   "source": "Al Jazeera English",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "The 9 at 9: Saturday",
+   "url": "https://www.thejournal.ie/9-at-9-saturday-231-7218636-Nov2026/",
+   "source": "TheJournal.ie",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
+   "title": "India ends home World Armwrestling Championship with 59 medals; Russia tops standings",
+   "url": "https://economictimes.indiatimes.com/news/sports/other-sports/india-ends-home-world-armwrestling-championship-with-59-medals-russia-tops-standings/articleshow/135624606.cms",
+   "source": "The Times of India",
+   "date": "2026-11-07",
+   "country": null
+  },
+  {
    "title": "Paraguay",
    "url": "https://insightcrime.org/paraguay-organized-crime-news/paraguay/",
    "source": "InSight Crime",
@@ -819,13 +1456,6 @@
    "title": "COMMENTARY: NATO’s plans come up against messy US, French and German politics - Reuters",
    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQd1BlaWVfcDIyNlJKWjVRci01Ukd4a1I4Yk9vcW12U1NUMlhQTDdYa09iTFpzcktKRGdVNGlGUGE5WlRZQm1vREJLZDhZUzh6bTNLRDJ3QVJXOTZ4NjByRm1zaGsycWg0TFotWjAyRXY2T3lWOTVoRS10M1g5QXVDcmVtZjVDdVRUOS1CbG5LRVdVTUFHR1dJOTg2eUxTcHVrb1F5SEs4WFRLdw?oc=5",
    "source": "Reuters LatAm",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Ukraine - AP News",
-   "url": "https://news.google.com/rss/articles/CBMiREFVX3lxTFBoLUFxWVlhd0NHcHV5UjVHdVQtVjc0LUx3V08zeVNpdE5IS2Jtc3BFOUJnRktJVDdzczRIN1ZZaTNTbjd4?oc=5",
-   "source": "AP LatAm",
    "date": "2026-11-06",
    "country": null
   },
@@ -842,13 +1472,6 @@
    "source": "AP LatAm — Emergencies & Elections",
    "date": "2026-11-06",
    "country": "Mexico"
-  },
-  {
-   "title": "Military and defense - AP News",
-   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9lSjdLT3NGYzdWUDlSQW5mdVVHYmpqYUwzbHZmUzRZTmJfTUJ0aHdCY25YbWwyakd6UXR0dWlpUXB4aU41aXBRVDhWZm5lUDI4RUNQRlBR?oc=5",
-   "source": "AP LatAm — Emergencies & Elections",
-   "date": "2026-11-06",
-   "country": null
   },
   {
    "title": "China adopts law on Antarctic activities and environmental protection - Reuters",
@@ -872,11 +1495,11 @@
    "country": "Paraguay"
   },
   {
-   "title": "Quién es Miguel Vázquez, el banquero milenial y atleta en el centro de la crisis de Paraguay",
-   "url": "https://www.bbc.com/mundo/articles/cwzd6684mgv5o?at_medium=RSS&at_campaign=rss",
+   "title": "El reto que supone para el papa León XIV visitar Uruguay, el país menos católico de América Latina",
+   "url": "https://www.bbc.com/mundo/articles/ck7vpp3y5nypo?at_medium=RSS&at_campaign=rss",
    "source": "BBC Mundo",
    "date": "2026-11-06",
-   "country": "Paraguay"
+   "country": "Uruguay"
   },
   {
    "title": "Trump nombra a Stephen Miller, el \"arquitecto\" de su dura política migratoria, como nuevo jefe de gabinete de la Casa Blanca",
@@ -884,13 +1507,6 @@
    "source": "BBC Mundo",
    "date": "2026-11-06",
    "country": null
-  },
-  {
-   "title": "El reto que supone para el papa León XIV visitar Uruguay, el país menos católico de América Latina",
-   "url": "https://www.bbc.com/mundo/articles/ck7vpp3y5nypo?at_medium=RSS&at_campaign=rss",
-   "source": "BBC Mundo",
-   "date": "2026-11-06",
-   "country": "Uruguay"
   },
   {
    "title": "\"El envío de tropas a Haití es una apuesta política de Bukele: demostrar que no es solo un actor nacional, sino uno mucho más poderoso a nivel regional\"",
@@ -907,8 +1523,8 @@
    "country": "Paraguay"
   },
   {
-   "title": "Qué es Ueno Bank y qué provocó la crisis por la que Santiago Peña fue destituido como presidente de Paraguay",
-   "url": "https://www.bbc.com/mundo/articles/cqx28zrgd0yxo?at_medium=RSS&at_campaign=rss",
+   "title": "Quién es Miguel Vázquez, el banquero milenial y atleta en el centro de la crisis de Paraguay",
+   "url": "https://www.bbc.com/mundo/articles/cwzd6684mgv5o?at_medium=RSS&at_campaign=rss",
    "source": "BBC Mundo",
    "date": "2026-11-06",
    "country": "Paraguay"
@@ -919,27 +1535,6 @@
    "source": "BBC Mundo",
    "date": "2026-11-06",
    "country": "Uruguay"
-  },
-  {
-   "title": "Crisis de Ueno Bank: las claves de la renuncia de Peña en Paraguay",
-   "url": "https://www.bbc.com/mundo/watch/cv8ezzdyzkrdo?at_medium=RSS&at_campaign=rss",
-   "source": "BBC Mundo",
-   "date": "2026-11-06",
-   "country": "Paraguay"
-  },
-  {
-   "title": "Quién es Stephen Miller, el arquitecto de la dura política migratoria de Trump designado nuevo jefe de gabinete de la Casa Blanca",
-   "url": "https://www.bbc.com/mundo/articles/c20pnenx1d9o?at_medium=RSS&at_campaign=rss",
-   "source": "BBC Mundo",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "El FBI detiene al padre de Meghan Markle, esposa del príncipe Harry, por presunta posesión de imágenes de abuso sexual infantil",
-   "url": "https://www.bbc.com/mundo/articles/cm78pp3398zwo?at_medium=RSS&at_campaign=rss",
-   "source": "BBC Mundo",
-   "date": "2026-11-06",
-   "country": null
   },
   {
    "title": "Flávio Bolsonaro battles to remain relevant as he speaks at rightwing conference at Mar-a-Lago",
@@ -977,13 +1572,6 @@
    "country": "Peru"
   },
   {
-   "title": "El presidente de Paraguay, Santiago Peña, destituido y detenido por presunta corrupción",
-   "url": "https://elpais.com/america/2026-11-06/santiago-pena-destituido-por-el-congreso-como-presidente-de-paraguay.html",
-   "source": "El País América",
-   "date": "2026-11-06",
-   "country": "Paraguay"
-  },
-  {
    "title": "Los científicos que aprenden a leer el cambio climático en las mariposas de la Amazonía peruana",
    "url": "https://elpais.com/america-futura/2026-11-06/los-cientificos-que-aprenden-a-leer-el-cambio-climatico-en-las-mariposas-de-la-amazonia-peruana.html",
    "source": "El País América",
@@ -998,114 +1586,9 @@
    "country": null
   },
   {
-   "title": "El Manchester City se juega un pedazo de la Premier en el bosque de ‘Pavarotti’",
-   "url": "https://elpais.com/deportes/futbol/2026-11-06/el-manchester-city-se-juega-un-pedazo-de-la-premier-en-el-bosque-de-pavarotti.html",
-   "source": "El País América",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "La derecha colombiana encuentra una mina de oro en la vida sexual de Petro",
-   "url": "https://elpais.com/america-colombia/2026-11-06/la-derecha-colombiana-encuentra-una-mina-de-oro-en-la-vida-sexual-de-petro.html",
-   "source": "El País América",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Congresistas demócratas amenazan con frenar la alianza militar de Trump con Noboa “por el deterioro democrático en Ecuador”",
-   "url": "https://elpais.com/america/2026-11-07/congresistas-democratas-amenazan-con-frenar-la-alianza-militar-de-trump-con-noboa-por-el-deterioro-democratico-en-ecuador.html",
-   "source": "El País América",
-   "date": "2026-11-06",
-   "country": "Ecuador"
-  },
-  {
-   "title": "Nueva arremetida del régimen cubano al periodismo independiente: “Nos quieren silenciar, que no mostremos la verdad”",
-   "url": "https://elpais.com/america/2026-11-06/nueva-arremetida-del-regimen-cubano-al-periodismo-independiente-nos-quieren-silenciar-que-no-mostremos-la-verdad.html",
-   "source": "El País América",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "‘The New York Times’ quiere comprar Letterboxd por 330 millones de dólares",
-   "url": "https://elpais.com/economia/2026-11-06/el-new-york-times-quiere-comprar-letterbox-por-330-millones-de-dolares.html",
-   "source": "El País América",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
    "title": "Cuatro nuevos clientes se unen al club de 48 países que ya utilizan el Spike, el misil contracarro israelí que vetó España - Infodefensa",
    "url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxOWW5uWmpnN1JzY3hKMEswZGtFRS1TLWdCaDYzVlRiT3FjQzhPcjlUb2tTWXFVVFRjWE02Y1FYREdvUDhzcHNKNHlkYS1GSEVZYWYtakJKc1JRUTRDcFNTeTlEbllEUmo0VVNaQ3RzaW11SUgyNGhpM09PdkFHeDB1U1htYWRDNllSSHJzQ296eFRZRDd0ZTFxRE9ZQThHQWxmekJZSXpXTjZPem44cjdGbUhXWmJzbG5mVnpSMjJobElRWURoY1VqcTlSQW81aVc0TU1KWkEwQURhV3VkRHROWGRYM01wS0U?oc=5",
    "source": "Infodefensa",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "‘Hay que buscar una reforma que no recaiga en las clases medias y populares’: senador Andrés Forero sobre ley de rescate fiscal",
-   "url": "https://www.eltiempo.com/politica/partidos-politicos/hay-que-buscar-una-reforma-que-no-recaiga-en-las-clases-medias-y-populares-senador-andres-forero-sobre-ley-de-rescate-fiscal-3599082",
-   "source": "El Tiempo Colombia",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Mujeres del Pacto Histórico se pronuncian sobre denuncias de Deyci Jiménez contra el expresidente Gustavo Petro: 'Merece ser escuchada'",
-   "url": "https://www.eltiempo.com/politica/partidos-politicos/mujeres-del-pacto-historico-se-pronuncian-sobre-denuncias-de-deicy-jimenez-contra-el-expresidente-gustavo-petro-merece-ser-escuchada-3599079",
-   "source": "El Tiempo Colombia",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Iván Cepeda se pronuncia sobre denuncias de Deicy Jiménez contra Petro: 'El expresidente está dispuesto a comparecer ante la justicia'",
-   "url": "https://www.eltiempo.com/politica/congreso/ivan-cepeda-se-pronuncia-sobre-denuncias-de-deicy-jimenez-contra-petro-el-expresidente-esta-dispuesto-a-comparecer-ante-la-justicia-3599049",
-   "source": "El Tiempo Colombia",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Presidente del Senado envió carta a De La Espriella para que reglamente la ley que busca prevenir el desperdicio de alimento",
-   "url": "https://www.eltiempo.com/politica/congreso/presidente-del-senado-envio-carta-a-de-la-espriella-para-que-reglamente-la-ley-que-busca-prevenir-el-desperdicio-de-alimento-3599038",
-   "source": "El Tiempo Colombia",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Presidente De La Espriella da detalles de la operación 'Ocaso' contra el Eln en el sur de Bolívar: 'Vamos a desmantelar sus estructuras'",
-   "url": "https://www.eltiempo.com/politica/abelardo-de-la-espriella/presidente-de-la-espriella-da-detalles-de-la-operacion-ocaso-contra-el-eln-en-el-sur-de-bolivar-vamos-a-desmantelar-sus-estructuras-3599021",
-   "source": "El Tiempo Colombia",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Congresista Laura Beltrán 'Lalis' reacciona a las denuncias de Deicy Jiménez contra Petro: 'El silencio no es opción'",
-   "url": "https://www.eltiempo.com/politica/congreso/congresista-laura-beltran-lalis-reacciona-a-las-denuncias-de-deicy-jimenez-contra-petro-el-silencio-no-es-opcion-3598958",
-   "source": "El Tiempo Colombia",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Congreso de Paraguay destituyó al presidente tras intento de renuncia",
-   "url": "https://www.lasillavacia.com/en-vivo/congreso-de-paraguay-destituyo-al-presidente-tras-intento-de-renuncia/",
-   "source": "La Silla Vacía",
-   "date": "2026-11-06",
-   "country": "Paraguay"
-  },
-  {
-   "title": "De la Espriella pone en marcha deportación de 80 extranjeros a Venezuela",
-   "url": "https://www.lasillavacia.com/en-vivo/de-la-espriella-pone-en-marcha-deportacion-de-80-extranjeros-a-venezuela/",
-   "source": "La Silla Vacía",
-   "date": "2026-11-06",
-   "country": "Venezuela"
-  },
-  {
-   "title": "La Amazonía ha perdido el 15% de su bosque primario: Maap",
-   "url": "https://www.lasillavacia.com/silla-amazonia/amazonia-en-breve/la-amazonia-ha-perdido-el-15-de-su-bosque-primario-maap/",
-   "source": "La Silla Vacía",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Los nombramientos fugaces del gobierno de Abelardo",
-   "url": "https://www.lasillavacia.com/silla-nacional/los-nombramientos-fugaces-del-gobierno-de-abelardo/",
-   "source": "La Silla Vacía",
    "date": "2026-11-06",
    "country": null
   },
@@ -1143,328 +1626,6 @@
    "source": "Runrun.es",
    "date": "2026-11-06",
    "country": "Venezuela"
-  },
-  {
-   "title": "42 periodistas han muerto de forma violenta en Venezuela en un escenario de impunidad",
-   "url": "https://runrun.es/noticias/624851/42-periodistas-han-muerto-de-forma-violenta-en-venezuela-en-un-escenario-de-impunidad/",
-   "source": "Runrun.es",
-   "date": "2026-11-06",
-   "country": "Venezuela"
-  },
-  {
-   "title": "Inflación en dólares acumula 40% en el año y se requieren más de cuatro salarios para cubrir canasta básica",
-   "url": "https://runrun.es/noticias/624849/inflacion-en-dolares-acumula-40-en-el-ano-y-se-requieren-mas-de-cuatro-salarios-para-cubrir-canasta-basica/",
-   "source": "Runrun.es",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "La Conversa | Drones, minerales críticos y pactos locales: el nuevo tablero en la frontera colombo-venezolana",
-   "url": "https://runrun.es/noticias/624846/la-conversa-drones-minerales-criticos-y-pactos-locales-el-nuevo-tablero-en-la-frontera-colombo-venezolana/",
-   "source": "Runrun.es",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "119 organizaciones de la sociedad civil instan a derogar leyes que restringen el espacio cívico en Venezuela",
-   "url": "https://runrun.es/noticias/624793/119-organizaciones-de-la-sociedad-civil-instan-a-derogar-leyes-que-restringen-el-espacio-civico-en-venezuela/",
-   "source": "Runrun.es",
-   "date": "2026-11-06",
-   "country": "Venezuela"
-  },
-  {
-   "title": "Memes y libertad de expresión: la juventud venezolana habla de política a través del humor",
-   "url": "https://runrun.es/noticias/624746/memes-y-libertad-de-expresion-la-juventud-venezolana-habla-de-politica-a-traves-del-humor/",
-   "source": "Runrun.es",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Pedro Alliana jura como presidente de Paraguay tras la destitución de Santiago Peña",
-   "url": "https://www.elnacional.com/2026/11/pedro-alliana-jura-como-nuevo-presidente-de-paraguay-tras-destitucion-de-santiago-pena/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Paraguay"
-  },
-  {
-   "title": "Summa Consulting proyecta un crecimiento económico de 12,8% en Venezuela para 2027, aunque advierte sobre la brecha respecto a los niveles de 2012",
-   "url": "https://www.elnacional.com/2026/11/summa-consulting-proyecta-un-crecimiento-economico-de-128-en-venezuela-para-2027-aunque-advierte-sobre-la-brecha-respecto-a-los-niveles-de-2012/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Venezuela"
-  },
-  {
-   "title": "Jorge Rodríguez admite la crisis del servicio eléctrico en Venezuela",
-   "url": "https://www.elnacional.com/2026/11/jorge-rodriguez-admite-la-crisis-del-servicio-electrico-en-venezuela/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Venezuela"
-  },
-  {
-   "title": "El colapso de Ueno Bank: bajo arresto domiciliario el expresidente de Paraguay Santiago Peña",
-   "url": "https://www.elnacional.com/2026/11/bajo-arresto-domiciliario-el-expresidente-de-paraguay-santiago-pena/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Paraguay"
-  },
-  {
-   "title": "Presidente de Paraguay es destituido en juicio político por escándalo bancario",
-   "url": "https://www.elnacional.com/2026/11/presidente-de-paraguay-es-destituido-en-juicio-politico-por-escandalo-bancario/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Paraguay"
-  },
-  {
-   "title": "Conceden libertad bajo fianza al padre de Meghan Markle tras arresto por posesión de pornografía infantil",
-   "url": "https://www.elnacional.com/2026/11/conceden-libertad-bajo-fianza-al-padre-de-meghan-markle-tras-arresto-por-posesion-de-pornografia-infantil/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Nueva oleada de falsas amenazas de bomba afecta a al menos 25 vuelos en países europeos",
-   "url": "https://www.elnacional.com/2026/11/nueva-oleada-de-falsas-amenazas-de-bomba-afecta-a-al-menos-25-vuelos-en-paises-europeos/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "El Papa pide que Uruguay siga ofreciendo a sus vecinos la búsqueda de acuerdos",
-   "url": "https://www.elnacional.com/2026/11/el-papa-pide-que-uruguay-siga-ofreciendo-a-sus-vecinos-la-busqueda-de-acuerdos/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Uruguay"
-  },
-  {
-   "title": "Venezuela y el Banco Mundial evalúan mecanismos de financiamiento para proyectos de infraestructura y vivienda",
-   "url": "https://www.elnacional.com/2026/11/venezuela-y-el-banco-mundial-evaluan-mecanismos-de-financiamiento-para-proyectos-de-infraestructura-y-vivienda/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Venezuela"
-  },
-  {
-   "title": "María Corina Machado desde El Rodeo I: \"No descansaremos hasta que el último preso político obtenga libertad plena, son todos\"",
-   "url": "https://www.elnacional.com/2026/11/maria-corina-machado-desde-el-rodeo-i-no-descansaremos-hasta-que-el-ultimo-preso-politico-obtenga-libertad-plena-son-todos/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Enrique Márquez propone desde El Tigre descentralizar el sistema eléctrico y ampliar el crédito al sector privado",
-   "url": "https://www.elnacional.com/2026/11/enrique-marquez-descentralizacion-electrica-credito-privado-el-tigre/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Trump nombra jefe de gabinete al asesor Stephen Miller",
-   "url": "https://www.elnacional.com/2026/11/trump-nombra-a-asesor-stephen-miller-como-nuevo-jefe-de-gabinete/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Doblete sísmico modificó la línea de costa en playa Los Cocos tras registrarse procesos de licuefacción del suelo",
-   "url": "https://www.elnacional.com/2026/11/doblete-sismico-modifico-la-linea-de-costa-en-playa-los-cocos-tras-registrarse-procesos-de-licuefaccion-del-suelo/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Un accidente de tránsito en el distribuidor La Araña deja cinco heridos con múltiples traumatismos en Caracas",
-   "url": "https://www.elnacional.com/2026/11/un-accidente-de-transito-en-el-distribuidor-la-arana-deja-cinco-heridos-con-multiples-traumatismos-en-caracas/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Ceade impulsa en Venezuela una nueva generación de líderes empresariales con formación internacional",
-   "url": "https://www.elnacional.com/2026/11/ceade-universidad-monteavila-lideres-empresariales-venezuela/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Venezuela"
-  },
-  {
-   "title": "Gobierno de Chile explora oportunidades de comercio e inversión en Venezuela",
-   "url": "https://www.elnacional.com/2026/11/gobierno-de-chile-explora-oportunidades-de-comercio-e-inversion-en-venezuela/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "SNTP: 42 periodistas y trabajadores de medios han muerto de forma violenta en Venezuela en los últimos 35 años",
-   "url": "https://www.elnacional.com/2026/11/sntp-42-periodistas-y-trabajadores-de-medios-han-muerto-de-forma-violenta-en-venezuela-en-los-ultimos-35-anos/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Venezuela"
-  },
-  {
-   "title": "Delcy Rodríguez asistió a la reinauguración de la plaza Washington: \"Es un homenaje a un líder de la independencia\"",
-   "url": "https://www.elnacional.com/2026/11/delcy-rodriguez-asistio-a-la-reinauguracion-de-la-plaza-washington-es-un-homenaje-a-un-lider-de-la-independencia/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Lando Norris fue el más rápido en los primeros ensayos del Gran Premio de Brasil",
-   "url": "https://www.elnacional.com/2026/11/lando-norris-fue-el-mas-rapido-en-los-primeros-ensayos-del-gran-premio-de-brasil/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Brazil"
-  },
-  {
-   "title": "Más de 80 venezolanos vinculados a delitos esperan en la frontera su expulsión de Colombia",
-   "url": "https://www.elnacional.com/2026/11/mas-de-80-venezolanos-vinculados-a-delitos-esperan-en-la-frontera-su-expulsion-de-colombia/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Colombia"
-  },
-  {
-   "title": "Centros comerciales se acercan a los niveles de consumo de 2013, según Cavececo",
-   "url": "https://www.elnacional.com/2026/11/centros-comerciales-se-acercan-a-los-niveles-de-consumo-de-2013-segun-cavececo/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Anunciaron a los finalistas del Bate de Plata: Cuatro venezolanos entre los aspirantes",
-   "url": "https://www.elnacional.com/2026/11/anunciaron-a-los-finalistas-del-bate-de-plata-cuatro-venezolanos-entre-los-aspirantes/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Arrestan en Florida al padre de Meghan Markle",
-   "url": "https://www.elnacional.com/2026/11/arrestan-en-florida-al-padre-de-meghan-markle/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Utopix documentó más de 80 feminicidios en Venezuela durante primer semestre de 2026",
-   "url": "https://www.elnacional.com/2026/11/utopix-documento-mas-de-80-feminicidios-en-venezuela-durante-primer-semestre-de-2026/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Venezuela"
-  },
-  {
-   "title": "Ejército surcoreano desata tormenta política tras impartir clases de pasarela a tropas de élite",
-   "url": "https://www.elnacional.com/2026/11/criticas-al-ejercito-surcoreano-por-clases-de-pasarela-a-sus-tropas/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "\"Fui yo solo\": Flávio Bolsonaro niega haber recibido ayuda de gobiernos para su huída a EE UU",
-   "url": "https://www.elnacional.com/2026/11/fui-yo-solo-flavio-bolsonaro-niega-haber-recibido-ayuda-de-gobiernos-para-su-huida-a-ee-uu/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Gobierno interino no respondió preguntas de la ONU sobre bloqueos en Internet",
-   "url": "https://www.elnacional.com/2026/11/gobierno-interino-no-respondio-preguntas-de-la-onu-sobre-bloqueos-en-internet/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "AN aprueba ley de transporte aéreo y difiere por tercera vez el debate sobre la Ley del Servicio Eléctrico",
-   "url": "https://www.elnacional.com/2026/11/an-aprueba-ley-de-transporte-aereo-y-difiere-por-tercera-vez-el-debate-sobre-la-ley-del-servicio-electrico/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Devin Booker lideró a los Suns para romper la racha de cuatro derrotas",
-   "url": "https://www.elnacional.com/2026/11/devin-booker-lidero-a-los-suns-para-romper-la-racha-de-cuatro-derrotas/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Banco Central de Venezuela registró una inflación de 6,2% en octubre",
-   "url": "https://www.elnacional.com/2026/11/banco-central-de-venezuela-registro-una-inflacion-de-62-en-octubre/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Venezuela"
-  },
-  {
-   "title": "Terremoto de magnitud 6,1 sacude Japón: no se han reportado daños",
-   "url": "https://www.elnacional.com/2026/11/terremoto-de-magnitud-61-sacude-japon-no-se-han-reportado-danos/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "4 datos que muestran el peso del voto latino en la \"ola azul\" que llevó a los demócratas a arrasar en las elecciones de medio mandato en EE.UU.",
-   "url": "https://www.elnacional.com/2026/11/4-datos-que-muestran-el-peso-del-voto-latino-en-la-ola-azul-que-llevo-a-los-democratas-a-arrasar-en-las-elecciones-de-medio-mandato-en-ee-uu/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Deportivo Lara niega \"culpa o responsabilidad institucional\" por el asesinato de Luis Rafael López",
-   "url": "https://www.elnacional.com/2026/11/deportivo-lara-descarta-culpa-o-responsabilidad-institucional-por-el-asesinato-de-luis-rafael-lopez/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Mourinho: “Cristiano Ronaldo no terminó su carrera, todavía tiene objetivos”",
-   "url": "https://www.elnacional.com/2026/11/mourinho-cristiano-ronaldo-no-termino-su-carrera-todavia-tiene-objetivos/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Trump llamó al emir de Qatar para abordar negociaciones y evitar escalada en Oriente Medio",
-   "url": "https://www.elnacional.com/2026/11/trump-llamo-al-emir-de-qatar-para-abordar-negociaciones-y-evitar-escalada-en-oriente-medio/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Gobierno de Francia plantea elevar el salario mínimo por encima de los 1.500 euros tras las protestas",
-   "url": "https://www.elnacional.com/2026/11/gobierno-de-francia-plantea-elevar-el-salario-minimo-por-encima-de-los-1-500-euros-tras-las-protestas/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Qué es Ueno Bank y qué provocó la crisis por la que Santiago Peña renunció como presidente de Paraguay",
-   "url": "https://www.elnacional.com/2026/11/que-es-ueno-bank-y-que-provoco-la-crisis-por-la-que-santiago-pena-renuncio-como-presidente-de-paraguay/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Paraguay"
-  },
-  {
-   "title": "Activistas piden ayuda a Estados Unidos para liberar a los presos políticos de Venezuela",
-   "url": "https://www.elnacional.com/2026/11/activistas-piden-ayuda-a-estados-unidos-para-liberar-a-los-presos-politicos-de-venezuela/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Venezuela"
-  },
-  {
-   "title": "Periodista cubana Yoani Sánchez fue liberada tras nueve horas detenida en La Habana",
-   "url": "https://www.elnacional.com/2026/11/periodista-cubana-yoani-sanchez-fue-liberada-tras-nueve-horas-detenida-en-la-habana/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "NYT: Rubio sitúa las elecciones en Venezuela \"idealmente\" en 2027",
-   "url": "https://www.elnacional.com/2026/11/nyt-rubio-situa-las-elecciones-en-venezuela-idealmente-en-2027/",
-   "source": "El Nacional Venezuela",
-   "date": "2026-11-06",
-   "country": "Venezuela"
-  },
-  {
-   "title": "Ueno, el banco que creció a la velocidad del poder que construyó Peña y que se derrumbó en un día - La Nación",
-   "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxQUUdyd2hJcU1qNlBMZ21HSGVlQ1gzM3Z4RUdnclBTaDB0aG5zT0duaGNvZzFBMlBpQlJnSTN0d1dFZ2dESjRCVi1BazFrT180TEJqLU1fdjU3djY3eUFRMUhnTE1TS1ZzV3pFMXM3TU96bG12Z09yaXQwVFgySUl0NTBrRnZHRGhOUmdGcDBwc2hXdHVEaWpDd05HaWpJM2hlNTNwVzdnaldBNjlUZWdCa1hPaUN2ZGdKRmVvWDUxTWplTmZGNTNoUC02bTdnSU4yQllOWmpLV2k2Yk1wQ0tJ?oc=5",
-   "source": "La Nación Argentina",
-   "date": "2026-11-06",
-   "country": null
   },
   {
    "title": "Cómo cayeron los dos jóvenes acusados de matar en Brasil a un creador de videojuegos de los EE.UU. - La Nación",
@@ -1614,179 +1775,158 @@
    "country": null
   },
   {
-   "title": "Kenyan cult leader Paul Mackenzie sentenced to 200 years in prison for murder of 190 children",
-   "url": "https://www.cbc.ca/news/world/kenya-cult-leader-sentenced-murder-children-9.7411795",
-   "source": "CBC News",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "How Will the Blue Tsunami Affect Latin America?",
-   "url": "http://foreignpolicy.com/2026/11/06/us-midterm-election-latin-america-trump-boat-strikes-venezuela/",
-   "source": "Foreign Policy",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Kenyan court sentences starvation cult leader to 200 years",
-   "url": "https://www.aljazeera.com/news/2026/11/6/kenyan-court-sentences-starvation-cult-leader-to-200-years",
-   "source": "Al Jazeera English",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Pope Leo Reckons With the Latin American Right",
-   "url": "https://www.theatlantic.com/ideas/2026/11/pope-leo-south-america-right-wing/689316/?utm_source=feed",
-   "source": "The Atlantic",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "3 criminals killed in encounter in Patna, SHO injured; weapons recovered",
-   "url": "https://timesofindia.indiatimes.com/city/patna/3-criminals-killed-in-encounter-in-patna-sho-injured-weapons-recovered/articleshow/135594851.cms",
-   "source": "The Times of India",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Pope begins lengthy trip to Latin America weeks after lung cancer surgery",
-   "url": "https://www.bbc.co.uk/news/articles/cqn06j0y61k6o",
-   "source": "BBC News",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Customs Agents Seize 3K Tarantulas Found in Dirty Socks",
-   "url": "https://www.newser.com/story/399538/customs-agents-seize-3k-tarantulas-found-in-dirty-socks.html",
-   "source": "Newser",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Inside ICE's high-stakes raids targeting illegal migrants in NYC as chief rips sanctuary laws",
-   "url": "https://www.foxnews.com/politics/inside-ice-high-stakes-raids-targeting-illegal-migrants-nyc-chief-rips-sanctuary-laws",
+   "title": "Houston mayor bolts early from ICE cooperation after blue wave crashes in Texas",
+   "url": "https://www.foxnews.com/politics/houston-mayor-bolts-early-ice-cooperation-blue-wave-crashes-texas",
    "source": "Fox News",
    "date": "2026-11-06",
    "country": null
   },
   {
-   "title": "How a lorry driver's cup of tea led to an £80m cocaine bust",
-   "url": "https://www.bbc.co.uk/news/articles/crwydz4q9pqeo",
-   "source": "BBC News",
+   "title": "‘Wild Horse Nine’ Looks Away From Chile’s History",
+   "url": "http://foreignpolicy.com/2026/11/06/wild-horse-nine-movie-review-chile-cia-coup-history-conspiracy-martin-mcdonagh/",
+   "source": "Foreign Policy",
    "date": "2026-11-06",
-   "country": null
+   "country": "Chile"
   },
   {
-   "title": "Pope Leo begins major Latin America tour three weeks after lung surgery",
-   "url": "https://timesofindia.indiatimes.com/world/us/pope-leo-begins-major-latin-america-tour-three-weeks-after-lung-surgery/articleshow/135592933.cms",
-   "source": "The Times of India",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Quem é Santiago Peña, aliado de Trump que renunciou em meio a escândalo no Paraguai",
-   "url": "https://www.bbc.com/portuguese/articles/c620rl0d9wplo",
-   "source": "BBC News",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "In 2024, the US military sank the 360-foot Monarch Countess weighing 2,743 tons; the retired vessel now rises 100 feet from the seafloor in 180 feet of water",
-   "url": "https://economictimes.indiatimes.com/news/international/us/in-2024-florida-sank-the-360-foot-monarch-countess-weighing-2743-tons-the-retired-vessel-now-rises-100-feet-from-the-seafloor-in-180-feet-of-water/articleshow/135574141.cms",
-   "source": "The Times of India",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Zelenskyy eyes bipartisan US backing amid Ukraine's Patriot shortage crisis",
-   "url": "https://timesofindia.indiatimes.com/world/europe/zelenskyy-eyes-bipartisan-us-backing-amid-ukraines-patriot-shortage-crisis/articleshow/135602776.cms",
-   "source": "The Times of India",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Hegseth defends record as Pengaton chief, slams 'sham' push for his impeachment",
-   "url": "https://www.cbc.ca/news/world/hegseth-video-vows-fight-impeachment-9.7411639",
-   "source": "CBC News",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Hegseth vows to fight impeachment as Democrats target US defense chief after midterm losses",
-   "url": "https://economictimes.indiatimes.com/news/defence/hegseth-vows-to-fight-impeachment-as-democrats-target-us-defense-chief-after-midterm-losses/articleshow/135589598.cms",
-   "source": "The Times of India",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Cristiano Ronaldo: Portugal’s polarising icon and his bitter final act",
-   "url": "https://www.aljazeera.com/sports/2026/11/6/cristiano-ronaldo-portugal-retirement-jorge-jesus-manchester-united",
-   "source": "Al Jazeera English",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "After cancer surgery, Pope Leo embarks on Latin America trip",
-   "url": "https://abcnews.com/Health/wireStory/after-cancer-surgery-pope-leo-embarks-latin-america-137905007",
-   "source": "Abcnews.com",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Pope Leo sets off on 12-day South America tour",
-   "url": "https://www.dw.com/en/pope-leo-sets-off-on-12-day-south-america-tour/a-79872584",
-   "source": "DW (English)",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "What to know about Pope Leo XIV's trip to Uruguay, Argentina and Peru",
-   "url": "https://abcnews.com/International/wireStory/pope-leo-xivs-trip-uruguay-argentina-peru-137902288",
-   "source": "Abcnews.com",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Trump-Kim reset after midterm blow? Why North Korea may hold the cards",
-   "url": "https://timesofindia.indiatimes.com/world/us/trump-kim-reset-after-midterm-blow-why-north-korea-may-hold-the-cards/articleshow/135594857.cms",
-   "source": "The Times of India",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "From Madrid to MAGA: How Spain’s Vox forged a right-wing network with global reach",
-   "url": "https://www.politico.eu/article/from-madrid-to-maga-how-spains-vox-forged-a-right-wing-network-with-global-reach/",
-   "source": "POLITICO.eu",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "US midterms upended Congress but Trump still commands foreign policy",
-   "url": "https://economictimes.indiatimes.com/news/international/world-news/us-midterms-upended-congress-but-trump-still-commands-foreign-policy/articleshow/135589895.cms",
-   "source": "The Times of India",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Marco Rubio weighs leaving administration after GOP’s midterm loss",
-   "url": "https://economictimes.indiatimes.com/news/international/world-news/marco-rubio-weighs-leaving-administration-after-gops-midterm-loss/articleshow/135589642.cms",
-   "source": "The Times of India",
-   "date": "2026-11-06",
-   "country": null
-  },
-  {
-   "title": "Marco Rubio insists he won’t quit Trump admin — but demurs on growing 2028 buzz",
-   "url": "https://nypost.com/2026/11/05/us-news/marco-rubio-insists-his-wont-quit-trump-admin-but-demurs-on-growing-2028-buzz/",
+   "title": "How American leftists, including Mamdani’s team, are being trained by Brazilian revolutionaries",
+   "url": "https://nypost.com/2026/11/06/opinion/how-american-leftists-are-being-trained-by-brazilian-revolutionaries/",
    "source": "New York Post",
    "date": "2026-11-06",
    "country": null
   },
   {
-   "title": "El Papa parte hacia Latinoamérica",
-   "url": "https://www.dw.com/es/el-papa-parte-hacia-latinoam%C3%A9rica/a-79872212",
+   "title": "Pope Leo XIV, who had cancer surgery just weeks ago, begins grueling South American tour",
+   "url": "https://www.nbcnews.com/world/pope-leo-xiv/pope-leo-south-america-tour-cancer-surgery-argentina-uruguay-peru-rcna607828",
+   "source": "NBC News",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "DOJ official resigns amid questions about \"grand conspiracy\" probe",
+   "url": "https://www.cbsnews.com/news/doj-jason-reding-quinones-resigns-grand-conspiracy-probe/",
+   "source": "CBS News",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "DSA wave storms Congress — and radical comments on 9/11, abolishing police and arresting enemies come into the spotlight",
+   "url": "https://nypost.com/2026/11/06/us-news/dsa-wave-storms-congress-and-radical-comments-on-9-11-abolishing-police-and-arresting-enemies-come-into-the-spotlight/",
+   "source": "New York Post",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "Paraguay President Peña under investigation over bank collapse, faces removal from office",
+   "url": "https://nypost.com/2026/11/06/world-news/paraguay-president-pena-under-investigation-over-bank-collapse-faces-removal-from-office/",
+   "source": "New York Post",
+   "date": "2026-11-06",
+   "country": "Paraguay"
+  },
+  {
+   "title": "Meghan Markle’s father arrested over alleged child sex abuse material",
+   "url": "https://www.thejournal.ie/thomas-markle-snr-arrested-7218134-Nov2026/",
+   "source": "TheJournal.ie",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "Presidency University expels 2 girls for defacing ABVP banner with Vivekananda image",
+   "url": "https://timesofindia.indiatimes.com/city/kolkata/presidency-university-expels-2-girls-for-defacing-abvp-banner-with-vivekananda-image/articleshow/135613544.cms",
+   "source": "The Times of India",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "110 NCC cadets sail 405 km in 10-day Udaipur expedition",
+   "url": "https://timesofindia.indiatimes.com/city/jaipur/110-ncc-cadets-sail-405-km-in-10-day-udaipur-expedition/articleshow/135613490.cms",
+   "source": "The Times of India",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "COP31: Antalya ante el reto de convertir promesas climáticas en hechos",
+   "url": "https://www.dw.com/es/cop31-antalya-ante-el-reto-de-convertir-promesas-clim%C3%A1ticas-en-hechos/a-79881315",
    "source": "DW (English)",
    "date": "2026-11-06",
    "country": null
+  },
+  {
+   "title": "With Stephen Miller pick, Trump readies for a battle",
+   "url": "https://www.bbc.co.uk/news/articles/crp3gg2z171go",
+   "source": "BBC News",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "Two women's college basketball teams score on their own baskets in the same day",
+   "url": "https://www.foxnews.com/outkick-sports/two-womens-college-basketball-teams-score-own-baskets-same-day",
+   "source": "Fox News",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "Pope Leo arrives in Uruguay at start of South America tour",
+   "url": "https://www.dw.com/en/pope-leo-arrives-in-uruguay-at-start-of-south-america-tour/a-79872584",
+   "source": "DW (English)",
+   "date": "2026-11-06",
+   "country": "Uruguay"
+  },
+  {
+   "title": "Global AI Stocks React to U.S. Midterm Results",
+   "url": "http://foreignpolicy.com/2026/11/06/ai-stock-market-us-midterms-democrats-data-centers-regulation/",
+   "source": "Foreign Policy",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "Tankers carrying Russian diesel to the US change course",
+   "url": "https://www.dw.com/en/tankers-carrying-russian-diesel-to-the-us-change-course/a-79870807",
+   "source": "DW (English)",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "Trump Openly Violating Law To Import Russian Diesel And Help Putin’s War Machine",
+   "url": "https://www.huffpost.com/entry/trump-russian-diesel_n_6aeccf0de4b00ab0613c12b8",
+   "source": "HuffPost",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "Pentagon Officials Float Names of Hegseth’s Replacement",
+   "url": "https://theintercept.com/2026/11/06/pentagon-hegseth-replacement-desantis-waltz/",
+   "source": "The Intercept",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "Pope 'proud to be an American' after US elections, credits God, doctors with rebound",
+   "url": "https://abcnews.com/International/wireStory/pope-proud-american-after-us-elections-credits-god-137923797",
+   "source": "Abcnews.com",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "Pope Leo begins 12-Day, 3-country tour after cancer surgery",
+   "url": "https://www.npr.org/2026/11/06/nx-s1-6026702/pope-leo-begins-12-day-3-country-tour-after-cancer-surgery",
+   "source": "NPR",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "What in the World?",
+   "url": "http://foreignpolicy.com/2026/11/06/news-quiz-russia-ukraine-us-midterm-elections-trump-democrats/",
+   "source": "Foreign Policy",
+   "date": "2026-11-06",
+   "country": null
+  },
+  {
+   "title": "How Paraguay’s Ueno collapse is only its latest banking crisis",
+   "url": "https://www.aljazeera.com/news/2026/11/6/how-paraguays-ueno-collapse-is-only-its-latest-banking-crisis",
+   "source": "Al Jazeera English",
+   "date": "2026-11-06",
+   "country": "Paraguay"
   },
   {
    "title": "Venezuela’s Airstrike on the ELN Tests 2 Decades of Chavista Tolerance",
@@ -1827,20 +1967,6 @@
    "title": "The Pope and the Vatican’s Diplomatic Offensive in Latin America",
    "url": "https://www.connectas.org/pope-leo-xiv-latin-america-visit-uruguay-argentina-peru/",
    "source": "CONNECTAS",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "Google, Meta, TikTok sue to block California youth social media law - Reuters",
-   "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQN3ZhN0lzM1RYWDl3eXBsdjZ2NU13NjJRMjB0clhpbW9rRTAwWnJIaFNGdEdhcW1tbHdfYmVQQXhSOEJUZXd6Z2Y2WVlZVDJpN3RuY1VnTE1rOHVUZkVLRGxBbGo1OWxPZkhmMGE4dkR1YWN6WHdFcnBtZDdoOFJTYU1DbnVCM0R0THhVa19xVVhIdWxpa2dRYWx5M25kNXhWTTNQbWNVV3EtQUU?oc=5",
-   "source": "Reuters LatAm",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "Latin America's Catholic missionaries take to TikTok to reach younger generation - Reuters",
-   "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPZTZNLXdJXzZSUTA3d1ZHXzY2Uk1fbVozeGpJTHJYekkxZE42M196Wktsc3JaNTJjSXJRWDcwbngyWW5XQjZ4UlZRcGI0Vi13Q2ZoR1BTRGdHUXJDWTFrbnhpdExXMHBaNE45SXltcUxWWlRqSnlpWWVqdy11SGo5bGx6TjF6RThwdnU2UXI4UTZYbV91MTB5VndaRk1FWlBXelhBYnBEY293cy1XZHBpY055a1FUOFg4WGtCYTJGRkV4dkU3ZlNrRmV2NGw?oc=5",
-   "source": "Reuters LatAm",
    "date": "2026-11-05",
    "country": null
   },
@@ -1887,13 +2013,6 @@
    "country": null
   },
   {
-   "title": "\"No sabía que tenía deficiencia de vitamina D hasta que me desmayé en el trabajo\"",
-   "url": "https://www.bbc.com/mundo/articles/cmq8n12772l9o?at_medium=RSS&at_campaign=rss",
-   "source": "BBC Mundo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
    "title": "Will the UK finally pay slavery reparations? – The Latest",
    "url": "https://www.theguardian.com/news/audio/2026/nov/05/will-the-uk-finally-pay-slavery-reparations-the-latest",
    "source": "The Guardian LatAm",
@@ -1922,6 +2041,13 @@
    "country": null
   },
   {
+   "title": "Vivir con VIH y luchar por derechos: una nueva generación de activistas en América Latina",
+   "url": "https://elpais.com/america-futura/2026-11-05/vivir-con-vih-y-luchar-por-derechos-una-nueva-generacion-de-activistas-en-america-latina.html",
+   "source": "El País América",
+   "date": "2026-11-05",
+   "country": null
+  },
+  {
    "title": "500.000 gracias",
    "url": "https://elpais.com/comunicacion/2026-11-05/500000-gracias.html",
    "source": "El País América",
@@ -1936,20 +2062,6 @@
    "country": null
   },
   {
-   "title": "Vivir con VIH y luchar por derechos: una nueva generación de activistas en América Latina",
-   "url": "https://elpais.com/america-futura/2026-11-05/vivir-con-vih-y-luchar-por-derechos-una-nueva-generacion-de-activistas-en-america-latina.html",
-   "source": "El País América",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "En mapas: la frontera con México vuelve a los demócratas tras su breve coqueteo con Trump",
-   "url": "https://elpais.com/us/2026-11-05/en-mapas-la-frontera-con-mexico-vuelve-a-los-democratas-tras-su-breve-coqueteo-con-trump.html",
-   "source": "El País América",
-   "date": "2026-11-05",
-   "country": "Mexico"
-  },
-  {
    "title": "Bernardo Arévalo, presidente de Guatemala: “Tenemos que oponernos a la normalización del autoritarismo y las dictaduras”",
    "url": "https://elpais.com/internacional/2026-11-05/bernardo-arevalo-tenemos-que-oponernos-a-la-normalizacion-del-autoritarismo-y-las-dictaduras.html",
    "source": "El País América",
@@ -1962,13 +2074,6 @@
    "source": "Semana Colombia",
    "date": "2026-11-05",
    "country": "Venezuela"
-  },
-  {
-   "title": "La Corte Suprema confirmó la condena de un exdirectivo de Ford por crímenes de lesa humanidad - La Nación",
-   "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNTG9ReGNnQjJKT2V2RGFHVTFsbjZYZjAxT01xR3YwSWZ3TkJJZTdaaGJjbFVSR2QzRHBlNWk0QlJuZnVEVVlHZHJxdmtINWlHNlg5LWpwMy1ZYzdKQVU1OVF2OG1McFRYS1hod2F6QklXU1M1TlVneXNxaHVjMkxFNFpkSTFiUmV5cThUYnR0RG9xQnBNd1NORmNzWGJaVVdxWVhyd1R6M21tWmQyOXNRQWdoVXVBcEhTWDAyanV5bmZhTzY3WkYwbVUxR1d2cEhTUnA0RC1hekdoeG8?oc=5",
-   "source": "La Nación Argentina",
-   "date": "2026-11-05",
-   "country": null
   },
   {
    "title": "Detuvieron en Tucumán a una pareja que huyó de Brasil tras asesinar a un programador de videojuegos norteamericano - La Nación",
@@ -1994,111 +2099,6 @@
   {
    "title": "Após Lula planejar diálogo com empresários, centrais sindicais pedem encontro com o presidente",
    "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/colunas/painel/2026/11/apos-lula-planejar-dialogo-com-empresarios-centrais-sindicais-pedem-encontro-com-o-presidente.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "Lula diz ter mais medo do que no 1º mandato, cita revés de Trump e fala em 'lição para o mundo'",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/lula-diz-ter-mais-medo-do-que-no-1o-mandato-cita-reves-de-trump-e-fala-em-licao-para-o-mundo.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "Emissários de Lula procuram PSDB para conversar sobre novo governo",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/colunas/painel/2026/11/emissarios-de-lula-procuram-psdb-para-conversar-sobre-novo-governo.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "Tarcísio conta com Ciro Nogueira para construção de projetos futuros, diz presidente estadual do PP",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/tarcisio-conta-com-ciro-nogueira-para-construcao-de-projetos-futuros-diz-presidente-estadual-do-pp.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "Governo Lula vê tendência de normalização das relações com EUA após vitória democrata",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/mundo/2026/11/governo-lula-ve-tendencia-de-normalizacao-das-relacoes-com-eua-apos-vitoria-democrata.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "União vê irregularidade em transferência de mansão em Angra disputada por Willer Tomaz e Richarlison",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/uniao-ve-irregularidade-em-transferencia-de-mansao-em-angra-disputada-por-willer-tomaz-e-richarlison.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "Bolsonaro pede a Moraes autorização para visita de candidatos da direita à presidência do Senado",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/blogs/brasilia-hoje/2026/11/bolsonaro-pede-a-moraes-autorizacao-para-visita-de-candidatos-da-direita-a-presidencia-do-senado.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "Apesar de preocupação política, diplomacia avalia que renúncia de Peña é 'problema interno'",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/colunas/painel/2026/11/apesar-de-preocupacao-politica-diplomacia-avalia-que-renuncia-de-pena-e-problema-interno.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "Flávio Bolsonaro nomeia assessores para gabinete no Senado após fuga para EUA",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/flavio-bolsonaro-nomeia-assessores-para-gabinete-no-senado-apos-fuga-para-os-eua.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "Fundo canadense oferece bolsa de R$ 15 mil para jornalistas que investiguem igualdade de gênero",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/blogs/novo-em-folha/2026/11/fundo-canadense-oferece-bolsa-de-r-15-mil-para-jornalistas-que-investiguem-igualdade-de-genero.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "Mendonça extingue ação do TSE que discutia quebras de sigilo de Lula e de Flávio Bolsonaro",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/mendonca-extingue-acao-do-tse-que-discutia-quebras-de-sigilo-de-lula-e-de-flavio-bolsonaro.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "Flávio diz ao NYT que levará para o túmulo segredo sobre como fugiu do Brasil e chegou aos EUA",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/flavio-diz-ao-nyt-que-levara-para-o-tumulo-segredo-sobre-como-fugiu-do-brasil-e-chegou-aos-eua.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": "Brazil"
-  },
-  {
-   "title": "Prêmio C6 de Jornalismo recebe inscrições até 18 de dezembro",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/blogs/novo-em-folha/2026/11/premio-c6-de-jornalismo-recebe-inscricoes-ate-18-de-dezembro.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "TSE flexibiliza regra para poupar eleitas no AP em chapa com fraude à cota de gênero, mas adia análise geral",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/blogs/brasilia-hoje/2026/11/tse-flexibiliza-regra-para-poupar-eleitas-no-ap-em-chapa-com-fraude-a-cota-de-genero-mas-adia-analise-geral.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "Lula levou de 40 dias a mais de 4 meses para definir os primeiros ministros nos últimos mandatos",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/lula-levou-de-40-dias-a-mais-de-4-meses-para-definir-os-primeiros-ministros-nos-ultimos-mandatos.shtml",
-   "source": "Folha de S.Paulo",
-   "date": "2026-11-05",
-   "country": null
-  },
-  {
-   "title": "Lula indica querer insistir em Messias para o STF, e senadores anteveem resistência",
-   "url": "https://redir.folha.com.br/redir/online/poder/rss091/*https://www1.folha.uol.com.br/poder/2026/11/lula-indica-querer-insistir-em-messias-para-o-stf-e-senadores-anteveem-resistencia.shtml",
    "source": "Folha de S.Paulo",
    "date": "2026-11-05",
    "country": null
